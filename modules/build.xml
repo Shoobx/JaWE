@@ -78,9 +78,6 @@
 			<os family="unix" />
 		</condition>
 
-		<property name="core.dir" value="${basedir}" />
-
-
 		<delete dir="${classes.dir}" />
 		<delete dir="${sources.dir}" />
 

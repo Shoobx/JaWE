@@ -12,7 +12,7 @@ SET SET_OPTIMIZE=off
 SET SET_INSTALLDIR=off
 SET SET_TYPE=off
 
-SET VERSION=3.0
+SET VERSION=3.2
 SET RELEASE=1
 SET DEBUG=on
 SET OPTIMIZE=on
@@ -20,12 +20,13 @@ SET INSTALLDIR=
 
 
 if exist build.properties goto init
+goto default
 
 rem *********************************************
 rem *  Set properties values from user input
 rem *********************************************
 :start
-if %~1.==. goto default
+if %~1.==. goto make
 if %~1==-help goto help
 if %~1==-version goto version
 if %~1==-release goto release
@@ -36,7 +37,6 @@ if %~1==-instdir goto instdir
 goto error
 
 :default
-if exist build.properties goto init
 
 call .\util\make\readregistry.exe
 if errorlevel==1 goto end
@@ -230,4 +230,4 @@ SET RELEASE=
 SET JDKHOME=
 SET DEBUG=
 SET OPTIMIZE=
-SET INSTALLDIR=yy
+SET INSTALLDIR=
