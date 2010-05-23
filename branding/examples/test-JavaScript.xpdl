@@ -1,0 +1,3013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpdl:Package Id="test_js" Name="test" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>1.0</xpdl:XPDLVersion>
+        <xpdl:Vendor>Together</xpdl:Vendor>
+        <xpdl:Created>30-Oct-2002</xpdl:Created>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader PublicationStatus="RELEASED">
+        <xpdl:Author>Sasa Bojanic</xpdl:Author>
+    </xpdl:RedefinableHeader>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:Script Type="text/javascript"/>
+    <xpdl:TypeDeclarations>
+        <xpdl:TypeDeclaration Id="test_Typ1" Name="YesNo">
+            <xpdl:BasicType Type="STRING"/>
+        </xpdl:TypeDeclaration>
+        <xpdl:TypeDeclaration Id="test_Typ2" Name="operations">
+            <xpdl:BasicType Type="STRING"/>
+        </xpdl:TypeDeclaration>
+    </xpdl:TypeDeclarations>
+    <xpdl:Participants>
+        <xpdl:Participant Id="somerole" Name="somerole">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:Applications>
+        <xpdl:Application Id="addition">
+            <xpdl:Description>Performs addition of two integer numbers</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="a" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>1. no for addition</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="b" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>2. no for addition</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="c" Index="3" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The result of addition</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.JavaClassToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="AdditionProc"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="arbitrarymathop">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="operationName" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="a" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="FLOAT"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>First parameter for arbitrary math operation</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="b" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="FLOAT"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Second parameter for arbitrary math operation</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="c" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="FLOAT"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The result of arbitrary math operation</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.SOAPToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="http://samples.gotdotnet.com/quickstart/aspplus/samples/services/MathService/VB/MathService.asmx?WSDL"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="division">
+            <xpdl:Description>Divides two integer numbers</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="a" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="b" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="c" Index="3" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="java.lang.System.out.println(&quot;I'm going to perform operation c=&quot;+a+&quot;/&quot;+b);&#10;c=new Long(a.longValue()/b.longValue());&#10;java.lang.System.out.println(&quot;The result is c=&quot;+c);"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="multiplication">
+            <xpdl:Description>Multiplicates two integer numbers</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="a" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="b" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="c" Index="3" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The result</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.JavaScriptToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="java.lang.System.out.println(&quot;I'm going to perform operation c=&quot;+a+&quot;*&quot;+b);&#10;c=a*b;&#10;java.lang.System.out.println(&quot;The result is c=&quot;+c);"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="notepad">
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.RuntimeApplicationToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="notepad"/>
+                <xpdl:ExtendedAttribute Name="AppMode" Value="1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="random_no_generator">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="min_no" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="max_no" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="output_no" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.JavaScriptToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="java.lang.System.out.println(&quot;I'm going to perform operation of generating random number between &quot;+min_no+&quot; and &quot;+max_no);&#10;output_no=min_no+java.lang.Math.round(java.lang.Math.random()*(max_no-min_no));&#10;java.lang.System.out.println(&quot;The generated number is&quot;+output_no);"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="receive_mail">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="subject" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="org.enhydra.shark.toolagent.DefaultMailMessageHandler"/>
+                <xpdl:ExtendedAttribute Name="AppMode" Value="1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="send_mail">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="text_msg" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="subject" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="source_address" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="destination_address" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="user_auth" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="pwd_auth" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="server_IP" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="port" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.JavaClassToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="email.MailProc"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="send_mail2">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="from_addresses" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="to_addresses" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="subject" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="content" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="org.enhydra.shark.toolagent.DefaultMailMessageHandler"/>
+                <xpdl:ExtendedAttribute Name="AppMode" Value="0"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="subtraction">
+            <xpdl:Description>Substracts two numbers</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="a" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="b" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="c" Index="3" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The Result of substraction</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="java.lang.System.out.println(&quot;I'm going to perform operation c=&quot;+a+&quot;-&quot;+b);&#10;c=new java.lang.Long(a.longValue()-b.longValue());&#10;java.lang.System.out.println(&quot;The result is c=&quot;+c);"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="vi">
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.RuntimeApplicationToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="xterm -e vi"/>
+                <xpdl:ExtendedAttribute Name="AppMode" Value="1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="waiting">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="wait_ms" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.JavaScriptToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="java.lang.System.out.println(&quot;I'm going to sleep for &quot;+wait_ms+&quot; milliseconds&quot;);&#10;java.lang.Thread.sleep(wait_ms);&#10;java.lang.System.out.println(&quot;I woke up&quot;);"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+    </xpdl:Applications>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="basic" Name="basic">
+            <xpdl:ProcessHeader DurationUnit="s">
+                <xpdl:Created>04-Nov-2002</xpdl:Created>
+                <xpdl:Description>The simple example that shows the flow of the simplest process.</xpdl:Description>
+                <xpdl:Limit>60</xpdl:Limit>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:Participants>
+                <xpdl:Participant Id="sasa" Name="sasa">
+                    <xpdl:ParticipantType Type="HUMAN"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Activities>
+                <xpdl:Activity Id="A1" Name="A1">
+                    <xpdl:Limit>10</xpdl:Limit>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>sasa</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="200,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="sasa"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="A2" Name="A2">
+                    <xpdl:Limit>10</xpdl:Limit>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="200,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="A3" Name="A3">
+                    <xpdl:Limit>10</xpdl:Limit>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="400,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="A4" Name="A4">
+                    <xpdl:Limit>10</xpdl:Limit>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>sasa</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="400,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="sasa"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="A2" Id="test_Wor2_Tra3" Name="Transition" To="A3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="A3" Id="test_Wor2_Tra4" Name="Transition" To="A4">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="A1" Id="test_Wor2_Tra2" Name="Transition" To="A2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=sasa,CONNECTING_ACTIVITY_ID=A4,X_OFFSET=591,Y_OFFSET=81,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=sasa,CONNECTING_ACTIVITY_ID=A1,X_OFFSET=81,Y_OFFSET=81,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="sasa;somerole"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="manufacturing" Name="manufacturing">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>30-Oct-2002</xpdl:Created>
+                <xpdl:Description>Shows how the process flow is splited into two separated branches that are executed simultaniously. When both branches are joined, the process continues it's execution from the join point .</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:Participants>
+                <xpdl:Participant Id="worker1" Name="Worker 1">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="worker2" Name="Worker 2">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="composer" Name="Composer">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="administrator" Name="Administrator">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Activities>
+                <xpdl:Activity Id="receive_order" Name="receive order">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>administrator</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="test_Wor1_Tra2"/>
+                                    <xpdl:TransitionRef Id="test_Wor1_Tra3"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="220,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="administrator"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="produce_part1" Name="produce part1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>worker1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="390,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="worker1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="produce_part2" Name="produce part2">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>worker2</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="390,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="worker2"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="compose" Name="compose">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>composer</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="580,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="composer"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="receive_order" Id="test_Wor1_Tra2" Name="Transition" To="produce_part1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="SIMPLE_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="receive_order" Id="test_Wor1_Tra3" Name="Transition" To="produce_part2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="SIMPLE_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="produce_part2" Id="test_Wor1_Tra4" Name="Transition" To="compose">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="SIMPLE_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="produce_part1" Id="test_Wor1_Tra5" Name="Transition" To="compose">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="SIMPLE_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=composer,CONNECTING_ACTIVITY_ID=compose,X_OFFSET=711,Y_OFFSET=71,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=administrator,CONNECTING_ACTIVITY_ID=receive_order,X_OFFSET=131,Y_OFFSET=81,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="worker1;administrator;worker2;composer"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="specrelease" Name="specrelease">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>04-Nov-2002</xpdl:Created>
+                <xpdl:Description>The example where the flow of the process is directed by the value of variable "status". After finishing it's job, user sets this variable to one of the predefined values.</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="status" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Participants>
+                <xpdl:Participant Id="projectmanager" Name="projectmanager">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="programmer" Name="programmer">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="tester" Name="tester">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Activities>
+                <xpdl:Activity Id="specification" Name="Specification">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>projectmanager</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="250,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="projectmanager"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="programming" Name="Programming">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>programmer</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="350,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="programmer"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="test" Name="Test">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>tester</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="test_Wor4_Tra5"/>
+                                    <xpdl:TransitionRef Id="test_Wor4_Tra4"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="490,30"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="tester"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="status"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="release" Name="Release">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>projectmanager</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="620,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="projectmanager"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="specification" Id="test_Wor4_Tra2" Name="Transition" To="programming">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="283,234"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="programming" Id="test_Wor4_Tra3" Name="Transition" To="test">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="378,347"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="test" Id="test_Wor4_Tra4" Name="Transition" To="programming">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="525,234"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="test" Id="test_Wor4_Tra5" Name="Transition" To="release">
+                    <xpdl:Condition Type="CONDITION">status=="tested"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="656,347"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=projectmanager,CONNECTING_ACTIVITY_ID=release,X_OFFSET=511,Y_OFFSET=71,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=projectmanager,CONNECTING_ACTIVITY_ID=specification,X_OFFSET=121,Y_OFFSET=71,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="projectmanager;programmer;tester"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="domath" Name="Do math">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>16-Nov-2002</xpdl:Created>
+                <xpdl:Description>Performs some mathematic operations using subflow activity "Calculate"</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="operation" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="test_Typ2"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>addition</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="arbitraryOperation" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>Add</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="P1" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>First param of operation</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="P2" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>Second param of operation</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="P3" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="FLOAT"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>First param of operation</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="P4" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="FLOAT"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>Second param of operation</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="R1" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>The result of operation</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="R2" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="FLOAT"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>The result of operation</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="waiting_time_ms" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>10000</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="source_address" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="destination_address" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="user_auth" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="pwd_auth" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="server" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="port" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>25</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="subject" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="txt_msg" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="proceed1" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>false</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="proceed2" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>false</xpdl:InitialValue>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Activities>
+                <xpdl:Activity Id="calculate" Name="Calculate">
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="SYNCHR" Id="math_operations">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>operation</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R1</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="310,50"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="see_first_result" Name="See first result">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="test_Wor5_Tra155"/>
+                                    <xpdl:TransitionRef Id="test_Wor5_Tra21"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="420,50"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="R1"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="proceed1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="first" Name="First">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="test_Wor5_Tra33"/>
+                                    <xpdl:TransitionRef Id="test_Wor5_Tra59"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="120,120"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="last" Name="Last">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="domath_Tra171"/>
+                                    <xpdl:TransitionRef Id="domath_Tra172"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="510,120"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="enter_math_parameters" Name="Enter math parameters">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="200,50"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="operation"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="P1"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="P2"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="arbitrary_math_operation" Name="arbitraryop">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="arbitrarymathop" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>arbitraryOperation</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P3</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P4</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R2</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="310,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="waiting" Name="waiting">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="waiting" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>waiting_time_ms</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="310,110"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="enter_various_parameters" Name="Enter various parameters">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="test_Wor5_Tra61"/>
+                                    <xpdl:TransitionRef Id="test_Wor5_Tra62"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="200,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="arbitraryOperation"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="P3"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="P4"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="waiting_time_ms"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="see_second_result" Name="See second result">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="domath_Tra156"/>
+                                    <xpdl:TransitionRef Id="test_Wor5_Tra99"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="420,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="R2"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="proceed2"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="enter_mail_parameters1" Name="Enter Mail Params">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="730,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="txt_msg"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="subject"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="destination_address"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="notepad" Name="Notepad">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="notepad" Type="APPLICATION"/>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="560,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="vi" Name="Vi editor">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="vi" Type="APPLICATION"/>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="510,110"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="send_mail2" Name="Send mail">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="send_mail2" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>"shark@together.at"</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>destination_address</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>subject</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>txt_msg</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="730,110"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="enter_mail_parameters2" Name="Enter Aditional Mail Params">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="840,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="source_address"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="user_auth"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="pwd_auth"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="server"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="port"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="send_mail" Name="Send mail">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="send_mail" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>txt_msg</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>subject</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>source_address</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>destination_address</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>user_auth</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>pwd_auth</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>server</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>port</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="840,110"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="calculate" Id="test_Wor5_Tra3" Name="Transition" To="see_first_result">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="see_first_result" Id="test_Wor5_Tra21" Name="Transition" To="last">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="enter_math_parameters" Id="test_Wor5_Tra32" Name="Transition" To="calculate">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="first" Id="test_Wor5_Tra33" Name="Transition" To="enter_math_parameters">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="first" Id="test_Wor5_Tra59" Name="Transition" To="enter_various_parameters">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="enter_various_parameters" Id="test_Wor5_Tra61" Name="Transition" To="arbitrary_math_operation">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="enter_various_parameters" Id="test_Wor5_Tra62" Name="Transition" To="waiting">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="arbitrary_math_operation" Id="test_Wor5_Tra97" Name="Transition" To="see_second_result">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="waiting" Id="test_Wor5_Tra98" Name="Transition" To="see_second_result">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="see_second_result" Id="test_Wor5_Tra99" Name="Transition" To="last">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="see_first_result" Id="test_Wor5_Tra155" Name="Transition" To="enter_math_parameters">
+                    <xpdl:Condition Type="CONDITION">proceed1</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="488,17-241,17"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="see_second_result" Id="domath_Tra156" Name="Transition" To="enter_various_parameters">
+                    <xpdl:Condition Type="CONDITION">proceed2</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="last" Id="domath_Tra171" Name="Transition" To="notepad">
+                    <xpdl:Condition Type="CONDITION">java.io.File.pathSeparator==";";</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="last" Id="domath_Tra172" Name="Transition" To="vi">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="vi" Id="domath_Tra176" Name="Transition" To="enter_mail_parameters1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="notepad" Id="domath_Tra177" Name="Transition" To="enter_mail_parameters1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="enter_mail_parameters1" Id="domath_Tra178" Name="Transition" To="send_mail2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="send_mail2" Id="domath_Tra180" Name="Transition" To="enter_mail_parameters2">
+                    <xpdl:Condition Type="DEFAULTEXCEPTION"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="enter_mail_parameters2" Id="domath_Tra179" Name="Transition" To="send_mail">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=send_mail,X_OFFSET=961,Y_OFFSET=121,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=send_mail2,X_OFFSET=651,Y_OFFSET=121,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=somerole,CONNECTING_ACTIVITY_ID=first,X_OFFSET=71,Y_OFFSET=131,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="somerole;FreeTextExpressionParticipant"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="math_operations" Name="math operations">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>31-Oct-2002</xpdl:Created>
+                <xpdl:Description>Example shows how to set the process parameters during it's instantiation. This process is automatized and doesn't need user interaction - some predefined procedures are executed.</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="operation" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="test_Typ2"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Represents the arithmetic operation to do, it can perform addition, substraction, multiplication and division</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="P1" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The first parameter of arithmetic operation</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="P2" Index="3" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The second parameter of arithmetic operation</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="R" Index="4" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The result of arithmetic operations</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:Participants>
+                <xpdl:Participant Id="test_Wor3_Par1" Name="server machine">
+                    <xpdl:ParticipantType Type="SYSTEM"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Activities>
+                <xpdl:Activity Id="delegate" Name="delegate">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra3"/>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra4"/>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra5"/>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra2"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="170,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="add" Name="add">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="370,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="substract" Name="substract">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="subtraction" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="369,105"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="multiplicate" Name="multiplicate">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="multiplication" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="368,197"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="divide" Name="divide">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="division" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="371,289"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="finished" Name="finished">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="570,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra2" Name="Transition" To="add">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra3" Name="Transition" To="substract">
+                    <xpdl:Condition Type="CONDITION">operation=="substraction"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra4" Name="Transition" To="multiplicate">
+                    <xpdl:Condition Type="CONDITION">operation=="multiplication"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra5" Name="Transition" To="divide">
+                    <xpdl:Condition Type="CONDITION">operation=="division"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="add" Id="test_Wor3_Tra6" Name="Transition" To="finished">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="substract" Id="test_Wor3_Tra7" Name="Transition" To="finished">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="multiplicate" Id="test_Wor3_Tra8" Name="Transition" To="finished">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="divide" Id="test_Wor3_Tra9" Name="Transition" To="finished">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=test_Wor3_Par1,CONNECTING_ACTIVITY_ID=finished,X_OFFSET=691,Y_OFFSET=191,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=test_Wor3_Par1,CONNECTING_ACTIVITY_ID=delegate,X_OFFSET=101,Y_OFFSET=191,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="test_Wor3_Par1"/>
+                <xpdl:ExtendedAttribute Name="TRANSIENT" Value="true"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="Game" Name="The Game">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2003-11-06 12:30:45</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="RELEASED">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="game_cycles" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The number of times that the "guessing number" game will be performed.</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="player1_no" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The number that player1 has to enter. It is compared to the number entered by the player2, to see which is closer to random generated number.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="player2_no" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The number that player2 has to enter. It is compared to the number entered by the player1, to see which is closer to random generated number.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="random_no" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The random number generated by the activity "Generate Random No"</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="player1_score" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The score of the "Player 1". Every time the player1 number guess is closer to the random number, this score is incremented.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="player2_score" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The score of the "Player 2". Every time the player2 number guess is closer to the random number (or player2 entered same no. as player1), this score is incremented.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="counter" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The counter of the game cycle.</xpdl:Description>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Participants>
+                <xpdl:Participant Id="player1" Name="Player 1">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="player2" Name="Player 2">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="player3" Name="Player 3">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Activities>
+                <xpdl:Activity Id="Enter_No1" Name="Enter 1. No.">
+                    <xpdl:Description>Enter number (1-100)</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>player1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="290,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="player1"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="player1_no"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Enter_No2" Name="Enter 2. No.">
+                    <xpdl:Description>Enter number (1-100)</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>player2</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="290,90"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="player2"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="player2_no"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="r2" Name="r2">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Game_Tra4"/>
+                                    <xpdl:TransitionRef Id="Game_Tra5"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="150,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Generate_RandomNo" Name="Generate Random No (1-100)">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="random_no_generator" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>100</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>random_no</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Game_Tra8"/>
+                                    <xpdl:TransitionRef Id="Game_Tra17"/>
+                                    <xpdl:TransitionRef Id="Game_Tra39"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="400,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_player1_score" Name="Update Player1 Score">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>player1_score</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>player1_score</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="520,10"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="r1" Name="r1">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="150,260"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_counter" Name="Update Counter">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>counter</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>counter</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Game_Tra33"/>
+                                    <xpdl:TransitionRef Id="Game_Tra34"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="630,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_player2_score" Name="Update Player2 Score">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>player2_score</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>player2_score</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="520,140"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="view_score1" Name="View score">
+                    <xpdl:Description>Enter number (1-100)</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>player1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="760,50"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="player1"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="random_no"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player1_no"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player2_no"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player1_score"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player2_score"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="view_score2" Name="View score">
+                    <xpdl:Description>Enter number (1-100)</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>player2</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="760,90"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="player2"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="random_no"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player1_no"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player2_no"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player1_score"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="player2_score"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="r3" Name="r3">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Game_Tra32"/>
+                                    <xpdl:TransitionRef Id="Game_Tra37"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="960,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="r4" Name="r4">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="960,260"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="r2" Id="Game_Tra4" Name="Transition" To="Enter_No1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="r2" Id="Game_Tra5" Name="Transition" To="Enter_No2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="Enter_No1" Id="Game_Tra6" Name="Transition" To="Generate_RandomNo">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="Enter_No2" Id="Game_Tra7" Name="Transition" To="Generate_RandomNo">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="r1" Id="Game_Tra12" Name="Transition" To="r2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="Generate_RandomNo" Id="Game_Tra8" Name="Transition" To="update_player1_score">
+                    <xpdl:Condition Type="CONDITION">java.lang.Math.abs(player1_no-random_no)&lt;java.lang.Math.abs(player2_no-random_no)</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_player1_score" Id="Game_Tra14" Name="Transition" To="update_counter">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="Generate_RandomNo" Id="Game_Tra17" Name="Transition" To="update_player2_score">
+                    <xpdl:Condition Type="CONDITION">java.lang.Math.abs(player1_no-random_no)&gt;java.lang.Math.abs(player2_no-random_no)</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_player2_score" Id="Game_Tra18" Name="Transition" To="update_counter">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="r3" Id="Game_Tra32" Name="Transition" To="r2">
+                    <xpdl:Condition Type="CONDITION">counter &lt; game_cycles</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_counter" Id="Game_Tra33" Name="Transition" To="view_score1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_counter" Id="Game_Tra34" Name="Transition" To="view_score2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="view_score1" Id="Game_Tra35" Name="Transition" To="r3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="view_score2" Id="Game_Tra36" Name="Transition" To="r3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="r3" Id="Game_Tra37" Name="Transition" To="r4">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="Generate_RandomNo" Id="Game_Tra39" Name="Transition" To="update_counter">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=r4,X_OFFSET=851,Y_OFFSET=271,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=r1,X_OFFSET=81,Y_OFFSET=271,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="player1;player2;FreeTextExpressionParticipant"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="parallel_calc" Name="parallel calculations">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2004-01-29 11:14:47</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="P1" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The first parameter of arithmetic operation</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="P2" Index="3" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The second parameter of arithmetic operation</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="R" Index="4" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The result of arithmetic operations</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="RAdd" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="RSub" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="RMul" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="RDiv" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Participants>
+                <xpdl:Participant Id="test_Wor3_Par1" Name="server machine">
+                    <xpdl:ParticipantType Type="SYSTEM"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Activities>
+                <xpdl:Activity Id="delegate" Name="delegate">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra2"/>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra3"/>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra4"/>
+                                    <xpdl:TransitionRef Id="test_Wor3_Tra5"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="170,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="add" Name="add">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>RAdd</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="320,30"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="substract" Name="substract">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="subtraction" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>RSub</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="319,115"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="multiplicate" Name="multiplicate">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="multiplication" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>RMul</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="318,207"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="divide" Name="divide">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="division" Type="PROCEDURE">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>P1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>P2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>RDiv</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="321,299"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="makeres" Name="make result">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>RAdd</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>RSub</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>RMul</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>RDiv</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>R</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>test_Wor3_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="530,180"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="test_Wor3_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra2" Name="Transition" To="add">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra3" Name="Transition" To="substract">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra4" Name="Transition" To="multiplicate">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="delegate" Id="test_Wor3_Tra5" Name="Transition" To="divide">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="add" Id="parallelcalc_Tra11" Name="Transition" To="makeres">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="substract" Id="parallelcalc_Tra12" Name="Transition" To="makeres">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="multiplicate" Id="parallelcalc_Tra13" Name="Transition" To="makeres">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="divide" Id="parallelcalc_Tra14" Name="Transition" To="makeres">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=test_Wor3_Par1,CONNECTING_ACTIVITY_ID=makeres,X_OFFSET=661,Y_OFFSET=191,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=test_Wor3_Par1,CONNECTING_ACTIVITY_ID=delegate,X_OFFSET=71,Y_OFFSET=191,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="test_Wor3_Par1"/>
+                <xpdl:ExtendedAttribute Name="TRANSIENT" Value="true"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="do_parallel_calc" Name="Do parallel calculations">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2004-02-05 13:59:08</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="RELEASED">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="loopCnt" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="counter" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="No1" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="No2" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="Result" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Activities>
+                <xpdl:Activity Id="generate_rand_numbers" Name="Generate random numbers">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="random_no_generator" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>100</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>No1</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                        <xpdl:Tool Id="random_no_generator" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>100</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>No2</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="270,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="r1" Name="r1">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="170,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="parallel_calculations" Name="Parallel calculations">
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="SYNCHR" Id="parallel_calc">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>No1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>No2</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Result</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="390,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="r2" Name="r2">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="630,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="see_result" Name="See result">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>counter</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>counter</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Manual/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="do_parallel_calc_Tra12"/>
+                                    <xpdl:TransitionRef Id="do_parallel_calc_Tra11"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="510,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="loopCnt"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="counter"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="No1"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="No2"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Result"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="r1" Id="do_parallel_calc_Tra2" Name="Transition" To="generate_rand_numbers">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="generate_rand_numbers" Id="do_parallel_calc_Tra3" Name="Transition" To="parallel_calculations">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="see_result" Id="do_parallel_calc_Tra11" Name="Transition" To="r2">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="see_result" Id="do_parallel_calc_Tra12" Name="Transition" To="generate_rand_numbers">
+                    <xpdl:Condition Type="CONDITION">counter&lt;loopCnt</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="438,14"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="parallel_calculations" Id="do_parallel_calc_Tra21" Name="Transition" To="see_result">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=r2,X_OFFSET=751,Y_OFFSET=71,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=r1,X_OFFSET=81,Y_OFFSET=71,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FreeTextExpressionParticipant;somerole"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="publish_doc" Name="Publish Document">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2004-05-14 11:23:55</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="RELEASED">
+                <xpdl:Author>Rich Robinson</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="moderate_1_ok" IsArray="FALSE" Name="Moderate 1 OK">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Whether or not the first moderator approved the document.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="publish_ok" IsArray="FALSE" Name="Publish OK">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Whether or not the publisher approved the document.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="moderate_2_ok" IsArray="FALSE" Name="Moderate 2 OK">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Participants>
+                <xpdl:Participant Id="author" Name="Author">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="moderator" Name="Moderator">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+                <xpdl:Participant Id="publisher" Name="Publisher">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Activities>
+                <xpdl:Activity Id="create_document" Name="Create Document">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="150,40"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="author"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="submit_document" Name="SubmitDocument">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>author</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra25"/>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra3"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="250,40"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="author"/>
+                        <xpdl:ExtendedAttribute Name="ReassignToOriginalPerformer" Value="ReassignToOriginalPerformer"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="moderate_document_2" Name="Moderate Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>moderator</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra4"/>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra57"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="330,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="moderator"/>
+                        <xpdl:ExtendedAttribute Name="DoNotAssignToPerformerOfActivity" Value="moderate_document_1"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="moderate_2_ok"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="moderator_submit_document_2" Name="Submit Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>moderator</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="380,80"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="moderator"/>
+                        <xpdl:ExtendedAttribute Name="AssignToPerformerOfActivity" Value="moderate_document_2"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="review_document" Name="Review Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>publisher</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra8"/>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra7"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="250,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="publisher"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="publish_ok"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="publish_document" Name="Publish Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>publisher</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="250,90"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="publisher"/>
+                        <xpdl:ExtendedAttribute Name="AssignToPerformerOfActivity" Value="review_document"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="publisher_reject_document" Name="Reject Document">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="600,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="publisher"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_document" Name="Update Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>author</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="600,40"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="author"/>
+                        <xpdl:ExtendedAttribute Name="AssignToPerformerOfActivity" Value="submit_document"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="moderate_document_1" Name="Moderate Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>moderator</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra26"/>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra56"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="170,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="moderator"/>
+                        <xpdl:ExtendedAttribute Name="DoNotAssignToPerformerOfActivity" Value="moderate_document_2"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="moderate_1_ok"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="moderator_submit_document_1" Name="Submit Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>moderator</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="121,80"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="moderator"/>
+                        <xpdl:ExtendedAttribute Name="AssignToPerformerOfActivity" Value="moderate_document_1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="publish_doc_Act1" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="170,140"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="moderator"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="publish_doc_Act2" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra53"/>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra55"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="250,200"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="moderator"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="publish_doc_Act3" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="330,140"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="moderator"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="create_document" Id="publish_doc_Tra2" Name="Transition" To="submit_document">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="submit_document" Id="publish_doc_Tra3" Name="Transition" To="moderate_document_2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="moderate_document_2" Id="publish_doc_Tra4" Name="Transition" To="moderator_submit_document_2">
+                    <xpdl:Condition Type="CONDITION">moderate_2_ok</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="review_document" Id="publish_doc_Tra7" Name="Transition" To="publish_document">
+                    <xpdl:Condition Type="CONDITION">publish_ok</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="review_document" Id="publish_doc_Tra8" Name="Transition" To="publisher_reject_document">
+                    <xpdl:Condition Type="CONDITION">!publish_ok</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="publisher_reject_document" Id="publish_doc_Tra11" Name="Transition" To="update_document">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_document" Id="publish_doc_Tra12" Name="Transition" To="submit_document">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="submit_document" Id="publish_doc_Tra25" Name="Transition" To="moderate_document_1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="moderate_document_1" Id="publish_doc_Tra26" Name="Transition" To="moderator_submit_document_1">
+                    <xpdl:Condition Type="CONDITION">moderate_1_ok</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="moderator_submit_document_1" Id="publish_doc_Tra47" Name="Transition" To="publish_doc_Act1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="publish_doc_Act1" Id="publish_doc_Tra49" Name="Transition" To="publish_doc_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="moderator_submit_document_2" Id="publish_doc_Tra51" Name="Transition" To="publish_doc_Act3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="publish_doc_Act2" Id="publish_doc_Tra53" Name="Transition" To="review_document">
+                    <xpdl:Condition Type="CONDITION">(moderate_1_ok &amp;&amp; moderate_2_ok)</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="publish_doc_Act3" Id="publish_doc_Tra54" Name="Transition" To="publish_doc_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="publish_doc_Act2" Id="publish_doc_Tra55" Name="Transition" To="update_document">
+                    <xpdl:Condition Type="CONDITION">!(moderate_1_ok &amp;&amp; moderate_2_ok)</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="520,370"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="moderate_document_1" Id="publish_doc_Tra56" Name="Transition" To="publish_doc_Act1">
+                    <xpdl:Condition Type="CONDITION">!moderate_1_ok</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="moderate_document_2" Id="publish_doc_Tra57" Name="Transition" To="publish_doc_Act3">
+                    <xpdl:Condition Type="CONDITION">!moderate_2_ok</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=publisher,CONNECTING_ACTIVITY_ID=publish_document,X_OFFSET=421,Y_OFFSET=101,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=author,CONNECTING_ACTIVITY_ID=create_document,X_OFFSET=71,Y_OFFSET=51,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="author;moderator;publisher"/>
+                <xpdl:ExtendedAttribute Name="ASSIGNMENT_MANAGER_PLUGIN" Value="org.enhydra.shark.assignment.HistoryRelatedAssignmentManager"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="mail_handling" Name="Mail Handling">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2004-07-14 11:26:56</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="RELEASED">
+                <xpdl:Author>Sasa Bojanic</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="waiting_time_ms" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>30000</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="i" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="mail_subject" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="mail_address" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>shark@objectweb.org</xpdl:InitialValue>
+                    <xpdl:Description>The address of person to whom shark will send mail when this process is finished.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="loop_cnt" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>2</xpdl:InitialValue>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Activities>
+                <xpdl:Activity Id="receive_mail" Name="Receive mail">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="receive_mail" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>mail_subject</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="mail_handling_Tra6"/>
+                                    <xpdl:TransitionRef Id="mail_handling_Tra2"/>
+                                    <xpdl:TransitionRef Id="mail_handling_tra1"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="190,150"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="star_basic_process" Name="Start basic process">
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="ASYNCHR" Id="basic"/>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="340,150"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="wait" Name="Wait">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="waiting" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>waiting_time_ms</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="340,20"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_exec_counter" Name="Update counter">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="addition" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>i</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>1</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>i</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="mail_handling_Tra8"/>
+                                    <xpdl:TransitionRef Id="mail_handling_Tra17"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="500,150"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="send_mail" Name="send_mail">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="send_mail2" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>"shark@together.at"</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>mail_address</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>"Mail handling process sucessfully finished"</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>"Mail Handling process is sucessfully finished after "+loop_cnt+" iterations."</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="620,150"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="enter_parameters" Name="Enter parameters">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>somerole</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="190,70"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="loop_cnt"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="waiting_time_ms"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="mail_address"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="handle_exception">
+                    <xpdl:Route/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="somerole"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="490,65"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="receive_mail" Id="mail_handling_Tra2" Name="Transition" To="star_basic_process">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="wait" Id="mail_handling_Tra5" Name="Transition" To="receive_mail">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="receive_mail" Id="mail_handling_Tra6" Name="Transition" To="wait">
+                    <xpdl:Condition Type="CONDITION">mail_subject==null || mail_subject!="Start process"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="250,60"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="star_basic_process" Id="mail_handling_Tra7" Name="Transition" To="update_exec_counter">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_exec_counter" Id="mail_handling_Tra8" Name="Transition" To="wait">
+                    <xpdl:Condition Type="CONDITION">i&lt;loop_cnt</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_exec_counter" Id="mail_handling_Tra17" Name="Transition" To="send_mail">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="enter_parameters" Id="mail_handling_Tra25" Name="Transition" To="receive_mail">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="receive_mail" Id="mail_handling_tra1" To="handle_exception">
+                    <xpdl:Condition Type="DEFAULTEXCEPTION"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=send_mail,X_OFFSET=741,Y_OFFSET=161,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=somerole,CONNECTING_ACTIVITY_ID=enter_parameters,X_OFFSET=101,Y_OFFSET=81,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FreeTextExpressionParticipant;somerole"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=somerole,CONNECTING_ACTIVITY_ID=handle_exception,X_OFFSET=643,Y_OFFSET=76,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor Professional"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="2.2-1-P-20070718-1655"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

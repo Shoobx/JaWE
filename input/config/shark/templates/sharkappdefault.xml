@@ -1,0 +1,7 @@
+<Application>
+   <ExtendedAttributes>
+        <ExtendedAttribute Name="ToolAgentClass" Value=""/>
+        <ExtendedAttribute Name="AppName" Value=""/>
+        <ExtendedAttribute Name="AppMode" Value=""/>
+    </ExtendedAttributes>
+</Application>

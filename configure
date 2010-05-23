@@ -1,0 +1,228 @@
+#!/bin/bash
+#
+#
+#
+
+function help {
+	echo
+	echo $(basename $0) "-option=value ..."
+	echo
+	echo $(basename $0) "-option value ..."
+	echo
+	echo "Options:"
+	echo " 
+	version
+	release
+	jdkhome
+	debug (on/off)  
+	optimize (on/off)
+	instdir
+	Example: configure -jdkhome /usr/java/j2sdk1.4.2
+
+"
+
+}
+
+for n in $*
+do
+	case $n in
+		--help | -help) help
+			exit 0
+		;;      
+	esac            
+done                    
+                        
+version=3.0
+release=1
+build_DOT_debug=on
+build_DOT_optimize=on
+install_DOT_dir=
+rebranding=false
+
+cd $(dirname $0)        
+                        
+if
+	[[ -r ./build.properties ]]
+then
+	fname=/tmp/.build.properties$$.tmp
+	grep -v "^[ 	]*#" ./build.properties |
+		grep -v ^$ |
+		sed -e 's/\./_DOT_/g' >$fname
+	. $fname
+	rm  $fname
+else
+        touch ./build.properties
+fi
+
+for n in $*             
+do
+	#if  the previous option needs an argument, assign it
+                        
+	if
+		[[ -n $previous ]]
+	then
+		eval "$previous=\$n"
+		previous=
+		continue
+	fi
+	optarg=$(expr "x$n" : 'x[^=]*=\(.*\)')
+	case $n in
+		-version | --version)	previous=version;;
+		-version=* | --version=*)	version=$optarg;;
+		
+		-release | --release)	previous=release;;
+		-release=* | --release=*)	release=$optarg;;
+		
+		-jdkhome | --jdkhome)		previous=jdk_DOT_dir;;
+		-jdkhome=* | --jdkhome=*)	jdk_DOT_dir=$optarg;;
+
+		-debug | --debug)	previous=build_DOT_debug;;
+		-debug=* | --debug=*)	build_DOT_debug=$optarg;;
+
+		-optimize | --optimize)		previous=build_DOT_optimize;;
+		-optimize=* | --optimize=*)	build_DOT_optimize=$optarg;;
+
+		-instdir | --instdir)		previous=install_DOT_dir;;
+		-instdir=* | --instdir=*)	install_DOT_dir=$optarg;;
+
+		-rebranding | --rebranding)	previous=rebranding;;
+		-rebranding=* | --rebranding=*)	rebranding=$optarg;;
+
+	-*)
+		{
+			echo "$0: Error: unrecognized option $n" >&2
+			help
+			{(exit 1); exit 1;};
+		} ;;
+	*=*)
+		eval "$n"
+	    ;;
+
+	*)
+	    {
+		echo "$0: error: unrecognized param: $n." >&2
+		help
+		{ (exit 1); exit 1; };
+	    } ;;
+    esac
+done
+
+if test -n "$jdk_DOT_dir"; then
+    jdk_DOT_dir=`echo $jdk_DOT_dir|sed -e 's|_DOT_|\.|g'`
+    version=`echo $version|sed -e 's|_DOT_|\.|g'`
+else
+    which_javac=`which javac 2>/dev/null`
+    if test -n "$which_javac"; then
+	cd `dirname $which_javac`/..
+	jdk_DOT_dir=$PWD
+	cd -
+    else
+	{
+	    echo "$0: error: JAVA_HOME not defined
+Try \`$0 --help' for more information." >&2
+	    { (exit 1); exit 1; };
+	}
+    fi
+fi
+
+
+
+
+if test -d $jdk_DOT_dir -a -x $jdk_DOT_dir/bin/javac ; then
+	prefix=${prefix:=/usr/local}
+	prefix=$(echo $prefix | sed 's/_DOT_/./g')
+    cat >Makefile <<EOF
+#
+VERSION=$version
+PROJECT=TogWE
+PREFIX=$prefix
+CLASSPATH=\
+$PWD/util/ant/ant.jar:\
+$PWD/util/ant/ant-launcher.jar:\
+$PWD/util/ant/antcontrib.jar:\
+$PWD/util/ant/ant-nodeps.jar:\
+$jdk_DOT_dir/lib/tools.jar
+
+JAVA_HOME=$jdk_DOT_dir
+JAVAC=$jdk_DOT_dir/bin/javac
+JAVA=$jdk_DOT_dir/bin/java
+PATH=$jdk_DOT_dir/bin:\$(shell echo \$\$PATH)
+
+buildAll: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+clean: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+help: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+buildNoDoc: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+buildDocBook: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+buildOutput: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+  
+install: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+buildDistributions: distributions
+
+distributions: clean
+	@chmod +x installation/unix/dist.sh
+	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release community
+
+FORCE:
+
+EOF
+else
+    {
+	echo "$0: error: JAVA_HOME=$jdk_DOT_dir not valid
+Try \`$0 --help' for more information." >&2
+	{ (exit 1); exit 1; };
+    }
+fi
+fnameOld=/tmp/$$build.properties.old
+fname=/tmp/$$build.properties
+cp -p ./build.properties $fnameOld
+sed "
+/^[ 	]*version=/c\\
+version=$version
+/^[ 	]*release=/c\\
+release=$release
+/^[ 	]*jdk.dir=/c\\
+jdk.dir=$jdk_DOT_dir
+/^[ 	]*build.debug=/c\\
+build.debug=$build_DOT_debug
+/^[ 	]*build.optimize=/c\\
+build.optimize=$build_DOT_optimize
+/^[ 	]*install.dir=/c\\
+install.dir=$install_DOT_dir
+/^[ 	]*rebranding=/c\\
+rebranding=$rebranding
+
+" $fnameOld >$fname
+
+rm build.properties
+
+sed  -e 's|_DOT_|\.|g' $fname >>build.properties
+(
+	for pName in jdk.dir version release build.debug build.optimize install.dir rebranding
+	do
+		value=$(echo $pName | sed "s/\./_DOT_/g")
+		if
+			 ! grep "^[      ]*$pName=" $fname >/dev/null
+		then
+			if
+				eval [[ -n \$$value ]]
+			then
+				eval echo "$pName=\$$value"
+			fi
+		fi
+	done
+)|sed -e 's|_DOT_|\.|g'>>build.properties
+chmod a+r build.properties
+rm $fname $fnameOld

@@ -1,0 +1,173 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Workflow Process Activity</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.70.1"><link rel="start" href="index.html" title=""><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;XPDL elements"><link rel="prev" href="ch04s11.html" title="Activity Set"><link rel="next" href="ch04s13.html" title="Transitions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Workflow Process Activity</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s11.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;XPDL elements</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s13.html">Next</a></td></tr></table><hr></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Process_Activity"></a>Workflow Process Activity</h2></div></div></div><p>Generally, any process comprises a number of steps, which lead
+      towards the overall goal. Workflow process consists of a number of
+      workflow activities. The workflow activity is a piece of work that will
+      be done by combination of resources and computer applications.</p><div class="table"><a name="d0e4636"></a><p class="title"><b>Table&nbsp;4.18.&nbsp;Activities attributes</b></p><div class="table-contents"><table summary="Activities attributes" border="1"><colgroup><col align="center"><col><col></colgroup><thead><tr><th align="center">Name</th><th align="center">M/O</th><th>Description</th></tr></thead><tbody><tr><td align="center">Activity Name</td><td align="center">O</td><td>Text used to identify process
+              activity.</td></tr><tr><td align="center">Performer</td><td align="center">O</td><td>Link to entity workflow participant. May
+              be an expression. Default: Any Participant.</td></tr><tr><td align="center">Start mode</td><td align="center">O</td><td>Describes how the execution of an Activity
+              is triggered.</td></tr><tr><td align="center">Finish mode</td><td align="center">O</td><td>Describes how the system operates at the
+              end of the Activity.</td></tr><tr><td align="center">Deadline</td><td align="center">O</td><td>Specification of a deadline and action to
+              be taken if it is reached.</td></tr><tr><td align="center">Priority</td><td align="center">O</td><td>A value that describes the initial
+              priority of this activity when the execution starts. If this
+              attribute is not defined but a priority is defined in the
+              Process definition then that is used. By default it is assumed
+              that the priority levels are the natural numbers starting with
+              zero, and that the higher the value the higher the priority
+              (i.e.: 0, 1, ...).</td></tr><tr><td align="center">Limit</td><td align="center">O</td><td>Expected duration for time management
+              purposes (e.g. starting an escalation procedure etc.) in units
+              of DurationUnit. It is counted from the starting date/time of
+              the Process. The consequences of reaching the limit value are
+              not defined in this document (i.e. vendor specific).</td></tr><tr><td align="center">Icon</td><td align="center">O</td><td>Address (path- and filename) for an icon
+              to represent the activity.</td></tr><tr><td align="center">Documentation</td><td align="center">O</td><td>The address (e.g. path - and filename) for
+              a help file or a description file of the activity.</td></tr><tr><td align="center">Description</td><td align="center">O</td><td>Textual description of the
+              activity.</td></tr></tbody></table></div></div><br class="table-break"><p>Activities are associated with their performers (which are
+      workflow participants), and application assignments. Optional
+      information about activity may be associated with: starting and stopping
+      manner, usage of specific workflow relevant data, preconditions for
+      starting and postconditions for finishing the activity.</p><p>The following diagram illustrates the generic structure of
+      activities:</p><div class="mediaobject"><img src="Images/Process_Activity_Structures.gif"></div><p>Activities and other activity-like objects are inserted using
+      buttons on graph's "Toolbox" toolbar.</p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="Activity_Atomic"></a>Activities and Graph component</h3></div></div></div><p>Although it is possible to create a new activity through the
+        property panels, the usual way to do it is through the graph
+        component.</p><p>The following table shows the picture of how the graph
+        represents a certain XPDL activity type, and short description of each
+        type of the activity:</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td><div class="mediaobject"><img src="Images/act_no.jpg"></div></td><td>Manual (No implementation) activities are atomic
+                (Generic Activities). They are the smallest units of work,
+                although even this activity may produce more than one work
+                item for its performer.</td></tr><tr><td><div class="mediaobject"><img src="Images/act_tool.jpg"></div></td><td>Tool activities are atomic (Generic Activity). They are
+                the smallest units of work, although even this activity may
+                invoke more than one application.</td></tr><tr><td><div class="mediaobject"><img src="Images/act_subflow.jpg"></div></td><td>Subflow is another
+                activity type. It implements a whole new workflow process.
+                Process definition within the subflow is entirely independent
+                from the first one (where subflow activity resides). It has
+                its own set of activities, internal transitions, participants,
+                application definitions and other workflow relevant
+                data.</td></tr><tr><td><div class="mediaobject"><img src="Images/act_block.jpg"></div></td><td>An activity may be a block activity that executes an
+                activity set , or map of activities and transitions.
+                Activities and transitions within an activity set share the
+                name space of the containing process.</td></tr><tr><td><div class="mediaobject"><img src="Images/act_route.jpg"></div></td><td>Dummy (route) activity does nothing on its own. This
+                type of activities is used for synchronization and
+                constructing complex and sophisticated transitional conditions
+                - e.g. activity pre- and post- conditions.</td></tr></tbody></table></div><p>Icons for inserting different types of activities from the graph
+        toolbox are the same as the ones included in the previously explained
+        picture of the activities in the graph. For the manual activity, there
+        is a toolbox icon <span class="inlinemediaobject"><img src="Images/genericactivity.gif"></span>, for Tool activities <span class="inlinemediaobject"><img src="Images/activitytool.gif"></span>, for subflow activities<span class="inlinemediaobject"><img src="Images/subflowactivity.gif"></span>, for block activities <span class="inlinemediaobject"><img src="Images/blockactivity.gif"></span> and for route activities <span class="inlinemediaobject"><img src="Images/routeactivity.gif"></span>. Once selected, mouse cursor will show what
+        type of object you'll insert. Activity is created using some default
+        values for their properties, which typically are to be changed. Right
+        clicking the object in the graph shows a context menu, and there is
+        item representing action for getting property panel. Different than
+        others, Block and SubFlow activities have additional menu item
+        "descend into..." which is used to display the graph of the referenced
+        ActivitySet/Workflow Process.</p><p>Beside this, TWE offers a special feature to select an Icon for
+        particular activity. When you open activity's property panel, for the
+        Icon entry you can select some of the additional Icons we offer (this
+        list can be easily extended by putting more icons in
+        tweactivityicons.jar file). The selected icon will appear instead the
+        default one.</p><h4><a name="d0e4808"></a>Start and End Bubbles</h4><p>These are the special graphical objects which are the part of
+        the Graph component.</p><p>Graph's toolbox icon for inserting Start object into graph is
+        <span class="inlinemediaobject"><img src="Images/start.gif"></span> and for inserting End object into Graph is
+        <span class="inlinemediaobject"><img src="Images/end.gif"></span></p><p>When these objects are inserted, they are similarly presented in
+        the graph::</p><p><span class="inlinemediaobject"><img src="Images/bubble_start.jpg"></span> <span class="inlinemediaobject"><img src="Images/bubble_end.jpg"></span></p><p>Although start and end bubbles aren't part of XPDL
+        specification, there is a need to visually mark where the workflow
+        process starts, and where it ends. Each of Start/End markers is can be
+        connected to exactly one activity in the graph.</p><p>User can configure TWE not to use start/end bubbles, in which
+        case starting and ending activities of the process are colored in
+        special colors, also configured in the property file of the graph
+        component (starting activities are considered the ones without
+        incoming transitions or with only one incoming transition, which is
+        also a circular transition. The similar stands for the ending
+        activities).</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="Activity_Subflow"></a>Activity property panel</h3></div></div></div><p>In this section are explained various property panels concerning
+        different types of activities: activities without implementation
+        (manual), sub-flow, route, tool and block activities. All information
+        are organized in several tabs: general, type, transition restriction,
+        simulation information, and extended attributes.</p><div class="itemizedlist"><ul type="disc"><li><p>General tab - displays general activity data</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td valign="middle"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td valign="middle"><img src="Images/activityPropertiesGeneralDialog.gif"></td></tr></table></div></td><td valign="middle"><p>Tab has tree
+                    parts. First part contains activity
+                    <span class="emphasis"><em>id</em></span>, <span class="emphasis"><em>name</em></span>,
+                    <span class="emphasis"><em>performer</em></span> (can be a reference to a
+                    participant or an expression), <span class="emphasis"><em>start
+                    mode</em></span> (can be automatic or manual) and
+                    <span class="emphasis"><em>finish mode</em></span> (can be automatic or
+                    manual). </p><p>Second part shows all deadlines and
+                    also offers toolbar buttons with options to handle list of
+                    deadlines.</p><p>Third part contains
+                    <span class="emphasis"><em>priority</em></span> (describes initial priority
+                    for activity), <span class="emphasis"><em>limit</em></span> (expected
+                    duration - for time management purposes),
+                    <span class="emphasis"><em>icon</em></span> (reference to the icon
+                    representing this activity),
+                    <span class="emphasis"><em>documentation</em></span> (reference to an
+                    external document) and
+                    <span class="emphasis"><em>description</em></span>.</p><p> Fields icon
+                    and documentation have drop down list to select one of the
+                    offered icons. If selected, this icon will replace the
+                    original one representing this activity within the
+                    graph.</p><p>(the list of available icons can be
+                    extended by putting additional icons within the
+                    tweactivityicons.jar file)</p></td></tr></tbody></table></div></li><li><p>Type tab</p><p>This tab contains some specific data concerning the
+            particular type of an activity. For activities without
+            implementation (manual) <span class="inlinemediaobject"><img src="Images/genericactivity.gif"></span> and route<span class="inlinemediaobject"><img src="Images/routeactivity.gif"></span> activities, this tab doesn't contain any
+            specific data.</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td valign="middle"><p>Block activity
+                    type property panel contains information about
+                    <span class="emphasis"><em>block id</em></span>, which is a reference to
+                    defined ActivitySet (re-usable block of activities and
+                    transitions which shares the context of the workflow
+                    process where defined).</p><p>A block activity
+                    <span class="inlinemediaobject"><img src="Images/blockactivity.gif"></span> executes referenced ActivitySet or
+                    self-contained activities/transitions map. When block
+                    activity is being executed, the execution proceeds to the
+                    first activity within the ActivitySet it references, and
+                    continues within the set until it reaches ActivitySet's
+                    exit activity (an activity with no output transitions).
+                    Execution then returns to follow the output transitions of
+                    the block activity.</p></td><td valign="middle"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td valign="middle"><img src="Images/activityPropertiesBlockActDialog.gif"></td></tr></table></div></td></tr></tbody></table></div><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td valign="middle"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td valign="middle"><img src="Images/activityPropertiesToolActDialog.gif"></td></tr></table></div></td><td valign="middle"><p>Tool activity
+                    property panel enables definition of Tools (which are the
+                    references to the applications) required for enactment
+                    engine to run, in order to perform the activity.
+                    </p><p>Basically, this tab shows all the tools
+                    defined for this kind of activity.</p></td></tr></tbody></table></div><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td valign="middle"><p>Subflow
+                    <span class="inlinemediaobject"><img src="Images/subflowactivity.gif"></span> is type of activity whose
+                    implementation is another workflow
+                    process.</p><p>Firstly, attribute
+                    <span class="emphasis"><em>id</em></span> should be set.
+                    <span class="emphasis"><em>Id</em></span> defines workflow process that will
+                    be executed. In TWE you are setting this attribute by
+                    picking the one of the WorkflowProcesses defined within
+                    the combo box. Beside the combo, you have a shortcut to
+                    display the properties of the WorkflowProcess selected
+                    within the combo.</p><p>Then, <span class="emphasis"><em>execution
+                    (mode)</em></span> attribute should be set.
+                    <span class="emphasis"><em>Synchronous execution mode</em></span> suspends
+                    execution of calling process until sub-flow is finished.
+                    <span class="emphasis"><em>Asynchronous mode</em></span>, spawns a new
+                    thread of execution for sub-flow process, which is then
+                    executed at its own pace, independently from calling
+                    workflow process.</p><p>While entering
+                    <span class="emphasis"><em>actual parameters</em></span> that will be passed
+                    to subflow process, TWE shows the list of corresponding
+                    <span class="emphasis"><em>formal parameters</em></span> of the referenced
+                    sub-process.</p></td><td valign="middle"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td valign="middle"><img src="Images/activityPropertiesSubflowActDialog.gif"></td></tr></table></div></td></tr></tbody></table></div></li><li><p>Transition Restriction tab</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td valign="middle"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td valign="middle"><img src="Images/activityPropertiesRestrictionDialog.gif"></td></tr></table></div></td><td valign="middle"><p>Tab has two
+                    parts. First part defines joining method for incoming
+                    transitions. It can be either XOR or AND, which defines
+                    whether any incoming transition may start the activity, or
+                    all of them must be completed.</p><p>Second part
+                    defines split type for outgoing transitions. It can be
+                    either XOR or AND, which defines whether only one of the
+                    outgoing transitions will be started (the first one which
+                    condition evaluates to true), or all of
+                    them.</p><p>When an activity has XOR split, the
+                    order of calculating outgoing transition conditions is
+                    important. This order is determined in XPDL by the order
+                    of TransitionRef elements within its TransitionRefs
+                    collection. From here, you can also control that order.
+                    The way of doing it is to simply change positions of the
+                    target activities (the activities that outgoing
+                    transitions are leading to) within the given
+                    list.</p></td></tr></tbody></table></div></li><li><p>Simulation Information tab</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td valign="middle"><p>Here are
+                    defined various information about simulation: whether the
+                    activity is instantiated once or multiple times, cost,
+                    waiting and working times and duration.</p></td><td valign="middle"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td valign="middle"><img src="Images/activityPropertiesSimulationDialog.gif"></td></tr></table></div></td></tr></tbody></table></div></li><li><p>Extended Attributes tab</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td valign="middle"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td valign="middle"><img src="Images/activityPropertiesExtAttDialog.gif"></td></tr></table></div></td><td valign="middle"><p>It contains
+                    information about all extended attributes of the selected
+                    activity in form a of a table and operations for their
+                    managing. Every table row (extended attribute) is
+                    described with <span class="emphasis"><em>name</em></span> and
+                    <span class="emphasis"><em>value</em></span>. </p></td></tr></tbody></table></div></li></ul></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s11.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s13.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Activity Set&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Transitions</td></tr></table></div></body></html>

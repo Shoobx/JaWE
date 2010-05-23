@@ -1,0 +1,24 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Transitions</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.70.1"><link rel="start" href="index.html" title=""><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;XPDL elements"><link rel="prev" href="ch04s12.html" title="Workflow Process Activity"><link rel="next" href="ch05.html" title="Chapter&nbsp;5.&nbsp;XPDL from scratch"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Transitions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s12.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;XPDL elements</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Process_Transitions"></a>Transitions</h2></div></div></div><p>Link between two activities is
+      established by transitions. Transitions are more than just links between
+      activities. They also describe the condition that must be satisfied in
+      order to get from the source to the target activity (This condition is
+      evaluated during workflow execution).</p><p>Typically, you will insert the
+      transitions using TWE's Graph component (although it is possible to do
+      it through the property panels).</p><p>Graph component allows you to chose
+      between conditional <span class="inlinemediaobject"><img src="Images/transition.gif"></span> and exceptional <span class="inlinemediaobject"><img src="Images/transitionexception.gif"></span> transition for the insertion. If you want to
+      insert a circular transition (a transition from activity to itself), you
+      can chose the type of the transition you like, and double-click on the
+      activity within the graph.</p><p>If inserting of the transition is not
+      allowed by some rules (i.e. you can't insert two transitions connecting
+      the same activities), you'll be notified.</p><p>Here is the table of transition
+      attributes:</p><div class="table"><a name="d0e5065"></a><p class="title"><b>Table&nbsp;4.19.&nbsp;Transition</b></p><div class="table-contents"><table summary="Transition" border="1"><colgroup><col><col align="center"><col></colgroup><thead><tr><th>Name</th><th align="center">M/O</th><th>Description</th></tr></thead><tbody><tr><td>Condition</td><td align="center">O</td><td>A Transition condition expression based on workflow
+              relevant data.</td></tr><tr><td>Description</td><td align="center">O</td><td>Short textual description of the Transition.</td></tr><tr><td>Extended Attributes</td><td align="center">O</td><td>Optional extensions to meet individual implementation
+              needs.</td></tr><tr><td>Id</td><td align="center">M</td><td>Used to identify the Transition.</td></tr><tr><td>From</td><td align="center">M (for Regulars and Loop End)</td><td>Determines the FROM source of a Transition (Activity
+              Identifier).</td></tr><tr><td>To</td><td align="center">M</td><td>Determines the TO target of a Transition (Activity
+              Identifier).</td></tr><tr><td>Name</td><td align="center">O</td><td>Text used to identify the Transition.</td></tr></tbody></table></div></div><br class="table-break"><p>Here you can see a dialog for editing
+      Transition attributes:</p><div class="mediaobject"><img src="Images/transitionDialog.gif"></div><p>TWE helps you when you are composing
+      Transition condition - by clicking the arrow right to the text box for
+      entering condition, you get a list of possible variables you can use
+      within condition.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s12.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Workflow Process Activity&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;5.&nbsp;XPDL from scratch</td></tr></table></div></body></html>

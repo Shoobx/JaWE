@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpdl:Package Id="Application_Repository" Name="Application Repository" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>1.0</xpdl:XPDLVersion>
+        <xpdl:Vendor>Together</xpdl:Vendor>
+        <xpdl:Created>13-03-2003</xpdl:Created>
+        <xpdl:Description>Application repository for modified WfMC example of business process</xpdl:Description>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader PublicationStatus="RELEASED"/>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:Applications>
+        <xpdl:Application Id="Application_Repository_App1" Name="scan document">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="Application_Repository_App1_For1" Index="1" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="REFERENCE"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+        </xpdl:Application>
+        <xpdl:Application Id="Application_Repository_App2" Name="identify document">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="Application_Repository_App2_For1" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="REFERENCE"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Application_Repository_App2_For2" Index="2" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+        </xpdl:Application>
+        <xpdl:Application Id="Application_Repository_App3" Name="send document">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="Application_Repository_App3_For1" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="REFERENCE"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Application_Repository_App3_For2" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+        </xpdl:Application>
+        <xpdl:Application Id="Application_Repository_App4" Name="calculator"/>
+    </xpdl:Applications>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor Professional"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="2.0-2-P-20060227-0925"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

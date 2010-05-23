@@ -1,0 +1,51 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Workflow Relevant Data</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.70.1"><link rel="start" href="index.html" title=""><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;XPDL elements"><link rel="prev" href="ch04s07.html" title="Workflow Application"><link rel="next" href="ch04s09.html" title="Formal Parameter"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Workflow Relevant Data</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s07.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;XPDL elements</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s09.html">Next</a></td></tr></table><hr></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Package_RelevanData"></a>Workflow Relevant Data</h2></div></div></div><p>Workflow Relevant Data (or, in XPDL, Data
+      Field) represent the variables of a Process Definition or Package
+      Definition. They are typically used to maintain decision data (used in
+      conditions) or reference data values (parameters), which are passed
+      between activities or sub-processes. The workflow relevant data list
+      defines all data objects, which can be used within the workflow process.
+      The attribute <code class="literal">TYPE</code> explicitly specifies all
+      information needed for a workflow management system to define an
+      appropriate data object for storing data, which is to be handled, by an
+      active instance of the workflow process.</p><p>Workflow Relevant Data can be defined
+      in a Workflow Process (the Workflow Process Relevant Data) and in a
+      Package (the Package Relevant Data). The scopes differ in that the
+      former may only be accessed by entities defined inside that process,
+      while the latter may be accessed by entities inside any process defined
+      within that model.</p><p>Workflow Relevant Data has a scope that
+      is defined by the directly surrounding meta-model entity and is not
+      nested. The visibility of its identifier is also defined by that
+      entity.</p><p>Attributes of Workflow Relevant Data
+      are:</p><div class="table"><a name="d0e4394"></a><p class="title"><b>Table&nbsp;4.17.&nbsp;Relevant Data</b></p><div class="table-contents"><table summary="Relevant Data" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Name</th><th align="center">M/O</th><th>Description</th></tr></thead><tbody><tr><td>Id</td><td align="center">M</td><td>Used to identify the workflow relevant
+              data.</td></tr><tr><td>Data Type(s)</td><td align="center">M</td><td>Data Type.</td></tr><tr><td>Name</td><td align="center">O</td><td>Text used to identify the workflow relevant data.</td></tr><tr><td>Is Array</td><td align="center">O</td><td>Indicates if it is an array.</td></tr><tr><td>Initial Value</td><td align="center">O</td><td>Pre-assignment of data for run time.</td></tr><tr><td>Length</td><td align="center">O</td><td>The length of the data.</td></tr><tr><td>Description</td><td align="center">O</td><td>Short textual description of the defined data.</td></tr></tbody></table></div></div><br class="table-break"><p>When parameters are passed to a called
+      subflow outside the current model definition, it is the responsibility
+      of the <span class="markup">process designer(s)</span> to ensure that data type
+      compatibility exists across the parameter set.</p><p>Workflow relevant data naming must be
+      unique within a process model. If such data is passed between processes
+      as parameters, the convention at this version of specification is that
+      copied semantics will be used. Responsibility rests with process
+      designers / administrators to ensure consistent name / datatype usage
+      within process definitions / models to support sub-flow operations
+      (including any required remote process interoperability).</p><p>There is an icon <span class="inlinemediaobject"><img src="Images/packageworkflowrelevantdata.gif"></span> in Package's part of the Toolbar and icon
+      <span class="inlinemediaobject"><img src="Images/processworkflowrelevantdata.gif"></span> in process's part of the toolbar, and also on
+      appropriate menus, for displaying all workflow relevant data for the
+      selected Package/WorkflowProcess.</p><p>Like other similar table property
+      panels, amongst others, there are also buttons "New" and "Edit" for
+      adding new or editing existing Workflow Relevant Data. Next picture
+      shows property panel for editing Workflow Relevant Data:</p><div class="mediaobject"><img src="Images/wfVariableNewDialog.gif"></div><p>When defining (or editing) an workflow
+      variable, the following attributes can be set: <span class="emphasis"><em>id</em></span>
+      (mandatory attribute), <span class="emphasis"><em>name</em></span>, <span class="emphasis"><em>initial
+      value , <span class="emphasis"><em>length</em></span></em></span>,
+      <span class="emphasis"><em>IsArray</em></span> (array indicator),
+      <span class="emphasis"><em>Type</em></span>, d<span class="emphasis"><em>escription</em></span> and
+      <span class="emphasis"><em>extended attributes</em></span>.</p><p>The attribute <span class="emphasis"><em>Type</em></span>
+      explicitly specifies all information needed for a workflow management
+      system to define an appropriate data object for storing data, which is
+      to be handled, by an active instance of the workflow process.</p><p>If you are at process level, and you
+      create (override) some workflow relevant data with the same Id as the
+      one from the package level, only one of them (the one from the process
+      level) can be used as a reference from other entities. E.g. you can
+      choose just the one from the process level to be the actual parameter
+      for some application or subflow.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s07.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s09.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Workflow Application&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Formal Parameter</td></tr></table></div></body></html>

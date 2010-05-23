@@ -1,0 +1,9 @@
+   The document sample_workflow_process_original.xpdl is the original example
+described in WfMC document WFMC-TC-1025 "Workflow Process Definition Interface
+-- XML Process Definition Language". It is here to show that JaWE can read the
+documents made by other process definition tools which are based on WfMC XPDL
+specifications.
+
+   The document sample_workflow_process.xpdl is modification of previous
+document. It is modified to include JaWE specific extended attributes that
+determines the graphical layout of processes contained within the document.

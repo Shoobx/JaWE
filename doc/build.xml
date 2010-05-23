@@ -1,0 +1,236 @@
+<!-- ======================================================================= -->
+<!-- ANT-Makefile for TWE                                                    -->
+<!-- ======================================================================= -->
+<project name="TogWE-doc" default="buildDoc" basedir=".">
+
+	<!-- ==================================================================== -->
+	<!-- Init target                                                          -->
+	<!-- ==================================================================== -->
+	<target name="init">
+
+		<!--Set the global variables-->
+		<property name="version" value="2.0" />
+		<property name="release" value="beta1" />
+		<property name="build.debug" value="off" />
+		<property name="build.optimize" value="on" />
+
+		<property name="project.name" value="TWE" />
+		<property name="app.name" value="twe" />
+
+		<!-- Operating system  -->
+		<condition property="os" value="windows">
+			<os family="windows" />
+		</condition>
+		<condition property="os" value="unix">
+			<os family="unix" />
+		</condition>
+
+		<condition property="path.separator" value=";">
+			<os family="windows" />
+		</condition>
+		<condition property="path.separator" value=":">
+			<os family="unix" />
+		</condition>
+
+		<condition property="executable.extension" value=".exe">
+			<os family="windows" />
+		</condition>
+		<condition property="executable.extension" value="">
+			<os family="unix" />
+		</condition>
+
+		<!--Set the directories-->
+		<property name="ext.lib.dir" location="${basedir}/../lib" />
+
+		<!-- Set directories -->
+		<property name="project.dir" location="${basedir}/.." />
+		<property name="output.dir" location="${project.dir}/output" />
+		<property name="build.dir" location="${output.dir}/${app.name}-${version}-${release}" />
+		<property name="output.lib.dir" location="${build.dir}/lib" />
+		<property name="output.doc.dir" location="${build.dir}/doc" />
+		<property name="doc.dir" location="${basedir}" />
+		<property name="tmp.dir" location="${basedir}/tmp" />
+		<property name="util.dir" location="${project.dir}/util" />
+		<property name="modules.dir" location="${project.dir}/modules" />
+
+		<!--Classes directory-->
+		<property name="sources.dir" location="${modules.dir}/sources" />
+
+		<!--Set the main classpath-->
+		<path id="classpath">
+			<pathelement location="${ext.lib.dir}/jgraph.jar" />
+			<pathelement location="${ext.lib.dir}/jh.jar" />
+			<pathelement location="${ext.lib.dir}/batik-awt-util.jar" />
+			<pathelement location="${ext.lib.dir}/batik-dom.jar" />
+			<pathelement location="${ext.lib.dir}/batik-svggen.jar" />
+			<pathelement location="${ext.lib.dir}/batik-util.jar" />
+			<pathelement location="${ext.lib.dir}/batik-xml.jar" />
+			<pathelement location="${ext.lib.dir}/xercesImpl.jar" />
+			<pathelement location="${ext.lib.dir}/xml-apis.jar" />
+			<pathelement location="${ext.lib.dir}/jEdit-syntax.jar" />
+			<pathelement location="${ext.lib.dir}/itext.jar" />
+			<pathelement location="${ext.lib.dir}/sharkxpdlmodel.jar" />
+		</path>
+
+		<!--Set the classpath for docbook-->
+		<path id="DB-classpath">
+			<pathelement location="${util.dir}/docbook/lib/saxon.jar" />
+		</path>
+
+		<property name="docbook.fo.xsl" location="${util.dir}/docbook/xsl/enhydra/fo/docbook.xsl" />
+		<property name="docbook.fo.classpath" location="${util.dir}/docbook/lib/saxon.jar" />
+		<property name="docbook.pdf.classpath" location="${util.dir}/fop/lib/fop.jar${path.separator}${util.dir}/fop/lib/batik.jar${path.separator}${util.dir}/fop/lib/avalon-framework-cvs-20020806.jar" />
+
+		<!-- Setting IF task -->
+		<taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
+			<classpath>
+				<fileset dir="${util.dir}/ant">
+					<include name="antcontrib.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Prepare output                                                       -->
+	<!-- ==================================================================== -->
+	<target name="prepare" depends="init">
+		<mkdir dir="${sources.dir}" />
+		<mkdir dir="${output.doc.dir}" />
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Content output                                                       -->
+	<!-- ==================================================================== -->
+	<target name="content" depends="prepare">
+		<copy todir="${tmp.dir}/Images">
+			<fileset dir="${doc.dir}/Images" />
+		</copy>
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Create java API - javadoc                                            -->
+	<!-- ==================================================================== -->
+	<target name="javadoc" depends="prepare">
+		<mkdir dir="${output.doc.dir}/api" />
+		<!--Create Javadoc-->
+		<property name="doctitle" value="${project.name} - Together Workflow Editor ${version}-${release} API" />
+		<property name="header" value="${project.name} ${version}-${release} API" />
+		<javadoc destdir="${output.doc.dir}/api" classpathref="classpath" packagenames="org.enhydra.jawe.*" doctitle="${doctitle}" windowtitle="${doctitle}" header="${header}" splitindex="yes" access="private" encoding="ISO-8859-1" additionalparam="-J-Xmx128m -breakiterator -quiet">
+			<sourcepath>
+				<pathelement path="${sources.dir}" />
+			</sourcepath>
+		</javadoc>
+	</target>
+
+	<target name="docbook.check">
+		<uptodate property="docbook.notRequired" targetfile="${tmp.dir}/twe-doc-${version}-${release}.pdf">
+			<srcfiles dir="${doc.dir}" includes="twe.xml" />
+		</uptodate>
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- DocBook Documentation                                                -->
+	<!-- ==================================================================== -->
+	<target name="docbook" depends="prepareDocbook">
+		<copy todir="${output.doc.dir}">
+			<fileset dir="${tmp.dir}" />
+		</copy>
+		<copy file="${util.dir}/docbook/xsl/enhydra/css/html.css" todir="${output.doc.dir}" />
+	</target>
+
+	<target name="rebranding">
+		<copy file="${doc.dir}/twe.xml" tofile="${tmp.dir}/twe.xml" />
+		<if>
+			<istrue value="${rebranding}" />
+			<then>
+				<ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true" />
+				<touch file="${doc.dir}/twe.xml" />
+			</then>
+		</if>
+	</target>
+
+	<target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
+		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${tmp.dir}">
+			<arg line="twe.xml ${util.dir}/docbook/xsl/javahelp/javahelp.xsl" />
+			<arg value="html.stylesheet=html.css" />
+		</java>
+		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${tmp.dir}">
+			<arg line="-o twe-doc-${version}-${release}.html twe.xml ${util.dir}/docbook/xsl/html/chunk.xsl" />
+			<arg value="html.stylesheet=html.css" />
+		</java>
+		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${tmp.dir}">
+			<arg line="-o twe-doc-${version}-${release}.html twe.xml ${util.dir}/docbook/xsl/html/docbook.xsl" />
+
+			<arg value="html.stylesheet=html.css" />
+		</java>
+
+		<echo message="docbook PDF  ${tmp.dir}/twe.xml" />
+		<exec dir="${tmp.dir}" executable="java${executable.extension}">
+			<arg line="-cp ${docbook.fo.classpath} com.icl.saxon.StyleSheet -o twe.fo twe.xml ${docbook.fo.xsl} " />
+		</exec>
+		<exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.apps.Fop twe.fo twe-doc-${version}-${release}.pdf" />
+		</exec>
+		<delete file="${tmp.dir}/twe.fo" quiet="true" />
+		<delete file="${tmp.dir}/twe.xml" />
+
+	</target>
+
+	<target name="releasenotes" depends="content">
+
+		<copy file="${doc.dir}/release_notes.xml" tofile="${output.doc.dir}/release_notes.xml" />
+		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${output.doc.dir}">
+			<arg line="-o release_notes.html release_notes.xml ${util.dir}/docbook/xsl/html/docbook.xsl" />
+		</java>
+
+		<echo message="docbook PDF -> ${output.doc.dir}/release_notes.xml" />
+		<exec dir="${output.doc.dir}" executable="java${executable.extension}">
+			<arg line="-cp ${docbook.fo.classpath} com.icl.saxon.StyleSheet -o release_notes.fo release_notes.xml ${docbook.fo.xsl} " />
+		</exec>
+		<exec dir="${output.doc.dir}" executable="java${executable.extension}" output="log.txt">
+			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.apps.Fop release_notes.fo twe-notes-${version}-${release}.pdf" />
+		</exec>
+		<delete file="${output.doc.dir}/release_notes.fo" quiet="true" />
+
+		<delete file="${output.doc.dir}/release_notes.xml" />
+
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Create doc jar archive                                               -->
+	<!-- ==================================================================== -->
+
+	<target name="buildDocJar" depends="docbook">
+		<delete file="${output.lib.dir}/${app.name}doc.jar" />
+		<jar destfile="${output.lib.dir}/${app.name}doc.jar">
+			<fileset dir="${tmp.dir}" excludes="**/*.pdf, **/twe-doc-${version}-${release}.html, **/api/**" />
+		</jar>
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Documentation output                                                 -->
+	<!-- ==================================================================== -->
+	<target name="buildDoc" depends="init">
+		<echo message="Documentation Build" />
+		<ant target="buildDocJar" />
+		<ant target="javadoc" />
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- DocBook Documentation output                                         -->
+	<!-- ==================================================================== -->
+	<target name="buildDocBook" depends="init">
+		<echo message="Documentation Build" />
+		<ant target="docbook" />
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Cleans everything                                                    -->
+	<!-- ==================================================================== -->
+	<target name="clean">
+		<delete dir="${output.doc.dir}" />
+	</target>
+
+</project>
+

@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<book>
+  <title>TWE release notes</title>
+
+  <chapter>
+    <title>System requirements</title>
+
+    <para>The minimum recommended system configuration is:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>128 MB RAM</para>
+      </listitem>
+
+      <listitem>
+        <para>200 MHz processor or better</para>
+      </listitem>
+
+      <listitem>
+        <para>70 MB disk space (see note below)</para>
+      </listitem>
+
+      <listitem>
+        <para>Java Runtime Environment (JRE) 1.4.x</para>
+      </listitem>
+    </itemizedlist>
+
+    <para></para>
+
+    <para>Note that the disk space specified above reflects the minimum system
+    requirements to install and run the TWE. A minimum installation consists
+    of:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>JRE 1.4.x (approximately 45 MB)</para>
+      </listitem>
+
+      <listitem>
+        <para>TWE (approximately 25 MB)</para>
+      </listitem>
+    </itemizedlist>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 3.1-3</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- updated build scripts</para>
+    <para>- sharkxpdlmodel.jar version 3.1-3 included</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 3.1-2</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- updated build scripts</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 3.1-1</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- updated build scripts</para>
+
+    <para>- minor changes</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 3.0-2</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- introduced possibility to start JaWE in non-frame/dialog
+    mode</para>
+
+    <para>- NSIS tool is updated to version 2.46</para>
+
+    <para>- readregistry.nsi script is improved - readregistry.exe is able to
+    get information about Java from 64bit part of the registry.</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 3.0-1</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- Moved completely to open-source, with license changed to GPL
+    V3</para>
+
+    <para>- All the sources available on OW2 including the ones for branding
+    TWE</para>
+
+    <para>- Included missing features of JPEd (editor based on previous
+    community version of TWE):</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>No annoying 30 seconds splash screen</para>
+
+        <para>since now community version of TWE has all the fatures
+        professional version had, and does not display annoying splash
+        screen</para>
+      </listitem>
+
+      <listitem>
+        <para>Do not lose layout during load/save operations:</para>
+
+        <para>this version of TWE by default doesn't lose layouting
+        information, there is a special "configuration" called "Pure XPDL"
+        where all TWE specific extended attributes are not persisted into
+        XPDL, including the ones that cause lost of layouting information
+        during load/save)</para>
+      </listitem>
+
+      <listitem>
+        <para>The Plugins interface allows you to write wizards, custom XPDL
+        elements editors, custom tooltips, custom views. With it you can
+        easily make jped company requirements</para>
+
+        <para>TWE architecture is pluggable, thus one can write any kind of
+        plug-ins, can provide custom XPDL element editors (additional ones
+        comparing to JPEd and previous TWE community version exist in this new
+        version), can configure different tooltip generator etc...</para>
+      </listitem>
+
+      <listitem>
+        <para>Generate PDF reports of your workflow. Get a complete view of
+        your workflow in a ready to print format. Plugins can be used also to
+        customize PDF outputs.</para>
+
+        <para>The part of the code is taken from JPEd and included in
+        TWE</para>
+      </listitem>
+
+      <listitem>
+        <para>A fully customizable interface, using properties file and system
+        properties: - Restrict the availabe actions in interface or to extend
+        them at glance, depending your target users. - Easily create a custom
+        layout that is easier to manipulate for end-users. - Combined with a
+        wizard plugin, you can prefill an XPDL or auto update it, letting user
+        concentrate only on you core buisness.</para>
+
+        <para>TWE has ability to configure user interface through property
+        files, to restrict/extend available actions or to define which parts
+        of XPDL to hide to the user, define layouts, and also by custom core
+        plug-ins.</para>
+
+        <para>It has a powerful templating mechanism, where one can easily add
+        a new type of prefilled XPDL object, and in the case of activities to
+        easily include it in the toolbox just by configuration and property
+        files</para>
+      </listitem>
+
+      <listitem>
+        <para>Generate real vectorial (SVG) output of graph, including the Ids
+        of activity, participants and transitions. (Zoom at any level with any
+        SVG enabled tool or use it in a workflow engine web interface to
+        highlight current status with just a simple svg stylesheet.)</para>
+
+        <para>This part of code was taken from JPEd and included in TWE</para>
+      </listitem>
+
+      <listitem>
+        <para>Quick search dropdowns make it easy to handle long list of
+        participants</para>
+
+        <para>Already existed in TWE community</para>
+      </listitem>
+
+      <listitem>
+        <para>For shark users, an integrated form editor which also add
+        additional informations in tooltips and PDF</para>
+
+        <para>TWE has a special shark configuration, where not only this
+        feature is provided, but also customized panels adjusted to Shark's
+        extended attributes and other options, special Shark XPDL validation,
+        etc.</para>
+
+        <para>The same thing is done for WfMOpen (special WfMOpen
+        configuration)</para>
+      </listitem>
+
+      <listitem>
+        <para>See the XPDL fragment of each element you are editing, know
+        exactly what you are doing at XPDL level in each dialog.</para>
+
+        <para>In TWE, XPDL View shows the fragment of any selected element in
+        XPDL</para>
+      </listitem>
+
+      <listitem>
+        <para>Condition editor, gives you a dropdown box to select workflow
+        variables and provides syntax highlighting for scripted
+        conditions</para>
+
+        <para>This feature existed in TWE professional version and thus
+        appears in this version now.</para>
+      </listitem>
+
+      <listitem>
+        <para>Customize JPEd logo to fit your company need, provide a splash
+        logo when editor is loading, using a simple System property</para>
+
+        <para>TWE sources now have a "branding" capability. You can brand the
+        whole project (icons, setup, splash logo, about box information) and
+        get setup.exe file for installing such product</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>- XPDL Model code moved to Shark (LGPL licensed) and now taken from
+    Shark</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.5-1</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- Highlighting java/javascript syntax in fields for entering
+    expression criteria (Transition conditions, deadline expressions, actual
+    parameters)</para>
+
+    <para>- Activity's performer field now comes with higlight editor for
+    java/javascript, and buttons to chose participant and variables</para>
+
+    <para>- Problems component view now depends on selection (Package/Workflow
+    Process/ActivitySet)</para>
+
+    <para>- Improved expression's validation</para>
+
+    <para>- Implemented table sorting</para>
+
+    <para>- Improved D&amp;D of table entries</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.4-1</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- Shark configuration adjustement to new shark 2.2-1version:
+    PROCESS_ID and ACTIVITY_ID can be used in transition condition's and as
+    actual parameters</para>
+
+    <para>- Implemented possibility to switch DataField to a FormalParameter
+    and vice-versa</para>
+
+    <para>- Core extended to support new ext. attribute types per their parent
+    object (Activity, Application, ...)</para>
+
+    <para>- Improved property panels</para>
+
+    <para>- Serbian property file renamed to have extension "sr" instead of
+    "sh"</para>
+
+    <para>- Fixed bug with external packages (when newly opened XPDL has the
+    external package with the same Id but different location as the one opened
+    before)</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.3-2</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- Implementation-Version attribute included into MANIFEST of jar
+    files</para>
+
+    <para>- Improved installation procedure - language dependent stuff and
+    links to the application from start menu</para>
+
+    <para>- Fixed bug in SharkXPDLObjectFactory - wasn't able to properly use
+    Activity's "Variables" tab</para>
+
+    <para>- Fixed: bug in ExternalPkgRelations component (NPE when selecting
+    Arbitrary Expression Participipant)</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.3-1</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- Added new component for LDAP participant handling (the old action
+    from the menu bar removed)</para>
+
+    <para>- Option buttons displayed for the language and configuration
+    choices (the selected language/configuration is marked)</para>
+
+    <para>- Language switch is now possible in run-time</para>
+
+    <para>- Added configuration file which contains information about
+    configuration name to be displayed for the configuration choices and in
+    the title bar.</para>
+
+    <para>- Architectural changes to support add-on architecture</para>
+
+    <para>- Community version now can also display the result of References
+    and Search action</para>
+
+    <para>- Core code is improved so now it is possible to add new object
+    types without coding (just by configuration). Now we use XML templates for
+    new object types (XPDL fragments).</para>
+
+    <para>- Top tree elements now have '-' displayed if they contain
+    sub-elements</para>
+
+    <para>- Portuguese translation included</para>
+
+    <para>- Solved language usage issues with parser, JOptionPane,
+    JFileChooser, missing strings,etc.</para>
+
+    <para>- Added additional language property file where you can define
+    additional language specific properties per the configuration.</para>
+
+    <para>- Fixed: bug when adding external package which contains processes
+    with activity sets and when "automatic layouting" is turned on.</para>
+
+    <para>- Fixed: bug in handling of transient packages that appeared when
+    you have transient package in the pool and you try to open XPDL from
+    unexisting file - this caused all packages to unload from XMLInterface and
+    after it happens it was possible to have two XPDLs with same Id in
+    TWE.</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.2-1</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- Implemented Search capability for searching XPDL elements based on
+    specified criteria.</para>
+
+    <para>- In TWE's default configuration/mode, workflow_patterns.xpdl is
+    present in Transient package pool</para>
+
+    <para>- Improvement: when configured to save XPDLs with namespace prefix
+    and if XPDL didn't have xpdl namespace defined TWE now automatically adds
+    this namespace.</para>
+
+    <para>- More icons for XPDL entities are shown in DetailedPackageNavigator
+    view</para>
+
+    <para>- New configuration parameter for validating if variable (DataField
+    or WorkflowProcess's FormalParameter) is not used anywhere in XPDL (nor as
+    actual parameter or inside expression). If it is not used, warning is
+    reported when validating XPDL.</para>
+
+    <para>- Icons defined for all entries in menu bar</para>
+
+    <para>- Some shortcut/accelerator keys have changed</para>
+
+    <para>- Expand all/Collapse all are now context sensitive in relation to
+    selected tree-node</para>
+
+    <para>- Top tree elements now have '-' displayed if they contain
+    sub-elements</para>
+
+    <para>- Switched to 2.9 version of xerces</para>
+
+    <para>- Spanish translation included</para>
+
+    <para>- XMLInterface changed - removed method getIdFromFile (it is now a
+    static method of XMLUtil class)</para>
+
+    <para>- Code corrections based on FindBugs report</para>
+
+    <para>- Fixed: bug with reading of language property files from jar file -
+    if there are spaces in the path where TWE is installed they were not
+    read</para>
+
+    <para>- Fixed: bug in XMLCheckBoxPanel - whenever mouse was over, an apply
+    button was enabled as if something has changed in a panel</para>
+
+    <para>- Fixed: bug that was introduced in previous version and appeares
+    when there are external packages defined and Id of the main package is
+    changed</para>
+
+    <para>- Fixed: when trying to save read-only document TWE didn't complain
+    but the changes were not saved to a document</para>
+
+    <para>- fixed bug in Shark configuration - bug fix in Shark configuration
+    (related with deletion of ext. attribs)</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.1-1-bugfix build 20061110</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- fixed bug in Transient Package Pool componenet that was
+    manifesting during usage of Common expression and Free Text expression
+    participants</para>
+
+    <para>- fixed bug in Shark configuration - when you delete variable from
+    'Variable' tab, it was not removed from the table</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.1-1</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- added Transient Packag Pool component for
+    displaying/adding/removing transient packages, and introduced
+    configuration option to define transient packages that will be loaded by
+    default on TWE startup</para>
+
+    <para>- added additional graph actions to select activities for selected
+    transitions and vice versa</para>
+
+    <para>- improved shark configuration (added new features to better support
+    shark professional version and new shark web admin application)</para>
+
+    <para>- improved documentation</para>
+
+    <para>- demo version gets demo documentation</para>
+
+    <para>- when creating new Package, xpdl namespace is added by
+    default</para>
+
+    <para>- improved windows setup.exe distribution - user is asked if he
+    wants to add desktop and qucik launch shortcut</para>
+
+    <para>- code re-organization</para>
+
+    <para>- Fixed: bug in XMLInterfaceForJDK13-&gt;getPackageById()
+    method</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.0-6</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- property file location moved from %USER_HOME%/.JaWE to
+    %TWE_HOME%/conf/xxx.</para>
+
+    <para>- enabled re-configuration at runtime - possible configurations are
+    placed in sub-folders of %TWE_HOME%/conf, default configuration is written
+    in %TWE_HOME%/conf/defaultconf</para>
+
+    <para>- beside default configuration, added shark configuration, wfmopen
+    configuration, samples-loopactivity and purexpdl configuration</para>
+
+    <para>- shark configuration is adjustment of jawe to shark-engine
+    restrictions + swing admin ext. attribs. Automatic change of ext. attribs
+    when variable Id changes; validation on this special ext. attribs and
+    validation according to shark restrictions</para>
+
+    <para>- wfmopen configuration is adjustment of jawe to wfmopen-engine
+    restrictions + special ext. attribs. validation on this special ext.
+    attribs and validation according to wfmopen restrictions</para>
+
+    <para>- improved simple graph layout action's algorithm (never goes back
+    in the swimline whenever possible, when there is a split inside same
+    swimline - new rows are created, handling of start/end bubbles
+    improved)</para>
+
+    <para>- included David Delbecq's improved drop-down list (switching from
+    menu-items to search-able list when there are 30 or more items) for
+    inserting participants and selecting activity sets in graph
+    component</para>
+
+    <para>- included David Delbecq's improved drop-down list (switching from
+    menu-items to search-able list when there are 30 or more items) for
+    selecting packages and workflow processes in info-bar</para>
+
+    <para>- Search panel renamed to References</para>
+
+    <para>- Documentation links in windows setup now reference full HTML
+    document</para>
+
+    <para>- API entry in Windows dist is renamed to Together Workflow Editor
+    Profesional API</para>
+
+    <para>- TWE stores new ext. attrib. information in XPDL for determining
+    configuration used to create this XPDL</para>
+
+    <para>- added possibility to chose icon for the activity from the list of
+    available icons</para>
+
+    <para>- added workflow_patterns.xpdl file (originally created for shark
+    distribution)</para>
+
+    <para>- defined keyboard shortcuts for almost all menu items</para>
+
+    <para>- improved automatic insertion of start/end markers</para>
+
+    <para>- code re-organization (introduction of new classes and
+    configuration properties)</para>
+
+    <para>- Fixed: rare bug in Graph component when start/end bubbles are the
+    only one placed within FreeTextExpression participant</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.0-5</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- introduced possibility to chose when adding external packages if
+    external package will be "transient" (it won't be saved into the file, but
+    its purpose will be to provide a container where from you can copy common
+    elements)</para>
+
+    <para>- introduction of compound icons (no need to define special icon for
+    errors and warnings)</para>
+
+    <para>- Minor code changes/reorganization.</para>
+
+    <para>- improved automatical insertion of Start/End markers</para>
+
+    <para>- improved property panel for defining workflow relevant data:
+    sub-panel for entering initial value is now bigger</para>
+
+    <para>- improved usage of LDAP connection: better support of
+    ActiveDirectory search, added LDAPReferralHandling property, password
+    field hidden</para>
+
+    <para>- Fixed: bugs in usage of LDAP connection for inserting participants
+    (user+password authentication didn't work, search scope didn't
+    work)</para>
+
+    <para>- Fixed: Graph component's tooltip bug in Zoom In/Out mode.</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.0-4</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- New possibility to save XPDLs with xpdl namespace prefix (TWE by
+    default configured to do so)</para>
+
+    <para>- Added language property files for French and German
+    language.</para>
+
+    <para>- Minor code changes/reorganization.</para>
+
+    <para>- Now using Xerces 2.8</para>
+
+    <para>- Fixed: problem with overlapping dialogs after loading XPDL
+    file.</para>
+
+    <para>- Fixed: Enter key didn't work in a table panels</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.0-3</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- Added language property file for Serbian language.</para>
+
+    <para>- Code changes/reorganization.</para>
+
+    <para>- Fixed: if there were many participants in XPDL, pop-up menu for
+    showing participants that can be inserted into graph couldn't show all of
+    them.</para>
+
+    <para>- Fixed: TWE didn't change the references when the Id of
+    TypeDeclaration is changed.</para>
+  </chapter>
+
+  <chapter>
+    <title>What's new in TWE 2.0-2</title>
+
+    <para>This chapter lists the new or updated features associated with TWE
+    .</para>
+
+    <para>- added WfXML authentication.</para>
+
+    <para>- default condition type for newly inserted transitions (via graph)
+    is not set which means that by default unconditional transition is being
+    inserted (previously default type was 'Condition')</para>
+
+    <para>- added new validation option called 'ValidateConditionByType'
+    (which default value is true); when set to true, TWE will generate warning
+    in following cases:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>transition's condition type is not set (unconditional
+        transition) and there is condition expression defined</para>
+      </listitem>
+
+      <listitem>
+        <para>transition's condition type is set to 'Condition' (conditional
+        transition) and there is no condition expression defined</para>
+      </listitem>
+
+      <listitem>
+        <para>transition's condition type is set to 'Exception' (exceptional
+        transition) and there is no condition expression defined</para>
+      </listitem>
+
+      <listitem>
+        <para>transition's condition type is set to 'Otherwise' and there is
+        condition expression defined</para>
+      </listitem>
+
+      <listitem>
+        <para>transition's condition type is set to 'Default exception' and
+        there is condition expression defined</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>- allowed deletion of invalid ExternalPackage elements (when there
+    is no external package referenced)</para>
+
+    <para>- improved conversion of XPDL files from old JaWE versions -&gt;
+    Start/End markers are now properly positioned</para>
+
+    <para>- generally improved XPDL validation</para>
+
+    <para>- improved procedure of closing changed XPDLs - now TWE doesn't ask
+    you to enter the file name if this is an XPDL opened from an existing
+    file</para>
+
+    <para>- logging manager implementiation is now using Java logging instead
+    system.out</para>
+
+    <para>- fixed NPE in LDAP connection</para>
+
+    <para>- fixed rare bug with repositioning of Objects in the table or
+    list</para>
+
+    <para>- fixed bug with the displaying names of a certain extended
+    attributes (i.e. if you defined ext. attrib. with name 'm', afterwards
+    you'll see 'minute' instead of 'm' displayed in ext. attrib. property
+    panel)</para>
+
+    <para>- fixed bug with Graph validation of Start/End markers during the
+    save of Packages marked as 'Released' (TWE allowed saving of incorrect
+    package)</para>
+
+    <para>- fixed bug with XPDL validation of Tool's Actual-&gt;Formal
+    parameter mapping during the save of Packages marked as 'Released' (TWE
+    allowed saving of incorrect package)</para>
+
+    <para>- fixed problem with de-selection of graph during undo</para>
+  </chapter>
+
+  <chapter>
+    <title>Installation, platform, and system information</title>
+
+    <section>
+      <title>Installation</title>
+
+      <para>On Windows, TWE can be installed either using EXE distribution
+      setup, or un-zipping ZIP distribution and executing configure script
+      afterwards. On Linux, you can do the same with RPM and TAR.GZ
+      distributions.</para>
+    </section>
+
+    <section>
+      <title>OS support</title>
+
+      <para>TWE is tested on Windows 2000/XP/Vista, as well as on various
+      Linux distributions.</para>
+    </section>
+
+    <section>
+      <title>JDKs</title>
+
+      <para>Tested with Sun JDK 1.4.x and higher on Windows 2000/XP/Vista,
+      Linux</para>
+    </section>
+  </chapter>
+</book>

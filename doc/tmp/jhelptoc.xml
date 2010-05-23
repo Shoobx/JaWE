@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN" "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+<toc version="1.0">
+   <tocitem target="tweug" text="Graphical WfMC XPDL workflow editing made easy">
+      <tocitem target="d0e71" text="Preface">
+         <tocitem target="d0e80" text="About Workflow">
+            <tocitem target="d0e88" text="Why Should a Business Use Workflow ?"/>
+            <tocitem target="d0e93" text="The Key Benefits"/>
+         </tocitem>
+         <tocitem target="d0e112" text="Open source"/>
+         <tocitem target="d0e147" text="Commercial Support"/>
+         <tocitem target="d0e155" text="Why read this book ?"/>
+         <tocitem target="d0e178" text="This book's audience"/>
+         <tocitem target="d0e187" text="Organization of this book"/>
+         <tocitem target="d0e222" text="Request for Comments"/>
+         <tocitem target="d0e230" text="Acknowledgements"/>
+         <tocitem target="d0e238" text="About the Authors"/>
+         <tocitem target="d0e243" text="Together Teamlösungen EDV-Dienstleistungen GmbH."/>
+         <tocitem target="d0e252" text="Enhydra"/>
+         <tocitem target="d0e263" text="JaWE"/>
+         <tocitem target="d0e268" text="WfMC - The Workflow Management Coalition"/>
+         <tocitem target="d0e275" text="Objectweb"/>
+         <tocitem target="d0e284" text="JGraph"/>
+         <tocitem target="d0e291" text="Docbook"/>
+      </tocitem>
+      <tocitem target="d0e302" text="Introduction">
+         <tocitem target="d0e307" text="What is Together Workflow Editor ?"/>
+         <tocitem target="d0e331" text="Useful links"/>
+      </tocitem>
+      <tocitem target="d0e358" text="The Graphical User Interface">
+         <tocitem target="d0e419" text="Main menu"/>
+         <tocitem target="d0e898" text="Main tool bar"/>
+         <tocitem target="d0e918" text="Info bar"/>
+         <tocitem target="d0e947" text="Graph Overview"/>
+         <tocitem target="d0e967" text="External Package Relations"/>
+         <tocitem target="d0e995" text="Transient Package Pool"/>
+         <tocitem target="d0e1029" text="Graph"/>
+         <tocitem target="d0e1747" text="XPDL View"/>
+         <tocitem target="d0e1776" text="Navigator"/>
+         <tocitem target="d0e1829" text="Package tree"/>
+         <tocitem target="d0e1908" text="Properties component"/>
+         <tocitem target="d0e2043" text="Search component"/>
+         <tocitem target="d0e2102" text="Problems component"/>
+         <tocitem target="d0e2147" text="WfXML component"/>
+         <tocitem target="d0e2199" text="LDAP component"/>
+      </tocitem>
+      <tocitem target="d0e2264" text="Dialogs and Property Panels">
+         <tocitem target="d0e2267" text="Standard Dialogs">
+            <tocitem target="d0e2272" text="Save or discard changes dialog"/>
+            <tocitem target="d0e2289" text="File open dialog"/>
+            <tocitem target="d0e2301" text="Save As dialog"/>
+         </tocitem>
+         <tocitem target="d0e2313" text="Dialogs for editing XPDL element properties"/>
+         <tocitem target="d0e2378" text="Property panels"/>
+      </tocitem>
+      <tocitem target="d0e2444" text="XPDL elements">
+         <tocitem target="Meta_Model" text="Meta-Model"/>
+         <tocitem target="Package" text="Package">
+            <tocitem target="Package_Attributes" text="Package attributes"/>
+            <tocitem target="d0e2842" text="Package property panel"/>
+         </tocitem>
+         <tocitem target="Process_ProcessDefinition" text="Workflow Process">
+            <tocitem target="d0e3153" text="WorkflowProcess attributes"/>
+            <tocitem target="d0e3359" text="Workflow Process property panel"/>
+         </tocitem>
+         <tocitem target="d0e3618" text="External References">
+            <tocitem target="d0e3632" text="Adding External Packages"/>
+            <tocitem target="d0e3652" text="Removing External Packages"/>
+            <tocitem target="d0e3679" text="External Participants"/>
+            <tocitem target="d0e3715" text="External Processes"/>
+            <tocitem target="d0e3745" text="External Applications"/>
+         </tocitem>
+         <tocitem target="d0e3778" text="Type Declaration"/>
+         <tocitem target="Package_Participants" text="Workflow Participant"/>
+         <tocitem target="Package_Application" text="Workflow Application">
+            <tocitem target="Formal_Parameters" text="Formal Parameters"/>
+            <tocitem target="External_Reference" text="External Reference"/>
+         </tocitem>
+         <tocitem target="Package_RelevanData" text="Workflow Relevant Data"/>
+         <tocitem target="d0e4530" text="Formal Parameter"/>
+         <tocitem target="Package_ExtendedAttributes" text="Extended Attributes"/>
+         <tocitem target="d0e4590" text="Activity Set"/>
+         <tocitem target="Process_Activity" text="Workflow Process Activity">
+            <tocitem target="Activity_Atomic" text="Activities and Graph component"/>
+            <tocitem target="Activity_Subflow" text="Activity property panel"/>
+         </tocitem>
+         <tocitem target="Process_Transitions" text="Transitions"/>
+      </tocitem>
+      <tocitem target="d0e5142" text="XPDL from scratch"/>
+      <tocitem target="d0e5547" text="Configuration">
+         <tocitem target="togwebasic.properties" text="Property file togwebasic.properties"/>
+         <tocitem target="d0e5690" text="Property file componentmanager.properties"/>
+         <tocitem target="d0e5735" text="Property file togwecontroller.properties"/>
+         <tocitem target="d0e5881" text="Property file jawetypes.properties"/>
+         <tocitem target="d0e5914" text="Property file togweeditor.properties"/>
+         <tocitem target="d0e5968" text="Property file transitionhandler.properties"/>
+         <tocitem target="d0e6045" text="Property file xpdlvalidator.properties"/>
+      </tocitem>
+      <tocitem target="d0e6129" text="Customization">
+         <tocitem target="d0e6133" text="Need for customization"/>
+         <tocitem target="d0e6140" text="Example - activity for sending an e-mail"/>
+         <tocitem target="d0e6151" text="Available customizations"/>
+      </tocitem>
+      <tocitem target="d0e6174" text="Extended Attribute Reference"/>
+      <tocitem target="d0e6276" text="Build guide">
+         <tocitem target="d0e6279" text="Getting the source code and build scripts"/>
+         <tocitem target="d0e6286" text="Prerequisites"/>
+         <tocitem target="d0e6301" text="Preparing the environment"/>
+         <tocitem target="d0e6317" text="Compiling and building"/>
+         <tocitem target="d0e6322" text="Packaging distributions"/>
+      </tocitem>
+      <tocitem target="d0e6350" text="GNU Free Documentation License"/>
+   </tocitem>
+</toc>

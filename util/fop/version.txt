@@ -1,0 +1,18 @@
+-------------------------------------------
+*** Current versions of the binary libs ***
+-------------------------------------------
+
+avalon-framework-cvs-20020315.jar: *
+  The Avalon Framework consists of interfaces that define relationships between commonly used application 
+  components,  best-of-practice pattern enforcements, and several lightweight convenience implementations 
+  of the generic components.
+------------------------------
+batik.jar: *
+  Batik is a Java based toolkit for applications which handle images in the Scalable Vector Graphics (SVG) 
+  format for various purposes, such as viewing, generation or manipulation. 
+------------------------------
+fop.jar: 0.20.4
+  It is a Java application that reads a formatting object tree conforming to the XSL candidate release 
+  (21. November 2000) and then turns it into a PDF document or allows you to preview it directly on screen. 
+  FOP is part of Apache's XML project.
+  

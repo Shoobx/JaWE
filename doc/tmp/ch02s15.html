@@ -1,0 +1,43 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>LDAP component</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.70.1"><link rel="start" href="index.html" title=""><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;The Graphical User Interface"><link rel="prev" href="ch02s14.html" title="WfXML component"><link rel="next" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Dialogs and Property Panels"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">LDAP component</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s14.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;The Graphical User Interface</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03.html">Next</a></td></tr></table><hr></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e2199"></a>LDAP component</h2></div></div></div><p>This enables you to connect to the LDAP based system, search for
+      users and groups and import them into XPDL as Participants.</p><p></p><div class="figure"><a name="d0e2205"></a><p class="title"><b>Figure&nbsp;2.14.&nbsp;LDAP Component</b></p><div class="figure-contents"><div class="mediaobject"><img src="Images/ldapcomponent.gif" alt="LDAP Component"></div></div></div><br class="figure-break"><p>To be able to do this, you first need to configure LDAP parameters
+      by selecting corresponding action from component's toolbar. This will
+      bring you a dialog where you define how to access LDAP, names of
+      attributes representing group and users, etc. as shown on the picture
+      below:</p><div class="figure"><a name="d0e2213"></a><p class="title"><b>Figure&nbsp;2.15.&nbsp;LDAP Configuration Dialog</b></p><div class="figure-contents"><div class="mediaobject"><img src="Images/ldapconfigurationdialog.gif" alt="LDAP Configuration Dialog"></div></div></div><br class="figure-break"><p>The toolbar for this component contains buttons for performing
+      actions for managing LDAP access. The actions are described in the
+      following table:</p><div class="informaltable"><table border="1"><colgroup><col><col></colgroup><tbody valign="top"><tr><td align="left" valign="middle"><span class="inlinemediaobject"><img src="Images/config.gif"></span></td><td align="left"><p>Opens a dialog to configure parameters neccessary
+              to connect to an LDAP and search for users and
+              groups.</p></td></tr><tr><td align="left" valign="middle"><span class="inlinemediaobject"><img src="Images/searchldap.gif"></span></td><td align="left"><p>Performs a LDAP search based on parameters entered
+              in as a search criteria, and displays results in a
+              table.</p></td></tr><tr><td align="left" valign="middle"><span class="inlinemediaobject"><img src="Images/importselected.gif" align="left"></span></td><td align="left"><p>Imports selected LDAP entries as XPDL
+              Participants.</p></td></tr><tr><td align="left" valign="middle"><span class="inlinemediaobject"><img src="Images/importexternalparticipants.gif"></span></td><td align="left"><p>Imports all LDAP entries as XPDL
+              Participants.</p></td></tr></tbody></table></div><p>As with all other components, you are also able to change the
+      content of the toolbar, and the order of toolbar buttons.</p><p>The advantage of using "LDAP defined participants" is that one can
+      connect the LDAP server of its organization and create processes using
+      the real user/group logins for participant Ids. When the engine enacts
+      such a process, it could also browse the LDAP server for the certain
+      users/groups, so you do not have to do "participant to real user
+      mapping".</p><p>The default LDAP properties can be defined in ldap.properties
+      configuration file:</p><pre class="programlisting">#LDAPReferralHandling = follow
+#LDAPCountLimit = 0
+#LDAPTimeLimit = 0
+#LDAPHost=localhost
+#LDAPPort=389
+#LDAPBaseDN=
+#LDAPObjectClassFilter=group
+#LDAPObjectClassFilterChoices=group,organizationalUnit,organizationalRole,user,person,organizationalPerson,inetOrgPerson,AllListed
+#LDAPSearchScope=SCOPE_SUB
+#LDAPSecurityLevel=UserAndPassword
+#LDAPSecurityUserDN=username@company.com
+#LDAPSecurityPassword=somepwd
+#LDAPGroupUniqueAttributeName=sAMAccountName
+#LDAPGroupNameAttributeName=displayName
+#LDAPGroupDescriptionAttributeName=description
+#LDAPUserUniqueAttributeName=sAMAccountName
+#LDAPUserNameAttributeName=displayName
+#LDAPUserDescriptionAttributeName=description
+#LDAPDistinguishedNameAttributeName=distinguishedName
+
+#Toolbar.ActionOrder.defaultToolbar = ConfigureLDAP SearchLDAP - ImportSelected ImportAll</pre></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s14.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">WfXML component&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;3.&nbsp;Dialogs and Property Panels</td></tr></table></div></body></html>

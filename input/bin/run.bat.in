@@ -1,0 +1,3 @@
+@echo off
+
+start "Together Workflow Editor" "@JAVA_PATH@/bin/javaw" -Xmx128M -DJaWE_HOME="@INSTALL_DIR@" -Djava.ext.dirs="@INSTALL_DIR@/lib" org.enhydra.jawe.JaWE %*

@@ -1,0 +1,1083 @@
+[INFO] Using com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser as SAX2 Parser
+[INFO] FOP 0.20.5
+[INFO] Using com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser as SAX2 Parser
+[INFO] building formatting object tree
+[INFO] setting up fonts
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+[INFO] JAI support was not installed (read: not present at build time). Trying to use Jimi instead
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] property - "background-position-horizontal" is not implemented yet.
+[ERROR] property - "background-position-vertical" is not implemented yet.
+Error creating background image: Error creating FopImage object (http://docbook.sourceforge.net/release/images/draft.png) : Jimi image library not available
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [1]
+[INFO] [2]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [3]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [1]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [2]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [3]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [4]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [5]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [6]
+[INFO] [7]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [8]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [9]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [10]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [11]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [12]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [13]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [14]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [15]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [16]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [17]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [18]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [19]
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[ERROR] Unknown enumerated value for property 'relative-align': baseline
+[ERROR] Error in relative-align property value 'baseline': org.apache.fop.fo.expr.PropertyException: No conversion defined
+[INFO] [20]
+[INFO] Parsing of document complete, stopping renderer

@@ -1,0 +1,41 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Package tree</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.70.1"><link rel="start" href="index.html" title=""><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;The Graphical User Interface"><link rel="prev" href="ch02s09.html" title="Navigator"><link rel="next" href="ch02s11.html" title="Properties component"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Package tree</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s09.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;The Graphical User Interface</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s11.html">Next</a></td></tr></table><hr></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e1829"></a>Package tree</h2></div></div></div><p>Similar to the Navigator the Package tree also displays a
+      hierarchical view of the XPDL model. The difference between these two
+      trees is the level of details. While the Navigator just shows packages,
+      processes, activity sets and activities, The Package tree shows almost
+      every element of the XPDL model.</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><tbody><tr><td align="left" valign="top"><div align="left"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><img src="Images/packageTree.gif" align="left"></td></tr></table></div></td><td align="justify" valign="top"><p>The Package tree
+              offers the most detailled hierarchical view of the XPDL model.
+              It graphically displays the whole hierarchy tree of all XPDL
+              elements of the model you are editing, Id attributes, names, the
+              package header, etc.</p><p>The Package tree makes
+              navigation through the XPDL elements easierIt can also ease
+              editing of XPDL by opening property dialogs directly from the
+              elements in the tree.</p><p>The available actions in the
+              Pakcage tree toolbar are <span class="emphasis"><em>expand all</em></span> and
+              <span class="emphasis"><em>collapse all</em></span>. When expand all is selected
+              the hierarchical tree will be expanded so that every element is
+              visible. When collapse all is performed, only top element(s)
+              will be made visible.</p><p>A right mouse click on tree
+              will display a popup menu. Besides the standard edit functions
+              (cut, copy, paste, delete and edit properties) there are Expand
+              all, Collapse all, Duplicate and References.</p><p>Expand
+              all and Collapse all will act like the actions on the toolbar
+              with the selected element used as the root element of the
+              action. So Expand all will make all children of the selected
+              element visible.</p><p>Duplicate will create a copy of the
+              selected element. The only difference will be in the element id
+              and name attributes (if they exist) which will get new
+              values.</p><p>The References action will search for
+              references to the selected element in the whole XPDL
+              model.</p></td></tr></tbody></table></div><p>This Package tree can be configured through the</p><p>detailpackagenavigator.properties
+      file.</p><div class="itemizedlist"><ul type="disc"><li><p><span class="emphasis"><em>BackgroundColor </em></span> - background
+          color</p></li><li><p><span class="emphasis"><em>SelectionColor </em></span> - selection color</p></li></ul></div><p>You are able to customize the Package tree in order to hide some
+      complex element's sub-elements. For example: To hide Activity's Id,
+      Deadlines, Priority and Limit, you should set the property</p><p>HideSubElements.Activity</p><p>to the following value:</p><pre class="programlisting">HideSubElements.Activity = Id Deadlines Priority Limit</pre><p>You are also able to customize which elements of some collection
+      shouldn't be displayed. For example: To hide extended attributes which
+      name attribute is "SpecEA" or "EASpec", you can define the
+      property:</p><pre class="programlisting">HideElements.ExtendedAttributes.Name = SpecEA EASpec</pre><p>If you want to hide all elements use *. For example: To hide all
+      extended attributes use:</p><p>HideElements.ExtendedAttributes.Name =
+      *</p><p>As with all other components you are also able to change the
+      content of the toolbar and the order of toolbar buttons.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s09.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s11.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Navigator&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Properties component</td></tr></table></div></body></html>
