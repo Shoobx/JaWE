@@ -196,7 +196,6 @@
 				<exclude name="**/components/infobar/**" />
 				<exclude name="**/components/languageswitcher/**" />
 				<exclude name="**/components/ldap/**" />
-				<exclude name="**/base/logger/**" />
 				<exclude name="**/components/packagenavigator/**" />
 				<exclude name="**/components/problemsnavigator/**" />
 				<exclude name="**/components/propertiespanel/**" />
