@@ -1,10 +1,15 @@
 2010-06-03 Sasa Bojanic <sasaboy@together.at>
+   # jEdit-syntax.jar updated to version 2.2.2. Code updated accordingly. Enabled copying from XPDLView component.
+   # JavaHelp library updated to version 2.0_05
+   # fop libraries updated to version 0.95 (new JAR files added, one JAR renamed, twe.xml updated so PDF generation works properly)
+   # saxon library updated to version 6.5.5
+   # xerces library updated to version 2.9.1
    # build procedure changed to leave-out itext.jar when making customer specific distribution
    # updated iText.jar library to version 5.02 (code updated accordingly to iText changes, added new AGPL license for iText to the sources)
    # updated antcontrib.jar library to version 1.0beta3
    # updated ant*.jar libraries to version 1.8.1, removed ant-trax.jar
    # updated batik*.jar libraries to version 1.7, added two additional jars (batik-codec.jar and batik-ext.jar)
-   # twe.xml docu updated
+   # twe.xml docu updated (no OW2)
    
 2010-05-27 Sasa Bojanic <sasaboy@together.at>
    # refactorization of modules (no commercial modules anymore)

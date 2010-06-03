@@ -29,14 +29,14 @@ import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.shark.xpdl.XMLElement;
 import org.enhydra.shark.xpdl.XMLUtil;
-import org.jedit.syntax.JEditTextArea;
-import org.jedit.syntax.JavaScriptTokenMarker;
-import org.jedit.syntax.JavaTokenMarker;
-import org.jedit.syntax.SyntaxDocument;
-import org.jedit.syntax.SyntaxStyle;
-import org.jedit.syntax.TextAreaPainter;
-import org.jedit.syntax.Token;
-import org.jedit.syntax.XMLTokenMarker;
+import org.syntax.jedit.JEditTextArea;
+import org.syntax.jedit.tokenmarker.JavaScriptTokenMarker;
+import org.syntax.jedit.tokenmarker.JavaTokenMarker;
+import org.syntax.jedit.SyntaxDocument;
+import org.syntax.jedit.SyntaxStyle;
+import org.syntax.jedit.TextAreaPainter;
+import org.syntax.jedit.tokenmarker.Token;
+import org.syntax.jedit.tokenmarker.XMLTokenMarker;
 
 
 /**

@@ -354,7 +354,7 @@ clean               - removes the output folder (in order to
 					<equals arg1="${tog.lic.exists}" arg2="true" />
 					<then>
 						<delete>
-							<fileset dir="${build.dir}/lib" includes="twejped.jar" />
+							<fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
 						</delete>
 						<copy todir="${build.dir}" overwrite="true">
 							<fileset dir="${basedir}">

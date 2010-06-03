@@ -23,6 +23,7 @@ if %~1==help goto help
 if %~1==buildAll goto continue
 if %~1==buildNoDoc goto buildNoDoc
 if %~1==buildDocBook goto buildDocBook
+if %~1==buildReleaseNotes goto buildReleaseNotes
 if %~1==dependencies goto dependencies
 if %~1==install goto install
 if %~1==clean goto continue
@@ -37,6 +38,10 @@ goto continuebuild
 
 :buildDocBook
 SET TARGET=buildDocBook
+goto continuebuild
+
+:buildReleaseNotes
+SET TARGET=buildReleaseNotes
 goto continuebuild
 
 :buildAll
@@ -81,16 +86,17 @@ goto end
 echo.
 echo Parameters value for using with make.bat :
 echo.
-echo make                 - builds and configures TWE with javadoc and docbook documentation
-echo make help            - Display this screen
-echo make install         - Install and configure TWE
-echo make buildAll        - builds and configures TWE with javadoc and docbook documentation
-echo make buildNoDoc      - builds and configures TWE without javadoc and docbook documentation
-echo make buildDocBook    - builds docbook documentation
-echo make distributions   - builds and configures TWE with all documentations and creates distribution package
-echo make dependencies    - builds and configures TWE, and creates TWS dependencies within distributions folder
-echo make clean           - removes the output and distribution folder (in order to start a new compilation from scratch)
-echo make cleanAll        - removes the same things as 'clean' target plus doc/tmp folder used to quickly generate doc book docu
+echo make                     - builds and configures TWE with javadoc and docbook documentation
+echo make help                - Display this screen
+echo make install             - Install and configure TWE
+echo make buildAll            - builds and configures TWE with javadoc and docbook documentation
+echo make buildNoDoc          - builds and configures TWE without javadoc and docbook documentation
+echo make buildDocBook        - builds docbook documentation
+echo make buildReleaseNotes   - builds docbook documentation
+echo make distributions       - builds and configures TWE with all documentations and creates distribution package
+echo make dependencies        - builds and configures TWE, and creates TWS dependencies within distributions folder
+echo make clean               - removes the output and distribution folder (in order to start a new compilation from scratch)
+echo make cleanAll            - removes the same things as 'clean' target plus doc/tmp folder used to quickly generate doc book docu
 goto end
 
 :errorsystemroot

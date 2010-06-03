@@ -1617,7 +1617,7 @@ sect1>
       actions:</para>
 
       <informaltable frame="topbot">
-        <tgroup align="left" cols="2" title="">
+        <tgroup align="left" cols="2">
           <colspec colwidth="15" />
 
           <colspec colwidth="500" />
@@ -1882,8 +1882,6 @@ sect1>
           <colspec colwidth="500" />
 
           <tbody valign="top">
-            <row></row>
-
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>

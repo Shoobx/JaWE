@@ -79,7 +79,7 @@
 
 		<property name="docbook.fo.xsl" location="${util.dir}/docbook/xsl/enhydra/fo/docbook.xsl" />
 		<property name="docbook.fo.classpath" location="${util.dir}/docbook/lib/saxon.jar" />
-		<property name="docbook.pdf.classpath" location="${util.dir}/fop/lib/fop.jar${path.separator}${util.dir}/fop/lib/batik.jar${path.separator}${util.dir}/fop/lib/avalon-framework-cvs-20020806.jar" />
+		<property name="docbook.pdf.classpath" location="${util.dir}/fop/lib/fop.jar${path.separator}${util.dir}/fop/lib/batik.jar${path.separator}${util.dir}/fop/lib/avalon-framework.jar${path.separator}${util.dir}/fop/lib/commons-io.jar${path.separator}${util.dir}/fop/lib/xmlgraphics-commons.jar${path.separator}${util.dir}/fop/lib/commons-logging.jar" />
 
 		<!-- Setting IF task -->
 		<taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
@@ -170,7 +170,7 @@
 			<arg line="-cp ${docbook.fo.classpath} com.icl.saxon.StyleSheet -o twe.fo twe.xml ${docbook.fo.xsl} " />
 		</exec>
 		<exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
-			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.apps.Fop twe.fo twe-doc-${version}-${release}.pdf" />
+			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.cli.Main twe.fo twe-doc-${version}-${release}.pdf" />
 		</exec>
 		<delete file="${tmp.dir}/twe.fo" quiet="true" />
 		<delete file="${tmp.dir}/twe.xml" />
@@ -189,7 +189,7 @@
 			<arg line="-cp ${docbook.fo.classpath} com.icl.saxon.StyleSheet -o release_notes.fo release_notes.xml ${docbook.fo.xsl} " />
 		</exec>
 		<exec dir="${output.doc.dir}" executable="java${executable.extension}" output="log.txt">
-			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.apps.Fop release_notes.fo twe-notes-${version}-${release}.pdf" />
+			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.cli.Main release_notes.fo twe-notes-${version}-${release}.pdf" />
 		</exec>
 		<delete file="${output.doc.dir}/release_notes.fo" quiet="true" />
 
