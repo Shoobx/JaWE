@@ -1,0 +1,188 @@
+2010-06-03 Sasa Bojanic <sasaboy@together.at>
+   # updated batik*.jar libraries to version 1.7, added two additional jars (batik-codec.jar and batik-ext.jar)
+   # twe.xml docu updated
+   
+2010-05-27 Sasa Bojanic <sasaboy@together.at>
+   # refactorization of modules (no commercial modules anymore)
+   # changes to build procedure
+   # changes to splash-screen (no OW2 logo)
+   
+2010-05-23 Sasa Bojanic <sasaboy@together.at>
+   # License-TOG.txt needs to be in SVN
+   # build.xml - clean procedure improved
+
+2010-05-11 Sasa Bojanic <sasaboy@together.at>
+	# TWS updated to version 3.1-3
+	# new target for making dependencies output for TWS
+	# SVN IGNORE defined
+
+###### TWE 3.1-2 RELEASED ######
+
+2010-03-25 Aleksandar Stojsavljevic <aleksandar.stojsavljevic@prozone.rs>
+	# Fixed javadoc creation - increased max memory size to 128m
+
+###### TWE 3.1-1 RELEASED ######
+
+2010-03-09 Aleksandar Stojsavljevic <aleksandar.stojsavljevic@prozone.rs>
+	* Ant updated to version 1.8.0
+	
+2010-02-09 Sasa Bojanic <sasa.bojanic@prozone.rs>
+	* Build procedure changed to pack "customer" version of TWE (without JPEd specific stuff)
+
+###### TWE 3.0-2 RELEASED ######
+	
+2010-01-04 Sinisa Tutus <sinisa.tutus@prozone.rs>
+	* util\make\readregistry.exe: file is signed.
+
+2009-12-21 Sinisa Tututs <sinisa.tutus@prozone.rs>	
+	# readregistry.nsi script is improved; 
+	  readregistry.exe is able to get information about Java from 64bit part of the registry.
+
+2009-12-10 Sinisa Tututs <sinisa.tutus@prozone.rs>
+   # NSIS tool is updated to version 2.46
+   
+2009-11-22 Sasa Bojanic <sasa.bojanic@prozone.rs>
+   # introduced possibility to start JaWE in non-frame/dialog mode
+   
+###### TWE 3.0-1 RELEASED ######
+
+2009-09-03 Vladimir Puskas <vpuskas@prozone.rs>
+   # prep'd linux distro (dist.sh, configure, etc.)
+
+2009-05-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved expression's validation
+
+2009-05-06 Sasa Bojanic <sasa@prozone.co.yu>
+   # Problems component view now depends on selection (Package/Workflow Process/ActivitySet)
+
+2009-05-06 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   # Added KeyListener in JEditTextArea to support 
+     copy, cut, paste, selectAll shortcuts from keyboard
+
+2009-04-22 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   # Added one more button with drop-down list on participant panel.
+
+2009-04-14 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   # Implemented highlight editor in deadline expression field and in action parameter field.
+   # Created a new panel on the action detail page, which includes the participant text field 
+     with highlight editor, a button with drop-down list and the participant detail button.
+
+2009-04-13 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   #Implemented highlight editor in transition expression field for 
+    JavaScript, java, xml and ecmascript. 
+
+2009-01-13 Danijel Predarski <danijel.predarski@prozone.rs>
+   # Improved D&D of table entries
+   # Implemented sorting functionality for tables
+
+
+###### TWE 2.4-1 RELEASED ######
+
+2008-06-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # Shark configuration adjustement to new shark version: PROCESS_ID and ACTIVITY_ID
+     can be used in transition condition's and as actual parameters
+
+2008-04-04 Sasa Bojanic <sasa@prozone.co.yu>
+   # Implemented possibility to switch DataField to a FormalParameter and vice-versa
+
+2008-03-31 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed bug with external packages (when newly opened XPDL has the external package with the same Id 
+     but different location as the one opened before)
+   
+2008-03-20 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved property panels
+   # Core extended to support new ext. attribute types per their parent object (Activity, Application, ...)
+
+
+###### TWE 2.3-2 RELEASED ######
+
+2007-12-17 Sasa Bojanic <sasa@prozone.co.yu>
+   # Implementation-Version attribute included into MANIFEST of jar files
+
+2007-12-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug in SharkXPDLObjectFactory - wasn't able to add variables for SWC or SwingAdmin purposes
+   # Improved: installation procedure - language dependent stuff and links to the application
+               from start menu
+   
+2007-12-06 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug in ExternalPkgRelations component (NPE when selecting Arbitrary Expr. Particip.)
+   # Fixed: twebasic.properties file for Pure XPDL configuration
+
+###### TWE 2.3-1 RELEASED ######
+
+2007-11-26 Sasa Bojanic <sasa@prozone.co.yu>
+   # Replaced: JRE 1.5.0_05 with JRE 1.6.0_03
+   # Adjusted: build scripts so it works for public community sources
+
+
+2007-11-21 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: build procedure is now faster (caching generated documentation)
+   # Improved: architectural changes to support add-on architecture
+   # Improved: community version now can also display the result of References and Search action
+
+2007-11-13 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: language switch is now possible in run-time
+
+2007-11-09 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: option buttons displayed for the language and configuration choices
+   # Improved: Defined configuration file which contains information about configuration name
+               to be displayed for the choices and in the title bar.
+
+2007-11-08 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: TWE core so that you can add new object types without coding (just by configuration)
+               Now we use templates for new object types (XPDL fragments)
+   # Added: additional language property file that can be changed in configuration folders.
+
+2007-10-19 Sasa Bojanic <sasa@prozone.co.yu>
+   # Added: portuguese language property file
+   # Added: new component for LDAP participant handling
+   # Removed: old action for handling LDAP participants
+
+2007-09-28 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: language usage issues (parser, JOptionPane, JFileChooser, missing strings,etc.)
+
+2007-09-10 Aleksandar Stojsavljevic <alex@prozone.co.yu>
+   # Added: branding directory and logic for rebrending project if rebranding=true in build.properties
+
+2007-08-03 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug when adding external package which contains processes with activity sets
+            and when "automatic layouting" is turned on.
+
+2007-07-19 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug in handling of transient packages that appeared when you have transient
+            package in the pool and you try to open XPDL from unexisting file - this
+            caused all packages to unload from XMLInterface and after it happens it was
+            possible to have two XPDLs with same Id in TWE.
+   # Improved build procedure - added ant target to build release notes (community and prof)
+
+###### TWE 2.2-1 RELEASED ######
+
+2007-07-18 Sasa Bojanic <sasa@prozone.co.yu>
+   # XMLInterface changed - removed method getIdFromFile (become a static method of XMLUtil class)
+   # Code corrections based on FindBugs report
+
+2007-07-17 Sasa Bojanic <sasa@prozone.co.yu>
+   # fixed bug with reading of language property files from jar file - TWE couldn't read
+     it if there are spaces in the path where TWE is installed
+   # fixed bug with XMLCheckBoxPanel - whenever mouse was over, an apply
+     button was enabled as if something has changed in a panel
+   # implemented option to validate and report if XPDL variable is not used
+
+2007-07-14 Sasa Bojanic <sasa@prozone.co.yu>
+   # implemented capability to search XPDL elements by specified criteria
+
+2007-07-13 Sasa Bojanic <sasa@prozone.co.yu>
+   # all menu entries got icons
+   # more icons added in tree-like views
+
+2007-07-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # expand all/collapse all now context sensitive for all tree-like components
+
+2007-07-11 Sasa Bojanic <sasa@prozone.co.yu>
+   # default configuration now has workflow_patterns.xpdl as transient package
+
+2007-07-06 Sasa Bojanic <sasa@prozone.co.yu>
+   # changed tree-views so that top level nodes also show a (+) when holding subelements
+   # updated spanish translation (JaWE_es.properties) contributed to JaWE by Sergio Reyes.
+     Build files updated to include spanish translation into distribution.
+

@@ -53,5 +53,7 @@
 	<classpathentry kind="lib" path="lib/jEdit-syntax.jar"/>
 	<classpathentry kind="lib" path="lib/itext.jar"/>
 	<classpathentry kind="lib" path="lib/sharkxpdlmodel.jar"/>
+	<classpathentry kind="lib" path="lib/batik-ext.jar"/>
+	<classpathentry kind="lib" path="lib/batik-codec.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

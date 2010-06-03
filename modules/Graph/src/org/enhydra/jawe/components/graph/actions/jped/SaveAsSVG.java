@@ -75,7 +75,9 @@ public class SaveAsSVG extends ActionBase {
 		   // Get a DOMImplementation
 		   DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		   // Create an instance of org.w3c.dom.Document
-		   Document document = domImpl.createDocument(null, "svg", null);
+		   String svgNS = "http://www.w3.org/2000/svg";
+	        
+		   Document document = domImpl.createDocument(svgNS, "svg", null);
 
 		   // Render into the SVG Graphics2D implementation
 		   graph.setDoubleBuffered(false);

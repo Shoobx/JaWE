@@ -45,6 +45,7 @@ public class SaveAsSVG extends ActionBase {
             saveGraphAsSVG(file, ((GraphController) jawecomponent).getSelectedGraph());
          }
       } catch (Exception ex) {
+    	  ex.printStackTrace();
          String msg = ResourceManager.getLanguageDependentString("ErrorSVGSavingFailed");
          JaWEManager.getInstance().getJaWEController().message(msg, JOptionPane.WARNING_MESSAGE);
       }
@@ -58,7 +59,8 @@ public class SaveAsSVG extends ActionBase {
       // Get a DOMImplementation
       DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
       // Create an instance of org.w3c.dom.Document
-      Document document = domImpl.createDocument(null, "svg", null);
+      String svgNS = "http://www.w3.org/2000/svg";
+      Document document = domImpl.createDocument(svgNS, "svg", null);
       // Create an instance of the SVG Generator
       SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
       // Render into the SVG Graphics2D implementation
