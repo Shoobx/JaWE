@@ -162,14 +162,16 @@ EOF
 #
 mkdir -p distribution/$buildtype
 EXC='--exclude **/jped'
+EXC2='--exclude lib/itext.jar'
 if [ $buildtype = 'customers' ]; then
 	mv License.txt License.tmp
 	mv License-TOG.txt License.txt
 else
 	EXC=
+   EXC2=
 fi
 cp input/bin/TWE.xpm ${RPM_ROOT}/SOURCES
-tar czf ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz --exclude CVS --exclude License-TOG.txt --exclude License.tmp --exclude distribution --exclude .settings --exclude classes --exclude '*~' $EXC  --exclude 'installation/unix/rpm' .
+tar czf ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz --exclude CVS --exclude License-TOG.txt --exclude License.tmp --exclude distribution --exclude .settings --exclude classes --exclude '*~' $EXC $EXC2 --exclude 'installation/unix/rpm' .
 echo $JAVA_HOME|rpmbuild -ba --target noarch $RPM_ROOT/SPECS/twe.spec
 
 cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/$buildtype || exit 1

@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 
 import org.enhydra.shark.xpdl.XMLElement;
 
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 
 public class PDFElementChain extends PDFChain {
 

@@ -1,4 +1,6 @@
 2010-06-03 Sasa Bojanic <sasaboy@together.at>
+   # build procedure changed to leave-out itext.jar when making customer specific distribution
+   # updated iText.jar library to version 5.02 (code updated accordingly to iText changes, added new AGPL license for iText to the sources)
    # updated antcontrib.jar library to version 1.0beta3
    # updated ant*.jar libraries to version 1.8.1, removed ant-trax.jar
    # updated batik*.jar libraries to version 1.7, added two additional jars (batik-codec.jar and batik-ext.jar)

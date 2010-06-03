@@ -35,33 +35,34 @@ import org.enhydra.shark.xpdl.elements.Transition;
 import org.enhydra.shark.xpdl.elements.Transitions;
 import org.enhydra.shark.xpdl.elements.WorkflowProcess;
 
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Chapter;
-import com.lowagie.text.ChapterAutoNumber;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.Section;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.ChapterAutoNumber;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class PDFPlugin {
 	private static Logger log = Logger.getLogger(PDFPlugin.class.getName());
 
-	private static Font CHAPTER_FONT = FontFactory.getFont(FontFactory.HELVETICA,24,Font.BOLD,Color.BLACK);
-	private static Font SECTION_FONT = FontFactory.getFont(FontFactory.HELVETICA,16,Font.BOLD,Color.BLACK);
-	private static Font NORMAL_FONT = FontFactory.getFont(FontFactory.HELVETICA,10,Font.NORMAL,Color.BLACK);
-	private static Font PARAMETER_FONT = FontFactory.getFont(FontFactory.HELVETICA,10,Font.ITALIC,Color.BLACK);
-	private static Font TRANSITION_CONDITION_FONT = FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,Color.BLACK); 
+	private static Font CHAPTER_FONT = FontFactory.getFont(FontFactory.HELVETICA,24,Font.BOLD,BaseColor.BLACK);
+	private static Font SECTION_FONT = FontFactory.getFont(FontFactory.HELVETICA,16,Font.BOLD,BaseColor.BLACK);
+	private static Font NORMAL_FONT = FontFactory.getFont(FontFactory.HELVETICA,10,Font.NORMAL,BaseColor.BLACK);
+	private static Font PARAMETER_FONT = FontFactory.getFont(FontFactory.HELVETICA,10,Font.ITALIC,BaseColor.BLACK);
+	private static Font TRANSITION_CONDITION_FONT = FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLACK); 
 	private Graph graph;
 	private Image graphImage;
 	private Image getGraphImage(){
@@ -96,7 +97,7 @@ public class PDFPlugin {
 		
 	}
 	private void insertGraphImage(Document document, WorkflowProcess process) {
-		com.lowagie.text.Rectangle originalSize = document.getPageSize();
+		com.itextpdf.text.Rectangle originalSize = document.getPageSize();
 		try{
 			Image graphImage = getGraphImage();
 			if (graphImage !=null){

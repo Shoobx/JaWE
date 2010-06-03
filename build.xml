@@ -512,7 +512,7 @@ clean               - removes the output folder (in order to
 				<zip destfile="${dist.customers.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
 					<zipfileset dir="${basedir}" excludes="sign.properties, License.tmp, .settings/**, doc/tmp/***, distribution/**, classes/**, **/language/JaWE_it.properties
 												, **/language/JaWE_pl.properties
-												  , **/language/JaWE_zh_CN.properties,**/jped/**" prefix="${app.name}-${version}-${release}.src" />
+												  , **/language/JaWE_zh_CN.properties,**/jped/**,lib/itext.jar" prefix="${app.name}-${version}-${release}.src" />
 				</zip>
 				<move file="${basedir}/License.txt" tofile="${basedir}/License-TOG.txt" overwrite="true" />
 				<move file="${basedir}/License.tmp" tofile="${basedir}/License.txt" overwrite="true" />

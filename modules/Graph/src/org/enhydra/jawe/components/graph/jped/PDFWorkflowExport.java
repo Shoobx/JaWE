@@ -7,8 +7,8 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.shark.xpdl.elements.WorkflowProcess;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.Rectangle;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Rectangle;
 
 public class PDFWorkflowExport {
 	

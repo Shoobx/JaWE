@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.shark.xpdl.XMLElement;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Section;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Section;
 
 /**
  * This is a simple utility class that process a pack of pdf plugins by dispatching
