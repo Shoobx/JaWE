@@ -199,9 +199,8 @@
       (http://jawe.enhydra.org)</ulink> is an <ulink
       url="http://www.opensource.org">open source
       (http://www.opensource.org)</ulink> project hosted by <ulink
-      url="http://www.objectweb.org">ObjectWeb
-      (http://www.objectweb.org)</ulink> , a worldwide consortium for open
-      source middleware, with the goal to deliver a production quality tool
+      url="http://sourceforge.net">SourceForge
+      (http://sourceforge.net)</ulink> , with the goal to deliver a production quality tool
       for graphical creation and viewing of WfMC XPDL process definitions. It
       results from real world projects in which the painful task of writing
       XML with general purpose XML editors had to be done again and again.
@@ -211,10 +210,9 @@
       Serbia but also contains lots of input and improvements from the many
       users worldwide. Enhydra JaWE has a rapidly growing community and is
       also integrated in other open source projects like <ulink
-      url="http://enhydra.objectweb.org">Enhydra Server, Enhydra Enterprise
-      (http://enhydra.objectweb.org)</ulink> - a professional Java and J2EE
-      application server and <ulink url="???">Enhydra Shark
-      (http://shark.enhydra.org)</ulink> - the most flexible Open Source WfMC
+      url="http://enhydra.org">Enhydra Server (http://enhydra.org)</ulink> - a professional Java and J2EE
+      application server and <ulink url="http://sourceforge.net/projects/sharkwf">Enhydra Shark
+      (http://sourceforge.net/projects/sharkwf)</ulink> - the most flexible Open Source WfMC
       XPDL workflow engine available. Its use is <ulink
       url="http://www.gnu.org/philosophy/philosophy.html">"Free as in Freedom"
       (http://www.gnu.org/philosophy/philosophy.html)</ulink> and licensed
@@ -405,8 +403,7 @@
 
       <para>Together Teamlösungen EDV-Dienstleistungen GmbH. is an active
       member of WfMC, directly involved into the development of the XPDL
-      standards specification, and an active member of the Objectweb Open
-      Source middleware consortium, sponsoring the development of most
+      standards specification. It is sponsoring the development of most
       Enhydra.org projects hosted at ObjectWeb.</para>
     </sect1>
 
@@ -414,10 +411,8 @@
       <title>Enhydra</title>
 
       <para>The Enhydra.org project has its focus on E-Business middleware
-      software. It now consists of many developers from over 50 countries. You
-      can count on the project group because it is backed by the Objectweb
-      consortium, a truly open source oriented middleware consortium, and a
-      number of big commercial sponsors. Many of these are able to offer
+      software. It now consists of many developers from over 50 countries.
+      Many of these are able to offer
       commercial products, support, consulting and training.</para>
 
       <para>The Enhydra.org Web site was initially created by Lutris
@@ -446,8 +441,7 @@
       <para>JaWE - Java Workflow Editor - is the Open Source project of
       Together Workflow Editor Professional. It is fully useable to edit, view
       and save complete XPDL files and licensed under GPL. Sources are
-      publicly available in the projects CVS repository hosted at ObjectWeb
-      GForge.</para>
+      publicly available in the projects CVS repository hosted at SourceForge</para>
     </sect1>
 
     <sect1>
@@ -465,28 +459,6 @@
       standards organization that concentrates purely on process. WfMC created
       XPDL and Wf-XML and had influence on BPMN, OMG workflow interface, ASAP
       and many other process related standards.</para>
-    </sect1>
-
-    <sect1>
-      <title>Objectweb</title>
-
-      <para>ObjectWeb is an international consortium fostering the development
-      of open-source middleware for cutting-edge applications: EAI,
-      e-business, clustering, grid computing, managed services, workflow and a
-      lot more.</para>
-
-      <para>It is an open-source software community created at the end of 1999
-      by Bull, France Telecom R&amp;D and INRIA. Its goal is the development
-      of open-source distributed middleware, based on flexible and adaptable
-      components. These components range from specific software frameworks and
-      protocols to integrated platforms. ObjectWeb developments follow a
-      systematic component-based approach.</para>
-
-      <para>In 2002, ObjectWeb evolved into an international consortium hosted
-      by INRIA (next to W3C, the World Wide Web Consortium), the French
-      National Institute for Research in Computer Science and Control. The
-      consortium is an independent non-profit organization open to companies,
-      institutions and individuals.</para>
     </sect1>
 
     <sect1>
@@ -9301,9 +9273,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <sect1>
       <title>Getting the source code and build scripts</title>
 
-      <para>The source code of the project can be obtained via OW2 SVN. Please
+      <para>The source code of the project can be obtained via SourceForge SVN. Please
       read instructions how to check out sources at <ulink
-      url="http://forge.ow2.org/plugins/scmsvn/index.php?group_id=50">OW2</ulink></para>
+      url="http://sourceforge.net/projects/jawe/develop">SF</ulink></para>
     </sect1>
 
     <sect1>

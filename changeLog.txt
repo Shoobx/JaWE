@@ -1,4 +1,6 @@
 2010-06-03 Sasa Bojanic <sasaboy@together.at>
+   # updated antcontrib.jar library to version 1.0beta3
+   # updated ant*.jar libraries to version 1.8.1, removed ant-trax.jar
    # updated batik*.jar libraries to version 1.7, added two additional jars (batik-codec.jar and batik-ext.jar)
    # twe.xml docu updated
    
