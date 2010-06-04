@@ -45,12 +45,32 @@
   </chapter>
 
   <chapter>
+    <title>What's new in TWE 3.2-1</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- code restructured</para>
+
+    <para>- updated base component's JAR files to more recent versions (batik,
+    ant, itext, xerces, saxon, fop, java help, jedit syntax and JGraph). Code
+    modified accordingly.</para>
+
+    <para>- updated build scripts (build procedure changes)</para>
+
+    <para>- new splash screen</para>
+
+    <para>- project moved to source forge</para>
+  </chapter>
+
+  <chapter>
     <title>What's new in TWE 3.1-3</title>
 
     <para>This chapter lists the new or updated features associated with
     TWE.</para>
 
     <para>- updated build scripts</para>
+
     <para>- sharkxpdlmodel.jar version 3.1-3 included</para>
   </chapter>
 
