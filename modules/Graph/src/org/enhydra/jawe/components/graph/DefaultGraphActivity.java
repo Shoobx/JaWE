@@ -25,10 +25,10 @@ public class DefaultGraphActivity extends GraphActivityInterface {
     */
    public DefaultGraphActivity(Activity act) {
       setUserObject(act);
-      addPort();
+      addAPort();
    }
    
-   protected void addPort () {
+   protected void addAPort () {
       // Create Port
       // Floating Center Port (Child 0 is Default)
       GraphPortInterface port=GraphUtilities.getGraphController().getGraphObjectFactory().createPort("Center",GraphEAConstants.PORT_TYPE_DEFAULT);

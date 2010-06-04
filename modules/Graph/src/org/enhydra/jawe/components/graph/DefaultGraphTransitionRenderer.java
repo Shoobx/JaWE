@@ -68,7 +68,7 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements Grap
 
          if (selected) { // Paint Selected
             g2.setStroke(GraphConstants.SELECTION_STROKE);
-            g2.setColor(graph.getHighlightColor());
+            g2.setColor(highlightColor);
             if (view.beginShape != null)
                g2.draw(view.beginShape);
             if (view.lineShape != null)
@@ -76,6 +76,7 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements Grap
             if (view.endShape != null)
                g2.draw(view.endShape);
          }
+         JGraph graph = (JGraph)this.graph.get();
          if (graph.getEditingCell() != view.getCell() && GraphUtilities.getGraphController().getGraphSettings().shouldShowTransitionCondition()) {
             Object label = graph.convertValueToString(view);
             if (label != null) {

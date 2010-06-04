@@ -101,8 +101,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                 AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
                 GraphConstants.setPoints(edgeMap, points);
                 propertyMap.put(cell, edgeMap);
-                String undoMsg = graph.getGraphController().getSettings().getLanguageDependentString("MessageAddingBreakPointAtTransition");
-                ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null, undoMsg);
+                ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
              }
           }
        }
@@ -139,8 +138,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                 AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
                 GraphConstants.setPoints(edgeMap, points);
                 propertyMap.put(cell, edgeMap);
-                String undoMsg = graph.getGraphController().getSettings().getLanguageDependentString("MessageRemovingBreakPointFromTransition");
-                ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null, undoMsg);
+                ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
              }
           }
        }
@@ -247,7 +245,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                         points.add(pt);
 //                  JaWEManager.getInstance().getLoggingManager().debug("Updating breakpoints for transition: "+points);
                         GraphConstants.setPoints(map, points);
-                        ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null, "");
+                        ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
                      }
                      
                   }
@@ -280,7 +278,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
             }
             GraphUtilities.setBreakpoints((Transition)((GraphTransitionInterface)edge.getCell()).getPropertyObject(), pnts);
          }
-         ConnectionSet cs = createConnectionSet(edge, edge.getCell(), false);
+         ConnectionSet cs = createConnectionSet(edge, false);
          Map nested = GraphConstants.createAttributes(new CellView[] { edge }, null);
          graph.getGraphLayoutCache().edit(nested, cs, null, null);
          if (!isucinprogress) {

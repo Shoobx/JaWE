@@ -1742,7 +1742,7 @@ public class GraphUtilities {
             }
          }
          if (updated) {
-            gmgr.graphModel().insertAndEdit(null, propertyMap, null, parentMap, null, "");
+            gmgr.graphModel().insertAndEdit(null, propertyMap, null, parentMap, null);
          }
       }
 

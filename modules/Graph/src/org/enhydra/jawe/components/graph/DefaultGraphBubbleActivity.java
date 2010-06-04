@@ -27,10 +27,10 @@ public class DefaultGraphBubbleActivity extends GraphBubbleActivityInterface {
       StartEndDescription sed=getStartEndDescription();
       isStart=sed.isStart();
       type=sed.getType();
-      addPort();
+      addAPort();
    }
    
-   protected void addPort () {
+   protected void addAPort () {
       // Create Port
       // Floating Center Port (Child 0 is Default)
       GraphPortInterface port=GraphUtilities.getGraphController().getGraphObjectFactory().createPort("Center",GraphEAConstants.PORT_TYPE_DEFAULT);

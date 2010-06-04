@@ -1,3 +1,6 @@
+2010-06-04 Sasa Bojanic <sasaboy@together.at>
+   # jgraph updated to version 5.13.0.4. Code updated accordingly.
+
 2010-06-03 Sasa Bojanic <sasaboy@together.at>
    # jEdit-syntax.jar updated to version 2.2.2. Code updated accordingly. Enabled copying from XPDLView component.
    # JavaHelp library updated to version 2.0_05

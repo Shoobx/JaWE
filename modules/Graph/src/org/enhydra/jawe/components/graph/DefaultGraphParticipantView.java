@@ -11,7 +11,7 @@ import org.jgraph.JGraph;
 import org.jgraph.graph.CellMapper;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.CellViewRenderer;
-import org.jgraph.graph.GraphModel;
+import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.VertexView;
 
 /**
@@ -68,9 +68,9 @@ public class DefaultGraphParticipantView extends VertexView implements GraphPart
 	/**
 	 * Clears childView's and then refreshes it.
 	 */
-	public void refreshChildViews(GraphModel model, CellMapper mapper) {
+	public void refreshChildViews(GraphLayoutCache cache, CellMapper mapper) {
 		childViews.clear();
-		refresh(model, mapper,  false);
+		refresh(cache, mapper,  false);
 	}
 
    /**

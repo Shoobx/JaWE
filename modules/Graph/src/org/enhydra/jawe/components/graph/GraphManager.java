@@ -316,8 +316,7 @@ public class GraphManager implements Serializable {
       }
       toRem.add(gact);
       Object[] remove = toRem.toArray();
-      graphModel().removeAndEdit(remove, null,
-            getGraphController().getSettings().getLanguageDependentString("MessageRemovingObjects"));
+      graphModel().removeAndEdit(remove, null);
 
       Map propertyMap = new HashMap();
       ParentMap parentMap = new JaWEParentMap();
@@ -395,10 +394,9 @@ public class GraphManager implements Serializable {
 
       //cs.connect(transition,source.getCell(),true);
       //cs.connect(transition,target.getCell(),false);
-      String undoMsg = getGraphController().getSettings().getLanguageDependentString("MessageInsertingTransition");
       //      graphModel().insertAndEdit(insert,cs,null,null,viewMap,undoMsg);
 
-      graphModel().insertAndEdit(insert, viewMap, cs, null, null, undoMsg);
+      graphModel().insertAndEdit(insert, viewMap, cs, null, null);
 
       return gtra;
    }
@@ -440,7 +438,7 @@ public class GraphManager implements Serializable {
          // style
          updateStyle(gtra,propertyMap);
          
-         ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null, "");
+         ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
          
       }
    }
@@ -473,6 +471,8 @@ public class GraphManager implements Serializable {
       } else {
          tv.removePoint(graph, p);
       }
+      graph.refresh();
+
       int noOfPoints=tv.getPointCount();
       List pnts=new ArrayList();
       for (int i=1; i<noOfPoints-1; i++) {
@@ -485,8 +485,7 @@ public class GraphManager implements Serializable {
    public void updateStyle (GraphTransitionInterface gtra) {
       Map propertyMap = new HashMap();
       updateStyle(gtra,propertyMap);
-      String undoMsg=getGraphController().getSettings().getLanguageDependentString("MessageSettingTransitionTypeToNoRouting");
-      ((JaWEGraphModel)graph.getModel()).insertAndEdit(null,propertyMap,null,null,null,undoMsg);      
+      ((JaWEGraphModel)graph.getModel()).insertAndEdit(null,propertyMap,null,null,null);      
    }
    
    protected void updateStyle (GraphTransitionInterface gtra,Map propertyMap) {
@@ -525,8 +524,7 @@ public class GraphManager implements Serializable {
       Object[] remove = new Object[] { gtra };
       //cs.connect(transition,source.getCell(),true);
       //cs.connect(transition,target.getCell(),false);
-      graphModel().removeAndEdit(remove, null,
-            getGraphController().getSettings().getLanguageDependentString("MessageRemovingObjects"));
+      graphModel().removeAndEdit(remove, null);
 
       Map propertyMap = new HashMap();
       ParentMap parentMap = new JaWEParentMap();
@@ -573,8 +571,7 @@ public class GraphManager implements Serializable {
          remove = new Object[] { gact };
       }
 
-      graphModel().removeAndEdit(remove, null,
-            getGraphController().getSettings().getLanguageDependentString("MessageRemovingObjects"));
+      graphModel().removeAndEdit(remove, null);
 
       Map propertyMap = new HashMap();
       ParentMap parentMap = new JaWEParentMap();
@@ -617,10 +614,9 @@ public class GraphManager implements Serializable {
 
       //cs.connect(transition,source.getCell(),true);
       //cs.connect(transition,target.getCell(),false);
-      String undoMsg = getGraphController().getSettings().getLanguageDependentString("MessageInsertingTransition");
       //      graphModel().insertAndEdit(insert,cs,null,null,viewMap,undoMsg);
 
-      graphModel().insertAndEdit(insert, viewMap, cs, null, null, undoMsg);
+      graphModel().insertAndEdit(insert, viewMap, cs, null, null);
 
       return gtra;
    }
@@ -762,8 +758,7 @@ public class GraphManager implements Serializable {
 
       Object[] insert = new Object[] { gpar };
       //         graphModel().insertAndEdit(insert,null,propertyMap,parentMap,viewMap,
-      graphModel().insertAndEdit(insert, propertyMap, null, parentMap, null,
-            getGraphController().getSettings().getLanguageDependentString("MessageInsertingParticipant"));
+      graphModel().insertAndEdit(insert, propertyMap, null, parentMap, null);
       
       if (!creatingGraph) {
          try {
@@ -867,10 +862,10 @@ public class GraphManager implements Serializable {
          // deletion)
 
          // All cells in model to be deleted
-         List cellsToDel = JaWEGraphModel.getDescendantList(graphModel(), cellsToDelete);
+         List cellsToDel = JaWEGraphModel.getDescendants(graphModel(), cellsToDelete);
          // getting transitions(edges) which are connected to the cellsForDel ->
          // also has to be deleted
-         List edges = JaWEGraphModel.getEdges(graphModel(), cellsToDel.toArray());
+         Set edges = JaWEGraphModel.getEdges(graphModel(), cellsToDel.toArray());
 
          // putting all items for deletation (edges and cells) together - thats
          // ALL FOR DELETION
@@ -916,8 +911,7 @@ public class GraphManager implements Serializable {
             arrangeParticipantsHorizontally(participantsToArrange.toArray(), propertyMap, parentMap);
          }
 
-         graphModel().removeAndEdit(cellsToDel.toArray(), propertyMap,
-               getGraphController().getSettings().getLanguageDependentString("MessageRemovingObjects"));
+         graphModel().removeAndEdit(cellsToDel.toArray(), propertyMap);
 
       }
 
@@ -1048,7 +1042,7 @@ public class GraphManager implements Serializable {
 
       // makes all changes (if there was any) - to model and to view
       //graphModel().insertAndEdit(insert,null,propertyMap,parentMap,viewMap,actionName);
-      graphModel().insertAndEdit(insert, propertyMap, cs, parentMap, null, actionName);
+      graphModel().insertAndEdit(insert, propertyMap, cs, parentMap, null);
       
       Dimension prefSize = null;
       if (!creatingGraph) {
@@ -2838,7 +2832,7 @@ public class GraphManager implements Serializable {
       if (cellsToDelete != null && cellsToDelete.length > 0) {
 
          // All cells in model to be deleted
-         Set allCellsToDelete = new HashSet(JaWEGraphModel.getDescendantList(graphModel(), cellsToDelete));
+         Set allCellsToDelete = new HashSet(JaWEGraphModel.getDescendants(graphModel(), cellsToDelete));
 
          // getting transitions(edges) which are connected to the cellsForDel ->
          // also has to be deleted
@@ -2978,7 +2972,7 @@ public class GraphManager implements Serializable {
       // and that there is no action if position doesn't change
       if (updated) {
          getGraphController().setUpdateInProgress(true);
-         graphModel().insertAndEdit(null, propertyMap, null, parentMap, null, "");
+         graphModel().insertAndEdit(null, propertyMap, null, parentMap, null);
          // make new visual order list
          List allGraphParticipants = JaWEGraphModel.getAllParticipantsInModel(graph.getModel());
          if (allGraphParticipants != null) {

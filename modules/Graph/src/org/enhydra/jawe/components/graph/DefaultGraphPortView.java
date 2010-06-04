@@ -38,7 +38,7 @@ public class DefaultGraphPortView extends GraphPortViewInterface {
    /**
 	 * Returns port's size.
 	 */
-   public Dimension getPortSize () {
+   public Dimension getPortsSize () {
       return (Dimension)getAttributes().get(GraphConstants.SIZE);
    }
 
@@ -60,10 +60,10 @@ public class DefaultGraphPortView extends GraphPortViewInterface {
    	AttributeMap map = new AttributeMap();
       Rectangle2D bounds = map.createRect(getLocation());
       bounds.setFrame(
-         bounds.getX() - getPortSize().width / 2,
-         bounds.getY() - getPortSize().height / 2,
-         bounds.getWidth() + getPortSize().width,
-         bounds.getHeight() + getPortSize().height);
+         bounds.getX() - getPortsSize().width / 2,
+         bounds.getY() - getPortsSize().height / 2,
+         bounds.getWidth() + getPortsSize().width,
+         bounds.getHeight() + getPortsSize().height);
       return bounds;
    } 
    

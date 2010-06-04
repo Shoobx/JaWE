@@ -615,8 +615,8 @@ public class GraphMarqueeHandler extends BasicMarqueeHandler {
                firstPort = pPort;
                double scale = getGraph().getScale();
                start = firstPort.getBounds().getBounds().getLocation();// HM, JGraph3.4.1
-               start.x += firstPort.getPortSize().width / 2;
-               start.y += firstPort.getPortSize().height / 2;
+               start.x += firstPort.getPortsSize().width / 2;
+               start.y += firstPort.getPortsSize().height / 2;
                start = new Point((int) (start.getX() * scale), (int) (start.getY() * scale));
                
                return true;
@@ -742,7 +742,7 @@ public class GraphMarqueeHandler extends BasicMarqueeHandler {
          //current=lastPort.getLocation(null);
          current=new Point((int)(current.x * scale),
                               (int)(current.y * scale));
-         current.x+=port.getPortSize().width/2;current.y+=port.getPortSize().height/2;
+         current.x+=port.getPortsSize().width/2;current.y+=port.getPortsSize().height/2;
 
       }
       g.setColor(bg);
