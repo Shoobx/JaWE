@@ -181,7 +181,7 @@
 
 		<copy file="${doc.dir}/release_notes.xml" tofile="${output.doc.dir}/release_notes.xml" />
 		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${output.doc.dir}">
-			<arg line="-o release_notes.html release_notes.xml ${util.dir}/docbook/xsl/html/docbook.xsl" />
+			<arg line="-o twe-notes-${version}-${release}.html release_notes.xml ${util.dir}/docbook/xsl/html/docbook.xsl" />
 		</java>
 
 		<echo message="docbook PDF -> ${output.doc.dir}/release_notes.xml" />
