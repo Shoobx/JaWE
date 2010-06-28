@@ -1,4 +1,6 @@
 ###### TWE 3.2-1 RELEASED ######
+2010-06-28 Sasa Bojanic <sasaboy@together.at>
+   # updated license files
 
 2010-06-04 Sasa Bojanic <sasaboy@together.at>
    # jgraph updated to version 5.13.0.4. Code updated accordingly.
