@@ -667,28 +667,53 @@ Function GetJavaVersion
   WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
 
   noAllUsersJavaHome:
-  ClearErrors
-  ; READ JAVA_HOME from the user
-  ReadRegStr $4 HKCU "Environment" "JAVA_HOME"
-  IfErrors noUserJavaHome
-  ; Set the JAVA_HOME value into the ini file
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
+    ClearErrors
+    ; READ JAVA_HOME from the user
+    ReadRegStr $4 HKCU "Environment" "JAVA_HOME"
+    IfErrors noUserJavaHome
+    ; Set the JAVA_HOME value into the ini file
+    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
   
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
+    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
+    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
 
   noUserJavaHome:
-  ClearErrors
-  ; Read the Sun JDK value from the registry
-  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
-  ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
+    ClearErrors
+    ; Read the Sun JDK value from the registry
+    ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
+    ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
+    
+    StrCmp $1 "" setJDKx64 setJDKx64OK
+    
+    setJDKx64:
+        ClearErrors
+        ; Read the Sun JDK value from the registry 64 bit
+        SetRegView 64
+        ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
+        ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
+        SetRegView 32
+    
+    setJDKx64OK:
 
-  IfErrors noSunJDK
-  StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+    IfErrors noSunJDK
+    StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
   loop:
+    
     EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9
-    StrCmp $R1 "" noSunJDK
+    ;StrCmp $R1 "" noSunJDK
     ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
+    
+    StrCmp $R2 "" setLoopJDKx64 setLoopJDKx64OK
+    
+    setLoopJDKx64:
+        ClearErrors
+        SetRegView 64
+        EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9
+        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
+        SetRegView 32
+        StrCmp $R2 "" noSunJDK
+    
+    setLoopJDKx64OK:
 
     ; check if java version >= 1.4.x
   	StrCpy $1 $R1 1 ; major version
@@ -724,18 +749,40 @@ Function GetJavaVersion
   goto loop
 
   noSunJDK:
+    ClearErrors
+    ; Read the Sun JRE value from the registry
+    ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+    ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
+    
+    StrCmp $1 "" setJREx64 setJREx64OK
+    
+    setJREx64:
+        ClearErrors
+        ; Read the Sun JRE value from the registry 64 bit
+        SetRegView 64
+        ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+        ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
+        SetRegView 32
 
-  ClearErrors
-  ; Read the Sun JRE value from the registry
-  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
-  ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
-
-  IfErrors noSunJRE
-  StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Runtime Environment"
+    setJREx64OK:
+    
+    IfErrors noSunJRE
+    StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Runtime Environment"
   loopJRE:
     EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
-    StrCmp $R1 "" noSunJRE
-    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
+    ;StrCmp $R1 "" noSunJRE
+    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
+    StrCmp $R1 "" setLoopJREx64 setLoopJREOK
+    
+    setLoopJREx64:
+        ClearErrors
+        SetRegView 64
+        EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
+        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
+        SetRegView 32
+        StrCmp $R1 "" noSunJRE
+
+    setLoopJREOK:
 
     ; check if java version >= 1.4.x
   	StrCpy $1 $R1 1 ; major version

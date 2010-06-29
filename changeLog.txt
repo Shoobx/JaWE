@@ -1,4 +1,8 @@
 ###### TWE 3.2-1 RELEASED ######
+
+2010-06-28 Sasa Bojanic <sasaboy@together.at>
+   # NSI file for setup improved to detect 64bit JAVA
+
 2010-06-28 Sasa Bojanic <sasaboy@together.at>
    # updated license files
 
