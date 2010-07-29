@@ -179,7 +179,7 @@
 		</copy>
 		<copy todir="${build.dir}/licenses">
 			<fileset dir="${basedir}/licenses" includes="*.*" />
-			<mapper type="regexp" from="twe-includes.txt" to="twe-includes-${version}-${release}.txt" />
+			<mapper type="regexp" from="twe-includes.xlsx" to="twe-includes-${version}-${release}.xlsx" />
 		</copy>
 		<copy todir="${build.dir}">
 			<fileset dir="${basedir}" includes="License.txt" />
@@ -451,8 +451,8 @@ clean               - removes the output folder (in order to
 			<zipfileset dir="${build.dir}/doc" includes="${app.name}-doc-${version}-${release}.*" />
 		</zip>
 		<copy todir="${dist.internal.dir}">
-			<fileset dir="${basedir}/licenses" includes="twe-includes.txt" />
-			<mapper type="regexp" from="twe-includes.txt" to="twe-includes-${version}-${release}.txt" />
+			<fileset dir="${basedir}/licenses" includes="twe-includes.xlsx" />
+			<mapper type="regexp" from="twe-includes.xlsx" to="twe-includes-${version}-${release}.xlsx" />
 		</copy>
 	</target>
 
