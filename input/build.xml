@@ -1,0 +1,56 @@
+<project name="TWE-configurator" default="configure" basedir=".">
+
+	<target name="init" description="initialization">
+		<!-- What OS are we dealing with? -->
+		<condition property="os" value="windows">
+			<os family="windows" />
+		</condition>
+		<condition property="os" value="unix">
+			<os family="unix" />
+		</condition>
+		<condition property="slash" value="\">
+			<os family="windows" />
+		</condition>
+		<condition property="slash" value="/">
+			<os family="unix" />
+		</condition>
+
+		<replace dir="${basedir}" includes="build.properties" token="${slash}" value="/" />
+		<property file="build.properties" />
+
+		<property name="jdk.dir" value="${java.home}" />
+
+		<filterset id="Filter_dist">
+			<filter token="JAVA_PATH" value="${jdk.dir}" />
+			<filter token="INSTALL_DIR" value="${basedir}" />
+		</filterset>
+	</target>
+
+
+	<target name="configure" depends="init" description="Binary Configuration Process">
+		<mkdir dir="${basedir}/bin" />
+		<touch>
+			<fileset dir="${basedir}/dist/bin" />
+		</touch>
+
+		<copy todir="${basedir}/tmp" overwrite="yes">
+			<filterset refid="Filter_dist" />
+			<fileset dir="${basedir}/dist" />
+			<mapper type="glob" from="*.in" to="*" />
+		</copy>
+
+		<replace token="${slash}" value="/" dir="${basedir}/tmp" />
+
+		<copy todir="${basedir}" overwrite="yes">
+			<fileset dir="${basedir}/tmp" />
+		</copy>
+
+		<delete dir="${basedir}/tmp" quiet="yes" />
+
+		<chmod dir="${basedir}/bin" perm="a=rx" includes="*.sh" />
+
+		<replace token="@INSTALL_DIR@" value="${basedir}" dir="${basedir}/config/default" />
+		<replace token="${slash}" value="/" dir="${basedir}/config/default" />
+
+	</target>
+</project>

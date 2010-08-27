@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package Id="M8" Name="Model8" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <PackageHeader>
+        <XPDLVersion>1.0</XPDLVersion>
+        <Vendor>Together</Vendor>
+        <Created>24-Jul-2002</Created>
+    </PackageHeader>
+    <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+    <ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <ExternalPackages>
+        <ExternalPackage href="M1.xpdl"/>
+        <ExternalPackage href="M3.xpdl"/>
+        <ExternalPackage href="M4.xpdl"/>
+    </ExternalPackages>
+    <Participants>
+        <Participant Id="M8_Par1" Name="M8-P1">
+            <ParticipantType Type="ROLE"/>
+        </Participant>
+        <Participant Id="M8_Par2" Name="M8-P2">
+            <ParticipantType Type="ROLE"/>
+        </Participant>
+        <Participant Id="M8_Par3" Name="M8-P3">
+            <ParticipantType Type="ROLE"/>
+        </Participant>
+    </Participants>
+    <Applications>
+        <Application Id="M8_App2" Name="M8-App2"/>
+        <Application Id="M8_App1" Name="M8-App1"/>
+        <Application Id="M8_App3" Name="M8-App3"/>
+    </Applications>
+    <WorkflowProcesses>
+        <WorkflowProcess AccessLevel="PUBLIC" Id="M8_Wor1" Name="M8-WP1">
+            <ProcessHeader DurationUnit="D">
+                <Created>25-Jul-2002</Created>
+            </ProcessHeader>
+            <RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <Activities>
+                <Activity Id="M8_Wor1_Act1" Name="M8-W1-A1">
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <Performer>M8_Par1</Performer>
+                    <StartMode>
+                        <Automatic/>
+                    </StartMode>
+                    <FinishMode>
+                        <Automatic/>
+                    </FinishMode>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Join Type="XOR"/>
+                            <Split Type="XOR"/>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <ExtendedAttributes>
+                        <ExtendedAttribute Name="ParticipantID" Value="M8_Par1"/>
+                        <ExtendedAttribute Name="XOffset" Value="315"/>
+                        <ExtendedAttribute Name="YOffset" Value="89"/>
+                    </ExtendedAttributes>
+                </Activity>
+            </Activities>
+            <ExtendedAttributes>
+                <ExtendedAttribute Name="StartOfWorkflow" Value="M8_Par1;M8_Wor1_Act1;185;89;NOROUTING"/>
+                <ExtendedAttribute Name="EndOfWorkflow" Value="M8_Par1;M8_Wor1_Act1;509;89;NOROUTING"/>
+                <ExtendedAttribute Name="ParticipantVisualOrder" Value="M8_Par1;"/>
+            </ExtendedAttributes>
+        </WorkflowProcess>
+    </WorkflowProcesses>
+    <ExtendedAttributes>
+        <ExtendedAttribute Name="MadeBy" Value="JaWE"/>
+        <ExtendedAttribute Name="Version" Value="1.0"/>
+    </ExtendedAttributes>
+</Package>

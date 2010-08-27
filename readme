@@ -1,0 +1,68 @@
+This is the readme file for JaWE source distribution
+
+How to compile JaWE from sources
+---------------------------------
+
+1. edit build.properties file to set PATH to your JDK directory. You can use JDK1.4.2 or higher
+
+   Optionally, instead of editing build.properties file you can execute configure script from the root.
+   If you want to set specific JAVA version for building JaWE (different than the one registered with 
+   your system) then execute:
+
+      configure -jdkhome %JAVA_HOME%
+   
+   where JAVA_HOME is the path to your Java installation.
+   
+   
+2. execute make script
+   
+      
+When make process finishes, you will get JaWE binaries in output/twe-[version]-[release] folder.
+
+      NOTE: After you build JaWE, and if you want to "move" your binaries to the 
+            new location you need to execute:
+   
+               configure -instdir %INST_DIR%
+
+            where INST_DIR is the place where you want to put shark binaries, and then
+
+                  make install
+
+In the root of the project, there are eclipse project files that can help you to 
+configure JaWE project in eclipse.
+
+
+How to build JaWE from sources (Linux build)
+--------------------------------------------
+== Requirements (Linux build)==
+   1. Fedora 12 with
+     -  bash,
+     -  tar,
+     -  make and
+     -  java-1.6.0-openjdk-devel packages installed
+   2. TWE source archive
+
+== Build steps ==
+   = Unpack sources
+   = Change directory
+   = Run configure
+      Options to configure are:
+          -jdkhome to specify JDK location
+	  -debug
+	  -optimize
+
+   = Run make
+      Make targets are:
+        clean
+	buildAll
+	distributions
+
+Described procedure has been prooved on Fedora 12, but nobody says it wouldn't 
+work on other Linux flavors, provided equivalent prerequisites are met. 
+
+Example (this one would produce RPM distribution package):
+$ /bin/bash ./configure \
+  --jdkhome=/usr/lib/jvm/java-1.6.0-openjdk \
+  version=3.1 \
+  release=1
+$ make distributions

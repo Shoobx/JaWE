@@ -1,0 +1,37 @@
+package org.enhydra.jawe.components.propertiespanel.actions;
+
+import java.awt.event.ActionEvent;
+
+import org.enhydra.jawe.ActionBase;
+import org.enhydra.jawe.JaWEComponent;
+import org.enhydra.jawe.base.panel.InlinePanel;
+import org.enhydra.jawe.components.propertiespanel.PropertiesPanelComponent;
+import org.enhydra.shark.xpdl.XMLElement;
+
+/**
+ * @author Sasa Bojanic
+ */
+public class ParentElementPanel extends ActionBase {
+
+   protected InlinePanel ipc;
+	
+   public ParentElementPanel (JaWEComponent jawecomponent) {
+      super(jawecomponent);
+      this.ipc=(InlinePanel)((PropertiesPanelComponent)jawecomponent).getView();
+      setEnabled(false);
+   }
+
+   public void enableDisableAction() {
+      XMLElement el=ipc.getActiveElement();
+      if (el!=null && el.getParent()!=null) {
+         setEnabled(true);
+         return;
+      } 
+      
+      setEnabled(false);      
+   }
+   
+   public void actionPerformed(ActionEvent e) {
+      ipc.displayParentPanel();
+   }
+}

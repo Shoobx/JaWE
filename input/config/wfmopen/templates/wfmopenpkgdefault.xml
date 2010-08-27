@@ -1,0 +1,11 @@
+<Package>
+   <PackageHeader>
+      <XPDLVersion>1.0</XPDLVersion>
+      <Vendor>Together</Vendor>
+   </PackageHeader>
+   <ExtendedAttributes>
+      <ExtendedAttribute Name="RemoveClosedProcess" Value="AUTOMATIC" />
+      <ExtendedAttribute Name="StoreAuditEvents" Value="true" />
+      <ExtendedAttribute Name="AuditEventSelection" Value="AllEvents"/>
+    </ExtendedAttributes>
+</Package>

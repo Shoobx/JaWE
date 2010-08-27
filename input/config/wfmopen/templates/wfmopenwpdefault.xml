@@ -1,0 +1,8 @@
+<WorkflowProcess>
+   <ExtendedAttributes>
+      <ExtendedAttribute Name="RemoveClosedProcess" Value="AUTOMATIC" />
+      <ExtendedAttribute Name="StoreAuditEvents" Value="true" />
+      <ExtendedAttribute Name="AuditEventSelection" Value="AllEvents"/>
+      <ExtendedAttribute Name="Debug" Value="false"/>        
+   </ExtendedAttributes>
+</WorkflowProcess>

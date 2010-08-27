@@ -1,0 +1,376 @@
+<!-- ======================================================================= -->
+<!-- ANT-Makefile for TWE                                                    -->
+<!-- ======================================================================= -->
+<project name="TWE-modules" default="buildJars" basedir=".">
+
+	<!-- ==================================================================== -->
+	<!-- PROPERTIES                                                           -->
+	<!-- ==================================================================== -->
+
+	<!--Set the global variables-->
+	<property name="version" value="2.3" />
+	<property name="release" value="1" />
+	<property name="build.debug" value="off" />
+	<property name="build.optimize" value="on" />
+
+	<property name="project.name" value="TWE" />
+	<property name="app.name" value="twe" />
+
+	<!--Set the directories-->
+	<property name="ext.lib.dir" location="${basedir}/../lib" />
+
+	<!-- Set directories -->
+	<property name="output.dir" location="${basedir}/../output" />
+	<property name="build.dir" location="${output.dir}/${app.name}-${version}-${release}" />
+	<property name="output.lib.dir" location="${build.dir}/lib" />
+	<property name="util.dir" location="${basedir}/../util" />
+	<property name="doc.dir" location="${basedir}/../doc" />
+
+	<!--Classes directory-->
+	<property name="classes.dir" location="${basedir}/classes" />
+
+	<!--Classes directory-->
+	<property name="sources.dir" location="${basedir}/sources" />
+
+
+	<!--Set the main classpath-->
+	<path id="classpath">
+		<pathelement location="${ext.lib.dir}/jgraph.jar" />
+		<pathelement location="${ext.lib.dir}/jh.jar" />
+		<pathelement location="${ext.lib.dir}/batik-awt-util.jar" />
+		<pathelement location="${ext.lib.dir}/batik-dom.jar" />
+		<pathelement location="${ext.lib.dir}/batik-svggen.jar" />
+		<pathelement location="${ext.lib.dir}/batik-util.jar" />
+		<pathelement location="${ext.lib.dir}/batik-xml.jar" />
+		<pathelement location="${ext.lib.dir}/xercesImpl.jar" />
+		<pathelement location="${ext.lib.dir}/xml-apis.jar" />
+		<pathelement location="${ext.lib.dir}/itext.jar" />
+		<pathelement location="${ext.lib.dir}/jEdit-syntax.jar" />
+		<pathelement location="${ext.lib.dir}/sharkxpdlmodel.jar" />
+	</path>
+
+	<!-- Setting for SWITCH task -->
+	<taskdef name="switch" classname="net.sf.antcontrib.logic.Switch">
+		<classpath>
+			<fileset dir="${util.dir}/ant">
+				<include name="antcontrib.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<!-- ==================================================================== -->
+	<!-- Init target                                                          -->
+	<!-- ==================================================================== -->
+	<target name="init">
+		<!-- Operating system  -->
+		<condition property="os" value="windows">
+			<os family="windows" />
+		</condition>
+		<condition property="os" value="unix">
+			<os family="unix" />
+		</condition>
+
+		<!-- File separathor -->
+		<condition property="regexp.slash" value="\\">
+			<os family="windows" />
+		</condition>
+		<condition property="regexp.slash" value="/">
+			<os family="unix" />
+		</condition>
+
+		<delete dir="${classes.dir}" />
+		<delete dir="${sources.dir}" />
+
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${sources.dir}" />
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Create jar archive                                                   -->
+	<!-- ==================================================================== -->
+
+	<!-- ==================================================================== -->
+	<!-- Prepare output                                                       -->
+	<!-- ==================================================================== -->
+	<target name="prepare" depends="init">
+		<!--Set source content-->
+		<copy todir="${sources.dir}">
+			<fileset dir="${basedir}" />
+			<mapper type="regexp" from="^(.*)${regexp.slash}(src)${regexp.slash}(.*)$$" to="\3" />
+		</copy>
+
+		<!--Main Class-->
+		<property name="main.class" value="org.enhydra.jawe.JaWE" />
+
+		<!--Update build timestamp-->
+		<propertyfile file="${sources.dir}/org/enhydra/jawe/buildinfo.properties">
+			<entry key="version" value="${version}" />
+			<entry key="release" value="${release}" />
+			<entry key="buildno" type="date" value="now" pattern="yyyy/MM/dd HH:mm:ss" />
+			<entry key="jresuff" value="" />
+		</propertyfile>
+
+
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Content output                                                       -->
+	<!-- ==================================================================== -->
+	<target name="content" depends="prepare">
+		<copy todir="${classes.dir}">
+			<fileset dir="${basedir}/.." includes="License.txt" />
+			<fileset dir="${sources.dir}" includes="**/resources/*
+            , **/images/*
+            , **/properties/*
+            , **/*.properties
+            , **/language/*" excludes="**/language/JaWE_it.properties
+                     , **/language/JaWE_pl.properties
+                     , **/language/JaWE_zh_CN.properties" />
+
+		</copy>
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Compiling of project                                                 -->
+	<!-- ==================================================================== -->
+	<target name="compile" depends="content">
+		<javac target="${targetVM}" source="${targetVM}" srcdir="${sources.dir}" destdir="${classes.dir}" classpathref="classpath" debug="${build.debug}" optimize="${build.optimize}" encoding="ISO-8859-1" />
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Create jar archives                                                  -->
+	<!-- ==================================================================== -->
+	<target name="buildJars" depends="buildPicJar, buildLanJar, buildJar">
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Create picture archive                                               -->
+	<!-- ==================================================================== -->
+	<target name="buildPicJar" depends="compile">
+		<delete file="${output.lib.dir}/${app.name}pic.jar" />
+		<jar destfile="${output.lib.dir}/${app.name}pic.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/images/*.gif" />
+				<include name="**/jawe/images/*.jpg" />
+				<include name="**/jawe/images/*.png" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Create language archive                                              -->
+	<!-- ==================================================================== -->
+	<target name="buildLanJar" depends="compile">
+		<delete file="${output.lib.dir}/${app.name}lan.jar" />
+		<jar destfile="${output.lib.dir}/${app.name}lan.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/language/JaWE*.properties" />
+				<include name="**/language/jawelanguagemisc.properties" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Create jar archive                                                   -->
+	<!-- ==================================================================== -->
+	<target name="buildJar" depends="compile">
+		<delete file="${output.lib.dir}/*.jar" />
+
+		<jar destfile="${output.lib.dir}/${app.name}core.jar">
+			<fileset dir="${classes.dir}">
+				<exclude name="**/jawe/images/**" />
+				<exclude name="**/jawe/language/**" />
+				<exclude name="**/shark/**" />
+				<exclude name="**/jped/**" />
+				<exclude name="**/components/debug/**" />
+				<exclude name="**/components/detailedpackagenavigator/**" />
+				<exclude name="**/components/extpkgrelations/**" />
+				<exclude name="**/jawe/HistoryMgr.class" />
+				<exclude name="**/jawe/UndoHistoryMgr.class" />
+				<exclude name="**/components/infobar/**" />
+				<exclude name="**/components/languageswitcher/**" />
+				<exclude name="**/components/ldap/**" />
+				<exclude name="**/components/packagenavigator/**" />
+				<exclude name="**/components/problemsnavigator/**" />
+				<exclude name="**/components/propertiespanel/**" />
+				<exclude name="**/components/reconfiguration/**" />
+				<exclude name="**/jawe/samples/**" />
+				<exclude name="**/components/searchnavigator/**" />
+				<exclude name="**/components/transpkgpool/**" />
+				<exclude name="**/wfmopen/**" />
+				<exclude name="**/components/wfxml/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+
+		<jar destfile="${output.lib.dir}/${app.name}jped.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jped/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+
+		<jar destfile="${output.lib.dir}/${app.name}historymgr.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/HistoryMgr.class" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}undomgr.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/UndoHistoryMgr.class" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+
+		<jar destfile="${output.lib.dir}/${app.name}detailedpackagenavigator.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/detailedpackagenavigator/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}extpkgrelations.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/extpkgrelations/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}infobar.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/infobar/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}languageswitcher.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/languageswitcher/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}ldap.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/ldap/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}packagenavigator.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/packagenavigator/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}problemsnavigator.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/problemsnavigator/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}propertiespanel.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/propertiespanel/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}reconfiguration.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/reconfiguration/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}searchnavigator.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/searchnavigator/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}transpkgpool.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/transpkgpool/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}wfxml.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/components/wfxml/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+
+		<jar destfile="${output.lib.dir}/${app.name}shark.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/shark/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}wfmopen.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/wfmopen/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+		<jar destfile="${output.lib.dir}/${app.name}samples.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/jawe/samples/**" />
+			</fileset>
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}-${release}" />
+			</manifest>
+		</jar>
+
+	</target>
+
+	<!-- ==================================================================== -->
+	<!-- Cleans everything                                                    -->
+	<!-- ==================================================================== -->
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+		<delete dir="${sources.dir}" />
+		<delete quiet="true">
+			<fileset dir="${output.lib.dir}" includes="*.jar" />
+		</delete>
+	</target>
+
+</project>
+

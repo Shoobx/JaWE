@@ -1,0 +1,9 @@
+
+This is the README file for JaWE binary zip distribution
+********************************************************
+
+To start this distribution of JaWE, you just need to have
+JAVA in your path.
+
+JaWE will execute when you start bin/run.bat or bin/run.sh script
+
