@@ -385,7 +385,10 @@ public class Utils {
       URL u = Utils.class.getClassLoader().getResource("org/enhydra/jawe/language");
       File path = null;
       if (u != null) {
-         path = new File(u.getPath());
+         try {
+            path = new File(u.toURI());
+         } catch (Exception ex) {
+         }
       }
       // if folder exists and realy is a folder but not file
       if (path != null && path.exists() && path.isDirectory()) {
