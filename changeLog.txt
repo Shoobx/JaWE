@@ -1,3 +1,7 @@
+2010-08-29 Sasa Bojanic <sasaboy@together.at>
+   # Updated Together license
+   # Added copyright and GPL V3 comment at top of every source file
+
 2010-08-27 Sasa Bojanic <sasaboy@together.at>
    # Fix in Utils.java class - path with empty space problem and findPropertyFiles() method usage in eclipse
    
