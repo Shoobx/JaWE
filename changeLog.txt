@@ -1,3 +1,7 @@
+2010-08-30 Sasa Bojanic <sasaboy@together.at>
+   # Updated sharkxpdlmodel.jar to version 3.2-2
+   # build.xml - cleanup related to exclusion of doc\tmp folder from source build
+
 2010-08-29 Sasa Bojanic <sasaboy@together.at>
    # Updated Together license
    # Added copyright and GPL V3 comment at top of every source file

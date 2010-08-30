@@ -498,7 +498,7 @@ clean               - removes the output folder (in order to
 		<echo message="Creating ${app.name}-${version}-${release}.src.zip source archive, please wait ..." />
 
 		<zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-			<zipfileset dir="${basedir}" excludes="sign.properties, log_*.txt, License-TOG.txt, .settings/**, doc/tmp/***, distribution/**, classes/**, **/language/JaWE_it.properties
+			<zipfileset dir="${basedir}" excludes="sign.properties, log_*.txt, License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**, **/language/JaWE_it.properties
 										, **/language/JaWE_pl.properties
 										  , **/language/JaWE_zh_CN.properties" prefix="${app.name}-${version}-${release}.src" />
 		</zip>
@@ -510,7 +510,7 @@ clean               - removes the output folder (in order to
 				<move file="${basedir}/License.txt" tofile="${basedir}/License.tmp" overwrite="true" />
 				<move file="${basedir}/License-TOG.txt" tofile="${basedir}/License.txt" overwrite="true" />
 				<zip destfile="${dist.customers.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
-					<zipfileset dir="${basedir}" excludes="sign.properties, License.tmp, .settings/**, doc/tmp/***, distribution/**, classes/**, **/language/JaWE_it.properties
+					<zipfileset dir="${basedir}" excludes="sign.properties, License.tmp, .settings/**, doc/tmp/**, distribution/**, classes/**, **/language/JaWE_it.properties
 												, **/language/JaWE_pl.properties
 												  , **/language/JaWE_zh_CN.properties,**/jped/**,lib/itext.jar" prefix="${app.name}-${version}-${release}.src" />
 				</zip>
@@ -539,7 +539,7 @@ clean               - removes the output folder (in order to
 
 		<tar destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar">
 			<tarfileset dir="${basedir}/doc" prefix="${app.name}-${version}-${release}.src/doc" includes="License.txt"/>
-			<tarfileset dir="${modules.dir}/core" excludes=".settings/**, doc/tmp/***, distribution/**, **/language/JaWE_it.properties
+			<tarfileset dir="${modules.dir}/core" excludes=".settings/**, doc/tmp/**, distribution/**, **/language/JaWE_it.properties
 										, **/language/JaWE_pl.properties
 										  , **/language/JaWE_zh_CN.properties" prefix="${app.name}-${version}-${release}.src/modules" />
 			<tarfileset dir="${modules.dir}" includes="build.xml" prefix="${app.name}-${version}-${release}.src/modules" />
