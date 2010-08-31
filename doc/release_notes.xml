@@ -45,6 +45,21 @@
   </chapter>
 
   <chapter>
+    <title>What's new in TWE 3.2-2</title>
+
+    <para>This chapter lists the new or updated features associated with
+    TWE.</para>
+
+    <para>- Added copyright and GPL V3 comment at top of every source
+    file</para>
+
+    <para>- Updated sharkxpdlmodel.jar to version 3.2-2</para>
+
+    <para>- Fix in Utils.java class - path with empty space problem and
+    findPropertyFiles() method usage in eclipse</para>
+  </chapter>
+
+  <chapter>
     <title>What's new in TWE 3.2-1</title>
 
     <para>This chapter lists the new or updated features associated with

@@ -1,3 +1,4 @@
+###### TWE 3.2-2 RELEASED ######
 2010-08-30 Sasa Bojanic <sasaboy@together.at>
    # Updated sharkxpdlmodel.jar to version 3.2-2
    # build.xml - cleanup related to exclusion of doc\tmp folder from source build
