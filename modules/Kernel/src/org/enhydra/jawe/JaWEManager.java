@@ -153,7 +153,7 @@ public class JaWEManager {
 
         buildEd = "C";
         splash = "org/enhydra/jawe/images/JaWESplash.jpg";
-        aboutMsg = " Visit <a href=\"http://www.together.at/together/prod/twe/index.html\">Together Workflow Editor Homepage</a>"
+        aboutMsg = " Visit <a href=\"http://www.together.at/prod/workflow/twe\">Together Workflow Editor Homepage</a>"
                 + " for more <br>information about the product."
                 + "<br><br>For support please contact: <a href=\"mailto:jawe@enhydra.org\">jawe@enhydra.org</a>"
                 + "<br><br>© <a href=\"http://www.together.at\">Together Teamsolutions Co., Ltd</a></p>";

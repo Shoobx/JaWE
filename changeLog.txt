@@ -19,6 +19,7 @@
    # build number (in about box) does not contain C anymore
    # when XPDL file gets created by the editor, Vendor name now set to (c) Together Teamsolutions Co., Ltd.
    # docbook upgraded to version 1.75.2
+   # link to the homepage changed
    
 ###### TWE 3.2-2 RELEASED ######
 2010-08-30 Sasa Bojanic <sasaboy@together.at>

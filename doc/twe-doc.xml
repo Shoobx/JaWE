@@ -106,7 +106,7 @@
     <para><ulink
     url="http://www.together.at/together/prod/twe/index.html">Together
     Workflow Editor
-    (http://www.together.at/together/prod/twe/index.html)</ulink> is a visual
+    (http://www.together.at/prod/workflow/twe)</ulink> is a visual
     tool for creating, managing and reviewing process definitions stored in
     WfMC XPDL syntax.</para>
 
@@ -576,7 +576,7 @@ sect1>
       url="http://java.sun.com">http://java.sun.com</ulink> .</para>
 
       <para>The Together Workflow Editor home page is located at <ulink
-      url="http://www.together.at/together/prod/twe/index.html">http://www.together.at/together/prod/twe/index.html</ulink>.</para>
+      url="http://www.together.at/prod/workflow/twe">http://www.together.at/prod/workflow/twe</ulink>.</para>
 
       <para><ulink url="http://www.jgraph.com">JGraph
       (http://www.jgraph.com)</ulink> is an open-source swing graph component

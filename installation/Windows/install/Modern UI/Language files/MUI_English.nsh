@@ -30,12 +30,12 @@
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Together Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION}-${RELEASE}"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Together Workflow Editor is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Together Teamsolutions Co., Ltd"
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Together Teamsolutions Co., Ltd."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "Together (R) is a registered trademark of Together Teamsolutions Co., Ltd."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Current version" "${VERSION}-${RELEASE}"
 
    LangString home_page_link ${LANG_ENGLISH} "Visit Together Workflow Editor Homepage"
-   LangString home_page_link_location ${LANG_ENGLISH} "http://www.together.at/together/prod/twe/index.html"
+   LangString home_page_link_location ${LANG_ENGLISH} "http://www.together.at/prod/workflow/twe"
 
    LangString TEXT_IO_TITLE ${LANG_ENGLISH} "Java Setup"
    LangString TEXT_IO_SUBTITLE ${LANG_ENGLISH} "Choose J2SDK 1.4.1 or more"
@@ -75,10 +75,10 @@
    LangString Manual ${LANG_ENGLISH} "Manual" 
    LangString Uninstall ${LANG_ENGLISH}  "Uninstall"
 
-   LangString Publisher ${LANG_ENGLISH}  "Together Teamsolutions Co., Ltd"
+   LangString Publisher ${LANG_ENGLISH}  "Together Teamsolutions Co., Ltd."
    LangString URLInfoAbout ${LANG_ENGLISH}  "www.together.at"
-   LangString URLUpdateInfo ${LANG_ENGLISH}  "www.together.at/together/prod/twe/index.html"
-   LangString HelpLink ${LANG_ENGLISH}  "www.together.at/together/prod/twe/index.html"
+   LangString URLUpdateInfo ${LANG_ENGLISH}  "http://www.together.at/prod/workflow/twe"
+   LangString HelpLink ${LANG_ENGLISH}  "http://www.together.at/prod/workflow/twe"
 
    LangString Start ${LANG_ENGLISH}  "Start"
  
