@@ -119,7 +119,7 @@ public class XPDLObjectFactory {
       PackageHeader ph = pkg.getPackageHeader();
       if (!hasTemplate) {
          ph.setXPDLVersion("1.0");
-         ph.setVendor("Together");
+         ph.setVendor("(c) Together Teamsolutions Co., Ltd.");
       }
       ph.setCreated(Utils.getCurrentDateAndTime());
 

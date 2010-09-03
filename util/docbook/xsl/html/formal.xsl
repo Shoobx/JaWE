@@ -3,12 +3,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: formal.xsl,v 1.3 2006/09/21 11:51:03 sasa Exp $
+     $Id: formal.xsl 8310 2009-03-11 08:29:45Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -16,7 +16,9 @@
 
 <xsl:template name="formal.object">
   <xsl:param name="placement" select="'before'"/>
-  <xsl:param name="class" select="local-name(.)"/>
+  <xsl:param name="class">
+    <xsl:apply-templates select="." mode="class.value"/>
+  </xsl:param>
 
   <xsl:call-template name="id.warning"/>
 
@@ -183,15 +185,14 @@
       <xsl:call-template name="calsTable"/>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:copy>
-        <xsl:copy-of select="@*"/>
-        <xsl:if test="not(@id)">
-          <xsl:attribute name="id">
-            <xsl:call-template name="object.id"/>
-          </xsl:attribute>
-        </xsl:if>
+      <!-- do not use xsl:copy because of XHTML's needs -->
+      <xsl:element name="table" namespace="">
+        <xsl:apply-templates select="@*" mode="htmlTableAtt"/>
+        <xsl:attribute name="id">
+          <xsl:call-template name="object.id"/>
+        </xsl:attribute>
         <xsl:call-template name="htmlTable"/>
-      </xsl:copy>
+      </xsl:element>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -326,10 +327,13 @@
       </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
-      <table>
-        <xsl:copy-of select="@*"/>
+      <xsl:element name="table" namespace="">
+        <xsl:apply-templates select="@*" mode="htmlTableAtt"/>
+        <xsl:attribute name="id">
+          <xsl:call-template name="object.id"/>
+        </xsl:attribute>
         <xsl:call-template name="htmlTable"/>
-      </table>
+      </xsl:element>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>

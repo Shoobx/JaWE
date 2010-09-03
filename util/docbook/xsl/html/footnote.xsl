@@ -5,12 +5,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: footnote.xsl,v 1.3 2006/09/21 11:51:03 sasa Exp $
+     $Id: footnote.xsl 8421 2009-05-04 07:49:49Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -28,6 +28,7 @@
       <sup>
         <xsl:text>[</xsl:text>
         <a name="{$name}" href="{$href}">
+          <xsl:apply-templates select="." mode="class.attribute"/>
           <xsl:apply-templates select="." mode="footnote.number"/>
         </a>
         <xsl:text>]</xsl:text>
@@ -37,6 +38,7 @@
       <sup>
         <xsl:text>[</xsl:text>
         <a name="{$name}" href="{$href}">
+          <xsl:apply-templates select="." mode="class.attribute"/>
           <xsl:apply-templates select="." mode="footnote.number"/>
         </a>
         <xsl:text>]</xsl:text>
@@ -48,15 +50,32 @@
 <xsl:template match="footnoteref">
   <xsl:variable name="targets" select="key('id',@linkend)"/>
   <xsl:variable name="footnote" select="$targets[1]"/>
-  <xsl:variable name="href">
-    <xsl:text>#ftn.</xsl:text>
-    <xsl:call-template name="object.id">
+
+  <xsl:if test="not(local-name($footnote) = 'footnote')">
+   <xsl:message terminate="yes">
+ERROR: A footnoteref element has a linkend that points to an element that is not a footnote. 
+Typically this happens when an id attribute is accidentally applied to the child of a footnote element. 
+target element: <xsl:value-of select="local-name($footnote)"/>
+linkend/id: <xsl:value-of select="@linkend"/>
+   </xsl:message>
+  </xsl:if>
+
+  <xsl:variable name="target.href">
+    <xsl:call-template name="href.target">
       <xsl:with-param name="object" select="$footnote"/>
     </xsl:call-template>
   </xsl:variable>
+
+  <xsl:variable name="href">
+    <xsl:value-of select="substring-before($target.href, '#')"/>
+    <xsl:text>#ftn.</xsl:text>
+    <xsl:value-of select="substring-after($target.href, '#')"/>
+  </xsl:variable>
+
   <sup>
     <xsl:text>[</xsl:text>
     <a href="{$href}">
+      <xsl:apply-templates select="." mode="class.attribute"/>
       <xsl:apply-templates select="$footnote" mode="footnote.number"/>
     </a>
     <xsl:text>]</xsl:text>
@@ -118,14 +137,16 @@
     </xsl:call-template>
   </xsl:variable>
   <p>
+    <xsl:call-template name="locale.html.attributes"/>
     <xsl:if test="@role and $para.propagates.style != 0">
-      <xsl:attribute name="class">
-        <xsl:value-of select="@role"/>
-      </xsl:attribute>
+      <xsl:apply-templates select="." mode="class.attribute">
+        <xsl:with-param name="class" select="@role"/>
+      </xsl:apply-templates>
     </xsl:if>
     <sup>
       <xsl:text>[</xsl:text>
       <a name="{$name}" href="{$href}">
+        <xsl:apply-templates select="." mode="class.attribute"/>
         <xsl:apply-templates select="ancestor::footnote"
                              mode="footnote.number"/>
       </a>
@@ -154,6 +175,7 @@
     <sup>
       <xsl:text>[</xsl:text>
       <a name="{$name}" href="{$href}">
+        <xsl:apply-templates select="." mode="class.attribute"/>
         <xsl:apply-templates select="ancestor::footnote"
                              mode="footnote.number"/>
       </a>
@@ -166,7 +188,7 @@
   </xsl:variable>
 
   <xsl:choose>
-    <xsl:when test="function-available('exsl:node-set')">
+    <xsl:when test="$exsl.node.set.available != 0">
       <xsl:variable name="html-nodes" select="exsl:node-set($html)"/>
       <xsl:choose>
         <xsl:when test="$html-nodes//p">
@@ -194,8 +216,8 @@
   <xsl:param name="from" select=".."/>
   <xsl:param name="to" select="."/>
   <xsl:param name="count" select="0"/>
-  <xsl:param name="list" select="$from/following::*[name(.)=name($to)]
-                                 |$from/descendant-or-self::*[name(.)=name($to)]"/>
+  <xsl:param name="list" select="$from/following::*[local-name(.)=local-name($to)]
+                                 |$from/descendant-or-self::*[local-name(.)=local-name($to)]"/>
 
   <xsl:choose>
     <xsl:when test="not($list)">
@@ -221,7 +243,7 @@
   <xsl:if test="count($footnotes)>count($table.footnotes)">
     <div class="footnotes">
       <br/>
-      <hr width="100" align="left"/>
+      <hr width="100" align="{$direction.align.start}"/>
       <xsl:apply-templates select="$footnotes" mode="process.footnote.mode"/>
     </div>
   </xsl:if>
@@ -247,13 +269,16 @@
 <xsl:template match="footnote" name="process.footnote" mode="process.footnote.mode">
   <xsl:choose>
     <xsl:when test="local-name(*[1]) = 'para' or local-name(*[1]) = 'simpara'">
-      <div class="{name(.)}">
+      <div>
+        <xsl:call-template name="common.html.attributes"/>
         <xsl:apply-templates/>
       </div>
     </xsl:when>
 
-    <xsl:when test="$html.cleanup != 0 and function-available('exsl:node-set')">
-      <div class="{name(.)}">
+    <xsl:when test="$html.cleanup != 0 and 
+                    $exsl.node.set.available != 0">
+      <div>
+        <xsl:call-template name="common.html.attributes"/>
         <xsl:apply-templates select="*[1]" mode="footnote.body.number"/>
         <xsl:apply-templates select="*[position() &gt; 1]"/>
       </div>
@@ -266,7 +291,8 @@
         <xsl:value-of select="local-name(*[1])"/>
         <xsl:text> unexpected as first child of footnote.</xsl:text>
       </xsl:message>
-      <div class="{name(.)}">
+      <div>
+        <xsl:call-template name="common.html.attributes"/>
         <xsl:apply-templates/>
       </div>
     </xsl:otherwise>

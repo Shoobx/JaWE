@@ -148,27 +148,7 @@ public class JaWEManager {
     protected JaWEManager() {
         version = BuildInfo.getVersion();
         release = BuildInfo.getRelease();
-        long bn = BuildInfo.getBuildNo();
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(bn);
-        String y = String.valueOf(cal.get(Calendar.YEAR));
-        String m = String.valueOf(cal.get(Calendar.MONTH) + 1);
-        if (m.length() == 1) {
-            m = "0" + m;
-        }
-        String d = String.valueOf(cal.get(Calendar.DATE));
-        if (d.length() == 1) {
-            d = "0" + d;
-        }
-        String h = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
-        if (h.length() == 1) {
-            h = "0" + h;
-        }
-        String min = String.valueOf(cal.get(Calendar.MINUTE));
-        if (min.length() == 1) {
-            min = "0" + min;
-        }
-        buildNo = y + m + d + "-" + h + min;
+        buildNo = BuildInfo.getBuildNo();
         buildEdSuff = BuildInfo.getJRESuffix();
 
         buildEd = "C";
@@ -176,7 +156,7 @@ public class JaWEManager {
         aboutMsg = " Visit <a href=\"http://www.together.at/together/prod/twe/index.html\">Together Workflow Editor Homepage</a>"
                 + " for more <br>information about the product."
                 + "<br><br>For support please contact: <a href=\"mailto:jawe@enhydra.org\">jawe@enhydra.org</a>"
-                + "<br><br>© <a href=\"http://www.together.at\">Together Teamlösungen EDV Dienstleistungen GmbH</a></p>";
+                + "<br><br>© <a href=\"http://www.together.at\">Together Teamsolutions Co., Ltd</a></p>";
         additionalLicenseText = "<html><p align center>" + "<br>LGPL Sources are available at "
                 + "<a href=\"http://jawe.enhydra.org\">http://jawe.enhydra.org</a>"
                 + "<br><br>This product includes software developed by the "

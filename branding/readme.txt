@@ -1,4 +1,22 @@
-   How to re-brand TWE
+# Together Workflow Editor 
+# Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses
+#
+#######################################################################
+
+How to re-brand TWE
 
 
 To re-brand TWE you basically need to do 2 things:
@@ -48,11 +66,11 @@ config         If you want to change some of the existing TWE configuration mode
                                                      -> changed graph grid color
 
 doc            If you want to change documentation and pictures appearing in the documentation,
-               in this folder you should put the modified twe.xml file and in Images sub-folder
+               in this folder you should put the modified twe-doc.xml file and in Images sub-folder
                you should put all the pictures from the original folder you want to override.
-               Example twe.xml file changes all the occurences of TWE with XYZ, all occurences
+               Example twe-doc.xml file changes all the occurences of TWE with XYZ, all occurences
                of Together Workflow Editor with XYZ Workflow Editor, all occurences of
-               Together Teamlösungen EDV-Dienstleistungen GmbH. with XYZ Company, all the URLs
+               Together Teamsolutions Co., Ltd. with XYZ Company, all the URLs
                to together site with URLs to google site, etc. Example images folder provides
                two images to override - these images in their original form contain Together
                company logo and TWE logo.
@@ -91,9 +109,3 @@ license        In this folder you put your own license. This license can appear 
 
 registry       This folder contains icons that will be used to register application in windows registry.
                Example shows icon for XPDL file extension and icon for the editor itself.
-
-
-
-
-
-

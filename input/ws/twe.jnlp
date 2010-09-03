@@ -2,7 +2,7 @@
 <jnlp spec="1.0+"	codebase="http://jawe.enhydra.org" href="twe.jnlp">
 <information>
 	<title>Together Workflow Editor Web Start @VERSION@-@RELEASE@</title>
-	<vendor>Together Teamlosungen GmbH</vendor>
+	<vendor>Together Teamsolutions Co., Ltd.</vendor>
 	<homepage href="http://jawe.enhydra.org"/>
 	<description kind="short">Together Workflow Editor Web Start @VERSION@-@RELEASE@</description>
 	<icon href="images/TWE_32.gif"/>

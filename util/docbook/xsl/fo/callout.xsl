@@ -8,12 +8,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: callout.xsl,v 1.2 2006/09/21 11:50:57 sasa Exp $
+     $Id: callout.xsl 6910 2007-06-28 23:23:30Z xmldoc $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -84,7 +84,8 @@
 </xsl:template>
 
 <xsl:template match="co">
-  <fo:inline id="{@id}">
+  <fo:inline>
+    <xsl:call-template name="anchor"/>
     <xsl:apply-templates select="." mode="callout-bug"/>
   </fo:inline>
 </xsl:template>
@@ -94,7 +95,6 @@
   <!-- "over there" as if it were "right here" -->
 
   <xsl:variable name="co" select="key('id', @linkend)"/>
-  <xsl:variable name="id" select="@id"/>
   <xsl:choose>
     <xsl:when test="not($co)">
       <xsl:message>
@@ -110,11 +110,7 @@
     </xsl:when>
     <xsl:otherwise>
       <fo:inline>
-        <xsl:if test="$id != ''">
-	  <xsl:attribute name="id">
-	    <xsl:value-of select="$id"/>
-	  </xsl:attribute>
-	</xsl:if>
+        <xsl:call-template name="anchor"/>
         <xsl:apply-templates select="$co" mode="callout-bug"/>
       </fo:inline>
     </xsl:otherwise>
@@ -140,9 +136,11 @@
     <xsl:when test="$callout.graphics != '0'
                     and $conum &lt;= $callout.graphics.number.limit">
       <xsl:variable name="filename"
-                    select="concat($callout.graphics.path,$conum,$callout.graphics.extension)"/>
+                    select="concat($callout.graphics.path, $conum,
+		                   $callout.graphics.extension)"/>
 
-      <fo:external-graphic>
+      <fo:external-graphic content-width="{$callout.icon.size}"
+                           width="{$callout.icon.size}">
         <xsl:attribute name="src">
           <xsl:choose>
             <xsl:when test="$passivetex.extensions != 0

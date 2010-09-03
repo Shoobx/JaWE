@@ -1,3 +1,19 @@
+rem #    Together Workflow Editor
+rem #    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+rem #
+rem #    This program is free software: you can redistribute it and/or modify
+rem #    it under the terms of the GNU General Public License as published by
+rem #    the Free Software Foundation, either version 3 of the License, or 
+rem #    (at your option) any later version.
+rem #
+rem #    This program is distributed in the hope that it will be useful, 
+rem #    but WITHOUT ANY WARRANTY; without even the implied warranty of
+rem #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+rem #    GNU General Public License for more details.
+rem # 
+rem #    You should have received a copy of the GNU General Public License
+rem #    along with this program. If not, see http://www.gnu.org/licenses
+rem #-----------------------------------------------------------------------
 @echo off
 cls
 rem *********************************************
@@ -8,7 +24,7 @@ SET SET_JDKHOME=off
 
 SET JDKHOME=%JAVA_HOME%
 
-if exist build.properties goto init
+if exist configure.properties goto init
 
 rem *********************************************
 rem *  Set properties values from user input
@@ -29,10 +45,10 @@ goto make
 
 
 rem *********************************************
-rem *  Init build.properties parameters
+rem *  Init configure.properties parameters
 rem *********************************************
 :init
-find "jdk.dir" < build.properties > javadir.txt
+find "jdk.dir" < configure.properties > javadir.txt
 for /F "tokens=1,2* delims==" %%i in (javadir.txt) do SET JDKHOME=%%j
 del javadir.txt>nul
 if "X%JDKHOME%"=="X" goto initjava
@@ -43,11 +59,11 @@ JDKHOME=%JAVA_HOME%
 goto start
 
 rem *********************************************************
-rem *  Edit parameters (build.properties)
+rem *  Edit parameters (configure.properties)
 rem *********************************************************
 :make
-if exist build.properties del build.properties
-echo jdk.dir=^%JDKHOME%>build.properties
+if exist configure.properties del configure.properties
+echo jdk.dir=^%JDKHOME%>configure.properties
 
 set OLDCLASSPATH=%CLASSPATH%
 set OLDPATH=%PATH%
@@ -82,7 +98,7 @@ rem *********************************************************
 echo.
 echo Parameters value for using with configure.bat :
 echo.
-echo configure       - Make build.properties file with default 'jdk.dir' value
+echo configure       - Make configure.properties file with default 'jdk.dir' value
 echo.
 echo configure -help - Display this screen
 echo.
@@ -91,7 +107,7 @@ echo.
 echo.
 echo Examples :
 echo.
-echo configure -jdkhome C:/j2sdk1.4.2
+echo configure -jdkhome C:/jdk1.6.0_20
 echo.
 goto end
 

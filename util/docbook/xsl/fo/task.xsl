@@ -4,12 +4,12 @@
                 version="1.0">
 
 <!-- ********************************************************************
-     $Id: task.xsl,v 1.2 2006/09/21 11:50:58 sasa Exp $
+     $Id: task.xsl 8011 2008-05-23 15:14:57Z mzjn $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -40,8 +40,18 @@
                 select="*[not(self::title
                               or self::titleabbrev)]"/>
 
+  <xsl:variable name="keep.together">
+    <xsl:call-template name="pi.dbfo_keep-together"/>
+  </xsl:variable>
+
   <fo:block id="{$id}"
             xsl:use-attribute-sets="formal.object.properties">
+
+    <xsl:if test="$keep.together != ''">
+      <xsl:attribute name="keep-together.within-column"><xsl:value-of
+      select="$keep.together"/></xsl:attribute>
+    </xsl:if>
+
     <xsl:call-template name="anchor"/>
 
     <xsl:if test="title and $placement = 'before'">

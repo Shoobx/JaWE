@@ -1,3 +1,20 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
 <!-- ======================================================================= -->
 <!-- ANT-Makefile for TWE                                                    -->
 <!-- ======================================================================= -->
@@ -61,15 +78,6 @@
 
 		<!-- Setting for IF task -->
 		<taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
-			<classpath>
-				<fileset dir="${util.dir}/ant">
-					<include name="antcontrib.jar" />
-				</fileset>
-			</classpath>
-		</taskdef>
-
-		<!-- Setting for SWITCH task -->
-		<taskdef name="switch" classname="net.sf.antcontrib.logic.Switch">
 			<classpath>
 				<fileset dir="${util.dir}/ant">
 					<include name="antcontrib.jar" />
@@ -148,6 +156,7 @@
 		<!-- Configuration Build -->
 		<copy todir="${build.dir}">
 			<fileset dir="${input.dir}" includes="build.xml, *.${include.ext}" />
+			<fileset dir="${doc.dir}" includes="README" />
 		</copy>
 		<chmod dir="${build.dir}" perm="a=rx" includes="*.${include.ext}" />
 
@@ -175,14 +184,11 @@
 			</fileset>
 		</copy>
 		<copy todir="${build.dir}/licenses">
-			<fileset dir="${basedir}/licenses" includes="*.*" excludes="twe-includes*" />
+			<fileset dir="${basedir}/licenses" includes="*.*" excludes="twe-includes*,License-TOG.txt" />
 		</copy>
 		<copy todir="${build.dir}/licenses">
 			<fileset dir="${basedir}/licenses" includes="*.*" />
 			<mapper type="regexp" from="twe-includes.xlsx" to="twe-includes-${version}-${release}.xlsx" />
-		</copy>
-		<copy todir="${build.dir}">
-			<fileset dir="${basedir}" includes="License.txt" />
 		</copy>
 		<mkdir dir="${build.dir}/config/default" />
 
@@ -208,24 +214,16 @@
 	<!-- ==================================================================== -->
 	<!-- Builds Documentation                                                 -->
 	<!-- ==================================================================== -->
-	<target name="buildDoc" depends="output">
+	<target name="buildAllDoc" depends="output">
 		<ant dir="${doc.dir}" />
 	</target>
 
 	<!-- ==================================================================== -->
 	<!-- Builds DocBook Documentation                                         -->
 	<!-- ==================================================================== -->
-	<target name="buildDocBook" depends="init-post">
+	<target name="buildDoc" depends="init-post">
 		<ant dir="${doc.dir}" target="buildDocBook" />
 	</target>
-
-	<!-- ==================================================================== -->
-	<!-- Builds release notes Documentation                                   -->
-	<!-- ==================================================================== -->
-	<target name="buildReleaseNotes" depends="init-post">
-		<ant dir="${doc.dir}" target="releasenotes" />
-	</target>
-
 
 	<!-- ==================================================================== -->
 	<!-- Builds all                                                           -->
@@ -236,13 +234,13 @@
 	<!-- ==================================================================== -->
 	<!-- Builds all                                                           -->
 	<!-- ==================================================================== -->
-	<target name="buildAll" depends="init, output, buildDoc, configure">
+	<target name="buildAll" depends="init, output, buildAllDoc, configure">
 	</target>
 
 	<!-- ==================================================================== -->
 	<!-- Builds all output                                                    -->
 	<!-- ==================================================================== -->
-	<target name="buildOutput" depends="init, output, buildDoc">
+	<target name="buildOutput" depends="init, output, buildAllDoc">
 	</target>
 
 	<!-- ==================================================================== -->
@@ -256,13 +254,11 @@
 		<delete quiet="true">
 			<fileset dir="${basedir}" includes="log_*.txt" />
 		</delete>
-	</target>
-
-	<!-- ==================================================================== -->
-	<!-- Cleans everything                                                    -->
-	<!-- ==================================================================== -->
-	<target name="cleanAll" depends="clean">
+		<delete quiet="true">
+			<fileset dir="${basedir}/doc" includes="log.txt" />
+		</delete>
 		<delete dir="${basedir}/doc/tmp" />
+		<delete dir="${basedir}/installation/unix/rpm" />
 	</target>
 
 	<!-- ==================================================================== -->
@@ -293,30 +289,23 @@
 	<!-- ==================================================================== -->
 	<target name="help">
 		<echo>
-Please use ant with one of the following targets:
--------------------------------------------------
-help                - Display this screen
-buildAll            - builds and configures ${project.name} with
-                   all documentations
-buildNoDoc          - builds and configures ${project.name} without
-                   documentation
-buildDistributions  - builds and configures ${project.name} with
-                   all documentations and creates distribution;
-                   nsis 2.0b should be included in ${project.name} if
-                   doesn't exist (files makensis.exe and
-                   makensisw.exe in ${project.name}/installation/Windows/install
-                   directory)
-install             - Configure installed ${project.name}
-clean               - removes the output folder (in order to
-                   start a new compilation from scratch)
--------------------------------------------------
-   </echo>
+make                     - Displays this Help screen
+make help                - Displays this Help screen
+make buildAll            - Builds and configures TWE with javadoc and docbook documentation
+make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
+make buildDoc            - Builds docbook documentation
+make dependencies        - Builds and configures TWE, and creates TWS dependencies within distributions folder
+make install             - Install and configure TWE
+make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
+make distributions       - Builds and configures TWE with all documentations and creates distribution package
+		</echo>
 	</target>
+
 
 	<!-- ==================================================================== -->
 	<!-- Distributions                                                        -->
 	<!-- ==================================================================== -->
-	<target name="buildDistributions" depends="prepare, clean, initDist, distSource, distBin, _dependencies" />
+	<target name="distributions" depends="prepare, clean, initDist, distSource, distBin, _dependencies" />
 
 	<target name="initDist">
 		<mkdir dir="${dist.community.dir}" />
@@ -349,19 +338,22 @@ clean               - removes the output folder (in order to
 					<param name="dist.folder" value="${dist.community.dir}" />
 					<param name="name.additional" value="" />
 				</antcall>
-				<available file="${basedir}/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
+				<available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
 				<if>
 					<equals arg1="${tog.lic.exists}" arg2="true" />
 					<then>
 						<delete>
 							<fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
 						</delete>
-						<copy todir="${build.dir}" overwrite="true">
-							<fileset dir="${basedir}">
+						<copy todir="${build.dir}/licenses" overwrite="true">
+							<fileset dir="${basedir}/licenses">
 								<include name="License-TOG.txt" />
 							</fileset>
 						</copy>
-						<move file="${build.dir}/License-TOG.txt" tofile="${build.dir}/License.txt" overwrite="true" />
+						<move file="${build.dir}/licenses/License-TOG.txt" tofile="${build.dir}/licenses/License.txt" overwrite="true" />
+						<jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
+							<fileset dir="${build.dir}/licenses" includes="License.txt" />
+						</jar>
 						<antcall target="distZIPEXE">
 							<param name="dist.folder" value="${dist.customers.dir}" />
 							<param name="name.additional" value="tsl-" />
@@ -380,7 +372,7 @@ clean               - removes the output folder (in order to
 	<!-- ==================================================================== -->
 	<!-- Windows binary distribution                                          -->
 	<!-- ==================================================================== -->
-	<target name="distBinWindows" depends="output, buildDoc, buildReleaseNotes, distWebStart, distZIPEXE">
+	<target name="distBinWindows" depends="output, buildAllDoc, distWebStart, distZIPEXE">
 	</target>
 
 	<target name="distZIPEXE">
@@ -411,7 +403,7 @@ clean               - removes the output folder (in order to
 					<arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
 					<arg line="/DTWE_DIR=${build.dir}" />
 					<arg line="/DOUT_DIR=${dist.folder}" />
-					<arg line="/DLICENSE=${build.dir}/License.txt" />
+					<arg line="/DLICENSE=${build.dir}/licenses/License.txt" />
 					<arg line="/DLANGUAGE=${language}" />
 					<arg line="${nsis.script}" />
 				</exec>
@@ -439,20 +431,35 @@ clean               - removes the output folder (in order to
 			</else>
 		</if>		
 	</target>
+
 	<target name="distOther">
-		<copy todir="${dist.community.dir}">
-			<fileset dir="${build.dir}/doc" includes="twe-notes-${version}-${release}.pdf" />
-		</copy>
 		<copy todir="${dist.screenshots.dir}">
 			<fileset dir="${basedir}/screenshots" includes="twe-screen.zip" />
 			<mapper type="regexp" from="twe-screen.zip" to="twe-screen-${version}-${release}.zip" />
 		</copy>
+		<copy todir="${dist.community.dir}">
+			<fileset dir="${dist.screenshots.dir}" includes="twe-screen-${version}-${release}.zip" />
+		</copy>
+		<copy todir="${build.dir}/doc">
+			<fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.pdf" />
+			<mapper type="regexp" from="twe-doc-${version}-${release}.pdf" to="twe-doc-current.pdf" />
+		</copy>		
+		<copy todir="${build.dir}/doc">
+			<fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.html" />
+			<mapper type="regexp" from="twe-doc-${version}-${release}.html" to="twe-doc-current.html" />
+		</copy>		
 		<zip destfile="${dist.doc.dir}/${app.name}-doc-${version}-${release}.zip" update="true">
-			<zipfileset dir="${build.dir}/doc" includes="${app.name}-doc-${version}-${release}.*" />
+			<zipfileset dir="${build.dir}/doc" />
 		</zip>
+		<copy todir="${dist.community.dir}">
+			<fileset dir="${dist.doc.dir}" includes="twe-doc-${version}-${release}.zip" />
+		</copy>
 		<copy todir="${dist.internal.dir}">
 			<fileset dir="${basedir}/licenses" includes="twe-includes.xlsx" />
 			<mapper type="regexp" from="twe-includes.xlsx" to="twe-includes-${version}-${release}.xlsx" />
+		</copy>
+		<copy todir="${dist.internal.dir}">
+			<fileset dir="${build.dir}" includes="BuildID.txt" />
 		</copy>
 	</target>
 
@@ -498,24 +505,20 @@ clean               - removes the output folder (in order to
 		<echo message="Creating ${app.name}-${version}-${release}.src.zip source archive, please wait ..." />
 
 		<zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-			<zipfileset dir="${basedir}" excludes="sign.properties, log_*.txt, License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**, **/language/JaWE_it.properties
-										, **/language/JaWE_pl.properties
-										  , **/language/JaWE_zh_CN.properties" prefix="${app.name}-${version}-${release}.src" />
+			<zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**" prefix="${app.name}-${version}-${release}.src" />
 		</zip>
 
-		<available file="${basedir}/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
+		<available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
 		<if>
 			<equals arg1="${tog.lic.exists}" arg2="true" />
 			<then>
-				<move file="${basedir}/License.txt" tofile="${basedir}/License.tmp" overwrite="true" />
-				<move file="${basedir}/License-TOG.txt" tofile="${basedir}/License.txt" overwrite="true" />
+				<move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
+				<move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
 				<zip destfile="${dist.customers.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
-					<zipfileset dir="${basedir}" excludes="sign.properties, License.tmp, .settings/**, doc/tmp/**, distribution/**, classes/**, **/language/JaWE_it.properties
-												, **/language/JaWE_pl.properties
-												  , **/language/JaWE_zh_CN.properties,**/jped/**,lib/itext.jar" prefix="${app.name}-${version}-${release}.src" />
+					<zipfileset dir="${basedir}" excludes="sign.properties, build.properties, licenses/License.tmp, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**,lib/itext.jar" prefix="${app.name}-${version}-${release}.src" />
 				</zip>
-				<move file="${basedir}/License.txt" tofile="${basedir}/License-TOG.txt" overwrite="true" />
-				<move file="${basedir}/License.tmp" tofile="${basedir}/License.txt" overwrite="true" />
+				<move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
+				<move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
 			</then>
 		</if>
 
@@ -534,11 +537,11 @@ clean               - removes the output folder (in order to
 		<mkdir dir="${dist.community.dir}/tmp" />
 
 		<copy todir="${dist.community.dir}/tmp">
-			<fileset dir="${basedir}" includes="License.txt" />
+			<fileset dir="${basedir}" includes="licenses/License.txt" />
 		</copy>
 
 		<tar destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar">
-			<tarfileset dir="${basedir}/doc" prefix="${app.name}-${version}-${release}.src/doc" includes="License.txt"/>
+			<tarfileset dir="${basedir}/doc" prefix="${app.name}-${version}-${release}.src/doc" includes="licenses/License.txt"/>
 			<tarfileset dir="${modules.dir}/core" excludes=".settings/**, doc/tmp/**, distribution/**, **/language/JaWE_it.properties
 										, **/language/JaWE_pl.properties
 										  , **/language/JaWE_zh_CN.properties" prefix="${app.name}-${version}-${release}.src/modules" />
@@ -547,7 +550,7 @@ clean               - removes the output folder (in order to
 			<tarfileset dir="${basedir}/input" prefix="${app.name}-${version}-${release}.src/input"
 		  includes="bin/**,config/defaultconfig,config/default,configure.*,build.xml" />
 			<tarfileset dir="${basedir}/lib" excludes="tweactivityicons.jar" prefix="${app.name}-${version}-${release}.src/lib" />
-			<tarfileset dir="${dist.community.dir}/tmp" includes="License.txt" prefix="${app.name}-${version}-${release}.src" />
+			<tarfileset dir="${dist.community.dir}/tmp" includes="licenses/License.txt" prefix="${app.name}-${version}-${release}.src" />
 			<tarfileset dir="${basedir}" includes="readme,build.xml,configure,configure.bat,make.bat" prefix="${app.name}-${version}-${release}.src" />
 			<tarfileset dir="${basedir}/util" includes="ant/*,make/*" prefix="${app.name}-${version}-${release}.src/util" />
 		</tar>
@@ -624,6 +627,7 @@ clean               - removes the output folder (in order to
             <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
         </signjar>
     </target>	
+	
 </project>
 
 

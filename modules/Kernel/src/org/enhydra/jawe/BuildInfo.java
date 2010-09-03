@@ -25,7 +25,7 @@ public class BuildInfo {
 
    private static String version="2.0";
    private static String release="1";
-   private static long buildNo = 1138194850828L;
+   private static String buildNo = "20100901-1513";
    private static String jreSuffix = "";
 
    static {
@@ -34,16 +34,14 @@ public class BuildInfo {
          version = rb.getString("version");
          release = rb.getString("release");
          jreSuffix = rb.getString("jresuff");
-         String bn = rb.getString("buildno");
-         SimpleDateFormat a = new SimpleDateFormat("yy/MM/dd HH:mm:ss");      
-         buildNo = a.parse(bn).getTime();
+         buildNo = rb.getString("buildno");
       } catch (Exception e) {
          e.printStackTrace();
       }
       //System.err.println("version:"+version);
    }
 
-   public static long getBuildNo() {
+   public static String getBuildNo() {
       return buildNo;
    }
 

@@ -9,14 +9,20 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: verbatim.xsl,v 1.2 2006/09/21 11:50:58 sasa Exp $
+     $Id: verbatim.xsl 8344 2009-03-16 06:35:43Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
+
+<!-- XSLTHL highlighting is turned off by default. See highlighting/README
+     for instructions on how to turn on XSLTHL -->
+<xsl:template name="apply-highlighting">
+    <xsl:apply-templates/>
+</xsl:template>
 
 <lxslt:component prefix="xverb"
                  functions="numberLines"/>
@@ -33,50 +39,89 @@
                       and $linenumbering.extension != '0'">
         <xsl:call-template name="number.rtf.lines">
           <xsl:with-param name="rtf">
-            <xsl:apply-templates/>
+            <xsl:choose>
+              <xsl:when test="$highlight.source != 0">
+                <xsl:call-template name="apply-highlighting"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:apply-templates/>
+              </xsl:otherwise>
+            </xsl:choose>
           </xsl:with-param>
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates/>
+        <xsl:choose>
+          <xsl:when test="$highlight.source != 0">
+            <xsl:call-template name="apply-highlighting"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="block.content">
+    <xsl:choose>
+      <xsl:when test="$shade.verbatim != 0">
+        <fo:block id="{$id}"
+             xsl:use-attribute-sets="monospace.verbatim.properties shade.verbatim.style">
+          <xsl:choose>
+            <xsl:when test="$hyphenate.verbatim != 0 and 
+                            $exsl.node.set.available != 0">
+              <xsl:apply-templates select="exsl:node-set($content)" 
+                                   mode="hyphenate.verbatim"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:copy-of select="$content"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </fo:block>
+      </xsl:when>
+      <xsl:otherwise>
+        <fo:block id="{$id}"
+                  xsl:use-attribute-sets="monospace.verbatim.properties">
+          <xsl:choose>
+            <xsl:when test="$hyphenate.verbatim != 0 and 
+                            $exsl.node.set.available != 0">
+              <xsl:apply-templates select="exsl:node-set($content)" 
+                                   mode="hyphenate.verbatim"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:copy-of select="$content"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </fo:block>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
 
   <xsl:choose>
-    <xsl:when test="$shade.verbatim != 0">
-      <fo:block id="{$id}"
-                white-space-collapse='false'
-                white-space-treatment='preserve'
-                linefeed-treatment='preserve'
-                xsl:use-attribute-sets="monospace.verbatim.properties shade.verbatim.style">
-        <xsl:choose>
-          <xsl:when test="$hyphenate.verbatim != 0 and function-available('exsl:node-set')">
-            <xsl:apply-templates select="exsl:node-set($content)" mode="hyphenate.verbatim"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:copy-of select="$content"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </fo:block>
+    <!-- Need a block-container for these features -->
+    <xsl:when test="@width != '' or
+                    (self::programlisting and
+                    starts-with($writing.mode, 'rl'))">
+      <fo:block-container start-indent="0pt" end-indent="0pt">
+        <xsl:if test="@width != ''">
+          <xsl:attribute name="width">
+            <xsl:value-of select="concat(@width, '*', $monospace.verbatim.font.width)"/>
+          </xsl:attribute>
+        </xsl:if>
+        <!-- All known program code is left-to-right -->
+        <xsl:if test="self::programlisting and
+                      starts-with($writing.mode, 'rl')">
+          <xsl:attribute name="writing-mode">lr-tb</xsl:attribute>
+        </xsl:if>
+        <xsl:copy-of select="$block.content"/>
+      </fo:block-container>
     </xsl:when>
     <xsl:otherwise>
-      <fo:block id="{$id}"
-                white-space-collapse='false'
-                white-space-treatment='preserve'
-                linefeed-treatment="preserve"
-                xsl:use-attribute-sets="monospace.verbatim.properties">
-        <xsl:choose>
-          <xsl:when test="$hyphenate.verbatim != 0 and function-available('exsl:node-set')">
-            <xsl:apply-templates select="exsl:node-set($content)" mode="hyphenate.verbatim"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:copy-of select="$content"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </fo:block>
+      <xsl:copy-of select="$block.content"/>
     </xsl:otherwise>
   </xsl:choose>
+
 </xsl:template>
 
 <xsl:template match="literallayout">
@@ -107,9 +152,6 @@
       <xsl:choose>
         <xsl:when test="$shade.verbatim != 0">
           <fo:block id="{$id}"
-                    white-space-collapse='false'
-                    white-space-treatment='preserve'
-                    linefeed-treatment="preserve"
                     xsl:use-attribute-sets="monospace.verbatim.properties shade.verbatim.style">
 
             <xsl:copy-of select="$content"/>
@@ -117,9 +159,6 @@
         </xsl:when>
         <xsl:otherwise>
           <fo:block id="{$id}"
-                    white-space-collapse='false'
-                    white-space-treatment='preserve'
-                    linefeed-treatment="preserve"
                     xsl:use-attribute-sets="monospace.verbatim.properties">
             <xsl:copy-of select="$content"/>
           </fo:block>
@@ -130,22 +169,12 @@
       <xsl:choose>
         <xsl:when test="$shade.verbatim != 0">
           <fo:block id="{$id}"
-                    wrap-option='no-wrap'
-                    white-space-collapse='false'
-                    white-space-treatment='preserve'
-                    text-align='start'
-                    linefeed-treatment="preserve"
                     xsl:use-attribute-sets="verbatim.properties shade.verbatim.style">
             <xsl:copy-of select="$content"/>
           </fo:block>
         </xsl:when>
         <xsl:otherwise>
           <fo:block id="{$id}"
-                    wrap-option='no-wrap'
-                    white-space-collapse='false'
-                    white-space-treatment='preserve'
-                    text-align='start'
-                    linefeed-treatment="preserve"
                     xsl:use-attribute-sets="verbatim.properties">
             <xsl:copy-of select="$content"/>
           </fo:block>
@@ -176,11 +205,7 @@
     </xsl:choose>
   </xsl:variable>
 
-  <fo:block wrap-option='no-wrap'
-            white-space-collapse='false'
-            white-space-treatment='preserve'
-            linefeed-treatment="preserve"
-            xsl:use-attribute-sets="verbatim.properties">
+  <fo:block xsl:use-attribute-sets="verbatim.properties">
     <xsl:copy-of select="$content"/>
   </fo:block>
 </xsl:template>
@@ -201,26 +226,20 @@
 
   <!-- Extract the <?dbfo linenumbering.*?> PI values -->
   <xsl:variable name="pi.linenumbering.everyNth">
-    <xsl:call-template name="dbfo-attribute">
-      <xsl:with-param name="pis"
-                      select="$pi.context/processing-instruction('dbfo')"/>
-      <xsl:with-param name="attribute" select="'linenumbering.everyNth'"/>
+    <xsl:call-template name="pi.dbfo_linenumbering.everyNth">
+      <xsl:with-param name="node" select="$pi.context"/>
     </xsl:call-template>
   </xsl:variable>
 
   <xsl:variable name="pi.linenumbering.separator">
-    <xsl:call-template name="dbfo-attribute">
-      <xsl:with-param name="pis"
-                      select="$pi.context/processing-instruction('dbfo')"/>
-      <xsl:with-param name="attribute" select="'linenumbering.separator'"/>
+    <xsl:call-template name="pi.dbfo_linenumbering.separator">
+      <xsl:with-param name="node" select="$pi.context"/>
     </xsl:call-template>
   </xsl:variable>
 
   <xsl:variable name="pi.linenumbering.width">
-    <xsl:call-template name="dbfo-attribute">
-      <xsl:with-param name="pis"
-                      select="$pi.context/processing-instruction('dbfo')"/>
-      <xsl:with-param name="attribute" select="'linenumbering.width'"/>
+    <xsl:call-template name="pi.dbfo_linenumbering.width">
+      <xsl:with-param name="node" select="$pi.context"/>
     </xsl:call-template>
   </xsl:variable>
 
@@ -379,14 +398,41 @@
 
 <xsl:template match="node()|@*" mode="hyphenate.verbatim">
   <xsl:copy>
-    <xsl:apply-templates select="node()|@*" mode="hyphenate.verbatim"/>
+    <xsl:copy-of select="@*"/>
+    <xsl:apply-templates mode="hyphenate.verbatim"/>
   </xsl:copy>
 </xsl:template>
 
 <xsl:template match="text()" mode="hyphenate.verbatim" priority="2">
-  <xsl:call-template name="hyphenate.verbatim">
+  <xsl:call-template name="hyphenate.verbatim.block">
     <xsl:with-param name="content" select="."/>
   </xsl:call-template>
+</xsl:template>
+
+<xsl:template name="hyphenate.verbatim.block">
+  <xsl:param name="content" select="''"/>
+  <xsl:param name="count" select="1"/>
+
+  <!-- recurse on lines first to keep recursion depth reasonable -->
+  <xsl:choose>
+    <xsl:when test="contains($content, '&#xA;')">
+      <xsl:variable name="line" select="substring-before($content, '&#xA;')"/>
+      <xsl:variable name="rest" select="substring-after($content, '&#xA;')"/>
+      <xsl:call-template name="hyphenate.verbatim">
+        <xsl:with-param name="content" select="concat($line, '&#xA;')"/>
+      </xsl:call-template>
+      <xsl:call-template name="hyphenate.verbatim.block">
+        <xsl:with-param name="content" select="$rest"/>
+        <xsl:with-param name="count" select="$count + 1"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:call-template name="hyphenate.verbatim">
+        <xsl:with-param name="content" select="$content"/>
+      </xsl:call-template>
+    </xsl:otherwise>
+  </xsl:choose>
+  
 </xsl:template>
 
 <xsl:template name="hyphenate.verbatim">

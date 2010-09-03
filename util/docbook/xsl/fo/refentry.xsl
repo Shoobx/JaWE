@@ -5,12 +5,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: refentry.xsl,v 1.2 2006/09/21 11:50:58 sasa Exp $
+     $Id: refentry.xsl 7564 2007-11-19 18:38:43Z mzjn $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -174,6 +174,7 @@
 </xsl:template>
 
 <xsl:template match="reference/docinfo|refentry/refentryinfo"></xsl:template>
+<xsl:template match="reference/info"></xsl:template>
 <xsl:template match="reference/title"></xsl:template>
 <xsl:template match="reference/subtitle"></xsl:template>
 
@@ -413,12 +414,14 @@
 </xsl:template>
 
 <xsl:template match="refpurpose">
-  <xsl:text> </xsl:text>
-  <xsl:call-template name="dingbat">
-    <xsl:with-param name="dingbat">em-dash</xsl:with-param>
-  </xsl:call-template>
-  <xsl:text> </xsl:text>
-  <xsl:apply-templates/>
+  <xsl:if test="node()">
+    <xsl:text> </xsl:text>
+    <xsl:call-template name="dingbat">
+      <xsl:with-param name="dingbat">em-dash</xsl:with-param>
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
+    <xsl:apply-templates/>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="refdescriptor">
@@ -529,7 +532,12 @@
                      |refsection/title
                      |refsect1/title
                      |refsect2/title
-                     |refsect3/title"
+                     |refsect3/title
+                     |refsynopsisdiv/info/title
+                     |refsection/info/title
+                     |refsect1/info/title
+                     |refsect2/info/title
+                     |refsect3/info/title"
               mode="titlepage.mode"
               priority="2">
   <xsl:call-template name="format.refentry.subheading"/>
@@ -554,7 +562,12 @@
 <!--       <xsl:with-param name="gentext.key" select="'RefName'"/> -->
 <!--     </xsl:call-template> -->
 <!-- -->
-  <xsl:param name="section" select="parent::*"/>
+  <xsl:param name="section" 
+             select="(ancestor::refsynopsisdiv 
+                     |ancestor::refsection
+                     |ancestor::refsect1
+                     |ancestor::refsect2
+                     |ancestor::refsect3)[last()]"/>
   <xsl:param name="offset" select="0"/>
   <xsl:param name="gentext.key"/>
 
@@ -613,6 +626,11 @@
     </xsl:call-template>
   </fo:block>
 </xsl:template>
+
+<xsl:template match="refsectioninfo|refsection/info"></xsl:template>
+<xsl:template match="refsect1info|refsect1/info"></xsl:template>
+<xsl:template match="refsect2info|refsect2/info"></xsl:template>
+<xsl:template match="refsect3info|refsect3/info"></xsl:template>
 
 <!-- ==================================================================== -->
 

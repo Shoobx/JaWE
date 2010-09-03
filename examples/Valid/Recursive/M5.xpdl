@@ -1,72 +1,91 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Package Id="M5" Name="Model5" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
-    <PackageHeader>
-        <XPDLVersion>1.0</XPDLVersion>
-        <Vendor>Together</Vendor>
-        <Created>24-Jul-2002</Created>
-    </PackageHeader>
-    <RedefinableHeader PublicationStatus="UNDER_TEST"/>
-    <ConformanceClass GraphConformance="NON_BLOCKED"/>
-    <ExternalPackages>
-        <ExternalPackage href="M6.xpdl"/>
-        <ExternalPackage href="M7.xpdl"/>
-    </ExternalPackages>
-    <Participants>
-        <Participant Id="M5_Par1" Name="M5-P1">
-            <ParticipantType Type="ROLE"/>
-        </Participant>
-        <Participant Id="M5_Par3" Name="M5-P3">
-            <ParticipantType Type="ROLE"/>
-        </Participant>
-        <Participant Id="M5_Par2" Name="M5-P2">
-            <ParticipantType Type="ROLE"/>
-        </Participant>
-    </Participants>
-    <Applications>
-        <Application Id="M5_App1" Name="M5-App1"/>
-        <Application Id="M5_App2" Name="M5-App2"/>
-        <Application Id="M5_App3" Name="M5-App3"/>
-    </Applications>
-    <WorkflowProcesses>
-        <WorkflowProcess AccessLevel="PUBLIC" Id="M5_Wor1" Name="M5-WP1">
-            <ProcessHeader DurationUnit="D">
-                <Created>25-Jul-2002</Created>
-            </ProcessHeader>
-            <RedefinableHeader PublicationStatus="UNDER_TEST"/>
-            <Activities>
-                <Activity Id="M5_Wor1_Act1" Name="M5-W1-A1">
-                    <Implementation>
-                        <No/>
-                    </Implementation>
-                    <Performer>M5_Par1</Performer>
-                    <StartMode>
-                        <Automatic/>
-                    </StartMode>
-                    <FinishMode>
-                        <Automatic/>
-                    </FinishMode>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Join Type="XOR"/>
-                            <Split Type="XOR"/>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="M5_Par1"/>
-                        <ExtendedAttribute Name="XOffset" Value="315"/>
-                        <ExtendedAttribute Name="YOffset" Value="89"/>
-                    </ExtendedAttributes>
-                </Activity>
-            </Activities>
-            <ExtendedAttributes>
-                <ExtendedAttribute Name="StartOfWorkflow" Value="M5_Par1;M5_Wor1_Act1;185;89;NOROUTING"/>
-                <ExtendedAttribute Name="EndOfWorkflow" Value="M5_Par1;M5_Wor1_Act1;509;89;NOROUTING"/>
-                <ExtendedAttribute Name="ParticipantVisualOrder" Value="M5_Par1;"/>
-            </ExtendedAttributes>
-        </WorkflowProcess>
-    </WorkflowProcesses>
-    <ExtendedAttributes>
-        <ExtendedAttribute Name="MadeBy" Value="JaWE"/>
-        <ExtendedAttribute Name="Version" Value="1.0"/>
-    </ExtendedAttributes>
-</Package>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="M5" Name="Model5" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>1.0</xpdl:XPDLVersion>
+        <xpdl:Vendor>(c) Together Teamsolutions Co., Ltd.</xpdl:Vendor>
+        <xpdl:Created>24-Jul-2002</xpdl:Created>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:ExternalPackages>
+        <xpdl:ExternalPackage href="M6.xpdl">
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="EXTERNAL_PACKAGE_ID" Value="M6"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:ExternalPackage>
+        <xpdl:ExternalPackage href="M7.xpdl">
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="EXTERNAL_PACKAGE_ID" Value="M7"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:ExternalPackage>
+    </xpdl:ExternalPackages>
+    <xpdl:Participants>
+        <xpdl:Participant Id="M5_Par1" Name="M5-P1">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="M5_Par3" Name="M5-P3">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="M5_Par2" Name="M5-P2">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:Applications>
+        <xpdl:Application Id="M5_App1" Name="M5-App1"/>
+        <xpdl:Application Id="M5_App2" Name="M5-App2"/>
+        <xpdl:Application Id="M5_App3" Name="M5-App3"/>
+    </xpdl:Applications>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="M5_Wor1" Name="M5-WP1">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>25-Jul-2002</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:Activities>
+                <xpdl:Activity Id="M5_Wor1_Act1" Name="M5-W1-A1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>M5_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="315,89"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="M5_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=M5_Par1,CONNECTING_ACTIVITY_ID=M5_Wor1_Act1,X_OFFSET=520,Y_OFFSET=100,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=M5_Par1,CONNECTING_ACTIVITY_ID=M5_Wor1_Act1,X_OFFSET=196,Y_OFFSET=100,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="M5_Par1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="3.2-2-C-20100831-0848"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

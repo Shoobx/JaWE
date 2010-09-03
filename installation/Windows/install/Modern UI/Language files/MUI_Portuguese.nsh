@@ -1,3 +1,20 @@
+;    Together Workflow Editor
+;    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+;
+;    This program is free software: you can redistribute it and/or modify
+;    it under the terms of the GNU General Public License as published by
+;    the Free Software Foundation, either version 3 of the License, or 
+;    (at your option) any later version.
+; 
+;    This program is distributed in the hope that it will be useful, 
+;    but WITHOUT ANY WARRANTY; without even the implied warranty of
+;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+;    GNU General Public License for more details.
+; 
+;    You should have received a copy of the GNU General Public License
+;    along with this program. If not, see http://www.gnu.org/licenses
+;-----------------------------------------------------------------------
+
 # Language
 # LANG_ENGLISH
    !insertmacro MUI_LANGUAGE "Portuguese"
@@ -8,13 +25,13 @@
    !define SHORT_NAME "twe" 
 
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${VERSION}-${RELEASE}"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© Together Teamlösungen GmbH. All rights reserved."
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© Together Teamsolutions Co., Ltd. All rights reserved."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Together Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Together Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION}-${RELEASE}"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Together Workflow Editor is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Together Teamlösungen GmbH"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "Together (R) is a registered trademark of Together Teamlösungen GmbH."
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Together Teamsolutions Co., Ltd."
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "Together (R) is a registered trademark of Together Teamsolutions Co., Ltd."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Current version" "${VERSION}-${RELEASE}"
 
    LangString home_page_link ${LANG_ENGLISH} "Visit Together Workflow Editor Homepage"
@@ -58,7 +75,7 @@
    LangString Manual ${LANG_ENGLISH} "Manual" 
    LangString Uninstall ${LANG_ENGLISH}  "Uninstall"
 
-   LangString Publisher ${LANG_ENGLISH}  "Together Teamlösungen GmbH"
+   LangString Publisher ${LANG_ENGLISH}  "Together Teamsolutions Co., Ltd."
    LangString URLInfoAbout ${LANG_ENGLISH}  "www.together.at"
    LangString URLUpdateInfo ${LANG_ENGLISH}  "www.together.at/together/prod/twe/index.html"
    LangString HelpLink ${LANG_ENGLISH}  "www.together.at/together/prod/twe/index.html"

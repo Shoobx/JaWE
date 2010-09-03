@@ -1,3 +1,21 @@
+# Together Workflow Editor 
+# Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses
+#
+#######################################################################
+
 #!/bin/bash
 
 MWD=$(dirname $0)
@@ -65,6 +83,8 @@ It is compatible with WfMC specification - XPDL (XML Process Definition Language
 
 %prep
 %setup -q -c -n TogWE
+
+cp $PWD/build.properties $RPM_ROOT/BUILD/TogWE
 
 %build
     while
@@ -160,23 +180,23 @@ EOF
 #
 #	Changed by Stefanovic Nenad 09.09.2003.
 #
-mkdir -p distribution/$buildtype
+mkdir -p distribution/${name}-${version}-${release}/$buildtype
 EXC='--exclude **/jped'
 EXC2='--exclude lib/itext.jar'
 if [ $buildtype = 'customers' ]; then
-	mv License.txt License.tmp
-	mv License-TOG.txt License.txt
+	mv licenses/License.txt licenses/License.tmp
+	mv licenses/License-TOG.txt licenses/License.txt
 else
 	EXC=
    EXC2=
 fi
 cp input/bin/TWE.xpm ${RPM_ROOT}/SOURCES
-tar czf ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz --exclude CVS --exclude License-TOG.txt --exclude License.tmp --exclude distribution --exclude .settings --exclude classes --exclude '*~' $EXC $EXC2 --exclude 'installation/unix/rpm' .
+tar czf ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz --exclude CVS --exclude .svn --exclude build.properties --exclude Makefile --exclude doc/log.txt --exclude licenses/License-TOG.txt --exclude licenses/License.tmp --exclude distribution --exclude .settings --exclude classes --exclude '*~' $EXC $EXC2 --exclude 'installation/unix/rpm' .
 echo $JAVA_HOME|rpmbuild -ba --target noarch $RPM_ROOT/SPECS/twe.spec
 
-cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/$buildtype || exit 1
-cp ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz distribution/$buildtype
-cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/$buildtype
+cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/${name}-${version}-${release}/$buildtype || exit 1
+cp ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz distribution/${name}-${version}-${release}/$buildtype
+cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}/$buildtype
 
 mkdir -p tmp
 cd tmp
@@ -185,17 +205,17 @@ rpm2cpio ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.no
 find . -type f -a -exec chmod a+r {} \;
 find . -type d -a -exec chmod a+r {} \;
 cd usr/local
-tar czf ../../../distribution/$buildtype/$name${nameadditional}-${version}-${release}.tar.gz .
+tar czf ../../../distribution/${name}-${version}-${release}/$buildtype/$name${nameadditional}-${version}-${release}.tar.gz .
 cd ../../..
 rm -fr tmp
 
 if [ $buildtype = 'community' ]; then
-	if [ -f License-TOG.txt ]; then
+	if [ -f licenses/License-TOG.txt ]; then
 		$0 $1 $2 customers -tsl
 		rm -f ${HOME}/.rpmmacros
 		test -f ${RPM_ROOT}/.rpmmacros && mv ${RPM_ROOT}/.rpmmacros ${HOME}
 	fi
 else
-	mv License.txt License-TOG.txt
-	mv License.tmp License.txt
+	mv licenses/License.txt licenses/License-TOG.txt
+	mv licenses/License.tmp licenses/License.txt
 fi

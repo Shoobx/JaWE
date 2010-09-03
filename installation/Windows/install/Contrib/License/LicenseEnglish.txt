@@ -4,8 +4,8 @@ All pieces are licensed under their
 individual license conditions.
 
 All components provided by 
-Together Teamlösungen GmbH. 
-are licensed under LGPL.
+Together Teamsolutions Co., Ltd.
+are licensed under GPLV3.
 
 Please use Enhydra, test it, 
 provide feedback and send 
@@ -15,5 +15,5 @@ If you need support for commercial projects,
 we would be pleased to offer you our 
 commercial services...
 
-Together Teamlösungen Gmbh.
+Together Teamsolutions Co., Ltd.
 www.together.at

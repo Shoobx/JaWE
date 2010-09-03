@@ -1,3 +1,25 @@
+2010-09-03 Sasa Bojanic <sasaboy@together.at>
+   # added copyright and GPL V3 comment at top of every source file where missing (including *.xml, *.properties, *.xpdl... files)
+   # docbook documentation twe.xml renamed to twe-doc.xml
+   # XPDL sample files opened and saved with the newest version of editor
+   # Standardized make/configure targets
+   # Project license now goes to licenses folder, together with other licenses
+   # Release notes merged into the single docbook documentation file
+   # documentation and screenshot zip file now also goes into community folder of the distribution
+   # documentation zip now also contains twe-doc-current.pdf and twe-doc-current.html files
+   # BuildID.txt file added to the binary output and to the distribution's internal folder - it specifies the time when the release was built
+   # source distribution does not contain build.properties file anymore
+   # source distribution does not contain unnecessary temporary files anymore
+   # saxon removed from the project
+   # xalan added to the project
+   # xalan used to produce docbook related documentation
+   # documentation build procedure corrected to remove the entries from docbook file that tell xalan to go to internet
+   # fixed issue with building RPM distributions from SVN sources on Linux
+   # company name in various source files changed to Together Teamsolutions Co., Ltd.
+   # build number (in about box) does not contain C anymore
+   # when XPDL file gets created by the editor, Vendor name now set to (c) Together Teamsolutions Co., Ltd.
+   # docbook upgraded to version 1.75.2
+   
 ###### TWE 3.2-2 RELEASED ######
 2010-08-30 Sasa Bojanic <sasaboy@together.at>
    # Updated sharkxpdlmodel.jar to version 3.2-2

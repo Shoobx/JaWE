@@ -8,12 +8,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: synop.xsl,v 1.2 2006/09/21 11:50:58 sasa Exp $
+     $Id: synop.xsl 8334 2009-03-15 14:26:23Z mzjn $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -162,12 +162,18 @@
 </xsl:template>
 
 <xsl:template match="funcprototype">
+
+  <xsl:variable name="style">
+    <xsl:call-template name="funcsynopsis.style"/>
+  </xsl:variable>
+
   <fo:block font-family="{$monospace.font.family}"
           space-before.minimum="0.8em"
           space-before.optimum="1em"
           space-before.maximum="1.2em">
     <xsl:apply-templates/>
-    <xsl:if test="$funcsynopsis.style='kr'">
+    
+    <xsl:if test="$style='kr'">
       <fo:block
           space-before.minimum="0.8em"
           space-before.optimum="1em"
@@ -175,6 +181,7 @@
       <xsl:apply-templates select="./paramdef" mode="kr-funcsynopsis-mode"/>
       </fo:block>
     </xsl:if>
+
   </fo:block>
 </xsl:template>
 
@@ -198,8 +205,13 @@
 </xsl:template>
 
 <xsl:template match="void">
+
+  <xsl:variable name="style">
+    <xsl:call-template name="funcsynopsis.style"/>
+  </xsl:variable>
+
   <xsl:choose>
-    <xsl:when test="$funcsynopsis.style='ansi'">
+    <xsl:when test="$style='ansi'">
       <xsl:text>(void);</xsl:text>
     </xsl:when>
     <xsl:otherwise>
@@ -213,12 +225,17 @@
 </xsl:template>
 
 <xsl:template match="paramdef">
+
+  <xsl:variable name="style">
+    <xsl:call-template name="funcsynopsis.style"/>
+  </xsl:variable>
+  
   <xsl:variable name="paramnum">
     <xsl:number count="paramdef" format="1"/>
   </xsl:variable>
   <xsl:if test="$paramnum=1">(</xsl:if>
   <xsl:choose>
-    <xsl:when test="$funcsynopsis.style='ansi'">
+    <xsl:when test="$style='ansi'">
       <xsl:apply-templates/>
     </xsl:when>
     <xsl:otherwise>
@@ -262,6 +279,24 @@
   <xsl:text>)</xsl:text>
 </xsl:template>
 
+<!-- Return value of PI or parameter -->
+<xsl:template name="funcsynopsis.style">
+  <xsl:variable name="pi.style">
+    <xsl:call-template name="pi.dbfo_funcsynopsis-style">
+      <xsl:with-param name="node" select="ancestor::funcsynopsis/descendant-or-self::*"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$pi.style != ''">
+      <xsl:value-of select="$pi.style"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="$funcsynopsis.style"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 <!-- ==================================================================== -->
 
 <xsl:variable name="default-classsynopsis-language">java</xsl:variable>
@@ -283,26 +318,26 @@
   </xsl:param>
 
   <!--
-  <xsl:message>process <xsl:value-of select="name(.)"/> in <xsl:value-of select="$language"/></xsl:message>
+  <xsl:message>process <xsl:value-of select="local-name(.)"/> in <xsl:value-of select="$language"/></xsl:message>
   -->
 
   <xsl:choose>
-    <xsl:when test="$language='java'">
+    <xsl:when test="$language='java' or $language='Java'">
       <xsl:apply-templates select="." mode="java"/>
     </xsl:when>
-    <xsl:when test="$language='perl'">
+    <xsl:when test="$language='perl' or $language='Perl'">
       <xsl:apply-templates select="." mode="perl"/>
     </xsl:when>
-    <xsl:when test="$language='idl'">
+    <xsl:when test="$language='idl' or $language='IDL'">
       <xsl:apply-templates select="." mode="idl"/>
     </xsl:when>
-    <xsl:when test="$language='cpp'">
+    <xsl:when test="$language='cpp' or $language='c++' or $language='C++'">
       <xsl:apply-templates select="." mode="cpp"/>
     </xsl:when>
     <xsl:otherwise>
       <xsl:message>
 	<xsl:text>Unrecognized language on </xsl:text>
-        <xsl:value-of select="name(.)"/>
+        <xsl:value-of select="local-name(.)"/>
         <xsl:text>: </xsl:text>
 	<xsl:value-of select="$language"/>
       </xsl:message>
@@ -376,29 +411,29 @@
   <xsl:apply-templates mode="java"/>
 </xsl:template>
 
-<xsl:template match="modifier" mode="java">
+<xsl:template match="modifier|package" mode="java">
   <xsl:apply-templates mode="java"/>
-    <xsl:if test="following-sibling::*">
-      <xsl:text>&nbsp;</xsl:text>
-    </xsl:if>
+  <xsl:if test="following-sibling::*">
+    <xsl:text>&nbsp;</xsl:text>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="classname" mode="java">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'classname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'classname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="java"/>
 </xsl:template>
 
 <xsl:template match="interfacename" mode="java">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'interfacename'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'interfacename'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="java"/>
 </xsl:template>
 
 <xsl:template match="exceptionname" mode="java">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'exceptionname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'exceptionname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="java"/>
@@ -441,7 +476,7 @@
 
 <xsl:template match="methodparam" mode="java">
   <xsl:param name="indent">0</xsl:param>
-  <xsl:if test="preceding-sibling::*">
+  <xsl:if test="preceding-sibling::methodparam">
     <xsl:text>,&RE;</xsl:text>
     <xsl:if test="$indent &gt; 0">
       <xsl:call-template name="copy-string">
@@ -459,15 +494,15 @@
 
 <xsl:template mode="java"
   match="constructorsynopsis|destructorsynopsis|methodsynopsis">
-  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[name(.) != 'modifier']]"/>
-  <xsl:variable name="notmod" select="*[name(.) != 'modifier']"/>
-  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[name(.) != 'modifier']]"/>
+  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[local-name(.) != 'modifier']]"/>
+  <xsl:variable name="notmod" select="*[local-name(.) != 'modifier']"/>
+  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[local-name(.) != 'modifier']]"/>
   <xsl:variable name="decl">
     <xsl:text>  </xsl:text>
     <xsl:apply-templates select="$start-modifiers" mode="java"/>
 
     <!-- type -->
-    <xsl:if test="name($notmod[1]) != 'methodname'">
+    <xsl:if test="local-name($notmod[1]) != 'methodname'">
       <xsl:apply-templates select="$notmod[1]" mode="java"/>
     </xsl:if>
 
@@ -488,7 +523,7 @@
       <xsl:text>&RE;&nbsp;&nbsp;&nbsp;&nbsp;throws&nbsp;</xsl:text>
       <xsl:apply-templates select="exceptionname" mode="java"/>
     </xsl:if>
-    <xsl:if test="modifier[preceding-sibling::*[name(.) != 'modifier']]">
+    <xsl:if test="modifier[preceding-sibling::*[local-name(.) != 'modifier']]">
       <xsl:text> </xsl:text>
       <xsl:apply-templates select="$end-modifiers" mode="java"/>
     </xsl:if>
@@ -544,7 +579,7 @@
   <xsl:apply-templates mode="cpp"/>
 </xsl:template>
 
-<xsl:template match="modifier" mode="cpp">
+<xsl:template match="modifier|package" mode="cpp">
   <xsl:apply-templates mode="cpp"/>
     <xsl:if test="following-sibling::*">
       <xsl:text>&nbsp;</xsl:text>
@@ -552,21 +587,21 @@
 </xsl:template>
 
 <xsl:template match="classname" mode="cpp">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'classname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'classname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="cpp"/>
 </xsl:template>
 
 <xsl:template match="interfacename" mode="cpp">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'interfacename'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'interfacename'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="cpp"/>
 </xsl:template>
 
 <xsl:template match="exceptionname" mode="cpp">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'exceptionname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'exceptionname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="cpp"/>
@@ -608,7 +643,7 @@
 </xsl:template>
 
 <xsl:template match="methodparam" mode="cpp">
-  <xsl:if test="preceding-sibling::*">
+  <xsl:if test="preceding-sibling::methodparam">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="cpp"/>
@@ -620,9 +655,9 @@
 
 <xsl:template mode="cpp"
   match="constructorsynopsis|destructorsynopsis|methodsynopsis">
-  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[name(.) != 'modifier']]"/>
-  <xsl:variable name="notmod" select="*[name(.) != 'modifier']"/>
-  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[name(.) != 'modifier']]"/>
+  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[local-name(.) != 'modifier']]"/>
+  <xsl:variable name="notmod" select="*[local-name(.) != 'modifier']"/>
+  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[local-name(.) != 'modifier']]"/>
 
   <fo:block wrap-option='no-wrap'
             white-space-collapse='false'
@@ -632,7 +667,7 @@
     <xsl:apply-templates select="$start-modifiers" mode="cpp"/>
 
     <!-- type -->
-    <xsl:if test="name($notmod[1]) != 'methodname'">
+    <xsl:if test="local-name($notmod[1]) != 'methodname'">
       <xsl:apply-templates select="$notmod[1]" mode="cpp"/>
     </xsl:if>
 
@@ -644,7 +679,7 @@
       <xsl:text>&RE;&nbsp;&nbsp;&nbsp;&nbsp;throws&nbsp;</xsl:text>
       <xsl:apply-templates select="exceptionname" mode="cpp"/>
     </xsl:if>
-    <xsl:if test="modifier[preceding-sibling::*[name(.) != 'modifier']]">
+    <xsl:if test="modifier[preceding-sibling::*[local-name(.) != 'modifier']]">
       <xsl:text> </xsl:text>
       <xsl:apply-templates select="$end-modifiers" mode="cpp"/>
     </xsl:if>
@@ -701,7 +736,7 @@
   <xsl:apply-templates mode="idl"/>
 </xsl:template>
 
-<xsl:template match="modifier" mode="idl">
+<xsl:template match="modifier|package" mode="idl">
   <xsl:apply-templates mode="idl"/>
     <xsl:if test="following-sibling::*">
       <xsl:text>&nbsp;</xsl:text>
@@ -709,21 +744,21 @@
 </xsl:template>
 
 <xsl:template match="classname" mode="idl">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'classname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'classname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="idl"/>
 </xsl:template>
 
 <xsl:template match="interfacename" mode="idl">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'interfacename'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'interfacename'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="idl"/>
 </xsl:template>
 
 <xsl:template match="exceptionname" mode="idl">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'exceptionname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'exceptionname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="idl"/>
@@ -765,7 +800,7 @@
 </xsl:template>
 
 <xsl:template match="methodparam" mode="idl">
-  <xsl:if test="preceding-sibling::*">
+  <xsl:if test="preceding-sibling::methodparam">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="idl"/>
@@ -777,9 +812,9 @@
 
 <xsl:template mode="idl"
   match="constructorsynopsis|destructorsynopsis|methodsynopsis">
-  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[name(.) != 'modifier']]"/>
-  <xsl:variable name="notmod" select="*[name(.) != 'modifier']"/>
-  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[name(.) != 'modifier']]"/>
+  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[local-name(.) != 'modifier']]"/>
+  <xsl:variable name="notmod" select="*[local-name(.) != 'modifier']"/>
+  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[local-name(.) != 'modifier']]"/>
 
   <fo:block wrap-option='no-wrap'
             white-space-collapse='false'
@@ -789,7 +824,7 @@
     <xsl:apply-templates select="$start-modifiers" mode="idl"/>
 
     <!-- type -->
-    <xsl:if test="name($notmod[1]) != 'methodname'">
+    <xsl:if test="local-name($notmod[1]) != 'methodname'">
       <xsl:apply-templates select="$notmod[1]" mode="idl"/>
     </xsl:if>
 
@@ -802,7 +837,7 @@
       <xsl:apply-templates select="exceptionname" mode="idl"/>
       <xsl:text>)</xsl:text>
     </xsl:if>
-    <xsl:if test="modifier[preceding-sibling::*[name(.) != 'modifier']]">
+    <xsl:if test="modifier[preceding-sibling::*[local-name(.) != 'modifier']]">
       <xsl:text> </xsl:text>
       <xsl:apply-templates select="$end-modifiers" mode="idl"/>
     </xsl:if>
@@ -847,7 +882,7 @@
   <xsl:apply-templates mode="perl"/>
 </xsl:template>
 
-<xsl:template match="modifier" mode="perl">
+<xsl:template match="modifier|package" mode="perl">
   <xsl:apply-templates mode="perl"/>
     <xsl:if test="following-sibling::*">
       <xsl:text>&nbsp;</xsl:text>
@@ -855,21 +890,21 @@
 </xsl:template>
 
 <xsl:template match="classname" mode="perl">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'classname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'classname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="perl"/>
 </xsl:template>
 
 <xsl:template match="interfacename" mode="perl">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'interfacename'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'interfacename'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="perl"/>
 </xsl:template>
 
 <xsl:template match="exceptionname" mode="perl">
-  <xsl:if test="name(preceding-sibling::*[1]) = 'exceptionname'">
+  <xsl:if test="local-name(preceding-sibling::*[1]) = 'exceptionname'">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="perl"/>
@@ -911,7 +946,7 @@
 </xsl:template>
 
 <xsl:template match="methodparam" mode="perl">
-  <xsl:if test="preceding-sibling::*">
+  <xsl:if test="preceding-sibling::methodparam">
     <xsl:text>, </xsl:text>
   </xsl:if>
   <xsl:apply-templates mode="perl"/>
@@ -923,9 +958,9 @@
 
 <xsl:template mode="perl"
   match="constructorsynopsis|destructorsynopsis|methodsynopsis">
-  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[name(.) != 'modifier']]"/>
-  <xsl:variable name="notmod" select="*[name(.) != 'modifier']"/>
-  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[name(.) != 'modifier']]"/>
+  <xsl:variable name="start-modifiers" select="modifier[following-sibling::*[local-name(.) != 'modifier']]"/>
+  <xsl:variable name="notmod" select="*[local-name(.) != 'modifier']"/>
+  <xsl:variable name="end-modifiers" select="modifier[preceding-sibling::*[local-name(.) != 'modifier']]"/>
 
   <fo:block wrap-option='no-wrap'
             white-space-collapse='false'
@@ -937,6 +972,11 @@
     <xsl:text> { ... };</xsl:text>
     <xsl:call-template name="synop-break"/>
   </fo:block>
+</xsl:template>
+
+<!-- Used when not occurring as a child of classsynopsis -->
+<xsl:template match="ooclass|oointerface|ooexception">
+  <xsl:apply-templates/>
 </xsl:template>
 
 <!-- ==================================================================== -->

@@ -1,25 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Package Id="0" Name="sample workflow process" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xyz="http://www.xyzeorder.com/workflow" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
-    <PackageHeader>
-        <XPDLVersion>1.0</XPDLVersion>
-        <Vendor>XYZ, Inc</Vendor>
-        <Created>6/18/2002 5:27:17 PM</Created>
-    </PackageHeader>
-    <ConformanceClass GraphConformance="NON_BLOCKED"/>
-    <Script Type="text/javascript"/>
-    <TypeDeclarations>
-        <TypeDeclaration Id="Order" Name="Order">
-            <ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/orderschema.xsd"/>
-        </TypeDeclaration>
-        <TypeDeclaration Id="CreditInfo" Name="CreditInfo">
-            <ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/creditService.wsdl" xref="CreditInfo"/>
-        </TypeDeclaration>
-        <TypeDeclaration Id="CardType" Name="CardType">
-            <ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/orderschema.xsd" namespace="orderschema/Order" xref="cardType"/>
-        </TypeDeclaration>
-        <TypeDeclaration Id="OrderStatus" Name="OrderStatus">
-            <SchemaType>
-                <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xyz="http://www.xyzeorder.com/workflow" Id="0" Name="sample workflow process" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>1.0</xpdl:XPDLVersion>
+        <xpdl:Vendor>XYZ, Inc</xpdl:Vendor>
+        <xpdl:Created>6/18/2002 5:27:17 PM</xpdl:Created>
+    </xpdl:PackageHeader>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:Script Type="text/javascript"/>
+    <xpdl:TypeDeclarations>
+        <xpdl:TypeDeclaration Id="Order" Name="Order">
+            <xpdl:ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/orderschema.xsd"/>
+        </xpdl:TypeDeclaration>
+        <xpdl:TypeDeclaration Id="CreditInfo" Name="CreditInfo">
+            <xpdl:ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/creditService.wsdl" xref="CreditInfo"/>
+        </xpdl:TypeDeclaration>
+        <xpdl:TypeDeclaration Id="CardType" Name="CardType">
+            <xpdl:ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/orderschema.xsd" namespace="orderschema/Order" xref="cardType"/>
+        </xpdl:TypeDeclaration>
+        <xpdl:TypeDeclaration Id="OrderStatus" Name="OrderStatus">
+            <xpdl:SchemaType>
+                <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
                     <xsd:element name="Status">
                         <xsd:simpleType>
                             <xsd:restriction base="xsd:NMTOKEN">
@@ -33,1169 +33,1144 @@
                         </xsd:simpleType>
                     </xsd:element>
                 </xsd:schema>
-            </SchemaType>
-        </TypeDeclaration>
-    </TypeDeclarations>
-    <Participants>
-        <Participant Id="DBConnection">
-            <ParticipantType Type="SYSTEM"/>
-            <Description>Reference to Database Resource</Description>
-        </Participant>
-    </Participants>
-    <WorkflowProcesses>
-        <WorkflowProcess AccessLevel="PUBLIC" Id="1" Name="EOrder">
-            <ProcessHeader/>
-            <FormalParameters>
-                <FormalParameter Id="orderString" Index="1" Mode="IN">
-                    <DataType>
-                        <BasicType Type="STRING"/>
-                    </DataType>
-                </FormalParameter>
-                <FormalParameter Id="returnMessage" Index="2" Mode="OUT">
-                    <DataType>
-                        <BasicType Type="STRING"/>
-                    </DataType>
-                </FormalParameter>
-            </FormalParameters>
-            <DataFields>
-                <DataField Id="orderNumber" IsArray="FALSE">
-                    <DataType>
-                        <BasicType Type="INTEGER"/>
-                    </DataType>
-                    <InitialValue>0</InitialValue>
-                    <Length>0</Length>
-                </DataField>
-                <DataField Id="status" IsArray="FALSE">
-                    <DataType>
-                        <DeclaredType Id="OrderStatus"/>
-                    </DataType>
-                </DataField>
-                <DataField Id="orderInfo" IsArray="FALSE">
-                    <DataType>
-                        <DeclaredType Id="Order"/>
-                    </DataType>
-                </DataField>
-            </DataFields>
-            <Applications>
-                <Application Id="transformData">
-                    <FormalParameters>
-                        <FormalParameter Id="orderStringIn" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="STRING"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="orderInfo" Index="2" Mode="OUT">
-                            <DataType>
-                                <DeclaredType Id="Order"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="checkData">
-                    <FormalParameters>
-                        <FormalParameter Id="orderInfo" Index="1" Mode="IN">
-                            <DataType>
-                                <DeclaredType Id="Order"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="statusOut" Index="2" Mode="OUT">
-                            <DataType>
-                                <DeclaredType Id="OrderStatus"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="checkVendor">
-                    <FormalParameters>
-                        <FormalParameter Id="accountNumberIn" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="amountIn" Index="2" Mode="IN">
-                            <DataType>
-                                <BasicType Type="FLOAT"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="statusOut" Index="3" Mode="OUT">
-                            <DataType>
-                                <DeclaredType Id="OrderStatus"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="enterOrder">
-                    <FormalParameters>
-                        <FormalParameter Id="orderInfoIn" Index="1" Mode="IN">
-                            <DataType>
-                                <DeclaredType Id="Order"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="orderNumber" Index="2" Mode="OUT">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="composeMessage">
-                    <FormalParameters>
-                        <FormalParameter Id="statusIn" Index="1" Mode="IN">
-                            <DataType>
-                                <DeclaredType Id="OrderStatus"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="orderNumber" Index="2" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-            </Applications>
-            <Activities>
-                <Activity Id="1" Name="Check Data">
-                    <Implementation>
-                        <Tool Id="checkData" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderInfo</ActualParameter>
-                                <ActualParameter>status</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Split Type="XOR">
-                                <TransitionRefs>
-                                    <TransitionRef Id="22"/>
-                                    <TransitionRef Id="23"/>
-                                </TransitionRefs>
-                            </Split>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="177"/>
-                        <ExtendedAttribute Name="YOffset" Value="164"/>
-                        <ExtendedAttribute Name="Coordinates">
+            </xpdl:SchemaType>
+        </xpdl:TypeDeclaration>
+    </xpdl:TypeDeclarations>
+    <xpdl:Participants>
+        <xpdl:Participant Id="DBConnection">
+            <xpdl:ParticipantType Type="SYSTEM"/>
+            <xpdl:Description>Reference to Database Resource</xpdl:Description>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="1" Name="EOrder">
+            <xpdl:ProcessHeader/>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="orderString" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="returnMessage" Index="2" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="orderNumber" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Length>0</xpdl:Length>
+                </xpdl:DataField>
+                <xpdl:DataField Id="status" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="OrderStatus"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="orderInfo" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="Order"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Applications>
+                <xpdl:Application Id="transformData">
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="orderStringIn" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="STRING"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="orderInfo" Index="2" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="Order"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="checkData">
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="orderInfo" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="Order"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="statusOut" Index="2" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="OrderStatus"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="checkVendor">
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="accountNumberIn" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="amountIn" Index="2" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="FLOAT"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="statusOut" Index="3" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="OrderStatus"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="enterOrder">
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="orderInfoIn" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="Order"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="orderNumber" Index="2" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="composeMessage">
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="statusIn" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="OrderStatus"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="orderNumber" Index="2" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+            </xpdl:Applications>
+            <xpdl:Activities>
+                <xpdl:Activity Id="1" Name="Check Data">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="checkData" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderInfo</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>status</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="22"/>
+                                    <xpdl:TransitionRef Id="23"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="177,164"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="183" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="5">
-                    <Route/>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="61"/>
-                        <ExtendedAttribute Name="YOffset" Value="47"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="5">
+                    <xpdl:Route/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="61,47"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="35" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="6">
-                    <Route/>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Join Type="XOR"/>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="1020"/>
-                        <ExtendedAttribute Name="YOffset" Value="120"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="6">
+                    <xpdl:Route/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1020,120"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="755" ypos="315"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="8" Name="Email Confirmation">
-                    <Implementation>
-                        <No/>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="768"/>
-                        <ExtendedAttribute Name="YOffset" Value="205"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="8" Name="Email Confirmation">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="768,205"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="657" ypos="312"/>
-                        </ExtendedAttribute>
-                        <ExtendedAttribute Name="SystemActivity" Value="Email"/>
-                        <ExtendedAttribute Name="Email">
+                        </xpdl:ExtendedAttribute>
+                        <xpdl:ExtendedAttribute Name="SystemActivity" Value="Email"/>
+                        <xpdl:ExtendedAttribute Name="Email">
                             <xyz:Email subject="Order %%orderNumber" to="%%orderInfo.emailAddress">
                         <xyz:MessageText>Order number %%orderNumber is being processed. Thank-you for ordering from PQR Products, Inc</xyz:MessageText>
                      </xyz:Email>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="9">
-                    <Route/>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Split Type="AND">
-                                <TransitionRefs>
-                                    <TransitionRef Id="1"/>
-                                    <TransitionRef Id="38"/>
-                                    <TransitionRef Id="2"/>
-                                </TransitionRefs>
-                            </Split>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="633"/>
-                        <ExtendedAttribute Name="YOffset" Value="120"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="9">
+                    <xpdl:Route/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="1"/>
+                                    <xpdl:TransitionRef Id="38"/>
+                                    <xpdl:TransitionRef Id="2"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="633,120"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="572" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="10" Name="Check Credit Subprocess">
-                    <Implementation>
-                        <SubFlow Execution="SYNCHR" Id="3"/>
-                    </Implementation>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Split Type="XOR">
-                                <TransitionRefs>
-                                    <TransitionRef Id="26"/>
-                                    <TransitionRef Id="31"/>
-                                </TransitionRefs>
-                            </Split>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="410"/>
-                        <ExtendedAttribute Name="YOffset" Value="48"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="10" Name="Check Credit Subprocess">
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="SYNCHR" Id="3"/>
+                    </xpdl:Implementation>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="26"/>
+                                    <xpdl:TransitionRef Id="31"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="410,48"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="381" ypos="535"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="11" Name="Fill Order Subprocess">
-                    <Implementation>
-                        <SubFlow Execution="ASYNCHR" Id="2">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                                <ActualParameter>orderInfo.orderType</ActualParameter>
-                                <ActualParameter>orderInfo.emailAddress</ActualParameter>
-                            </ActualParameters>
-                        </SubFlow>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="765"/>
-                        <ExtendedAttribute Name="YOffset" Value="120"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="11" Name="Fill Order Subprocess">
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="ASYNCHR" Id="2">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>orderInfo.orderType</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>orderInfo.emailAddress</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="765,120"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="653" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="12" Name="Check Order Type">
-                    <Route/>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Split Type="XOR">
-                                <TransitionRefs>
-                                    <TransitionRef Id="24"/>
-                                    <TransitionRef Id="25"/>
-                                </TransitionRefs>
-                            </Split>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="288"/>
-                        <ExtendedAttribute Name="YOffset" Value="48"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="12" Name="Check Order Type">
+                    <xpdl:Route/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="24"/>
+                                    <xpdl:TransitionRef Id="25"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="288,48"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="293" ypos="460"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="17" Name="Transform Data">
-                    <Implementation>
-                        <Tool Id="transformData" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderString</ActualParameter>
-                                <ActualParameter>orderInfo</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Split Type="XOR">
-                                <TransitionRefs>
-                                    <TransitionRef Id="40"/>
-                                    <TransitionRef Id="21"/>
-                                </TransitionRefs>
-                            </Split>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="61"/>
-                        <ExtendedAttribute Name="YOffset" Value="164"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="17" Name="Transform Data">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="transformData" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderString</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>orderInfo</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="40"/>
+                                    <xpdl:TransitionRef Id="21"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="61,164"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="102" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="32" Name="Enter Order">
-                    <Implementation>
-                        <Tool Id="enterOrder" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderInfo</ActualParameter>
-                                <ActualParameter>orderNumber</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Join Type="XOR"/>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="633"/>
-                        <ExtendedAttribute Name="YOffset" Value="34"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="32" Name="Enter Order">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="enterOrder" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderInfo</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="633,34"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="510" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="33">
-                    <Route/>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Join Type="AND"/>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="903"/>
-                        <ExtendedAttribute Name="YOffset" Value="120"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="33">
+                    <xpdl:Route/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="903,120"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="725" ypos="391"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="39" Name="Compose RejectionMessage">
-                    <Implementation>
-                        <Tool Id="composeMessage" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                                <ActualParameter>-1</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Join Type="XOR"/>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="533"/>
-                        <ExtendedAttribute Name="YOffset" Value="268"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="39" Name="Compose RejectionMessage">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="composeMessage" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>-1</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="533,268"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="655" ypos="245"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="41" Name="Check Vendor Account">
-                    <Implementation>
-                        <Tool Id="checkVendor" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderInfo.AccountNumber</ActualParameter>
-                                <ActualParameter>orderInfo.ToltalAmount</ActualParameter>
-                                <ActualParameter>status</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Split Type="XOR">
-                                <TransitionRefs>
-                                    <TransitionRef Id="27"/>
-                                    <TransitionRef Id="30"/>
-                                </TransitionRefs>
-                            </Split>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="412"/>
-                        <ExtendedAttribute Name="YOffset" Value="34"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="41" Name="Check Vendor Account">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="checkVendor" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderInfo.AccountNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>orderInfo.ToltalAmount</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>status</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="27"/>
+                                    <xpdl:TransitionRef Id="30"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="412,34"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="381" ypos="316"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="56" Name="Compose Acceptance Message">
-                    <Implementation>
-                        <Tool Id="composeMessage" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>status</ActualParameter>
-                                <ActualParameter>orderNumber</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="764"/>
-                        <ExtendedAttribute Name="YOffset" Value="29"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="56" Name="Compose Acceptance Message">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="composeMessage" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>status</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="764,29"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="653" ypos="462"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="58" Name="Raise Alarm">
-                    <Implementation>
-                        <No/>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="61"/>
-                        <ExtendedAttribute Name="YOffset" Value="268"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="58" Name="Raise Alarm">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="61,268"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="100" ypos="250"/>
-                        </ExtendedAttribute>
-                        <ExtendedAttribute Name="SystemActivity" Value="Alarm"/>
-                    </ExtendedAttributes>
-                </Activity>
-            </Activities>
-            <Transitions>
-                <Transition From="9" Id="1" To="8">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="9" Id="2" To="11">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="11" Id="16" To="33">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="8" Id="17" To="33">
-                    <Condition Type="OTHERWISE"/>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="33" Id="18" To="6">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="5" Id="20" To="17">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="17" Id="21" To="1">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="1" Id="22" To="12">
-                    <Condition>status == "Valid Data"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="214;218;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="1" Id="23" To="39">
-                    <Condition>status == "Invalid Data"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="449;334;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="12" Id="24" To="10">
-                    <Condition>orderType == "Credit"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="12" Id="25" To="41">
-                    <Condition>orderType == "PO"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="10" Id="26" To="32">
-                    <Condition>status == "Accept"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="648;218;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="41" Id="27" To="32">
-                    <Condition>status == "Accept"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="32" Id="28" To="9">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="39" Id="29" To="6">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="1057;438;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="41" Id="30" To="39">
-                    <Condition>status == "OverLimit"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="570;74;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="10" Id="31" To="39">
-                    <Condition>status == "BadCredit"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="533;248;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="9" Id="38" To="56">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="56" Id="39" To="33">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="17" Id="40" To="58">
-                    <Condition Type="EXCEPTION"/>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="58" Id="42" To="39">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-            </Transitions>
-            <ExtendedAttributes>
-                <ExtendedAttribute Name="StartOfWorkflow" Value="DBConnection;5;78;12;NOROUTING"/>
-                <ExtendedAttribute Name="EndOfWorkflow" Value="DBConnection;6;1037;10;NOROUTING"/>
-                <ExtendedAttribute Name="ParticipantVisualOrder" Value="DBConnection;FreeTextExpressionParticipant;"/>
-            </ExtendedAttributes>
-        </WorkflowProcess>
-        <WorkflowProcess AccessLevel="PRIVATE" Id="2" Name="FillOrder">
-            <ProcessHeader/>
-            <FormalParameters>
-                <FormalParameter Id="orderNumber" Index="1" Mode="IN">
-                    <DataType>
-                        <BasicType Type="INTEGER"/>
-                    </DataType>
-                    <Description>Order number assigned to the order.</Description>
-                </FormalParameter>
-                <FormalParameter Id="orderType" Index="1" Mode="IN">
-                    <DataType>
-                        <ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/orderschema.xsd" namespace="orderschema/Order" xref="orderType"/>
-                    </DataType>
-                </FormalParameter>
-                <FormalParameter Id="emailAddress" Index="1" Mode="IN">
-                    <DataType>
-                        <BasicType Type="STRING"/>
-                    </DataType>
-                </FormalParameter>
-            </FormalParameters>
-            <DataFields>
-                <DataField Id="docURI" IsArray="FALSE">
-                    <DataType>
-                        <BasicType Type="STRING"/>
-                    </DataType>
-                    <Description>URI of receipt or invoice.</Description>
-                </DataField>
-                <DataField Id="orderStatus" IsArray="FALSE">
-                    <DataType>
-                        <BasicType Type="STRING"/>
-                    </DataType>
-                </DataField>
-                <DataField Id="creditInfo" IsArray="FALSE">
-                    <DataType>
-                        <DeclaredType Id="CreditInfo"/>
-                    </DataType>
-                </DataField>
-                <DataField Id="creditStatus" IsArray="FALSE">
-                    <DataType>
-                        <BasicType Type="STRING"/>
-                    </DataType>
-                </DataField>
-            </DataFields>
-            <Participants>
-                <Participant Id="Shipper">
-                    <ParticipantType Type="ROLE"/>
-                    <Description>Order shipper</Description>
-                </Participant>
-            </Participants>
-            <Applications>
-                <Application Id="shipOrder">
-                    <Description>This application presents a screen that presents order information for the order identified by shipOrder. The user may update the order with any changes such as back order information. It returns a string indicating whether the order is complete or on back order.</Description>
-                    <FormalParameters>
-                        <FormalParameter Id="OrderNumberParam" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="Status" Index="2" Mode="OUT">
-                            <DataType>
-                                <BasicType Type="STRING"/>
-                            </DataType>
-                            <Description>The String that describes the status -- either "Complete" or "Backorder"</Description>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="charge">
-                    <Description>Charges the credit card and prepares a receipt for a credit order</Description>
-                    <ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/creditService.wsdl" xref="ChargeCreditAccount"/>
-                </Application>
-                <Application Id="billAccount">
-                    <Description>Bills the vendor account</Description>
-                    <FormalParameters>
-                        <FormalParameter Id="orderNumberParam" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="createInvoice">
-                    <Description>Creates an invoice using the order information and stores it on a server.</Description>
-                    <FormalParameters>
-                        <FormalParameter Id="orderNumber" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="docURI" Index="2" Mode="OUT">
-                            <DataType>
-                                <BasicType Type="STRING"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="createReceipt">
-                    <Description>Creates a receiptusing the order information and stores it on a server.</Description>
-                    <FormalParameters>
-                        <FormalParameter Id="orderNumber" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="docURI" Index="2" Mode="OUT">
-                            <DataType>
-                                <BasicType Type="STRING"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="cancelOrder">
-                    <FormalParameters>
-                        <FormalParameter Id="orderNumberIn" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-            </Applications>
-            <Activities>
-                <Activity Id="21">
-                    <Route/>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="70"/>
-                        <ExtendedAttribute Name="YOffset" Value="55"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                        <xpdl:ExtendedAttribute Name="SystemActivity" Value="Alarm"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="9" Id="1" To="8">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="9" Id="2" To="11">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="11" Id="16" To="33">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="8" Id="17" To="33">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="33" Id="18" To="6">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="5" Id="20" To="17">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="17" Id="21" To="1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="1" Id="22" To="12">
+                    <xpdl:Condition>status == "Valid Data"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="214,218"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="1" Id="23" To="39">
+                    <xpdl:Condition>status == "Invalid Data"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="449,334"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="12" Id="24" To="10">
+                    <xpdl:Condition>orderType == "Credit"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="12" Id="25" To="41">
+                    <xpdl:Condition>orderType == "PO"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="10" Id="26" To="32">
+                    <xpdl:Condition>status == "Accept"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="648,218"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="41" Id="27" To="32">
+                    <xpdl:Condition>status == "Accept"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="32" Id="28" To="9">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="39" Id="29" To="6">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="1057,438"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="41" Id="30" To="39">
+                    <xpdl:Condition>status == "OverLimit"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="570,74"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="10" Id="31" To="39">
+                    <xpdl:Condition>status == "BadCredit"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="533,248"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="9" Id="38" To="56">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="56" Id="39" To="33">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="17" Id="40" To="58">
+                    <xpdl:Condition Type="EXCEPTION"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="58" Id="42" To="39">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=DBConnection,CONNECTING_ACTIVITY_ID=6,X_OFFSET=1048,Y_OFFSET=21,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=DBConnection,CONNECTING_ACTIVITY_ID=5,X_OFFSET=89,Y_OFFSET=23,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="DBConnection;FreeTextExpressionParticipant"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PRIVATE" Id="2" Name="FillOrder">
+            <xpdl:ProcessHeader/>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="orderNumber" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Order number assigned to the order.</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="orderType" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/orderschema.xsd" namespace="orderschema/Order" xref="orderType"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="emailAddress" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="docURI" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>URI of receipt or invoice.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="orderStatus" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="creditInfo" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="CreditInfo"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="creditStatus" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Participants>
+                <xpdl:Participant Id="Shipper">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                    <xpdl:Description>Order shipper</xpdl:Description>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:Applications>
+                <xpdl:Application Id="shipOrder">
+                    <xpdl:Description>This application presents a screen that presents order information for the order identified by shipOrder. The user may update the order with any changes such as back order information. It returns a string indicating whether the order is complete or on back order.</xpdl:Description>
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="OrderNumberParam" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="Status" Index="2" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="STRING"/>
+                            </xpdl:DataType>
+                            <xpdl:Description>The String that describes the status -- either "Complete" or "Backorder"</xpdl:Description>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="charge">
+                    <xpdl:Description>Charges the credit card and prepares a receipt for a credit order</xpdl:Description>
+                    <xpdl:ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/creditService.wsdl" xref="ChargeCreditAccount"/>
+                </xpdl:Application>
+                <xpdl:Application Id="billAccount">
+                    <xpdl:Description>Bills the vendor account</xpdl:Description>
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="orderNumberParam" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="createInvoice">
+                    <xpdl:Description>Creates an invoice using the order information and stores it on a server.</xpdl:Description>
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="orderNumber" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="docURI" Index="2" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="STRING"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="createReceipt">
+                    <xpdl:Description>Creates a receiptusing the order information and stores it on a server.</xpdl:Description>
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="orderNumber" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="docURI" Index="2" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="STRING"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="cancelOrder">
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="orderNumberIn" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+            </xpdl:Applications>
+            <xpdl:Activities>
+                <xpdl:Activity Id="21">
+                    <xpdl:Route/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="70,55"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="62" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="22" Name="Billing">
-                    <Implementation>
-                        <Tool Id="billAccount" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="341"/>
-                        <ExtendedAttribute Name="YOffset" Value="113"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="22" Name="Billing">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="billAccount" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="341,113"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="347" ypos="435"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="23" Name="Charge Credit Card">
-                    <Implementation>
-                        <No/>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="446"/>
-                        <ExtendedAttribute Name="YOffset" Value="56"/>
-                        <ExtendedAttribute Name="SystemActivity" Value="WebService"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="23" Name="Charge Credit Card">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="446,56"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="SystemActivity" Value="WebService"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="386" ypos="338"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="30">
-                    <Route/>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="754"/>
-                        <ExtendedAttribute Name="YOffset" Value="24"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="30">
+                    <xpdl:Route/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="754,24"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="613" ypos="389"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="31" Name="email Receipt or Invoice">
-                    <Implementation>
-                        <No/>
-                    </Implementation>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Join Type="XOR"/>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="651"/>
-                        <ExtendedAttribute Name="YOffset" Value="57"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="31" Name="email Receipt or Invoice">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="651,57"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="430" ypos="385"/>
-                        </ExtendedAttribute>
-                        <ExtendedAttribute Name="SystemActivity" Value="Email"/>
-                        <ExtendedAttribute Name="Email">
+                        </xpdl:ExtendedAttribute>
+                        <xpdl:ExtendedAttribute Name="SystemActivity" Value="Email"/>
+                        <xpdl:ExtendedAttribute Name="Email">
                             <xyz:Email subject="%%orderStatus" to="%%emailAddress">
                         <xyz:Attachments>
                            <xyz:Attachment>%%docURI</xyz:Attachment>
                         </xyz:Attachments>
                         <xyz:MessageText>Order number %%orderNumber is %%orderStatus. Thank-you for ordering from PQR Products, Inc.</xyz:MessageText>
                      </xyz:Email>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="36" Name="Ship Order">
-                    <Description>View order and enter fulfillment info</Description>
-                    <Implementation>
-                        <Tool Id="shipOrder" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                                <ActualParameter>orderStatus</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection and Shipper</Performer>
-                    <Deadline Execution="ASYNCHR">
-                        <DeadlineCondition>3 days</DeadlineCondition>
-                        <ExceptionName>notifyException</ExceptionName>
-                    </Deadline>
-                    <Deadline Execution="SYNCHR">
-                        <DeadlineCondition>5 days</DeadlineCondition>
-                        <ExceptionName>timeoutException</ExceptionName>
-                    </Deadline>
-                    <TransitionRestrictions>
-                        <TransitionRestriction>
-                            <Split Type="XOR">
-                                <TransitionRefs>
-                                    <TransitionRef Id="11"/>
-                                    <TransitionRef Id="10"/>
-                                    <TransitionRef Id="49"/>
-                                    <TransitionRef Id="50"/>
-                                </TransitionRefs>
-                            </Split>
-                        </TransitionRestriction>
-                    </TransitionRestrictions>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="202"/>
-                        <ExtendedAttribute Name="YOffset" Value="55"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="36" Name="Ship Order">
+                    <xpdl:Description>View order and enter fulfillment info</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="shipOrder" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>orderStatus</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection and Shipper</xpdl:Performer>
+                    <xpdl:Deadline Execution="ASYNCHR">
+                        <xpdl:DeadlineCondition>3 days</xpdl:DeadlineCondition>
+                        <xpdl:ExceptionName>notifyException</xpdl:ExceptionName>
+                    </xpdl:Deadline>
+                    <xpdl:Deadline Execution="SYNCHR">
+                        <xpdl:DeadlineCondition>5 days</xpdl:DeadlineCondition>
+                        <xpdl:ExceptionName>timeoutException</xpdl:ExceptionName>
+                    </xpdl:Deadline>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="11"/>
+                                    <xpdl:TransitionRef Id="10"/>
+                                    <xpdl:TransitionRef Id="49"/>
+                                    <xpdl:TransitionRef Id="50"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="202,55"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="133" ypos="386"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="59" Name="Get Credit Info">
-                    <Implementation>
-                        <Tool Id="getCreditInfo" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                                <ActualParameter>creditInfo</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="343"/>
-                        <ExtendedAttribute Name="YOffset" Value="199"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="59" Name="Get Credit Info">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="getCreditInfo" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>creditInfo</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="343,199"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="311" ypos="338"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="60" Name="Create Invoice">
-                    <Implementation>
-                        <Tool Id="createInvoice" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                                <ActualParameter>docUri</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="651"/>
-                        <ExtendedAttribute Name="YOffset" Value="113"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="60" Name="Create Invoice">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="createInvoice" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>docUri</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="651,113"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="460" ypos="435"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="61" Name="Create Receipt">
-                    <Implementation>
-                        <Tool Id="createReceipt" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                                <ActualParameter>docUri</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="542"/>
-                        <ExtendedAttribute Name="YOffset" Value="200"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="61" Name="Create Receipt">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="createReceipt" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>docUri</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="542,200"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="461" ypos="338"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="63" Name="Raise Alarm">
-                    <Implementation>
-                        <No/>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="202"/>
-                        <ExtendedAttribute Name="YOffset" Value="121"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="63" Name="Raise Alarm">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="202,121"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="83" ypos="271"/>
-                        </ExtendedAttribute>
-                        <ExtendedAttribute Name="SystemActivity" Value="Alarm"/>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="64" Name="Cancel Order">
-                    <Description>View order and enter fulfillment info</Description>
-                    <Implementation>
-                        <Tool Id="cancelOrder" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>orderNumber</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="202"/>
-                        <ExtendedAttribute Name="YOffset" Value="24"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                        <xpdl:ExtendedAttribute Name="SystemActivity" Value="Alarm"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="64" Name="Cancel Order">
+                    <xpdl:Description>View order and enter fulfillment info</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="cancelOrder" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>orderNumber</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="202,24"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="174" ypos="271"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-            </Activities>
-            <Transitions>
-                <Transition From="21" Id="8" To="36">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="36" Id="10" To="22">
-                    <Condition>orderType == "PO"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="279;133;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="36" Id="11" To="59">
-                    <Condition>orderType == "Credit"</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="380;325;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="60" Id="13" To="31">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="61" Id="14" To="31">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="31" Id="15" To="30">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                        <ExtendedAttribute Name="BreakPoint" Value="791;327;1"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="59" Id="43" To="23">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="23" Id="44" To="61">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="22" Id="45" To="60">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="36" Id="49" To="63">
-                    <Condition>notifyException</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="36" Id="50" To="64">
-                    <Condition>timeoutException</Condition>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="64" Id="51" To="30">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-            </Transitions>
-            <ExtendedAttributes>
-                <ExtendedAttribute Name="StartOfWorkflow" Value="DBConnection;21;87;108;NOROUTING"/>
-                <ExtendedAttribute Name="EndOfWorkflow" Value="FreeTextExpressionParticipant;63;219;202;NOROUTING"/>
-                <ExtendedAttribute Name="EndOfWorkflow" Value="DBConnection;30;861;24;NOROUTING"/>
-                <ExtendedAttribute Name="ParticipantVisualOrder" Value="DBConnection;FreeTextExpressionParticipant;"/>
-            </ExtendedAttributes>
-        </WorkflowProcess>
-        <WorkflowProcess AccessLevel="PRIVATE" Id="3" Name="CreditCheck">
-            <ProcessHeader/>
-            <FormalParameters>
-                <FormalParameter Id="accountNumber" Index="1" Mode="IN">
-                    <DataType>
-                        <BasicType Type="INTEGER"/>
-                    </DataType>
-                </FormalParameter>
-                <FormalParameter Id="amount" Index="2" Mode="IN">
-                    <DataType>
-                        <BasicType Type="FLOAT"/>
-                    </DataType>
-                </FormalParameter>
-                <FormalParameter Id="cardType" Index="4" Mode="IN">
-                    <DataType>
-                        <DeclaredType Id="CardType"/>
-                    </DataType>
-                </FormalParameter>
-                <FormalParameter Id="status" Index="3" Mode="OUT">
-                    <DataType>
-                        <DeclaredType Id="OrderStatus"/>
-                    </DataType>
-                </FormalParameter>
-            </FormalParameters>
-            <DataFields>
-                <DataField Id="creditStatus" IsArray="FALSE">
-                    <DataType>
-                        <BasicType Type="STRING"/>
-                    </DataType>
-                    <Length>0</Length>
-                </DataField>
-            </DataFields>
-            <Applications>
-                <Application Id="setCreditInfo">
-                    <Description>Creates and initializes a CreditInfo object.</Description>
-                    <FormalParameters>
-                        <FormalParameter Id="accountNumber" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="INTEGER"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="amount" Index="2" Mode="IN">
-                            <DataType>
-                                <BasicType Type="FLOAT"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="cardType" Index="3" Mode="IN">
-                            <DataType>
-                                <DeclaredType Id="CardType"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="creditInfo" Index="4" Mode="OUT">
-                            <DataType>
-                                <DeclaredType Id="CreditInfo"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-                <Application Id="getCreditAuthorization">
-                    <Description>Gets credit authorization from a charge card web service.</Description>
-                    <ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/creditService.wsdl" xref="GetCreditAuthorization"/>
-                </Application>
-                <Application Id="setOrderStatus">
-                    <Description>Converts status returned by credit check to OrderStatus.</Description>
-                    <FormalParameters>
-                        <FormalParameter Id="creditStatus" Index="1" Mode="IN">
-                            <DataType>
-                                <BasicType Type="STRING"/>
-                            </DataType>
-                        </FormalParameter>
-                        <FormalParameter Id="orderStatus" Index="2" Mode="OUT">
-                            <DataType>
-                                <DeclaredType Id="OrderStatus"/>
-                            </DataType>
-                        </FormalParameter>
-                    </FormalParameters>
-                </Application>
-            </Applications>
-            <Activities>
-                <Activity Id="48">
-                    <Route/>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="152"/>
-                        <ExtendedAttribute Name="YOffset" Value="44"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="21" Id="8" To="36">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="36" Id="10" To="22">
+                    <xpdl:Condition>orderType == "PO"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="279,133"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="36" Id="11" To="59">
+                    <xpdl:Condition>orderType == "Credit"</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="380,325"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="60" Id="13" To="31">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="61" Id="14" To="31">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="31" Id="15" To="30">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="791,327"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="59" Id="43" To="23">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="23" Id="44" To="61">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="22" Id="45" To="60">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="36" Id="49" To="63">
+                    <xpdl:Condition>notifyException</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="36" Id="50" To="64">
+                    <xpdl:Condition>timeoutException</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="64" Id="51" To="30">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=DBConnection,CONNECTING_ACTIVITY_ID=30,X_OFFSET=872,Y_OFFSET=35,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=63,X_OFFSET=230,Y_OFFSET=213,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=DBConnection,CONNECTING_ACTIVITY_ID=21,X_OFFSET=98,Y_OFFSET=119,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="DBConnection;FreeTextExpressionParticipant"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PRIVATE" Id="3" Name="CreditCheck">
+            <xpdl:ProcessHeader/>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="accountNumber" Index="1" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="amount" Index="2" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="FLOAT"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="cardType" Index="4" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="CardType"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="status" Index="3" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="OrderStatus"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="creditStatus" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Length>0</xpdl:Length>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Applications>
+                <xpdl:Application Id="setCreditInfo">
+                    <xpdl:Description>Creates and initializes a CreditInfo object.</xpdl:Description>
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="accountNumber" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="INTEGER"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="amount" Index="2" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="FLOAT"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="cardType" Index="3" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="CardType"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="creditInfo" Index="4" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="CreditInfo"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+                <xpdl:Application Id="getCreditAuthorization">
+                    <xpdl:Description>Gets credit authorization from a charge card web service.</xpdl:Description>
+                    <xpdl:ExternalReference location="http://wfmc.org/standards/docs/xpdl_sample/creditService.wsdl" xref="GetCreditAuthorization"/>
+                </xpdl:Application>
+                <xpdl:Application Id="setOrderStatus">
+                    <xpdl:Description>Converts status returned by credit check to OrderStatus.</xpdl:Description>
+                    <xpdl:FormalParameters>
+                        <xpdl:FormalParameter Id="creditStatus" Index="1" Mode="IN">
+                            <xpdl:DataType>
+                                <xpdl:BasicType Type="STRING"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                        <xpdl:FormalParameter Id="orderStatus" Index="2" Mode="OUT">
+                            <xpdl:DataType>
+                                <xpdl:DeclaredType Id="OrderStatus"/>
+                            </xpdl:DataType>
+                        </xpdl:FormalParameter>
+                    </xpdl:FormalParameters>
+                </xpdl:Application>
+            </xpdl:Applications>
+            <xpdl:Activities>
+                <xpdl:Activity Id="48">
+                    <xpdl:Route/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="152,44"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="61" ypos="395"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="49" Name="Set Credit Info">
-                    <Implementation>
-                        <Tool Id="setCreditInfo" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>accountNumber</ActualParameter>
-                                <ActualParameter>amount</ActualParameter>
-                                <ActualParameter>cardType</ActualParameter>
-                                <ActualParameter>creditInfo</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <Performer>DBConnection</Performer>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="242"/>
-                        <ExtendedAttribute Name="YOffset" Value="38"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="49" Name="Set Credit Info">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="setCreditInfo" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>accountNumber</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>amount</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>cardType</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>creditInfo</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>DBConnection</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="242,38"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="151" ypos="394"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="50" Name="Get Credit Authorization">
-                    <Implementation>
-                        <Tool Id="getCreditAuthorization" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>creditInfo</ActualParameter>
-                                <ActualParameter>creditStatus</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="319"/>
-                        <ExtendedAttribute Name="YOffset" Value="43"/>
-                        <ExtendedAttribute Name="SystemActivity" Value="WebService"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="50" Name="Get Credit Authorization">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="getCreditAuthorization" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>creditInfo</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>creditStatus</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="319,43"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="SystemActivity" Value="WebService"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="253" ypos="394"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="52">
-                    <Route/>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="DBConnection"/>
-                        <ExtendedAttribute Name="XOffset" Value="541"/>
-                        <ExtendedAttribute Name="YOffset" Value="37"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="52">
+                    <xpdl:Route/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="541,37"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="DBConnection"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="444" ypos="397"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-                <Activity Id="62" Name="Set Order Status">
-                    <Implementation>
-                        <Tool Id="setOrderStatus" Type="APPLICATION">
-                            <ActualParameters>
-                                <ActualParameter>creditStatus</ActualParameter>
-                                <ActualParameter>status</ActualParameter>
-                            </ActualParameters>
-                        </Tool>
-                    </Implementation>
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
-                        <ExtendedAttribute Name="XOffset" Value="465"/>
-                        <ExtendedAttribute Name="YOffset" Value="43"/>
-                        <ExtendedAttribute Name="Coordinates">
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="62" Name="Set Order Status">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="setOrderStatus" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>creditStatus</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>status</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="465,43"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="Coordinates">
                             <xyz:Coordinates xpos="361" ypos="394"/>
-                        </ExtendedAttribute>
-                    </ExtendedAttributes>
-                </Activity>
-            </Activities>
-            <Transitions>
-                <Transition From="50" Id="35" To="62">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="48" Id="46" To="49">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="49" Id="47" To="50">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-                <Transition From="62" Id="48" To="52">
-                    <ExtendedAttributes>
-                        <ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
-                    </ExtendedAttributes>
-                </Transition>
-            </Transitions>
-            <ExtendedAttributes>
-                <ExtendedAttribute Name="StartOfWorkflow" Value="DBConnection;48;80;28;NOROUTING"/>
-                <ExtendedAttribute Name="EndOfWorkflow" Value="DBConnection;52;674;37;NOROUTING"/>
-                <ExtendedAttribute Name="ParticipantVisualOrder" Value="DBConnection;FreeTextExpressionParticipant;"/>
-            </ExtendedAttributes>
-        </WorkflowProcess>
-    </WorkflowProcesses>
-    <ExtendedAttributes>
-        <ExtendedAttribute Name="MadeBy" Value="JaWE"/>
-        <ExtendedAttribute Name="Version" Value="1.0"/>
-    </ExtendedAttributes>
-</Package>
+                        </xpdl:ExtendedAttribute>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="50" Id="35" To="62">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="48" Id="46" To="49">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="49" Id="47" To="50">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="62" Id="48" To="52">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=DBConnection,CONNECTING_ACTIVITY_ID=52,X_OFFSET=685,Y_OFFSET=48,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=DBConnection,CONNECTING_ACTIVITY_ID=48,X_OFFSET=91,Y_OFFSET=39,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="DBConnection;FreeTextExpressionParticipant"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="3.2-2-C-20100831-0848"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

@@ -3,12 +3,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: titlepage.xsl,v 1.3 2006/09/21 11:51:03 sasa Exp $
+     $Id: titlepage.xsl 8491 2009-07-19 10:02:57Z mzjn $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -37,6 +37,9 @@
 
 <xsl:attribute-set name="dedication.titlepage.recto.style"/>
 <xsl:attribute-set name="dedication.titlepage.verso.style"/>
+
+<xsl:attribute-set name="acknowledgements.titlepage.recto.style"/>
+<xsl:attribute-set name="acknowledgements.titlepage.verso.style"/>
 
 <xsl:attribute-set name="preface.titlepage.recto.style"/>
 <xsl:attribute-set name="preface.titlepage.verso.style"/>
@@ -118,21 +121,26 @@
 </xsl:template>
 
 <xsl:template match="abbrev" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="abstract" mode="titlepage.mode">
-  <div class="{name(.)}">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:call-template name="anchor"/>
-    <xsl:call-template name="formal.object.heading">
-      <xsl:with-param name="title">
-        <xsl:apply-templates select="." mode="title.markup"/>
-      </xsl:with-param>
-    </xsl:call-template>
+    <xsl:if test="$abstract.notitle.enabled = 0">
+      <xsl:call-template name="formal.object.heading">
+        <xsl:with-param name="title">
+          <xsl:apply-templates select="." mode="title.markup"/>
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:apply-templates mode="titlepage.mode"/>
+    <xsl:call-template name="process.footnotes"/>
   </div>
 </xsl:template>
 
@@ -151,7 +159,8 @@
                     and @linenumbering = 'numbered'
                     and $use.extensions != '0'
                     and $linenumbering.extension != '0'">
-      <div class="{name(.)}">
+      <div>
+        <xsl:apply-templates select="." mode="common.html.attributes"/>
         <xsl:call-template name="paragraph">
           <xsl:with-param name="content">
             <xsl:call-template name="number.rtf.lines">
@@ -163,7 +172,8 @@
     </xsl:when>
 
     <xsl:otherwise>
-      <div class="{name(.)}">
+      <div>
+        <xsl:apply-templates select="." mode="common.html.attributes"/>
         <xsl:call-template name="paragraph">
           <xsl:with-param name="content">
             <xsl:call-template name="make-verbatim">
@@ -177,41 +187,83 @@
 </xsl:template>
 
 <xsl:template match="affiliation" mode="titlepage.mode">
-  <div class="{name(.)}">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </div>
 </xsl:template>
 
 <xsl:template match="artpagenums" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
-<xsl:template match="author" mode="titlepage.mode">
-  <div class="{name(.)}">
-    <h3 class="{name(.)}"><xsl:call-template name="person.name"/></h3>
-    <xsl:apply-templates mode="titlepage.mode" select="./contrib"/>
-    <xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
-    <xsl:apply-templates mode="titlepage.mode" select="./email"/>
+<xsl:template match="author|editor" mode="titlepage.mode">
+  <xsl:call-template name="credits.div"/>
+</xsl:template>
+
+<xsl:template name="credits.div">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:if test="self::editor[position()=1] and not($editedby.enabled = 0)">
+      <h4 class="editedby"><xsl:call-template name="gentext.edited.by"/></h4>
+    </xsl:if>
+    <h3>
+      <xsl:apply-templates select="." mode="common.html.attributes"/>
+      <xsl:choose>
+        <xsl:when test="orgname">
+          <xsl:apply-templates/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="person.name"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </h3>
+    <xsl:if test="not($contrib.inline.enabled = 0)">
+      <xsl:apply-templates mode="titlepage.mode" select="contrib"/>
+    </xsl:if>
+    <xsl:apply-templates mode="titlepage.mode" select="affiliation"/>
+    <xsl:apply-templates mode="titlepage.mode" select="email"/>
+    <xsl:if test="not($blurb.on.titlepage.enabled = 0)">
+      <xsl:choose>
+        <xsl:when test="$contrib.inline.enabled = 0">
+          <xsl:apply-templates mode="titlepage.mode"
+                               select="contrib|authorblurb|personblurb"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates mode="titlepage.mode"
+                               select="authorblurb|personblurb"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
   </div>
 </xsl:template>
 
 <xsl:template match="authorblurb|personblurb" mode="titlepage.mode">
-  <div class="{name(.)}">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </div>
 </xsl:template>
 
 <xsl:template match="authorgroup" mode="titlepage.mode">
-  <div class="{name(.)}">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:if test="parent::refentryinfo">
+      <h2>Authors</h2>
+    </xsl:if>
+      
+    <xsl:call-template name="anchor"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </div>
 </xsl:template>
 
 <xsl:template match="authorinitials" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -226,40 +278,46 @@
 </xsl:template>
 
 <xsl:template match="collab" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="collabname" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </span>
 </xsl:template>
 
 <xsl:template match="confgroup" mode="titlepage.mode">
-  <div class="{name(.)}">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </div>
 </xsl:template>
 
 <xsl:template match="confdates" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="confsponsor" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="conftitle" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -270,27 +328,47 @@
 </xsl:template>
 
 <xsl:template match="contractnum" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="contractsponsor" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="contrib" mode="titlepage.mode">
-  <span class="{name(.)}">
-    <xsl:apply-templates mode="titlepage.mode"/>
-  </span>
+  <xsl:choose>
+    <xsl:when test="not($contrib.inline.enabled = 0)">
+      <span>
+        <xsl:apply-templates select="." mode="common.html.attributes"/>
+        <xsl:apply-templates mode="titlepage.mode"/>
+      </span><xsl:text>&#160;</xsl:text>
+    </xsl:when>
+    <xsl:otherwise>
+      <div>
+        <xsl:apply-templates select="." mode="common.html.attributes"/>
+        <p><xsl:apply-templates mode="titlepage.mode"/></p>
+      </div>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <xsl:template match="copyright" mode="titlepage.mode">
-  <p class="{name(.)}">
+
+  <xsl:if test="generate-id() = generate-id(//refentryinfo/copyright[1])
+      and ($stylesheet.result.type = 'html' or $stylesheet.result.type = 'xhtml')">
+    <h2>Copyright</h2>
+  </xsl:if>
+
+  <p>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:call-template name="gentext">
       <xsl:with-param name="key" select="'Copyright'"/>
     </xsl:call-template>
@@ -340,34 +418,39 @@
 </xsl:template>
 
 <xsl:template match="corpauthor" mode="titlepage.mode">
-  <h3 class="{name(.)}">
+  <h3>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </h3>
 </xsl:template>
 
 <xsl:template match="corpcredit" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="corpname" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="date" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="edition" mode="titlepage.mode">
-  <p class="{name(.)}">
+  <p>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <xsl:call-template name="gentext.space"/>
     <xsl:call-template name="gentext">
@@ -376,22 +459,14 @@
   </p>
 </xsl:template>
 
-<xsl:template match="editor" mode="titlepage.mode">
-  <h3 class="{name(.)}"><xsl:call-template name="person.name"/></h3>
-</xsl:template>
-
-<xsl:template match="editor[position()=1]" mode="titlepage.mode">
-  <h4 class="editedby"><xsl:call-template name="gentext.edited.by"/></h4>
-  <h3 class="{name(.)}"><xsl:call-template name="person.name"/></h3>
-</xsl:template>
-
 <xsl:template match="email" mode="titlepage.mode">
   <!-- use the normal e-mail handling code -->
   <xsl:apply-templates select="."/>
 </xsl:template>
 
 <xsl:template match="firstname" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -403,28 +478,32 @@
 </xsl:template>
 
 <xsl:template match="honorific" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="isbn" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="issn" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="biblioid" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -434,21 +513,24 @@
 </xsl:template>
 
 <xsl:template match="invpartnumber" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="issuenum" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="jobtitle" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -459,14 +541,19 @@
 
 <xsl:template match="legalnotice" mode="titlepage.mode">
   <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+
   <xsl:choose>
     <xsl:when test="$generate.legalnotice.link != 0">
+      
+      <!-- Compute name of legalnotice file -->
+      <xsl:variable name="file">
+	<xsl:call-template name="ln.or.rh.filename"/>
+      </xsl:variable>
+
       <xsl:variable name="filename">
         <xsl:call-template name="make-relative-filename">
           <xsl:with-param name="base.dir" select="$base.dir"/>
-	  <xsl:with-param name="base.name">
-            <xsl:apply-templates mode="chunk-filename" select="."/>
-	  </xsl:with-param>
+	  <xsl:with-param name="base.name" select="$file"/>
         </xsl:call-template>
       </xsl:variable>
 
@@ -474,11 +561,7 @@
         <xsl:apply-templates select="." mode="title.markup"/>
       </xsl:variable>
 
-      <xsl:variable name="href">
-        <xsl:apply-templates mode="chunk-filename" select="."/>
-      </xsl:variable>
-
-      <a href="{$href}">
+      <a href="{$file}">
         <xsl:copy-of select="$title"/>
       </a>
 
@@ -495,16 +578,19 @@
             </head>
             <body>
               <xsl:call-template name="body.attributes"/>
-              <div class="{local-name(.)}">
+              <div>
+                <xsl:apply-templates select="." mode="common.html.attributes"/>
                 <xsl:apply-templates mode="titlepage.mode"/>
               </div>
             </body>
           </html>
+          <xsl:value-of select="$chunk.append"/>
         </xsl:with-param>
       </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
-      <div class="{local-name(.)}">
+      <div>
+        <xsl:apply-templates select="." mode="common.html.attributes"/>
         <a name="{$id}"/>
         <xsl:apply-templates mode="titlepage.mode"/>
       </div>
@@ -517,7 +603,8 @@
 </xsl:template>
 
 <xsl:template match="lineage" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -527,31 +614,38 @@
 </xsl:template>
 
 <xsl:template match="orgdiv" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <xsl:if test="preceding-sibling::*[1][self::orgname]">
+    <xsl:text> </xsl:text>
+  </xsl:if>
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="orgname" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="othercredit" mode="titlepage.mode">
+<xsl:choose>
+  <xsl:when test="not($othercredit.like.author.enabled = 0)">
   <xsl:variable name="contrib" select="string(contrib)"/>
   <xsl:choose>
     <xsl:when test="contrib">
       <xsl:if test="not(preceding-sibling::othercredit[string(contrib)=$contrib])">
         <xsl:call-template name="paragraph">
-          <xsl:with-param name="class" select="name(.)"/>
+          <xsl:with-param name="class" select="local-name(.)"/>
           <xsl:with-param name="content">
             <xsl:apply-templates mode="titlepage.mode" select="contrib"/>
             <xsl:text>: </xsl:text>
             <xsl:call-template name="person.name"/>
-            <xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
+            <xsl:apply-templates mode="titlepage.mode" select="affiliation"/>
             <xsl:apply-templates select="following-sibling::othercredit[string(contrib)=$contrib]" mode="titlepage.othercredits"/>
           </xsl:with-param>
         </xsl:call-template>
@@ -559,14 +653,19 @@
     </xsl:when>
     <xsl:otherwise>
       <xsl:call-template name="paragraph">
-        <xsl:with-param name="class" select="name(.)"/>
+        <xsl:with-param name="class" select="local-name(.)"/>
         <xsl:with-param name="content">
           <xsl:call-template name="person.name"/>
         </xsl:with-param>
       </xsl:call-template>
-      <xsl:apply-templates mode="titlepage.mode" select="./affiliation"/>
+      <xsl:apply-templates mode="titlepage.mode" select="affiliation"/>
     </xsl:otherwise>
   </xsl:choose>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:call-template name="credits.div"/>
+  </xsl:otherwise>
+</xsl:choose>
 </xsl:template>
 
 <xsl:template match="othercredit" mode="titlepage.othercredits">
@@ -575,34 +674,39 @@
 </xsl:template>
 
 <xsl:template match="othername" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="pagenums" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="printhistory" mode="titlepage.mode">
-  <div class="{name(.)}">
+  <div>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </div>
 </xsl:template>
 
 <xsl:template match="productname" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="productnumber" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -610,7 +714,7 @@
 
 <xsl:template match="pubdate" mode="titlepage.mode">
   <xsl:call-template name="paragraph">
-    <xsl:with-param name="class" select="name(.)"/>
+    <xsl:with-param name="class" select="local-name(.)"/>
     <xsl:with-param name="content">
       <xsl:apply-templates mode="titlepage.mode"/>
     </xsl:with-param>
@@ -619,7 +723,7 @@
 
 <xsl:template match="publisher" mode="titlepage.mode">
   <xsl:call-template name="paragraph">
-    <xsl:with-param name="class" select="name(.)"/>
+    <xsl:with-param name="class" select="local-name(.)"/>
     <xsl:with-param name="content">
       <xsl:apply-templates mode="titlepage.mode"/>
     </xsl:with-param>
@@ -627,14 +731,16 @@
 </xsl:template>
 
 <xsl:template match="publishername" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="pubsnumber" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -642,7 +748,7 @@
 
 <xsl:template match="releaseinfo" mode="titlepage.mode">
   <xsl:call-template name="paragraph">
-    <xsl:with-param name="class" select="name(.)"/>
+    <xsl:with-param name="class" select="local-name(.)"/>
     <xsl:with-param name="content">
       <xsl:apply-templates mode="titlepage.mode"/>
     </xsl:with-param>
@@ -666,10 +772,11 @@
   </xsl:variable>
 
   <xsl:variable name="contents">
-    <div class="{name(.)}">
+    <div>
+      <xsl:apply-templates select="." mode="common.html.attributes"/>
       <table border="1" width="100%" summary="Revision history">
         <tr>
-          <th align="left" valign="top" colspan="{$numcols}">
+          <th align="{$direction.align.start}" valign="top" colspan="{$numcols}">
             <b>
               <xsl:call-template name="gentext">
                 <xsl:with-param name="key" select="'RevHistory'"/>
@@ -686,14 +793,22 @@
   
   <xsl:choose>
     <xsl:when test="$generate.revhistory.link != 0">
+      
+      <!-- Compute name of revhistory file -->
+      <xsl:variable name="file">
+	<xsl:call-template name="ln.or.rh.filename">
+	  <xsl:with-param name="is.ln" select="false()"/>
+	</xsl:call-template>
+      </xsl:variable>
+
       <xsl:variable name="filename">
         <xsl:call-template name="make-relative-filename">
           <xsl:with-param name="base.dir" select="$base.dir"/>
-          <xsl:with-param name="base.name" select="concat($id,$html.ext)"/>
+          <xsl:with-param name="base.name" select="$file"/>
         </xsl:call-template>
       </xsl:variable>
 
-      <a href="{concat($id,$html.ext)}">
+      <a href="{$file}">
         <xsl:copy-of select="$title"/>
       </a>
 
@@ -720,6 +835,7 @@
               <xsl:copy-of select="$contents"/>
             </body>
           </html>
+          <xsl:text>&#x0a;</xsl:text>
         </xsl:with-param>
       </xsl:call-template>
     </xsl:when>
@@ -736,7 +852,7 @@
   <xsl:variable name="revauthor" select="authorinitials|author"/>
   <xsl:variable name="revremark" select="revremark|revdescription"/>
   <tr>
-    <td align="left">
+    <td align="{$direction.align.start}">
       <xsl:if test="$revnumber">
         <xsl:call-template name="gentext">
           <xsl:with-param name="key" select="'Revision'"/>
@@ -745,12 +861,12 @@
         <xsl:apply-templates select="$revnumber[1]" mode="titlepage.mode"/>
       </xsl:if>
     </td>
-    <td align="left">
+    <td align="{$direction.align.start}">
       <xsl:apply-templates select="$revdate[1]" mode="titlepage.mode"/>
     </td>
     <xsl:choose>
       <xsl:when test="$revauthor">
-        <td align="left">
+        <td align="{$direction.align.start}">
           <xsl:for-each select="$revauthor">
             <xsl:apply-templates select="." mode="titlepage.mode"/>
             <xsl:if test="position() != last()">
@@ -767,7 +883,7 @@
   </tr>
   <xsl:if test="$revremark">
     <tr>
-      <td align="left" colspan="{$numcols}">
+      <td align="{$direction.align.start}" colspan="{$numcols}">
         <xsl:apply-templates select="$revremark[1]" mode="titlepage.mode"/>
       </td>
     </tr>
@@ -799,14 +915,16 @@
 </xsl:template>
 
 <xsl:template match="seriesvolnums" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
 <xsl:template match="shortaffil" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -816,13 +934,15 @@
 </xsl:template>
 
 <xsl:template match="subtitle" mode="titlepage.mode">
-  <h2 class="{name(.)}">
+  <h2>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
   </h2>
 </xsl:template>
 
 <xsl:template match="surname" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
@@ -845,8 +965,11 @@
     </xsl:choose>
   </xsl:variable>
 
-  <h1 class="{name(.)}">
-    <a name="{$id}"/>
+  <h1>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:if test="$generate.id.attributes = 0">
+      <a name="{$id}"/>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="$show.revisionflag != 0 and @revisionflag">
 	<span class="{@revisionflag}">
@@ -865,12 +988,57 @@
 </xsl:template>
 
 <xsl:template match="volumenum" mode="titlepage.mode">
-  <span class="{name(.)}">
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
     <xsl:apply-templates mode="titlepage.mode"/>
     <br/>
   </span>
 </xsl:template>
 
+<!-- This template computes the filename for legalnotice and revhistory chunks -->
+<xsl:template name="ln.or.rh.filename">
+  <xsl:param name="node" select="."/>
+  <xsl:param name="is.ln" select="true()"/>
+
+  <xsl:variable name="dbhtml-filename">
+    <xsl:call-template name="pi.dbhtml_filename">
+      <xsl:with-param name="node" select="$node"/>
+    </xsl:call-template>
+  </xsl:variable>
+ 
+  <xsl:choose>
+    <!--  1. If there is a dbhtml_filename PI, use that -->
+    <xsl:when test="$dbhtml-filename != ''">
+      <xsl:value-of select="$dbhtml-filename"/>
+    </xsl:when>
+    <xsl:when test="($node/@id or $node/@xml:id) and not($use.id.as.filename = 0)">
+      <!-- * 2. If this legalnotice/revhistory has an ID, then go ahead and use -->
+      <!-- * just the value of that ID as the basename for the file -->
+      <!-- * (that is, without prepending an "ln-" or "rh-" to it) -->
+      <xsl:value-of select="($node/@id|$node/@xml:id)[1]"/>
+      <xsl:value-of select="$html.ext"/>
+    </xsl:when>
+    <xsl:when test="not ($node/@id or $node/@xml:id) or $use.id.as.filename = 0">
+      <!-- * 3. Otherwise, if this legalnotice/revhistory does not have an ID, or -->
+      <!-- * if $use.id.as.filename = 0 -->
+      <!-- * then we generate an ID... -->
+      <xsl:variable name="id">
+	<xsl:value-of select="generate-id($node)"/>
+      </xsl:variable>
+      <!-- * ...and then we take that generated ID, prepend a -->
+      <!-- * prefix to it, and use that as the basename for the file -->
+      <xsl:choose>
+	<xsl:when test="$is.ln">
+	  <xsl:value-of select="concat('ln-',$id,$html.ext)"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of select="concat('rh-',$id,$html.ext)"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:when>
+  </xsl:choose>
+</xsl:template>
+    
 <!-- ==================================================================== -->
 
 </xsl:stylesheet>

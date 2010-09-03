@@ -1,3 +1,20 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
 <!-- ======================================================================= -->
 <!-- ANT-Makefile for TWE                                                    -->
 <!-- ======================================================================= -->
@@ -9,6 +26,10 @@
 	<target name="init">
 
 		<!--Set the global variables-->
+		<property name="docbook.name" value="twe-doc" />
+		<property name="doc.title" value="Together Workflow Editor" />
+		<property name="doc.dir" location="${basedir}" />
+		<property name="tmp.dir" location="${basedir}/tmp" />
 		<property name="version" value="2.0" />
 		<property name="release" value="beta1" />
 		<property name="build.debug" value="off" />
@@ -73,12 +94,13 @@
 		</path>
 
 		<!--Set the classpath for docbook-->
-		<path id="DB-classpath">
-			<pathelement location="${util.dir}/docbook/lib/saxon.jar" />
+		<path id="xalan-classpath">
+			<fileset dir="${util.dir}/xalan/lib">
+				<include name="**/*.jar" />
+			</fileset>
 		</path>
 
-		<property name="docbook.fo.xsl" location="${util.dir}/docbook/xsl/enhydra/fo/docbook.xsl" />
-		<property name="docbook.fo.classpath" location="${util.dir}/docbook/lib/saxon.jar" />
+		<property name="docbook.fo.xsl" location="${util.dir}/docbook/xsl/fo/docbook.xsl" />
 		<property name="docbook.pdf.classpath" location="${util.dir}/fop/lib/fop.jar${path.separator}${util.dir}/fop/lib/batik.jar${path.separator}${util.dir}/fop/lib/avalon-framework.jar${path.separator}${util.dir}/fop/lib/commons-io.jar${path.separator}${util.dir}/fop/lib/xmlgraphics-commons.jar${path.separator}${util.dir}/fop/lib/commons-logging.jar" />
 
 		<!-- Setting IF task -->
@@ -89,14 +111,31 @@
 				</fileset>
 			</classpath>
 		</taskdef>
+		<!-- Setting TRY-CATCH task -->
+		<taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
+			<classpath>
+				<fileset dir="${util.dir}/ant">
+					<include name="antcontrib.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
+		<!-- Setting FOP task -->
+		<property name="fop.home" value="${util.dir}/fop/" />
+		<taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+			<classpath>
+				<fileset dir="${fop.home}/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
 	</target>
 
 	<!-- ==================================================================== -->
 	<!-- Prepare output                                                       -->
 	<!-- ==================================================================== -->
 	<target name="prepare" depends="init">
-		<mkdir dir="${sources.dir}" />
 		<mkdir dir="${output.doc.dir}" />
+		<mkdir dir="${tmp.dir}" />
 	</target>
 
 	<!-- ==================================================================== -->
@@ -124,8 +163,8 @@
 	</target>
 
 	<target name="docbook.check">
-		<uptodate property="docbook.notRequired" targetfile="${tmp.dir}/twe-doc-${version}-${release}.pdf">
-			<srcfiles dir="${doc.dir}" includes="twe.xml" />
+		<uptodate property="docbook.notRequired" targetfile="${tmp.dir}/${docbook.name}-${version}-${release}.pdf">
+			<srcfiles dir="${doc.dir}" includes="${docbook.name}.xml" />
 		</uptodate>
 	</target>
 
@@ -134,67 +173,139 @@
 	<!-- ==================================================================== -->
 	<target name="docbook" depends="prepareDocbook">
 		<copy todir="${output.doc.dir}">
-			<fileset dir="${tmp.dir}" />
+			<fileset dir="${tmp.dir}">
+				<include name="**/Images/**" />
+				<include name="*.pdf" />
+				<include name="${docbook.name}-${version}-${release}.html" />
+			</fileset>
 		</copy>
-		<copy file="${util.dir}/docbook/xsl/enhydra/css/html.css" todir="${output.doc.dir}" />
+		<copy file="${util.dir}/docbook/css/html.css" todir="${output.doc.dir}" />
 	</target>
 
 	<target name="rebranding">
-		<copy file="${doc.dir}/twe.xml" tofile="${tmp.dir}/twe.xml" />
+		<copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
 		<if>
 			<istrue value="${rebranding}" />
 			<then>
 				<ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true" />
-				<touch file="${doc.dir}/twe.xml" />
+				<touch file="${doc.dir}/${docbook.name}.xml" />
 			</then>
 		</if>
 	</target>
 
 	<target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
-		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${tmp.dir}">
-			<arg line="twe.xml ${util.dir}/docbook/xsl/javahelp/javahelp.xsl" />
-			<arg value="html.stylesheet=html.css" />
-		</java>
-		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${tmp.dir}">
-			<arg line="-o twe-doc-${version}-${release}.html twe.xml ${util.dir}/docbook/xsl/html/chunk.xsl" />
-			<arg value="html.stylesheet=html.css" />
-		</java>
-		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${tmp.dir}">
-			<arg line="-o twe-doc-${version}-${release}.html twe.xml ${util.dir}/docbook/xsl/html/docbook.xsl" />
+		<echo message="Removing DOCTYPE entries so xalan does not go to internet" />
+		<replace dir="${tmp.dir}" value="">
+			<include name="${docbook.name}.xml"/>
+			<replacefilter>
+				<replacetoken><![CDATA[<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"]]></replacetoken>
+			</replacefilter>
+			<replacefilter>
+				<replacetoken><![CDATA[<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"]]></replacetoken>
+			</replacefilter>
+			<replacefilter>
+				<replacetoken><![CDATA["http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">]]></replacetoken>
+			</replacefilter>
+		</replace>
+		<echo message="compile docbook with javahelp.xsl" />
+		<retry retrycount="10">
+			<trycatch description="try-catch">
+				<try>
+					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true">
+						<arg line="-param html.stylesheet html.css -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/javahelp/javahelp.xsl" />
+					</java>
+				</try>
+				<catch>
+					<echo message="just retry ..." />
+					<waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+						<http url="www.oasis-open.org" />
+					</waitfor>
+					<fail>Error generate docbook</fail>
+				</catch>
+			</trycatch>
+		</retry>
+		<replace file="${tmp.dir}/jhelptoc.xml" token="text=&quot;&quot;" value="text=&quot;${doc.title}&quot;" />
+		<echo message="compile docbook with chunk.xsl" />
+		<retry retrycount="10">
+			<trycatch description="try-catch">
+				<try>
+					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+						<arg line="-param html.stylesheet html.css -out ${docbook.name}-${version}-${release}.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/chunk.xsl" />
+					</java>
+				</try>
+				<catch>
+					<echo message="just retry ..." />
+					<waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+						<http url="www.oasis-open.org" />
+					</waitfor>
+					<fail>Error generate docbook</fail>
+				</catch>
+			</trycatch>
+		</retry>
 
-			<arg value="html.stylesheet=html.css" />
-		</java>
+		<echo message="compile docbook with docbook.xsl" />
+		<retry retrycount="10">
+			<trycatch description="try-catch">
+				<try>
+					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+						<arg line="-param html.stylesheet html.css -out ${docbook.name}-${version}-${release}.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/docbook.xsl" />
+					</java>
+				</try>
+				<catch>
+					<echo message="just retry ..." />
+					<waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+						<http url="www.oasis-open.org" />
+					</waitfor>
+					<fail>Error generate docbook</fail>
+				</catch>
+			</trycatch>
+		</retry>
 
-		<echo message="docbook PDF  ${tmp.dir}/twe.xml" />
-		<exec dir="${tmp.dir}" executable="java${executable.extension}">
-			<arg line="-cp ${docbook.fo.classpath} com.icl.saxon.StyleSheet -o twe.fo twe.xml ${docbook.fo.xsl} " />
-		</exec>
-		<exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
-			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.cli.Main twe.fo twe-doc-${version}-${release}.pdf" />
-		</exec>
-		<delete file="${tmp.dir}/twe.fo" quiet="true" />
-		<delete file="${tmp.dir}/twe.xml" />
+		<echo message="docbook to ${docbook.name}.fo" />
+		<retry retrycount="10">
+			<trycatch description="try-catch">
+				<try>
+					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+						<arg line="-param html.stylesheet html.css -out ${docbook.name}.fo -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/fo/docbook.xsl" />
+					</java>
+				</try>
+				<catch>
+					<echo message="just retry ..." />
+					<waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+						<http url="www.oasis-open.org" />
+					</waitfor>
+					<fail>Error generate docbook</fail>
+				</catch>
+			</trycatch>
+		</retry>
+
+		<echo message="docbook to PDF  ${tmp.dir}/${docbook.name}.xml" />
+		<retry retrycount="10">
+			<trycatch description="try-catch">
+				<try>
+					<exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+						<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.cli.Main ${docbook.name}.fo ${docbook.name}-${version}-${release}.pdf" />
+					</exec>
+				</try>
+				<catch>
+					<echo message="just retry ..." />
+					<waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+						<http url="www.oasis-open.org" />
+					</waitfor>
+					<fail>Error generate docbook</fail>
+				</catch>
+			</trycatch>
+		</retry>
+
+		<!--antcall target="generate-pdf" inheritall="true" inheritrefs="true" /-->
+
+		<delete file="${tmp.dir}/${docbook.name}.fo" quiet="true" />
+		<delete file="${tmp.dir}/${docbook.name}.xml" quiet="true" />
 
 	</target>
 
-	<target name="releasenotes" depends="content">
-
-		<copy file="${doc.dir}/release_notes.xml" tofile="${output.doc.dir}/release_notes.xml" />
-		<java classname="com.icl.saxon.StyleSheet" classpathref="DB-classpath" fork="true" dir="${output.doc.dir}">
-			<arg line="-o twe-notes-${version}-${release}.html release_notes.xml ${util.dir}/docbook/xsl/html/docbook.xsl" />
-		</java>
-
-		<echo message="docbook PDF -> ${output.doc.dir}/release_notes.xml" />
-		<exec dir="${output.doc.dir}" executable="java${executable.extension}">
-			<arg line="-cp ${docbook.fo.classpath} com.icl.saxon.StyleSheet -o release_notes.fo release_notes.xml ${docbook.fo.xsl} " />
-		</exec>
-		<exec dir="${output.doc.dir}" executable="java${executable.extension}" output="log.txt">
-			<arg line="-cp ${docbook.pdf.classpath} org.apache.fop.cli.Main release_notes.fo twe-notes-${version}-${release}.pdf" />
-		</exec>
-		<delete file="${output.doc.dir}/release_notes.fo" quiet="true" />
-
-		<delete file="${output.doc.dir}/release_notes.xml" />
-
+	<target name="generate-pdf" description="Generates a single PDF file">
+		<fop format="application/pdf" fofile="${tmp.dir}/${docbook.name}.fo" outfile="${tmp.dir}/${docbook.name}-${version}-${release}.pdf" logfiles="log.txt" />
 	</target>
 
 	<!-- ==================================================================== -->

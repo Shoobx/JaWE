@@ -1,3 +1,21 @@
+# Together Workflow Editor 
+# Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses
+#
+####################################################################### 
+
 #!/bin/bash
 #
 #
@@ -13,7 +31,7 @@ function help {
 	echo " 
 	jdkhome
 
-	Example: configure -jdkhome /usr/java/j2sdk1.4.2
+	Example: configure -jdkhome /usr/java/jdk1.6.0_20
 
 "
 
@@ -31,10 +49,10 @@ done
 cd $(dirname $0)        
                         
 if
-	[[ -r build.properties ]]
+	[[ -r configure.properties ]]
 then
-	fname=/tmp/.build.properties$$.tmp
-	grep -v "^[ 	]*#" ./build.properties |
+	fname=/tmp/.configure.properties$$.tmp
+	grep -v "^[ 	]*#" ./configure.properties |
 		grep -v ^$ |
 		sed -e 's/\./_DOT_/g' >$fname
 	. $fname
@@ -97,12 +115,12 @@ fi
 if test -d $jdk_DOT_dir -a -x $jdk_DOT_dir/bin/java ; then
 	prefix=${prefix:=/usr/local}
 	prefix=$(echo $prefix | sed 's/_DOT_/./g')
-fnameOld=/tmp/$$build.properties.old
-fname=/tmp/$$build.properties
+fnameOld=/tmp/$$configure.properties.old
+fname=/tmp/$$configure.properties
 if
-	[[ -r build.properties ]]
+	[[ -r configure.properties ]]
 then
-cp -p ./build.properties $fnameOld
+cp -p ./configure.properties $fnameOld
 sed "
 /^[     ]*# Configured at/c\\
 \# Configured at $(date)
@@ -110,7 +128,7 @@ sed "
 jdk.dir=$jdk_DOT_dir
 " $fnameOld >$fname
 
-rm build.properties
+rm configure.properties
 else
  touch $fnameOld
  touch $fname
@@ -119,9 +137,9 @@ fi
 if
 	! grep "^[ 	]*# Configured on" $fname >/dev/null
 then
-	echo "# Configured at "`date` >build.properties
+	echo "# Configured at "`date` >configure.properties
 fi
-sed  -e 's|_DOT_|\.|g' $fname >>build.properties
+sed  -e 's|_DOT_|\.|g' $fname >>configure.properties
 (
 	for pName in jdk.dir
 	do
@@ -136,8 +154,8 @@ sed  -e 's|_DOT_|\.|g' $fname >>build.properties
 			fi
 		fi
 	done
-)|sed -e 's|_DOT_|\.|g'>>build.properties
-chmod a+r build.properties
+)|sed -e 's|_DOT_|\.|g'>>configure.properties
+chmod a+r configure.properties
 rm $fname $fnameOld
 
 CLASSPATH=lib/ant.jar

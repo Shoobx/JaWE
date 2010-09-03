@@ -1,4 +1,20 @@
 @echo off
+rem #    Together Workflow Editor
+rem #    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+rem #
+rem #    This program is free software: you can redistribute it and/or modify
+rem #    it under the terms of the GNU General Public License as published by
+rem #    the Free Software Foundation, either version 3 of the License, or 
+rem #    (at your option) any later version.
+rem #
+rem #    This program is distributed in the hope that it will be useful, 
+rem #    but WITHOUT ANY WARRANTY; without even the implied warranty of
+rem #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+rem #    GNU General Public License for more details.
+rem # 
+rem #    You should have received a copy of the GNU General Public License
+rem #    along with this program. If not, see http://www.gnu.org/licenses
+rem #-----------------------------------------------------------------------
 cls
 rem *********************************************
 rem *  Initialize environment variables
@@ -10,13 +26,14 @@ SET SET_JDKHOME=off
 SET SET_DEBUG=off
 SET SET_OPTIMIZE=off
 SET SET_INSTALLDIR=off
-SET SET_TYPE=off
+SET SET_REBRANDING=off
 
 SET VERSION=3.2
 SET RELEASE=1
 SET DEBUG=on
 SET OPTIMIZE=on
 SET INSTALLDIR=
+SET REBRANDING=false
 
 
 if exist build.properties goto init
@@ -34,6 +51,7 @@ if %~1==-jdkhome goto jdkhome
 if %~1==-debug goto debug
 if %~1==-optimize goto optimize
 if %~1==-instdir goto instdir
+if %~1==-rebranding goto rebranding
 goto error
 
 :default
@@ -82,6 +100,12 @@ del buildoptimize.txt>nul
 find "install.dir=" < build.properties > install.txt
 for /F "tokens=1,2* delims==" %%i in (install.txt) do SET INSTALLDIR=%%j
 del install.txt>nul
+
+:initrebranding
+find "rebranding=" < build.properties > rebranding.txt
+for /F "tokens=1,2* delims==" %%i in (rebranding.txt) do SET REBRANDING=%%j
+del rebranding.txt>nul
+
 goto start
 
 rem *********************************************************
@@ -95,7 +119,7 @@ echo jdk.dir=^%JDKHOME%>>build.properties
 echo build.debug=^%DEBUG%>>build.properties
 echo build.optimize=^%OPTIMIZE%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
-echo rebranding=false>>build.properties
+echo rebranding=%REBRANDING%>>build.properties
 echo # valid values for language are English, Portuguese and PortugueseBR>>build.properties
 echo language=English>>build.properties
 goto end
@@ -121,12 +145,12 @@ echo configure       - Make build.properties file with default values
 echo.
 echo configure -help - Display this screen
 echo.
-echo configure [-version version_tag] [-release release_tag] [-jdkhome jdk_home_dir] [-debug on/off] [-optimize on/off] [-instdir installation_dir]
+echo configure [-version version_tag] [-release release_tag] [-jdkhome jdk_home_dir] [-debug on/off] [-optimize on/off] [-instdir installation_dir] [-rebranding true/false]
 echo.
 echo.
 echo Examples :
 echo.
-echo configure -version 3.0 -release 1 -debug on -optimize off -jdkhome C:/j2sdk1.4.1 -instdir C:/JaWE
+echo configure -version 3.0 -release 1 -debug off -optimize on -jdkhome C:/jdk1.6 -instdir C:/JaWE
 echo.
 goto end
 
@@ -222,6 +246,19 @@ if "X%~1"=="X" goto make
 goto start
 
 rem *********************************************************
+rem *  Set REBRANDING parameter value
+rem *********************************************************
+:rebranding
+if %SET_REBRANDING%==on goto error
+shift
+if "X%~1"=="X" goto error
+SET REBRANDING=%~f1
+SET SET_REBRANDING=on
+shift
+if "X%~1"=="X" goto make
+goto start
+
+rem *********************************************************
 rem *  Reset evironment variables
 rem *********************************************************
 :end
@@ -231,3 +268,4 @@ SET JDKHOME=
 SET DEBUG=
 SET OPTIMIZE=
 SET INSTALLDIR=
+SET REBRANDING=

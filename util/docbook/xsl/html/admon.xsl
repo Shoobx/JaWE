@@ -3,12 +3,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: admon.xsl,v 1.3 2006/09/21 11:50:58 sasa Exp $
+     $Id: admon.xsl 8421 2009-05-04 07:49:49Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -60,7 +60,8 @@
     </xsl:call-template>
   </xsl:variable>
 
-  <div class="{name(.)}">
+  <div>
+    <xsl:call-template name="common.html.attributes"/>
     <xsl:if test="$admon.style != ''">
       <xsl:attribute name="style">
         <xsl:value-of select="$admon.style"/>
@@ -70,9 +71,9 @@
     <table border="0">
       <xsl:attribute name="summary">
         <xsl:value-of select="$admon.type"/>
-        <xsl:if test="title">
+        <xsl:if test="title|info/title">
           <xsl:text>: </xsl:text>
-          <xsl:value-of select="title"/>
+          <xsl:value-of select="(title|info/title)[1]"/>
         </xsl:if>
       </xsl:attribute>
       <tr>
@@ -86,15 +87,15 @@
             </xsl:attribute>
           </img>
         </td>
-        <th align="left">
+        <th align="{$direction.align.start}">
           <xsl:call-template name="anchor"/>
-          <xsl:if test="$admon.textlabel != 0 or title">
+          <xsl:if test="$admon.textlabel != 0 or title or info/title">
             <xsl:apply-templates select="." mode="object.title.markup"/>
           </xsl:if>
         </th>
       </tr>
       <tr>
-        <td align="left" valign="top">
+        <td align="{$direction.align.start}" valign="top">
           <xsl:apply-templates/>
         </td>
       </tr>
@@ -103,19 +104,22 @@
 </xsl:template>
 
 <xsl:template name="nongraphical.admonition">
-  <div class="{name(.)}">
+  <div>
+    <xsl:call-template name="common.html.attributes">
+      <xsl:with-param name="inherit" select="1"/>
+    </xsl:call-template>
     <xsl:if test="$admon.style">
       <xsl:attribute name="style">
         <xsl:value-of select="$admon.style"/>
       </xsl:attribute>
     </xsl:if>
 
-    <h3 class="title">
-      <xsl:call-template name="anchor"/>
-      <xsl:if test="$admon.textlabel != 0 or title">
+    <xsl:if test="$admon.textlabel != 0 or title or info/title">
+      <h3 class="title">
+        <xsl:call-template name="anchor"/>
         <xsl:apply-templates select="." mode="object.title.markup"/>
-      </xsl:if>
-    </h3>
+      </h3>
+    </xsl:if>
 
     <xsl:apply-templates/>
   </div>

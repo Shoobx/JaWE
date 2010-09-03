@@ -1,7 +1,23 @@
 @echo off
+rem #    Together Workflow Editor
+rem #    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+rem #
+rem #    This program is free software: you can redistribute it and/or modify
+rem #    it under the terms of the GNU General Public License as published by
+rem #    the Free Software Foundation, either version 3 of the License, or 
+rem #    (at your option) any later version.
+rem #
+rem #    This program is distributed in the hope that it will be useful, 
+rem #    but WITHOUT ANY WARRANTY; without even the implied warranty of
+rem #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+rem #    GNU General Public License for more details.
+rem # 
+rem #    You should have received a copy of the GNU General Public License
+rem #    along with this program. If not, see http://www.gnu.org/licenses
+rem #-----------------------------------------------------------------------
 cls
 
-SET VERSION=6.6
+SET VERSION=3.3
 SET TARGET=buildAll
 SET OLD_JAVA_HOME=%JAVA_HOME%
 SET JAVA_HOME=
@@ -18,53 +34,21 @@ find "version" < build.properties >version.txt
 for /F "tokens=1,2* delims==" %%i in (version.txt) do SET VERSION=%%j
 del version.txt>nul
 
-if "X%~1"=="X" goto buildAll
+if "X%~1"=="X" goto help
 if %~1==help goto help
 if %~1==buildAll goto continue
-if %~1==buildNoDoc goto buildNoDoc
-if %~1==buildDocBook goto buildDocBook
-if %~1==buildReleaseNotes goto buildReleaseNotes
-if %~1==dependencies goto dependencies
-if %~1==install goto install
+if %~1==buildNoDoc goto continue
+if %~1==buildDoc goto continue
+if %~1==dependencies goto continue
+if %~1==install goto continue
 if %~1==clean goto continue
-if %~1==cleanAll goto continue
-if %~1==distributions goto buildDistributions
+if %~1==distributions goto continue
 
 goto error
 
 :continue
 SET TARGET=%~1
-goto continuebuild
 
-:buildDocBook
-SET TARGET=buildDocBook
-goto continuebuild
-
-:buildReleaseNotes
-SET TARGET=buildReleaseNotes
-goto continuebuild
-
-:buildAll
-SET TARGET=buildAll
-goto continuebuild
-
-:buildNoDoc
-SET TARGET=buildNoDoc
-goto continuebuild
-
-:dependencies
-SET TARGET=dependencies
-goto continuebuild
-
-:install
-SET TARGET=install
-goto continuebuild
-
-:buildDistributions
-SET TARGET=buildDistributions
-goto continuebuild
-
-:continuebuild
 set OLDCLASSPATH=%CLASSPATH%
 set OLDPATH=%PATH%
 set PATH="%JAVA_HOME%\bin"
@@ -86,17 +70,15 @@ goto end
 echo.
 echo Parameters value for using with make.bat :
 echo.
-echo make                     - builds and configures TWE with javadoc and docbook documentation
-echo make help                - Display this screen
+echo make                     - Displays this Help screen
+echo make help                - Displays this Help screen
+echo make buildAll            - Builds and configures TWE with javadoc and docbook documentation
+echo make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
+echo make buildDoc            - Builds docbook documentation
+echo make dependencies        - Builds and configures TWE, and creates TWS dependencies within distributions folder
 echo make install             - Install and configure TWE
-echo make buildAll            - builds and configures TWE with javadoc and docbook documentation
-echo make buildNoDoc          - builds and configures TWE without javadoc and docbook documentation
-echo make buildDocBook        - builds docbook documentation
-echo make buildReleaseNotes   - builds docbook documentation
-echo make distributions       - builds and configures TWE with all documentations and creates distribution package
-echo make dependencies        - builds and configures TWE, and creates TWS dependencies within distributions folder
-echo make clean               - removes the output and distribution folder (in order to start a new compilation from scratch)
-echo make cleanAll            - removes the same things as 'clean' target plus doc/tmp folder used to quickly generate doc book docu
+echo make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
+echo make distributions       - Builds and configures TWE with all documentations and creates distribution package
 goto end
 
 :errorsystemroot

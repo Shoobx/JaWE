@@ -93,7 +93,7 @@ public class JaWESplash extends JWindow {
       text.setContentType("text/html");
       text.setOpaque(false);
       String t = "<html><p align=center><b>Version:  " + JaWEManager.getVersion() + "-"+JaWEManager.getRelease()+"</b>"
-            + "<br>Build Id: " + JaWEManager.getBuildEdition()+ JaWEManager.getBuildEditionSuffix() + "-"+JaWEManager.getBuildNo() + "<br><br>" 
+            + "<br>Build Id: " /*+ JaWEManager.getBuildEdition()+ JaWEManager.getBuildEditionSuffix() + "-" */ + JaWEManager.getBuildNo() + "<br><br>" 
             + JaWEManager.getAboutMsg();   
 
       text.setText(t);

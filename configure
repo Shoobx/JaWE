@@ -1,3 +1,21 @@
+# Together Workflow Editor 
+# Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses
+#
+#######################################################################
+
 #!/bin/bash
 #
 #
@@ -17,7 +35,8 @@ function help {
 	debug (on/off)  
 	optimize (on/off)
 	instdir
-	Example: configure -jdkhome /usr/java/j2sdk1.4.2
+	rebranding
+	Example: ./configure -jdkhome /root/Downloads/jdk1.6.0_21/ -version 3.0 -release 1 -debug off
 
 "
 
@@ -148,29 +167,30 @@ JAVAC=$jdk_DOT_dir/bin/javac
 JAVA=$jdk_DOT_dir/bin/java
 PATH=$jdk_DOT_dir/bin:\$(shell echo \$\$PATH)
 
-buildAll: FORCE
-	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
-
-clean: FORCE
-	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
-
 help: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+buildAll: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
 buildNoDoc: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
-buildDocBook: FORCE
+buildDoc: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+dependencies: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+install: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+clean: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
 buildOutput: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
   
-install: FORCE
-	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
-
-buildDistributions: distributions
-
 distributions: clean
 	@chmod +x installation/unix/dist.sh
 	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release community

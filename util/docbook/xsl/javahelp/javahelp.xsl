@@ -1,39 +1,66 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
-		xmlns:ng="http://docbook.org/docbook-ng"
-		xmlns:db="http://docbook.org/ns/docbook"
-                version="1.0"
-                exclude-result-prefixes="doc ng db">
+  xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
+  xmlns:ng="http://docbook.org/docbook-ng"
+  xmlns:db="http://docbook.org/ns/docbook"
+  xmlns:exsl="http://exslt.org/common"
+  version="1.0"
+  exclude-result-prefixes="doc ng db exsl">
 
 <xsl:import href="../html/chunk.xsl"/>
 
 <xsl:output method="html"/>
 
 <!-- ********************************************************************
-     $Id: javahelp.xsl,v 1.4 2006/11/07 09:55:05 dejan Exp $
+     $Id: javahelp.xsl 8400 2009-04-08 07:44:54Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
 <!-- ==================================================================== -->
-<xsl:param name="javahelp.encoding" select="'ISO-8859-1'"/>
-
-<doc:param name="javahelp.encoding" xmlns="">
-<refpurpose>Character encoding to use in control files for Java Help.</refpurpose>
-<refdescription>
-<para>Java Help crashes on some characters when written as character
-references. In that case you can select appropriate encoding here.</para>
-</refdescription>
-</doc:param>
-
-<!-- ==================================================================== -->
 
 <xsl:template match="/">
+  <!-- * Get a title for current doc so that we let the user -->
+  <!-- * know what document we are processing at this point. -->
+  <xsl:variable name="doc.title">
+    <xsl:call-template name="get.doc.title"/>
+  </xsl:variable>
+  <xsl:choose>
+    <!-- Hack! If someone hands us a DocBook V5.x or DocBook NG document,
+         toss the namespace and continue.  Use the docbook5 namespaced
+         stylesheets for DocBook5 if you don't want to use this feature.-->
+    <xsl:when test="$exsl.node.set.available != 0
+                    and (*/self::ng:* or */self::db:*)">
+      <xsl:call-template name="log.message">
+        <xsl:with-param name="level">Note</xsl:with-param>
+        <xsl:with-param name="source" select="$doc.title"/>
+        <xsl:with-param name="context-desc">
+          <xsl:text>namesp. cut</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="message">
+          <xsl:text>stripped namespace before processing</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+      <xsl:variable name="nons">
+        <xsl:apply-templates mode="stripNS"/>
+      </xsl:variable>
+      <xsl:call-template name="log.message">
+        <xsl:with-param name="level">Note</xsl:with-param>
+        <xsl:with-param name="source" select="$doc.title"/>
+        <xsl:with-param name="context-desc">
+          <xsl:text>namesp. cut</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="message">
+          <xsl:text>processing stripped document</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+      <xsl:apply-templates select="exsl:node-set($nons)"/>
+    </xsl:when>
+    <xsl:otherwise>
   <xsl:choose>
     <xsl:when test="$rootid != ''">
       <xsl:choose>
@@ -54,15 +81,15 @@ references. In that case you can select appropriate encoding here.</para>
       <xsl:apply-templates select="/" mode="process.root"/>
     </xsl:otherwise>
   </xsl:choose>
-
   <xsl:for-each select="/">    <!-- This is just a hook for building profiling stylesheets -->
     <xsl:call-template name="helpset"/>
     <xsl:call-template name="helptoc"/>
     <xsl:call-template name="helpmap"/>
     <xsl:call-template name="helpidx"/>
   </xsl:for-each>
+</xsl:otherwise>
+</xsl:choose>
 </xsl:template>
-
 
 <xsl:template name="header.navigation">
 </xsl:template>
@@ -82,17 +109,18 @@ references. In that case you can select appropriate encoding here.</para>
     <xsl:with-param name="content">
       <xsl:call-template name="helpset.content"/>
     </xsl:with-param>
+    <xsl:with-param name="quiet" select="$chunk.quietly"/>
   </xsl:call-template>
 </xsl:template>
 
 <xsl:template name="helpset.content">
   <xsl:variable name="title">
-    <xsl:apply-templates select="." mode="subtitle.markup"/>	<!-- title.markup changed to subtitle.markup -->
+    <xsl:apply-templates select="." mode="title.markup"/>
   </xsl:variable>
 
   <helpset version="1.0">
     <title>
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </title>
 
     <!-- maps -->
@@ -138,6 +166,7 @@ references. In that case you can select appropriate encoding here.</para>
     <xsl:with-param name="content">
       <xsl:call-template name="helptoc.content"/>
     </xsl:with-param>
+    <xsl:with-param name="quiet" select="$chunk.quietly"/>
   </xsl:call-template>
 </xsl:template>
 
@@ -166,7 +195,7 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
     <xsl:apply-templates select="book" mode="jhtoc"/>
   </tocitem>
@@ -177,14 +206,14 @@ references. In that case you can select appropriate encoding here.</para>
     <xsl:call-template name="object.id"/>
   </xsl:variable>
   <xsl:variable name="title">
-    <xsl:apply-templates select="." mode="subtitle.markup"/>	<!-- title.markup changed to subtitle.markup -->
+    <xsl:apply-templates select="." mode="title.markup"/>
   </xsl:variable>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
-    <xsl:apply-templates select="part|reference|preface|chapter|appendix|article|colophon"
+    <xsl:apply-templates select="part|reference|preface|chapter|appendix|article|colophon|glossary|bibliography"
                          mode="jhtoc"/>
   </tocitem>
 </xsl:template>
@@ -200,10 +229,10 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
     <xsl:apply-templates
-      select="preface|chapter|appendix|refentry|section|sect1"
+      select="article|preface|chapter|appendix|refentry|section|sect1|glossary|bibliography"
       mode="jhtoc"/>
   </tocitem>
 </xsl:template>
@@ -218,7 +247,7 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
     <xsl:apply-templates select="section" mode="jhtoc"/>
   </tocitem>
@@ -234,7 +263,7 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
     <xsl:apply-templates select="sect2" mode="jhtoc"/>
   </tocitem>
@@ -250,7 +279,7 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
     <xsl:apply-templates select="sect3" mode="jhtoc"/>
   </tocitem>
@@ -266,7 +295,7 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
     <xsl:apply-templates select="sect4" mode="jhtoc"/>
   </tocitem>
@@ -282,7 +311,7 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
-      <xsl:value-of select="$title"/>
+      <xsl:value-of select="normalize-space($title)"/>
     </xsl:attribute>
     <xsl:apply-templates select="sect5" mode="jhtoc"/>
   </tocitem>
@@ -298,8 +327,47 @@ references. In that case you can select appropriate encoding here.</para>
 
   <tocitem target="{$id}">
     <xsl:attribute name="text">
+      <xsl:value-of select="normalize-space($title)"/>
+    </xsl:attribute>
+  </tocitem>
+</xsl:template>
+
+
+<xsl:template match="glossary" mode="jhtoc">
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <xsl:variable name="title">
+    <xsl:call-template name="gentext">
+      <xsl:with-param name="key" select="'Glossary'"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <tocitem target="{$id}">
+    <xsl:attribute name="text">
       <xsl:value-of select="$title"/>
     </xsl:attribute>
+  </tocitem>
+
+</xsl:template>
+
+<xsl:template match="bibliography" mode="jhtoc">
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <xsl:variable name="title">
+    <xsl:call-template name="gentext">
+      <xsl:with-param name="key" select="'Bibliography'"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <tocitem target="{$id}">
+    <xsl:attribute name="text">
+      <xsl:value-of select="$title"/>
+    </xsl:attribute>
+    
   </tocitem>
 </xsl:template>
 
@@ -316,6 +384,7 @@ references. In that case you can select appropriate encoding here.</para>
     <xsl:with-param name="content">
       <xsl:call-template name="helpmap.content"/>
     </xsl:with-param>
+    <xsl:with-param name="quiet" select="$chunk.quietly"/>
   </xsl:call-template>
 </xsl:template>
 
@@ -339,7 +408,9 @@ references. In that case you can select appropriate encoding here.</para>
                                      | key('id',$rootid)//sect3
                                      | key('id',$rootid)//sect4
                                      | key('id',$rootid)//sect5
-                                     | key('id',$rootid)//indexterm
+                                     | key('id',$rootid)//indexterm 
+                                     | key('id',$rootid)//glossary
+                                     | key('id',$rootid)//bibliography
 				     | key('id',$rootid)//*[@id]"
                              mode="map"/>
       </xsl:when>
@@ -361,6 +432,8 @@ references. In that case you can select appropriate encoding here.</para>
                                      | //sect4
                                      | //sect5
                                      | //indexterm
+                                     | //glossary
+                                     | //bibliography
 				     | //*[@id]"
                              mode="map"/>
       </xsl:otherwise>
@@ -394,7 +467,7 @@ references. In that case you can select appropriate encoding here.</para>
   </mapID>
 </xsl:template>
 
-<xsl:template match="part|reference|preface|chapter|appendix|refentry|article"
+<xsl:template match="part|reference|preface|chapter|appendix|refentry|article|glossary|bibliography"
               mode="map">
   <xsl:variable name="id">
     <xsl:call-template name="object.id"/>
@@ -458,6 +531,7 @@ references. In that case you can select appropriate encoding here.</para>
     <xsl:with-param name="content">
       <xsl:call-template name="helpidx.content"/>
     </xsl:with-param>
+    <xsl:with-param name="quiet" select="$chunk.quietly"/>
   </xsl:call-template>
 </xsl:template>
 
@@ -465,10 +539,18 @@ references. In that case you can select appropriate encoding here.</para>
   <index version="1.0">
     <xsl:choose>
       <xsl:when test="$rootid != ''">
-        <xsl:apply-templates select="key('id',$rootid)//indexterm" mode="idx"/>
+        <xsl:apply-templates select="key('id',$rootid)//indexterm" mode="idx">
+	  <xsl:sort select="primary"/>
+	  <xsl:sort select="secondary"/>
+	  <xsl:sort select="tertiary"/>
+	</xsl:apply-templates>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates select="//indexterm" mode="idx"/>
+        <xsl:apply-templates select="//indexterm" mode="idx">
+          <xsl:sort select="primary"/>
+	  <xsl:sort select="secondary"/>
+	  <xsl:sort select="tertiary"/>
+        </xsl:apply-templates>
       </xsl:otherwise>
     </xsl:choose>
   </index>
@@ -482,20 +564,20 @@ references. In that case you can select appropriate encoding here.</para>
   </xsl:variable>
 
   <xsl:variable name="text">
-    <xsl:value-of select="primary"/>
+    <xsl:value-of select="normalize-space(primary)"/>
     <xsl:if test="secondary">
       <xsl:text>, </xsl:text>
-      <xsl:value-of select="secondary"/>
+      <xsl:value-of select="normalize-space(secondary)"/>
     </xsl:if>
     <xsl:if test="tertiary">
       <xsl:text>, </xsl:text>
-      <xsl:value-of select="tertiary"/>
+      <xsl:value-of select="normalize-space(tertiary)"/>
     </xsl:if>
   </xsl:variable>
 
   <xsl:choose>
     <xsl:when test="see">
-      <xsl:variable name="see"><xsl:value-of select="see"/></xsl:variable>
+      <xsl:variable name="see"><xsl:value-of select="normalize-space(see)"/></xsl:variable>
       <indexitem text="{$text} see '{$see}'"/>
     </xsl:when>
     <xsl:otherwise>

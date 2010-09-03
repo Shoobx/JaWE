@@ -4,12 +4,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: formal.xsl,v 1.2 2006/09/21 11:50:58 sasa Exp $
+     $Id: formal.xsl 8417 2009-04-24 16:20:18Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -41,11 +41,7 @@
   </xsl:variable>
 
   <xsl:variable name="keep.together">
-    <xsl:call-template name="dbfo-attribute">
-      <xsl:with-param name="pis"
-                      select="processing-instruction('dbfo')"/>
-      <xsl:with-param name="attribute" select="'keep-together'"/>
-    </xsl:call-template>
+    <xsl:call-template name="pi.dbfo_keep-together"/>
   </xsl:variable>
 
   <xsl:choose>
@@ -131,25 +127,56 @@
   </xsl:variable>
 
   <xsl:variable name="keep.together">
-    <xsl:call-template name="dbfo-attribute">
-      <xsl:with-param name="pis"
-                      select="processing-instruction('dbfo')"/>
-      <xsl:with-param name="attribute" select="'keep-together'"/>
-    </xsl:call-template>
+    <xsl:call-template name="pi.dbfo_keep-together"/>
+  </xsl:variable>
+
+  <!-- Some don't have a pgwide attribute, so may use a PI -->
+  <xsl:variable name="pgwide.pi">
+    <xsl:call-template name="pi.dbfo_pgwide"/>
+  </xsl:variable>
+
+  <xsl:variable name="pgwide">
+    <xsl:choose>
+      <xsl:when test="@pgwide">
+        <xsl:value-of select="@pgwide"/>
+      </xsl:when>
+      <xsl:when test="$pgwide.pi">
+        <xsl:value-of select="$pgwide.pi"/>
+      </xsl:when>
+      <!-- child element may set pgwide -->
+      <xsl:when test="*[@pgwide]">
+        <xsl:value-of select="*[@pgwide][1]/@pgwide"/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:variable>
 
   <xsl:choose>
     <!-- informaltables have their own templates and 
          are not handled by formal.object -->
     <xsl:when test="local-name(.) = 'equation'">
-      <fo:block id="{$id}"
-                xsl:use-attribute-sets="equation.properties">
-        <xsl:if test="$keep.together != ''">
-          <xsl:attribute name="keep-together.within-column"><xsl:value-of
-                          select="$keep.together"/></xsl:attribute>
-        </xsl:if>
-        <xsl:apply-templates/>
-      </fo:block>
+      <xsl:choose>
+        <xsl:when test="$pgwide = '1'">
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="pgwide.properties
+                                            equation.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:when>
+        <xsl:otherwise>
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="equation.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:when>
     <xsl:when test="local-name(.) = 'procedure'">
       <fo:block id="{$id}"
@@ -162,30 +189,79 @@
       </fo:block>
     </xsl:when>
     <xsl:when test="local-name(.) = 'informalfigure'">
-      <fo:block id="{$id}"
-                xsl:use-attribute-sets="informalfigure.properties">
-        <xsl:if test="$keep.together != ''">
-          <xsl:attribute name="keep-together.within-column"><xsl:value-of
-                          select="$keep.together"/></xsl:attribute>
-        </xsl:if>
-        <xsl:apply-templates/>
-      </fo:block>
+      <xsl:choose>
+        <xsl:when test="$pgwide = '1'">
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="pgwide.properties
+                                            informalfigure.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:when>
+        <xsl:otherwise>
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="informalfigure.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:when>
     <xsl:when test="local-name(.) = 'informalexample'">
-      <fo:block id="{$id}"
-                xsl:use-attribute-sets="informalexample.properties">
-        <xsl:if test="$keep.together != ''">
-          <xsl:attribute name="keep-together.within-column"><xsl:value-of
-                          select="$keep.together"/></xsl:attribute>
-        </xsl:if>
-        <xsl:apply-templates/>
-      </fo:block>
+      <xsl:choose>
+        <xsl:when test="$pgwide = '1'">
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="pgwide.properties
+                                            informalexample.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:when>
+        <xsl:otherwise>
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="informalexample.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:when>
     <xsl:when test="local-name(.) = 'informalequation'">
-      <fo:block id="{$id}"
-                xsl:use-attribute-sets="informalequation.properties">
-        <xsl:apply-templates/>
-      </fo:block>
+      <xsl:choose>
+        <xsl:when test="$pgwide = '1'">
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="pgwide.properties
+                                            informalequation.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:when>
+        <xsl:otherwise>
+          <fo:block id="{$id}"
+                    xsl:use-attribute-sets="informalequation.properties">
+            <xsl:if test="$keep.together != ''">
+              <xsl:attribute name="keep-together.within-column"><xsl:value-of
+                              select="$keep.together"/></xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:when>
     <xsl:otherwise>
       <fo:block id="{$id}" 
@@ -284,11 +360,7 @@
 
   <!-- Example doesn't have a pgwide attribute, so may use a PI -->
   <xsl:variable name="pgwide.pi">
-    <xsl:call-template name="dbfo-attribute">
-      <xsl:with-param name="pis"
-                      select="processing-instruction('dbfo')"/>
-      <xsl:with-param name="attribute" select="'pgwide'"/>
-    </xsl:call-template>
+    <xsl:call-template name="pi.dbfo_pgwide"/>
   </xsl:variable>
 
   <xsl:variable name="pgwide">
@@ -466,11 +538,7 @@
 
   <!-- Equation doesn't have a pgwide attribute, so may use a PI -->
   <xsl:variable name="pgwide">
-    <xsl:call-template name="dbfo-attribute">
-      <xsl:with-param name="pis"
-                      select="processing-instruction('dbfo')"/>
-      <xsl:with-param name="attribute" select="'pgwide'"/>
-    </xsl:call-template>
+    <xsl:call-template name="pi.dbfo_pgwide"/>
   </xsl:variable>
 
   <xsl:variable name="equation">

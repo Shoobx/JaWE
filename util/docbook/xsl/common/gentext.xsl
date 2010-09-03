@@ -5,12 +5,12 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: gentext.xsl,v 1.3 2006/09/21 11:50:57 sasa Exp $
+     $Id: gentext.xsl 8396 2009-04-07 07:41:35Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://nwalsh.com/docbook/xsl/ for copyright
-     and other information.
+     See ../README or http://docbook.sf.net/release/xsl/current/ for
+     copyright and other information.
 
      ******************************************************************** -->
 
@@ -199,6 +199,11 @@
   <xsl:value-of select="$section.autolabel"/>
 </xsl:template>
 
+<xsl:template match="procedure" mode="is.autonumber">
+  <xsl:value-of select="$formal.procedures"/>
+</xsl:template>
+
+
 <xsl:template match="*" mode="object.xref.template">
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
@@ -284,7 +289,7 @@
   <xsl:variable name="title">
     <xsl:apply-templates select="." mode="object.title.markup"/>
   </xsl:variable>
-  <xsl:value-of select="$title"/>
+  <xsl:value-of select="normalize-space($title)"/>
 </xsl:template>
 
 <!-- ============================================================ -->
@@ -360,7 +365,7 @@
     <xsl:message>
       <xsl:text>object.xref.markup: empty xref template</xsl:text>
       <xsl:text> for linkend="</xsl:text>
-      <xsl:value-of select="@id"/>
+      <xsl:value-of select="@id|@xml:id"/>
       <xsl:text>" and @xrefstyle="</xsl:text>
       <xsl:value-of select="$xrefstyle"/>
       <xsl:text>"</xsl:text>
@@ -392,7 +397,7 @@
       <xsl:message>
         <xsl:text>Xref is only supported to listitems in an</xsl:text>
         <xsl:text> orderedlist: </xsl:text>
-        <xsl:value-of select="@id"/>
+        <xsl:value-of select="@id|@xml:id"/>
       </xsl:message>
       <xsl:text>???</xsl:text>
     </xsl:when>
@@ -738,7 +743,7 @@
       <xsl:when test="$titletype != ''">
         <xsl:value-of select="$xref.label-title.separator"/>
       </xsl:when>
-      <xsl:when test="$pagetype != ''">
+      <xsl:when test="$pagetype != '' and $pagetype != 'nopage'">
         <xsl:value-of select="$xref.label-page.separator"/>
       </xsl:when>
     </xsl:choose>
