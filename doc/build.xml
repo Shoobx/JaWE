@@ -28,8 +28,6 @@
 		<!--Set the global variables-->
 		<property name="docbook.name" value="twe-doc" />
 		<property name="doc.title" value="Together Workflow Editor" />
-		<property name="doc.dir" location="${basedir}" />
-		<property name="tmp.dir" location="${basedir}/tmp" />
 		<property name="version" value="2.0" />
 		<property name="release" value="beta1" />
 		<property name="build.debug" value="off" />

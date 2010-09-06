@@ -64,8 +64,8 @@ Summary: Graphical XPLD editor
 Name: $name${nameadditional}
 Version: $version
 Release: $release
-Vendor: Together Teamloesungen
-URL: http://jawe.enhydra.org
+Vendor: Together Teamsolutions Co., Ltd.
+URL: http://www.together.at/prod/workflow/twe
 Source: %{name}-%{version}-%{release}.src.tar.gz
 License: GPL 3
 Group: Development/Tools
@@ -89,9 +89,9 @@ cp $PWD/build.properties $RPM_ROOT/BUILD/TogWE
 %build
     while
         echo -e "\n\nPlease enter path to your "\
-            "Java Development Kit - JDK directory [/usr/java/j2sdk1.4.0_01] \n\n"
+            "Java Development Kit - JDK directory [/usr/java/jdk1.6.0_21] \n\n"
         read jdkdir
-        jdkdir=\${jdkdir:=/usr/java/j2sdk1.4.0_01}
+        jdkdir=\${jdkdir:=/usr/java/jdk1.6.0_21}
         [ ! -d \$jdkdir ]
     do                                echo "Warning: No such directory: \$jdkdir"
     done
@@ -135,7 +135,7 @@ $prefix/%{name}-%{version}-%{release}
     if
            ! [[ x\$JAVA_HOME != x &&  -d \$JAVA_HOME ]]
     then
-       default_JAVA_HOME=\${default_JAVA_HOME:=/usr/java/j2sdk1.4.2}
+       default_JAVA_HOME=\${default_JAVA_HOME:=/usr/java/jdk1.6.0_21}
        while
             echo -e "\n\nPlease enter path to your "\
             "Java Development Kit - JDK directory [\$default_JAVA_HOME] \c"

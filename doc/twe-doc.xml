@@ -9206,7 +9206,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <title>Build guide</title>
 
     <sect1>
-      <title>Getting the source code and build scripts</title>
+      <title>Getting the source code</title>
 
       <para>The source code of the project can be obtained via SourceForge
       SVN. Please read instructions how to check out sources at <ulink
@@ -9231,7 +9231,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     </sect1>
 
     <sect1>
-      <title>Preparing the environment</title>
+      <title>Preparing the build environment</title>
 
       <para>Execute configure script from the root of project sources.
       Specific JAVA version for building TWE can be set (different than the
