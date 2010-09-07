@@ -205,12 +205,13 @@
 				<replacetoken><![CDATA["http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">]]></replacetoken>
 			</replacefilter>
 		</replace>
-		<echo message="compile docbook with javahelp.xsl" />
+ 
+    <echo message="compile docbook with javahelp.xsl" />
 		<retry retrycount="10">
 			<trycatch description="try-catch">
 				<try>
 					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true">
-						<arg line="-param html.stylesheet html.css -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/javahelp/javahelp.xsl" />
+						<arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/javahelp/javahelp.xsl" />
 					</java>
 				</try>
 				<catch>
@@ -228,7 +229,7 @@
 			<trycatch description="try-catch">
 				<try>
 					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-						<arg line="-param html.stylesheet html.css -out ${docbook.name}-${version}-${release}.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/chunk.xsl" />
+						<arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out ${docbook.name}-${version}-${release}.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/chunk.xsl" />
 					</java>
 				</try>
 				<catch>
@@ -246,7 +247,7 @@
 			<trycatch description="try-catch">
 				<try>
 					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-						<arg line="-param html.stylesheet html.css -out ${docbook.name}-${version}-${release}.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/docbook.xsl" />
+						<arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out ${docbook.name}-${version}-${release}.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/docbook.xsl" />
 					</java>
 				</try>
 				<catch>

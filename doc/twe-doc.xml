@@ -21,7 +21,8 @@
 <book id="tweug" lang="en" revision="0" status="work in progress">
   <title><inlinemediaobject>
       <imageobject>
-        <imagedata fileref="Images/cover8.jpg" valign="middle" />
+        <imagedata contentdepth="100%" fileref="Images/cover8.jpg"
+                   scalefit="1" valign="middle" width="100%" />
       </imageobject>
     </inlinemediaobject></title>
 
@@ -105,10 +106,9 @@
 
     <para><ulink
     url="http://www.together.at/together/prod/twe/index.html">Together
-    Workflow Editor
-    (http://www.together.at/prod/workflow/twe)</ulink> is a visual
-    tool for creating, managing and reviewing process definitions stored in
-    WfMC XPDL syntax.</para>
+    Workflow Editor (http://www.together.at/prod/workflow/twe)</ulink> is a
+    visual tool for creating, managing and reviewing process definitions
+    stored in WfMC XPDL syntax.</para>
 
     <para>Put simple, Together Workflow Editor allows you to quickly create or
     view XPDL workflow definition files, check and store them for the further
@@ -627,7 +627,9 @@ sect1>
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="Images/editorTogWEComments.gif" />
+          <imagedata contentdepth="100%"
+                     fileref="Images/editorTogWEComments.gif" scalefit="1"
+                     width="100%" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -673,10 +675,6 @@ sect1>
 
           <informaltable frame="topbot">
             <tgroup cols="2">
-              <colspec colwidth="150" />
-
-              <colspec colwidth="500" />
-
               <tbody valign="top">
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
@@ -779,10 +777,6 @@ sect1>
 
           <informaltable frame="topbot">
             <tgroup cols="2">
-              <colspec colwidth="150" />
-
-              <colspec colwidth="500" />
-
               <tbody valign="top">
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
@@ -928,10 +922,6 @@ sect1>
 
           <informaltable frame="topbot">
             <tgroup cols="2">
-              <colspec colwidth="150" />
-
-              <colspec colwidth="500" />
-
               <tbody valign="top">
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
@@ -1104,10 +1094,6 @@ sect1>
 
           <informaltable frame="topbot">
             <tgroup cols="2">
-              <colspec colwidth="150" />
-
-              <colspec colwidth="500" />
-
               <tbody valign="top">
                 <row>
                   <entry align="left" char=""
@@ -1218,10 +1204,6 @@ sect1>
 
           <informaltable frame="topbot">
             <tgroup cols="2">
-              <colspec colwidth="150" />
-
-              <colspec colwidth="500" />
-
               <tbody valign="top">
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
@@ -1272,10 +1254,6 @@ sect1>
 
           <informaltable frame="topbot">
             <tgroup cols="2">
-              <colspec colwidth="150" />
-
-              <colspec colwidth="500" />
-
               <tbody valign="top">
                 <row>
                   <entry><para>Language </para></entry>
@@ -1308,10 +1286,6 @@ sect1>
 
           <informaltable frame="topbot">
             <tgroup cols="2">
-              <colspec colwidth="150" />
-
-              <colspec colwidth="500" />
-
               <tbody valign="top">
                 <row>
                   <entry align="left" char=""
@@ -1358,7 +1332,8 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/mainToolbar.jpg" />
+            <imagedata contentdepth="100%" fileref="Images/mainToolbar.jpg"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -1371,7 +1346,9 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/mainToolbarComments.jpg" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/mainToolbarComments.jpg" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -1391,7 +1368,8 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/infoBar.gif" />
+            <imagedata contentdepth="100%" fileref="Images/infoBar.gif"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -1427,14 +1405,11 @@ sect1>
 
       <informaltable frame="none">
         <tgroup cols="2">
-          <colspec colwidth="350" />
-
-          <colspec colwidth="350" />
-
           <tbody>
             <row>
               <entry align="center" colsep="none"><graphic align="left"
-              fileref="Images/graphOverview.gif" valign="top" /></entry>
+              contentdepth="100%" fileref="Images/graphOverview.gif"
+              scalefit="1" valign="top" width="100%" /></entry>
 
               <entry align="justify" valign="top"><para>The Graph Overview is
               just what its name says - a graphical overview of the process
@@ -1467,14 +1442,11 @@ sect1>
 
       <informaltable frame="none">
         <tgroup cols="2">
-          <colspec colwidth="270" />
-
-          <colspec colwidth="430" />
-
           <tbody>
             <row>
               <entry align="center" colsep="none"><graphic align="left"
-              fileref="Images/extPackageRelations.gif" valign="top" /></entry>
+              contentdepth="100%" fileref="Images/extPackageRelations.gif"
+              valign="top" width="100%" /></entry>
 
               <entry align="justify" valign="top"><para>The External Package
               Relations component gives you a graphical tree overview of the
@@ -1519,14 +1491,11 @@ sect1>
 
       <informaltable frame="none">
         <tgroup cols="2">
-          <colspec colwidth="190" />
-
-          <colspec colwidth="510" />
-
           <tbody>
             <row>
               <entry align="center" colsep="none"><graphic align="left"
-              fileref="Images/transPkgPool.gif" valign="top" /></entry>
+              contentdepth="100%" fileref="Images/transPkgPool.gif"
+              valign="top" width="100%" /></entry>
 
               <entry align="justify" valign="top"><para>Transient packages are
               not related to any part of the WfMC XPDL specification but are a
@@ -1597,7 +1566,8 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/graphPanel.gif" />
+            <imagedata contentdepth="100%" fileref="Images/graphPanel.gif"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -1611,10 +1581,6 @@ sect1>
 
       <informaltable frame="topbot">
         <tgroup align="left" cols="2">
-          <colspec colwidth="15" />
-
-          <colspec colwidth="500" />
-
           <tbody valign="top">
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
@@ -1810,10 +1776,6 @@ sect1>
 
       <informaltable frame="topbot">
         <tgroup align="left" cols="2">
-          <colspec colwidth="15" />
-
-          <colspec colwidth="500" />
-
           <tbody valign="top">
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
@@ -2010,7 +1972,8 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/graphPopup.jpg" />
+            <imagedata contentdepth="100%" fileref="Images/graphPopup.jpg"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -2637,7 +2600,9 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/xpdlViewPackage.gif" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/xpdlViewPackage.gif" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -2647,7 +2612,9 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/xpdlViewProcess.gif" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/xpdlViewProcess.gif" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -2657,7 +2624,9 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/xpdlViewActivity.gif" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/xpdlViewActivity.gif" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -2671,15 +2640,11 @@ sect1>
 
       <informaltable frame="none">
         <tgroup cols="2">
-          <colspec colwidth="270" />
-
-          <colspec colwidth="430" />
-
           <tbody>
             <row>
               <entry align="left" colsep="none" valign="top"><graphic
-              align="left" fileref="Images/navigator.gif"
-              valign="top" /></entry>
+              align="left" contentdepth="100%" fileref="Images/navigator.gif"
+              valign="top" width="100%" /></entry>
 
               <entry align="justify" valign="top">The Navigator displays a
               hierarchical view of the XPDL model. It shows packages,
@@ -2755,15 +2720,12 @@ sect1>
 
       <informaltable frame="none">
         <tgroup cols="2">
-          <colspec colwidth="350" />
-
-          <colspec colwidth="350" />
-
           <tbody>
             <row>
               <entry align="left" colsep="none" valign="top"><graphic
-              align="left" fileref="Images/packageTree.gif"
-              valign="top" /></entry>
+              align="left" contentdepth="100%"
+              fileref="Images/packageTree.gif" valign="top"
+              width="100%" /></entry>
 
               <entry align="justify" valign="top"><para>The Package tree
               offers the most detailled hierarchical view of the XPDL model.
@@ -2874,7 +2836,9 @@ sect1>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/propertiesComponent.gif" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/propertiesComponent.gif" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -3055,9 +3019,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       displaying activities, you can specify to show Activity's Id, Name,
       Performer, Type, Start mode, Finish mode and Deadlines:</para>
 
-      <!--pocetak komentara-->
+      <!--pocetak komentara
+-->
 
-      <programlisting condition="demo-configuration">ShowColumns.XMLTablePanel.Activities = Id Name Performer Type StartMode FinishMode Deadlines</programlisting>
+      <para><emphasis>ShowColumns.XMLTablePanel.Activities = Id Name Performer
+      Type StartMode FinishMode Deadlines</emphasis></para>
 
       <!--kraj komentara-->
 
@@ -3092,7 +3058,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/searchComponent.gif" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/searchComponent.gif" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -3167,7 +3135,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/problemsComponent.jpg" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/problemsComponent.jpg" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -3251,7 +3221,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/wfxmlComponent.gif" />
+            <imagedata contentdepth="100%" fileref="Images/wfxmlComponent.gif"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -3326,7 +3297,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/ldapcomponent.gif" />
+            <imagedata contentdepth="100%" fileref="Images/ldapcomponent.gif"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -3342,7 +3314,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="Images/ldapconfigurationdialog.gif" />
+            <imagedata contentdepth="100%"
+                       fileref="Images/ldapconfigurationdialog.gif"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -3417,27 +3391,56 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       mapping".</para>
 
       <para>The default LDAP properties can be defined in ldap.properties
-      configuration file:<programlisting condition="demo-configuration">#LDAPReferralHandling = follow
-#LDAPCountLimit = 0
-#LDAPTimeLimit = 0
-#LDAPHost=localhost
-#LDAPPort=389
-#LDAPBaseDN=
-#LDAPObjectClassFilter=group
-#LDAPObjectClassFilterChoices=group,organizationalUnit,organizationalRole,user,person,organizationalPerson,inetOrgPerson,AllListed
-#LDAPSearchScope=SCOPE_SUB
-#LDAPSecurityLevel=UserAndPassword
-#LDAPSecurityUserDN=username@company.com
-#LDAPSecurityPassword=somepwd
-#LDAPGroupUniqueAttributeName=sAMAccountName
-#LDAPGroupNameAttributeName=displayName
-#LDAPGroupDescriptionAttributeName=description
-#LDAPUserUniqueAttributeName=sAMAccountName
-#LDAPUserNameAttributeName=displayName
-#LDAPUserDescriptionAttributeName=description
-#LDAPDistinguishedNameAttributeName=distinguishedName
+      configuration file:</para>
 
-#Toolbar.ActionOrder.defaultToolbar = ConfigureLDAP SearchLDAP - ImportSelected ImportAll</programlisting></para>
+      <para><emphasis>#LDAPReferralHandling = follow </emphasis></para>
+
+      <para><emphasis>#LDAPCountLimit = 0 </emphasis></para>
+
+      <para><emphasis>#LDAPTimeLimit = 0 </emphasis></para>
+
+      <para><emphasis>#LDAPHost=localhost </emphasis></para>
+
+      <para><emphasis>#LDAPPort=389 </emphasis></para>
+
+      <para><emphasis>#LDAPBaseDN= </emphasis></para>
+
+      <para><emphasis>#LDAPObjectClassFilter=group</emphasis></para>
+
+      <para><emphasis>#LDAPObjectClassFilterChoices=group,organizationalUnit,organizationalRole,user,person,organizationalPerson,inetOrgPerson,AllListed</emphasis></para>
+
+      <para><emphasis>#LDAPSearchScope=SCOPE_SUB </emphasis></para>
+
+      <para><emphasis>#LDAPSecurityLevel=UserAndPassword </emphasis></para>
+
+      <para><emphasis>#LDAPSecurityUserDN=username@company.com
+      </emphasis></para>
+
+      <para><emphasis>#LDAPSecurityPassword=somepwd </emphasis></para>
+
+      <para><emphasis>#LDAPGroupUniqueAttributeName=sAMAccountName
+      </emphasis></para>
+
+      <para><emphasis>#LDAPGroupNameAttributeName=displayName
+      </emphasis></para>
+
+      <para><emphasis>#LDAPGroupDescriptionAttributeName=description
+      </emphasis></para>
+
+      <para><emphasis>#LDAPUserUniqueAttributeName=sAMAccountName
+      </emphasis></para>
+
+      <para><emphasis>#LDAPUserNameAttributeName=displayName
+      </emphasis></para>
+
+      <para><emphasis>#LDAPUserDescriptionAttributeName=description
+      </emphasis></para>
+
+      <para><emphasis>#LDAPDistinguishedNameAttributeName=distinguishedName
+      </emphasis></para>
+
+      <para><emphasis>#Toolbar.ActionOrder.defaultToolbar = ConfigureLDAP
+      SearchLDAP - ImportSelected ImportAll</emphasis></para>
     </sect1>
   </chapter>
 
@@ -3459,8 +3462,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry><mediaobject>
                     <imageobject>
-                      <imagedata align="left" fileref="Images/saveChanges.gif"
-                                 valign="middle" />
+                      <imagedata align="left" contentdepth="100%"
+                                 fileref="Images/saveChanges.gif" scalefit="1"
+                                 valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
 
@@ -3490,8 +3494,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 when you want to open a new XPDL file for editing in TWE, when
                 adding new external package reference, ...</entry>
 
-                <entry><graphic align="center"
-                fileref="Images/fileOpenDialog.gif" valign="middle" /></entry>
+                <entry><graphic align="center" contentdepth="100%"
+                fileref="Images/fileOpenDialog.gif" scalefit="1"
+                valign="middle" width="100%" /></entry>
               </row>
             </tbody>
           </tgroup>
@@ -3507,7 +3512,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <tgroup cols="2" colsep="none">
             <tbody>
               <row>
-                <entry><graphic fileref="Images/saveAsDialog.gif" /></entry>
+                <entry><graphic contentdepth="100%"
+                fileref="Images/saveAsDialog.gif" scalefit="1"
+                width="100%" /></entry>
 
                 <entry align="justify" valign="middle">This dialog offers file
                 system browsing and choosing the location where you want to
@@ -3536,8 +3543,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 property panel.</entry>
 
                 <entry valign="middle"><graphic align="center"
-                fileref="Images/navigationOperations.gif"
-                valign="middle" /></entry>
+                contentdepth="100%" fileref="Images/navigationOperations.gif"
+                scalefit="1" valign="middle" width="100%" /></entry>
               </row>
             </tbody>
           </tgroup>
@@ -3644,8 +3651,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               parameters, etc.</entry>
 
               <entry valign="middle"><graphic align="center"
-              fileref="Images/operationsOnElements.gif"
-              valign="middle" /></entry>
+              contentdepth="100%" fileref="Images/operationsOnElements.gif"
+              scalefit="1" valign="middle" width="100%" /></entry>
             </row>
           </tbody>
         </tgroup>
@@ -3799,8 +3806,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             also used for internal representation of process definitions. The
             whole concept is shown on the picture:</entry>
 
-            <entry valign="middle"><graphic align="center"
-            fileref="Images/Concept.jpg" valign="middle" /></entry>
+            <entry valign="middle"><graphic align="center" contentdepth="100%"
+            fileref="Images/Concept.jpg" scalefit="1" valign="middle"
+            width="100%" /></entry>
           </row>
         </tbody>
       </tgroup>
@@ -3833,8 +3841,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               process definitions.</entry>
 
               <entry valign="middle"><graphic align="center"
-              fileref="Images/Package_Meta_Model.gif"
-              valign="middle" /></entry>
+              contentdepth="100%" fileref="Images/Package_Meta_Model.gif"
+              scalefit="1" valign="middle" width="100%" /></entry>
             </row>
           </tbody>
         </tgroup>
@@ -3900,7 +3908,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
               <entry><mediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/Package_Meta_Model.gif" />
+                    <imagedata contentdepth="100%"
+                               fileref="Images/Package_Meta_Model.gif"
+                               scalefit="1" width="100%" />
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -4346,8 +4356,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesGeneralDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesGeneralDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -4387,8 +4398,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesHeaderDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesHeaderDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -4406,8 +4418,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesRedefinableDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesRedefinableDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -4464,8 +4477,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesExtPackDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesExtPackDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -4483,8 +4497,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesTypeDeclDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesTypeDeclDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -4519,8 +4534,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesParticipantsDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesParticipantsDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -4538,8 +4554,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesApplicationsDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesApplicationsDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -4572,8 +4589,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesVariablesDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesVariablesDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -4591,8 +4609,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesProcessesDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesProcessesDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -4633,8 +4652,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/packagePropertiesNamespacesDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/packagePropertiesNamespacesDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -4663,7 +4683,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <mediaobject condition="demo-details">
         <imageobject>
-          <imagedata fileref="Images/Process_Meta_Model.gif" />
+          <imagedata contentdepth="100%"
+                     fileref="Images/Process_Meta_Model.gif" scalefit="1"
+                     width="100%" />
         </imageobject>
       </mediaobject>
 
@@ -5036,8 +5058,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesGeneralDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesGeneralDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -5074,8 +5097,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesHeaderDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesHeaderDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -5093,8 +5117,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesRedefinableDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesRedefinableDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -5132,8 +5157,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesParticipantsDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesParticipantsDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -5151,8 +5177,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesApplicationsDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesApplicationsDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -5186,8 +5213,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesVariablesDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesVariablesDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -5205,8 +5233,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesFormParamDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesFormParamDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -5240,8 +5269,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesActivitiesDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesActivitiesDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -5259,8 +5289,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesTransitionsDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesTransitionsDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -5294,8 +5325,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/processPropertiesActivitySetsDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/processPropertiesActivitySetsDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -5355,8 +5387,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry align="justify" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/extPackageAddDialog.gif"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/extPackageAddDialog.gif"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -5388,9 +5421,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry><mediaobject>
                     <imageobject>
-                      <imagedata align="left"
+                      <imagedata align="left" contentdepth="100%"
                                  fileref="Images/ExtPackDeleteWarning.gif"
-                                 valign="middle" />
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
 
@@ -5439,7 +5472,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry align="justify" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/participantsExternalDialog.gif" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/participantsExternalDialog.gif"
+                                 scalefit="1" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -5479,7 +5514,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry align="justify" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/processesExternalDialog.gif" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/processesExternalDialog.gif"
+                                 width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -5520,7 +5557,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry align="justify" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/applicationsExternalDialog.gif" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/applicationsExternalDialog.gif"
+                                 scalefit="1" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -5625,9 +5664,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry><mediaobject>
                   <imageobject>
-                    <imagedata align="left"
+                    <imagedata align="left" contentdepth="100%"
                                fileref="Images/TypeDeclarationDialog.jpg"
-                               valign="middle" />
+                               scalefit="1" valign="middle" width="100%" />
                   </imageobject>
                 </mediaobject></entry>
 
@@ -5994,7 +6033,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <mediaobject condition="demo-emptytext">
         <imageobject>
-          <imagedata fileref="Images/participantNewDialog.gif" />
+          <imagedata contentdepth="100%"
+                     fileref="Images/participantNewDialog.gif" scalefit="1"
+                     width="100%" />
         </imageobject>
       </mediaobject>
 
@@ -6140,7 +6181,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry><mediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/packagePropertiesApplicationsDialog.gif" />
+                    <imagedata contentdepth="100%"
+                               fileref="Images/packagePropertiesApplicationsDialog.gif"
+                               scalefit="1" width="100%" />
                   </imageobject>
                 </mediaobject></entry>
 
@@ -6178,8 +6221,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
               <entry align="justify" valign="middle"><mediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/applicationNewDialog.gif"
-                               valign="middle" />
+                    <imagedata contentdepth="100%"
+                               fileref="Images/applicationNewDialog.gif"
+                               scalefit="1" valign="middle" width="100%" />
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -6242,9 +6286,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata align="left"
+                      <imagedata align="left" contentdepth="100%"
                                  fileref="Images/formalParametersDialog.gif"
-                                 valign="middle" />
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
 
@@ -6608,7 +6652,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <mediaobject condition="demo-emptytext">
         <imageobject>
-          <imagedata fileref="Images/wfVariableNewDialog.gif" />
+          <imagedata contentdepth="100%"
+                     fileref="Images/wfVariableNewDialog.gif" scalefit="1"
+                     width="100%" />
         </imageobject>
       </mediaobject>
 
@@ -6658,9 +6704,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry valign="middle"><mediaobject>
                   <imageobject>
-                    <imagedata align="left"
+                    <imagedata align="left" contentdepth="100%"
                                fileref="Images/FormalParameterDialog.jpg"
-                               valign="middle" />
+                               scalefit="1" valign="middle" width="100%" />
                   </imageobject>
                 </mediaobject></entry>
 
@@ -6718,7 +6764,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="Images/extendedAttributeDialog.jpg" />
+          <imagedata contentdepth="100%"
+                     fileref="Images/extendedAttributeDialog.jpg" scalefit="1"
+                     width="100%" />
         </imageobject>
       </mediaobject>
 
@@ -6784,8 +6832,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
               <entry valign="middle"><mediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/activitySetDialog.gif"
-                               valign="middle" />
+                    <imagedata contentdepth="100%"
+                               fileref="Images/activitySetDialog.gif"
+                               scalefit="1" valign="middle" width="100%" />
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -6937,7 +6986,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="Images/Process_Activity_Structures.gif" />
+          <imagedata contentdepth="100%"
+                     fileref="Images/Process_Activity_Structures.gif"
+                     scalefit="1" width="100%" />
         </imageobject>
       </mediaobject>
 
@@ -7143,8 +7194,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/activityPropertiesGeneralDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/activityPropertiesGeneralDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -7219,8 +7271,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/activityPropertiesBlockActDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/activityPropertiesBlockActDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -7234,8 +7287,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/activityPropertiesToolActDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/activityPropertiesToolActDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -7283,8 +7337,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/activityPropertiesSubflowActDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/activityPropertiesSubflowActDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -7302,8 +7357,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/activityPropertiesRestrictionDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/activityPropertiesRestrictionDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -7345,8 +7401,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/activityPropertiesSimulationDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/activityPropertiesSimulationDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
                   </row>
@@ -7364,8 +7421,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <row>
                     <entry valign="middle"><mediaobject>
                         <imageobject>
-                          <imagedata fileref="Images/activityPropertiesExtAttDialog.gif"
-                                     valign="middle" />
+                          <imagedata contentdepth="100%"
+                                     fileref="Images/activityPropertiesExtAttDialog.gif"
+                                     scalefit="1" valign="middle" width="100%" />
                         </imageobject>
                       </mediaobject></entry>
 
@@ -7533,7 +7591,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <mediaobject condition="demo-emptytext">
         <imageobject>
-          <imagedata fileref="Images/transitionDialog.gif" />
+          <imagedata contentdepth="100%" fileref="Images/transitionDialog.gif"
+                     scalefit="1" width="100%" />
         </imageobject>
       </mediaobject>
 
@@ -7592,8 +7651,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_pkgproperties.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_pkgproperties.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -7628,8 +7688,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_savepkg.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_savepkg.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -7677,8 +7738,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_newparticipant.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_newparticipant.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -7752,8 +7814,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_newapplication.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_newapplication.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -7817,8 +7880,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_processproperties.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_processproperties.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -7872,8 +7936,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_newwfvariable.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_newwfvariable.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -7973,14 +8038,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry colsep="none" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_actno.jpg" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_actno.jpg" scalefit="1"
+                                 width="100%" />
                     </imageobject>
                   </mediaobject></entry>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_acttool.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_acttool.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -7988,14 +8056,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry colsep="none" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_actroute.jpg" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_actroute.jpg"
+                                 scalefit="1" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_acttool-tool.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_acttool-tool.jpg"
+                                 scalefit="1" valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8047,8 +8118,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
                 <entry valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/exmpl_trans.jpg"
-                                 valign="middle" />
+                      <imagedata contentdepth="100%"
+                                 fileref="Images/exmpl_trans.jpg" scalefit="1"
+                                 valign="middle" width="100%" />
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8108,7 +8180,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <row>
             <entry valign="middle"><mediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/bank_process.jpg" valign="middle" />
+                  <imagedata contentdepth="100%"
+                             fileref="Images/bank_process.jpg" scalefit="1"
+                             valign="middle" width="100%" />
                 </imageobject>
               </mediaobject></entry>
           </row>
@@ -8517,9 +8591,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <para>E.g. to change the order of menu items in the File menu, or to
       leave out some items, you can modify the following:</para>
 
-      <programlisting>SubMenu.ActionOrder.File = NewPackage Open Reopen Close - Save SaveAs - @RecentFiles - Exit</programlisting>
-
-      <para></para>
+      <para><emphasis>SubMenu.ActionOrder.File = NewPackage Open Reopen Close
+      - Save SaveAs - @RecentFiles - Exit</emphasis></para>
     </sect1>
 
     <!--kraj komentara-->
@@ -8550,7 +8623,8 @@ JaWETypes.ActivityType.Color.block = R=197,G=231,B=235
 
       <para><programlisting>JaWETypes.ActivityType.Id.loop = ACTIVITY_LOOP
 JaWETypes.ActivityType.LangDepName.loop = LoopKey
-JaWETypes.ActivityType.Icon.loop = org/enhydra/jawe/samples/loopactivity/images/loopactivity.gif
+JaWETypes.ActivityType.Icon.loop = org/enhydra/jawe/samples/loopactivity/
+images/loopactivity.gif
 JaWETypes.ActivityType.Color.loop = R=255,G=155,B=15
 JaWETypes.ActivityType.XPDLTemplate.loop = sampleactloop.xml</programlisting>where
       sampleactloop.xml have to be placed under templates subfloder of the
@@ -8651,12 +8725,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       display some complex element collections, in order to specify which
       sub-elements will be shown as a table columns. For example, when
       displaying activities, you can specify to show Activity's Id, Name,
-      Performer, Type, Start mode, Finish mode and Deadlines:<programlisting>ShowColumns.XMLTablePanel.Activities = Id Name Performer Type StartMode FinishMode Deadlines</programlisting>There
-      is another customization possible for the so called "combo box" panel.
-      Hence, you can define for which elements the combo box will be disabled
-      (by default nothing is disabled). For example, if you want to disable
-      combo boxes for displaying Activity's Performer and Transition's From
-      and To properties, you should specify the following:</para>
+      Performer, Type, Start mode, Finish mode and Deadlines:</para>
+
+      <para><emphasis>ShowColumns.XMLTablePanel.Activities = Id Name Performer
+      Type StartMode FinishMode Deadlines</emphasis></para>
+
+      <para>There is another customization possible for the so called "combo
+      box" panel. Hence, you can define for which elements the combo box will
+      be disabled (by default nothing is disabled). For example, if you want
+      to disable combo boxes for displaying Activity's Performer and
+      Transition's From and To properties, you should specify the
+      following:</para>
 
       <programlisting>XMLComboPanel.DisableCombo = Performer From To</programlisting>
 
@@ -8809,7 +8888,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
             <mediaobject>
               <imageobject>
-                <imagedata fileref="Images/allow_undefined_start.gif" />
+                <imagedata contentdepth="100%"
+                           fileref="Images/allow_undefined_start.gif"
+                           scalefit="1" width="100%" />
               </imageobject>
             </mediaobject>
           </figure>
@@ -8829,7 +8910,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
             <mediaobject>
               <imageobject>
-                <imagedata fileref="Images/allow_undefined_end.gif" />
+                <imagedata contentdepth="100%"
+                           fileref="Images/allow_undefined_end.gif"
+                           scalefit="1" width="100%" />
               </imageobject>
             </mediaobject>
           </figure>
@@ -9338,9 +9421,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       role="bold">twe-x.y-z.tar.gz</emphasis> package on Windows/Linux
       respectivly, the packages should be un-packed, and in the root of the
       folder where they are unpacked, configure script should be executed. If
-      JAVA_HOME environment variable exists, configure script can be executed without
-      parameters, otherwise it should be called with a parameter specifying
-      JAVA_HOME value, e.g:</para>
+      JAVA_HOME environment variable exists, configure script can be executed
+      without parameters, otherwise it should be called with a parameter
+      specifying JAVA_HOME value, e.g:</para>
 
       <para><emphasis>configure -jdkhome c:\jdk1.6.0_20</emphasis></para>
 
