@@ -1,5 +1,6 @@
 2010-09-07 Sasa Bojanic <sasaboy@together.at>
    # fixed docbook docu and build scripts to solve picture and table sizing issues in PDFs
+   # added TAS dependency build (the zip file which is same as a normal but with a twe.zip name)
 
 2010-09-03 Sasa Bojanic <sasaboy@together.at>
    # added copyright and GPL V3 comment at top of every source file where missing (including *.xml, *.properties, *.xpdl... files)

@@ -40,6 +40,8 @@ if %~1==buildAll goto continue
 if %~1==buildNoDoc goto continue
 if %~1==buildDoc goto continue
 if %~1==dependencies goto continue
+if %~1==dependency_tws goto continue
+if %~1==dependency_tas goto continue
 if %~1==install goto continue
 if %~1==clean goto continue
 if %~1==distributions goto continue
@@ -75,7 +77,9 @@ echo make help                - Displays this Help screen
 echo make buildAll            - Builds and configures TWE with javadoc and docbook documentation
 echo make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
 echo make buildDoc            - Builds docbook documentation
-echo make dependencies        - Builds and configures TWE, and creates TWS dependencies within distributions folder
+echo make dependencies        - Creates TWS and TAS dependencies within distributions folder
+echo make dependency_tws      - Creates TWS dependencies within distributions folder
+echo make dependency_tas      - Creates TAS dependencies within distributions folder
 echo make install             - Install and configure TWE
 echo make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
 echo make distributions       - Builds and configures TWE with all documentations and creates distribution package

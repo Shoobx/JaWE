@@ -294,7 +294,9 @@ make help                - Displays this Help screen
 make buildAll            - Builds and configures TWE with javadoc and docbook documentation
 make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
 make buildDoc            - Builds docbook documentation
-make dependencies        - Builds and configures TWE, and creates TWS dependencies within distributions folder
+make dependencies        - Creates TWS and TAS dependencies within distributions folder
+make dependency_tws      - Creates TWS dependencies within distributions folder
+make dependency_tas      - Creates TAS dependencies within distributions folder
 make install             - Install and configure TWE
 make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
 make distributions       - Builds and configures TWE with all documentations and creates distribution package
@@ -305,7 +307,7 @@ make distributions       - Builds and configures TWE with all documentations and
 	<!-- ==================================================================== -->
 	<!-- Distributions                                                        -->
 	<!-- ==================================================================== -->
-	<target name="distributions" depends="prepare, clean, initDist, distSource, distBin, _dependencies" />
+	<target name="distributions" depends="prepare, clean, initDist, distSource, distBin" />
 
 	<target name="initDist">
 		<mkdir dir="${dist.community.dir}" />
@@ -316,9 +318,15 @@ make distributions       - Builds and configures TWE with all documentations and
 		<mkdir dir="${dist.screenshots.dir}" />
 	</target>
 
-	<target name="dependencies" depends="clean,buildNoDoc,_dependencies"/>
+	<target name="dependencies" depends="clean,dependency_tas,_dependency_tws"/>
 
-	<target name="_dependencies">
+	<target name="dependency_tws" depends="buildNoDoc,_dependency_tws"/>
+	
+	<target name="dependency_tas" depends="output,buildAllDoc,_dependency_tas"/>
+	
+	<target name="_dependencies" depends="_dependency_tws,_dependency_tas" />
+
+	<target name="_dependency_tws">
 		<mkdir dir="${dist.dependencies.dir}/tws" />
 		<copy todir="${dist.dependencies.dir}/tws" overwrite="true">
 			<fileset dir="${build.dir}/lib">
@@ -329,6 +337,13 @@ make distributions       - Builds and configures TWE with all documentations and
 			</fileset>
 		</copy>		
 	</target>
+	
+	<target name="_dependency_tas">
+		<mkdir dir="${dist.dependencies.dir}/tas" />
+		<zip destfile="${dist.dependencies.dir}/tas/${app.name}.zip" update="true">
+			<zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" />
+		</zip>
+	</target>
 
 	<target name="distBin" depends="init">
 		<if>
@@ -338,6 +353,7 @@ make distributions       - Builds and configures TWE with all documentations and
 					<param name="dist.folder" value="${dist.community.dir}" />
 					<param name="name.additional" value="" />
 				</antcall>
+                                <antcall target="_dependencies"/>            
 				<available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
 				<if>
 					<equals arg1="${tog.lic.exists}" arg2="true" />
