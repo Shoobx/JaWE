@@ -456,19 +456,15 @@ make distributions       - Builds and configures TWE with all documentations and
 		<copy todir="${dist.community.dir}">
 			<fileset dir="${dist.screenshots.dir}" includes="twe-screen-${version}-${release}.zip" />
 		</copy>
+		<zip destfile="${dist.community.dir}/${app.name}-doc-${version}-${release}.zip" update="true">
+			<zipfileset dir="${build.dir}/doc" />
+		</zip>
 		<copy todir="${build.dir}/doc">
 			<fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.pdf" />
 			<mapper type="regexp" from="twe-doc-${version}-${release}.pdf" to="twe-doc-current.pdf" />
 		</copy>		
-		<copy todir="${build.dir}/doc">
-			<fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.html" />
-			<mapper type="regexp" from="twe-doc-${version}-${release}.html" to="twe-doc-current.html" />
-		</copy>		
-		<zip destfile="${dist.doc.dir}/${app.name}-doc-${version}-${release}.zip" update="true">
-			<zipfileset dir="${build.dir}/doc" />
-		</zip>
-		<copy todir="${dist.community.dir}">
-			<fileset dir="${dist.doc.dir}" includes="twe-doc-${version}-${release}.zip" />
+		<copy todir="${dist.doc.dir}">
+			<fileset dir="${build.dir}/doc" />
 		</copy>
 		<copy todir="${dist.internal.dir}">
 			<fileset dir="${basedir}/licenses" includes="twe-includes.xlsx" />
