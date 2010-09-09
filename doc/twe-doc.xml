@@ -106,9 +106,8 @@
 
     <para><ulink
     url="http://www.together.at/together/prod/twe/index.html">Together
-    Workflow Editor (http://www.together.at/prod/workflow/twe)</ulink> is a
-    visual tool for creating, managing and reviewing process definitions
-    stored in WfMC XPDL syntax.</para>
+    Workflow Editor</ulink> is a visual tool for creating, managing and
+    reviewing process definitions stored in WfMC XPDL syntax.</para>
 
     <para>Put simple, Together Workflow Editor allows you to quickly create or
     view XPDL workflow definition files, check and store them for the further
@@ -121,7 +120,7 @@
       <title>About Workflow</title>
 
       <para>From the <ulink url="http://www.wfmc.org">Workflow Management
-      Coalition website (http://www.wfmc.org)</ulink>:</para>
+      Coalition website</ulink>:</para>
 
       <sect2>
         <title>Why Should a Business Use Workflow ?</title>
@@ -175,36 +174,32 @@
       <title>Open source</title>
 
       <para>Together Workflow Editor is available as an Open Source as the
-      Enhydra JaWE (Java Workflow Editor) project under the GPL
+      Enhydra JaWE (Java Workflow Editor) project under the GPL V3
       license.</para>
 
-      <para><ulink url="http://jawe.enhydra.org">Enhydra JaWE
-      (http://jawe.enhydra.org)</ulink> is an <ulink
-      url="http://www.opensource.org">open source
-      (http://www.opensource.org)</ulink> project hosted by <ulink
-      url="http://sourceforge.net">SourceForge
-      (http://sourceforge.net)</ulink> , with the goal to deliver a production
-      quality tool for graphical creation and viewing of WfMC XPDL process
-      definitions. It results from real world projects in which the painful
-      task of writing XML with general purpose XML editors had to be done
-      again and again. This project is developed mainly by employees of <ulink
-      url="http://www.together.at">Together Teamsolutions Co., Ltd
-      (http://www.together.at)</ulink> respectively its subsidiary in Serbia
-      but also contains lots of input and improvements from the many users
-      worldwide. Enhydra JaWE has a rapidly growing community and is also
-      integrated in other open source projects like <ulink
-      url="http://enhydra.org">Enhydra Server (http://enhydra.org)</ulink> - a
+      <para><ulink url="http://sourceforge.net/projects/jawe">Enhydra
+      JaWE</ulink> is an <ulink url="http://www.opensource.org">open
+      source</ulink> project hosted by <ulink
+      url="http://sourceforge.net">SourceForge</ulink> , with the goal to
+      deliver a production quality tool for graphical creation and viewing of
+      WfMC XPDL process definitions. It results from real world projects in
+      which the painful task of writing XML with general purpose XML editors
+      had to be done again and again. This project is developed mainly by
+      employees of <ulink url="http://www.together.at">Together Teamsolutions
+      Co., Ltd</ulink> respectively its subsidiary in Serbia but also contains
+      lots of input and improvements from the many users worldwide. Enhydra
+      JaWE has a rapidly growing community and is also integrated in other
+      open source projects like <ulink
+      url="http://www.together.at/prod/server/tas">Enhydra Server</ulink> - a
       professional Java and J2EE application server and <ulink
-      url="http://sourceforge.net/projects/sharkwf">Enhydra Shark
-      (http://sourceforge.net/projects/sharkwf)</ulink> - the most flexible
-      Open Source WfMC XPDL workflow engine available. Its use is <ulink
-      url="http://www.gnu.org/philosophy/philosophy.html">"Free as in Freedom"
-      (http://www.gnu.org/philosophy/philosophy.html)</ulink> and licensed
-      under the <ulink url="http://www.gnu.org">GNU (http://www.gnu.org)
-      </ulink><ulink url="http://www.gnu.org/copyleft/lesser.html">LGPL
-      license (http://www.gnu.org/copyleft/lesser.html)</ulink> defined by the
-      <ulink url="http://www.gnu.org/fsf/fsf.html">Free Software Foundation
-      FSF (http://www.gnu.org/fsf/fsf.html)</ulink>.</para>
+      url="http://sourceforge.net/projects/sharkwf">Enhydra Shark</ulink> -
+      the most flexible Open Source WfMC XPDL workflow engine available. Its
+      use is <ulink url="http://www.gnu.org/philosophy/philosophy.html">"Free
+      as in Freedom"</ulink> and licensed under the <ulink
+      url="http://www.gnu.org">GNU </ulink><ulink
+      url="http://www.gnu.org/copyleft/gpl.html">GPL V3 license</ulink>
+      defined by the <ulink url="http://www.gnu.org/fsf/fsf.html">Free
+      Software Foundation FSF</ulink>.</para>
     </sect1>
 
     <sect1>
@@ -364,9 +359,8 @@
       <title>Acknowledgements</title>
 
       <para>Many thanks go to the Swiss company <ulink
-      url="http://www.abacus.ch">ABACUS (http://www.abacus.ch)</ulink> for
-      sponsoring major parts of the Together Workflow Editor Version 2.0
-      development.</para>
+      url="http://www.abacus.ch">ABACUS</ulink> for sponsoring major parts of
+      the Together Workflow Editor Version 2.0 development.</para>
     </sect1>
 
     <sect1>
@@ -396,8 +390,7 @@
 
       <para>Together Teamsolutions Co., Ltd is an active member of WfMC,
       directly involved into the development of the XPDL standards
-      specification. It is sponsoring the development of most Enhydra.org
-      projects hosted at ObjectWeb.</para>
+      specification.</para>
     </sect1>
 
     <sect1>
@@ -432,7 +425,7 @@
 
       <para>JaWE - Java Workflow Editor - is the Open Source project of
       Together Workflow Editor Professional. It is fully useable to edit, view
-      and save complete XPDL files and licensed under GPL. Sources are
+      and save complete XPDL files and licensed under GPL V3. Sources are
       publicly available in the projects CVS repository hosted at
       SourceForge</para>
     </sect1>
@@ -457,20 +450,20 @@
     <sect1>
       <title>JGraph</title>
 
-      <para><ulink url="http://www.jgraph.com">JGraph
-      (http://www.jgraph.com)</ulink> is a powerful, easy-to-use, feature-rich
-      and standards-compliant open source graph component available for Java.
-      This library is used in Together Workflow Editor for graphial
-      representation of process layouts (graph component).</para>
+      <para><ulink url="http://www.jgraph.com">JGraph</ulink> is a powerful,
+      easy-to-use, feature-rich and standards-compliant open source graph
+      component available for Java. This library is used in Together Workflow
+      Editor for graphial representation of process layouts (graph
+      component).</para>
     </sect1>
 
     <sect1>
       <title>Docbook</title>
 
       <para>This book was written using <ulink
-      url="http://www.docbook.org">DocBook (http://www.docbook.org)</ulink>
-      and the <ulink url="http://www.xmlmind.com/xmleditor">XML Mind XML
-      Editor (http://www.xmlmind.com/xmleditor)</ulink>.</para>
+      url="http://www.docbook.org">DocBook</ulink> and the <ulink
+      url="http://www.xmlmind.com/xmleditor">XML Mind XML
+      Editor</ulink>.</para>
     </sect1>
   </preface>
 
@@ -568,9 +561,8 @@ sect1>
       <title pagenum="next">Useful links</title>
 
       <para><ulink url="http://www.wfmc.org">The WfMC Workflow Management
-      Coalition (http://www.wfmc.org)</ulink> promotes the advancement of
-      process management technology standards and their use by the
-      industry.</para>
+      Coalition</ulink> promotes the advancement of process management
+      technology standards and their use by the industry.</para>
 
       <para>The Java 2 SDK or Java 2 JRE can be downloaded from <ulink
       url="http://java.sun.com">http://java.sun.com</ulink> .</para>
@@ -578,12 +570,12 @@ sect1>
       <para>The Together Workflow Editor home page is located at <ulink
       url="http://www.together.at/prod/workflow/twe">http://www.together.at/prod/workflow/twe</ulink>.</para>
 
-      <para><ulink url="http://www.jgraph.com">JGraph
-      (http://www.jgraph.com)</ulink> is an open-source swing graph component
-      used in Together Workflow Editor.</para>
+      <para><ulink url="http://www.jgraph.com">JGraph</ulink> is an
+      open-source swing graph component used in Together Workflow
+      Editor.</para>
 
-      <para><ulink url="???">Enhydra Shark (http://shark.enhydra.org)</ulink>
-      - the most flexible Open Source WfMC XPDL workflow engine
+      <para><ulink url="http://sourceforge.net/projects/sharkwf">Enhydra
+      Shark</ulink> - the most flexible Open Source WfMC XPDL workflow engine
       available</para>
 
       <!--
