@@ -163,7 +163,7 @@ Categories=Development;GNOME;GTK;Applications;X-Fedora;
 StartupNotify=true
 X-Desktop-File-Install-Version=0.15
 MimeType=text/xml;text/plain;
-Name=TogWE
+Name=TWE
 GenericName= XPDL editor
 Comment=Compose, edit, and view XPDL 1.0 documents
 

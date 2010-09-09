@@ -53,7 +53,7 @@ done
                         
 version=3.0
 release=1
-build_DOT_debug=on
+build_DOT_debug=off
 build_DOT_optimize=on
 install_DOT_dir=
 rebranding=false
@@ -153,7 +153,7 @@ if test -d $jdk_DOT_dir -a -x $jdk_DOT_dir/bin/javac ; then
     cat >Makefile <<EOF
 #
 VERSION=$version
-PROJECT=TogWE
+PROJECT=twe
 PREFIX=$prefix
 CLASSPATH=\
 $PWD/util/ant/ant.jar:\
