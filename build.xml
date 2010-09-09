@@ -459,7 +459,7 @@ make distributions       - Builds and configures TWE with all documentations and
 		<zip destfile="${dist.community.dir}/${app.name}-doc-${version}-${release}.zip" update="true">
 			<zipfileset dir="${build.dir}/doc" />
 		</zip>
-		<copy todir="${build.dir}/doc">
+		<copy todir="${dist.community.dir}">
 			<fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.pdf" />
 			<mapper type="regexp" from="twe-doc-${version}-${release}.pdf" to="twe-doc-current.pdf" />
 		</copy>		

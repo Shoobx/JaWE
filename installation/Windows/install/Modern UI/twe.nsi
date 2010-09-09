@@ -261,10 +261,6 @@ Section Install
                  "$INSTDIR\bin\TWE.ico"
 				 				 
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) Api.lnk" \
-                 "$INSTDIR\doc\api\index.html" \
-                 "" \
-                 $DEFAULT_BROWSER
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk" \
                  "$INSTDIR\doc\twe-doc-${VERSION}-${RELEASE}.html" \
                  "" \
@@ -393,7 +389,6 @@ Section "Uninstall"
 
   
   ; remove shortcuts, if any.
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) Api.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) PDF.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) Homepage.lnk"
@@ -461,7 +456,6 @@ Function Cleanup
   RMDir /r "$INSTDIR"
 
   ; remove shortcuts, if any.
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) Api.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) PDF.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"

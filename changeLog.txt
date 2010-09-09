@@ -1,4 +1,9 @@
 2010-09-08 Sasa Bojanic <sasaboy@together.at>
+   # twe-doc-current.pdf is now not packed in the zip, but just ends up into community folder like that
+   # program group entry for API docu removed
+   # updated docbook docu
+
+2010-09-08 Sasa Bojanic <sasaboy@together.at>
    # twe-doc-current.html removed from docu
    # docu in documentation folder of the distribution is now unpacked
 

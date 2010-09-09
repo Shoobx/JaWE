@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Together Workflow Editor
-    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or 
-    (at your option) any later version.
- 
-    This program is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-    GNU General Public License for more details.
- 
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see http://www.gnu.org/licenses
--->
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
 <book id="tweug" lang="en" revision="0" status="work in progress">
@@ -85,11 +68,11 @@
       this book.</para>
 
       <para>The Together logo, Enhydra, the Enhydra logo and the Enhydra Shark
-      logo are registered trademarks of Together Teamsolutions Co., Ltd. Java
-      and all Java-based trademarks or logos are trademarks or registered
-      trademarks of Sun Microsystems, Inc., in the United States States and
-      other countries. Together Teamsolutions Co., Ltd is independent of Sun
-      Microsystems.</para>
+      logo are registered trademarks of Together Teamlösungen
+      EDV-Dienstleistungen GmbH. Java and all Java-based trademarks or logos
+      are trademarks or registered trademarks of Sun Microsystems, Inc., in
+      the United States States and other countries. Together Teamlösungen
+      EDV-Dienstleistungen GmbH. is independent of Sun Microsystems.</para>
 
       <para>In this document parts of the original XPDL 1.0 specification -
       <ulink
@@ -104,8 +87,7 @@
   <preface>
     <title>Preface</title>
 
-    <para><ulink
-    url="http://www.together.at/together/prod/twe/index.html">Together
+    <para><ulink url="http://www.together.at/prod/workflow/twe">Together
     Workflow Editor</ulink> is a visual tool for creating, managing and
     reviewing process definitions stored in WfMC XPDL syntax.</para>
 
@@ -186,10 +168,9 @@
       which the painful task of writing XML with general purpose XML editors
       had to be done again and again. This project is developed mainly by
       employees of <ulink url="http://www.together.at">Together Teamsolutions
-      Co., Ltd</ulink> respectively its subsidiary in Serbia but also contains
-      lots of input and improvements from the many users worldwide. Enhydra
-      JaWE has a rapidly growing community and is also integrated in other
-      open source projects like <ulink
+      Co., Ltd</ulink> but also contains lots of input and improvements from
+      the many users worldwide. Enhydra JaWE has a rapidly growing community
+      and is also integrated in other open source projects like <ulink
       url="http://www.together.at/prod/server/tas">Enhydra Server</ulink> - a
       professional Java and J2EE application server and <ulink
       url="http://sourceforge.net/projects/sharkwf">Enhydra Shark</ulink> -
@@ -208,7 +189,7 @@
       <para>Commercial support for Together Workflow Editor including
       development of project specific extensions or integration into other
       environments and projects is offered by Together Teamsolutions Co., Ltd
-      located in Vienna/Austria/Europe (<ulink
+      located in Pattaya/Thailand/Asis (<ulink
       url="mailto: office@together.at">mailto:
       office@together.at</ulink>).</para>
     </sect1>
@@ -240,7 +221,7 @@
 
           <listitem>
             <para>Information how to configure and customize Together Workflow
-            Editor Professional to your needs.</para>
+            Editor to your needs.</para>
           </listitem>
 
           <listitem>
@@ -299,13 +280,6 @@
         <listitem>
           <para>XPDL from Scratch - How to create your first XPDL file</para>
         </listitem>
-
-        <!--
-        <listitem>
-          <para>Workflow Engine specifics - Support features for Together
-          Workflow Server / Enhydra Shark and WfmOpen</para>
-        </listitem>
--->
 
         <listitem>
           <para>Configuration - How to tailor the Editor to your needs</para>
@@ -367,8 +341,7 @@
       <title>About the Authors</title>
 
       <para>All authors are directly involved in one way or the other into the
-      core development of Together Workflow Editor Professional and Enhydra
-      JaWE.</para>
+      core development of Together Workflow Editor and Enhydra JaWE.</para>
     </sect1>
 
     <sect1>
@@ -388,9 +361,8 @@
       reporting, systems administration and hardware sizing are also covered,
       continuously maintained and expanded.</para>
 
-      <para>Together Teamsolutions Co., Ltd is an active member of WfMC,
-      directly involved into the development of the XPDL standards
-      specification.</para>
+      <para>Together Teamsolutions Co., Ltd is directly involved into the
+      development of the XPDL standards specification.</para>
     </sect1>
 
     <sect1>
@@ -401,12 +373,6 @@
       Many of these are able to offer commercial products, support, consulting
       and training.</para>
 
-      <para>The Enhydra.org Web site was initially created by Lutris
-      Technologies, Inc. Starting from beginning of May 2002, ObjectWeb took
-      over the sponsorship of the Enhydra initiative hosting. All Enhydra
-      projects now use the ObjectWeb infrastructure and in particular the
-      ObjectWeb Forge which is based on GForge.</para>
-
       <para>Enhydra.org started with Enhydra, the first and leading Open
       Source Java/XML application server. It was initially created by Lutris
       Technologies, Inc. which already disappeared from the market. After 4
@@ -415,19 +381,17 @@
       Lutris) - a popular inhabitant of Santa Cruz.</para>
 
       <para>Big parts of Enhydra development are now sponsored by Together
-      Teamsolutions Co., Ltd located in Europe (Austria, Serbia and Slovakia).
-      One of the outcomes of this sponsorship is Enhydra JaWE, the open source
-      part of Together Workflow Editor Professional.</para>
+      Teamsolutions Co., Ltd located in Thailand. One of the outcomes of this
+      sponsorship is Enhydra JaWE / Together Workflow Editor.</para>
     </sect1>
 
     <sect1>
       <title>JaWE</title>
 
       <para>JaWE - Java Workflow Editor - is the Open Source project of
-      Together Workflow Editor Professional. It is fully useable to edit, view
-      and save complete XPDL files and licensed under GPL V3. Sources are
-      publicly available in the projects CVS repository hosted at
-      SourceForge</para>
+      Together Workflow Editor. It is fully useable to edit, view and save
+      complete XPDL files and licensed under GPL V3. Sources are publicly
+      available in the projects CVS repository hosted at SourceForge</para>
     </sect1>
 
     <sect1>
@@ -503,8 +467,8 @@
       <itemizedlist>
         <listitem>
           <para>Reading of WfMC XPDL files (no matter from which tool they
-          initially come from) from the filesystem (or a Wf-XML server in the
-          Professional Edition)</para>
+          initially come from) from the filesystem or from the Wf-XML
+          server</para>
         </listitem>
 
         <listitem>
@@ -513,49 +477,11 @@
         </listitem>
 
         <listitem>
-          <para>Writing of WfMC XPDL process definition XML files to the
-          filesystem (or a Wf-XML server in the Professional Edition)</para>
+          <para>Writing WfMC XPDL process definition XML files to the
+          filesystem or to the Wf-XML server</para>
         </listitem>
       </itemizedlist>
     </sect1>
-
-    <!--
-    <sect1>
-      <title>Installation Prerequisites</title>
-
-      <para>to be done</para>
-    </sect1>
-sect1>
-      <title>How to install</title>
-
-      <para>to be done</para>
-
-      <sect2>
-        <title>Together Workflow Editor Professional</title>
-
-        <para>to be done</para>
-      </sect2>
-
-      <sect2>
-        <title>Together Workflow Editor Demo</title>
-
-        <para>to be done</para>
-      </sect2>
-
-      <sect2>
-        <title>Together Workflow Editor Community Edition / Enhydra JaWE
-        Download</title>
-
-        <para>to be done</para>
-      </sect2>
-    </sect1>
-
-    <sect1>
-      <title>Opening the sample XPDL files</title>
-
-      <para>to be done</para>
-    </sect1>
--->
 
     <sect1>
       <title pagenum="next">Useful links</title>
@@ -577,23 +503,7 @@ sect1>
       <para><ulink url="http://sourceforge.net/projects/sharkwf">Enhydra
       Shark</ulink> - the most flexible Open Source WfMC XPDL workflow engine
       available</para>
-
-      <!--
-      <para>Enhydra is an open-source application server</para>
-
-      <para>ObjectWeb</para>
-
-      <para>LGPL</para>
-      -->
     </sect1>
-
-    <!--
-    <sect1>
-      <title>Workflow engines supporting XPDL</title>
-
-      <para>to be done</para>
-    </sect1>
--->
   </chapter>
 
   <chapter>
