@@ -182,6 +182,12 @@ buildDoc: FORCE
 dependencies: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
+dependency_tws: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+dependency_tas: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
 install: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
