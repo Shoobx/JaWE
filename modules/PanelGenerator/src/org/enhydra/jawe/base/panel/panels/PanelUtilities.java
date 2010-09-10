@@ -41,6 +41,7 @@ import org.enhydra.shark.xpdl.XMLAttribute;
 import org.enhydra.shark.xpdl.XMLComplexElement;
 import org.enhydra.shark.xpdl.XMLElement;
 import org.enhydra.shark.xpdl.XMLSimpleElement;
+import org.enhydra.shark.xpdl.elements.Member;
 
 /**
  * Various panel utilities.
@@ -115,7 +116,7 @@ public class PanelUtilities {
       boolean onlySimpleOrAttr = true;
       if (el instanceof XMLSimpleElement) {
          return true;
-      } else if (el instanceof XMLComplexElement) {
+      } else if (el instanceof XMLComplexElement && !(el instanceof Member)) {
          List subEls = ((XMLComplexElement) el).toElements();
          for (int i = 0; i < subEls.size(); i++) {
             Object se = subEls.get(i);

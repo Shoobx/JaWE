@@ -1,3 +1,6 @@
+2010-09-10 Sasa Bojanic <sasaboy@together.at>
+   # fix: issues with defining Record and Union type variables
+   
 2010-09-08 Sasa Bojanic <sasaboy@together.at>
    # twe-doc-current.pdf is now not packed in the zip, but just ends up into community folder like that
    # program group entry for API docu removed
