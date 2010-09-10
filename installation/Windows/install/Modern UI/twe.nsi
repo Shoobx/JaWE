@@ -24,7 +24,7 @@
 ;!define RELEASE "1" ; Uncomment this for build with makensisw.exe
 ;!define TWE_DIR "..\..\..\..\output\twe-${VERSION}-${RELEASE}"
 ;!define OUT_DIR ".\..\..\..\..\distribution\twe-${VERSION}-${RELEASE}\community"
-;!define LICENSE ".\..\..\..\..\License.txt"
+;!define LICENSE ".\..\..\..\..\licenses\License.txt"
 ;!define LANGUAGE "English"
 ;----------------------------------------------------------------------------------
 !include LogicLib.nsh
