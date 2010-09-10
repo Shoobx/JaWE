@@ -372,8 +372,8 @@ public class JaWEController extends Observable implements
 
       String verInfo = JaWEManager.getVersion()
                        + "-" + JaWEManager.getRelease() + "-"
-                       + JaWEManager.getBuildEdition()
-                       + JaWEManager.getBuildEditionSuffix() + "-"
+                       /*+ JaWEManager.getBuildEdition()
+                       + JaWEManager.getBuildEditionSuffix() + "-"*/
                        + JaWEManager.getBuildNo();
       if (!JaWEEAHandler.getEditingToolVersion(pkg).equals(verInfo)) {
          JaWEEAHandler.setEditingToolVersion(pkg, verInfo);
