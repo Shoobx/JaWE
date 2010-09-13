@@ -1,3 +1,6 @@
+2010-09-13 Sasa Bojanic <sasaboy@together.at>
+   # Added new XPDL samples
+
 2010-09-10 Sasa Bojanic <sasaboy@together.at>
    # fix: issues with defining Record and Union type variables
    
