@@ -9338,6 +9338,149 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <title>Release Notes</title>
 
     <section>
+      <title>Release 3.3-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Added new XPDL (real life) samples</para>
+        </listitem>
+
+        <listitem>
+          <para>Updated sharkxpdlmodel.jar to version 3.3-1</para>
+        </listitem>
+
+        <listitem>
+          <para>Docbook upgraded to the version 1.75-2, removed enhydra
+          specific stuff</para>
+        </listitem>
+
+        <listitem>
+          <para>Xalan 2.7-1 added to the project and used instead of saxon to
+          generate docbook docu</para>
+        </listitem>
+
+        <listitem>
+          <para>Saxon removed from the project</para>
+        </listitem>
+
+        <listitem>
+          <para>Release notes merged into the single docbook documentation
+          file</para>
+        </listitem>
+
+        <listitem>
+          <para>Fix: issues with defining Record and Union type
+          variables</para>
+        </listitem>
+
+        <listitem>
+          <para>Link to homepage changed to the new address</para>
+        </listitem>
+
+        <listitem>
+          <para>Company name in various source files changed to Together
+          Teamsolutions Co., Ltd.</para>
+        </listitem>
+
+        <listitem>
+          <para>Source distribution does not contain unnecessary temporary
+          files and build.properties file anymore</para>
+        </listitem>
+
+        <listitem>
+          <para>Added copyright and GPL V3 comment at top of every source file
+          where missing (including *.xml, *.properties, *.xpdl...
+          files)</para>
+        </listitem>
+
+        <listitem>
+          <para>BuildID.txt file added to the binary output - it specifies the
+          time when the release was built</para>
+        </listitem>
+
+        <listitem>
+          <para>distribution packaging changed:</para>
+
+          <para><itemizedlist>
+              <listitem>
+                <para>twe-doc-x.y-z.zip and twe-screen-x.y-z.zip now also end
+                up into community folder</para>
+              </listitem>
+
+              <listitem>
+                <para>documentation in documentation folder of the
+                distribution is now unpacked</para>
+              </listitem>
+
+              <listitem>
+                <para>twe-doc-current.pdf with the same content as the current
+                version of project docu ends up into community folder</para>
+              </listitem>
+
+              <listitem>
+                <para>BuildID.txt file ends up into internal folder</para>
+              </listitem>
+
+              <listitem>
+                <para>Added TAS dependency build (the zip file which is same
+                as a normal but with a twe.zip name)</para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+
+        <listitem>
+          <para>Docbook documentation file twe.xml renamed to
+          twe-doc.xml</para>
+        </listitem>
+
+        <listitem>
+          <para>Docbook docu updated</para>
+        </listitem>
+
+        <listitem>
+          <para>Fixed docbook docu and build scripts to solve picture and
+          table sizing issues in PDFs</para>
+        </listitem>
+
+        <listitem>
+          <para>Program group entry for API docu removed</para>
+        </listitem>
+
+        <listitem>
+          <para>XPDL sample files opened and saved with the newest version of
+          editor</para>
+        </listitem>
+
+        <listitem>
+          <para>Standardized make/configure targets</para>
+        </listitem>
+
+        <listitem>
+          <para>Project license now goes to licenses folder, together with
+          other licenses</para>
+        </listitem>
+
+        <listitem>
+          <para>Fixed issue with building RPM distributions from SVN sources
+          on Linux</para>
+        </listitem>
+
+        <listitem>
+          <para>Build number (in about box) does not contain C anymore</para>
+        </listitem>
+
+        <listitem>
+          <para>When XPDL file gets created by the editor, Vendor name now set
+          to (c) Together Teamsolutions Co., Ltd.</para>
+        </listitem>
+
+        <listitem>
+          <para></para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 3.2-2</title>
 
       <itemizedlist>
