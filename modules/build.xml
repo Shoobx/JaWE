@@ -135,15 +135,13 @@
 	<!-- ==================================================================== -->
 	<target name="content" depends="prepare">
 		<copy todir="${classes.dir}">
+			<fileset dir="${basedir}/../licenses" includes="License.txt" />
 			<fileset dir="${sources.dir}" includes="**/resources/*
             , **/images/*
             , **/properties/*
             , **/*.properties
             , **/language/*" />
 
-		</copy>
-		<copy todir="${classes.dir}/org/enhydra/jawe">
-			<fileset dir="${basedir}/../licenses" includes="License.txt" />
 		</copy>
 	</target>
 

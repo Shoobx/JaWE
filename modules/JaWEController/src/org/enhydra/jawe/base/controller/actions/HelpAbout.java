@@ -159,7 +159,7 @@ public class HelpAbout extends ActionBase {
          
          String textL = "";
          try {
-            URL u = ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/License.txt");
+            URL u = ResourceManager.class.getClassLoader().getResource("License.txt");
             URLConnection ucon = u.openConnection();
 
             BufferedReader br = new BufferedReader(new InputStreamReader(ucon.getInputStream()));
