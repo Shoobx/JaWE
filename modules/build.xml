@@ -54,11 +54,7 @@
 	<path id="classpath">
 		<pathelement location="${ext.lib.dir}/jgraph.jar" />
 		<pathelement location="${ext.lib.dir}/jh.jar" />
-		<pathelement location="${ext.lib.dir}/batik-awt-util.jar" />
-		<pathelement location="${ext.lib.dir}/batik-dom.jar" />
-		<pathelement location="${ext.lib.dir}/batik-svggen.jar" />
-		<pathelement location="${ext.lib.dir}/batik-util.jar" />
-		<pathelement location="${ext.lib.dir}/batik-xml.jar" />
+		<pathelement location="${util.dir}/fop/lib/batik.jar" />
 		<pathelement location="${ext.lib.dir}/xercesImpl.jar" />
 		<pathelement location="${ext.lib.dir}/xml-apis.jar" />
 		<pathelement location="${ext.lib.dir}/itext.jar" />
@@ -144,9 +140,7 @@
             , **/images/*
             , **/properties/*
             , **/*.properties
-            , **/language/*" excludes="**/language/JaWE_it.properties
-                     , **/language/JaWE_pl.properties
-                     , **/language/JaWE_zh_CN.properties" />
+            , **/language/*" />
 
 		</copy>
 	</target>

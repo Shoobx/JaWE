@@ -163,6 +163,7 @@
 		<!-- Library directory -->
 		<copy todir="${output.lib.dir}">
 			<fileset dir="${ext.lib.dir}" />
+			<fileset dir="${util.dir}/fop/lib" includes="batik.jar" />
 		</copy>
 
 		<copy todir="${output.lib.dir}">

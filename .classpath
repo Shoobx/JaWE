@@ -40,11 +40,6 @@
 	<classpathentry kind="src" path="modules/Samples/src"/>
 	<classpathentry kind="src" path="modules/development/Debug/src"/>
 	<classpathentry kind="src" path="modules/development/Logger/src"/>
-	<classpathentry kind="lib" path="lib/batik-awt-util.jar"/>
-	<classpathentry kind="lib" path="lib/batik-dom.jar"/>
-	<classpathentry kind="lib" path="lib/batik-svggen.jar"/>
-	<classpathentry kind="lib" path="lib/batik-util.jar"/>
-	<classpathentry kind="lib" path="lib/batik-xml.jar"/>
 	<classpathentry kind="lib" path="lib/jh.jar"/>
 	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
@@ -53,7 +48,6 @@
 	<classpathentry kind="lib" path="lib/jEdit-syntax.jar"/>
 	<classpathentry kind="lib" path="lib/itext.jar"/>
 	<classpathentry kind="lib" path="lib/sharkxpdlmodel.jar"/>
-	<classpathentry kind="lib" path="lib/batik-ext.jar"/>
-	<classpathentry kind="lib" path="lib/batik-codec.jar"/>
+	<classpathentry kind="lib" path="util/fop/lib/batik.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
