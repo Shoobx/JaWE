@@ -9225,8 +9225,31 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <para>where JAVA_HOME is the path to your Java installation.</para>
 
-      <para>To see all possible options execute <emphasis>configure
-      -help</emphasis>.</para>
+      <para>Possible parameters for configure script are:</para>
+
+      <programlisting>configure             - Creates build.properties file with default values for all possible parameters.
+                        It can work only if there is a default JAVA registered with the system.
+configure -help       - Displays Help screen
+configure -version    - Sets the version number for the project.
+configure -release    - Sets the release number for the project.
+configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project.
+configure -debug      - Flag that determines if the sources will be compiled with debug option on or off. 
+                        Possible values [on/off]. 
+configure -instdir    - Sets the location of the installation dir used when executing make script 
+                        with install target specified.
+configure -rebranding - Flag that determines if the project will be "rebranded" with the context of branding folder.
+                        Possible values [true/false].
+configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup (normally used for rebranding). 
+                        Currently possible values [English/Portuguese/PortugueseBR].
+
+Multiple parameters can be specified at ones.
+
+
+Example:
+
+configure -version 3.3 -release 1 -debug off -jdkhome C:/jdk1.6 -instdir C:/JaWE</programlisting>
+
+      <para></para>
 
       <para>The configure script will create/change build.properties file
       based on parameters provided. This file can also be manually changed to
@@ -9236,9 +9259,23 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <sect1>
       <title>Compiling and building</title>
 
-      <para>Execute make script from the root of project sources. When make
-      process finishes, TWE binaries will be in output/twe-[version]-[release]
-      folder.</para>
+      <para>Execute make script with buildAll target from the root of project
+      sources. When make process finishes, TWE binaries will be in
+      output/twe-[version]-[release] folder.</para>
+
+      <para>Possible build targets are:</para>
+
+      <para><programlisting>make help           - Displays Help screen
+make buildAll       - Builds and configures TWE with javadoc and docbook documentation
+make buildNoDoc     - Builds and configures TWE without javadoc and docbook documentation
+make buildDoc       - Builds docbook documentation
+make dependencies   - Creates TWS and TAS dependencies within distributions folder
+make dependency_tws - Creates TWS dependencies within distributions folder
+make dependency_tas - Creates TAS dependencies within distributions folder
+make install        - Install and configure TWE
+make clean          - Removes the output and distribution folder (in order to start a new compilation from scratch)
+make distributions  - Builds and configures TWE with all documentations and creates distribution package
+</programlisting></para>
     </sect1>
 
     <sect1>
@@ -9453,6 +9490,14 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <listitem>
           <para>Standardized make/configure targets</para>
+        </listitem>
+
+        <listitem>
+          <para>Removed -optimized parameter for configure script</para>
+        </listitem>
+
+        <listitem>
+          <para>Added section into documentation about all possible configure/make targets</para>
         </listitem>
 
         <listitem>

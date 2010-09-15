@@ -28,10 +28,9 @@
 		<!--Set the global variables-->
 		<property name="docbook.name" value="twe-doc" />
 		<property name="doc.title" value="Together Workflow Editor" />
-		<property name="version" value="2.0" />
-		<property name="release" value="beta1" />
+		<property name="version" value="3.3" />
+		<property name="release" value="1" />
 		<property name="build.debug" value="off" />
-		<property name="build.optimize" value="on" />
 
 		<property name="project.name" value="TWE" />
 		<property name="app.name" value="twe" />

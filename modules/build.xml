@@ -28,7 +28,6 @@
 	<property name="version" value="2.3" />
 	<property name="release" value="1" />
 	<property name="build.debug" value="off" />
-	<property name="build.optimize" value="on" />
 
 	<property name="project.name" value="TWE" />
 	<property name="app.name" value="twe" />
@@ -149,7 +148,7 @@
 	<!-- Compiling of project                                                 -->
 	<!-- ==================================================================== -->
 	<target name="compile" depends="content">
-		<javac target="${targetVM}" source="${targetVM}" srcdir="${sources.dir}" destdir="${classes.dir}" classpathref="classpath" debug="${build.debug}" optimize="${build.optimize}" encoding="ISO-8859-1" />
+		<javac target="${targetVM}" source="${targetVM}" srcdir="${sources.dir}" destdir="${classes.dir}" classpathref="classpath" debug="${build.debug}" encoding="ISO-8859-1" />
 	</target>
 
 	<!-- ==================================================================== -->

@@ -60,7 +60,6 @@
 		<property name="version" value="3.3" />
 		<property name="release" value="beta1" />
 		<property name="build.debug" value="off" />
-		<property name="build.optimize" value="on" />
 
 		<property name="rebranding" value="false" />
 		<property name="language" value="English" />
@@ -290,8 +289,8 @@
 	<!-- ==================================================================== -->
 	<target name="help">
 		<echo>
-make                     - Displays this Help screen
-make help                - Displays this Help screen
+make                     - Displays Help screen
+make help                - Displays Help screen
 make buildAll            - Builds and configures TWE with javadoc and docbook documentation
 make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
 make buildDoc            - Builds docbook documentation

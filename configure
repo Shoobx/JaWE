@@ -22,24 +22,25 @@
 #
 
 function help {
-	echo
-	echo $(basename $0) "-option=value ..."
-	echo
-	echo $(basename $0) "-option value ..."
-	echo
-	echo "Options:"
-	echo " 
-	version
-	release
-	jdkhome
-	debug (on/off)  
-	optimize (on/off)
-	instdir
-	rebranding
-	Example: ./configure -jdkhome /root/Downloads/jdk1.6.0_21/ -version 3.0 -release 1 -debug off
-
-"
-
+   echo "configure             - Creates build.properties file with default values for all possible parameters."
+   echo "                        It can work only if there is a default JAVA registered with the system."
+   echo "configure -help       - Displays Help screen"
+   echo "configure -version    - Sets the version number for the project."
+   echo "configure -release    - Sets the release number for the project."
+   echo "configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project."
+   echo "configure -debug      - Flag that determines if the sources will be compiled with debug option on or off."
+   echo "                        Possible values [on/off]."
+   echo "configure -instdir    - Sets the location of the installation dir used when executing make script"
+   echo "                        with install target specified."
+   echo "configure -rebranding - Flag that determines if the project will be "rebranded" with the context of branding folder."
+   echo "                        Possible values [true/false]."
+   echo
+   echo "Multiple parameters can be specified at ones."
+   echo
+   echo
+   echo "Example:"
+   echo
+   echo "configure -version 3.3 -release 1 -debug off -jdkhome /usr/jdk1.6 -instdir /tmp/JaWE"
 }
 
 for n in $*
@@ -51,10 +52,9 @@ do
 	esac            
 done                    
                         
-version=3.0
+version=3.3
 release=1
 build_DOT_debug=off
-build_DOT_optimize=on
 install_DOT_dir=
 rebranding=false
 
@@ -97,9 +97,6 @@ do
 
 		-debug | --debug)	previous=build_DOT_debug;;
 		-debug=* | --debug=*)	build_DOT_debug=$optarg;;
-
-		-optimize | --optimize)		previous=build_DOT_optimize;;
-		-optimize=* | --optimize=*)	build_DOT_optimize=$optarg;;
 
 		-instdir | --instdir)		previous=install_DOT_dir;;
 		-instdir=* | --instdir=*)	install_DOT_dir=$optarg;;
@@ -223,8 +220,6 @@ release=$release
 jdk.dir=$jdk_DOT_dir
 /^[ 	]*build.debug=/c\\
 build.debug=$build_DOT_debug
-/^[ 	]*build.optimize=/c\\
-build.optimize=$build_DOT_optimize
 /^[ 	]*install.dir=/c\\
 install.dir=$install_DOT_dir
 /^[ 	]*rebranding=/c\\
@@ -236,7 +231,7 @@ rm build.properties
 
 sed  -e 's|_DOT_|\.|g' $fname >>build.properties
 (
-	for pName in jdk.dir version release build.debug build.optimize install.dir rebranding
+	for pName in jdk.dir version release build.debug install.dir rebranding
 	do
 		value=$(echo $pName | sed "s/\./_DOT_/g")
 		if

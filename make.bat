@@ -72,8 +72,8 @@ goto end
 echo.
 echo Parameters value for using with make.bat :
 echo.
-echo make                     - Displays this Help screen
-echo make help                - Displays this Help screen
+echo make                     - Displays Help screen
+echo make help                - Displays Help screen
 echo make buildAll            - Builds and configures TWE with javadoc and docbook documentation
 echo make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
 echo make buildDoc            - Builds docbook documentation

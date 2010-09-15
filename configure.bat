@@ -24,18 +24,22 @@ SET SET_VERSION=off
 SET SET_RELEASE=off
 SET SET_JDKHOME=off
 SET SET_DEBUG=off
-SET SET_OPTIMIZE=off
 SET SET_INSTALLDIR=off
 SET SET_REBRANDING=off
+SET SET_LANGUAGE=off
 
-SET VERSION=3.2
+SET VERSION=3.3
 SET RELEASE=1
 SET DEBUG=off
-SET OPTIMIZE=on
 SET INSTALLDIR=
 SET REBRANDING=false
+SET LANGUAGE=English
 
 
+if %~1.==. goto skiphelp
+if %~1==-help goto help
+
+:skiphelp
 if exist build.properties goto init
 goto default
 
@@ -44,14 +48,13 @@ rem *  Set properties values from user input
 rem *********************************************
 :start
 if %~1.==. goto make
-if %~1==-help goto help
 if %~1==-version goto version
 if %~1==-release goto release
 if %~1==-jdkhome goto jdkhome
 if %~1==-debug goto debug
-if %~1==-optimize goto optimize
 if %~1==-instdir goto instdir
 if %~1==-rebranding goto rebranding
+if %~1==-language goto language
 goto error
 
 :default
@@ -91,11 +94,6 @@ find "build.debug=" < build.properties > builddebug.txt
 for /F "tokens=1,2* delims==" %%i in (builddebug.txt) do SET DEBUG=%%j
 del builddebug.txt>nul
 
-:initopt
-find "build.optimize=" < build.properties > buildoptimize.txt
-for /F "tokens=1,2* delims==" %%i in (buildoptimize.txt) do SET OPTIMIZE=%%j
-del buildoptimize.txt>nul
-
 :initinstall
 find "install.dir=" < build.properties > install.txt
 for /F "tokens=1,2* delims==" %%i in (install.txt) do SET INSTALLDIR=%%j
@@ -105,6 +103,11 @@ del install.txt>nul
 find "rebranding=" < build.properties > rebranding.txt
 for /F "tokens=1,2* delims==" %%i in (rebranding.txt) do SET REBRANDING=%%j
 del rebranding.txt>nul
+
+:initlanguage
+find "language=" < build.properties > language.txt
+for /F "tokens=1,2* delims==" %%i in (language.txt) do SET LANGUAGE=%%j
+del language.txt>nul
 
 goto start
 
@@ -117,11 +120,10 @@ echo version=^%VERSION%>build.properties
 echo release=^%RELEASE%>>build.properties
 echo jdk.dir=^%JDKHOME%>>build.properties
 echo build.debug=^%DEBUG%>>build.properties
-echo build.optimize=^%OPTIMIZE%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
 echo # valid values for language are English, Portuguese and PortugueseBR>>build.properties
-echo language=English>>build.properties
+echo language=%LANGUAGE%>>build.properties
 goto end
 
 
@@ -139,18 +141,29 @@ rem *  Display HELP message
 rem *********************************************************
 :help
 echo.
-echo Parameters value for using with configure.bat :
+echo Possible parameters for configure script:
 echo.
-echo configure       - Make build.properties file with default values
+echo configure             - Creates build.properties file with default values for all possible parameters.
+echo                         It can work only if there is a default JAVA registered with the system.
+echo configure -help       - Displays Help screen
+echo configure -version    - Sets the version number for the project.
+echo configure -release    - Sets the release number for the project.
+echo configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project.
+echo configure -debug      - Flag that determines if the sources will be compiled with debug option on or off. 
+echo                         Possible values [on/off]. 
+echo configure -instdir    - Sets the location of the installation dir used when executing make script 
+echo                         with install target specified.
+echo configure -rebranding - Flag that determines if the project will be "rebranded" with the context of branding folder.
+echo                         Possible values [true/false].
+echo configure -language   - Used by NSIS when creating setup (normally used for rebranding). 
+echo                         Currently possible values [English/Portuguese/PortugueseBR].
 echo.
-echo configure -help - Display this screen
-echo.
-echo configure [-version version_tag] [-release release_tag] [-jdkhome jdk_home_dir] [-debug on/off] [-optimize on/off] [-instdir installation_dir] [-rebranding true/false]
+echo Multiple parameters can be specified at ones.
 echo.
 echo.
-echo Examples :
+echo Example:
 echo.
-echo configure -version 3.0 -release 1 -debug off -optimize on -jdkhome C:/jdk1.6 -instdir C:/JaWE
+echo configure -version 3.3 -release 1 -debug off -jdkhome C:/jdk1.6 -instdir C:/JaWE
 echo.
 goto end
 
@@ -214,24 +227,6 @@ shift
 if "X%~1"=="X" goto make
 goto start
 
-
-rem *********************************************************
-rem *  Set OPTIMIZE parameter value
-rem *********************************************************
-:optimize
-if %SET_OPTIMIZE%==on goto error
-shift
-if "X%~1"=="X" goto error
-if /i "%~1"=="on" goto setoptimize
-if /i "%~1"=="off" goto setoptimize
-goto error
-:setoptimize
-SET OPTIMIZE=%~1
-SET SET_OPTIMIZE=on
-shift
-if "X%~1"=="X" goto make
-goto start
-
 rem *********************************************************
 rem *  Set INSTDIR parameter value
 rem *********************************************************
@@ -259,6 +254,19 @@ if "X%~1"=="X" goto make
 goto start
 
 rem *********************************************************
+rem *  Set LANGUAGE parameter value
+rem *********************************************************
+:rebranding
+if %SET_LANGUAGE%==on goto error
+shift
+if "X%~1"=="X" goto error
+SET LANGUAGE=%~f1
+SET SET_LANGUAGE=on
+shift
+if "X%~1"=="X" goto make
+goto start
+
+rem *********************************************************
 rem *  Reset evironment variables
 rem *********************************************************
 :end
@@ -266,6 +274,6 @@ SET VERSION=
 SET RELEASE=
 SET JDKHOME=
 SET DEBUG=
-SET OPTIMIZE=
 SET INSTALLDIR=
 SET REBRANDING=
+SET LANGUAGE=

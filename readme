@@ -21,7 +21,7 @@ This is the readme file for JaWE source distribution
 How to compile JaWE from sources
 ---------------------------------
 
-1. edit build.properties file to set PATH to your JDK directory. You can use JDK1.4.2 or higher
+1. edit build.properties file to set PATH to your JDK directory. JDK1.6 or higher should be used.
 
    Optionally, instead of editing build.properties file you can execute configure script from the root.
    If you want to set specific JAVA version for building JaWE (different than the one registered with 
@@ -66,8 +66,7 @@ How to build JaWE from sources (Linux build)
    = Run configure
       Options to configure are:
           -jdkhome to specify JDK location
-	  -debug
-	  -optimize
+          -debug
 
    = Run make
       Make targets are:
