@@ -9237,8 +9237,8 @@ configure -debug      - Flag that determines if the sources will be compiled wit
                         Possible values [on/off]. 
 configure -instdir    - Sets the location of the installation dir used when executing make script 
                         with install target specified.
-configure -rebranding - Flag that determines if the project will be "rebranded" with the context of branding folder.
-                        Possible values [true/false].
+configure -rebranding - ONLY FOR WINDOWS. Flag that determines if the project will be "rebranded" with the context 
+                        of branding folder. Possible values [true/false].
 configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup (normally used for rebranding). 
                         Currently possible values [English/Portuguese/PortugueseBR].
 

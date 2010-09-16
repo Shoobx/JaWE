@@ -146,7 +146,7 @@
 				<property name="license.path" value="${basedir}/license/License.txt" />
 			</then>
 			<else>
-				<property name="license.path" value="${basedir}/../License.txt" />
+				<property name="license.path" value="${basedir}/../licenses/License.txt" />
 			</else>
 		</if>
 
@@ -156,6 +156,10 @@
 			<arg line="/O..\..\..\${log.filename}" />
 			<arg line="/DVERSION=${version}" />
 			<arg line="/DRELEASE=${release}" />
+         <arg line="/DSIGNTOOL_PATH=&quot;&quot;" />
+         <arg line="/DKEY_PATH=&quot;&quot;" />
+         <arg line="/DPASSWORD=&quot;&quot;" />
+         <arg line="/DFULL_NAME=&quot;${project.name} ${version}-${release}&quot;" />
 			<arg line="/DTWE_DIR=${build.dir}" />
 			<arg line="/DOUT_DIR=${dist.community.dir}" />
 			<arg line="/DLICENSE=${license.path}" />

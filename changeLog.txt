@@ -1,5 +1,5 @@
 2010-09-16 Sasa Bojanic <sasaboy@together.at>
-   # Branding context updated
+   # Branding context and build procedure updated
 
 2010-09-15 Sasa Bojanic <sasaboy@together.at>
    # removed -optimized parameter for configure script
