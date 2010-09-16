@@ -118,11 +118,6 @@ SetDateSave          on
   Var ADD_QUICKLAUNCH
   Var ADD_DESKTOP
 
-;---------------------------------
-# License page
-   LicenseLangString license_text ${LANG_ENGLISH} ${LICENSE}
-   LicenseForceSelection checkbox
-
 ;----------------------------------------------------------------------------------
 ;--------------------------------
 ;Pages Define our own pages
@@ -135,6 +130,12 @@ SetDateSave          on
   !include "${NSISDIR}\Modern UI\Language files\MUI_${LANGUAGE}.nsh"
 # LANG_SERBIANLATIN
 #  !include "${NSISDIR}\Modern UI\Language files\MUI_Serbian.nsh"
+
+;---------------------------------
+# License page
+   LicenseLangString license_text ${LANG_ENGLISH} ${LICENSE}
+   LicenseForceSelection checkbox
+
 
   Page custom SetJavaPage
   !insertmacro MUI_PAGE_DIRECTORY
