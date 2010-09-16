@@ -40,7 +40,7 @@ function help {
    echo
    echo "Example:"
    echo
-   echo "configure -version 3.3 -release 1 -debug off -jdkhome /usr/jdk1.6 -instdir /tmp/JaWE"
+   echo "./configure -version 3.3 -release 1 -debug off -jdkhome /usr/jdk1.6 -instdir /tmp/JaWE"
 }
 
 for n in $*

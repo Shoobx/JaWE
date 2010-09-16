@@ -64,6 +64,7 @@ config         If you want to change some of the existing TWE configuration mode
                                                      -> configured to show text at right of the activity box
                                                      -> changed graph background color
                                                      -> changed graph grid color
+                  c) jawetypes.properties -> configured to use 2 custom activities
 
 doc            If you want to change documentation and pictures appearing in the documentation,
                in this folder you should put the modified twe-doc.xml file and in Images sub-folder

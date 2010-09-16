@@ -1,3 +1,6 @@
+2010-09-16 Sasa Bojanic <sasaboy@together.at>
+   # Branding context updated
+
 2010-09-15 Sasa Bojanic <sasaboy@together.at>
    # removed -optimized parameter for configure script
    # improved configure scripts for windows and linux

@@ -122,7 +122,6 @@ echo jdk.dir=^%JDKHOME%>>build.properties
 echo build.debug=^%DEBUG%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
-echo # valid values for language are English, Portuguese and PortugueseBR>>build.properties
 echo language=%LANGUAGE%>>build.properties
 goto end
 
@@ -132,7 +131,7 @@ rem *  Display ERROR message
 rem *********************************************************
 :error
 echo.
-echo Invalid options using with configure.bat
+echo Invalid option(s) used with configure.bat
 echo.
 
 
