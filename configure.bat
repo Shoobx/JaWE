@@ -246,7 +246,7 @@ rem *********************************************************
 if %SET_REBRANDING%==on goto error
 shift
 if "X%~1"=="X" goto error
-SET REBRANDING=%~f1
+SET REBRANDING=%~1
 SET SET_REBRANDING=on
 shift
 if "X%~1"=="X" goto make
@@ -255,11 +255,11 @@ goto start
 rem *********************************************************
 rem *  Set LANGUAGE parameter value
 rem *********************************************************
-:rebranding
+:language
 if %SET_LANGUAGE%==on goto error
 shift
 if "X%~1"=="X" goto error
-SET LANGUAGE=%~f1
+SET LANGUAGE=%~1
 SET SET_LANGUAGE=on
 shift
 if "X%~1"=="X" goto make
