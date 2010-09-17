@@ -86,7 +86,6 @@
                         <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="employee_title"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="starting_date"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="job_title"/>
-                        <xpdl:ExtendedAttribute Name="VariableToProcess_FETCH" Value="department;departments"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="department"/>
                     </xpdl:ExtendedAttributes>
                 </xpdl:Activity>
