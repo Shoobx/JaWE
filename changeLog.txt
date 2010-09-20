@@ -1,5 +1,7 @@
 2010-09-20 Sasa Bojanic <sasaboy@together.at>
    # dependency_tas: removing itext and twejped for TAS dependency
+   # dependency_tws: addeed twe.zip and twe.tar.gz files
+   # build guide updated with the part related to sign.properties
    
 2010-09-16 Sasa Bojanic <sasaboy@together.at>
    # Branding context and build procedure updated

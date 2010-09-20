@@ -9202,7 +9202,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <title>Prerequisites</title>
 
       <para>The only prerequisite to be able to build TWE from sources on
-      Windows sysem is Java JDK 1.6 installed on the machine.</para>
+      Windows system is Java JDK 1.6 installed on the machine.</para>
 
       <para>To build it on Fedora 12 Linux, the prerequisites are:</para>
 
@@ -9281,29 +9281,43 @@ make distributions  - Builds and configures TWE with all documentations and crea
     <sect1>
       <title>Packaging distributions</title>
 
-      <para>To create the TWE distribution packages out of the sources,
-      execute</para>
+      <para>Assuming that the environment is already configured as described
+      previously, to create the TWE distribution packages out of the sources,
+      execute:</para>
 
-      <para><emphasis role="bold"><emphasis>make
-      distributions</emphasis></emphasis></para>
+      <programlisting>make distributions</programlisting>
 
-      <para>when finished, <emphasis role="bold"><emphasis
+      <para>When finished, <emphasis role="bold"><emphasis
       role="bold">distributions</emphasis></emphasis> folder will be created
       in the root of the project sources containing appropriate binary
       distributions depending on OS where you build sources.</para>
 
-      <para>This example will produce RPM distribution package on Fedora
-      12:</para>
+      <para>When executing distribution process on Windows, to have resulting
+      exe file automatically signed, you need to create the file called
+      <emphasis role="bold">sign.properties</emphasis> in the application’s
+      root and set following parameters:</para>
 
-      <para>$ /bin/bash ./configure \</para>
+      <para><programlisting>sign.tool       - absolute path to the sign tool executable file
+sign.privatekey - absolute path to the private key used for signing
+sign.pwd        - password for signing
+sign.alias      - sign alias</programlisting>example sign.properties
+      file:</para>
 
-      <para>--jdkhome=/usr/lib/jvm/java-1.6.0-openjdk \</para>
+      <para><programlisting>sign.tool=D:/signtool/signtool.exe
+sign.privatekey=D:/signtool/privatekey.pfx
+sign.pwd=agles87t24e25NDwas
+sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
+      alias can be produced by the usage of Java's keytool by executing the
+      command:</para>
 
-      <para>version=3.1 \</para>
+      <para><emphasis role="bold">keytool -v -list -storetype pkcs12
+      -storepass PRIVATE-KEY-PASSWORD -keystore
+      PATH-TO-PRIVATE-KEY</emphasis></para>
 
-      <para>release=1</para>
-
-      <para>$ make distributions</para>
+      <para>where PRIVATE-KEY-PASSWORD is the same as the property sign.pwd
+      from sign.properties file described above, and PATH-TO-PRIVATE-KEY is
+      the same as the property sign.privatekey from this properties
+      file.</para>
     </sect1>
 
     <!--    <sect1>
@@ -9497,7 +9511,8 @@ make distributions  - Builds and configures TWE with all documentations and crea
         </listitem>
 
         <listitem>
-          <para>Added section into documentation about all possible configure/make targets</para>
+          <para>Added section into documentation about all possible
+          configure/make targets</para>
         </listitem>
 
         <listitem>

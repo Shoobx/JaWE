@@ -320,7 +320,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
    <target name="dependencies" depends="clean,dependency_tas,_dependency_tws" unless="${rebranding}"/>
 
-   <target name="dependency_tws" depends="buildNoDoc,_dependency_tws" unless="${rebranding}"/>
+   <target name="dependency_tws" depends="output, buildAllDoc,_dependency_tws" unless="${rebranding}"/>
    
    <target name="dependency_tas" depends="output,buildAllDoc,_dependency_tas" unless="${rebranding}"/>
    
@@ -336,6 +336,14 @@ make distributions       - Builds and configures TWE with all documentations and
             <include name="twepic.jar" />
          </fileset>
       </copy>      
+      <zip destfile="${dist.dependencies.dir}/tws/${app.name}.zip" update="true">
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" />
+      </zip>
+      <tar destfile="${dist.dependencies.dir}/tws/${app.name}.tar">
+         <tarfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" />
+      </tar>
+      <gzip zipfile="${dist.dependencies.dir}/tws/${app.name}.tar.gz" src="${dist.dependencies.dir}/tws/${app.name}.tar" />
+      <delete file="${dist.dependencies.dir}/tws/${app.name}.tar" quiet="true" />
    </target>
    
    <target name="_dependency_tas" unless="${rebranding}">
