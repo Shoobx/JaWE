@@ -1,3 +1,6 @@
+2010-09-20 Sasa Bojanic <sasaboy@together.at>
+   # dependency_tas: removing itext and twejped for TAS dependency
+   
 2010-09-16 Sasa Bojanic <sasaboy@together.at>
    # Branding context and build procedure updated
 
