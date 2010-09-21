@@ -80,7 +80,9 @@ echo make buildDoc            - Builds docbook documentation
 echo make dependencies        - Creates TWS and TAS dependencies within distributions folder
 echo make dependency_tws      - Creates TWS dependencies within distributions folder
 echo make dependency_tas      - Creates TAS dependencies within distributions folder
-echo make install             - Install and configure TWE
+echo make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
+echo                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
+echo                            It should be called only after make buildAll target is executed!
 echo make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
 echo make distributions       - Builds and configures TWE with all documentations and creates distribution package
 goto end

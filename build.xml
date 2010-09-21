@@ -25,7 +25,6 @@
    <!-- Init target                                                          -->
    <!-- ==================================================================== -->
    <target name="init">
-
       <!-- ==================================================================== -->
       <!-- PROPERTIES                                                           -->
       <!-- ==================================================================== -->
@@ -75,6 +74,16 @@
       <!-- Build directory -->
       <property name="output.dir" location="${basedir}/output" />
 
+		<!-- Setting TRY-CATCH task -->
+		<taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
+			<classpath>
+				<fileset dir="${util.dir}/ant">
+					<include name="antcontrib.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
+   
+      
       <!-- Setting for IF task -->
       <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
          <classpath>
@@ -297,7 +306,9 @@ make buildDoc            - Builds docbook documentation
 make dependencies        - Creates TWS and TAS dependencies within distributions folder
 make dependency_tws      - Creates TWS dependencies within distributions folder
 make dependency_tas      - Creates TAS dependencies within distributions folder
-make install             - Install and configure TWE
+make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
+                           You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
+                           It should be called only after make buildAll target is executed!
 make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
 make distributions       - Builds and configures TWE with all documentations and creates distribution package
       </echo>
@@ -654,20 +665,27 @@ make distributions       - Builds and configures TWE with all documentations and
    </target>
 
    <target name="signexe" depends="init-post" unless="${rebranding}">
-      <exec executable="${sign.tool}">
-          <arg value="sign"/>
-          <arg value="/f"/>
-          <arg value="${sign.privatekey}"/>
-          <arg value="/p"/>
-          <arg value="${sign.pwd}"/>
-          <arg value="/t"/>
-          <arg value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
-          <arg value="/d"/>
-          <arg value="${project.name} ${version}-${release}"/>
-          <arg value="/du"/>
-          <arg value="http://www.together.at"/>
-          <arg value="${exe.dir}/${exe.name}"/>
-      </exec>         
+      <trycatch description="try-catch">
+         <try>
+            <exec executable="${sign.tool}">
+                <arg value="sign"/>
+                <arg value="/f"/>
+                <arg value="${sign.privatekey}"/>
+                <arg value="/p"/>
+                <arg value="${sign.pwd}"/>
+                <arg value="/t"/>
+                <arg value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
+                <arg value="/d"/>
+                <arg value="${project.name} ${version}-${release}"/>
+                <arg value="/du"/>
+                <arg value="http://www.together.at"/>
+                <arg value="${exe.dir}/${exe.name}"/>
+            </exec>         
+         </try>
+         <catch>
+            <echo message="Failed to sign exe file..." />
+         </catch>
+      </trycatch>
    </target>
 
    <target name="signem" depends="init-post">

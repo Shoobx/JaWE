@@ -9272,7 +9272,10 @@ make buildDoc       - Builds docbook documentation
 make dependencies   - Creates TWS and TAS dependencies within distributions folder
 make dependency_tws - Creates TWS dependencies within distributions folder
 make dependency_tas - Creates TAS dependencies within distributions folder
-make install        - Install and configure TWE
+make install        - Installs and configures TWE into directory defined by parameter 
+                      install.dir in build.properties file. 
+                      You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
+                      It should be called only after make buildAll target is executed!
 make clean          - Removes the output and distribution folder (in order to start a new compilation from scratch)
 make distributions  - Builds and configures TWE with all documentations and creates distribution package
 </programlisting></para>
