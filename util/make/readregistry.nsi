@@ -1,4 +1,4 @@
-;    Together Filesize Lister 
+;    Together Workflow Editor 
 ;    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
 ;
 ;    This program is free software: you can redistribute it and/or modify
