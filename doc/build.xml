@@ -181,6 +181,9 @@
 
 	<target name="rebranding">
 		<copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
+		<copy todir="${tmp.dir}/docbook">
+			<fileset dir="${doc.dir}/docbook"/>
+		</copy>
 		<if>
 			<istrue value="${rebranding}" />
 			<then>
@@ -191,20 +194,6 @@
 	</target>
 
 	<target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
-		<echo message="Removing DOCTYPE entries so xalan does not go to internet" />
-		<replace dir="${tmp.dir}" value="">
-			<include name="${docbook.name}.xml"/>
-			<replacefilter>
-				<replacetoken><![CDATA[<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"]]></replacetoken>
-			</replacefilter>
-			<replacefilter>
-				<replacetoken><![CDATA[<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"]]></replacetoken>
-			</replacefilter>
-			<replacefilter>
-				<replacetoken><![CDATA["http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">]]></replacetoken>
-			</replacefilter>
-		</replace>
- 
     <echo message="compile docbook with javahelp.xsl" />
 		<retry retrycount="10">
 			<trycatch description="try-catch">

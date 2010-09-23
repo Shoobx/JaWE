@@ -264,7 +264,7 @@
          <fileset dir="${basedir}" includes="log_*.txt" />
       </delete>
       <delete quiet="true">
-         <fileset dir="${basedir}/doc" includes="log.txt" />
+         <fileset dir="${basedir}/doc" includes="log.txt,twe-doc.xml~" defaultexcludes="false"/>
       </delete>
       <delete dir="${basedir}/doc/tmp" />
       <delete dir="${basedir}/installation/unix/rpm" />

@@ -1,5 +1,10 @@
+2010-09-22 Sasa Bojanic <sasaboy@together.at>
+   # Added docbookx.dtd and other files required to make a local reference to DTD from twe-doc.xml docbook file
+   # Build docu procedure changed (copying docbook required files, and not removing DOCTYPE from twe-doc.xml anymore)
+   
 2010-09-21 Sasa Bojanic <sasaboy@together.at>
    # Fixed some typos
+   # Improved build procedure so it doesn't fail if sign.properties file does not contain right information
    
 2010-09-20 Sasa Bojanic <sasaboy@together.at>
    # dependency_tws: addeed twe.zip and twe.tar.gz files
