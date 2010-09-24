@@ -9227,27 +9227,32 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <para>Possible parameters for configure script are:</para>
 
-      <programlisting>configure             - Creates build.properties file with default values for all possible parameters.
-                        It can work only if there is a default JAVA registered with the system.
+      <programlisting>configure             - Creates build.properties file with default values
+                        for all possible parameters. It can work only if 
+                        there is a default JAVA registered with the system.
 configure -help       - Displays Help screen
 configure -version    - Sets the version number for the project.
 configure -release    - Sets the release number for the project.
-configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project.
-configure -debug      - Flag that determines if the sources will be compiled with debug option on or off. 
+configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used 
+                        to compile the project.
+configure -debug      - Flag that determines if the sources will be 
+                        compiled with debug option on or off. 
                         Possible values [on/off]. 
-configure -instdir    - Sets the location of the installation dir used when executing make script 
-                        with install target specified.
-configure -rebranding - ONLY FOR WINDOWS. Flag that determines if the project will be "rebranded" with the context 
-                        of branding folder. Possible values [true/false].
-configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup (normally used for rebranding). 
-                        Currently possible values [English/Portuguese/PortugueseBR].
+configure -instdir    - Sets the location of the installation dir used when
+                        executing make script with install target specified.
+configure -rebranding - ONLY FOR WINDOWS. Flag that determines if the project 
+                        will be "rebranded" with the context of branding folder. 
+                        Possible values [true/false].
+configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup 
+                        (normally used for rebranding). 
+                        Possible values [English/Portuguese/PortugueseBR].
 
 Multiple parameters can be specified at ones.
 
 
 Example:
 
-configure -version 3.3 -release 1 -debug off -jdkhome C:/jdk1.6 -instdir C:/JaWE</programlisting>
+configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE</programlisting>
 
       <para></para>
 
@@ -9266,18 +9271,25 @@ configure -version 3.3 -release 1 -debug off -jdkhome C:/jdk1.6 -instdir C:/JaWE
       <para>Possible build targets are:</para>
 
       <para><programlisting>make help           - Displays Help screen
-make buildAll       - Builds and configures TWE with javadoc and docbook documentation
-make buildNoDoc     - Builds and configures TWE without javadoc and docbook documentation
+make buildAll       - Builds and configures TWE with javadoc and 
+                      docbook documentation
+make buildNoDoc     - Builds and configures TWE without javadoc and 
+                      docbook documentation
 make buildDoc       - Builds docbook documentation
-make dependencies   - Creates TWS and TAS dependencies within distributions folder
+make dependencies   - Creates TWS and TAS dependencies within 
+                      distributions folder
 make dependency_tws - Creates TWS dependencies within distributions folder
 make dependency_tas - Creates TAS dependencies within distributions folder
-make install        - Installs and configures TWE into directory defined by parameter 
-                      install.dir in build.properties file. 
-                      You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
-                      It should be called only after make buildAll target is executed!
-make clean          - Removes the output and distribution folder (in order to start a new compilation from scratch)
-make distributions  - Builds and configures TWE with all documentations and creates distribution package
+make install        - Installs and configures TWE into directory defined 
+                      by parameter install.dir in build.properties file. 
+                      This parameter can be set by using command: 
+                      configure -instdir PATH_TO_DIR.
+                      It should be called only after make buildAll target 
+                      is executed!
+make clean          - Removes the output and distribution folder (in order 
+                      to start a new compilation from scratch)
+make distributions  - Builds and configures TWE with all documentations 
+                      and creates distribution package
 </programlisting></para>
     </sect1>
 
@@ -9536,7 +9548,6 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>When XPDL file gets created by the editor, Vendor name now set
           to (c) Together Teamsolutions Co., Ltd.</para>
         </listitem>
-
       </itemizedlist>
     </section>
 

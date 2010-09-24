@@ -1,4 +1,4 @@
-2010-09-22 Sasa Bojanic <sasaboy@together.at>
+2010-09-23 Sasa Bojanic <sasaboy@together.at>
    # Added docbookx.dtd and other files required to make a local reference to DTD from twe-doc.xml docbook file
    # Build docu procedure changed (copying docbook required files, and not removing DOCTYPE from twe-doc.xml anymore)
    
