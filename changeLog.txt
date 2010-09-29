@@ -1,3 +1,8 @@
+2010-09-29 Sasa Bojanic <sasaboy@together.at>
+   # documentation - changed license to FDL version 1.3
+   # webstart files updated
+   # webstart is now packed into zip file
+
 2010-09-23 Sasa Bojanic <sasaboy@together.at>
    # Added docbookx.dtd and other files required to make a local reference to DTD from twe-doc.xml docbook file
    # Build docu procedure changed (copying docbook required files, and not removing DOCTYPE from twe-doc.xml anymore)

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+"	codebase="http://jawe.enhydra.org" href="twe.jnlp">
+<jnlp spec="1.0+"	codebase="http://www.together.at/prod/workflow/twe" href="twe.jnlp">
 <information>
-	<title>Together Workflow Editor Web Start @VERSION@-@RELEASE@</title>
+	<title>Together Workflow Editor @VERSION@-@RELEASE@ Web Start</title>
 	<vendor>Together Teamsolutions Co., Ltd.</vendor>
-	<homepage href="http://jawe.enhydra.org"/>
-	<description kind="short">Together Workflow Editor Web Start @VERSION@-@RELEASE@</description>
+	<homepage href="http://www.together.at/prod/workflow/twe"/>
+	<description kind="short">Together Workflow Editor @VERSION@-@RELEASE@ Web Start</description>
 	<icon href="images/TWE_32.gif"/>
 	<offline-allowed/>
 </information>
@@ -41,12 +41,9 @@
 	<jar href="lib/jgraph.jar"/>
 	<jar href="lib/xercesImpl.jar"/>
 	<jar href="lib/xml-apis.jar"/>
-	<jar href="lib/batik-awt-util.jar"/>
-	<jar href="lib/batik-dom.jar"/>
-	<jar href="lib/batik-svggen.jar"/>
-	<jar href="lib/batik-util.jar"/>
-	<jar href="lib/batik-xml.jar"/>
+	<jar href="lib/batik.jar"/>
 	<jar href="lib/itext.jar" />
+	<jar href="lib/jh.jar" />
 </resources>
 <application-desc main-class="org.enhydra.jawe.JaWE"/>
 </jnlp>

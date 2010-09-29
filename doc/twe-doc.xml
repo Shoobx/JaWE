@@ -43,7 +43,7 @@
 
       <holder>Together Teamsolutions Co., Ltd. Permission is granted to copy,
       distribute and/or modify this document under the terms of the GNU Free
-      Documentation License, Version 1.1 or any later version published by the
+      Documentation License, Version 1.3 or any later version published by the
       Free Software Foundation; with the Invariant Sections being
       <emphasis>Introduction, The Graphical User Interface, Dialogs and
       Property Panels, XPDL elements, XPDL from scratch, <!-- Workflow engine
@@ -9201,31 +9201,64 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <sect1>
       <title>Prerequisites</title>
 
-      <para>The only prerequisite to be able to build TWE from sources on
-      Windows system is Java JDK 1.6 installed on the machine.</para>
+      <itemizedlist>
+        <listitem>
+          <para>Windows</para>
 
-      <para>To build it on Fedora 12 Linux, the prerequisites are:</para>
+          <itemizedlist>
+            <listitem>
+              <para>Java Development Kit (JDK) version 6 or later</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
 
-      <para>- bash</para>
+        <listitem>
+          <para>Fedora (Linux)</para>
 
-      <para>- tar</para>
+          <itemizedlist>
+            <listitem>
+              <para>bash</para>
+            </listitem>
 
-      <para>- make and</para>
+            <listitem>
+              <para>tar</para>
+            </listitem>
 
-      <para>- java-1.6.0-openjdk-devel packages installed</para>
+            <listitem>
+              <para>make</para>
+            </listitem>
+
+            <listitem>
+              <para>Java Development Kit (JDK) version 6 or later</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
     </sect1>
 
     <sect1>
       <title>Preparing the build environment</title>
 
-      <para>Execute configure script from the root of project sources.
-      Specific JAVA version for building TWE can be set (different than the
-      one registered with your system) by executing: <emphasis>configure
-      -jdkhome %JAVA_HOME%</emphasis></para>
+      <para>Execute the configure script from the root directory of the
+      project source. Specific JAVA version can be set for building (different
+      from the one registered with your system) by executing:</para>
 
-      <para>where JAVA_HOME is the path to your Java installation.</para>
+      <para><itemizedlist>
+          <listitem>
+            <para>Windows</para>
 
-      <para>Possible parameters for configure script are:</para>
+            <para>configure -jdkhome %JAVA_HOME%</para>
+          </listitem>
+
+          <listitem>
+            <para>Fedora (Linux)</para>
+
+            <para>./configure -jdkhome %JAVA_HOME%</para>
+          </listitem>
+        </itemizedlist>(Where JAVA_HOME is the path to your JDK
+      installation)</para>
+
+      <para>Possible parameters for the configure script are:</para>
 
       <programlisting>configure             - Creates build.properties file with default values
                         for all possible parameters. It can work only if 
@@ -9254,21 +9287,21 @@ Example:
 
 configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE</programlisting>
 
-      <para></para>
-
-      <para>The configure script will create/change build.properties file
-      based on parameters provided. This file can also be manually changed to
-      adjust your environment/parameters for building TWE from sources.</para>
+      <para>The configure script will create/change the build.properties file
+      based on the parameters provided. This file can also be manually changed
+      to adjust your environment/parameters for building the project from the
+      sources.</para>
     </sect1>
 
     <sect1>
       <title>Compiling and building</title>
 
-      <para>Execute make script with buildAll target from the root of project
-      sources. When make process finishes, TWE binaries will be in
-      output/twe-[version]-[release] folder.</para>
+      <para>Execute the make script with the buildAll target from the root
+      directory of the project source. When the building process finishes, the
+      project binaries will be in output/twe-[version]-[release]
+      folder.</para>
 
-      <para>Possible build targets are:</para>
+      <para>Possible build targets for the make script are:</para>
 
       <para><programlisting>make help           - Displays Help screen
 make buildAll       - Builds and configures TWE with javadoc and 
@@ -9297,20 +9330,18 @@ make distributions  - Builds and configures TWE with all documentations
       <title>Packaging distributions</title>
 
       <para>Assuming that the environment is already configured as described
-      previously, to create the TWE distribution packages out of the sources,
-      execute:</para>
+      previously, to create the project distribution packages, execute:</para>
 
       <programlisting>make distributions</programlisting>
 
-      <para>When finished, <emphasis role="bold"><emphasis
-      role="bold">distributions</emphasis></emphasis> folder will be created
-      in the root of the project sources containing appropriate binary
-      distributions depending on OS where you build sources.</para>
+      <para>When the building process finishes, the <emphasis
+      role="bold"><emphasis role="bold">distribution</emphasis></emphasis>
+      folder will be created in the root directory of the project source
+      containing the appropriate OS specific binary distributions.</para>
 
-      <para>When executing distribution process on Windows, to have resulting
-      exe file automatically signed, you need to create the file called
-      <emphasis role="bold">sign.properties</emphasis> in the application’s
-      root and set following parameters:</para>
+      <para>On Windows, to have the resulting ‘.exe’ file automatically
+      signed, the file called ‘sign.properties’ should be placed in the root
+      directory of the projects source with the following properties:</para>
 
       <para><programlisting>sign.tool       - absolute path to the sign tool executable file
 sign.privatekey - absolute path to the private key used for signing
@@ -10461,15 +10492,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
   <appendix>
     <title>GNU Free Documentation License</title>
 
-    <para><programlisting>      GNU Free Documentation License
-        Version 1.2, November 2002
+    <para><programlisting>                GNU Free Documentation License
+                 Version 1.3, 3 November 2008
 
 
- Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
-     51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+     &lt;http://fsf.org/&gt;
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
-
 
 0. PREAMBLE
 
@@ -10513,11 +10543,11 @@ modifications and/or translated into another language.
 
 A "Secondary Section" is a named appendix or a front-matter section of
 the Document that deals exclusively with the relationship of the
-publishers or authors of the Document to the Document's overall subject
-(or to related matters) and contains nothing that could fall directly
-within that overall subject.  (Thus, if the Document is in part a
-textbook of mathematics, a Secondary Section may not explain any
-mathematics.)  The relationship could be a matter of historical
+publishers or authors of the Document to the Document's overall
+subject (or to related matters) and contains nothing that could fall
+directly within that overall subject.  (Thus, if the Document is in
+part a textbook of mathematics, a Secondary Section may not explain
+any mathematics.)  The relationship could be a matter of historical
 connection with the subject or with related matters, or of legal,
 commercial, philosophical, ethical or political position regarding
 them.
@@ -10566,6 +10596,9 @@ formats which do not have any title page as such, "Title Page" means
 the text near the most prominent appearance of the work's title,
 preceding the beginning of the body of the text.
 
+The "publisher" means any person or entity that distributes copies of
+the Document to the public.
+
 A section "Entitled XYZ" means a named subunit of the Document whose
 title either is precisely XYZ or contains XYZ in parentheses following
 text that translates XYZ in another language.  (Here XYZ stands for a
@@ -10581,14 +10614,13 @@ License, but only as regards disclaiming warranties: any other
 implication that these Warranty Disclaimers may have is void and has
 no effect on the meaning of this License.
 
-
 2. VERBATIM COPYING
 
 You may copy and distribute the Document in any medium, either
 commercially or noncommercially, provided that this License, the
 copyright notices, and the license notice saying this License applies
-to the Document are reproduced in all copies, and that you add no other
-conditions whatsoever to those of this License.  You may not use
+to the Document are reproduced in all copies, and that you add no
+other conditions whatsoever to those of this License.  You may not use
 technical measures to obstruct or control the reading or further
 copying of the copies you make or distribute.  However, you may accept
 compensation in exchange for copies.  If you distribute a large enough
@@ -10632,8 +10664,9 @@ Opaque copy (directly or through your agents or retailers) of that
 edition to the public.
 
 It is requested, but not required, that you contact the authors of the
-Document well before redistributing any large number of copies, to give
-them a chance to provide you with an updated version of the Document.
+Document well before redistributing any large number of copies, to
+give them a chance to provide you with an updated version of the
+Document.
 
 
 4. MODIFICATIONS
@@ -10748,16 +10781,18 @@ Entitled "Endorsements".
 
 6. COLLECTIONS OF DOCUMENTS
 
-You may make a collection consisting of the Document and other documents
-released under this License, and replace the individual copies of this
-License in the various documents with a single copy that is included in
-the collection, provided that you follow the rules of this License for
-verbatim copying of each of the documents in all other respects.
+You may make a collection consisting of the Document and other
+documents released under this License, and replace the individual
+copies of this License in the various documents with a single copy
+that is included in the collection, provided that you follow the rules
+of this License for verbatim copying of each of the documents in all
+other respects.
 
-You may extract a single document from such a collection, and distribute
-it individually under this License, provided you insert a copy of this
-License into the extracted document, and follow this License in all
-other respects regarding verbatim copying of that document.
+You may extract a single document from such a collection, and
+distribute it individually under this License, provided you insert a
+copy of this License into the extracted document, and follow this
+License in all other respects regarding verbatim copying of that
+document.
 
 
 7. AGGREGATION WITH INDEPENDENT WORKS
@@ -10803,21 +10838,38 @@ title.
 
 9. TERMINATION
 
-You may not copy, modify, sublicense, or distribute the Document except
-as expressly provided for under this License.  Any other attempt to
-copy, modify, sublicense or distribute the Document is void, and will
-automatically terminate your rights under this License.  However,
-parties who have received copies, or rights, from you under this
-License will not have their licenses terminated so long as such
-parties remain in full compliance.
+You may not copy, modify, sublicense, or distribute the Document
+except as expressly provided under this License.  Any attempt
+otherwise to copy, modify, sublicense, or distribute it is void, and
+will automatically terminate your rights under this License.
+
+However, if you cease all violation of this License, then your license
+from a particular copyright holder is reinstated (a) provisionally,
+unless and until the copyright holder explicitly and finally
+terminates your license, and (b) permanently, if the copyright holder
+fails to notify you of the violation by some reasonable means prior to
+60 days after the cessation.
+
+Moreover, your license from a particular copyright holder is
+reinstated permanently if the copyright holder notifies you of the
+violation by some reasonable means, this is the first time you have
+received notice of violation of this License (for any work) from that
+copyright holder, and you cure the violation prior to 30 days after
+your receipt of the notice.
+
+Termination of your rights under this section does not terminate the
+licenses of parties who have received copies or rights from you under
+this License.  If your rights have been terminated and not permanently
+reinstated, receipt of a copy of some or all of the same material does
+not give you any rights to use it.
 
 
 10. FUTURE REVISIONS OF THIS LICENSE
 
-The Free Software Foundation may publish new, revised versions
-of the GNU Free Documentation License from time to time.  Such new
-versions will be similar in spirit to the present version, but may
-differ in detail to address new problems or concerns.  See
+The Free Software Foundation may publish new, revised versions of the
+GNU Free Documentation License from time to time.  Such new versions
+will be similar in spirit to the present version, but may differ in
+detail to address new problems or concerns.  See
 http://www.gnu.org/copyleft/.
 
 Each version of the License is given a distinguishing version number.
@@ -10827,7 +10879,39 @@ following the terms and conditions either of that specified version or
 of any later version that has been published (not as a draft) by the
 Free Software Foundation.  If the Document does not specify a version
 number of this License, you may choose any version ever published (not
-as a draft) by the Free Software Foundation.
+as a draft) by the Free Software Foundation.  If the Document
+specifies that a proxy can decide which future versions of this
+License can be used, that proxy's public statement of acceptance of a
+version permanently authorizes you to choose that version for the
+Document.
+
+11. RELICENSING
+
+"Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+World Wide Web server that publishes copyrightable works and also
+provides prominent facilities for anybody to edit those works.  A
+public wiki that anybody can edit is an example of such a server.  A
+"Massive Multiauthor Collaboration" (or "MMC") contained in the site
+means any set of copyrightable works thus published on the MMC site.
+
+"CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0 
+license published by Creative Commons Corporation, a not-for-profit 
+corporation with a principal place of business in San Francisco, 
+California, as well as future copyleft versions of that license 
+published by that same organization.
+
+"Incorporate" means to publish or republish a Document, in whole or in 
+part, as part of another Document.
+
+An MMC is "eligible for relicensing" if it is licensed under this 
+License, and if all works that were first published under this License 
+somewhere other than this MMC, and subsequently incorporated in whole or 
+in part into the MMC, (1) had no cover texts or invariant sections, and 
+(2) were thus incorporated prior to November 1, 2008.
+
+The operator of an MMC Site may republish an MMC contained in the site
+under CC-BY-SA on the same site at any time before August 1, 2009,
+provided the MMC is eligible for relicensing.
 
 
 ADDENDUM: How to use this License for your documents
@@ -10838,7 +10922,7 @@ license notices just after the title page:
 
     Copyright (c)  YEAR  YOUR NAME.
     Permission is granted to copy, distribute and/or modify this document
-    under the terms of the GNU Free Documentation License, Version 1.2
+    under the terms of the GNU Free Documentation License, Version 1.3
     or any later version published by the Free Software Foundation;
     with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
     A copy of the license is included in the section entitled "GNU
@@ -10857,6 +10941,7 @@ situation.
 If your document contains nontrivial examples of program code, we
 recommend releasing these examples in parallel under your choice of
 free software license, such as the GNU General Public License,
-to permit their use in free software.</programlisting></para>
+to permit their use in free software.
+</programlisting></para>
   </appendix>
 </book>

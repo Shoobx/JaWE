@@ -661,6 +661,10 @@ make distributions       - Builds and configures TWE with all documentations and
             <antcall target="signem" />
          </else>
       </if>      
+      <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.webstart.zip" update="true">
+         <zipfileset dir="${dist.community.webstart.dir}" prefix="${app.name}-${version}-${release}.webstart" />
+      </zip>
+      <delete dir="${dist.community.webstart.dir}" />
 
    </target>
 
