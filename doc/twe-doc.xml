@@ -9439,10 +9439,6 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para>Added new XPDL (real life) samples</para>
-        </listitem>
-
-        <listitem>
           <para>Updated sharkxpdlmodel.jar to version 3.3-1</para>
         </listitem>
 
@@ -9458,6 +9454,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
         <listitem>
           <para>Saxon removed from the project</para>
+        </listitem>
+
+        <listitem>
+          <para>batik-xxx.jar files removed from the project (using batik.jar
+          comming with FOP) - build scripts modified</para>
+        </listitem>
+
+        <listitem>
+          <para>Added new XPDL (real life) samples</para>
         </listitem>
 
         <listitem>
@@ -9496,7 +9501,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>distribution packaging changed:</para>
+          <para>Distribution packaging changed:</para>
 
           <para><itemizedlist>
               <listitem>
@@ -9505,7 +9510,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               </listitem>
 
               <listitem>
-                <para>documentation in documentation folder of the
+                <para>Webstart distribution now packed into
+                twe-x.y-z.webstart.zip file</para>
+              </listitem>
+
+              <listitem>
+                <para>Documentation in documentation folder of the
                 distribution is now unpacked</para>
               </listitem>
 
@@ -9519,8 +9529,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               </listitem>
 
               <listitem>
-                <para>Added TAS dependency build (the zip file which is same
-                as a normal but with a twe.zip name)</para>
+                <para>Added TAS dependency build (the same as originals but
+                with the name not including version and release)</para>
+              </listitem>
+
+              <listitem>
+                <para>Added twe.zip and twe.tar.gz to TWS dependency build
+                (the same as originals but with the name not including version
+                and release)</para>
               </listitem>
             </itemizedlist></para>
         </listitem>
@@ -9532,11 +9548,36 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
         <listitem>
           <para>Docbook docu updated</para>
-        </listitem>
 
-        <listitem>
-          <para>Fixed docbook docu and build scripts to solve picture and
-          table sizing issues in PDFs</para>
+          <itemizedlist>
+            <listitem>
+              <para>Documentation content updated</para>
+            </listitem>
+
+            <listitem>
+              <para>Added section into documentation Build guide about all
+              possible configure/make targets</para>
+            </listitem>
+
+            <listitem>
+              <para>Build guide updated with the part related to
+              sign.properties</para>
+            </listitem>
+
+            <listitem>
+              <para>Changed license to FDL version 1.3</para>
+            </listitem>
+
+            <listitem>
+              <para>Fixed docbook docu and build scripts to solve picture and
+              table sizing issues in PDFs</para>
+            </listitem>
+
+            <listitem>
+              <para>Fixed issues with programlisting elements (taking care
+              that lines are not too long)</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
 
         <listitem>
@@ -9553,12 +9594,27 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>Removed -optimized parameter for configure script</para>
+          <para>Improved make/configure scripts for windows and linux</para>
         </listitem>
 
         <listitem>
-          <para>Added section into documentation about all possible
-          configure/make targets</para>
+          <para>Improved build procedure so it doesn't fail if sign.properties
+          file does not contain right information</para>
+        </listitem>
+
+        <listitem>
+          <para>Added docbookx.dtd and other files required to make a local
+          reference to DTD from twe-doc.xml docbook file. Build docu procedure
+          changed (copying docbook required files, and not removing DOCTYPE
+          from twe-doc.xml anymore)</para>
+        </listitem>
+
+        <listitem>
+          <para>Branding context and build procedure updated</para>
+        </listitem>
+
+        <listitem>
+          <para>Removed -optimized parameter for configure script</para>
         </listitem>
 
         <listitem>
