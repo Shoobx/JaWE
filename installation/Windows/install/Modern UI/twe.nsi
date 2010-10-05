@@ -97,7 +97,7 @@ SetDateSave          on
 	!define MUI_TEXT_FINISH_RUN "$(Start) $(Name)"
 
 	
-	!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\doc\twe-doc-${VERSION}-${RELEASE}.pdf"
+	!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\doc\twe-doc-current.pdf"
 	!define MUI_FINISHPAGE_SHOWREADME_TEXT "Show Documentation"
 	!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 
@@ -263,11 +263,11 @@ Section Install
 				 				 
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk" \
-                 "$INSTDIR\doc\twe-doc-${VERSION}-${RELEASE}.html" \
+                 "$INSTDIR\doc\twe-doc-current.html" \
                  "" \
                  $DEFAULT_BROWSER
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) PDF.lnk" \
-                 "$INSTDIR\doc\twe-doc-${VERSION}-${RELEASE}.pdf" \
+                 "$INSTDIR\doc\twe-doc-current.pdf" \
                  "" \
                  ""
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) Homepage.lnk" \

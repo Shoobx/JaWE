@@ -491,16 +491,20 @@ make distributions       - Builds and configures TWE with all documentations and
       <copy todir="${dist.community.dir}">
          <fileset dir="${dist.screenshots.dir}" includes="twe-screen-${version}-${release}.zip" />
       </copy>
+      <copy file="${build.dir}/doc/twe-doc-current.pdf" tofile="${build.dir}/doc/twe-doc-${version}-${release}.pdf"/>
+      <copy file="${build.dir}/doc/twe-doc-current.html" tofile="${build.dir}/doc/twe-doc-${version}-${release}.html"/>
       <zip destfile="${dist.community.dir}/${app.name}-doc-${version}-${release}.zip" update="true">
-         <zipfileset dir="${build.dir}/doc" />
+         <zipfileset dir="${build.dir}/doc" excludes="twe-doc-current.*"/>
       </zip>
       <copy todir="${dist.community.dir}">
-         <fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.pdf" />
-         <mapper type="regexp" from="twe-doc-${version}-${release}.pdf" to="twe-doc-current.pdf" />
+         <fileset dir="${build.dir}/doc" includes="twe-doc-current.pdf" />
       </copy>      
       <copy todir="${dist.doc.dir}">
-         <fileset dir="${build.dir}/doc" />
+         <fileset dir="${build.dir}/doc" excludes="twe-doc-current.*"/>
       </copy>
+      <delete quiet="true">
+         <fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.*" />
+      </delete>      
       <copy todir="${dist.internal.dir}">
          <fileset dir="${basedir}/licenses" includes="twe-includes.xlsx" />
          <mapper type="regexp" from="twe-includes.xlsx" to="twe-includes-${version}-${release}.xlsx" />
