@@ -278,7 +278,6 @@
                     <xpdl:Implementation>
                         <xpdl:No/>
                     </xpdl:Implementation>
-                    <xpdl:Performer>employee</xpdl:Performer>
                     <xpdl:Deadline Execution="SYNCHR">
                         <xpdl:DeadlineCondition>var d=new java.util.Date();
 d.setTime(ACTIVITY_ACTIVATED_TIME.getTime()+default_deadline_time);
@@ -297,7 +296,7 @@ d;</xpdl:DeadlineCondition>
                     </xpdl:TransitionRestrictions>
                     <xpdl:ExtendedAttributes>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="11,64"/>
-                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="employee"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="employee_email_address"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="personalID"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="first_name"/>
@@ -491,8 +490,8 @@ d;</xpdl:DeadlineCondition>
                 <xpdl:Activity Id="deadine_exceeded" Name="Deadine exceeded">
                     <xpdl:Route/>
                     <xpdl:ExtendedAttributes>
-                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="employee"/>
-                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="11,228"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="12,214"/>
                     </xpdl:ExtendedAttributes>
                 </xpdl:Activity>
                 <xpdl:Activity Id="init_leave_balance_map" Name="Init leave bal. map">
@@ -514,14 +513,13 @@ d;</xpdl:DeadlineCondition>
                     <xpdl:Implementation>
                         <xpdl:No/>
                     </xpdl:Implementation>
-                    <xpdl:Performer>employee</xpdl:Performer>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
                             <xpdl:Join Type="XOR"/>
                         </xpdl:TransitionRestriction>
                     </xpdl:TransitionRestrictions>
                     <xpdl:ExtendedAttributes>
-                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="employee"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="23,530"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="personalID"/>
                         <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="first_name"/>
@@ -661,11 +659,11 @@ d;</xpdl:DeadlineCondition>
             </xpdl:Transitions>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION" Value="VERTICAL"/>
-                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="employee;supervisor;personnel_department;system"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FreeTextExpressionParticipant;supervisor;personnel_department;system"/>
                 <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=system,CONNECTING_ACTIVITY_ID=init_leave_balance_map,X_OFFSET=164,Y_OFFSET=75,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
-                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=employee,CONNECTING_ACTIVITY_ID=leave_request_notification,X_OFFSET=49,Y_OFFSET=633,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=leave_request_notification,X_OFFSET=50,Y_OFFSET=627,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
                 <xpdl:ExtendedAttribute Name="RESET_VARIABLES" Value="approved"/>
-                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=employee,CONNECTING_ACTIVITY_ID=deadine_exceeded,X_OFFSET=37,Y_OFFSET=321,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=deadine_exceeded,X_OFFSET=39,Y_OFFSET=311,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
             </xpdl:ExtendedAttributes>
         </xpdl:WorkflowProcess>
     </xpdl:WorkflowProcesses>
