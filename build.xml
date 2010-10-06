@@ -655,11 +655,18 @@ make distributions       - Builds and configures TWE with all documentations and
       <if>
          <equals arg1="${sign.alias}" arg2="" />
          <then>
-            <signjar alias="Together" keystore="${input.dir}/ws/key/${app.name}key" storepass="together" keypass="together">
-               <path>
-                  <fileset dir="${dist.community.webstart.dir}/lib" includes="**/*.jar" />
-               </path>
-            </signjar>
+            <trycatch description="try-catch">
+               <try>
+                  <signjar alias="Together" keystore="${input.dir}/ws/key/${app.name}key" storepass="together" keypass="together">
+                     <path>
+                        <fileset dir="${dist.community.webstart.dir}/lib" includes="**/*.jar" />
+                     </path>
+                  </signjar>
+               </try>
+               <catch>
+                  <echo message="Failed to sign JAR files..." />
+               </catch>
+            </trycatch>
          </then>
          <else>
             <antcall target="signem" />
@@ -698,13 +705,19 @@ make distributions       - Builds and configures TWE with all documentations and
 
    <target name="signem" depends="init-post">
       <echo message="Signing with Together certificate" />
-        
-      <signjar alias="${sign.alias}"
-                 storepass="${sign.pwd}"
-                 keystore="${sign.privatekey}"
-                 storetype="pkcs12">
-            <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
-        </signjar>
+      <trycatch description="try-catch">
+         <try>        
+            <signjar alias="${sign.alias}"
+                       storepass="${sign.pwd}"
+                       keystore="${sign.privatekey}"
+                       storetype="pkcs12">
+                  <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
+            </signjar>
+         </try>
+         <catch>
+            <echo message="Failed to sign JAR files..." />
+         </catch>
+      </trycatch>
     </target>   
    
 </project>
