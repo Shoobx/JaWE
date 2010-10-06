@@ -302,7 +302,7 @@
 	<target name="buildDocJar" depends="docbook">
 		<delete file="${output.lib.dir}/${app.name}doc.jar" />
 		<jar destfile="${output.lib.dir}/${app.name}doc.jar">
-			<fileset dir="${tmp.dir}" excludes="**/*.pdf, **/${docbook.name}-current.html, **/api/**" />
+			<fileset dir="${tmp.dir}" excludes="**/*.pdf, **/${docbook.name}-current.html, **/api/**, **/docbook/**" />
 		</jar>
 	</target>
 
