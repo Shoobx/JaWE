@@ -166,6 +166,40 @@
                 <xpdl:ExtendedAttribute Name="Script" Value="reasonForDenial=new java.lang.String(&quot;You do not have any leave days in your quota balance&quot;);"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
+        <xpdl:Application Id="fill_user_info" Name="Fill user info">
+            <xpdl:Description>Fills initial value of user info variables depending on the logged user.</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="map" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="map"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="personal_Id" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="first_name" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="last_name" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="email_addr" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String username = org.enhydra.shark.Shark.getInstance().getAdminMisc().getProcessRequesterUsername(shandle,procInstId);&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;personal_Id=String.valueOf((int)(1+8*java.lang.Math.random()));&#10;&#10;first_name=ug.getUserFirstName(shandle,username);&#10;last_name=ug.getUserLastName(shandle,username);&#10;email_addr=ug.getUserEMailAddress(shandle,username);"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
     </xpdl:Applications>
     <xpdl:WorkflowProcesses>
         <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="leave_request" Name="Leave Request">
@@ -504,7 +538,7 @@ d;</xpdl:DeadlineCondition>
                     </xpdl:Implementation>
                     <xpdl:Performer>system</xpdl:Performer>
                     <xpdl:ExtendedAttributes>
-                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="11,64"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="121,64"/>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
                     </xpdl:ExtendedAttributes>
                 </xpdl:Activity>
@@ -558,6 +592,24 @@ d;</xpdl:DeadlineCondition>
                     <xpdl:ExtendedAttributes>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="119,533"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="init_user_info" Name="Init user info">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="fill_user_info">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>leave_balance_map</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>personalID</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>first_name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>last_name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>employee_email_address</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="14,64"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
                     </xpdl:ExtendedAttributes>
                 </xpdl:Activity>
             </xpdl:Activities>
@@ -615,7 +667,7 @@ d;</xpdl:DeadlineCondition>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_BEZIER"/>
                     </xpdl:ExtendedAttributes>
                 </xpdl:Transition>
-                <xpdl:Transition From="init_leave_balance_map" Id="leave_request2_tra1" To="submit_leave_request">
+                <xpdl:Transition From="init_leave_balance_map" Id="leave_request2_tra1" To="init_user_info">
                     <xpdl:ExtendedAttributes>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
                     </xpdl:ExtendedAttributes>
@@ -656,11 +708,16 @@ d;</xpdl:DeadlineCondition>
                         <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
                     </xpdl:ExtendedAttributes>
                 </xpdl:Transition>
+                <xpdl:Transition From="init_user_info" Id="leave_request_tra6" To="submit_leave_request">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
             </xpdl:Transitions>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION" Value="VERTICAL"/>
                 <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FreeTextExpressionParticipant;supervisor;personnel_department;system"/>
-                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=system,CONNECTING_ACTIVITY_ID=init_leave_balance_map,X_OFFSET=164,Y_OFFSET=75,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=system,CONNECTING_ACTIVITY_ID=init_leave_balance_map,X_OFFSET=236,Y_OFFSET=75,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
                 <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=leave_request_notification,X_OFFSET=50,Y_OFFSET=627,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
                 <xpdl:ExtendedAttribute Name="RESET_VARIABLES" Value="approved"/>
                 <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=deadine_exceeded,X_OFFSET=39,Y_OFFSET=311,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
