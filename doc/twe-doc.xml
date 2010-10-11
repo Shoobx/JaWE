@@ -45,11 +45,10 @@
       distribute and/or modify this document under the terms of the GNU Free
       Documentation License, Version 1.3 or any later version published by the
       Free Software Foundation; with the Invariant Sections being
-      <emphasis>Introduction, The Graphical User Interface, Dialogs and
-      Property Panels, XPDL elements, XPDL from scratch, <!-- Workflow engine
-      specifics,--> Configuration, Customization, Extended Attribute
-      Reference, Build </emphasis>guide, <emphasis>Installation guide, Release
-      Notes</emphasis>, with the Front-Cover Texts being
+      <emphasis>"Introduction","Build Guide,"Installation Guide","User
+      Interface","Dialogs and Property Panels","XPDL Elements","XPDL from
+      Scratch","Configuration","Customization","Extended Attribute
+      Reference","Release Notes"</emphasis>", with the Front-Cover Texts being
       <emphasis>Preface</emphasis>, and with no Back-Cover Texts. A copy of
       the license is included in the section entitled "GNU Free Documentation
       License".</holder>
@@ -507,7 +506,251 @@
   </chapter>
 
   <chapter>
-    <title>The Graphical User Interface</title>
+    <title>Build Guide</title>
+
+    <sect1>
+      <title>Getting the source code</title>
+
+      <para>The source code of the project can be obtained via SourceForge
+      SVN. Please read instructions how to check out sources at <ulink
+      url="http://sourceforge.net/projects/jawe/develop">SourceForge</ulink></para>
+    </sect1>
+
+    <sect1>
+      <title>Prerequisites</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Windows</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Java Development Kit (JDK) version 6 or later</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Fedora (Linux)</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>bash</para>
+            </listitem>
+
+            <listitem>
+              <para>tar</para>
+            </listitem>
+
+            <listitem>
+              <para>make</para>
+            </listitem>
+
+            <listitem>
+              <para>Java Development Kit (JDK) version 6 or later</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </sect1>
+
+    <sect1>
+      <title>Preparing the build environment</title>
+
+      <para>Execute the configure script from the root directory of the
+      project source. Specific JAVA version can be set for building (different
+      from the one registered with your system) by executing:</para>
+
+      <para><itemizedlist>
+          <listitem>
+            <para>Windows</para>
+
+            <para>configure -jdkhome %JAVA_HOME%</para>
+          </listitem>
+
+          <listitem>
+            <para>Fedora (Linux)</para>
+
+            <para>./configure -jdkhome %JAVA_HOME%</para>
+          </listitem>
+        </itemizedlist>(Where JAVA_HOME is the path to your JDK
+      installation)</para>
+
+      <para>Possible parameters for the configure script are:</para>
+
+      <programlisting>configure             - Creates build.properties file with default values
+                        for all possible parameters. It can work only if 
+                        there is a default JAVA registered with the system.
+configure -help       - Displays Help screen
+configure -version    - Sets the version number for the project.
+configure -release    - Sets the release number for the project.
+configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used 
+                        to compile the project.
+configure -debug      - Flag that determines if the sources will be 
+                        compiled with debug option on or off. 
+                        Possible values [on/off]. 
+configure -instdir    - Sets the location of the installation dir used when
+                        executing make script with install target specified.
+configure -rebranding - ONLY FOR WINDOWS. Flag that determines if the project 
+                        will be "rebranded" with the context of branding folder. 
+                        Possible values [true/false].
+configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup 
+                        (normally used for rebranding). 
+                        Possible values [English/Portuguese/PortugueseBR].
+
+Multiple parameters can be specified at ones.
+
+
+Example:
+
+configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE</programlisting>
+
+      <para>The configure script will create/change the build.properties file
+      based on the parameters provided. This file can also be manually changed
+      to adjust your environment/parameters for building the project from the
+      sources.</para>
+    </sect1>
+
+    <sect1>
+      <title>Compiling and building</title>
+
+      <para>Execute the make script with the buildAll target from the root
+      directory of the project source. When the building process finishes, the
+      project binaries will be in output/twe-[version]-[release]
+      folder.</para>
+
+      <para>Possible build targets for the make script are:</para>
+
+      <para><programlisting>make help           - Displays Help screen
+make buildAll       - Builds and configures TWE with javadoc and 
+                      docbook documentation
+make buildNoDoc     - Builds and configures TWE without javadoc and 
+                      docbook documentation
+make buildDoc       - Builds docbook documentation
+make dependencies   - Creates TWS and TAS dependencies within 
+                      distributions folder
+make dependency_tws - Creates TWS dependencies within distributions folder
+make dependency_tas - Creates TAS dependencies within distributions folder
+make install        - Installs and configures TWE into directory defined 
+                      by parameter install.dir in build.properties file. 
+                      This parameter can be set by using command: 
+                      configure -instdir PATH_TO_DIR.
+                      It should be called only after make buildAll target 
+                      is executed!
+make clean          - Removes the output and distribution folder (in order 
+                      to start a new compilation from scratch)
+make distributions  - Builds and configures TWE with all documentations 
+                      and creates distribution package
+</programlisting></para>
+    </sect1>
+
+    <sect1>
+      <title>Packaging distributions</title>
+
+      <para>Assuming that the environment is already configured as described
+      previously, to create the project distribution packages, execute:</para>
+
+      <programlisting>make distributions</programlisting>
+
+      <para>When the building process finishes, the <emphasis
+      role="bold"><emphasis role="bold">distribution</emphasis></emphasis>
+      folder will be created in the root directory of the project source
+      containing the appropriate OS specific binary distributions.</para>
+
+      <para>On Windows, to have the resulting ‘.exe’ file automatically
+      signed, the file called ‘sign.properties’ should be placed in the root
+      directory of the projects source with the following properties:</para>
+
+      <para><programlisting>sign.tool       - absolute path to the sign tool executable file
+sign.privatekey - absolute path to the private key used for signing
+sign.pwd        - password for signing
+sign.alias      - sign alias</programlisting>example sign.properties
+      file:</para>
+
+      <para><programlisting>sign.tool=D:/signtool/signtool.exe
+sign.privatekey=D:/signtool/privatekey.pfx
+sign.pwd=agles87t24e25NDwas
+sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
+      alias can be produced by the usage of Java's keytool by executing the
+      command:</para>
+
+      <para><emphasis role="bold">keytool -v -list -storetype pkcs12
+      -storepass PRIVATE-KEY-PASSWORD -keystore
+      PATH-TO-PRIVATE-KEY</emphasis></para>
+
+      <para>where PRIVATE-KEY-PASSWORD is the same as the property sign.pwd
+      from sign.properties file described above, and PATH-TO-PRIVATE-KEY is
+      the same as the property sign.privatekey from this properties
+      file.</para>
+    </sect1>
+
+    <!--    <sect1>
+      <title>Legal Notices</title>
+
+      <para></para>
+
+      <sect2>
+        <title>Source code</title>
+
+        <para></para>
+      </sect2>
+
+      <sect2>
+        <title>Derived work and resulting binaries</title>
+
+        <para></para>
+      </sect2>
+    </sect1>
+-->
+  </chapter>
+
+  <chapter>
+    <title>Installation guide</title>
+
+    <sect1>
+      <title>Getting the binaries</title>
+
+      <para>The latest binary packages of Together Workflow Editor can be
+      downloaded from <ulink
+      url="http://sourceforge.net/projects/jawe/files">SourceForge</ulink></para>
+    </sect1>
+
+    <sect1>
+      <title>Prerequisites</title>
+
+      <para>The only prerequisite to be able to run TWE on Windows or Linux
+      system is Java JRE 1.6 installed on the machine.</para>
+    </sect1>
+
+    <sect1>
+      <title>Installation</title>
+
+      <para>There are several binary packages for Windows and Linux operating
+      systems that can be used to install TWE.</para>
+
+      <para>If TWE is installed on Windows using <emphasis
+      role="bold">twe-x.y-z.x86.exe</emphasis> package, just follow the setup
+      procedure. The similar is with <emphasis
+      role="bold">twe-x.y-z.noarch.rpm</emphasis> package on Linux.</para>
+
+      <para>If TWE is installed from <emphasis
+      role="bold">twe-x.y-z.zip</emphasis> or <emphasis
+      role="bold">twe-x.y-z.tar.gz</emphasis> package on Windows/Linux
+      respectivly, the packages should be un-packed, and in the root of the
+      folder where they are unpacked, configure script should be executed. If
+      JAVA_HOME environment variable exists, configure script can be executed
+      without parameters, otherwise it should be called with a parameter
+      specifying JAVA_HOME value, e.g:</para>
+
+      <para><emphasis>configure -jdkhome c:\jdk1.6.0_20</emphasis></para>
+
+      <para>This will create proper <emphasis role="bold">run</emphasis>
+      script in bin directory that should be used to run TWE.</para>
+    </sect1>
+  </chapter>
+
+  <chapter>
+    <title>User Interface</title>
 
     <para>The Together Workflow Editor user interface consists of several
     parts. The order and the number of the displayed parts depend on the
@@ -3642,7 +3885,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
   </chapter>
 
   <chapter>
-    <title>XPDL elements</title>
+    <title>XPDL Elements</title>
 
     <para>This chapter describes how TWE works, corresponding to WfMC
     (Workflow Management Coalition) specifications (<ulink
@@ -7512,7 +7755,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
   </chapter>
 
   <chapter>
-    <title>XPDL from scratch</title>
+    <title>XPDL from Scratch</title>
 
     <para>These are the steps that are typically required in order to build
     new XPDL:</para>
@@ -9185,250 +9428,6 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     </itemizedlist>
 
     <!--kraj komentara-->
-  </chapter>
-
-  <chapter>
-    <title>Build guide</title>
-
-    <sect1>
-      <title>Getting the source code</title>
-
-      <para>The source code of the project can be obtained via SourceForge
-      SVN. Please read instructions how to check out sources at <ulink
-      url="http://sourceforge.net/projects/jawe/develop">SourceForge</ulink></para>
-    </sect1>
-
-    <sect1>
-      <title>Prerequisites</title>
-
-      <itemizedlist>
-        <listitem>
-          <para>Windows</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>Java Development Kit (JDK) version 6 or later</para>
-            </listitem>
-          </itemizedlist>
-        </listitem>
-
-        <listitem>
-          <para>Fedora (Linux)</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>bash</para>
-            </listitem>
-
-            <listitem>
-              <para>tar</para>
-            </listitem>
-
-            <listitem>
-              <para>make</para>
-            </listitem>
-
-            <listitem>
-              <para>Java Development Kit (JDK) version 6 or later</para>
-            </listitem>
-          </itemizedlist>
-        </listitem>
-      </itemizedlist>
-    </sect1>
-
-    <sect1>
-      <title>Preparing the build environment</title>
-
-      <para>Execute the configure script from the root directory of the
-      project source. Specific JAVA version can be set for building (different
-      from the one registered with your system) by executing:</para>
-
-      <para><itemizedlist>
-          <listitem>
-            <para>Windows</para>
-
-            <para>configure -jdkhome %JAVA_HOME%</para>
-          </listitem>
-
-          <listitem>
-            <para>Fedora (Linux)</para>
-
-            <para>./configure -jdkhome %JAVA_HOME%</para>
-          </listitem>
-        </itemizedlist>(Where JAVA_HOME is the path to your JDK
-      installation)</para>
-
-      <para>Possible parameters for the configure script are:</para>
-
-      <programlisting>configure             - Creates build.properties file with default values
-                        for all possible parameters. It can work only if 
-                        there is a default JAVA registered with the system.
-configure -help       - Displays Help screen
-configure -version    - Sets the version number for the project.
-configure -release    - Sets the release number for the project.
-configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used 
-                        to compile the project.
-configure -debug      - Flag that determines if the sources will be 
-                        compiled with debug option on or off. 
-                        Possible values [on/off]. 
-configure -instdir    - Sets the location of the installation dir used when
-                        executing make script with install target specified.
-configure -rebranding - ONLY FOR WINDOWS. Flag that determines if the project 
-                        will be "rebranded" with the context of branding folder. 
-                        Possible values [true/false].
-configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup 
-                        (normally used for rebranding). 
-                        Possible values [English/Portuguese/PortugueseBR].
-
-Multiple parameters can be specified at ones.
-
-
-Example:
-
-configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE</programlisting>
-
-      <para>The configure script will create/change the build.properties file
-      based on the parameters provided. This file can also be manually changed
-      to adjust your environment/parameters for building the project from the
-      sources.</para>
-    </sect1>
-
-    <sect1>
-      <title>Compiling and building</title>
-
-      <para>Execute the make script with the buildAll target from the root
-      directory of the project source. When the building process finishes, the
-      project binaries will be in output/twe-[version]-[release]
-      folder.</para>
-
-      <para>Possible build targets for the make script are:</para>
-
-      <para><programlisting>make help           - Displays Help screen
-make buildAll       - Builds and configures TWE with javadoc and 
-                      docbook documentation
-make buildNoDoc     - Builds and configures TWE without javadoc and 
-                      docbook documentation
-make buildDoc       - Builds docbook documentation
-make dependencies   - Creates TWS and TAS dependencies within 
-                      distributions folder
-make dependency_tws - Creates TWS dependencies within distributions folder
-make dependency_tas - Creates TAS dependencies within distributions folder
-make install        - Installs and configures TWE into directory defined 
-                      by parameter install.dir in build.properties file. 
-                      This parameter can be set by using command: 
-                      configure -instdir PATH_TO_DIR.
-                      It should be called only after make buildAll target 
-                      is executed!
-make clean          - Removes the output and distribution folder (in order 
-                      to start a new compilation from scratch)
-make distributions  - Builds and configures TWE with all documentations 
-                      and creates distribution package
-</programlisting></para>
-    </sect1>
-
-    <sect1>
-      <title>Packaging distributions</title>
-
-      <para>Assuming that the environment is already configured as described
-      previously, to create the project distribution packages, execute:</para>
-
-      <programlisting>make distributions</programlisting>
-
-      <para>When the building process finishes, the <emphasis
-      role="bold"><emphasis role="bold">distribution</emphasis></emphasis>
-      folder will be created in the root directory of the project source
-      containing the appropriate OS specific binary distributions.</para>
-
-      <para>On Windows, to have the resulting ‘.exe’ file automatically
-      signed, the file called ‘sign.properties’ should be placed in the root
-      directory of the projects source with the following properties:</para>
-
-      <para><programlisting>sign.tool       - absolute path to the sign tool executable file
-sign.privatekey - absolute path to the private key used for signing
-sign.pwd        - password for signing
-sign.alias      - sign alias</programlisting>example sign.properties
-      file:</para>
-
-      <para><programlisting>sign.tool=D:/signtool/signtool.exe
-sign.privatekey=D:/signtool/privatekey.pfx
-sign.pwd=agles87t24e25NDwas
-sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
-      alias can be produced by the usage of Java's keytool by executing the
-      command:</para>
-
-      <para><emphasis role="bold">keytool -v -list -storetype pkcs12
-      -storepass PRIVATE-KEY-PASSWORD -keystore
-      PATH-TO-PRIVATE-KEY</emphasis></para>
-
-      <para>where PRIVATE-KEY-PASSWORD is the same as the property sign.pwd
-      from sign.properties file described above, and PATH-TO-PRIVATE-KEY is
-      the same as the property sign.privatekey from this properties
-      file.</para>
-    </sect1>
-
-    <!--    <sect1>
-      <title>Legal Notices</title>
-
-      <para></para>
-
-      <sect2>
-        <title>Source code</title>
-
-        <para></para>
-      </sect2>
-
-      <sect2>
-        <title>Derived work and resulting binaries</title>
-
-        <para></para>
-      </sect2>
-    </sect1>
--->
-  </chapter>
-
-  <chapter>
-    <title>Installation guide</title>
-
-    <sect1>
-      <title>Getting the binaries</title>
-
-      <para>The latest binary packages of Together Workflow Editor can be
-      downloaded from <ulink
-      url="http://sourceforge.net/projects/jawe/files">SourceForge</ulink></para>
-    </sect1>
-
-    <sect1>
-      <title>Prerequisites</title>
-
-      <para>The only prerequisite to be able to run TWE on Windows or Linux
-      system is Java JRE 1.6 installed on the machine.</para>
-    </sect1>
-
-    <sect1>
-      <title>Installation</title>
-
-      <para>There are several binary packages for Windows and Linux operating
-      systems that can be used to install TWE.</para>
-
-      <para>If TWE is installed on Windows using <emphasis
-      role="bold">twe-x.y-z.x86.exe</emphasis> package, just follow the setup
-      procedure. The similar is with <emphasis
-      role="bold">twe-x.y-z.noarch.rpm</emphasis> package on Linux.</para>
-
-      <para>If TWE is installed from <emphasis
-      role="bold">twe-x.y-z.zip</emphasis> or <emphasis
-      role="bold">twe-x.y-z.tar.gz</emphasis> package on Windows/Linux
-      respectivly, the packages should be un-packed, and in the root of the
-      folder where they are unpacked, configure script should be executed. If
-      JAVA_HOME environment variable exists, configure script can be executed
-      without parameters, otherwise it should be called with a parameter
-      specifying JAVA_HOME value, e.g:</para>
-
-      <para><emphasis>configure -jdkhome c:\jdk1.6.0_20</emphasis></para>
-
-      <para>This will create proper <emphasis role="bold">run</emphasis>
-      script in bin directory that should be used to run TWE.</para>
-    </sect1>
   </chapter>
 
   <chapter>

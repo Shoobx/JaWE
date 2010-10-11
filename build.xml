@@ -360,7 +360,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <target name="_dependency_tas" unless="${rebranding}">
       <mkdir dir="${dist.dependencies.dir}/tas" />
       <zip destfile="${dist.dependencies.dir}/tas/${app.name}.zip" update="true">
-         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" />
+         <zipfileset dir="${build.dir}" />
       </zip>
    </target>
 
