@@ -9529,7 +9529,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
               <listitem>
                 <para>Added TAS dependency build (the same as originals but
-                with the name not including version and release)</para>
+                with the name not including version and release, and with both Windows and Linux scripts included)</para>
               </listitem>
 
               <listitem>
