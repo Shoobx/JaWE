@@ -138,7 +138,7 @@ public class GraphSettings extends JaWEComponentSettings {
 
         componentSettings.put("GridSize", new Integer(properties.getProperty("Graph.GridSize", "10")));
         componentSettings.put("ShadowWidth", new Integer(properties.getProperty("Graph.ShadowWidth", "3")));
-        componentSettings.put("GraphFontSize", new Integer(properties.getProperty("Graph.FontSize", "12")));
+        componentSettings.put("GraphFontSize", new Integer(properties.getProperty("Graph.FontSize", "11")));
         componentSettings.put("ActivityHeight", new Integer(properties.getProperty("Graph.ActivityHeight",
                 "55")));
         componentSettings.put("ActivityWidth", new Integer(properties

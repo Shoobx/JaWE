@@ -1,3 +1,6 @@
+2010-10-20 Sasa Bojanic <sasaboy@together.at>
+   # improved L&F handling - Fonts, by default using the default system's L&F font for the Label element, and applying it to all GUI controls
+
 2010-10-11 Sasa Bojanic <sasaboy@together.at>
    # improved dependency targets (including *.sh for tar.gz, *.bat for zip dependency files for TWS, and both for TAS)
 

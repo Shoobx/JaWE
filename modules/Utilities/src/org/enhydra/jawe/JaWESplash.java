@@ -92,7 +92,7 @@ public class JaWESplash extends JWindow {
       text.addHyperlinkListener(ha);
       text.setContentType("text/html");
       text.setOpaque(false);
-      String t = "<html><p align=center><b>Version:  " + JaWEManager.getVersion() + "-"+JaWEManager.getRelease()+"</b>"
+      String t = "<html><p align=\"center\"><b>Version:  " + JaWEManager.getVersion() + "-"+JaWEManager.getRelease()+"</b>"
             + "<br>Build Id: " /*+ JaWEManager.getBuildEdition()+ JaWEManager.getBuildEditionSuffix() + "-" */ + JaWEManager.getBuildNo() + "<br><br>" 
             + JaWEManager.getAboutMsg();   
 
