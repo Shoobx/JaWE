@@ -786,15 +786,23 @@ public class JaWEManager {
       long tStart = System.currentTimeMillis();
 
       String lookAndFeelClassName = JaWEManager.getLookAndFeelClassName();
-      if (lookAndFeelClassName == null || !lookAndFeelClassName.equals(""))
+      if (lookAndFeelClassName == null || !lookAndFeelClassName.equals("")) {
          try {
             UIManager.setLookAndFeel(lookAndFeelClassName);
          } catch (Exception ex) {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            if (java.io.File.pathSeparator.equals(";")) {
+               UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } else {
+               UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            }
          }
-      else
-         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
+      } else {
+         if (java.io.File.pathSeparator.equals(";")) {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+         } else {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+         }
+      }
       FontUIResource f;
       try {
          try {

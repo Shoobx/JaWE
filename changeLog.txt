@@ -1,3 +1,6 @@
+2010-10-21 Sasa Bojanic <sasaboy@together.at>
+   # By default using system L&F under Windows, and cross-platform L&F on other systems
+
 2010-10-20 Sasa Bojanic <sasaboy@together.at>
    # improved L&F handling - Fonts, by default using the default system's L&F font for the Label element, and applying it to all GUI controls
 
