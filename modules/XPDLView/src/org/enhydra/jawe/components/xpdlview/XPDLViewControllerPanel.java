@@ -58,12 +58,12 @@ import org.enhydra.shark.xpdl.XMLComplexElement;
 import org.enhydra.shark.xpdl.XMLElement;
 import org.enhydra.shark.xpdl.XMLSimpleElement;
 import org.enhydra.shark.xpdl.elements.Package;
-import org.syntax.jedit.JEditTextArea;
-import org.syntax.jedit.SyntaxDocument;
-import org.syntax.jedit.SyntaxStyle;
-import org.syntax.jedit.TextAreaPainter;
-import org.syntax.jedit.tokenmarker.Token;
-import org.syntax.jedit.tokenmarker.XMLTokenMarker;
+import org.jedit.syntax.JEditTextArea;
+import org.jedit.syntax.SyntaxDocument;
+import org.jedit.syntax.SyntaxStyle;
+import org.jedit.syntax.TextAreaPainter;
+import org.jedit.syntax.Token;
+import org.jedit.syntax.XMLTokenMarker;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 

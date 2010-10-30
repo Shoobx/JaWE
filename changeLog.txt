@@ -1,3 +1,9 @@
+2010-10-30 Sasa Bojanic <sasaboy@together.at>
+   # jEdit-Syntax binary code replaced with "home-build" version of projects' CVS sources.
+     (The problem was that the downloaded 2.2.1 version source code didn't match the binaries)
+     Several *.java source files updated to the new package names
+   # build procedure improved (documentation API build changed to avoid warnings)
+
 2010-10-21 Sasa Bojanic <sasaboy@together.at>
    # By default using system L&F under Windows, and cross-platform L&F on other systems
 

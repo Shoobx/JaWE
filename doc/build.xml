@@ -59,6 +59,7 @@
 
 		<!--Set the directories-->
 		<property name="ext.lib.dir" location="${basedir}/../lib" />
+		<property name="batik.lib.dir" location="${basedir}/../util/fop/lib" />
 
 		<!-- Set directories -->
 		<property name="project.dir" location="${basedir}/.." />
@@ -78,11 +79,7 @@
 		<path id="classpath">
 			<pathelement location="${ext.lib.dir}/jgraph.jar" />
 			<pathelement location="${ext.lib.dir}/jh.jar" />
-			<pathelement location="${ext.lib.dir}/batik-awt-util.jar" />
-			<pathelement location="${ext.lib.dir}/batik-dom.jar" />
-			<pathelement location="${ext.lib.dir}/batik-svggen.jar" />
-			<pathelement location="${ext.lib.dir}/batik-util.jar" />
-			<pathelement location="${ext.lib.dir}/batik-xml.jar" />
+			<pathelement location="${batik.lib.dir}/batik.jar" />
 			<pathelement location="${ext.lib.dir}/xercesImpl.jar" />
 			<pathelement location="${ext.lib.dir}/xml-apis.jar" />
 			<pathelement location="${ext.lib.dir}/jEdit-syntax.jar" />
@@ -152,11 +149,18 @@
 		<!--Create Javadoc-->
 		<property name="doctitle" value="${project.name} - Together Workflow Editor ${version}-${release} API" />
 		<property name="header" value="${project.name} ${version}-${release} API" />
-		<javadoc destdir="${output.doc.dir}/api" classpathref="classpath" packagenames="org.enhydra.jawe.*" doctitle="${doctitle}" windowtitle="${doctitle}" header="${header}" splitindex="yes" access="private" encoding="ISO-8859-1" additionalparam="-J-Xmx128m -breakiterator -quiet">
-			<sourcepath>
-				<pathelement path="${sources.dir}" />
-			</sourcepath>
-		</javadoc>
+		<javadoc 
+         sourcepath="${sources.dir}"
+         destdir="${output.doc.dir}/api" 
+         classpathref="classpath" 
+         packagenames="org.enhydra.jawe.*" 
+         doctitle="${doctitle}" 
+         windowtitle="${doctitle}" 
+         header="${header}" 
+         splitindex="yes" 
+         access="private" 
+         encoding="ISO-8859-1" 
+         additionalparam="-J-Xmx128m -breakiterator -quiet"/>
 	</target>
 
 	<target name="docbook.check">

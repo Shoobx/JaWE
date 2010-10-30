@@ -51,7 +51,7 @@ import org.enhydra.shark.xpdl.elements.Performer;
 import org.enhydra.shark.xpdl.elements.Tool;
 import org.enhydra.shark.xpdl.elements.Transition;
 import org.enhydra.shark.xpdl.elements.WorkflowProcess;
-import org.syntax.jedit.JEditTextArea;
+import org.jedit.syntax.JEditTextArea;
 
 /**
  * Creates panel with JLabel and JEditPanel.
