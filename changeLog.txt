@@ -1,3 +1,6 @@
+2010-11-01 Sasa Bojanic <sasaboy@together.at>
+   # improved NSIS script - now size of TWE is displayed in Control panel Add/Remove
+   
 2010-10-30 Sasa Bojanic <sasaboy@together.at>
    # jEdit-Syntax binary code replaced with "home-build" version of projects' CVS sources.
      (The problem was that the downloaded 2.2.1 version source code didn't match the binaries)

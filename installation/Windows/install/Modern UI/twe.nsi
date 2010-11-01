@@ -39,6 +39,7 @@ Name "$(NAME)" ;Define your own software name here
 !define MUI_UNICON "${NSISDIR}\Contrib\Icons\twe-uninstall.ico"
 
 !include "MUI.nsh"
+!include "FileFunc.nsh"
 !include "AddRemove.nsh"
 !include Sections.nsh
 
@@ -223,6 +224,7 @@ Section Install
 
   SetOutPath $INSTDIR
 
+  
 	DetailPrint '"$INSTDIR\configure.bat" -jdkhome "$1"'
 
 	StrCpy $0 0
@@ -313,6 +315,16 @@ Section Install
   									"HelpLink" $(HelpLink)
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
   									"StartMenuFolder" "$STARTMENU_FOLDER"									
+
+
+  ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
+  ; Convert the decimal KB value in $0 to DWORD
+  ; put it right back into $0
+  IntFmt $0 "0x%08X" $0
+
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \   
+                           "EstimatedSize" "$0"
+  
 ;  WriteUninstaller "uninstall.exe"
 
 	end:
