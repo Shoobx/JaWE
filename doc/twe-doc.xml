@@ -66,10 +66,10 @@
       or for damages resulting from the use of the information contained in
       this book.</para>
 
-      <para>Java and all Java-based trademarks or logos
-      are trademarks or registered trademarks of Sun Microsystems, Inc., in
-      the United States States and other countries. Together Teamlösungen
-      EDV-Dienstleistungen GmbH. is independent of Sun Microsystems.</para>
+      <para>Java and all Java-based trademarks or logos are trademarks or
+      registered trademarks of Sun Microsystems, Inc., in the United States
+      States and other countries. Together Teamlösungen EDV-Dienstleistungen
+      GmbH. is independent of Sun Microsystems.</para>
 
       <para>In this document parts of the original XPDL 1.0 specification -
       <ulink
@@ -9450,6 +9450,13 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
+          <para>jEdit-Syntax binary code replaced with "home-build" version of
+          projects' CVS sources. (The problem was that the downloaded 2.2.1
+          version source code didn't match the binaries) Several *.java source
+          files updated to the new package names</para>
+        </listitem>
+
+        <listitem>
           <para>Saxon removed from the project</para>
         </listitem>
 
@@ -9527,7 +9534,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
               <listitem>
                 <para>Added TAS dependency build (the same as originals but
-                with the name not including version and release, and with both Windows and Linux scripts included)</para>
+                with the name not including version and release, and with both
+                Windows and Linux scripts included)</para>
               </listitem>
 
               <listitem>
@@ -9597,6 +9605,16 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para>Improved build procedure so it doesn't fail if sign.properties
           file does not contain right information</para>
+        </listitem>
+
+        <listitem>
+          <para>improved NSIS script - now size of TWE is displayed in Control
+          panel Add/Remove</para>
+        </listitem>
+
+        <listitem>
+          <para>twe-includes.xlsx file with the list of 3rd party libraries
+          updated.</para>
         </listitem>
 
         <listitem>
