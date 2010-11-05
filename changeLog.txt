@@ -1,4 +1,8 @@
 ###### TWE 3.3-1 RELEASED ######
+2010-11-05 Sasa Bojanic <sasaboy@together.at>
+   # added docbook license text, corrected license for docbook-xsl in twe-includes.xslx
+   # improved linux configure scripts
+
 2010-11-01 Sasa Bojanic <sasaboy@together.at>
    # improved NSIS script - now size of TWE is displayed in Control panel Add/Remove
    
