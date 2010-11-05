@@ -98,17 +98,21 @@ if test -n "$jdk_DOT_dir"; then
     jdk_DOT_dir=`echo $jdk_DOT_dir|sed -e 's|_DOT_|\.|g'`
     version=`echo $version|sed -e 's|_DOT_|\.|g'`
 else
-    which_java=`which java 2>/dev/null`
-    if test -n "$which_java"; then
-	cd `dirname $which_java`/..
-	jdk_DOT_dir=$PWD
-	cd -
+    if test -n "$JAVA_HOME"; then
+      jdk_DOT_dir=$JAVA_HOME
     else
-	{
-	    echo "$0: error: JAVA_HOME not defined
-Try \`$0 --help' for more information." >&2
-	    { (exit 1); exit 1; };
-	}
+       which_java=`which java 2>/dev/null`
+       if test -n "$which_java"; then
+	   cd `dirname $which_java`/..
+	   jdk_DOT_dir=$PWD
+	   cd -
+       else
+	   {
+	       echo "$0: error: JAVA_HOME not defined
+   Try \`$0 --help' for more information." >&2
+	       { (exit 1); exit 1; };
+	   }
+       fi
     fi
 fi
 
