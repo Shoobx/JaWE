@@ -193,7 +193,7 @@
          </fileset>
       </copy>
       <copy todir="${build.dir}/licenses">
-         <fileset dir="${basedir}/licenses" includes="*.*" excludes="twe-includes*,License-TOG.txt" />
+         <fileset dir="${basedir}/licenses" includes="*.*" excludes="twe-includes*,License-TOG.txt,nsis.txt,docbook.txt" />
       </copy>
       <copy todir="${build.dir}/licenses">
          <fileset dir="${basedir}/licenses" includes="*.*" />
