@@ -509,9 +509,12 @@
     <sect1>
       <title>Getting the source code</title>
 
-      <para>The source code of the project can be obtained via SourceForge
-      SVN. Please read instructions how to check out sources at <ulink
-      url="http://sourceforge.net/projects/jawe/develop">SourceForge</ulink></para>
+      <para>The source code of the project can be obtained either via SVN
+      (please read instructions how to check out sources at <ulink
+      url="http://sourceforge.net/projects/jawe/develop">SourceForge</ulink>)
+      or by downloading the latest twe-x.y-z.src.zip/twe-x.y-z.src.tar.gz
+      package from <ulink
+      url="http://sourceforge.net/projects/jawe/files">SourceForge</ulink>.</para>
     </sect1>
 
     <sect1>
