@@ -73,9 +73,10 @@
 
       <para>In this document parts of the original XPDL 1.0 specification -
       <ulink
-      url="http://www.wfmc.org/Download-document/TC-1025-Ver-1.0-XML-Process-Definition-Language.html">WfMC XPDL 1.0 Spec.</ulink>
-      are used. The Workflow Management Coalition and its members are the
-      owners of the copyright of this specification.</para>
+      url="http://www.wfmc.org/Download-document/TC-1025-Ver-1.0-XML-Process-Definition-Language.html">WfMC
+      XPDL 1.0 Spec.</ulink> are used. The Workflow Management Coalition and
+      its members are the owners of the copyright of this
+      specification.</para>
     </legalnotice>
   </bookinfo>
 
@@ -260,8 +261,17 @@
         </listitem>
 
         <listitem>
-          <para>The Graphical User Interface - Explanation of the user
-          interface components, menus and toolbars</para>
+          <para>Build Guide - How to compile, build and package your own
+          version of TWE from the source code</para>
+        </listitem>
+
+        <listitem>
+          <para>Installation Guide - How to install TWE</para>
+        </listitem>
+
+        <listitem>
+          <para>User Interface - Explanation of the user interface components,
+          menus and toolbars</para>
         </listitem>
 
         <listitem>
@@ -270,7 +280,7 @@
         </listitem>
 
         <listitem>
-          <para>XPDL elements - What they are, how they are related and how to
+          <para>XPDL Elements - What they are, how they are related and how to
           create, edit and view them</para>
         </listitem>
 
@@ -290,15 +300,6 @@
         <listitem>
           <para>Extended Attribute Reference - XPDL Extended Attributes used
           by the Editor itself</para>
-        </listitem>
-
-        <listitem>
-          <para>Build guide - How to compile, build and package your own
-          version from the source code</para>
-        </listitem>
-
-        <listitem>
-          <para>Installation guide - How to install the editor</para>
         </listitem>
 
         <listitem>
@@ -488,7 +489,8 @@
       technology standards and their use by the industry.</para>
 
       <para>The Java 2 SDK or Java 2 JRE can be downloaded from <ulink
-      url="http://java.sun.com">http://java.sun.com</ulink> .</para>
+      url="http://www.oracle.com/technetwork/java">http://www.oracle.com/technetwork/java</ulink>
+      .</para>
 
       <para>The Together Workflow Editor home page is located at <ulink
       url="http://www.together.at/prod/workflow/twe">http://www.together.at/prod/workflow/twe</ulink>.</para>
