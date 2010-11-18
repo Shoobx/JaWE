@@ -687,6 +687,293 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       file.</para>
     </sect1>
 
+    <sect1>
+      <title>Rebranding</title>
+
+      <para>TWE build procedure enables you to create so called "rebranded"
+      version of TWE distribution under Windows.</para>
+
+      <para>It means that at the end you can get the windows setup file fully
+      "rebranded" as if the product is under your own ownership. E.g. instead
+      of calling the product "Together Workflow Editor", you can call it "XYZ
+      Workflow Editor", and during the build procedure replace all other
+      things neccessary for the "rebranding".</para>
+
+      <para>To build rebranded product, first you have to configure TWE by
+      executing the following configure command in %TWE_HOME% folder:</para>
+
+      <para><programlisting>configure -rebranding true</programlisting>If you
+      also want to use a different language in the windows setup wizard, you
+      should execute e.g. the following:</para>
+
+      <para><programlisting>configure -language Portuguese</programlisting></para>
+
+      <para>NOTE: currently possible values are English, Portuguese and
+      PortugueseBR.</para>
+
+      <para>After that, several things needs to be done in the
+      %TWE_HOME%/branding folder:</para>
+
+      <para>There are several sub-folders in %TWE_HOME%/branding folder which
+      content needs to be edited,removed or appended in order to rebrand the
+      application distribution. The following table explains the meaning of
+      the sub-folders and how can you perform TWE branding by changing their
+      content:</para>
+
+      <table>
+        <title>Explanation for %TWE_HOME%/branding</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry align="center">Branding sub-directory</entry>
+
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><para>aboutbox</para></entry>
+
+              <entry><para>Edit aboutbox.properties file to define what will
+              be shown in the TWE's aboutbox If you don't want to show license
+              information in the aboutbox, change the value of showLicenseInfo
+              property to false. </para><para>Example aboutbox.properties file
+              is put here to show you how to do it - it specifies XYZ editor
+              instead of TWE editor.</para></entry>
+            </row>
+
+            <row>
+              <entry><para>activityicons</para></entry>
+
+              <entry><para>If you put any icons into this folder, these will
+              be the icons you will be able to chose for the "Icon" property
+              from Activity's property panel. If you don't put any icons here,
+              the default set of icons will be used from this panel.
+              </para><para>6 sample icons are added here to show the use
+              case.</para></entry>
+            </row>
+
+            <row>
+              <entry><para>config</para></entry>
+
+              <entry><para>If you want to change some of the existing TWE
+              configuration modes, you should add new folder into this
+              sub-folder that would contain modified TWE property files. Also,
+              'defaultconfig' file in the root of config folder specify
+              default configuration to use during TWE
+              startup.</para><para>Example file in-here shows how to set
+              default startup configuration to 'default' and contains 2
+              configuration files which are modified (comparing to original
+              ones): </para><para> a) towebasic.properties:</para><para> - the
+              default language is set to Portuguese</para><para> - configured
+              not to have default transient packages </para><para> b)
+              togwegraphcontroller.properties </para><para> - configured to
+              show grid </para><para> - configured to show transition
+              conditions </para><para> - configured to show text at right of
+              the activity box </para><para> - changed graph background color
+              </para><para> - changed graph grid color </para><para> c)
+              jawetypes.properties </para><para> - configured to use 2 custom
+              activities </para></entry>
+            </row>
+
+            <row>
+              <entry><para>doc</para></entry>
+
+              <entry><para>If you want to change documentation and pictures
+              appearing in the documentation, in this folder you should put
+              the modified twe-doc.xml file and in Images sub-folder you
+              should put all the pictures from the original folder you want to
+              override. </para><para>Example twe-doc.xml file is a very short
+              version of standard User Manual, and changes all the occurences
+              of TWE with XYZ, all occurences of Together Workflow Editor with
+              XYZ Workflow Editor, all occurences of Together Teamsolutions
+              Co., Ltd. with XYZ Company, all the URLs to together site with
+              URLs to google site, etc. </para><para>Example images folder
+              provides a single images to override - the image in its original
+              form contains TWE logo. </para><para>For the list of all the
+              re-placable images you should look into %TWE_HOME%\doc\Images
+              folder</para></entry>
+            </row>
+
+            <row>
+              <entry><para>examples</para></entry>
+
+              <entry><para>If you put anything in this folder, the original
+              examples folder will be replaced by this one.
+              </para><para>Example shows one XPDL file which normally is not
+              the part of TWE distribution.</para></entry>
+            </row>
+
+            <row>
+              <entry><para>i18n</para></entry>
+
+              <entry><para>If you put language property file(s) here, it will
+              override the original one, or will add one if it does not exist
+              in the original distribution.</para><para>Example provides
+              JaWE_pt.properties file where all the occurences of TWE and
+              Together are replaced by XYZ </para></entry>
+            </row>
+
+            <row>
+              <entry><para>images</para></entry>
+
+              <entry><para>If you put image here, it will override the
+              original image coming with distribution. </para><para>Example
+              images put into this folder are the ones for the splash screen,
+              jawe frame icon and icon for the generic activity.
+              </para><para>For the list of all the replacable images you
+              should look at
+              folder:</para><para>%TWE_HOME%\modules\Utilities\src\org\enhydra\jawe\images
+              </para></entry>
+            </row>
+
+            <row>
+              <entry><para>installation</para></entry>
+
+              <entry><para>In the icons sub-folder you can put images for the
+              TWE installer to use. </para><para>In the Modern UI sub-folder
+              you put the splash screen image and in its Language files
+              sub-folder you put your modification of installer
+              language/branding file. </para><para>Example shows the names of
+              the images you can replace and modification of Brazilian
+              Portuguese language/branding file which refers to the editor as
+              to XYZ Editor. </para></entry>
+            </row>
+
+            <row>
+              <entry><para>lib</para></entry>
+
+              <entry><para>If you need to add additional jar to be used, or
+              you want to override an existing one, put it in this
+              folder.</para></entry>
+            </row>
+
+            <row>
+              <entry><para>license</para></entry>
+
+              <entry><para>In this folder you put your own license. This
+              license can appear in the about dialog if you set proper
+              configuration switch in aboutbox.properties file (read remarks
+              for aboutbox folder) and in the root folder of editor binary
+              distribution. </para><para>Example contains dummy license file
+              with XYZ license.</para></entry>
+            </row>
+
+            <row>
+              <entry><para>registry</para></entry>
+
+              <entry><para>This folder contains icons that will be used to
+              register application in windows registry. </para><para>Example
+              shows icon for XPDL file extension and icon for the editor
+              itself.</para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
+      <para>The similar has to be done in %TWS_HOME%/SharkWebClient/branding
+      folder as described by following table:</para>
+
+      <table>
+        <title>Explanation for %TWS_HOME%/SharkWebClient/branding</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry align="center">Branding sub-directory</entry>
+
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><para>config</para></entry>
+
+              <entry><para>Place to put configuration files if you want to
+              override the original ones. There are 2 example files in this
+              folder: </para><para>a) Shark.conf.prof -&gt; with modified
+              default AssignmentManager settings to use
+              WorkloadRelatedAssignmentManager, and with modified settings for
+              Shark caches (they are switched off)</para><para>c)
+              SharkClient.conf -&gt; with modified UserTransaction.Timeout
+              setting and modified settings for the default group and
+              user</para></entry>
+            </row>
+
+            <row>
+              <entry><para>html</para></entry>
+
+              <entry><para>In order to override original html templates for
+              some pages, you have to put here the modified html
+              files.</para><para>The example contains 4 html files where each
+              file contains modification for the name of the application(it
+              replaces Shark Web Client title with ZYX Web
+              Client)</para><para>The original html files are placed in
+              %TWS_HOME%/SharkWebClient/presentation/resource
+              folder</para></entry>
+            </row>
+
+            <row>
+              <entry><para>media</para></entry>
+
+              <entry><para>In order to change images of the application, you
+              need to put your modified images into this
+              folder.</para><para>Example provides several modified
+              images.</para><para>For the list of all the re-placable images
+              you should look at
+              folder:</para><para>%TWS_HOME%/SharkWebClient/presentation/src/org/enhydra/shark/webclient/presentation/media</para></entry>
+            </row>
+
+            <row>
+              <entry><para>META-INF</para></entry>
+
+              <entry><para>Here you can put your own context.xml file for
+              TOMCAT if you want to override the original one (e.g. if you
+              want to have your own pre-defined settings for the database
+              location or realm to use). </para><para>Example shows the
+              modification of context.xml where only displayName parameter is
+              changed.</para></entry>
+            </row>
+
+            <row>
+              <entry><para>WEB-INF</para></entry>
+
+              <entry><para>Here you can put your own web.xml file with some
+              settings changed from original.</para><para>Example web.xml have
+              several properties changed that determine application behavior.
+              </para></entry>
+            </row>
+
+            <row>
+              <entry><para>xpdlsamples</para></entry>
+
+              <entry><para>If you put anything in this folder, the original
+              examples folder will be replaced by this one.
+              </para><para>Example shows two XPDL files as well as ARIS
+              related files.</para></entry>
+            </row>
+
+            <row>
+              <entry><para>xsl</para></entry>
+
+              <entry><para>Here you can put your own modified XSL
+              transformations used for application.</para><para>Example shows
+              worklist.xsl transformation which puts ZYX worklist instead of
+              worklist and replaces Together company with ZYX
+              company.</para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
+      <para>After modifying the content of branding folders, simply continue
+      with normal distribution packaging procedure, and the resulting output
+      files in distribution folder will be rebranded.</para>
+    </sect1>
+
     <!--    <sect1>
       <title>Legal Notices</title>
 
