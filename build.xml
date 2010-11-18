@@ -164,7 +164,6 @@
       <!-- Configuration Build -->
       <copy todir="${build.dir}">
          <fileset dir="${input.dir}" includes="build.xml, *.${include.ext}" />
-         <fileset dir="${doc.dir}" includes="README" />
       </copy>
       <chmod dir="${build.dir}" perm="a=rx" includes="*.${include.ext}" />
 
@@ -634,7 +633,7 @@ make distributions       - Builds and configures TWE with all documentations and
         includes="bin/**,config/defaultconfig,config/default,configure.*,build.xml" />
          <tarfileset dir="${basedir}/lib" excludes="tweactivityicons.jar" prefix="${app.name}-${version}-${release}.src/lib" />
          <tarfileset dir="${dist.community.dir}/tmp" includes="licenses/License.txt" prefix="${app.name}-${version}-${release}.src" />
-         <tarfileset dir="${basedir}" includes="readme,build.xml,configure,configure.bat,make.bat" prefix="${app.name}-${version}-${release}.src" />
+         <tarfileset dir="${basedir}" includes="build.xml,configure,configure.bat,make.bat" prefix="${app.name}-${version}-${release}.src" />
          <tarfileset dir="${basedir}/util" includes="ant/*,make/*" prefix="${app.name}-${version}-${release}.src/util" />
       </tar>
       <gzip zipfile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" src="${dist.community.dir}/${app.name}-${version}-${release}.src.tar" />
