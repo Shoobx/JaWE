@@ -24,7 +24,7 @@ import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.components.ldap.LDAPController;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Imports selected entries as Participants into XPDL.

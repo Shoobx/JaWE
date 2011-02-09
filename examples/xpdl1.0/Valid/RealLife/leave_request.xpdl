@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="leave_request" Name="Leave request" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>1.0</xpdl:XPDLVersion>
+        <xpdl:Vendor>(c) Together Teamsolutions Co., Ltd.</xpdl:Vendor>
+        <xpdl:Created>2010-09-11 08:11:51</xpdl:Created>
+        <xpdl:Description>Package contains process definitions for handling leave requests.</xpdl:Description>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:Script Type="text/javascript"/>
+    <xpdl:TypeDeclarations>
+        <xpdl:TypeDeclaration Id="map" Name="Map">
+            <xpdl:ExternalReference location="java.util.HashMap"/>
+        </xpdl:TypeDeclaration>
+    </xpdl:TypeDeclarations>
+    <xpdl:Participants>
+        <xpdl:Participant Id="employee" Name="Employee">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="supervisor" Name="Supervisor">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="personnel" Name="Personnel">
+            <xpdl:ParticipantType Type="ORGANIZATIONAL_UNIT"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="system" Name="System">
+            <xpdl:ParticipantType Type="SYSTEM"/>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:Applications>
+        <xpdl:Application Id="check_leave_days" Name="Check leave days">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="dateFrom" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="dateTo" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_days_left" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="accepted" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="diffDays" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="accepted=false;&#10;long diffms=dateTo.getTime()-dateFrom.getTime();&#10;diffDays=new java.lang.Long((long)(diffms/(24*60*60*1000)+1.0));&#10;if (diffDays.longValue()&gt;0 &amp;&amp; diffDays.longValue()&lt;=leave_days_left.longValue()) {&#10;   accepted=true;&#10;}"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="deduct_leave_balance" Name="Deduct leave balance">
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="personalID" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_days_requested" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_days_left" Mode="INOUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="leave_days_left=new java.lang.Long(leave_days_left.longValue()-leave_days_requested.longValue());"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="send_mail" Name="Send mail">
+            <xpdl:Description>Sends an email to a specific person.</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="from_addresses" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="to_addresses" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="subject" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Mail subject</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="content" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="org.enhydra.shark.toolagent.DefaultMailMessageHandler"/>
+                <xpdl:ExtendedAttribute Name="AppMode" Value="0"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="fill_user_info" Name="Fill user info">
+            <xpdl:Description>Fills initial value of user info variables depending on the logged user.</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="personal_Id" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_days_left" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="first_name" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="last_name" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="email_addr" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String username = org.enhydra.shark.Shark.getInstance().getAdminMisc().getProcessRequesterUsername(shandle,procInstId);&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;personal_Id=String.valueOf((int)(1+99*java.lang.Math.random()));&#10;leave_days_left=new java.lang.Long(5+(int)(10*java.lang.Math.random()));&#10;&#10;try {&#10;   first_name=ug.getUserFirstName(shandle,username);&#10;   last_name=ug.getUserLastName(shandle,username);&#10;   email_addr=ug.getUserEMailAddress(shandle,username);&#10;} catch (Exception ex) {&#10;   first_name = &quot;Administrator&quot;;&#10;   last_name = &quot;Together&quot;;&#10;   email_addr = &quot;admin@together.at&quot;;&#10;}"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="fill_executor_info" Name="Fill executor info">
+            <xpdl:Description>Fills the name of the user that executed previous activity, and the current date.</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="full_name" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="current_date" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String username = shandle.getVendorData().toString();&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;try {&#10;   current_date=new java.util.Date();&#10;   full_name=ug.getUserFirstName(shandle,username) +&quot; &quot;+ug.getUserLastName(shandle,username);&#10;} catch (Exception ex) {&#10;   full_name = &quot;Administrator Together&quot;;&#10;}"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+        <xpdl:Application Id="fill_msg_txt" Name="Fill message text">
+            <xpdl:Description>Fills the e-mail message text</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="accepted_by_system" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="approval_date_personnel" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="approval_date_supervisor" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="approved_by_personnel" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="approved_by_supervisor" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="approver_personnel" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="approver_supervisor" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="first_name" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="last_name" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_days_left" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_days_requested" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_from_date" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_reason" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="leave_to_date" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="reason_for_denial" Mode="INOUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="msgTxt" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String msgTxt = &quot;Dear &quot;+first_name+&quot; &quot;+last_name+&quot;,\n\n&quot;;&#10;msgTxt = msgTxt + &quot;Your &quot;+leave_days_requested+&quot; days leave request:\n\n     From: &quot;+leave_from_date+&quot;\n       To: &quot;+leave_to_date+&quot;\n   Reason: &quot;+leave_reason+&quot;\n\n&quot;;&#10;if (approved_by_personnel) {&#10;   msgTxt = msgTxt + &quot;is approved. \n\n&quot;;&#10;   msgTxt = msgTxt + &quot;Approved by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.\n&quot;;&#10;   msgTxt = msgTxt + &quot;Approved by &quot;+approver_personnel+&quot; from personnel department at &quot;+approval_date_personnel+&quot;.&quot;;&#10;} else {&#10;   msgTxt = msgTxt + &quot;is declined. \n\n&quot;;&#10;   if (accepted_by_system) {&#10;      if (approved_by_supervisor) {&#10;         msgTxt = msgTxt + &quot;Approved by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.\n&quot;;&#10;         msgTxt = msgTxt + &quot;Declined by &quot;+approver_personnel+&quot; from personnel department at &quot;+approval_date_personnel+&quot;.&quot;;&#10;      } else {&#10;         msgTxt = msgTxt + &quot;Declined by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.&quot;; &#10;      }   &#10;      msgTxt = msgTxt + &quot;\n\nReason for denial: &quot;+reason_for_denial;&#10;   } else {&#10;      msgTxt = msgTxt + &quot;Automatically declined by the system at &quot;+new java.util.Date()+&quot;.&quot;; &#10;      if (leave_days_requested.longValue()&lt;=0) {&#10;         String rd = &quot;Invalid request - leave to date is before leave from date!&quot;;&#10;         msgTxt = msgTxt + &quot;\n\nReason for denial: &quot;+rd;&#10;         reason_for_denial = rd;&#10;      } else {&#10;         msgTxt = msgTxt + &quot;\n\nReason for denial: You have only &quot;+leave_days_left+&quot; leave days left in your quota!&quot;;&#10;         reason_for_denial = &quot;Automatically declined by the system - not enough leave days left in your quota!&quot;;&#10;      }&#10;   }&#10;}&#10;&#10;msgTxt = msgTxt + &quot;\n\nTogether Workflow Server System.&quot;;"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+    </xpdl:Applications>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="leave_request" Name="Leave Request">
+            <xpdl:ProcessHeader DurationUnit="s">
+                <xpdl:Created>2010-09-11 08:14:55</xpdl:Created>
+                <xpdl:Description>Handles leave request.</xpdl:Description>
+                <xpdl:Limit>120</xpdl:Limit>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="accepted_by_system" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>true</xpdl:InitialValue>
+                    <xpdl:Description>Determines if request is accepted by system or not.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="approval_date_personnel" IsArray="FALSE" Name="Approval date (personnel)">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The date of request approval.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="approval_date_supervisor" IsArray="FALSE" Name="Approval date (supervisor)">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The date of supervisors' request approval/denial.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="approved_by_personnel" IsArray="FALSE" Name="Approved by personnel?">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Determines if request is approved by personnel department.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="approved_by_supervisor" IsArray="FALSE" Name="Approved by supervisor?">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Determines if request is approved by supervisor.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="approver_personnel" IsArray="FALSE" Name="Approver (personnel)">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The name of the person from personnel department that is responsible to approve/deny employee's leave request.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="approver_supervisor" IsArray="FALSE" Name="Approver (supervisor)">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The name of supervisor that is responsible to approve/deny employee's leave request.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="default_deadline_time" IsArray="FALSE" Name="Default deadline time">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>300000</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="email_address" IsArray="FALSE" Name="E-mail address">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>E-Mail address of employee that submits request.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="first_name" IsArray="FALSE" Name="First name">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Employee's first name.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="last_name" IsArray="FALSE" Name="Last name">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Employee's last name.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="leave_days_left" IsArray="FALSE" Name="Leave days left">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="leave_days_requested" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="leave_from_date" IsArray="FALSE" Name="Leave from date">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The date when employee would like to leave.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="leave_reason" IsArray="FALSE" Name="Reason for leave">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The reason why employee has submited leave request.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="leave_to_date" IsArray="FALSE" Name="Leave to date">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The date when employee would like to return back to work.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="msgTxt" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="personalID" IsArray="FALSE" Name="Personal ID">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Employee's personal ID.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="reason_for_denial" IsArray="FALSE" Name="Reason for denial">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>If leave request is denied, the reason for denial should be entered.</xpdl:Description>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Activities>
+                <xpdl:Activity Id="submit_leave_request" Name="Submit leave request">
+                    <xpdl:Description>The leave request submission.</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Deadline Execution="SYNCHR">
+                        <xpdl:DeadlineCondition>var d=new java.util.Date();
+d.setTime(ACTIVITY_ACTIVATED_TIME.getTime()+default_deadline_time);
+d;</xpdl:DeadlineCondition>
+                        <xpdl:ExceptionName>end_process</xpdl:ExceptionName>
+                    </xpdl:Deadline>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="leave_request_Tra22"/>
+                                    <xpdl:TransitionRef Id="leave_request_tra1"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="11,64"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="personalID"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="first_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="last_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="leave_reason"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="leave_from_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="leave_to_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="email_address"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="review_leave_request" Name="Review leave request">
+                    <xpdl:Description>Approve/deny employee's request.</xpdl:Description>
+                    <xpdl:Limit>30</xpdl:Limit>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>supervisor</xpdl:Performer>
+                    <xpdl:SimulationInformation Instantiation="ONCE">
+                        <xpdl:Cost>35</xpdl:Cost>
+                        <xpdl:TimeEstimation>
+                            <xpdl:WaitingTime>15</xpdl:WaitingTime>
+                            <xpdl:WorkingTime>10</xpdl:WorkingTime>
+                            <xpdl:Duration>25</xpdl:Duration>
+                        </xpdl:TimeEstimation>
+                    </xpdl:SimulationInformation>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="14,217"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="personalID"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="first_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="last_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_reason"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_from_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_to_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="approved_by_supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="reason_for_denial"/>
+                        <xpdl:ExtendedAttribute Name="MANAGER_OF_PREVIOUS"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="final_leave_request_review" Name="Review leave request">
+                    <xpdl:Description>Approve/deny employee's request.</xpdl:Description>
+                    <xpdl:Limit>30</xpdl:Limit>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>personnel</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="14,299"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="personnel"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="personalID"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="first_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="last_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_reason"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_from_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_to_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approved_by_supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approver_supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approval_date_supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="approved_by_personnel"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="reason_for_denial"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="fill_message_text" Name="Fill message text">
+                    <xpdl:Description>System sends an email to employee with notification of request approval/denial.</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="fill_msg_txt" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>accepted_by_system</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approval_date_personnel</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approval_date_supervisor</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approved_by_personnel</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approved_by_supervisor</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approver_personnel</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approver_supervisor</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>first_name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>last_name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_days_left</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_days_requested</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_from_date</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_reason</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_to_date</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>reason_for_denial</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>msgTxt</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="30,301"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="check_leave_days" Name="Check leave days">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="check_leave_days" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>leave_from_date</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_to_date</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_days_left</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>accepted_by_system</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_days_requested</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="leave_request_Tra1"/>
+                                    <xpdl:TransitionRef Id="leave_request_Tra3"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="30,137"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_leave_days" Name="Update leave days">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="deduct_leave_balance" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>personalID</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_days_requested</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_days_left</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="30,380"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="deadline_exceeded" Name="Deadline exceeded">
+                    <xpdl:Route/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="11,214"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="leave_request_notification" Name="Leave request notification">
+                    <xpdl:Description>Notification about leave request approval through the worklist</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FreeTextExpressionParticipant"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="31,549"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="personalID"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="first_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="last_name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_reason"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_from_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="leave_to_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approved_by_supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approval_date_supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approver_supervisor"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approved_by_personnel"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approval_date_personnel"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approver_personnel"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="reason_for_denial"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="R">
+                    <xpdl:Route/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="134,543"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="init_user_info" Name="Init user info">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="fill_user_info">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>personalID</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>leave_days_left</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>first_name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>last_name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>email_address</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="30,64"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="fill_supervisor_info" Name="Fill supervisor info">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="fill_executor_info" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>approver_supervisor</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approval_date_supervisor</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="leave_request_Tra2"/>
+                                    <xpdl:TransitionRef Id="leave_request_Tra13"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="30,220"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="fill_personell_dpt_person_info" Name="Fill personell department info">
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="fill_executor_info" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>approver_personnel</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>approval_date_personnel</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="leave_request_Tra5"/>
+                                    <xpdl:TransitionRef Id="leave_request_Tra24"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="30,470"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="send_mail" Name="Send mail">
+                    <xpdl:Description>System sends an email to employee with notification of request approval/denial.</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:Tool Id="send_mail" Type="APPLICATION">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>"tws@together.at"</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>email_address</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>if (approved_by_personnel) { "Your leave request is approved!"} else {"Your leave request is declined!"}</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>msgTxt</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:Tool>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>system</xpdl:Performer>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="leave_request2_tra3"/>
+                                    <xpdl:TransitionRef Id="leave_request_tra4"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="135,301"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="system"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="check_leave_days" Id="leave_request_Tra1" To="review_leave_request">
+                    <xpdl:Condition Type="CONDITION">accepted_by_system</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="370,190"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="fill_supervisor_info" Id="leave_request_Tra2" To="final_leave_request_review">
+                    <xpdl:Condition Type="CONDITION">approved_by_supervisor</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="420,280"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="check_leave_days" Id="leave_request_Tra3" To="fill_message_text">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="596,255"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="fill_personell_dpt_person_info" Id="leave_request_Tra5" To="update_leave_days">
+                    <xpdl:Condition Type="CONDITION">approved_by_personnel</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_BEZIER"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="fill_supervisor_info" Id="leave_request_Tra13" To="fill_message_text">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_BEZIER"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="submit_leave_request" Id="leave_request_Tra22" To="check_leave_days">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="326,160"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_leave_days" Id="leave_request_Tra23" To="fill_message_text">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="fill_personell_dpt_person_info" Id="leave_request_Tra24" To="fill_message_text">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="420,410"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_BEZIER"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="submit_leave_request" Id="leave_request_tra1" To="deadline_exceeded">
+                    <xpdl:Condition Type="DEFAULTEXCEPTION"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_BEZIER"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="send_mail" Id="leave_request2_tra3" To="R">
+                    <xpdl:Condition Type="DEFAULTEXCEPTION"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="635,416"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="send_mail" Id="leave_request_tra4" To="leave_request_notification">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="626,430"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="R" Id="leave_request_tra5" To="leave_request_notification">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="init_user_info" Id="leave_request_tra6" To="submit_leave_request">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="302,80"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="review_leave_request" Id="leave_request_tra2" To="fill_supervisor_info">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="390,230"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="final_leave_request_review" Id="leave_request_tra3" To="fill_personell_dpt_person_info">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="360,450"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="fill_message_text" Id="leave_request_tra7" To="send_mail">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_SPLINE"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION" Value="VERTICAL"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FreeTextExpressionParticipant;supervisor;personnel;system"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=system,CONNECTING_ACTIVITY_ID=init_user_info,X_OFFSET=148,Y_OFFSET=75,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=leave_request_notification,X_OFFSET=59,Y_OFFSET=625,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FreeTextExpressionParticipant,CONNECTING_ACTIVITY_ID=deadline_exceeded,X_OFFSET=37,Y_OFFSET=311,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="3.3-1-20101005-1524"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

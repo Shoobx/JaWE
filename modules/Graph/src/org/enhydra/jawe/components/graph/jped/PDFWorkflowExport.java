@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.components.graph.Graph;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Rectangle;

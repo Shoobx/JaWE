@@ -29,8 +29,8 @@ import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphActivityInterface;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Transition;
 import org.jgraph.graph.DefaultGraphCell;
 
 /**
@@ -79,17 +79,15 @@ public class SelectConnectingActivitiesForSelectedTransitions extends ActionBase
                DefaultGraphCell dgc=(DefaultGraphCell)selCels[i];
                if (dgc.getUserObject() instanceof Transition) {
                   GraphTransitionInterface tra = (GraphTransitionInterface)dgc;
-                  actsToSelect.add(tra.getTargetActivity());
-                  actsToSelect.add(tra.getSourceActivity());                  
+                  actsToSelect.add(tra.getTargetActivityOrArtifact());
+                  actsToSelect.add(tra.getSourceActivityOrArtifact());                  
                }
             }
          }      
          Iterator it=actsToSelect.iterator();
          while (it.hasNext()) {
             GraphActivityInterface gai=(GraphActivityInterface)it.next();
-            if (gai.getUserObject() instanceof Activity) {
-               selectedGraph.addSelectionCell(gai);
-            }
+            selectedGraph.addSelectionCell(gai);
          }
       }
       

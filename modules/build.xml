@@ -58,7 +58,7 @@
 		<pathelement location="${ext.lib.dir}/xml-apis.jar" />
 		<pathelement location="${ext.lib.dir}/itext.jar" />
 		<pathelement location="${ext.lib.dir}/jEdit-syntax.jar" />
-		<pathelement location="${ext.lib.dir}/sharkxpdlmodel.jar" />
+		<pathelement location="${ext.lib.dir}/jxpdl.jar" />
 	</path>
 
 	<!-- Setting for SWITCH task -->
@@ -217,7 +217,6 @@
 				<exclude name="**/jawe/samples/**" />
 				<exclude name="**/components/searchnavigator/**" />
 				<exclude name="**/components/transpkgpool/**" />
-				<exclude name="**/wfmopen/**" />
 				<exclude name="**/components/wfxml/**" />
 			</fileset>
 			<manifest>
@@ -351,14 +350,6 @@
 		<jar destfile="${output.lib.dir}/${app.name}shark.jar">
 			<fileset dir="${classes.dir}">
 				<include name="**/jawe/shark/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}wfmopen.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/wfmopen/**" />
 			</fileset>
 			<manifest>
 				<attribute name="Implementation-Version" value="${version}-${release}" />

@@ -55,9 +55,9 @@ import org.enhydra.jawe.base.controller.JaWEActions;
 import org.enhydra.jawe.components.XPDLTreeCellRenderer;
 import org.enhydra.jawe.components.XPDLTreeNode;
 import org.enhydra.jawe.components.XPDLTreeUtil;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
 
 /**
  * Panel for displaying search results.

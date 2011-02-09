@@ -1,143 +1,204 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.jgraph.JGraph;
-import org.jgraph.graph.CellView;
+import org.enhydra.jawe.Utils;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
+import org.enhydra.jxpdl.elements.Transition;
+import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.EdgeRenderer;
-import org.jgraph.graph.EdgeView;
 import org.jgraph.graph.GraphConstants;
 
 /**
  * Represents a view for a model's Transition object.
+ * 
  * @author Sasa Bojanic
  */
-public class DefaultGraphTransitionRenderer extends EdgeRenderer implements GraphTransitionRendererInterface {
+public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
+                                                                GraphTransitionRendererInterface {
 
-
-   public DefaultGraphTransitionRenderer () {
+   public DefaultGraphTransitionRenderer() {
       super();
    }
 
    public void paint(Graphics g) {
-      GraphTransitionInterface tr=(GraphTransitionInterface)view.getCell();
-      if (tr.hasCondition()) {
-         lineWidth=3;
-      } else {
-         lineWidth=1;
-      }  
-      
-      Transition t = (Transition) tr.getUserObject();
-      Color clr = GraphUtilities.getGraphController().getGraphSettings().getBubbleConectionColor(); 
-      if (t != null)
-         clr = JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType(t).getColor();
+      GraphTransitionInterface tr = (GraphTransitionInterface) view.getCell();
+      XMLCollectionElement tOrA = (XMLCollectionElement) tr.getUserObject();
+      ConnectorGraphicsInfo cgi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getConnectorGraphicsInfo(tOrA);
+      Color clr = null;
+      if (cgi != null) {
+         clr = Utils.getColor(cgi.getFillColor());
 
-      Shape edgeShape = view.getShape();
-      // Sideeffect: beginShape, lineShape, endShape
-      if (edgeShape != null) {
-         Graphics2D g2 = (Graphics2D) g;
-         int c = BasicStroke.CAP_BUTT;
-         int j = BasicStroke.JOIN_MITER;
-         g2.setStroke(new BasicStroke(lineWidth, c, j));
-         translateGraphics(g);
-         //g.setColor(getForeground());
-         g.setColor(clr);
-         if (view.beginShape != null) {
-            if (beginFill)
-               g2.fill(view.beginShape);
-            g2.draw(view.beginShape);
+      }
+      if (clr == null) {
+         clr = JaWEManager.getInstance()
+            .getJaWEController()
+            .getTypeResolver()
+            .getJaWEType(tOrA)
+            .getColor();
+      }
+      AttributeMap am = view.getAttributes();
+      am.put(GraphConstants.FOREGROUND, clr);
+      am.put(GraphConstants.LABELENABLED, new Boolean(GraphUtilities.getGraphController()
+         .getSelectedGraph()
+         .shouldShowTransitionConditions()));
+      if (tOrA instanceof Transition) {
+         Transition t = (Transition) tOrA;
+         am.put(GraphConstants.LINEEND, GraphConstants.ARROW_TECHNICAL);
+         if (t.getCondition().getType().equals(XPDLConstants.CONDITION_TYPE_OTHERWISE)
+             || t.getCondition()
+                .getType()
+                .equals(XPDLConstants.CONDITION_TYPE_DEFAULTEXCEPTION)) {
+            am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_LINE);
          }
-         if (view.endShape != null) {
-            if (endFill)
-               g2.fill(view.endShape);
-            g2.draw(view.endShape);
-         }
-         if (lineDash != null) // Dash For Line Only
-            g2.setStroke(
-               new BasicStroke(lineWidth, c, j, 10.0f, lineDash, 0.0f));
-         if (view.lineShape != null)
-            g2.draw(view.lineShape);
-
-         if (selected) { // Paint Selected
-            g2.setStroke(GraphConstants.SELECTION_STROKE);
-            g2.setColor(highlightColor);
-            if (view.beginShape != null)
-               g2.draw(view.beginShape);
-            if (view.lineShape != null)
-               g2.draw(view.lineShape);
-            if (view.endShape != null)
-               g2.draw(view.endShape);
-         }
-         JGraph graph = (JGraph)this.graph.get();
-         if (graph.getEditingCell() != view.getCell() && GraphUtilities.getGraphController().getGraphSettings().shouldShowTransitionCondition()) {
-            Object label = graph.convertValueToString(view);
-            if (label != null) {
-               g2.setStroke(new BasicStroke(1));
-               g.setFont(getFont());
-					paintLabel(g, label.toString(), getLabelPosition(view),true);
+         if (t.getCondition().getType().equals(XPDLConstants.CONDITION_TYPE_CONDITION) || !t.getCondition().toValue().equals("")) {
+            Activity from = XMLUtil.getFromActivity(t);
+            if (from != null
+                && from.getActivityType() != XPDLConstants.ACTIVITY_TYPE_ROUTE) {
+               am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_DIAMOND);
+               am.put(GraphConstants.BEGINFILL, false);
+               am.put(GraphConstants.BEGINSIZE, 11);
             }
          }
-      }
-   }
-   
-   public boolean intersects(JGraph pGraph, CellView value, Rectangle rect) {
-      if (value instanceof EdgeView && pGraph != null && value != null) {
-         setView(value);
+      } else {
+         am.put(GraphConstants.DASHPATTERN, new float[] {
+            2
+         });
+         Association a = (Association) tOrA;
+         GraphCommonInterface s1 = tr.getSourceActivityOrArtifact();
 
-         // If we have two control points, we can get rid of hit
-         // detection on do an intersection test on the two diagonals
-         // of rect and the line between the two points
-         EdgeView edgeView = (EdgeView) value;
-         if (edgeView.getPointCount() == 2) {
-            Point2D p0 = edgeView.getPoint(0);
-            Point2D p1 = edgeView.getPoint(1);
-            if (rect.intersectsLine(p0.getX(), p0.getY(), p1.getX(), p1
-                  .getY()))
-               return true;
-         } else {
-            Graphics2D g2 = (Graphics2D) pGraph.getGraphics();
-            if (g2.hit(rect, view.getShape(), true))
-               return true;
+         if (a.getAssociationDirection().equals(XPDLConstants.ASSOCIATION_DIRECTION_NONE)) {
+            am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_NONE);
+            am.put(GraphConstants.LINEEND, GraphConstants.ARROW_NONE);
+         } else if (a.getAssociationDirection()
+            .equals(XPDLConstants.ASSOCIATION_DIRECTION_BOTH)) {
+            am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_TECHNICAL);
+            am.put(GraphConstants.LINEEND, GraphConstants.ARROW_TECHNICAL);
+         } else if (a.getAssociationDirection()
+            .equals(XPDLConstants.ASSOCIATION_DIRECTION_FROM)) {
+            am.put(GraphConstants.LINEBEGIN,
+                   (s1 instanceof GraphArtifactInterface) ? GraphConstants.ARROW_TECHNICAL
+                                                         : GraphConstants.ARROW_NONE);
+            am.put(GraphConstants.LINEEND,
+                   (s1 instanceof GraphArtifactInterface) ? GraphConstants.ARROW_NONE
+                                                         : GraphConstants.ARROW_TECHNICAL);
+         } else if (a.getAssociationDirection()
+            .equals(XPDLConstants.ASSOCIATION_DIRECTION_TO)) {
+            am.put(GraphConstants.LINEBEGIN,
+                   (s1 instanceof GraphArtifactInterface) ? GraphConstants.ARROW_NONE
+                                                         : GraphConstants.ARROW_TECHNICAL);
+            am.put(GraphConstants.LINEEND,
+                   (s1 instanceof GraphArtifactInterface) ? GraphConstants.ARROW_TECHNICAL
+                                                         : GraphConstants.ARROW_NONE);
          }
       }
-      return false;
+      // ((JGraph)graph.get()).getGraphLayoutCache().edit(new Object[]{view.getCell()},
+      // am);
+      view.setAttributes(am);
+      if (view instanceof DefaultGraphTransitionView) {
+         ((DefaultGraphTransitionView) view).mergeAttributes();
+      }
+      installAttributes(view);
+      createShape();
+      super.paint(g);
    }
 
-   void setView(CellView value) {
-      if (value instanceof EdgeView) {
-         view = (EdgeView) value;
-         installAttributes(view);
+   /**
+    * Overrides default method to draw Otherwise/Default exception transition lines under
+    * an angle.
+    */
+   protected Shape createLineEnd(int size, int style, Point2D src, Point2D dst) {
+      if (src == null || dst == null)
+         return null;
+      if (style == GraphConstants.ARROW_LINE || style == GraphConstants.ARROW_DOUBLELINE) {
+         GeneralPath path = new GeneralPath(GeneralPath.WIND_NON_ZERO, 4);
+
+         int n = view.getPointCount();
+         if (n <= 1)
+            return super.createLineEnd(size, style, src, dst);
+
+         Point2D[] p = null;
+         p = new Point2D[n];
+         for (int i = 0; i < n; i++) {
+            Point2D pt = view.getPoint(i);
+            if (pt == null)
+               return null; // exit
+            p[i] = new Point2D.Double(pt.getX(), pt.getY());
+         }
+
+         Point2D p0 = p[0];
+         Point2D p1 = p[1];
+         Point2D p2 = p[n - 2];
+         src = (p2.equals(p0) || GraphConstants.getRouting(view.getAllAttributes()) == GraphConstants.ROUTING_SIMPLE) ? p1
+                                                                                                                     : p2;
+         dst = p0;
+         int n1 = (int) Math.min(7, dst.distance(src));
+         if (n1 == 0)
+            n1 = 1;
+         double alpha = Math.atan((src.getY() - dst.getY()) / (src.getX() - dst.getX()));
+         double dx = Math.abs(n1 * Math.cos(alpha));
+         double dy = Math.abs(n1 * Math.sin(alpha));
+
+         double xp = dst.getX() + ((dst.getX() > src.getX()) ? -dx : dx);
+         double yp = dst.getY() + ((dst.getY() > src.getY()) ? -dy : dy);
+
+         int n2 = 11;
+         double dx2 = n2 / 2 * Math.sin(Math.PI / 4 - alpha);
+         double dy2 = n2 / 2 * Math.cos(Math.PI / 4 - alpha);
+
+         double xs = xp - dx2;
+         double ys = yp - dy2;
+         double xe = xp + dx2;
+         double ye = yp + dy2;
+
+         path.moveTo(xs, ys);
+         path.lineTo(xe, ye);
+
+         if (style == GraphConstants.ARROW_DOUBLELINE) {
+            double dx3 = 3 * Math.cos(alpha);
+            double dy3 = 3 * Math.sin(alpha);
+            path.moveTo(xs + dx3, ys + dy3);
+            path.lineTo(xe + dx3, ye + dy3);
+         }
+         return path;
       } else {
-         view = null;
+         return super.createLineEnd(size, style, src, dst);
       }
    }
-   
-}
 
-/* End of TransitionRenderer.java */
+   public Color getForeground() {
+      Color c = GraphConstants.getForeground(view.getAttributes());
+      return c;
+   }
+
+}

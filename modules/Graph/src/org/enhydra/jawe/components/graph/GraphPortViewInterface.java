@@ -37,5 +37,5 @@ public abstract class GraphPortViewInterface extends PortView {
 
    public abstract Dimension getPortsSize ();
  
-   public abstract GraphActivityInterface getGraphActivity ();
+   public abstract GraphCommonInterface getGraphActivityOrArtifact ();
 }

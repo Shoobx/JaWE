@@ -43,6 +43,7 @@ import org.enhydra.jawe.base.editor.actions.ParentElementPanel;
 import org.enhydra.jawe.base.editor.actions.PreviousPanel;
 import org.enhydra.jawe.base.editor.actions.Revert;
 import org.enhydra.jawe.base.panel.PanelSettings;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * @author Miroslav Popov
@@ -160,6 +161,13 @@ public class TogWEStandardXPDLEditorSettings extends PanelSettings {
            hicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/references_small.gif"));
         componentSettings.put("DefaultAction.Icon." + JaWEActions.REFERENCES, hicon);
 
+        componentSettings.put("HideSubElements.XMLGroupPanel.Activity", "NodeGraphicsInfos");
+        componentSettings.put("HideSubElements.XMLGroupPanel.Association", "Object ConnectorGraphicsInfos");
+        componentSettings.put("HideSubElements.XMLGroupPanel.Artifact", "NodeGraphicsInfos");
+        componentSettings.put("HideSubElements.XMLGroupPanel.Transition", "ConnectorGraphicsInfos");
+        componentSettings.put("HideSubElements.XMLGroupPanel.Lane", "NodeGraphicsInfos");
+        componentSettings.put("HideSubElements.XMLGroupPanel.Pool", "NodeGraphicsInfos");
+
         List hideEls = ResourceManager.getResourceStrings(properties, "HideSubElements.", false);
         for (int i = 0; i < hideEls.size(); i++) {
            componentSettings.put("HideSubElements." + (String) hideEls.get(i), ResourceManager.getResourceString(properties, "HideSubElements." + (String)hideEls.get(i)));
@@ -171,7 +179,7 @@ public class TogWEStandardXPDLEditorSettings extends PanelSettings {
         List hide = ResourceManager.getResourceStrings(properties, "HideElements.", false);
         for (int i = 0; i < hide.size(); i++) {
            String line = (String) hide.get(i);
-           String[] parts = Utils.tokenize(line, ".");
+           String[] parts = XMLUtil.tokenize(line, ".");
 
            if (parts.length != 3)
               continue;
@@ -203,13 +211,17 @@ public class TogWEStandardXPDLEditorSettings extends PanelSettings {
 
         componentSettings.put("ShowColumns.XMLTablePanel.Activities", "Id Name Performer Type StartMode FinishMode Deadlines");
         componentSettings.put("ShowColumns.XMLTablePanel.ActivitySets", "Id Activities Transitions");
+        componentSettings.put("ShowColumns.XMLTablePanel.ActualParameters","ElementValue");
         componentSettings.put("ShowColumns.XMLTablePanel.Applications", "Id Name");
+        componentSettings.put("ShowColumns.XMLTablePanel.Associations", "Id Name Source Target AssociationDirection");
+        componentSettings.put("ShowColumns.XMLTablePanel.Artifacts", "Id Name ArtifactType TextAnnotation");
         componentSettings.put("ShowColumns.XMLTablePanel.DataFields", "Id Name DataType InitialValue");
         componentSettings.put("ShowColumns.XMLTablePanel.ExtendedAttributes", "Name Value");
-        componentSettings.put("ShowColumns.XMLTablePanel.FormalParameters", "Id Mode DataType");
+        componentSettings.put("ShowColumns.XMLTablePanel.FormalParameters", "Id Name Mode DataType");
         componentSettings.put("ShowColumns.XMLTablePanel.Namespaces", "Name location");
         componentSettings.put("ShowColumns.XMLTablePanel.Participants", "Id Name ParticipantType");
-        componentSettings.put("ShowColumns.XMLTablePanel.Tools", "Id Type ActualParameters");
+        componentSettings.put("ShowColumns.XMLTablePanel.Pools", "Id Name Orientation Process Lanes");
+        componentSettings.put("ShowColumns.XMLTablePanel.Lanes", "Id Name Performers NestedLanes");
         componentSettings.put("ShowColumns.XMLTablePanel.Transitions", "Id From To Condition");
         componentSettings.put("ShowColumns.XMLTablePanel.TypeDeclarations", "Id Name DataTypes");
         componentSettings.put("ShowColumns.XMLTablePanel.WorkflowProcesses", "Id Name AccessLevel DataFields FormalParameters");

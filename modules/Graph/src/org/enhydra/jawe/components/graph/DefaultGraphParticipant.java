@@ -19,12 +19,16 @@
 package org.enhydra.jawe.components.graph;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.tooltip.TooltipGenerator;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.elements.Participant;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.Pool;
 
 /**
  * Used to define Participant object in process. Participant is a container
@@ -38,12 +42,21 @@ public class DefaultGraphParticipant extends GraphParticipantInterface {
    /**
    * Creates Participant with given userObject.
    */
-   public DefaultGraphParticipant(Participant par) {
+//   public DefaultGraphParticipant(Participant par) {
+//      super();
+//      setUserObject(par);
+//   }
+
+   public DefaultGraphParticipant(Pool par) {
       super();
       setUserObject(par);
    }
 
-
+   public DefaultGraphParticipant(Lane par) {
+      super();
+      setUserObject(par);
+   }
+   
    /**
    * Returns true if participant is a container for any other participant.
    */
@@ -86,9 +99,9 @@ public class DefaultGraphParticipant extends GraphParticipantInterface {
    }
 
    public XMLComplexElement getPropertyObject () {
-      if (userObject instanceof Participant) {
+      if (userObject instanceof Participant || userObject instanceof Pool || userObject instanceof Lane) {
          return (XMLComplexElement)userObject;
-      } 
+      }
       return null;      
    }
 
@@ -108,13 +121,34 @@ public class DefaultGraphParticipant extends GraphParticipantInterface {
    */
    public String toString () {
       String name=null;
+      String alias = null;
       if (userObject!=null) {
          name=getPropertyObject().get("Name").toValue();
          if (name.equals("")) {
             name=getPropertyObject().get("Id").toValue();
          }
+         XMLComplexElement aliasObject = null;
+         if (userObject instanceof Pool) {
+            aliasObject = JaWEManager.getInstance().getXPDLUtils().getProcessForPool((Pool)userObject);
+         } else {
+            aliasObject = GraphUtilities.getParticipantForLane((Lane)userObject, null);
+         }
+         if (aliasObject==null) {
+            alias = name;
+            if (userObject instanceof Lane) {
+               List perfs = ((Lane)userObject).getPerformers().toElements();
+               if (perfs.size()>0) {
+                  alias = ((Performer)perfs.get(0)).toValue();
+               }
+            }
+         } else {
+            alias=aliasObject.get("Name").toValue();
+            if (alias.equals("")) {
+               alias=aliasObject.get("Id").toValue();
+            }
+         }
       }
-      return name;
+      return alias;
    }
 
    /**
@@ -126,6 +160,9 @@ public class DefaultGraphParticipant extends GraphParticipantInterface {
    }
 
    public String getType () {
-      return JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType((Participant) userObject).getTypeId();     
+      if(userObject instanceof Participant) {
+         return JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType((Participant) userObject).getTypeId();
+      }
+      return "";
    }
 }

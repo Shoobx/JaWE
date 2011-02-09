@@ -30,17 +30,54 @@ import org.jgraph.graph.DefaultGraphCell;
  */
 public abstract class GraphParticipantInterface extends DefaultGraphCell implements WorkflowElement {
 
-	public boolean hasAnyParticipant () {
-		return false;
-	}
-	
+   /**
+    * Returns true if participant is a container for any other participant.
+    */
+    public boolean hasAnyParticipant () {
+       for (int i=0; i<getChildCount(); i++) {
+          if (getChildAt(i) instanceof GraphParticipantInterface) {
+             return true;
+          }
+       }
+       return false;
+    }
+
+    /**
+    * Returns the number of participant's children participants (number of
+    * participants for which it is a container).
+    */
+    public int howManyChildParticipants () {
+       int cd=0;
+       for (int i=0; i<getChildCount(); i++) {
+          if (getChildAt(i) instanceof GraphParticipantInterface) {
+             cd++;
+          }
+       }
+       return cd;
+    }
+
+    /**
+    * Returns participant's children participants (participants for which
+    * it is a container).
+    */
+    public Set getChildParticipants () {
+       Set childParticipants=new HashSet();
+       for (int i=0; i<getChildCount(); i++) {
+          Object child=getChildAt(i);
+          if (child instanceof GraphParticipantInterface) {
+             childParticipants.add(child);
+          }
+       }
+       return childParticipants;
+    }
+
 	/**
    * Returns true if participant is a container for any activity.
    * <BR>NOTE: subflow is a kind of activity.
    */
-   public boolean hasAnyActivity () {
+   public boolean hasAnyActivityOrArtifact () {
       for (int i=0; i<getChildCount(); i++) {
-         if (getChildAt(i) instanceof GraphActivityInterface) {
+         if (getChildAt(i) instanceof GraphActivityInterface || getChildAt(i) instanceof GraphArtifactInterface) {
             return true;
          }
       }
@@ -52,10 +89,10 @@ public abstract class GraphParticipantInterface extends DefaultGraphCell impleme
    * activities for which it is a container).
    * <BR>NOTE: subflow is a kind of activity.
    */
-   public int howManyChildActivities () {
+   public int howManyChildActivitiesOrArtifacts () {
       int ca=0;
       for (int i=0; i<getChildCount(); i++) {
-         if (getChildAt(i) instanceof GraphActivityInterface) {
+         if (getChildAt(i) instanceof GraphActivityInterface || getChildAt(i) instanceof GraphArtifactInterface) {
             ca++;
          }
       }
@@ -67,15 +104,15 @@ public abstract class GraphParticipantInterface extends DefaultGraphCell impleme
    * for which it is a container).
    * <BR>NOTE: subflow is a kind of activity.
    */
-   public Set getChildActivities () {
-      Set childActivities=new HashSet();
+   public Set getChildActivitiesAndArtifacts () {
+      Set childActivitiesAndArtifacts=new HashSet();
       for (int i=0; i<getChildCount(); i++) {
          Object child=getChildAt(i);
-         if (child instanceof GraphActivityInterface) {
-            childActivities.add(child);
+         if (child instanceof GraphActivityInterface || child instanceof GraphArtifactInterface) {
+            childActivitiesAndArtifacts.add(child);
          }
       }
-      return childActivities;
+      return childActivitiesAndArtifacts;
    }
 
 

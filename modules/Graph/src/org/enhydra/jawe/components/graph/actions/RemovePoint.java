@@ -32,7 +32,7 @@ import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphMarqueeHandler;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
 import org.enhydra.jawe.components.graph.GraphUtilities;
-import org.enhydra.shark.xpdl.elements.Transition;
+import org.enhydra.jxpdl.XMLCollectionElement;
 
 /**
 * Class that realizes <B>RemovePoint</B> action.
@@ -74,7 +74,7 @@ public class RemovePoint extends ActionBase {
          gc.setUpdateInProgress(true);
          jc.startUndouableChange();
          List pnts=graph.getGraphManager().addOrRemoveBreakPoint(gtra, addAt, false);
-         Transition tra=(Transition)gtra.getPropertyObject();
+         XMLCollectionElement tra=(XMLCollectionElement)gtra.getPropertyObject();
          GraphUtilities.setBreakpoints(tra, pnts);
          List toSelect=new ArrayList();
          toSelect.add(tra);      

@@ -47,7 +47,7 @@ public class GraphPaste extends ActionBase {
       boolean en=false;
       if (JaWEManager.getInstance().getJaWEController().getJaWEActions().getAction(JaWEActions.PASTE_ACTION).isEnabled() && selectedGraph != null) {
          GraphManager gm=selectedGraph.getGraphManager();
-         en=gc.getCopyOrCutInfo()!=null && gm.doesRootParticipantExist();
+         en=gc.getCopyOrCutInfo()!=null && gm.hasLane();
       }
       setEnabled(en);
    }

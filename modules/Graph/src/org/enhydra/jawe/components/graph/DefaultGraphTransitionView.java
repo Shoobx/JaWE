@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph;
 
@@ -31,9 +31,10 @@ import java.util.Map;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.Transition;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
+import org.enhydra.jxpdl.elements.Transition;
 import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.CellHandle;
 import org.jgraph.graph.CellView;
@@ -46,6 +47,7 @@ import org.jgraph.graph.GraphContext;
 
 /**
  * Represents a view for a model's Transition object.
+ * 
  * @author Sasa Bojanic
  */
 public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
@@ -54,7 +56,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
 
    /**
     * Constructs an edge view for the specified model object.
-    *
+    * 
     * @param cell reference to the model object
     */
    public DefaultGraphTransitionView(Object cell) {
@@ -72,10 +74,14 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
       String type = ((GraphTransitionInterface) super.getCell()).getType();
       GraphTransitionRendererInterface gtrenderer = (GraphTransitionRendererInterface) renderers.get(type);
       if (gtrenderer == null) {
-         gtrenderer = createRenderer((Transition)((GraphTransitionInterface) super.getCell()).getUserObject());
+         gtrenderer = createRenderer((XMLCollectionElement) ((GraphTransitionInterface) super.getCell()).getUserObject());
          renderers.put(type, gtrenderer);
       }
       return gtrenderer;
+   }
+
+   public void mergeAttributes() {
+      super.mergeAttributes();
    }
 
    /**
@@ -86,81 +92,100 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
    }
 
    /**
-     * Inserts a "break point" at transition object at the point where
-     * popup menu appeared.
-     */
-    public void addPoint(Graph graph, Point popupPoint) {
-       boolean bendable = graph.isBendable() && GraphConstants.isBendable(getAttributes());
-       if (bendable) {
-          int index = -1;
-          int s = graph.getHandleSize();
-//          Rectangle rect = (Rectangle)graph.fromScreen(new Rectangle(popupPoint.x-s,popupPoint.y-s,2*s,2*s));
-          Rectangle rect = new Rectangle(popupPoint.x - s, popupPoint.y - s, 2 * s, 2 * s);
-          System.err.println("Rect="+rect+", popup="+popupPoint);
-          if (intersects(graph, rect)) {
-             Point point = new Point(popupPoint); //(Point) graph.snap(new Point(popupPoint));//HM, JGraph3.4.1
-             double min = Double.MAX_VALUE, dist = 0;
-             for (int i = 0; i < getPointCount() - 1; i++) {
-                Point p = new Point((int) getPoint(i).getX(), (int) getPoint(i).getY());//HM, JGraph3.4.1
-                Point p1 = new Point((int) getPoint(i + 1).getX(), (int) getPoint(i + 1).getY());//HM, JGraph3.4.1
-                
-//                Point p = (Point) graph.snap(new Point((int) getPoint(i).getX(), (int) getPoint(i).getY()));//HM, JGraph3.4.1
-//                Point p1 = new Point((int) getPoint(i + 1).getX(), (int) getPoint(i + 1).getY());//HM, JGraph3.4.1
-                dist = new Line2D.Double(p, p1).ptLineDistSq(point);
-                System.err.println("P="+p+", P1="+p1+", popup="+point+", dist="+dist+", min="+min+", index="+index);
-                if (dist < min) {
-                   min = dist;
-                   index = i + 1;
-                }
-             }
-             if (index != -1) {
-                addPoint(index, point);
-                Map propertyMap = new HashMap();
-                AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
-                GraphConstants.setPoints(edgeMap, points);
-                propertyMap.put(cell, edgeMap);
-                ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
-             }
-          }
-       }
-    }
+    * Inserts a "break point" at transition object at the point where popup menu appeared.
+    */
+   public void addPoint(Graph graph, Point popupPoint) {
+      boolean bendable = graph.isBendable() && GraphConstants.isBendable(getAttributes());
+      if (bendable) {
+         int index = -1;
+         int s = graph.getHandleSize();
+         // Rectangle rect = (Rectangle)graph.fromScreen(new
+         // Rectangle(popupPoint.x-s,popupPoint.y-s,2*s,2*s));
+         Rectangle rect = new Rectangle(popupPoint.x - s, popupPoint.y - s, 2 * s, 2 * s);
+//         System.err.println("Rect=" + rect + ", popup=" + popupPoint);
+         if (intersects(graph, rect)) {
+            Point point = new Point(popupPoint); // (Point) graph.snap(new
+            // Point(popupPoint));//HM, JGraph3.4.1
+            double min = Double.MAX_VALUE, dist = 0;
+            for (int i = 0; i < getPointCount() - 1; i++) {
+               Point p = new Point((int) getPoint(i).getX(), (int) getPoint(i).getY());// HM,
+               // JGraph3.4.1
+               Point p1 = new Point((int) getPoint(i + 1).getX(),
+                                    (int) getPoint(i + 1).getY());// HM, JGraph3.4.1
 
-    /**
-     * Removes a "break point" from transition at the point where
-     * popup menu appeared.
-     */
-    public void removePoint(Graph graph, Point popupPoint) {
-       boolean bendable = graph.isBendable() && GraphConstants.isBendable(getAttributes());
-       if (bendable) {
-          int index = -1;
-          int s = graph.getHandleSize();
-          //Rectangle rect = graph.fromScreen(new Rectangle(popupPoint.x-s,popupPoint.y-s,2*s,2*s));
-          Rectangle rect = new Rectangle(popupPoint.x - s, popupPoint.y - s, 2 * s, 2 * s);
-          System.err.println("Rect="+rect+", popup="+popupPoint);
-          if (intersects(graph, rect)) {
-             Point point = new Point(popupPoint);//(Point) graph.snap(new Point(popupPoint));//HM, JGraph3.4.1
-             double min = Double.MAX_VALUE, dist = 0;
-             for (int i = 0; i < getPointCount(); i++) {
-                Point p = new Point((int) getPoint(i).getX(), (int) getPoint(i).getY());//HM, JGraph3.4.1
-                dist = Math.sqrt(((Point2D) point).distanceSq(p));
-                System.err.println("P="+p+", popup="+point+", dist="+dist+", min="+min+", index="+index);
-                
-                if (dist < min) {
-                   min = dist;
-                   index = i;
-                }
-             }
-             if (index != -1 && min <= s + 2 && index != 0 && index != getPointCount() - 1) {
-                removePoint(index);
-                Map propertyMap = new HashMap();
-                AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
-                GraphConstants.setPoints(edgeMap, points);
-                propertyMap.put(cell, edgeMap);
-                ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
-             }
-          }
-       }
-    }
+               // Point p = (Point) graph.snap(new Point((int) getPoint(i).getX(), (int)
+               // getPoint(i).getY()));//HM, JGraph3.4.1
+               // Point p1 = new Point((int) getPoint(i + 1).getX(), (int) getPoint(i +
+               // 1).getY());//HM, JGraph3.4.1
+               dist = new Line2D.Double(p, p1).ptLineDistSq(point);
+//               System.err.println("P="
+//                                  + p + ", P1=" + p1 + ", popup=" + point + ", dist="
+//                                  + dist + ", min=" + min + ", index=" + index);
+               if (dist < min) {
+                  min = dist;
+                  index = i + 1;
+               }
+            }
+            if (index != -1) {
+               addPoint(index, point);
+               Map propertyMap = new HashMap();
+               AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
+               GraphConstants.setPoints(edgeMap, points);
+               propertyMap.put(cell, edgeMap);
+               ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
+                                                                 propertyMap,
+                                                                 null,
+                                                                 null,
+                                                                 null);
+            }
+         }
+      }
+   }
+
+   /**
+    * Removes a "break point" from transition at the point where popup menu appeared.
+    */
+   public void removePoint(Graph graph, Point popupPoint) {
+      boolean bendable = graph.isBendable() && GraphConstants.isBendable(getAttributes());
+      if (bendable) {
+         int index = -1;
+         int s = graph.getHandleSize();
+         // Rectangle rect = graph.fromScreen(new
+         // Rectangle(popupPoint.x-s,popupPoint.y-s,2*s,2*s));
+         Rectangle rect = new Rectangle(popupPoint.x - s, popupPoint.y - s, 2 * s, 2 * s);
+//         System.err.println("Rect=" + rect + ", popup=" + popupPoint);
+         if (intersects(graph, rect)) {
+            Point point = new Point(popupPoint);// (Point) graph.snap(new
+            // Point(popupPoint));//HM, JGraph3.4.1
+            double min = Double.MAX_VALUE, dist = 0;
+            for (int i = 0; i < getPointCount(); i++) {
+               Point p = new Point((int) getPoint(i).getX(), (int) getPoint(i).getY());// HM,
+               // JGraph3.4.1
+               dist = Math.sqrt(((Point2D) point).distanceSq(p));
+//               System.err.println("P="
+//                                  + p + ", popup=" + point + ", dist=" + dist + ", min="
+//                                  + min + ", index=" + index);
+
+               if (dist < min) {
+                  min = dist;
+                  index = i;
+               }
+            }
+            if (index != -1 && min <= s + 2 && index != 0 && index != getPointCount() - 1) {
+               removePoint(index);
+               Map propertyMap = new HashMap();
+               AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
+               GraphConstants.setPoints(edgeMap, points);
+               propertyMap.put(cell, edgeMap);
+               ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
+                                                                 propertyMap,
+                                                                 null,
+                                                                 null,
+                                                                 null);
+            }
+         }
+      }
+   }
 
    public static class TransitionHandle extends EdgeHandle {
 
@@ -176,64 +201,68 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
          try {
             if (source || target) {
                GraphTransitionInterface tr = (GraphTransitionInterface) edge.getCell();
-//               GraphPortViewInterface ss = (GraphPortViewInterface) graph.getGraphLayoutCache().getMapping(
-//                     tr.getSource(), false);
-//               Object tt = (PortView) graph.getGraphLayoutCache().getMapping(tr.getTarget(), false);
+               // GraphPortViewInterface ss = (GraphPortViewInterface)
+               // graph.getGraphLayoutCache().getMapping(
+               // tr.getSource(), false);
+               // Object tt = (PortView)
+               // graph.getGraphLayoutCache().getMapping(tr.getTarget(), false);
                GraphPortViewInterface pvs = (GraphPortViewInterface) edge.getSource();
                GraphPortViewInterface pvt = (GraphPortViewInterface) edge.getTarget();
-               GraphActivityInterface s1 = tr.getSourceActivity();
-               GraphActivityInterface t1 = tr.getTargetActivity();
-               if (s1 instanceof GraphBubbleActivityInterface || t1 instanceof GraphBubbleActivityInterface) {
-                  clean(tr);
-                  return;
-               }
-               GraphActivityInterface s2 = null;
+               GraphCommonInterface s1 = tr.getSourceActivityOrArtifact();
+               GraphCommonInterface t1 = tr.getTargetActivityOrArtifact();
+
+               GraphCommonInterface s2 = null;
                try {
-                  s2 = (GraphActivityInterface) ((GraphPortInterface) pvs.getCell()).getParent();
+                  s2 = (GraphCommonInterface) ((GraphPortInterface) pvs.getCell()).getParent();
                } catch (Exception ex) {
                }
-               GraphActivityInterface t2 = null;
+               GraphCommonInterface t2 = null;
                try {
-                  t2 = (GraphActivityInterface) ((GraphPortInterface) pvt.getCell()).getParent();
+                  t2 = (GraphCommonInterface) ((GraphPortInterface) pvt.getCell()).getParent();
                } catch (Exception ex) {
                }
 
-               if (s2 == null || t2 == null || s2 instanceof GraphBubbleActivityInterface || t2 instanceof GraphBubbleActivityInterface) {
-                  clean(tr);
-                  return;
-               }
-//               System.out.println("source="+source+", target="+target);
-//               System.out.println("S1="+s1+", T1="+t1);
-//               System.out.println("S2="+s2+", T2="+t2);
-//               System.out.println("ss="+ss.hashCode()+", tt="+tt.hashCode());
-//               System.out.println("ss="+ss.getClass().getName()+", tt="+tt.getClass().getName());
-//               System.out.println("pvs="+pvs.hashCode()+", pvt="+pvt.hashCode());
-//               System.out.println("pvs="+pvs.getGraphActivity()+", pvt="+pvt.getGraphActivity());
+               // System.out.println("source="+source+", target="+target);
+               // System.out.println("S1="+s1+", T1="+t1);
+               // System.out.println("S2="+s2+", T2="+t2);
+               // System.out.println("ss="+ss.hashCode()+", tt="+tt.hashCode());
+               // System.out.println("ss="+ss.getClass().getName()+", tt="+tt.getClass().getName());
+               // System.out.println("pvs="+pvs.hashCode()+", pvt="+pvt.hashCode());
+               // System.out.println("pvs="+pvs.getGraphActivity()+", pvt="+pvt.getGraphActivity());
 
                if (s1 != s2 || t1 != t2) {
                   GraphMarqueeHandler jmh = (GraphMarqueeHandler) graph.getMarqueeHandler();
-                  Transition uo = (Transition) tr
-                        .getPropertyObject();
+                  XMLCollectionElement uo = (XMLCollectionElement) tr.getPropertyObject();
                   boolean accept = jmh.validateConnection(pvs, pvt, uo);
-                  if (!accept) {                 
+                  if (!accept) {
                      clean(tr);
                      return;
                   }
-                  JaWEController jc=JaWEManager.getInstance().getJaWEController();
-                  ((Graph)graph).getGraphController().setUpdateInProgress(true);
+                  JaWEController jc = JaWEManager.getInstance().getJaWEController();
+                  ((Graph) graph).getGraphController().setUpdateInProgress(true);
                   jc.startUndouableChange();
                   setChanges();
 
-                  // must set source and target activity objects after inserting into model
-                  uo.setFrom(((Activity) s2.getPropertyObject()).getId());
-                  uo.setTo(((Activity) t2.getPropertyObject()).getId());
-                  if (uo.getFrom().equals(uo.getTo())) {
-                     ExtendedAttribute bpea = GraphUtilities.getBreakpointsEA(uo);
+                  // must set source and target activity objects after inserting into
+                  // model
+                  String from = ((XMLCollectionElement) s2.getPropertyObject()).getId();
+                  String to = ((XMLCollectionElement) t2.getPropertyObject()).getId();
+                  if (uo instanceof Transition) {
+                     ((Transition) uo).setFrom(from);
+                     ((Transition) uo).setTo(to);
+                  } else {
+                     ((Association) uo).setSource(from);
+                     ((Association) uo).setTarget(to);
+                  }
+                  if (from.equals(to)) {
+                     ConnectorGraphicsInfo bpea = JaWEManager.getInstance()
+                        .getXPDLUtils()
+                        .getConnectorGraphicsInfo(uo);
                      if (bpea == null) {
-                        GraphManager gmgr=((Graph)graph).getGraphManager();
-                        GraphActivityInterface gact=gmgr.getGraphActivity(uo.getFrom());
-                        Point realP = new Point(50,50);
-                        if (gact!=null) {
+                        GraphManager gmgr = ((Graph) graph).getGraphManager();
+                        GraphActivityInterface gact = gmgr.getGraphActivity(from);
+                        Point realP = new Point(50, 50);
+                        if (gact != null) {
                            realP = gmgr.getCenter(gact);
                         }
                         List breakpoints = new ArrayList();
@@ -244,34 +273,40 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                            rp50x1 = 0;
                         }
                         int rp50y = realP.y - 50;
-                        if (rp50y < 0) rp50y = realP.y + 50;
+                        if (rp50y < 0)
+                           rp50y = realP.y + 50;
 
-                        Point p1=new Point(Math.abs(rp50x1), Math.abs(rp50y));
-                        Point p2=new Point(Math.abs(rp50x2), Math.abs(rp50y));
+                        Point p1 = new Point(Math.abs(rp50x1), Math.abs(rp50y));
+                        Point p2 = new Point(Math.abs(rp50x2), Math.abs(rp50y));
                         breakpoints.add(p1);
                         breakpoints.add(p2);
-                                       
-                        GraphUtilities.createBreakpointsEA(uo, GraphUtilities.createBreakpointsEAVal(breakpoints), true);
-                        Map propertyMap=new HashMap();
-                        AttributeMap map = new AttributeMap(edge.getAttributes()); 
-                        propertyMap.put(edge.getCell(), map);         
+
+                        GraphUtilities.createConnectorGraphicsInfo(uo, breakpoints, true);
+                        Map propertyMap = new HashMap();
+                        AttributeMap map = new AttributeMap(edge.getAttributes());
+                        propertyMap.put(edge.getCell(), map);
                         Point2D ps = edge.getPoint(0);
                         Point2D pt = edge.getPoint(1);
                         List points = new ArrayList();
                         points.add(ps);
                         points.addAll(breakpoints);
                         points.add(pt);
-//                  JaWEManager.getInstance().getLoggingManager().debug("Updating breakpoints for transition: "+points);
+                        // JaWEManager.getInstance().getLoggingManager().debug("Updating breakpoints for transition: "+points);
                         GraphConstants.setPoints(map, points);
-                        ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
+                        ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
+                                                                          propertyMap,
+                                                                          null,
+                                                                          null,
+                                                                          null);
                      }
-                     
+
                   }
-                  
-                  List toSelect=new ArrayList();
+
+                  List toSelect = new ArrayList();
                   toSelect.add(uo);
                   jc.endUndouableChange(toSelect);
-                  ((Graph)graph).getGraphController().setUpdateInProgress(false);  
+                  graph.refresh();
+                  ((Graph) graph).getGraphController().setUpdateInProgress(false);
                   return;
                }
             }
@@ -282,29 +317,33 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
       }
 
       protected void setChanges() {
-         JaWEController jc=JaWEManager.getInstance().getJaWEController();
-         boolean isucinprogress=jc.isUndoableChangeInProgress();
+         JaWEController jc = JaWEManager.getInstance().getJaWEController();
+         boolean isucinprogress = jc.isUndoableChangeInProgress();
          if (!isucinprogress) {
-            ((Graph)graph).getGraphController().setUpdateInProgress(true);
+            ((Graph) graph).getGraphController().setUpdateInProgress(true);
             jc.startUndouableChange();
          }
          if (edgeModified) {
-            int noOfPoints=edge.getPointCount();
-            List pnts=new ArrayList();
-            for (int i=1; i<noOfPoints-1; i++) {
-               pnts.add(new Point((int)edge.getPoint(i).getX(),(int)edge.getPoint(i).getY()));//HM, JGraph3.4.1
+            int noOfPoints = edge.getPointCount();
+            List pnts = new ArrayList();
+            for (int i = 1; i < noOfPoints - 1; i++) {
+               pnts.add(new Point((int) edge.getPoint(i).getX(), (int) edge.getPoint(i)
+                  .getY()));// HM, JGraph3.4.1
             }
-            GraphUtilities.setBreakpoints((Transition)((GraphTransitionInterface)edge.getCell()).getPropertyObject(), pnts);
+            GraphUtilities.setBreakpoints((XMLCollectionElement) ((GraphTransitionInterface) edge.getCell()).getPropertyObject(),
+                                          pnts);
          }
          ConnectionSet cs = createConnectionSet(edge, false);
-         Map nested = GraphConstants.createAttributes(new CellView[] { edge }, null);
+         Map nested = GraphConstants.createAttributes(new CellView[] {
+            edge
+         }, null);
          graph.getGraphLayoutCache().edit(nested, cs, null, null);
          if (!isucinprogress) {
             GraphTransitionInterface tr = (GraphTransitionInterface) edge.getCell();
-            List toSelect=new ArrayList();
+            List toSelect = new ArrayList();
             toSelect.add(tr.getPropertyObject());
             jc.endUndouableChange(toSelect);
-            ((Graph)graph).getGraphController().setUpdateInProgress(false);
+            ((Graph) graph).getGraphController().setUpdateInProgress(false);
          }
       }
 
@@ -318,7 +357,9 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
 
    }
 
-   protected GraphTransitionRendererInterface createRenderer(Transition tra) {
-      return GraphUtilities.getGraphController().getGraphObjectRendererFactory().createTransitionRenderer(tra);
+   protected GraphTransitionRendererInterface createRenderer(XMLCollectionElement tra) {
+      return GraphUtilities.getGraphController()
+         .getGraphObjectRendererFactory()
+         .createTransitionRenderer(tra);
    }
 }

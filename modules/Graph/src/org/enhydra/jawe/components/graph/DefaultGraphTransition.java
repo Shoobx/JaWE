@@ -21,8 +21,11 @@ package org.enhydra.jawe.components.graph;
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.tooltip.TooltipGenerator;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.elements.Transition;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Transition;
 import org.jgraph.graph.DefaultPort;
 
 /**
@@ -34,7 +37,7 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
    /**
     * Creates transition.
     */
-   public DefaultGraphTransition (Transition tra) {
+   public DefaultGraphTransition (XMLCollectionElement tra) {
       super();
       setUserObject(tra);
       
@@ -44,15 +47,15 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
    /**
     * Returns source activity.
     */
-   public GraphActivityInterface getSourceActivity () {
-      return (GraphActivityInterface)((DefaultPort)source).getParent();
+   public GraphCommonInterface getSourceActivityOrArtifact () {
+      return (GraphCommonInterface)((DefaultPort)source).getParent();
    }
 
    /**
     * Returns target activity.
     */
-   public GraphActivityInterface getTargetActivity () {
-      return (GraphActivityInterface)((DefaultPort)target).getParent();
+   public GraphCommonInterface getTargetActivityOrArtifact () {
+      return (GraphCommonInterface)((DefaultPort)target).getParent();
    }
 
    public XMLComplexElement getPropertyObject () {
@@ -77,8 +80,8 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
     * Returns an empty string.
     */
    public String toString () {
-//      org.enhydra.shark.xpdl.elements.Transition tr=
-//         (org.enhydra.shark.xpdl.elements.Transition)userObject;
+//      org.enhydra.jxpdl.elements.Transition tr=
+//         (org.enhydra.jxpdl.elements.Transition)userObject;
 //      return tr.getCondition().toValue();
       return "";
    }
@@ -87,6 +90,9 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
    protected Object cloneUserObject() {
       if (userObject instanceof Transition) {
          return ((Transition)userObject).clone();
+      } 
+      if (userObject instanceof Association) {
+         return ((Association)userObject).clone();
       } 
       return null;      
    }
@@ -109,7 +115,7 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
 
    public String getType () {
       if (userObject!=null) {
-         return JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType((Transition) userObject).getTypeId();
+         return JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType((XMLElement) userObject).getTypeId();
       } 
       
       return JaWEConstants.TRANSITION_TYPE_UNCONDITIONAL;      

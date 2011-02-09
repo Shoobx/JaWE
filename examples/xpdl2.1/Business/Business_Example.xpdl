@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2008/XPDL2.1" xmlns="http://www.wfmc.org/2008/XPDL2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="Business_Example" Name="Business Example" xsi:schemaLocation="http://www.wfmc.org/2008/XPDL2.1 http://www.wfmc.org/standards/docs/bpmnxpdl_31.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>2.1</xpdl:XPDLVersion>
+        <xpdl:Vendor>(c) Together Teamsolutions Co., Ltd.</xpdl:Vendor>
+        <xpdl:Created>2003-03-18 18:14:22</xpdl:Created>
+        <xpdl:Description>This is a modified part of WfMC example from document WfMC TC-1016-X - "Interface 1: Process Definition Interchange Q&amp;A and Examples"</xpdl:Description>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:Script Type="text/javascript"/>
+    <xpdl:ExternalPackages>
+        <xpdl:ExternalPackage Id="Participant_Repository" href="Participant_Repository.xpdl"/>
+        <xpdl:ExternalPackage Id="Application_Repository" href="Application_Repository.xpdl"/>
+        <xpdl:ExternalPackage Id="Process_Repository" href="Process_Repository.xpdl"/>
+    </xpdl:ExternalPackages>
+    <xpdl:TypeDeclarations>
+        <xpdl:TypeDeclaration Id="Business_Example_Typ1" Name="Stock Status">
+            <xpdl:BasicType Type="STRING"/>
+        </xpdl:TypeDeclaration>
+        <xpdl:TypeDeclaration Id="Business_Example_Typ2" Name="Status">
+            <xpdl:BasicType Type="STRING"/>
+        </xpdl:TypeDeclaration>
+    </xpdl:TypeDeclarations>
+    <xpdl:Pools>
+        <xpdl:Pool BoundaryVisible="true" Id="Business_Example_pool1" MainPool="true" Name="Sales Order Processing" Orientation="HORIZONTAL" Process="Business_Example_Wor1">
+            <xpdl:Lanes>
+                <xpdl:Lane Id="Business_Example_pool1_lan1" Name="Sale manager">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="220,220,220" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par11</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+                <xpdl:Lane Id="Business_Example_pool1_lan2" Name="Production planner">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="220,220,220" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par12</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+            </xpdl:Lanes>
+            <xpdl:NodeGraphicsInfos>
+                <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="255,255,215" IsVisible="true" ToolId="JaWE"/>
+            </xpdl:NodeGraphicsInfos>
+        </xpdl:Pool>
+        <xpdl:Pool BoundaryVisible="true" Id="Business_Example_pool2" MainPool="true" Name="Ship and receive" Orientation="HORIZONTAL" Process="Business_Example_Wor1_Ase1">
+            <xpdl:Lanes>
+                <xpdl:Lane Id="Business_Example_pool2_lan1" Name="Driver">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="220,220,220" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par13</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+            </xpdl:Lanes>
+            <xpdl:NodeGraphicsInfos>
+                <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="255,255,215" IsVisible="true" ToolId="JaWE"/>
+            </xpdl:NodeGraphicsInfos>
+        </xpdl:Pool>
+        <xpdl:Pool BoundaryVisible="true" Id="Business_Example_pool3" MainPool="true" Name="Customer Service - Request for Partial Shipment" Orientation="HORIZONTAL" Process="Business_Example_Wor2">
+            <xpdl:Lanes>
+                <xpdl:Lane Id="Business_Example_pool3_lan1" Name="Customer Support">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="200,200,200" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par10</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+            </xpdl:Lanes>
+            <xpdl:NodeGraphicsInfos>
+                <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="255,255,215" IsVisible="true" ToolId="JaWE"/>
+            </xpdl:NodeGraphicsInfos>
+        </xpdl:Pool>
+        <xpdl:Pool BoundaryVisible="true" Id="Business_Example_pool4" MainPool="true" Name="Check Credit" Orientation="HORIZONTAL" Process="Business_Example_Wor3">
+            <xpdl:Lanes>
+                <xpdl:Lane Id="Business_Example_pool4_lan1" Name="Finance Department">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="200,200,200" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par9</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+            </xpdl:Lanes>
+            <xpdl:NodeGraphicsInfos>
+                <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="255,255,215" IsVisible="true" ToolId="JaWE"/>
+            </xpdl:NodeGraphicsInfos>
+        </xpdl:Pool>
+    </xpdl:Pools>
+    <xpdl:Associations>
+        <xpdl:Association AssociationDirection="None" Id="Business_Example_ass1" Source="Business_Example_art1" Target="Business_Example_Wor1_Act19">
+            <xpdl:Object Id="0" Name=""/>
+            <xpdl:ConnectorGraphicsInfos>
+                <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+            </xpdl:ConnectorGraphicsInfos>
+        </xpdl:Association>
+    </xpdl:Associations>
+    <xpdl:Artifacts>
+        <xpdl:Artifact ArtifactType="Annotation" Id="Business_Example_art1" TextAnnotation="Improve this sub-process">
+            <xpdl:NodeGraphicsInfos>
+                <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="192,192,192" Height="20" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="125">
+                    <xpdl:Coordinates XCoordinate="62" YCoordinate="226"/>
+                </xpdl:NodeGraphicsInfo>
+            </xpdl:NodeGraphicsInfos>
+        </xpdl:Artifact>
+    </xpdl:Artifacts>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="Business_Example_Wor1" Name="Sales Order Processing">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>13-03-2003</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="Stock_Status" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="Business_Example_Typ1"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>ALL</xpdl:InitialValue>
+                    <xpdl:Description>Stock status of ordered item (possible values are: "ALL", "PARTIAL" and "NONE")</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="Credit_Status" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="Business_Example_Typ2"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>NOT_OK</xpdl:InitialValue>
+                    <xpdl:Description>Current credit status of customer that made an order ("OK" if credit status is valid)</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="Partial_Ship_Status" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="Business_Example_Typ2"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>OK</xpdl:InitialValue>
+                    <xpdl:Description>possible values are: "OK" and "NOT_OK"</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="No_Of_Stocked_Items" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>The number of the stocked items of the product that customer ordered</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="Customer_Name" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The name of the customer (organization) which order is received</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="Product_Name" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The name of product that customer ordered</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="Order_Quantity" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                    <xpdl:Description>The number of ordered items</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="No_Of_Items_To_Produce" IsArray="false">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:ActivitySets>
+                <xpdl:ActivitySet Id="Business_Example_Wor1_Ase1" Name="Ship and receive">
+                    <xpdl:Activities>
+                        <xpdl:Activity FinishMode="Automatic" Id="ship" Name="ship" StartMode="Automatic">
+                            <xpdl:Description>Ship from stock or production</xpdl:Description>
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performers>
+                                <xpdl:Performer>Participant_Repository_Par13</xpdl:Performer>
+                            </xpdl:Performers>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Customer_Name"/>
+                            </xpdl:ExtendedAttributes>
+                            <xpdl:NodeGraphicsInfos>
+                                <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool2_lan1" ToolId="JaWE" Width="90">
+                                    <xpdl:Coordinates XCoordinate="247" YCoordinate="48"/>
+                                </xpdl:NodeGraphicsInfo>
+                            </xpdl:NodeGraphicsInfos>
+                        </xpdl:Activity>
+                        <xpdl:Activity FinishMode="Automatic" Id="received_in_good_condition" Name="received in good condition" StartMode="Automatic">
+                            <xpdl:Description>Report to the manager if the items are received in good condition</xpdl:Description>
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performers>
+                                <xpdl:Performer>Participant_Repository_Par13</xpdl:Performer>
+                            </xpdl:Performers>
+                            <xpdl:NodeGraphicsInfos>
+                                <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool2_lan1" ToolId="JaWE" Width="90">
+                                    <xpdl:Coordinates XCoordinate="403" YCoordinate="48"/>
+                                </xpdl:NodeGraphicsInfo>
+                            </xpdl:NodeGraphicsInfos>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="Business_Example_Wor1_act4">
+                            <xpdl:Event>
+                                <xpdl:StartEvent Trigger="None"/>
+                            </xpdl:Event>
+                            <xpdl:NodeGraphicsInfos>
+                                <xpdl:NodeGraphicsInfo FillColor="102,204,51" Height="31" IsVisible="true" LaneId="Business_Example_pool2_lan1" ToolId="JaWE" Width="31">
+                                    <xpdl:Coordinates XCoordinate="149" YCoordinate="61"/>
+                                </xpdl:NodeGraphicsInfo>
+                            </xpdl:NodeGraphicsInfos>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="Business_Example_Wor1_act5">
+                            <xpdl:Event>
+                                <xpdl:EndEvent Result="None"/>
+                            </xpdl:Event>
+                            <xpdl:NodeGraphicsInfos>
+                                <xpdl:NodeGraphicsInfo FillColor="236,120,98" Height="31" IsVisible="true" LaneId="Business_Example_pool2_lan1" ToolId="JaWE" Width="31">
+                                    <xpdl:Coordinates XCoordinate="570" YCoordinate="63"/>
+                                </xpdl:NodeGraphicsInfo>
+                            </xpdl:NodeGraphicsInfos>
+                        </xpdl:Activity>
+                    </xpdl:Activities>
+                    <xpdl:Transitions>
+                        <xpdl:Transition From="ship" Id="Business_Example_Wor1_Ase1_Tra2" Name="Transition" To="received_in_good_condition">
+                            <xpdl:ConnectorGraphicsInfos>
+                                <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                            </xpdl:ConnectorGraphicsInfos>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="Business_Example_Wor1_act4" Id="Business_Example_Wor1_tra7" To="ship">
+                            <xpdl:ConnectorGraphicsInfos>
+                                <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                            </xpdl:ConnectorGraphicsInfos>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="received_in_good_condition" Id="Business_Example_Wor1_tra8" To="Business_Example_Wor1_act5">
+                            <xpdl:ConnectorGraphicsInfos>
+                                <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                            </xpdl:ConnectorGraphicsInfos>
+                        </xpdl:Transition>
+                    </xpdl:Transitions>
+                </xpdl:ActivitySet>
+            </xpdl:ActivitySets>
+            <xpdl:Activities>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act1" Name="receive order" StartMode="Automatic">
+                    <xpdl:Description>Enter the data for current order (Customer name, the product name and the desired number of product items)</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par11</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:Icon>document.png</xpdl:Icon>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="Customer_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="Product_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="Order_Quantity"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="147" YCoordinate="5"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act3" Name="check finances" StartMode="Automatic">
+                    <xpdl:Description>Credit-checking process</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="SYNCHR" Id="Business_Example_Wor3">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>Customer_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Product_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Order_Quantity</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Credit_Status</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:Icon>money.png</xpdl:Icon>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,106,106" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="315" YCoordinate="5"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act4" Name="check stock" StartMode="Automatic">
+                    <xpdl:Description>Check the stock status of ordered product. Fill the variable Stock_Status with:
+- "ALL" If there are enough items on stock,
+- "PARTIAL" - if there are some stocked items (but not enough)
+- "NONE" - if there are no any stocked item</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par11</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:Icon>help.png</xpdl:Icon>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="Stock_Status"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="No_Of_Stocked_Items"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Product_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Order_Quantity"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="403" YCoordinate="95"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act5" Name="decline order" StartMode="Automatic">
+                    <xpdl:Description>Tell customer they haven't credit for order</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par11</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:Icon>document_delete.png</xpdl:Icon>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Customer_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Product_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Order_Quantity"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="512" YCoordinate="7"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act9" Name="R1" StartMode="Automatic">
+                    <xpdl:Description>For partial shipments, check with customer and plan production in parallel</xpdl:Description>
+                    <xpdl:Route GatewayType="Parallel"/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Parallel">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra12"/>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra13"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,229,124" Height="43" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="427" YCoordinate="43"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act10" Name="check part. ship" StartMode="Automatic">
+                    <xpdl:Description>Ask customer if OK to partial-ship (24 hrs)</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="SYNCHR" Id="Business_Example_Wor2">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>Customer_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Product_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Order_Quantity</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>No_Of_Stocked_Items</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Partial_Ship_Status</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:Icon>mobilephone1.png</xpdl:Icon>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,106,106" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="538" YCoordinate="72"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act11" Name="plan part. production" StartMode="Automatic">
+                    <xpdl:Description>Make plan assuming OK to partial-ship</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par12</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:Icon>calculator.png</xpdl:Icon>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="No_Of_Items_To_Produce"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Order_Quantity"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="No_Of_Stocked_Items"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="404" YCoordinate="117"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act13" Name="R2" StartMode="Automatic">
+                    <xpdl:Description>For partial production, wait until check with customer</xpdl:Description>
+                    <xpdl:Route GatewayType="Parallel"/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Parallel"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,229,124" Height="43" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="561" YCoordinate="158"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act14" Name="plan full production" StartMode="Automatic">
+                    <xpdl:Description>Either out-of-stock condition or rejection of partial ship can start full-order planning. Make plan to produce entire order</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par12</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Exclusive"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="No_Of_Stocked_Items"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Order_Quantity"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="No_Of_Items_To_Produce"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="729" YCoordinate="190"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act18" Name="produce" StartMode="Automatic">
+                    <xpdl:Description>Assemble parts, execute plan</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="SYNCHR" Id="Process_Repository_Wor2">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>Product_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>No_Of_Items_To_Produce</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:Icon>wrench.png</xpdl:Icon>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Exclusive"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,106,106" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="402" YCoordinate="191"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act19" Name="Notify full shipment" StartMode="Automatic">
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="ASYNCHR" Id="Process_Repository_Wor1">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>Customer_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Product_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Order_Quantity</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Order_Quantity</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:Icon>telephone.png</xpdl:Icon>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,106,106" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="226" YCoordinate="146"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act20" Name="Notify partial shipment" StartMode="Automatic">
+                    <xpdl:Implementation>
+                        <xpdl:SubFlow Execution="ASYNCHR" Id="Process_Repository_Wor1">
+                            <xpdl:ActualParameters>
+                                <xpdl:ActualParameter>Customer_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Product_Name</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>Order_Quantity</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>No_Of_Items_To_Produce</xpdl:ActualParameter>
+                            </xpdl:ActualParameters>
+                        </xpdl:SubFlow>
+                    </xpdl:Implementation>
+                    <xpdl:Icon>telephone.png</xpdl:Icon>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,106,106" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="403" YCoordinate="267"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act21" Name="Ship &amp; Report" StartMode="Automatic">
+                    <xpdl:BlockActivity ActivitySetId="Business_Example_Wor1_Ase1"/>
+                    <xpdl:Icon>gear_time.png</xpdl:Icon>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Exclusive"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,165,121" Height="60" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="404" YCoordinate="345"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act31" Name="check finances" StartMode="Automatic">
+                    <xpdl:Description>Credit-checking process</xpdl:Description>
+                    <xpdl:Route GatewayType="Exclusive"/>
+                    <xpdl:Icon>money.png</xpdl:Icon>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Exclusive">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra55"/>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra5"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,229,124" Height="43" IsVisible="true" LaneId="Business_Example_pool1_lan1" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="430" YCoordinate="17"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act41" Name="check stock" StartMode="Automatic">
+                    <xpdl:Description>Check the stock status of ordered product. Fill the variable Stock_Status with:
+- "ALL" If there are enough items on stock,
+- "PARTIAL" - if there are some stocked items (but not enough)
+- "NONE" - if there are no any stocked item</xpdl:Description>
+                    <xpdl:Route GatewayType="Exclusive"/>
+                    <xpdl:Icon>help.png</xpdl:Icon>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Exclusive">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra80"/>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra57"/>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra58"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="Stock_Status"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="No_Of_Stocked_Items"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Product_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Order_Quantity"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,229,124" Height="43" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="249" YCoordinate="25"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act101" Name="check part. ship" StartMode="Automatic">
+                    <xpdl:Description>Ask customer if OK to partial-ship (24 hrs)</xpdl:Description>
+                    <xpdl:Route GatewayType="Exclusive"/>
+                    <xpdl:Icon>mobilephone1.png</xpdl:Icon>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Exclusive">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra47"/>
+                                    <xpdl:TransitionRef Id="Business_Example_Wor1_Tra16"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,229,124" Height="43" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="666" YCoordinate="80"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Business_Example_Wor1_act1">
+                    <xpdl:Event>
+                        <xpdl:StartEvent Trigger="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="102,204,51" Height="31" IsVisible="true" LaneId="Business_Example_pool1_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="66" YCoordinate="17"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Business_Example_Wor1_act2">
+                    <xpdl:Event>
+                        <xpdl:EndEvent Result="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="236,120,98" Height="31" IsVisible="true" LaneId="Business_Example_pool1_lan2" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="543" YCoordinate="360"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Business_Example_Wor1_act3">
+                    <xpdl:Event>
+                        <xpdl:EndEvent Result="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="236,120,98" Height="31" IsVisible="true" LaneId="Business_Example_pool1_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="660" YCoordinate="23"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="Business_Example_Wor1_Act1" Id="Business_Example_Wor1_Tra3" Name="t2" To="Business_Example_Wor1_Act3">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act31" Id="Business_Example_Wor1_Tra5" Name="t5" To="Business_Example_Wor1_Act5">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act9" Id="Business_Example_Wor1_Tra12" Name="t13" To="Business_Example_Wor1_Act10">
+                    <xpdl:Description>After wait for both stock to be checked and order released ask customer about partial ship</xpdl:Description>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act9" Id="Business_Example_Wor1_Tra13" Name="Transition" To="Business_Example_Wor1_Act11">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act11" Id="Business_Example_Wor1_Tra15" Name="t17" To="Business_Example_Wor1_Act13">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act13" Id="Tra21" Name="t21" To="Business_Example_Wor1_Act18">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act101" Id="Business_Example_Wor1_Tra16" Name="t16" To="Business_Example_Wor1_Act14">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:Description>Partial ship is not approved</xpdl:Description>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="806" YCoordinate="315"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act14" Id="Business_Example_Wor1_Tra18" Name="t18" To="Business_Example_Wor1_Act18">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act31" Id="Business_Example_Wor1_Tra55" Name="Transition" To="Business_Example_Wor1_Act4">
+                    <xpdl:Condition Type="CONDITION">Credit_Status == "OK"</xpdl:Condition>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act41" Id="Business_Example_Wor1_Tra57" Name="Transition" To="Business_Example_Wor1_Act9">
+                    <xpdl:Condition Type="CONDITION">Stock_Status == "PARTIAL"</xpdl:Condition>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act41" Id="Business_Example_Wor1_Tra58" Name="Transition" To="Business_Example_Wor1_Act14">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="822" YCoordinate="270"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act41" Id="Business_Example_Wor1_Tra80" Name="Transition" To="Business_Example_Wor1_Act19">
+                    <xpdl:Condition Type="CONDITION">Stock_Status == "ALL"</xpdl:Condition>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="302" YCoordinate="263"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act18" Id="Business_Example_Wor1_Tra104" Name="Transition" To="Business_Example_Wor1_Act20">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act20" Id="Business_Example_Wor1_Tra23" Name="Transition" To="Business_Example_Wor1_Act21">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act19" Id="Business_Example_Wor1_Tra24" Name="Transition" To="Business_Example_Wor1_Act21">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="331" YCoordinate="531"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act101" Id="Business_Example_Wor1_Tra47" Name="Transition" To="Business_Example_Wor1_Act13">
+                    <xpdl:Condition Type="CONDITION">Partial_Ship_Status == "OK"</xpdl:Condition>
+                    <xpdl:Description>Partial ship is approved.</xpdl:Description>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="711" YCoordinate="324"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act3" Id="Business_Example_Wor1_tra1" To="Business_Example_Wor1_Act31">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act4" Id="Business_Example_Wor1_tra2" To="Business_Example_Wor1_Act41">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act10" Id="Business_Example_Wor1_tra3" To="Business_Example_Wor1_Act101">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_act1" Id="Business_Example_Wor1_tra4" To="Business_Example_Wor1_Act1">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act21" Id="Business_Example_Wor1_tra5" To="Business_Example_Wor1_act2">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor1_Act5" Id="Business_Example_Wor1_tra6" To="Business_Example_Wor1_act3">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="Business_Example_Wor2" Name="Customer Service - Request for Partial Shipment">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>13-03-2003</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="Customer_Name" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The customer (or customer organization) name</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Product_Name" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The product name</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Ordered_Quantity" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The number of ordered items</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="No_Of_Stocked_Items" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The number of ordered items on stock</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Partial_Ship_Status" IsArray="false" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="Business_Example_Typ2"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>If customer aggreed on partial shipment, set the value of this variable to "OK", otherwise to anything else ("NOT_OK" for e.g.)</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:Activities>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor2_Act4" Name="notify sales" StartMode="Automatic">
+                    <xpdl:Description>Enter the customer response ("OK" if customer accepts partial shipment)</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par10</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="Partial_Ship_Status"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool3_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="381" YCoordinate="70"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor2_Act2" Name="ask customer for partial shipment" StartMode="Automatic">
+                    <xpdl:Description>Asks customer if it is OK to partialy ship the existing number of wanted items</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par10</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Customer_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Product_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Ordered_Quantity"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="No_Of_Stocked_Items"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool3_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="226" YCoordinate="70"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Business_Example_Wor2_act1">
+                    <xpdl:Event>
+                        <xpdl:StartEvent Trigger="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="102,204,51" Height="31" IsVisible="true" LaneId="Business_Example_pool3_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="139" YCoordinate="81"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Business_Example_Wor2_act2">
+                    <xpdl:Event>
+                        <xpdl:EndEvent Result="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="236,120,98" Height="31" IsVisible="true" LaneId="Business_Example_pool3_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="538" YCoordinate="81"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="Business_Example_Wor2_Act2" Id="Business_Example_Wor2_Tra23" Name="Transition" To="Business_Example_Wor2_Act4">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor2_act1" Id="Business_Example_Wor2_tra1" To="Business_Example_Wor2_Act2">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor2_Act4" Id="Business_Example_Wor2_tra2" To="Business_Example_Wor2_act2">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="Business_Example_Wor3" Name="Check Credit">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>13-03-2003</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="Customer_Name" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The customer to check credit status for</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Product_Name" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The product that customer wants</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Order_Quantity" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The number of items of wanted product</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="Credit_Status" IsArray="false" Mode="INOUT">
+                    <xpdl:DataType>
+                        <xpdl:DeclaredType Id="Business_Example_Typ2"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The credit status. If credit status is high enough to cover 25% of ordered items price, the value has to be set to "OK"</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:Activities>
+                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor3_Act1" Name="check credit" StartMode="Automatic">
+                    <xpdl:Description>Check the credit status of the customer. If the customer has enough money to cover 25% of ordered items price, allow further order processing by setting the Credit_Status value to "OK"</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Participant_Repository_Par9</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Customer_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Product_Name"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="Order_Quantity"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="Credit_Status"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="Business_Example_pool4_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="288" YCoordinate="70"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Business_Example_Wor3_act1">
+                    <xpdl:Event>
+                        <xpdl:StartEvent Trigger="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="102,204,51" Height="31" IsVisible="true" LaneId="Business_Example_pool4_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="128" YCoordinate="81"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="Business_Example_Wor3_act2">
+                    <xpdl:Event>
+                        <xpdl:EndEvent Result="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="236,120,98" Height="31" IsVisible="true" LaneId="Business_Example_pool4_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="519" YCoordinate="81"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="Business_Example_Wor3_act1" Id="Business_Example_Wor3_tra1" To="Business_Example_Wor3_Act1">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="Business_Example_Wor3_Act1" Id="Business_Example_Wor3_tra2" To="Business_Example_Wor3_act2">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.0-1-20110124-0813"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

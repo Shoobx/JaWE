@@ -26,9 +26,9 @@ import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.base.editor.NewStandardXPDLElementEditor;
 import org.enhydra.jawe.base.panel.InlinePanel;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * @author Sasa Bojanic

@@ -30,7 +30,7 @@ import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
 import org.enhydra.jawe.components.graph.GraphUtilities;
-import org.enhydra.shark.xpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.Transition;
 
 /**
 * Class that realizes <B>SetTransitionType</B> action.

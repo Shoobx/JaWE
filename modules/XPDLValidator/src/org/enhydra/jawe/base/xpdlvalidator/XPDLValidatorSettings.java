@@ -26,7 +26,7 @@ import java.util.Properties;
 import org.enhydra.jawe.AdditionalResourceManager;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEComponentSettings;
-import org.enhydra.shark.xpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.StandardPackageValidator;
 
 /**
  * @author Miroslav Popov

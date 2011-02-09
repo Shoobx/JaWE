@@ -40,11 +40,11 @@ import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.xpdlvalidator.ValidationError;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Panel for displaying problems.
@@ -150,7 +150,7 @@ public class ProblemsNavigatorPanel extends JPanel implements JaWEComponentView 
    protected void refreshT (XMLElement selel,String lastSelectedErr) {
       ActivitySet as=null;
       WorkflowProcess wp=null;
-      org.enhydra.shark.xpdl.elements.Package pkg=null;
+      org.enhydra.jxpdl.elements.Package pkg=null;
       XMLComplexElement topel = null;
       if (selel!=null) {
          as=XMLUtil.getActivitySet(selel);

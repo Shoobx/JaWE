@@ -26,8 +26,8 @@ import javax.swing.Box;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Creates titled group panel with vertical or horizontal BoxLayout, that consists of
@@ -92,6 +92,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
          if (el instanceof XMLElement) {
             dtdp = pc.getPanelGenerator().getPanel((XMLElement) el);
          } else if (el instanceof String) {
+            System.out.println("GE|TTING PANEL FOR EL"+el+", AEL="+((XMLComplexElement) myOwner).get((String) el)+", OWNER="+myOwner.toName());
             dtdp = pc.getPanelGenerator()
                .getPanel(((XMLComplexElement) myOwner).get((String) el));
          } else if (el instanceof XMLPanel) {

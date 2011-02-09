@@ -35,6 +35,7 @@ import org.enhydra.jawe.components.ldap.actions.ConfigureLDAP;
 import org.enhydra.jawe.components.ldap.actions.ImportAll;
 import org.enhydra.jawe.components.ldap.actions.ImportSelected;
 import org.enhydra.jawe.components.ldap.actions.SearchLDAP;
+import org.enhydra.jxpdl.XMLUtil;
 
 public class LDAPSettings extends JaWEComponentSettings {
 
@@ -208,7 +209,7 @@ public class LDAPSettings extends JaWEComponentSettings {
 
    public String[] getLDAPObjectClassFilterChoices() {
       String str = getSettingString("LDAPObjectClassFilterChoices");
-      return Utils.tokenize(str, ",");
+      return XMLUtil.tokenize(str, ",");
    }
 
    public String getLDAPGroupUniqueAttributeName() {

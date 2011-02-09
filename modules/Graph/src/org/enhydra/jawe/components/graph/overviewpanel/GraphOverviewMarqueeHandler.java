@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphMarqueeHandler;
-import org.enhydra.shark.xpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Participant;
 import org.jgraph.graph.AbstractCellView;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.DefaultGraphCell;

@@ -36,11 +36,11 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.XPDLElementChangeInfo;
 import org.enhydra.jawe.base.controller.JaWESelectionManager;
 import org.enhydra.jawe.base.xpdlhandler.XPDLHandler;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * @author Miroslav Popov

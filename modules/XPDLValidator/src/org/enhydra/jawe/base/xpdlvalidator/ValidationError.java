@@ -20,9 +20,9 @@ package org.enhydra.jawe.base.xpdlvalidator;
 
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Utils;
-import org.enhydra.shark.xpdl.ParsingErrors;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLValidationError;
+import org.enhydra.jxpdl.ParsingErrors;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLValidationError;
 
 
 /**

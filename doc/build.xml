@@ -28,7 +28,7 @@
 		<!--Set the global variables-->
 		<property name="docbook.name" value="twe-doc" />
 		<property name="doc.title" value="Together Workflow Editor" />
-		<property name="version" value="3.3" />
+		<property name="version" value="4.0" />
 		<property name="release" value="1" />
 		<property name="build.debug" value="off" />
 
@@ -84,7 +84,7 @@
 			<pathelement location="${ext.lib.dir}/xml-apis.jar" />
 			<pathelement location="${ext.lib.dir}/jEdit-syntax.jar" />
 			<pathelement location="${ext.lib.dir}/itext.jar" />
-			<pathelement location="${ext.lib.dir}/sharkxpdlmodel.jar" />
+			<pathelement location="${ext.lib.dir}/jxpdl.jar" />
 		</path>
 
 		<!--Set the classpath for docbook-->
@@ -257,7 +257,22 @@
 			<trycatch description="try-catch">
 				<try>
 					<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-						<arg line="-param html.stylesheet html.css -out ${docbook.name}.fo -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/fo/docbook.xsl" />
+						<arg line="-param html.stylesheet html.css 
+                             -param body.start.indent 0pt 
+                             -param ulink.footnotes 1 
+                             -out ${docbook.name}.fo 
+                             -in ${docbook.name}.xml 
+                             -xsl ${util.dir}/docbook/xsl/fo/docbook.xsl" />
+                             <!-- 
+                             -param page.margin.inner 0.5in 
+                             -param page.margin.outer 0.5in 
+                             -param page.margin.top 0.1in 
+                             -param region.before.extent 0.1in 
+                             -param body.margin.top 0.2in 
+                             -param region.after.extent 0.1in 
+                             -param page.margin.bottom 0.1in 
+                             -param body.margin.bottom 0.2in 
+                             -->
 					</java>
 				</try>
 				<catch>

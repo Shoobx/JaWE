@@ -24,11 +24,11 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.components.XPDLTreeModel;
 import org.enhydra.jawe.components.XPDLTreeNode;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.Implementation;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Implementation;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  *  Search Navigator hierarchy tree model.

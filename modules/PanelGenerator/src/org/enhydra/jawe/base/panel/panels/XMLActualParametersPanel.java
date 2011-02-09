@@ -22,8 +22,8 @@ import java.awt.Dimension;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelGenerator;
-import org.enhydra.shark.xpdl.elements.ActualParameters;
-import org.enhydra.shark.xpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.ActualParameters;
+import org.enhydra.jxpdl.elements.FormalParameters;
 
 
 /**

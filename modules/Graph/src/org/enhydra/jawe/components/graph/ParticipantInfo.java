@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Participant;
 
 
 /**

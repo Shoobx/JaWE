@@ -21,9 +21,9 @@ package org.enhydra.jawe;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
 * The base class for JaWE actions.

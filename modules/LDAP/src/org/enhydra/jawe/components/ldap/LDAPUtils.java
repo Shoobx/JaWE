@@ -34,11 +34,12 @@ import javax.naming.directory.SearchResult;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Participants;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Participants;
 
 public class LDAPUtils {
 
@@ -315,7 +316,9 @@ public class LDAPUtils {
          }
       }
       jc.startUndouableChange();
-      ps.addAll(toAdd);
+      for (int i=0; i<toAdd.size(); i++) {
+         ps.add((XMLElement)toAdd.get(i));
+      }
       List toSelect = new ArrayList();
       toSelect.add(ps);
       jc.endUndouableChange(toSelect);

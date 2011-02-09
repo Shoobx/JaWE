@@ -38,7 +38,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Package;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

@@ -34,12 +34,12 @@ import org.enhydra.jawe.XPDLElementChangeInfo;
 import org.enhydra.jawe.base.controller.SearchEntity;
 import org.enhydra.jawe.base.controller.SearchUtility;
 import org.enhydra.jawe.base.editor.StandardXPDLElementEditor;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
 
 /**
  * Class that implements search action.

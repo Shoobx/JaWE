@@ -20,12 +20,13 @@ package org.enhydra.jawe.base.panel;
 
 import java.util.ArrayList;
 
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivityTypes;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivityTypes;
+import org.enhydra.jxpdl.elements.EventTypes;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 
 /**
@@ -46,7 +47,9 @@ public class ActivityTypesChoiceElement extends XMLComplexChoice {
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_NO),controlled.getImplementation().getImplementationTypes().getNo());
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_ROUTE),controlled.getRoute());
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_SUBFLOW),controlled.getImplementation().getImplementationTypes().getSubFlow());
-         chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_TOOL),controlled.getImplementation().getImplementationTypes().getTools());
+         chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION),controlled.getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskApplication());
+         chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_EVENT_START),controlled.getEvent().getEventTypes().getStartEvent());
+         chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_EVENT_END),controlled.getEvent().getEventTypes().getEndEvent());
          choosen=(XMLElement)chsMap.get(new Integer(type));
          this.choices=new ArrayList(chsMap.values());
       }
@@ -55,9 +58,17 @@ public class ActivityTypesChoiceElement extends XMLComplexChoice {
          super.setChoosen(ch);
          if (ch.getParent()==controlled) {
             controlled.setChoosen(ch);
+         } else if (ch.getParent() instanceof EventTypes){
+            controlled.setEvent();
+            controlled.getEvent().getEventTypes().setChoosen(ch);
          } else {
             controlled.setImplementation();
-            controlled.getImplementation().getImplementationTypes().setChoosen(ch);
+            if (ch.getParent()==controlled.getImplementation().getImplementationTypes()) {
+               controlled.getImplementation().getImplementationTypes().setChoosen(ch);
+            } else {
+               controlled.getImplementation().getImplementationTypes().setTask();
+               controlled.getImplementation().getImplementationTypes().getTask().getTaskTypes().setChoosen(ch);               
+            }
          }
       }
             

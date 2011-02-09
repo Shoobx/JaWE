@@ -51,18 +51,18 @@ import org.enhydra.jawe.XPDLElementChangeInfo;
 import org.enhydra.jawe.base.controller.JaWEActions;
 import org.enhydra.jawe.components.XPDLTreeCellRenderer;
 import org.enhydra.jawe.components.XPDLTreeNode;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.ActivitySets;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.Transitions;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
-import org.enhydra.shark.xpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.ActivitySets;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.Transitions;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcesses;
 
 /**
  *  Used to display Package hierarchy tree.

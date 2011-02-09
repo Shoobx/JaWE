@@ -24,12 +24,12 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.components.XPDLTreeModel;
 import org.enhydra.jawe.components.XPDLTreeNode;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  *  TreeView hierarchy tree model.

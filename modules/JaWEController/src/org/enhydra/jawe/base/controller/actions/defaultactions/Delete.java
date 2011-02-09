@@ -29,7 +29,7 @@ import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * @author Miroslav Popov

@@ -30,7 +30,7 @@ import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.jped.PDFWorkflowExport;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 public class SaveAsPDF extends ActionBase {
 

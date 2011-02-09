@@ -52,11 +52,11 @@ import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.editor.StandardXPDLElementEditor;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelSettings;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLElementChangeListener;
-import org.enhydra.shark.xpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLElementChangeListener;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * Creates a list panel.

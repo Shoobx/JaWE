@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph;
 
@@ -30,6 +30,8 @@ import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.CellViewRenderer;
@@ -44,8 +46,11 @@ public class MultiLinedRenderer extends DefaultCellPanel implements CellViewRend
 
    public static boolean loaded = false;
 
-   private static float borderWidth = 1f;
-   protected BasicStroke borderStroke = new BasicStroke(borderWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND);
+   protected static float borderWidth = 1f;
+
+   protected BasicStroke borderStroke = new BasicStroke(borderWidth,
+                                                        BasicStroke.CAP_BUTT,
+                                                        BasicStroke.JOIN_ROUND);
 
    /** Cache the current graph for drawing. */
    transient protected JGraph graph;
@@ -67,18 +72,48 @@ public class MultiLinedRenderer extends DefaultCellPanel implements CellViewRend
       defaultBackground = UIManager.getColor("Tree.textBackground");
    }
 
-   public Component getRendererComponent(JGraph pGgraph, CellView pView, boolean pSel, boolean pFocus, boolean pPreview) {
+   public Component getRendererComponent(JGraph pGgraph,
+                                         CellView pView,
+                                         boolean pSel,
+                                         boolean pFocus,
+                                         boolean pPreview) {
       this.graph = pGgraph;
-      wrapName(GraphUtilities.getGraphController().getGraphSettings().isNameWrappingEnabled());
-      wrapStyle(GraphUtilities.getGraphController().getGraphSettings().isWordWrappingEnabled());
+      wrapName(GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .isNameWrappingEnabled());
+      wrapStyle(GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .isWordWrappingEnabled());
 
       isDoubleBuffered = graph.isDoubleBuffered();
       if (pView instanceof VertexView) {
          this.view = (VertexView) pView;
+         int textPos = TEXT_POSITION_DOWN;
+         Object cell = view.getCell();
+         if (cell instanceof GraphActivityInterface) {
+            GraphActivityInterface gact = (GraphActivityInterface) cell;
+            Activity act = (Activity) gact.getUserObject();
+            int type = act.getActivityType();
+//            if (type == XPDLConstants.ACTIVITY_TYPE_BLOCK
+//                || type == XPDLConstants.ACTIVITY_TYPE_SUBFLOW) {
+//               textPos = TEXT_POSITION_DOWN;
+//            } else 
+            if (type == XPDLConstants.ACTIVITY_TYPE_NO && act.getIcon().equals("")) {
+               textPos = TEXT_POSITION_ALL;
+            }
+         } 
+         else if (cell instanceof GraphParticipantInterface) {
+            textPos = TEXT_POSITION_RIGHT;
+         }
+         else if (cell instanceof GraphArtifactInterface) {
+            textPos = TEXT_POSITION_ALL;
+         }
          setMainIcon(getIcon());
-         setTextPosition(GraphUtilities.getGraphController().getGraphSettings().getTextPos());
-         showIcon(GraphUtilities.getGraphController().getGraphSettings().shouldShowIcons());
-         
+         setTextPosition(textPos);
+         showIcon(GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .shouldShowIcons());
+
          setDisplayName(view.getCell().toString());
 
          if (graph.getEditingCell() != view.getCell()) {
@@ -118,7 +153,9 @@ public class MultiLinedRenderer extends DefaultCellPanel implements CellViewRend
    }
 
    public ImageIcon getIcon() {
-      return GraphUtilities.getGraphController().getGraphSettings().getDefaultActivityIcon();
+      return GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .getDefaultActivityIcon();
    }
 
    public Point2D getPerimeterPoint(VertexView pView, Point2D p) {

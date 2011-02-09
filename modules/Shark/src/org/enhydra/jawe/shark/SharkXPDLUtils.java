@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.shark;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -28,18 +29,19 @@ import java.util.Set;
 import org.enhydra.jawe.JaWEEAHandler;
 import org.enhydra.jawe.XPDLUtils;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Various XPDL utilities specific for shark/jawe configuration.
@@ -48,8 +50,46 @@ import org.enhydra.shark.xpdl.elements.WorkflowProcess;
  */
 public class SharkXPDLUtils extends XPDLUtils {
 
+   public List getDataFieldReferences(WorkflowProcess wp, String referencedId) {
+      List references = new ArrayList();
+      if (referencedId.equals("")) {
+         return references;
+      }
+
+      references.addAll(getVariableReferences(wp, referencedId));
+
+      Iterator it = wp.getActivitySets().toElements().iterator();
+      while (it.hasNext()) {
+         ActivitySet as = (ActivitySet) it.next();
+         references.addAll(getVariableReferences(as, referencedId));
+      }
+
+      return references;
+   }
+   
+   public List getFormalParameterReferences(WorkflowProcess wp, String referencedId) {
+      List references = new ArrayList();
+      if (referencedId.equals("")) {
+         return references;
+      }
+      if (wp.getDataField(referencedId) != null) {
+         return references;
+      }
+
+      references.addAll(getVariableReferences(wp, referencedId));
+
+      Iterator it = wp.getActivitySets().toElements().iterator();
+      while (it.hasNext()) {
+         ActivitySet as = (ActivitySet) it.next();
+         references.addAll(getVariableReferences(as, referencedId));
+      }
+
+      return references;
+   }
+   
+
    protected List getVariableReferences(XMLCollectionElement wpOrAs, String dfOrFpId) {
-      List references = super.getVariableReferences(wpOrAs, dfOrFpId);
+      List references = XMLUtil.getVariableReferences(wpOrAs, dfOrFpId);
 
       Map allVars = XMLUtil.getWorkflowProcess(wpOrAs).getAllVariables();
       Iterator it = ((Activities) wpOrAs.get("Activities")).toElements().iterator();
@@ -57,8 +97,8 @@ public class SharkXPDLUtils extends XPDLUtils {
          Activity act = (Activity) it.next();
          int type = act.getActivityType();
          // special extended attributes for shark client applications
-         if (type == XPDLConstants.ACTIVITY_TYPE_TOOL
-             || type == XPDLConstants.ACTIVITY_MODE_MANUAL) {
+         if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
+             || type == XPDLConstants.ACTIVITY_TYPE_NO) {
             List eas = act.getExtendedAttributes().toElements();
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);

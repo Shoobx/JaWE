@@ -40,8 +40,8 @@ import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.panels.XMLTablePanel;
 import org.enhydra.jawe.base.panel.panels.tablesorting.SortingTableModel;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
 
 public class SortingTable extends JTable {
 

@@ -92,13 +92,17 @@ public class NewStandardXPDLEditorSettings extends PanelSettings {
       componentSettings.put("ShowColumns.XMLTablePanel.Activities",
             "Id Name Performer Type StartMode FinishMode Deadlines");
       componentSettings.put("ShowColumns.XMLTablePanel.ActivitySets", "Id Activities Transitions");
+      componentSettings.put("ShowColumns.XMLTablePanel.ActualParameters","ElementValue");
       componentSettings.put("ShowColumns.XMLTablePanel.Applications", "Id Name");
+      componentSettings.put("ShowColumns.XMLTablePanel.Associations", "Id Name Source Target AssociationDirection");
+      componentSettings.put("ShowColumns.XMLTablePanel.Artifacts", "Id Name ArtifactType TextAnnotation");
       componentSettings.put("ShowColumns.XMLTablePanel.DataFields", "Id Name DataType");
       componentSettings.put("ShowColumns.XMLTablePanel.ExtendedAttributes", "Name Value");
-      componentSettings.put("ShowColumns.XMLTablePanel.FormalParameters", "Id Mode DataType");
+      componentSettings.put("ShowColumns.XMLTablePanel.FormalParameters", "Id Name Mode DataType");
       componentSettings.put("ShowColumns.XMLTablePanel.Namespaces", "Name location");
       componentSettings.put("ShowColumns.XMLTablePanel.Participants", "Id Name ParticipantType");
-      componentSettings.put("ShowColumns.XMLTablePanel.Tools", "Id Type");
+      componentSettings.put("ShowColumns.XMLTablePanel.Pools", "Id Name Orientation Process Lanes");
+      componentSettings.put("ShowColumns.XMLTablePanel.Lanes", "Id Name Performers NestedLanes");
       componentSettings.put("ShowColumns.XMLTablePanel.Transitions", "Id From To Condition");
       componentSettings.put("ShowColumns.XMLTablePanel.TypeDeclarations", "Id Name DataTypes");
       componentSettings.put("ShowColumns.XMLTablePanel.WorkflowProcesses", "Id Name AccessLevel");

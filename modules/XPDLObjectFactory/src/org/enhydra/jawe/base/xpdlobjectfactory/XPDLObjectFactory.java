@@ -1,81 +1,96 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.xpdlobjectfactory;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
 
+import javax.tools.Tool;
+
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEEAHandler;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.controller.JaWETypes;
 import org.enhydra.jawe.base.xpdlhandler.XPDLHandler;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.ActivitySets;
-import org.enhydra.shark.xpdl.elements.ActualParameter;
-import org.enhydra.shark.xpdl.elements.ActualParameters;
-import org.enhydra.shark.xpdl.elements.Application;
-import org.enhydra.shark.xpdl.elements.Applications;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.DataFields;
-import org.enhydra.shark.xpdl.elements.Deadline;
-import org.enhydra.shark.xpdl.elements.Deadlines;
-import org.enhydra.shark.xpdl.elements.EnumerationType;
-import org.enhydra.shark.xpdl.elements.EnumerationValue;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.ExternalPackage;
-import org.enhydra.shark.xpdl.elements.ExternalPackages;
-import org.enhydra.shark.xpdl.elements.FormalParameter;
-import org.enhydra.shark.xpdl.elements.FormalParameters;
-import org.enhydra.shark.xpdl.elements.Member;
-import org.enhydra.shark.xpdl.elements.Namespace;
-import org.enhydra.shark.xpdl.elements.Namespaces;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.PackageHeader;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Participants;
-import org.enhydra.shark.xpdl.elements.RecordType;
-import org.enhydra.shark.xpdl.elements.Responsible;
-import org.enhydra.shark.xpdl.elements.Responsibles;
-import org.enhydra.shark.xpdl.elements.Tool;
-import org.enhydra.shark.xpdl.elements.Tools;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.TransitionRef;
-import org.enhydra.shark.xpdl.elements.TransitionRefs;
-import org.enhydra.shark.xpdl.elements.TransitionRestriction;
-import org.enhydra.shark.xpdl.elements.TransitionRestrictions;
-import org.enhydra.shark.xpdl.elements.Transitions;
-import org.enhydra.shark.xpdl.elements.TypeDeclaration;
-import org.enhydra.shark.xpdl.elements.TypeDeclarations;
-import org.enhydra.shark.xpdl.elements.UnionType;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
-import org.enhydra.shark.xpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.ActivitySets;
+import org.enhydra.jxpdl.elements.ActualParameter;
+import org.enhydra.jxpdl.elements.ActualParameters;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.Applications;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Artifacts;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Associations;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfos;
+import org.enhydra.jxpdl.elements.DODataField;
+import org.enhydra.jxpdl.elements.DODataFields;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
+import org.enhydra.jxpdl.elements.Deadline;
+import org.enhydra.jxpdl.elements.Deadlines;
+import org.enhydra.jxpdl.elements.EnumerationType;
+import org.enhydra.jxpdl.elements.EnumerationValue;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.ExternalPackage;
+import org.enhydra.jxpdl.elements.ExternalPackages;
+import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Lanes;
+import org.enhydra.jxpdl.elements.Member;
+import org.enhydra.jxpdl.elements.Namespace;
+import org.enhydra.jxpdl.elements.Namespaces;
+import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
+import org.enhydra.jxpdl.elements.NodeGraphicsInfos;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.PackageHeader;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Participants;
+import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.Performers;
+import org.enhydra.jxpdl.elements.Pool;
+import org.enhydra.jxpdl.elements.Pools;
+import org.enhydra.jxpdl.elements.RecordType;
+import org.enhydra.jxpdl.elements.Responsible;
+import org.enhydra.jxpdl.elements.Responsibles;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.TransitionRef;
+import org.enhydra.jxpdl.elements.TransitionRefs;
+import org.enhydra.jxpdl.elements.TransitionRestriction;
+import org.enhydra.jxpdl.elements.TransitionRestrictions;
+import org.enhydra.jxpdl.elements.Transitions;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
+import org.enhydra.jxpdl.elements.TypeDeclarations;
+import org.enhydra.jxpdl.elements.UnionType;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcesses;
 
 /**
  * Factory for generating XPDL objects.
@@ -118,16 +133,16 @@ public class XPDLObjectFactory {
       }
       PackageHeader ph = pkg.getPackageHeader();
       if (!hasTemplate) {
-         ph.setXPDLVersion("1.0");
+         ph.setXPDLVersion("2.1");
          ph.setVendor("(c) Together Teamsolutions Co., Ltd.");
       }
-      ph.setCreated(Utils.getCurrentDateAndTime());
+      ph.setCreated(XMLUtil.getCurrentDateAndTime());
 
       Namespaces nss = pkg.getNamespaces();
       Namespace ns = createXPDLObject(nss, "", true);
       ns.setName("xpdl");
-      ns.setLocation("http://www.wfmc.org/2002/XPDL1.0");
-      adjustXPDLObject(pkg,type);
+      ns.setLocation(XMLUtil.XMLNS_XPDL);
+      adjustXPDLObject(pkg, type);
 
       return pkg;
    }
@@ -147,7 +162,9 @@ public class XPDLObjectFactory {
          if (id.equals("")) {
             id = JaWEManager.getInstance().getIdFactory().generateUniqueId(ass);
          } else {
-            id=JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(ass,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(ass, new HashSet(), id);
          }
          int i = 0;
          while (ass.getActivitySet(id) != null) {
@@ -156,7 +173,7 @@ public class XPDLObjectFactory {
          as.setId(id);
       }
 
-      adjustXPDLObject(as,type);
+      adjustXPDLObject(as, type);
 
       if (addToCollection) {
          ass.add(as);
@@ -171,15 +188,19 @@ public class XPDLObjectFactory {
       }
       if (type.equals(JaWEConstants.ACTIVITY_TYPE_BLOCK)
           || type.equals(JaWEConstants.ACTIVITY_TYPE_NO)
-          || type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE)
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_PARALLEL)
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE)
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_INCLUSIVE)
           || type.equals(JaWEConstants.ACTIVITY_TYPE_SUBFLOW)
-          || type.equals(JaWEConstants.ACTIVITY_TYPE_TOOL)) {
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_TOOL)
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_START)
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_END)) {
          act = createStandardActivity(acts, type);
       } else {
          act = createSpecialActivity(acts, type);
       }
 
-      adjustXPDLObject(act,type);
+      adjustXPDLObject(act, type);
 
       if (addToCollection) {
          acts.add(act);
@@ -188,38 +209,65 @@ public class XPDLObjectFactory {
    }
 
    protected Activity createStandardActivity(Activities acts, String type) {
-      Activity act = createXPDLActivity(acts,type);
+      Activity act = createXPDLActivity(acts, type);
       if (type.equals(JaWEConstants.ACTIVITY_TYPE_BLOCK)) {
          act.getActivityTypes().setBlockActivity();
-      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE)) {
+      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_PARALLEL)) {
          act.getActivityTypes().setRoute();
+         act.getActivityTypes().getRoute().setGatewayTypeParallel();
+      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE)) {
+         act.getActivityTypes().setRoute();
+         act.getActivityTypes().getRoute().setGatewayTypeExclusive();
+//      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_INCLUSIVE)) {
+//         act.getActivityTypes().setRoute();
+//         act.getActivityTypes().getRoute().setGatewayTypeInclusive();
       } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_SUBFLOW)) {
          act.getActivityTypes().setImplementation();
          act.getActivityTypes().getImplementation().getImplementationTypes().setSubFlow();
       } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_TOOL)) {
          act.getActivityTypes().setImplementation();
-         act.getActivityTypes().getImplementation().getImplementationTypes().setTools();
+         act.getActivityTypes().getImplementation().getImplementationTypes().setTask();
+         act.getActivityTypes()
+            .getImplementation()
+            .getImplementationTypes()
+            .getTask()
+            .getTaskTypes()
+            .setTaskApplication();
+         act.setFirstPerformer("");
       } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_NO)) {
          act.getActivityTypes().setImplementation();
          act.getActivityTypes().getImplementation().getImplementationTypes().setNo();
+         act.setFirstPerformer("");
+      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_START)) {
+         act.getActivityTypes().setEvent();
+         act.getActivityTypes().getEvent().getEventTypes().setStartEvent();
+      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_END)) {
+         act.getActivityTypes().setEvent();
+         act.getActivityTypes().getEvent().getEventTypes().setEndEvent();
       }
       return act;
    }
 
    protected Activity createSpecialActivity(Activities acts, String type) {
-      Activity act = createXPDLActivity(acts,type);
+      Activity act = createXPDLActivity(acts, type);
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
 
       if (!hasTemplate) {
-         act.getActivityTypes().getImplementation().getImplementationTypes().setTools();
+         act.getActivityTypes()
+            .getImplementation()
+            .getImplementationTypes()
+            .getTask()
+            .getTaskTypes()
+            .setTaskApplication();
+         act.getActivityTypes().getImplementation().getImplementationTypes().setTask();
          act.getActivityTypes().setImplementation();
          // JaWEEAHandler.setActivityType(act, type);
       }
       return act;
    }
 
-   protected Activity createXPDLActivity(Activities acts,String type) {
+   protected Activity createXPDLActivity(Activities acts, String type) {
       Activity act = (Activity) acts.generateNewElement();
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
@@ -229,9 +277,11 @@ public class XPDLObjectFactory {
       String id = act.getId();
       if (!hasTemplate || id.equals("") || acts.getActivity(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(acts);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(acts);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(acts,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(acts, new HashSet(), id);
          }
          int i = 0;
          while (acts.getActivity(id) != null) {
@@ -247,14 +297,14 @@ public class XPDLObjectFactory {
                                            boolean addToCollection) {
       ActualParameter ap = (ActualParameter) aps.generateNewElement();
       adjustType(ap, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(ap, type);
       }
-      
-      adjustXPDLObject(ap,type);
+
+      adjustXPDLObject(ap, type);
 
       if (addToCollection) {
          aps.add(ap);
@@ -267,7 +317,7 @@ public class XPDLObjectFactory {
                                        boolean addToCollection) {
       Application app = (Application) apps.generateNewElement();
       adjustType(app, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
@@ -276,9 +326,11 @@ public class XPDLObjectFactory {
       String id = app.getId();
       if (!hasTemplate || id.equals("") || apps.getApplication(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(apps);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(apps);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(apps,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(apps, new HashSet(), id);
          }
          int i = 0;
          while (apps.getApplication(id) != null) {
@@ -287,8 +339,7 @@ public class XPDLObjectFactory {
          app.setId(id);
       }
 
-
-      adjustXPDLObject(app,type);
+      adjustXPDLObject(app, type);
 
       if (addToCollection) {
          apps.add(app);
@@ -296,10 +347,110 @@ public class XPDLObjectFactory {
       return app;
    }
 
+   public Artifact createXPDLObject(Artifacts arts, String type, boolean addToCollection) {
+      Artifact art = (Artifact) arts.generateNewElement();
+      adjustType(art, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(art, type);
+      }
+      String id = art.getId();
+      if (!hasTemplate || id.equals("") || arts.getArtifact(id) != null) {
+         if (id.equals("")) {
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(arts);
+         } else {
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(arts, new HashSet(), id);
+         }
+         int i = 0;
+         while (arts.getArtifact(id) != null) {
+            id = id + String.valueOf(++i);
+         }
+         art.setId(id);
+      }
+
+      if (type.equals(JaWEConstants.ARTIFACT_TYPE_ANNOTATION)) {
+         art.setArtifactTypeAnnotation();
+      } else if (type.equals(JaWEConstants.ARTIFACT_TYPE_DATA_OBJECT)) {
+         art.setArtifactTypeDataObject();
+      }
+      adjustXPDLObject(art, type);
+
+      if (addToCollection) {
+         arts.add(art);
+      }
+      return art;
+   }
+
+   public Association createXPDLObject(Associations assocs,
+                                       String type,
+                                       boolean addToCollection) {
+      Association assoc = (Association) assocs.generateNewElement();
+      adjustType(assoc, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(assoc, type);
+      }
+      String id = assoc.getId();
+      if (!hasTemplate || id.equals("") || assocs.getAssociation(id) != null) {
+         if (id.equals("")) {
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(assocs);
+         } else {
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(assocs, new HashSet(), id);
+         }
+         int i = 0;
+         while (assocs.getAssociation(id) != null) {
+            id = id + String.valueOf(++i);
+         }
+         assoc.setId(id);
+      }
+      
+      if (JaWEConstants.ASSOCIATION_TYPE_NONE.equals(type)) {
+         assoc.setAssociationDirectionNONE();
+      } else if (JaWEConstants.ASSOCIATION_TYPE_BIDIRECTIONAL.equals(type)) {
+         assoc.setAssociationDirectionBOTH();
+      } else {
+         assoc.setAssociationDirectionFROM();
+      }
+      adjustXPDLObject(assoc, type);
+
+      if (addToCollection) {
+         assocs.add(assoc);
+      }
+      return assoc;
+   }
+
+   public ConnectorGraphicsInfo createXPDLObject(ConnectorGraphicsInfos cgis,
+                                                 String type,
+                                                 boolean addToCollection) {
+      ConnectorGraphicsInfo cgi = (ConnectorGraphicsInfo) cgis.generateNewElement();
+      adjustType(cgi, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(cgi, type);
+      }
+
+      adjustXPDLObject(cgi, type);
+
+      if (addToCollection) {
+         cgis.add(cgi);
+      }
+      return cgi;
+   }
+
    public DataField createXPDLObject(DataFields dfs, String type, boolean addToCollection) {
       DataField df = (DataField) dfs.generateNewElement();
       adjustType(df, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
@@ -308,9 +459,11 @@ public class XPDLObjectFactory {
       String id = df.getId();
       if (!hasTemplate || id.equals("") || dfs.getDataField(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(dfs);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(dfs);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(dfs,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(dfs, new HashSet(), id);
          }
          int i = 0;
          while (dfs.getDataField(id) != null) {
@@ -318,8 +471,43 @@ public class XPDLObjectFactory {
          }
          df.setId(id);
       }
-      
-      adjustXPDLObject(df,type);
+
+      adjustXPDLObject(df, type);
+
+      if (addToCollection) {
+         dfs.add(df);
+      }
+      return df;
+   }
+
+   public DODataField createXPDLObject(DODataFields dfs,
+                                       String type,
+                                       boolean addToCollection) {
+      DODataField df = (DODataField) dfs.generateNewElement();
+      adjustType(df, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(df, type);
+      }
+      String id = df.getId();
+      if (!hasTemplate || id.equals("") || dfs.getDODataField(id) != null) {
+         if (id.equals("")) {
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(dfs);
+         } else {
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(dfs, new HashSet(), id);
+         }
+         int i = 0;
+         while (dfs.getDODataField(id) != null) {
+            id = id + String.valueOf(++i);
+         }
+         df.setId(id);
+      }
+
+      adjustXPDLObject(df, type);
 
       if (addToCollection) {
          dfs.add(df);
@@ -336,8 +524,8 @@ public class XPDLObjectFactory {
       if (hasTemplate) {
          jts.fillFromTemplate(dl, type);
       }
-      
-      adjustXPDLObject(dl,type);
+
+      adjustXPDLObject(dl, type);
 
       if (addToCollection) {
          dls.add(dl);
@@ -350,14 +538,14 @@ public class XPDLObjectFactory {
                                             boolean addToCollection) {
       EnumerationValue ev = (EnumerationValue) et.generateNewElement();
       adjustType(ev, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(ev, type);
       }
-      
-      adjustXPDLObject(ev,type);
+
+      adjustXPDLObject(ev, type);
 
       if (addToCollection) {
          et.add(ev);
@@ -370,14 +558,14 @@ public class XPDLObjectFactory {
                                              boolean addToCollection) {
       ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
       adjustType(ea, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(ea, type);
       }
-      
-      adjustXPDLObject(ea,type);
+
+      adjustXPDLObject(ea, type);
 
       if (addToCollection) {
          eas.add(ea);
@@ -390,14 +578,14 @@ public class XPDLObjectFactory {
                                            boolean addToCollection) {
       ExternalPackage ep = (ExternalPackage) eps.generateNewElement();
       adjustType(ep, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(ep, type);
       }
 
-      adjustXPDLObject(ep,type);
+      adjustXPDLObject(ep, type);
 
       if (addToCollection) {
          eps.add(ep);
@@ -410,7 +598,7 @@ public class XPDLObjectFactory {
                                            boolean addToCollection) {
       FormalParameter fp = (FormalParameter) fps.generateNewElement();
       adjustType(fp, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
@@ -419,9 +607,11 @@ public class XPDLObjectFactory {
       String id = fp.getId();
       if (!hasTemplate || id.equals("") || fps.getFormalParameter(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(fps);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(fps);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(fps,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(fps, new HashSet(), id);
          }
          int i = 0;
          while (fps.getFormalParameter(id) != null) {
@@ -430,7 +620,7 @@ public class XPDLObjectFactory {
          fp.setId(id);
       }
 
-      adjustXPDLObject(fp,type);
+      adjustXPDLObject(fp, type);
 
       if (addToCollection) {
          fps.add(fp);
@@ -438,17 +628,51 @@ public class XPDLObjectFactory {
       return fp;
    }
 
+   public Lane createXPDLObject(Lanes ls, String type, boolean addToCollection) {
+      Lane l = (Lane) ls.generateNewElement();
+      adjustType(l, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(l, type);
+      }
+
+      String id = l.getId();
+      if (!hasTemplate || id.equals("") || ls.getLane(id) != null) {
+         if (id.equals("")) {
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(ls);
+         } else {
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(ls, new HashSet(), id);
+         }
+         int i = 0;
+         while (ls.getLane(id) != null) {
+            id = id + String.valueOf(++i);
+         }
+         l.setId(id);
+      }
+
+      adjustXPDLObject(l, type);
+
+      if (addToCollection) {
+         ls.add(l);
+      }
+      return l;
+   }
+
    public Namespace createXPDLObject(Namespaces nss, String type, boolean addToCollection) {
       Namespace ns = (Namespace) nss.generateNewElement();
       adjustType(ns, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(ns, type);
       }
-      
-      adjustXPDLObject(ns,type);
+
+      adjustXPDLObject(ns, type);
 
       if (addToCollection) {
          nss.add(ns);
@@ -456,12 +680,32 @@ public class XPDLObjectFactory {
       return ns;
    }
 
+   public NodeGraphicsInfo createXPDLObject(NodeGraphicsInfos ngis,
+                                            String type,
+                                            boolean addToCollection) {
+      NodeGraphicsInfo ngi = (NodeGraphicsInfo) ngis.generateNewElement();
+      adjustType(ngi, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(ngi, type);
+      }
+
+      adjustXPDLObject(ngi, type);
+
+      if (addToCollection) {
+         ngis.add(ngi);
+      }
+      return ngi;
+   }
+
    public Participant createXPDLObject(Participants ps,
                                        String type,
                                        boolean addToCollection) {
       Participant par = (Participant) ps.generateNewElement();
       adjustType(par, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
@@ -470,9 +714,11 @@ public class XPDLObjectFactory {
       String id = par.getId();
       if (!hasTemplate || id.equals("") || ps.getParticipant(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(ps);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(ps);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(ps,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(ps, new HashSet(), id);
          }
          int i = 0;
          while (ps.getParticipant(id) != null) {
@@ -480,7 +726,7 @@ public class XPDLObjectFactory {
          }
          par.setId(id);
       }
-      
+
       if (type == null || type.equals(""))
          type = JaWEConstants.PARTICIPANT_TYPE_ROLE;
 
@@ -498,7 +744,7 @@ public class XPDLObjectFactory {
          par.getParticipantType().setTypeSYSTEM();
       }
 
-      adjustXPDLObject(par,type);
+      adjustXPDLObject(par, type);
 
       if (addToCollection) {
          ps.add(par);
@@ -506,17 +752,71 @@ public class XPDLObjectFactory {
       return par;
    }
 
+   public Performer createXPDLObject(Performers perfs,
+                                     String type,
+                                     boolean addToCollection) {
+      Performer perf = (Performer) perfs.generateNewElement();
+      adjustType(perf, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(perf, type);
+      }
+
+      adjustXPDLObject(perf, type);
+
+      if (addToCollection) {
+         perfs.add(perf);
+      }
+      return perf;
+   }
+
+   public Pool createXPDLObject(Pools ps, String type, boolean addToCollection) {
+      Pool p = (Pool) ps.generateNewElement();
+      adjustType(p, type);
+
+      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
+      boolean hasTemplate = jts.hasTemplateId(type);
+      if (hasTemplate) {
+         jts.fillFromTemplate(p, type);
+      }
+
+      String id = p.getId();
+      if (!hasTemplate || id.equals("") || ps.getPool(id) != null) {
+         if (id.equals("")) {
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(ps);
+         } else {
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(ps, new HashSet(), id);
+         }
+         int i = 0;
+         while (ps.getPool(id) != null) {
+            id = id + String.valueOf(++i);
+         }
+         p.setId(id);
+      }
+
+      adjustXPDLObject(p, type);
+
+      if (addToCollection) {
+         ps.add(p);
+      }
+      return p;
+   }
+
    public Member createXPDLObject(RecordType rt, String type, boolean addToCollection) {
       Member m = (Member) rt.generateNewElement();
       adjustType(m, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(m, type);
       }
 
-      adjustXPDLObject(m,type);
+      adjustXPDLObject(m, type);
 
       if (addToCollection) {
          rt.add(m);
@@ -529,7 +829,7 @@ public class XPDLObjectFactory {
                                        boolean addToCollection) {
       Responsible r = (Responsible) rs.generateNewElement();
       adjustType(r, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
@@ -539,41 +839,16 @@ public class XPDLObjectFactory {
       // String parId="";
       // if (m.size()>0) {
       // parId=(String)m.keySet().iterator().next();
-      //         
+      //
       // }
       // r.setValue(parId);
 
-      adjustXPDLObject(r,type);
+      adjustXPDLObject(r, type);
 
       if (addToCollection) {
          rs.add(r);
       }
       return r;
-   }
-
-   public Tool createXPDLObject(Tools ts, String type, boolean addToCollection) {
-      Tool t = (Tool) ts.generateNewElement();
-      adjustType(t, type);
-      
-      JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
-      boolean hasTemplate = jts.hasTemplateId(type);
-      if (hasTemplate) {
-         jts.fillFromTemplate(t, type);
-      }
-      // Map m=XMLUtil.getPossibleApplications(XMLUtil.getWorkflowProcess(ts),
-      // JaWEManager.getInstance().getXPDLHandler());
-      // String toolRef="";
-      // if (m.size()>0) {
-      // toolRef=(String)m.keySet().iterator().next();
-      // }
-      // t.setId(toolRef);
-
-      adjustXPDLObject(t,type);
-
-      if (addToCollection) {
-         ts.add(t);
-      }
-      return t;
    }
 
    public Transition createXPDLObject(Transitions tras,
@@ -582,7 +857,7 @@ public class XPDLObjectFactory {
       if (type == null || type.equals(""))
          type = JaWEConstants.TRANSITION_TYPE_UNCONDITIONAL;
 
-      Transition tra = createXPDLTransition(tras,type);
+      Transition tra = createXPDLTransition(tras, type);
       // if (type.equals(JaWEConstants.TRANSITION_TYPE_UNCONDITIONAL))
       // do nothing
       // else
@@ -595,7 +870,7 @@ public class XPDLObjectFactory {
       else if (type.equals(JaWEConstants.TRANSITION_TYPE_DEFAULTEXCEPTION))
          tra.getCondition().setTypeDEFAULTEXCEPTION();
 
-      adjustXPDLObject(tra,type);
+      adjustXPDLObject(tra, type);
 
       if (addToCollection) {
          tras.add(tra);
@@ -603,7 +878,7 @@ public class XPDLObjectFactory {
       return tra;
    }
 
-   protected Transition createXPDLTransition(Transitions tras,String type) {
+   protected Transition createXPDLTransition(Transitions tras, String type) {
       Transition tra = (Transition) tras.generateNewElement();
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
@@ -613,9 +888,11 @@ public class XPDLObjectFactory {
       String id = tra.getId();
       if (!hasTemplate || id.equals("") || tras.getTransition(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(tras);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(tras);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(tras,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(tras, new HashSet(), id);
          }
          int i = 0;
          while (tras.getTransition(id) != null) {
@@ -631,14 +908,14 @@ public class XPDLObjectFactory {
                                          boolean addToCollection) {
       TransitionRef tr = (TransitionRef) trs.generateNewElement();
       adjustType(tr, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(tr, type);
       }
 
-      adjustXPDLObject(tr,type);
+      adjustXPDLObject(tr, type);
 
       if (addToCollection) {
          trs.add(tr);
@@ -651,14 +928,14 @@ public class XPDLObjectFactory {
                                                  boolean addToCollection) {
       TransitionRestriction tres = (TransitionRestriction) trests.generateNewElement();
       adjustType(tres, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(tres, type);
       }
 
-      adjustXPDLObject(tres,type);
+      adjustXPDLObject(tres, type);
 
       if (addToCollection) {
          trests.add(tres);
@@ -671,7 +948,7 @@ public class XPDLObjectFactory {
                                            boolean addToCollection) {
       TypeDeclaration td = (TypeDeclaration) tds.generateNewElement();
       adjustType(td, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
@@ -680,9 +957,11 @@ public class XPDLObjectFactory {
       String id = td.getId();
       if (!hasTemplate || id.equals("") || tds.getTypeDeclaration(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(tds);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(tds);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(tds,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(tds, new HashSet(), id);
          }
          int i = 0;
          while (tds.getTypeDeclaration(id) != null) {
@@ -691,7 +970,7 @@ public class XPDLObjectFactory {
          td.setId(id);
       }
 
-      adjustXPDLObject(td,type);
+      adjustXPDLObject(td, type);
 
       if (addToCollection) {
          tds.add(td);
@@ -702,14 +981,14 @@ public class XPDLObjectFactory {
    public Member createXPDLObject(UnionType ut, String type, boolean addToCollection) {
       Member m = (Member) ut.generateNewElement();
       adjustType(m, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
          jts.fillFromTemplate(m, type);
       }
 
-      adjustXPDLObject(m,type);
+      adjustXPDLObject(m, type);
 
       if (addToCollection) {
          ut.add(m);
@@ -722,7 +1001,7 @@ public class XPDLObjectFactory {
                                            boolean addToCollection) {
       WorkflowProcess wp = (WorkflowProcess) wps.generateNewElement();
       adjustType(wp, type);
-      
+
       JaWETypes jts = JaWEManager.getInstance().getJaWEController().getJaWETypes();
       boolean hasTemplate = jts.hasTemplateId(type);
       if (hasTemplate) {
@@ -731,9 +1010,11 @@ public class XPDLObjectFactory {
       String id = wp.getId();
       if (!hasTemplate || id.equals("") || wps.getWorkflowProcess(id) != null) {
          if (id.equals("")) {
-            id=JaWEManager.getInstance().getIdFactory().generateUniqueId(wps);
+            id = JaWEManager.getInstance().getIdFactory().generateUniqueId(wps);
          } else {
-            id = JaWEManager.getInstance().getIdFactory().generateSimilarOrIdenticalUniqueId(wps,new HashSet(),id);
+            id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId(wps, new HashSet(), id);
          }
          int i = 0;
          while (wps.getWorkflowProcess(id) != null) {
@@ -745,12 +1026,12 @@ public class XPDLObjectFactory {
       if (!hasTemplate || wp.getName().equals("")) {
          wp.setName(id);
       }
-      wp.getProcessHeader().setCreated(Utils.getCurrentDateAndTime());
+      wp.getProcessHeader().setCreated(XMLUtil.getCurrentDateAndTime());
       wp.getRedefinableHeader().setAuthor(XMLUtil.getPackage(wps)
          .getRedefinableHeader()
          .getAuthor());
 
-      adjustXPDLObject(wp,type);
+      adjustXPDLObject(wp, type);
 
       if (addToCollection) {
          wps.add(wp);
@@ -758,9 +1039,15 @@ public class XPDLObjectFactory {
       return wp;
    }
 
-   public void adjustXPDLObject(XMLElement el,String type) {
-      if (type!=null && !type.equals("")) {
+   public void adjustXPDLObject(XMLElement el, String type) {
+      if (type != null && !type.equals("")) {
          JaWEEAHandler.setJaWEType(el, type);
+      }
+      if (el instanceof NodeGraphicsInfo) {
+         ((NodeGraphicsInfo) el).setToolId("JaWE");
+      }
+      if (el instanceof ConnectorGraphicsInfo) {
+         ((ConnectorGraphicsInfo) el).setToolId("JaWE");
       }
    }
 
@@ -820,9 +1107,12 @@ public class XPDLObjectFactory {
       return dup;
    }
 
-   protected String adjustType (XMLElement el,String type) {
-      if (type==null || type.equals("")) {
-         type=JaWEManager.getInstance().getJaWEController().getJaWETypes().getDefaultType(el);
+   protected String adjustType(XMLElement el, String type) {
+      if (type == null || type.equals("")) {
+         type = JaWEManager.getInstance()
+            .getJaWEController()
+            .getJaWETypes()
+            .getDefaultType(el);
       }
       return type;
    }

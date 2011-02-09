@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.controller;
 
@@ -69,54 +69,76 @@ import org.enhydra.jawe.XPDLListenerAndObservable;
 import org.enhydra.jawe.base.xpdlhandler.XPDLHandler;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactory;
 import org.enhydra.jawe.base.xpdlvalidator.ValidationError;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.Path;
-import org.enhydra.shark.xpdl.StandardPackageValidator;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XMLValidationError;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.ActivitySets;
-import org.enhydra.shark.xpdl.elements.Application;
-import org.enhydra.shark.xpdl.elements.Applications;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.DataFields;
-import org.enhydra.shark.xpdl.elements.EnumerationValue;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.ExternalPackage;
-import org.enhydra.shark.xpdl.elements.ExternalPackages;
-import org.enhydra.shark.xpdl.elements.FormalParameter;
-import org.enhydra.shark.xpdl.elements.FormalParameters;
-import org.enhydra.shark.xpdl.elements.Join;
-import org.enhydra.shark.xpdl.elements.Member;
-import org.enhydra.shark.xpdl.elements.Namespace;
-import org.enhydra.shark.xpdl.elements.Namespaces;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Participants;
-import org.enhydra.shark.xpdl.elements.Responsible;
-import org.enhydra.shark.xpdl.elements.Responsibles;
-import org.enhydra.shark.xpdl.elements.Split;
-import org.enhydra.shark.xpdl.elements.Tools;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.TransitionRef;
-import org.enhydra.shark.xpdl.elements.TransitionRefs;
-import org.enhydra.shark.xpdl.elements.TransitionRestriction;
-import org.enhydra.shark.xpdl.elements.TransitionRestrictions;
-import org.enhydra.shark.xpdl.elements.Transitions;
-import org.enhydra.shark.xpdl.elements.TypeDeclaration;
-import org.enhydra.shark.xpdl.elements.TypeDeclarations;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
-import org.enhydra.shark.xpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.Path;
+import org.enhydra.jxpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLValidationError;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.ActivitySets;
+import org.enhydra.jxpdl.elements.ActivityTypes;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.Applications;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Artifacts;
+import org.enhydra.jxpdl.elements.Associations;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfos;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
+import org.enhydra.jxpdl.elements.EnumerationValue;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.ExternalPackage;
+import org.enhydra.jxpdl.elements.ExternalPackages;
+import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.ImplementationTypes;
+import org.enhydra.jxpdl.elements.Join;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Lanes;
+import org.enhydra.jxpdl.elements.Member;
+import org.enhydra.jxpdl.elements.Namespace;
+import org.enhydra.jxpdl.elements.Namespaces;
+import org.enhydra.jxpdl.elements.NestedLane;
+import org.enhydra.jxpdl.elements.NestedLanes;
+import org.enhydra.jxpdl.elements.No;
+import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
+import org.enhydra.jxpdl.elements.NodeGraphicsInfos;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Participants;
+import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.Performers;
+import org.enhydra.jxpdl.elements.Pool;
+import org.enhydra.jxpdl.elements.Pools;
+import org.enhydra.jxpdl.elements.Responsible;
+import org.enhydra.jxpdl.elements.Responsibles;
+import org.enhydra.jxpdl.elements.Split;
+import org.enhydra.jxpdl.elements.TaskApplication;
+import org.enhydra.jxpdl.elements.TaskTypes;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.TransitionRef;
+import org.enhydra.jxpdl.elements.TransitionRefs;
+import org.enhydra.jxpdl.elements.TransitionRestriction;
+import org.enhydra.jxpdl.elements.TransitionRestrictions;
+import org.enhydra.jxpdl.elements.Transitions;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
+import org.enhydra.jxpdl.elements.TypeDeclarations;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 import org.w3c.dom.Document;
+
+import com.sun.jmx.snmp.tasks.Task;
 
 /**
  * Used to handle JaWE.
@@ -294,7 +316,7 @@ public class JaWEController extends Observable implements
              && (action == XMLElementChangeInfo.INSERTED
                  || action == XMLElementChangeInfo.REMOVED
                  || action == XMLElementChangeInfo.UPDATED || action == XMLElementChangeInfo.REPOSITIONED)) {
-            checkValidity(getMainPackage(), true, false,true);
+            checkValidity(getMainPackage(), true, false, true);
          }
       }
 
@@ -347,7 +369,7 @@ public class JaWEController extends Observable implements
             XPDLObjectFactory xpdlof = JaWEManager.getInstance().getXPDLObjectFactory();
             Namespace ns = xpdlof.createXPDLObject(nss, "", false);
             ns.setName("xpdl");
-            ns.setLocation("http://www.wfmc.org/2002/XPDL1.0");
+            ns.setLocation(XMLUtil.XMLNS_XPDL);
             nss.add(ns);
             xpdlof.adjustXPDLObject(pkg, null);
             changed = true;
@@ -370,11 +392,11 @@ public class JaWEController extends Observable implements
          changed = true;
       }
 
-      String verInfo = JaWEManager.getVersion()
-                       + "-" + JaWEManager.getRelease() + "-"
-                       /*+ JaWEManager.getBuildEdition()
-                       + JaWEManager.getBuildEditionSuffix() + "-"*/
-                       + JaWEManager.getBuildNo();
+      String verInfo = JaWEManager.getVersion() + "-" + JaWEManager.getRelease() + "-"
+      /*
+       * + JaWEManager.getBuildEdition() + JaWEManager.getBuildEditionSuffix() + "-"
+       */
+      + JaWEManager.getBuildNo();
       if (!JaWEEAHandler.getEditingToolVersion(pkg).equals(verInfo)) {
          JaWEEAHandler.setEditingToolVersion(pkg, verInfo);
          changed = true;
@@ -633,7 +655,7 @@ public class JaWEController extends Observable implements
       if (cbutton instanceof JaWETypeChoiceButton) {
          Class xpdlElType = ((JaWETypeChoiceButton) cbutton).getXPDLChoiceType();
          Class xpdlElTypeParentForEA = ((JaWETypeChoiceButton) cbutton).getXPDLChoiceTypeParentForEA();
-         toRet.addAll(jtypes.getTypes(xpdlElType,xpdlElTypeParentForEA));
+         toRet.addAll(jtypes.getTypes(xpdlElType, xpdlElTypeParentForEA));
       }
 
       return toRet;
@@ -686,7 +708,7 @@ public class JaWEController extends Observable implements
       settings.adjustActions();
 
       if (settings.useJaWEFrame()) {
-          createJaWEFrame();
+         createJaWEFrame();
       }
       updateTitle();
       clearAll();
@@ -866,9 +888,8 @@ public class JaWEController extends Observable implements
             xpdlh.closeAllPackages();
             ws.setVisible(false);
             message(settings.getLanguageDependentString("ErrorCannotOpenXPDL"
-                                                                       + "\n"
-                                                                       + ex.getMessage()),
-                                   JOptionPane.INFORMATION_MESSAGE);
+                                                        + "\n" + ex.getMessage()),
+                    JOptionPane.INFORMATION_MESSAGE);
          }
 
          if (pkg != null) {
@@ -925,20 +946,20 @@ public class JaWEController extends Observable implements
                   .getLoggingManager()
                   .info("JaWEController -> opened package " + pkg.getId());
                if (settings.isInitialXPDLValidationEnabled()) {
-                  checkValidity(pkg, true, true,true);
+                  checkValidity(pkg, true, true, true);
                }
 
                if ((mainChanged) && jaweFrameShown) {
                   if (mainChanged) {
                      ws.setVisible(false);
                      message(settings.getLanguageDependentString("InformationTogWEHasAutomaticallyAdjustedSomeXPDLParts"),
-                                   JOptionPane.INFORMATION_MESSAGE);
+                             JOptionPane.INFORMATION_MESSAGE);
                   }
                }
 
             } else {
                message(settings.getLanguageDependentString("InformationPackageCannotBeOpened"),
-                                      JOptionPane.INFORMATION_MESSAGE);
+                       JOptionPane.INFORMATION_MESSAGE);
             }
          } else {
             clearAll();
@@ -959,8 +980,7 @@ public class JaWEController extends Observable implements
             }
             ws.setVisible(false);
             message(settings.getLanguageDependentString("ErrorCannotOpenXPDL")
-                                         + ((msg != null) ? "\n" + msg : ""),
-                                   JOptionPane.INFORMATION_MESSAGE);
+                    + ((msg != null) ? "\n" + msg : ""), JOptionPane.INFORMATION_MESSAGE);
          }
          // xpdlhandler.printDebug();
          updateTitle();
@@ -1050,7 +1070,7 @@ public class JaWEController extends Observable implements
                   .getXPDLObjectFactory()
                   .createXPDLObject(eps, "", false);
                ep.setHref(relativePath);
-               JaWEEAHandler.setExternalPackageEA(ep, realPkg.getId());
+               ep.setId(realPkg.getId());
                mainPkg.addExternalPackageMapping(relativePath, realPkg.getId());
                eps.add(ep);
                // List inserted=new ArrayList();
@@ -1092,13 +1112,13 @@ public class JaWEController extends Observable implements
 
             } else {
                message(settings.getLanguageDependentString("InformationExternalPackageCannotBeInserted"),
-                                      JOptionPane.INFORMATION_MESSAGE);
+                       JOptionPane.INFORMATION_MESSAGE);
                xpdlh.closeAllPackages();
             }
          } catch (Exception ex) {
             ex.printStackTrace();
             message(settings.getLanguageDependentString("InformationExternalPackageCannotBeInserted"),
-                                   JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE);
             if (xpdlh != null) {
                xpdlh.closeAllPackages();
             }
@@ -1149,8 +1169,9 @@ public class JaWEController extends Observable implements
          it = pkgsToRemove.iterator();
          while (it.hasNext()) {
             Package tRem = (Package) it.next();
-            List refs = JaWEManager.getInstance().getXPDLUtils().getReferences(mainPkg,
-                                                                               tRem);
+            List refs = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getReferences(mainPkg, tRem);
             if (refs.size() > 0) {
                warningMessage = true;
                break;
@@ -1208,7 +1229,7 @@ public class JaWEController extends Observable implements
       } catch (Exception ex) {
          ex.printStackTrace();
          message(settings.getLanguageDependentString("ErrorCannotRemoveExternalPackage"),
-                                JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.INFORMATION_MESSAGE);
       }
       // xpdlh.printDebug();
    }
@@ -1223,7 +1244,7 @@ public class JaWEController extends Observable implements
          boolean added = addTransientPackage(filename);
          if (!added) {
             message(settings.getLanguageDependentString("InformationTransientPackageCannotBeInserted"),
-                                   JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE);
          }
       }
    }
@@ -1300,7 +1321,7 @@ public class JaWEController extends Observable implements
       } catch (Exception ex) {
          ex.printStackTrace();
          message(settings.getLanguageDependentString("ErrorCannotRemoveTransientPackage"),
-                                JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.INFORMATION_MESSAGE);
       }
       // xpdlh.printDebug();
    }
@@ -1367,12 +1388,13 @@ public class JaWEController extends Observable implements
          notifyObservers(info);
          clearXPDLListenerObservables(closeTransient);
       }
-      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> package "
-                                                         + xpdlId + " closed");
+      JaWEManager.getInstance()
+         .getLoggingManager()
+         .info("JaWEController -> package " + xpdlId + " closed");
       // xpdlhandler.printDebug();
       updateTitle();
-      if (getJaWEFrame()!=null) {
-          getJaWEFrame().repaint();
+      if (getJaWEFrame() != null) {
+         getJaWEFrame().repaint();
       }
       adjustActions();
       System.gc();
@@ -1395,9 +1417,9 @@ public class JaWEController extends Observable implements
       String oldFilename = xpdlhandler.getAbsoluteFilePath(pkg);
       try {
 
-    	  if(filename==null)
-    		  return;
-    	  
+         if (filename == null)
+            return;
+
          // if SaveAs was performed and the document was previously saved,
          // change ExternalPackage's relative paths
          boolean isNewFile = !filename.equals(oldFilename);
@@ -1511,11 +1533,11 @@ public class JaWEController extends Observable implements
       } catch (NonWritableChannelException nwcex) {
          nwcex.printStackTrace();
          message(settings.getLanguageDependentString("ErrorCannotSaveReadOnlyFile"),
-                                JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.ERROR_MESSAGE);
       } catch (Exception ex) {
          ex.printStackTrace();
          message(settings.getLanguageDependentString("ErrorCannotSaveDocument"),
-                                JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.ERROR_MESSAGE);
          // ex.printStackTrace();
       }
       // xpdlhandler.printDebug();
@@ -1655,7 +1677,11 @@ public class JaWEController extends Observable implements
          return false;
       }
       if (col instanceof TransitionRestrictions
-          || col instanceof TransitionRefs || col instanceof ExternalPackages) {
+          || col instanceof TransitionRefs || col instanceof ExternalPackages
+          || col instanceof Pools || col instanceof Lanes || col instanceof NestedLanes
+          || col instanceof Performers || col instanceof NodeGraphicsInfos
+          || col instanceof ConnectorGraphicsInfos || col instanceof Artifacts
+          || col instanceof Associations) {
          return false;
       }
 
@@ -1663,15 +1689,6 @@ public class JaWEController extends Observable implements
          Map m = JaWEManager.getInstance()
             .getXPDLUtils()
             .getPossibleResponsibles((Responsibles) col, null);
-         if (m.size() == 0) {
-            return false;
-         }
-      }
-
-      if (col instanceof Tools) {
-         Map m = XMLUtil.getPossibleApplications(XMLUtil.getWorkflowProcess(col),
-                                                 JaWEManager.getInstance()
-                                                    .getXPDLHandler());
          if (m.size() == 0) {
             return false;
          }
@@ -1698,7 +1715,11 @@ public class JaWEController extends Observable implements
          return false;
       }
       if (col instanceof TransitionRestrictions
-          || col instanceof TransitionRefs || col instanceof ExternalPackages) {
+          || col instanceof TransitionRefs || col instanceof ExternalPackages
+          || col instanceof Pools || col instanceof Lanes || col instanceof NestedLanes
+          || col instanceof Performers || col instanceof NodeGraphicsInfos
+          || col instanceof ConnectorGraphicsInfos || col instanceof Artifacts
+          || col instanceof Associations) {
          return false;
       } else if (col instanceof ExtendedAttributes
                  && col.getParent() instanceof ExternalPackage) {
@@ -1729,7 +1750,10 @@ public class JaWEController extends Observable implements
       if (checkReadOnly && el.isReadOnly()) {
          return false;
       }
-      if (el instanceof TransitionRef || el.getParent() instanceof TransitionRef) {
+      if (XMLUtil.getParentElement(TransitionRef.class, el) != null
+          || XMLUtil.getParentElement(NestedLane.class, el) != null
+          || XMLUtil.getParentElement(NodeGraphicsInfo.class, el) != null
+          || XMLUtil.getParentElement(ConnectorGraphicsInfo.class, el) != null) {
          return false;
       } else if (XMLUtil.getParentElement(ExternalPackage.class, el) != null) {
          if (el.toName().equals("href")) {
@@ -1742,21 +1766,25 @@ public class JaWEController extends Observable implements
                return false;
             }
          }
+      } else if (XMLUtil.getParentElement(Pool.class, el) != null) {
+         if (el.toName().equals("Process")) {
+            return false;
+         }
       }
-
       if ((el.getParent() instanceof Split || el.getParent() instanceof Join)
           && el.toName().equals("Type")) {
-         if (el.getParent() instanceof Split) {
-            Set ogt = XMLUtil.getOutgoingTransitions(XMLUtil.getActivity(el));
-            if (ogt.size() <= 1) {
-               return false;
-            }
-         } else {
-            Set inct = XMLUtil.getIncomingTransitions(XMLUtil.getActivity(el));
-            if (inct.size() <= 1) {
-               return false;
-            }
-         }
+         // if (el.getParent() instanceof Split) {
+         // Set ogt = XMLUtil.getOutgoingTransitions(XMLUtil.getActivity(el));
+         // if (ogt.size() <= 1) {
+         // return false;
+         // }
+         // } else {
+         // Set inct = XMLUtil.getIncomingTransitions(XMLUtil.getActivity(el));
+         // if (inct.size() <= 1) {
+         // return false;
+         // }
+         // }
+         return false;
       }
 
       Iterator comps = JaWEManager.getInstance()
@@ -1779,7 +1807,11 @@ public class JaWEController extends Observable implements
       if (checkReadOnly && col.isReadOnly()) {
          return false;
       }
-      if (col instanceof TransitionRestrictions || col instanceof TransitionRefs) {
+      if (col instanceof TransitionRestrictions
+          || col instanceof TransitionRefs || col instanceof Pools
+          || col instanceof Lanes || col instanceof NestedLanes
+          || col instanceof Performers || col instanceof NodeGraphicsInfos
+          || col instanceof ConnectorGraphicsInfos) {
          return false;
       } else if (col instanceof ExternalPackages) {
          if (el != null) {
@@ -1824,7 +1856,10 @@ public class JaWEController extends Observable implements
       if (el instanceof TransitionRestriction
           || el instanceof TransitionRef || el instanceof Member
           || el instanceof EnumerationValue || el instanceof ExternalPackage
-          || el instanceof Responsible || el instanceof Transition) {
+          || el instanceof Responsible || el instanceof Transition || el instanceof Lane
+          || el instanceof Pool || col instanceof NestedLanes
+          || col instanceof Performers || col instanceof NodeGraphicsInfos
+          || col instanceof ConnectorGraphicsInfos) {
          return false;
       } else if (col instanceof ExtendedAttributes
                  && col.getParent() instanceof ExternalPackage) {
@@ -1977,6 +2012,15 @@ public class JaWEController extends Observable implements
          if (changedElement instanceof WorkflowProcesses) {
             if (action == XMLElementChangeInfo.REMOVED) {
                if (info.getChangedSubElements() != null) {
+                  updateSpecialInProgress = true;
+                  JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .removeArtifactAndAssociationsForProcessesOrActivitySets(info.getChangedSubElements());
+                  JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .removePoolsForProcesses(info.getChangedSubElements());
+                  selectionMng.removeFromSelection(info.getChangedSubElements());
+                  updateSpecialInProgress = false;
                   Iterator it = info.getChangedSubElements().iterator();
                   while (it.hasNext()) {
                      WorkflowProcess wp = (WorkflowProcess) it.next();
@@ -1988,9 +2032,18 @@ public class JaWEController extends Observable implements
                   }
                }
             }
-         } else if (changedElement instanceof ActivitySet) {
+         } else if (changedElement instanceof ActivitySets) {
             if (action == XMLElementChangeInfo.REMOVED) {
                if (info.getChangedSubElements() != null) {
+                  updateSpecialInProgress = true;
+                  JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .removeArtifactAndAssociationsForProcessesOrActivitySets(info.getChangedSubElements());
+                  JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .removePoolsForActivitySets(info.getChangedSubElements());
+                  selectionMng.removeFromSelection(info.getChangedSubElements());
+                  updateSpecialInProgress = false;
                   Iterator it = info.getChangedSubElements().iterator();
                   while (it.hasNext()) {
                      ActivitySet as = (ActivitySet) it.next();
@@ -2007,6 +2060,18 @@ public class JaWEController extends Observable implements
 
       if (action == XMLElementChangeInfo.INSERTED
           && (changedElement instanceof WorkflowProcesses || changedElement instanceof ActivitySets)) {
+         updateSpecialInProgress = true;
+         if (changedElement instanceof WorkflowProcesses) {
+            JaWEManager.getInstance()
+               .getXPDLUtils()
+               .createPoolsForProcesses(info.getChangedSubElements());
+         } else {
+            JaWEManager.getInstance()
+               .getXPDLUtils()
+               .createPoolsForActivitySets(info.getChangedSubElements());
+         }
+         selectionMng.removeFromSelection(info.getChangedSubElements());
+         updateSpecialInProgress = false;
          if (info.getChangedSubElements() != null) {
             selectionMng.setSelection(info.getChangedSubElements(), true);
          }
@@ -2020,13 +2085,30 @@ public class JaWEController extends Observable implements
          JaWEManager.getInstance()
             .getLoggingManager()
             .info("JaWEController -> performing appropriate actions on inserting/removing");
-         if (changedElement instanceof Activities
-             && action == XMLElementChangeInfo.REMOVED) {
+         if (changedElement instanceof Lanes && action == XMLElementChangeInfo.REMOVED) {
+            updateSpecialInProgress = true;
+            JaWEManager.getInstance()
+               .getXPDLUtils()
+               .removeNestedLanesForLanes(info.getChangedSubElements());
+            selectionMng.removeFromSelection(info.getChangedSubElements());
+            updateSpecialInProgress = false;
+
+         } else if (changedElement instanceof Activities
+                    && action == XMLElementChangeInfo.REMOVED) {
             // for removing connected Transitions
             updateSpecialInProgress = true;
             JaWEManager.getInstance()
                .getXPDLUtils()
-               .removeTransitionsForActivities(info.getChangedSubElements());
+               .removeTransitionsAndAssociationsForActivities(info.getChangedSubElements());
+            selectionMng.removeFromSelection(info.getChangedSubElements());
+            updateSpecialInProgress = false;
+         } else if (changedElement instanceof Artifacts
+                    && action == XMLElementChangeInfo.REMOVED) {
+            // for removing connected Transitions
+            updateSpecialInProgress = true;
+            JaWEManager.getInstance()
+               .getXPDLUtils()
+               .removeAssociationsForArtifacts(info.getChangedSubElements());
             selectionMng.removeFromSelection(info.getChangedSubElements());
             updateSpecialInProgress = false;
          } else if (changedElement instanceof Transitions) {
@@ -2046,14 +2128,48 @@ public class JaWEController extends Observable implements
             .info("JaWEController -> finished performing appropriate actions on inserting/removing");
       } else if (action == XMLElementChangeInfo.UPDATED) {
          XMLElement parent = changedElement.getParent();
+         if (changedElement.toName().equals("Name")
+             && (parent instanceof Participant || parent instanceof WorkflowProcess)) {
+            updateSpecialInProgress = true;
+            if (parent instanceof Participant) {
+               List prefs = JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getParticipantReferences((XMLComplexElement) parent.getParent()
+                                               .getParent(),
+                                            ((Participant) parent).getId());
+               Iterator it = prefs.iterator();
+               while (it.hasNext()) {
+                  XMLElement pOrR = (XMLElement) it.next();
+                  Lane l = XMLUtil.getLane(pOrR);
+                  if (l != null) {
+                     l.setName(changedElement.toValue());
+                  }
+               }
+            } else {
+               List wrefs = JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getWorkflowProcessReferences((Package) parent.getParent().getParent(),
+                                                ((WorkflowProcess) parent).getId());
+               Iterator it = wrefs.iterator();
+               while (it.hasNext()) {
+                  XMLElement pOrSub = (XMLElement) it.next();
+                  if (pOrSub instanceof Pool) {
+                     ((Pool) pOrSub).setName(changedElement.toValue());
+                  }
+               }
+            }
+            updateSpecialInProgress = false;
+         }
          if ((changedElement.toName().equals("Id") && (parent instanceof WorkflowProcess
                                                        || parent instanceof ActivitySet
                                                        || parent instanceof Application
+                                                       || parent instanceof Artifact
                                                        || parent instanceof Participant
                                                        || parent instanceof DataField
                                                        || parent instanceof FormalParameter
                                                        || parent instanceof Activity
-                                                       || parent instanceof Transition || parent instanceof TypeDeclaration))
+                                                       || parent instanceof Transition
+                                                       || parent instanceof TypeDeclaration || parent instanceof Lane))
              || ((changedElement.toName().equals("From") || changedElement.toName()
                 .equals("To")) && parent instanceof Transition)
              || ((parent instanceof Split || parent instanceof Join) && changedElement instanceof XMLAttribute)) {
@@ -2070,9 +2186,11 @@ public class JaWEController extends Observable implements
                   JaWEManager.getInstance()
                      .getXPDLUtils()
                      .updateActivityReferences(JaWEManager.getInstance()
-                                               .getXPDLUtils().getActivityReferences(wpOrAs, (String)info.getOldValue()),
-                                                          (String) info.getOldValue(),
-                                                          (String) info.getNewValue());
+                                                  .getXPDLUtils()
+                                                  .getActivityReferences(wpOrAs,
+                                                                         (String) info.getOldValue()),
+                                               (String) info.getOldValue(),
+                                               (String) info.getNewValue());
                   updateSpecialInProgress = false;
                } else if (parent instanceof Transition) {
                   if (changedElement.toName().equals("Id")) {
@@ -2109,6 +2227,17 @@ public class JaWEController extends Observable implements
                   JaWEManager.getInstance().getXPDLUtils().correctSplitAndJoin(act);
                   updateSpecialInProgress = false;
                }
+            } else if (parent instanceof Artifact) {
+               updateSpecialInProgress = true;
+               JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .updateArtifactReferences(JaWEManager.getInstance()
+                                               .getXPDLUtils()
+                                               .getArtifactReferences(XMLUtil.getPackage(parent),
+                                                                      (String) info.getOldValue()),
+                                            (String) info.getOldValue(),
+                                            (String) info.getNewValue());
+               updateSpecialInProgress = false;
             } else if (parent instanceof TypeDeclaration) {
                updateSpecialInProgress = true;
                JaWEManager.getInstance()
@@ -2184,6 +2313,50 @@ public class JaWEController extends Observable implements
                                             (String) info.getOldValue(),
                                             (String) info.getNewValue());
                updateSpecialInProgress = false;
+            } else if (parent instanceof Lane) {
+               updateSpecialInProgress = true;
+               JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .updateLaneReferences(JaWEManager.getInstance()
+                                           .getXPDLUtils()
+                                           .getLaneReferences(XMLUtil.getPackage(parent),
+                                                              (String) info.getOldValue()),
+                                        (String) info.getNewValue());
+               updateSpecialInProgress = false;
+            }
+         }
+         if (changedElement instanceof ActivityTypes
+             || changedElement instanceof ImplementationTypes
+             || changedElement instanceof TaskTypes) {
+            System.out.println("OV="
+                               + info.getOldValue() + ",NV=" + info.getNewValue()
+                               + ",CSUB=" + info.getChangedSubElements());
+            Activity act = XMLUtil.getActivity(changedElement);
+            Performer perf = act.getFirstPerformerObj();
+            if (act.getActivityType()==XPDLConstants.ACTIVITY_TYPE_NO || 
+                  act.getActivityType()==XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+               if (perf == null) {
+                  perf = act.createFirstPerformerObj();
+                  String lId = JaWEManager.getInstance().getXPDLUtils().getLaneId(act);
+                  if (lId != null) {
+                     Pool p = JaWEManager.getInstance()
+                        .getXPDLUtils()
+                        .getPoolForProcessOrActivitySet((XMLCollectionElement) act.getParent()
+                           .getParent());
+                     if (p != null) {
+                        Lane l = p.getLanes().getLane(lId);
+                        if (l != null) {
+                           if (l.getPerformers().size() > 0) {
+                              perf.setValue(l.getPerformers().get(0).toValue());
+                           }
+                        }
+                     }
+                  }
+               }
+            } else {
+               if (perf != null) {
+                  ((Performers) perf.getParent()).remove(perf);
+               }
             }
          }
       }
@@ -2263,8 +2436,9 @@ public class JaWEController extends Observable implements
 
    public void sendEvent(XPDLElementChangeInfo info) {
       setChanged();
-      JaWEManager.getInstance().getLoggingManager().debug("Controller sending event: "
-                                                          + info);
+      JaWEManager.getInstance()
+         .getLoggingManager()
+         .debug("Controller sending event: " + info);
       notifyObservers(info);
       updateTitle();
       adjustActions();
@@ -2353,7 +2527,7 @@ public class JaWEController extends Observable implements
    protected static Set refElsNotToAskOnDeletion(String hstr) {
       Set s = new HashSet();
 
-      String[] hstra = Utils.tokenize(hstr, " ");
+      String[] hstra = XMLUtil.tokenize(hstr, " ");
       if (hstra.length > 0) {
          s.addAll(Arrays.asList(hstra));
       }
@@ -2393,15 +2567,17 @@ public class JaWEController extends Observable implements
          }
       }
 
-      title += JaWEManager.getInstance().getName()+" "+JaWEManager.getInstance().getVersion()+"-"+JaWEManager.getInstance().getRelease();
+      title += JaWEManager.getInstance().getName()
+               + " " + JaWEManager.getInstance().getVersion() + "-"
+               + JaWEManager.getInstance().getRelease();
 
-      String ccn=getCurrentConfigName();
-      if (ccn==null) {
-         ccn="Default";
+      String ccn = getCurrentConfigName();
+      if (ccn == null) {
+         ccn = "Default";
       }
       title += " ("
-               + ccn + " "
-               + getSettings().getLanguageDependentString("ConfigurationKey") + ")";
+               + ccn + " " + getSettings().getLanguageDependentString("ConfigurationKey")
+               + ")";
 
       if (getMainPackage() != null) {
          title += " - ";
@@ -2413,8 +2589,8 @@ public class JaWEController extends Observable implements
             title += s;
          }
       }
-      if (getJaWEFrame()!=null) {
-          getJaWEFrame().setTitle(title);
+      if (getJaWEFrame() != null) {
+         getJaWEFrame().setTitle(title);
       }
 
    }
@@ -2540,7 +2716,7 @@ public class JaWEController extends Observable implements
 
    // ********************************** DIALOGS *********************************
    /* Show a file open dialog and return the filename. */
-   public String openDialog(String message,String initialName) {
+   public String openDialog(String message, String initialName) {
       return JaWEXMLUtil.dialog(getJaWEFrame(), message, 0, 0, initialName);
    }
 
@@ -2557,8 +2733,7 @@ public class JaWEController extends Observable implements
    // ********************************** END OF DIALOGS *****************************
 
    public String getAppTitle() {
-       return appTitle;
-    }
-
+      return appTitle;
+   }
 
 }

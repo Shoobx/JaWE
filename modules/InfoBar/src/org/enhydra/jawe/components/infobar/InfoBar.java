@@ -44,8 +44,8 @@ import org.enhydra.jawe.XMLElementChoiceButton;
 import org.enhydra.jawe.base.display.DisplayNameGenerator;
 import org.enhydra.jawe.base.recentfiles.RecentFilesManager;
 import org.enhydra.jawe.base.recentfiles.RecentFilesSettings;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * @author Miroslav Popov

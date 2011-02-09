@@ -26,7 +26,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.editor.StandardXPDLElementEditor;
 import org.enhydra.jawe.components.ldap.LDAPConfiguration;
 import org.enhydra.jawe.components.ldap.LDAPController;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Opens LDAP configuration dialog.

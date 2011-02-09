@@ -52,14 +52,14 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.controller.JaWEActions;
 import org.enhydra.jawe.base.xpdlvalidator.ValidationError;
-import org.enhydra.shark.xpdl.ParsingErrors;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XMLValidationError;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.ParsingErrors;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLValidationError;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Creates a table panel for displaying problems.
@@ -416,6 +416,9 @@ public class ProblemsTablePanel extends JPanel {
 
       v.add(controller.getSettings().getLanguageDependentString(verr.getSubType()+"TypeKey"));
       String err = verr.getId();
+      if (err==null) {
+         err = "";
+      }
       if (err.length() > 0) {
          String r = controller.getSettings().getLanguageDependentString(err);
          if (r != null) {

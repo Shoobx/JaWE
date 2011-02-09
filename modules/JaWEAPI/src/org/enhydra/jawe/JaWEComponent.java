@@ -22,9 +22,9 @@ package org.enhydra.jawe;
 
 import java.util.List;
 
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * JaWE component interface.

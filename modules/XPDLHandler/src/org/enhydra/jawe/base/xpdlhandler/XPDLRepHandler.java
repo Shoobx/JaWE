@@ -27,13 +27,13 @@ import java.util.List;
 
 import org.enhydra.jawe.JaWEEAHandler;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLRepositoryHandler;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLRepositoryHandler;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -93,7 +93,7 @@ public class XPDLRepHandler extends XPDLRepositoryHandler {
          return;
       String nameSpacePrefix = XMLUtil.getNameSpacePrefix(node);
 
-      XMLElement newOne = cel.generateNewElement();
+      XMLElement newOne = cel.generateNewElementWithXPDL1Support();
       String elName = newOne.toName();
 
       NodeList children = node.getChildNodes();
@@ -102,7 +102,7 @@ public class XPDLRepHandler extends XPDLRepositoryHandler {
       for (int i = 0; i < lng; i++) {
          Node child = children.item(i);
          if (child.getNodeName().equals(nameSpacePrefix + elName)) {
-            newOne = cel.generateNewElement();
+            newOne = cel.generateNewElementWithXPDL1Support();
             
             if (newOne instanceof ExtendedAttribute) {               
                if (dontLoad.contains(child.getAttributes().item(0).getNodeValue()))                  

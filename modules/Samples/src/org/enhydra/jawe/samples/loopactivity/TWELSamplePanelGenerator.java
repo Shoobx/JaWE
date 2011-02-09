@@ -24,23 +24,23 @@ import java.util.Set;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEType;
-import org.enhydra.jawe.base.panel.TogWEPanelGenerator;
+import org.enhydra.jawe.base.panel.StandardPanelGenerator;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
 
 /**
  * @author Miroslav Popov
  * @author Sasa Bojanic
  */
-public class TWELSamplePanelGenerator extends TogWEPanelGenerator {
+public class TWELSamplePanelGenerator extends StandardPanelGenerator {
 
    public TWELSamplePanelGenerator() throws Exception {
       super();
@@ -67,7 +67,7 @@ public class TWELSamplePanelGenerator extends TogWEPanelGenerator {
          cbp = new XMLCheckboxPanel(getPanelContainer(),ea.get("Value"), "Set temporary", false,JaWEManager.getInstance().getJaWEController().canModifyElement(ea.get("Value")),false);
          panelElements.add(cbp);
          
-         panelElements.add(el.get("Performer"));
+         panelElements.add(el.getFirstPerformerObj());
          panelElements.add(el.get("Description"));
          panelElements.add(el.getDeadlines());
          p = new XMLGroupPanel(getPanelContainer(), el, panelElements, getPanelContainer().getLanguageDependentString("GeneralKey"), true, false, true);

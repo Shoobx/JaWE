@@ -84,7 +84,7 @@ public class CopyOrCutInfo {
 //         System.err.println("  ..... . Comparing ai "+ai+" to cai "+cai);
          Rectangle r=(Rectangle)me.getValue();
 //         System.err.println("    ... gacomp");
-         if (ai.getParIdEA().equals(cai.getParIdEA())) {
+         if (ai.getLaneId().equals(cai.getLaneId())) {
 //            System.err.println("    ... gabsuc1");
             if (ai.getOffsetPoint().equals(cai.getOffsetPoint())) {
 //               System.err.println("    ... gabsuc2");

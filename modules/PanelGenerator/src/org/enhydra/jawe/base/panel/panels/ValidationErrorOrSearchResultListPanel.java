@@ -31,7 +31,7 @@ import javax.swing.ListSelectionModel;
 
 import org.enhydra.jawe.SearchResult;
 import org.enhydra.jawe.base.xpdlvalidator.ValidationError;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Creates a references panel.

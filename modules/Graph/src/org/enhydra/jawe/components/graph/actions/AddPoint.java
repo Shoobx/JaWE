@@ -32,7 +32,7 @@ import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphMarqueeHandler;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
 import org.enhydra.jawe.components.graph.GraphUtilities;
-import org.enhydra.shark.xpdl.elements.Transition;
+import org.enhydra.jxpdl.XMLCollectionElement;
 
 /**
 * Class that realizes <B>AddPoint</B> action.
@@ -73,7 +73,7 @@ public class AddPoint extends ActionBase {
          gc.setUpdateInProgress(true);
          jc.startUndouableChange();
          List pnts=graph.getGraphManager().addOrRemoveBreakPoint(gtra, addAt, true);
-         Transition tra=(Transition)gtra.getPropertyObject();
+         XMLCollectionElement tra=(XMLCollectionElement)gtra.getPropertyObject();
          GraphUtilities.setBreakpoints(tra, pnts);
          List toSelect=new ArrayList();
          toSelect.add(tra);      

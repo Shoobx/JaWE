@@ -35,7 +35,7 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.shark.xpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * @author Miroslav Popov

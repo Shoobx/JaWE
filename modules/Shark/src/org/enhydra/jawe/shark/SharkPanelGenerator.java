@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.shark;
 
@@ -30,7 +30,7 @@ import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
-import org.enhydra.jawe.base.panel.TogWEPanelGenerator;
+import org.enhydra.jawe.base.panel.StandardPanelGenerator;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
@@ -40,32 +40,32 @@ import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.Application;
-import org.enhydra.shark.xpdl.elements.BasicType;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.DataFields;
-import org.enhydra.shark.xpdl.elements.DataTypes;
-import org.enhydra.shark.xpdl.elements.DeadlineCondition;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Script;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.BasicType;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
+import org.enhydra.jxpdl.elements.DataTypes;
+import org.enhydra.jxpdl.elements.DeadlineDuration;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Script;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * @author Sasa Bojanic
  */
-public class SharkPanelGenerator extends TogWEPanelGenerator {
+public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
-   
-   Properties appDefChoices=new Properties();
+
+   Properties appDefChoices = new Properties();
 
    public SharkPanelGenerator() throws Exception {
       super();
@@ -73,62 +73,75 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
          String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
          Utils.manageProperties(appDefChoices, cch, APP_DEF_CHOICES_FILE);
       } catch (Exception ex) {
-         
-      }      
+
+      }
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
-      if (no != 1) {
+      if (no >= 3)
+         no++;
+      if (!(el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION)) {
+         hidden.add(el.get("StartMode"));
+         hidden.add(el.get("FinishMode"));
          if (!(el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO)) {
-            return super.getPanel(el, no, hidden);
+            hidden.add(el.get("Priority"));
+            hidden.add(el.get("Limit"));
          }
+      }
+      if (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE
+          || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END
+          || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
+         hidden.add(el.get("Deadlines"));
+      }
+      if (!(el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && (el.getStartMode()
+         .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode()
+         .equals(XPDLConstants.ACTIVITY_MODE_MANUAL))))) {
+         return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
       ExtendedAttributes eas = el.getExtendedAttributes();
       switch (no) {
          case 1:
             XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el, no, hidden);
-            if (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO) {
 
-               ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_XFORMS_FILE);
-               if (ea != null) {
-                  XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                                  ea.get("Value"),
-                                                  getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                                 + "Key"),
-                                                  false,
-                                                  false,
-                                                  JaWEManager.getInstance()
-                                                     .getJaWEController()
-                                                     .canModifyElement(ea));
-                  gp.addToGroup(pnl);
-               }
-               ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
-               if (ea != null) {
-                  XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                                  ea.get("Value"),
-                                                  getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                                 + "Key"),
-                                                  false,
-                                                  false,
-                                                  JaWEManager.getInstance()
-                                                     .getJaWEController()
-                                                     .canModifyElement(ea));
-                  gp.addToGroup(pnl);
-               }
-               ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
-               if (ea != null) {
-                  XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                                  ea.get("Value"),
-                                                  getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                                 + "Key"),
-                                                  false,
-                                                  false,
-                                                  JaWEManager.getInstance()
-                                                     .getJaWEController()
-                                                     .canModifyElement(ea));
-                  gp.addToGroup(pnl);
-               }
+            ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_XFORMS_FILE);
+            if (ea != null) {
+               XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
+                                               ea.get("Value"),
+                                               getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                                              + "Key"),
+                                               false,
+                                               false,
+                                               JaWEManager.getInstance()
+                                                  .getJaWEController()
+                                                  .canModifyElement(ea));
+               gp.addToGroup(pnl);
+            }
+            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
+            if (ea != null) {
+               XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
+                                               ea.get("Value"),
+                                               getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                                              + "Key"),
+                                               false,
+                                               false,
+                                               JaWEManager.getInstance()
+                                                  .getJaWEController()
+                                                  .canModifyElement(ea));
+               gp.addToGroup(pnl);
+            }
+            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
+            if (ea != null) {
+               XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
+                                               ea.get("Value"),
+                                               getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                                              + "Key"),
+                                               false,
+                                               false,
+                                               JaWEManager.getInstance()
+                                                  .getJaWEController()
+                                                  .canModifyElement(ea));
+               gp.addToGroup(pnl);
             }
             p = gp;
             break;
@@ -152,9 +165,6 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                              true,
                                              true);
 
-            break;
-         case 6:
-            p = super.getPanel(el, 5, hidden);
             break;
          default:
             if (no < 5) {
@@ -198,7 +208,7 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
       if (ea != null) {
          XMLElement eav = ea.get("Value");
 
-         List choices=new ArrayList(appDefChoices.keySet());
+         List choices = new ArrayList(appDefChoices.keySet());
          String choosen = eav.toValue();
          if (!choices.contains(choosen)) {
             choices.add(0, choosen);
@@ -309,7 +319,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          int insertAt = gp.getPanelPositionForElement(el.get("Length"));
          if (insertAt >= 0 && gp.getComponentCount() >= ++insertAt) {
             gp.addToGroup(cbp, insertAt);
@@ -326,7 +337,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          int insertAt = gp.getPanelPositionForElement(el.get("Length"));
          if (insertAt >= 0 && gp.getComponentCount() >= (insertAt += 2)) {
             gp.addToGroup(cbp, insertAt);
@@ -359,7 +371,7 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                       .canModifyElement(el));
    }
 
-   public XMLPanel getPanel(DeadlineCondition el) {
+   public XMLPanel getPanel(DeadlineDuration el) {
       ArrayList cl = new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el))
          .values());
       DataFields dfs = XMLUtil.getWorkflowProcess(el).getDataFields();
@@ -444,7 +456,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
@@ -456,7 +469,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
@@ -468,7 +482,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
@@ -480,7 +495,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
@@ -492,7 +508,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
@@ -504,7 +521,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
@@ -516,7 +534,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
 
@@ -529,7 +548,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
 
@@ -542,25 +562,26 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
 
-      if (ealist.size()>3) {
+      if (ealist.size() > 3) {
          for (int i = 0; i < ealist.size(); i += 2) {
             List subpanels = new ArrayList();
             subpanels.add(ealist.get(i));
             subpanels.add(Box.createHorizontalGlue());
-            if ((i+1)<ealist.size()) {
+            if ((i + 1) < ealist.size()) {
                subpanels.add(ealist.get(i + 1));
             }
             panelElements.add(new XMLGroupPanelGL(getPanelContainer(),
-                                                el,
-                                                subpanels,
-                                                "",
-                                                false,
-                                                false,
-                                                true));
+                                                  el,
+                                                  subpanels,
+                                                  "",
+                                                  false,
+                                                  false,
+                                                  true));
          }
       } else {
          panelElements.addAll(ealist);
@@ -650,7 +671,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
@@ -662,7 +684,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
@@ -674,7 +697,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
@@ -686,7 +710,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
@@ -698,7 +723,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
@@ -710,7 +736,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
@@ -722,7 +749,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
 
@@ -735,7 +763,8 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
 
@@ -748,25 +777,26 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
                                                      false,
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")), false);
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
          ealist.add(cbp);
       }
 
-      if (ealist.size()>3) {
+      if (ealist.size() > 3) {
          for (int i = 0; i < ealist.size(); i += 2) {
             List subpanels = new ArrayList();
             subpanels.add(ealist.get(i));
             subpanels.add(Box.createHorizontalGlue());
-            if ((i+1)<ealist.size()) {
+            if ((i + 1) < ealist.size()) {
                subpanels.add(ealist.get(i + 1));
             }
             panelElements.add(new XMLGroupPanelGL(getPanelContainer(),
-                                                el,
-                                                subpanels,
-                                                "",
-                                                false,
-                                                false,
-                                                true));
+                                                  el,
+                                                  subpanels,
+                                                  "",
+                                                  false,
+                                                  false,
+                                                  true));
          }
       } else {
          panelElements.addAll(ealist);
@@ -869,17 +899,17 @@ public class SharkPanelGenerator extends TogWEPanelGenerator {
       return l;
    }
 
-   protected List getActualParameterOrConditionChoices (XMLElement el) {
-      List l=super.getActualParameterOrConditionChoices(el);
-      
-      DataField df=new DataField(null);
+   protected List getActualParameterOrConditionChoices(XMLElement el) {
+      List l = super.getActualParameterOrConditionChoices(el);
+
+      DataField df = new DataField(null);
       df.setId(SharkConstants.PROCESS_ID);
       l.add(df);
-      df=new DataField(null);
+      df = new DataField(null);
       df.setId(SharkConstants.ACTIVITY_ID);
       l.add(df);
-      
+
       return l;
    }
-   
+
 }

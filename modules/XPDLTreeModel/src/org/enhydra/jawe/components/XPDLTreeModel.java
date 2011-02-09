@@ -27,14 +27,14 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import org.enhydra.jawe.JaWEComponent;
-import org.enhydra.jawe.Utils;
-import org.enhydra.shark.xpdl.XMLBaseForCollectionAndComplex;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.DataTypes;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLBaseForCollectionAndComplex;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.DataTypes;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  *  TreeView hierarchy tree model.
@@ -182,7 +182,7 @@ public class XPDLTreeModel extends DefaultTreeModel {
       Set hidden=new HashSet();
       String hstr = (String)comp.getSettings().getSetting("HideSubElements." + cel.toName() );
 
-      String[] hstra = Utils.tokenize(hstr, " ");
+      String[] hstra = XMLUtil.tokenize(hstr, " ");
       if (hstra != null) {
          for (int i = 0; i < hstra.length; i++) {
             XMLElement el = cel.get(hstra[i]);
@@ -202,11 +202,11 @@ public class XPDLTreeModel extends DefaultTreeModel {
    protected Set getHiddenElements(XMLCollection col) {
       Set hidden = new HashSet();
       String elAttr = (String) comp.getSettings().getSetting("HideElements." + col.toName());
-      String[] els = Utils.tokenize(elAttr, " ");
+      String[] els = XMLUtil.tokenize(elAttr, " ");
       for (int i = 0; i < els.length; i++) {
          String key = els[i];
          String hstr = (String) comp.getSettings().getSetting("HideElements." + col.toName() + "." + key);
-         String[] hstra = Utils.tokenize(hstr, " ");
+         String[] hstra = XMLUtil.tokenize(hstr, " ");
          if (hstra != null) {
             for (int k = 0; k < hstra.length; k++) {
                if (hstra[k].equals("*")) {

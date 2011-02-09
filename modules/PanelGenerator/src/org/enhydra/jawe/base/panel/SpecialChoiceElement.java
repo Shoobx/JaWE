@@ -21,10 +21,10 @@ package org.enhydra.jawe.base.panel;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLEmptyChoiceElement;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLEmptyChoiceElement;
 
 
 /**

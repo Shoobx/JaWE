@@ -34,9 +34,8 @@
 	<jar href="lib/tweshark.jar" />
 	<jar href="lib/twetranspkgpool.jar" />
 	<jar href="lib/tweundomgr.jar" />
-	<jar href="lib/twewfmopen.jar" />
 	<jar href="lib/twewfxml.jar" />
-	<jar href="lib/sharkxpdlmodel.jar" />
+	<jar href="lib/jxpdl.jar" />
 	<jar href="lib/jEdit-syntax.jar"/>
 	<jar href="lib/jgraph.jar"/>
 	<jar href="lib/xercesImpl.jar"/>

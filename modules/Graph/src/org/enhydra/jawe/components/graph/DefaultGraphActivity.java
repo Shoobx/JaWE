@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph;
 
@@ -26,81 +26,108 @@ import java.util.Set;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.tooltip.TooltipGenerator;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.elements.Activity;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Transition;
 
 /**
- * Used to define Activity object in graph and to modify it's
- * properties.
- *
+ * Used to define Activity object in graph and to modify it's properties.
+ * 
  * @author Sasa Bojanic
  */
 public class DefaultGraphActivity extends GraphActivityInterface {
 
    /**
-    * Creates activity with given userObject. Also creates default port
-    * for holding activity transitions.
+    * Creates activity with given userObject. Also creates default port for holding
+    * activity transitions.
     */
    public DefaultGraphActivity(Activity act) {
       setUserObject(act);
       addAPort();
    }
-   
-   protected void addAPort () {
+
+   protected void addAPort() {
       // Create Port
       // Floating Center Port (Child 0 is Default)
-      GraphPortInterface port=GraphUtilities.getGraphController().getGraphObjectFactory().createPort("Center",GraphEAConstants.PORT_TYPE_DEFAULT);
-      add(port);      
+      GraphPortInterface port = GraphUtilities.getGraphController()
+         .getGraphObjectFactory()
+         .createPort("Center", GraphEAConstants.PORT_TYPE_DEFAULT);
+      add(port);
    }
 
-   public String getType () {
-      return JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType((Activity)userObject).getTypeId();
+   public String getType() {
+      return JaWEManager.getInstance()
+         .getJaWEController()
+         .getTypeResolver()
+         .getJaWEType((Activity) userObject)
+         .getTypeId();
    }
 
    /**
     * Gets the port associate with this activity.
     */
-   public GraphPortInterface getPort () {
-      for (Enumeration e=children();e.hasMoreElements();) {
-         Object child=e.nextElement();
+   public GraphPortInterface getPort() {
+      for (Enumeration e = children(); e.hasMoreElements();) {
+         Object child = e.nextElement();
          if (child instanceof GraphPortInterface) {
-            return (GraphPortInterface)child;
+            return (GraphPortInterface) child;
          }
       }
       return null;
    }
 
    /**
-    * Returns <code>true</code> if Activity is a valid source for transition.
-    * This depends of activitie's type property, it can accept to be a
-    * source for transition if it is a normal or starting.
+    * Returns <code>true</code> if Activity is a valid source for transition. This depends
+    * of activitie's type property, it can accept to be a source for transition if it is a
+    * normal or starting.
     */
    public boolean acceptsSource() {
+      int actType = ((Activity) userObject).getActivityType();
+      if (actType == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
+         // if (getReferencedActivities().size() < 1) {
+         return true;
+         // }
+         // return false;
+      } else if (actType == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+         return false;
+      }
       return true;
    }
 
    /**
-    * Returns <code>true</code> if Activity is a valid target for transition.
-    * This depends of activitie's type property, it can accept to be a
-    * target for for transition if it is a normal or ending.
+    * Returns <code>true</code> if Activity is a valid target for transition. This depends
+    * of activitie's type property, it can accept to be a target for for transition if it
+    * is a normal or ending.
     */
    public boolean acceptsTarget() {
+      int actType = ((Activity) userObject).getActivityType();
+      if (actType == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
+         return false;
+      } else if (actType == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+         // if (getReferencingActivities().size() < 1) {
+         return true;
+         // }
+         // return false;
+      }
+
       return true;
    }
 
-   public XMLComplexElement getPropertyObject () {
-      if (userObject instanceof XMLComplexElement){//Harald Meister: fixes a rare bug
-         return (XMLComplexElement)userObject;
+   public XMLComplexElement getPropertyObject() {
+      if (userObject instanceof XMLComplexElement) {// Harald Meister: fixes a rare bug
+         return (XMLComplexElement) userObject;
       }
-      return null;//Harald Meister
+      return null;// Harald Meister
    }
 
    /**
     * Gets a tooltip text for activity.
     */
-   public String getTooltip () {
-      TooltipGenerator ttg=JaWEManager.getInstance().getTooltipGenerator();
-      if (userObject!=null && ttg!=null) {
+   public String getTooltip() {
+      TooltipGenerator ttg = JaWEManager.getInstance().getTooltipGenerator();
+      if (userObject != null && ttg != null) {
          return ttg.getTooltip(getPropertyObject());
       }
       return "";
@@ -109,51 +136,53 @@ public class DefaultGraphActivity extends GraphActivityInterface {
    /**
     * Gets an activity "display name" property.
     */
-   public String toString () {
-      String name=null;
-      if (userObject!=null) {
-         name=getPropertyObject().get("Name").toValue();
+   public String toString() {
+      String name = null;
+      if (userObject != null) {
+         name = getPropertyObject().get("Name").toValue();
          if (name.equals("")) {
-            name=getPropertyObject().get("Id").toValue();
+            name = getPropertyObject().get("Id").toValue();
          }
       }
       return name;
    }
 
    /**
-    * Create a clone of the cell. The cloning of the
-    * user object is deferred to the cloneUserObject()
-    * method.
-    * NOTE: this original method of DefaultGraphCell is
-    *       modified to retain synchronization of userObject and
-    *       value attribute from attribute map when model
-    *       is attribute store
-    *
-    * @return Object  a clone of this object.
+    * Create a clone of the cell. The cloning of the user object is deferred to the
+    * cloneUserObject() method. NOTE: this original method of DefaultGraphCell is modified
+    * to retain synchronization of userObject and value attribute from attribute map when
+    * model is attribute store
+    * 
+    * @return Object a clone of this object.
     */
    public Object clone() {
-      DefaultGraphActivity c = (DefaultGraphActivity)super.clone();
+      DefaultGraphActivity c = (DefaultGraphActivity) super.clone();
       c.setUserObject(c.userObject);
       return c;
    }
+
    /**
     * Create a clone of the ActivityProperties object.
+    * 
     * @return Object a clone of this activity property object.
     */
    protected Object cloneUserObject() {
-      return ((Activity)userObject).clone();
+      return ((Activity) userObject).clone();
    }
 
    /**
     * Gets all activities that reference this one.
     */
-   public Set getReferencingActivities () {
-      Set referencingActivities=new HashSet();
-      for( Iterator i = getPort().edges(); i.hasNext();){
-         GraphTransitionInterface l = (GraphTransitionInterface)i.next();
-         GraphActivityInterface target = ((GraphPortInterface)l.getTarget()).getActivity();
-         if(this==target) {
-            referencingActivities.add(((GraphPortInterface)l.getSource()).getActivity());
+   public Set getReferencingActivities() {
+      Set referencingActivities = new HashSet();
+      for (Iterator i = getPort().edges(); i.hasNext();) {
+         Object t = i.next();
+         if (t instanceof GraphTransitionInterface) {
+            GraphTransitionInterface l = (GraphTransitionInterface) t;
+            GraphActivityInterface target = (GraphActivityInterface) ((GraphPortInterface) l.getTarget()).getActivityOrArtifact();
+            if (this == target && l.getPropertyObject() instanceof Transition) {
+               referencingActivities.add(((GraphPortInterface) l.getSource()).getActivityOrArtifact());
+            }
          }
       }
       return referencingActivities;
@@ -162,20 +191,59 @@ public class DefaultGraphActivity extends GraphActivityInterface {
    /**
     * Gets all activities that this activity references.
     */
-   public Set getReferencedActivities () {
-      Set referencedActivities=new HashSet();
-      for( Iterator i = getPort().edges(); i.hasNext();){
-         GraphTransitionInterface l = (GraphTransitionInterface)i.next();
-         GraphActivityInterface source = ((GraphPortInterface)l.getSource()).getActivity();
-         if(this==source) {
-            referencedActivities.add(((GraphPortInterface)l.getTarget()).getActivity());
+   public Set getReferencedActivities() {
+      Set referencedActivities = new HashSet();
+      for (Iterator i = getPort().edges(); i.hasNext();) {
+         Object t = i.next();
+         if (t instanceof GraphTransitionInterface) {
+            GraphTransitionInterface l = (GraphTransitionInterface) t;
+            GraphCommonInterface source = ((GraphPortInterface) l.getSource()).getActivityOrArtifact();
+            if (this == source && l.getPropertyObject() instanceof Transition) {
+               referencedActivities.add(((GraphPortInterface) l.getTarget()).getActivityOrArtifact());
+            }
          }
       }
       return referencedActivities;
    }
 
-   public Point getOffset () {
-      return GraphUtilities.getOffsetPoint((Activity)userObject);
+   /**
+    * Gets all artifacts that reference this one.
+    */
+   public Set getReferencingArtifacts() {
+      Set referencingArtifacts = new HashSet();
+      for (Iterator i = getPort().edges(); i.hasNext();) {
+         Object t = i.next();
+         if (t instanceof GraphTransitionInterface) {
+            GraphTransitionInterface l = (GraphTransitionInterface) t;
+            GraphCommonInterface target = ((GraphPortInterface) l.getTarget()).getActivityOrArtifact();
+            if (this == target && l.getPropertyObject() instanceof Association) {
+               referencingArtifacts.add(((GraphPortInterface) l.getSource()).getActivityOrArtifact());
+            }
+         }
+      }
+      return referencingArtifacts;
    }
-   
+
+   /**
+    * Gets all artifacts that this activity references.
+    */
+   public Set getReferencedArtifacts() {
+      Set referencedArtifacts = new HashSet();
+      for (Iterator i = getPort().edges(); i.hasNext();) {
+         Object t = i.next();
+         if (t instanceof GraphTransitionInterface) {
+            GraphTransitionInterface l = (GraphTransitionInterface) t;
+            GraphCommonInterface source = ((GraphPortInterface) l.getSource()).getActivityOrArtifact();
+            if (this == source && l.getPropertyObject() instanceof Association) {
+               referencedArtifacts.add(((GraphPortInterface) l.getTarget()).getActivityOrArtifact());
+            }
+         }
+      }
+      return referencedArtifacts;
+   }
+
+   public Point getOffset() {
+      return GraphUtilities.getOffsetPoint((Activity) userObject);
+   }
+
 }

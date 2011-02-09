@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 /**
  * Miroslav Popov, Oct 4, 2005 miroslav.popov@gmail.com
@@ -22,37 +22,44 @@
 package org.enhydra.jawe.base.controller;
 
 import org.enhydra.jawe.JaWEConstants;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.ActivitySets;
-import org.enhydra.shark.xpdl.elements.ActualParameter;
-import org.enhydra.shark.xpdl.elements.Application;
-import org.enhydra.shark.xpdl.elements.Applications;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.DataFields;
-import org.enhydra.shark.xpdl.elements.Deadline;
-import org.enhydra.shark.xpdl.elements.EnumerationValue;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExternalPackage;
-import org.enhydra.shark.xpdl.elements.ExternalPackages;
-import org.enhydra.shark.xpdl.elements.FormalParameter;
-import org.enhydra.shark.xpdl.elements.FormalParameters;
-import org.enhydra.shark.xpdl.elements.Member;
-import org.enhydra.shark.xpdl.elements.Namespace;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Participants;
-import org.enhydra.shark.xpdl.elements.Responsible;
-import org.enhydra.shark.xpdl.elements.Tool;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.Transitions;
-import org.enhydra.shark.xpdl.elements.TypeDeclaration;
-import org.enhydra.shark.xpdl.elements.TypeDeclarations;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
-import org.enhydra.shark.xpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.ActivitySets;
+import org.enhydra.jxpdl.elements.ActualParameter;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.Applications;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Artifacts;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Associations;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
+import org.enhydra.jxpdl.elements.Deadline;
+import org.enhydra.jxpdl.elements.EnumerationValue;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExternalPackage;
+import org.enhydra.jxpdl.elements.ExternalPackages;
+import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Lanes;
+import org.enhydra.jxpdl.elements.Member;
+import org.enhydra.jxpdl.elements.Namespace;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Participants;
+import org.enhydra.jxpdl.elements.Pool;
+import org.enhydra.jxpdl.elements.Pools;
+import org.enhydra.jxpdl.elements.Responsible;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.Transitions;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
+import org.enhydra.jxpdl.elements.TypeDeclarations;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcesses;
 
 /**
  * @author Miroslav Popov
@@ -77,14 +84,30 @@ public class JaWETypeResolver {
          Activity act = (Activity) el;
          if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO) {
             jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_NO);
-         } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TOOL) {
-            jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_TOOL);
+         } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+            jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION);
          } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
             jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_BLOCK);
          } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE) {
-            jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_ROUTE);
+            if (act.getActivityTypes()
+               .getRoute()
+               .getGatewayType()
+               .equals(XPDLConstants.JOIN_SPLIT_TYPE_PARALLEL)) {
+               jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_ROUTE_PARALLEL);
+            } else if (act.getActivityTypes()
+               .getRoute()
+               .getGatewayType()
+               .equals(XPDLConstants.JOIN_SPLIT_TYPE_INCLUSIVE)) {
+               jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_ROUTE_INCLUSIVE);
+            } else {
+               jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE);
+            }
          } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_SUBFLOW) {
             jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_SUBFLOW);
+         } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
+            jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_START);
+         } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+            jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_END);
          }
       } else if (el instanceof ActivitySet) {
          jt = jts.getType(JaWEConstants.ACTIVITY_SET_TYPE_DEFAULT);
@@ -98,6 +121,19 @@ public class JaWETypeResolver {
          jt = jts.getType(JaWEConstants.APPLICATION_TYPE_DEFAULT);
       } else if (el instanceof Applications) {
          jt = jts.getType(JaWEConstants.APPLICATIONS);
+      } else if (el instanceof Artifact) {
+         Artifact art = (Artifact) el;
+         if (art.getArtifactType().equals(XPDLConstants.ARTIFACT_TYPE_DATAOBJECT)) {
+            jt = jts.getType(JaWEConstants.ARTIFACT_TYPE_DATA_OBJECT);
+         } else {
+            jt = jts.getType(JaWEConstants.ARTIFACT_TYPE_ANNOTATION);
+         }
+      } else if (el instanceof Artifacts) {
+         jt = jts.getType(JaWEConstants.ARTIFACTS);
+      } else if (el instanceof Association) {
+         jt = jts.getType(JaWEConstants.ASSOCIATION_TYPE_DEFAULT);
+      } else if (el instanceof Associations) {
+         jt = jts.getType(JaWEConstants.ASSOCIATIONS);
       } else if (el instanceof DataFields) {
          jt = jts.getType(JaWEConstants.DATAFIELDS);
       } else if (el instanceof DataField) {
@@ -116,6 +152,10 @@ public class JaWETypeResolver {
          jt = jts.getType(JaWEConstants.FORMAL_PARAMETER_DEFAULT);
       } else if (el instanceof FormalParameters) {
          jt = jts.getType(JaWEConstants.FORMALPARAMETERS);
+      } else if (el instanceof Lane) {
+         jt = jts.getType(JaWEConstants.LANE_TYPE_DEFAULT);
+      } else if (el instanceof Lanes) {
+         jt = jts.getType(JaWEConstants.LANES);
       } else if (el instanceof Member) {
          jt = jts.getType(JaWEConstants.MEMBER_DEFAULT);
       } else if (el instanceof Namespace) {
@@ -130,7 +170,7 @@ public class JaWETypeResolver {
                jt = jts.getType(JaWEConstants.PACKAGE_EXTERNAL);
             }
          }
-         if (jt==null) {
+         if (jt == null) {
             jt = jts.getType(JaWEConstants.PACKAGE_TRANSIENT);
          }
       } else if (el instanceof Participant) {
@@ -164,13 +204,17 @@ public class JaWETypeResolver {
          jt = jts.getType(JaWEConstants.PARTICIPANTS);
       } else if (el instanceof Responsible) {
          jt = jts.getType(JaWEConstants.RESPONSIBLE_DEFAULT);
-      } else if (el instanceof Tool) {
-         jt = jts.getType(JaWEConstants.TOOL_DEFAULT);
+      } else if (el instanceof Pool) {
+         jt = jts.getType(JaWEConstants.POOL_TYPE_DEFAULT);
+      } else if (el instanceof Pools) {
+         jt = jts.getType(JaWEConstants.POOLS);
       } else if (el instanceof Transition) {
          Transition tr = (Transition) el;
          if (tr.getCondition().getType().equals("")) {
             jt = jts.getType(JaWEConstants.TRANSITION_TYPE_UNCONDITIONAL);
-         } else if (tr.getCondition().getType().equals(XPDLConstants.CONDITION_TYPE_CONDITION)) {
+         } else if (tr.getCondition()
+            .getType()
+            .equals(XPDLConstants.CONDITION_TYPE_CONDITION)) {
             jt = jts.getType(JaWEConstants.TRANSITION_TYPE_CONDITIONAL);
          } else if (tr.getCondition()
             .getType()
@@ -194,7 +238,7 @@ public class JaWETypeResolver {
       } else if (el instanceof WorkflowProcess) {
          jt = jts.getType(JaWEConstants.WORKFLOW_PROCESS_TYPE_DEFAULT);
       } else if (el instanceof WorkflowProcesses) {
-         jt = jts.getType(JaWEConstants.PROCESSES);
+         jt = jts.getType(JaWEConstants.WORKFLOWPROCESSES);
       }
       if (jt == null) {
          jt = jts.getType(jts.getDefaultType(el));

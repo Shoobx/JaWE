@@ -18,6 +18,8 @@
 
 package org.enhydra.jawe.components.graph;
 
+import java.awt.Dimension;
+
 import org.jgraph.graph.CellViewRenderer;
 
 /**
@@ -26,4 +28,5 @@ import org.jgraph.graph.CellViewRenderer;
  * @author Sasa Bojanic   
  */
 public interface GraphActivityRendererInterface extends CellViewRenderer {
+   public abstract Dimension getLabelDimension (GraphActivityViewInterface view);   
 }

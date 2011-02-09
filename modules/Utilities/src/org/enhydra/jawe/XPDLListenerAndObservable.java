@@ -20,9 +20,9 @@ package org.enhydra.jawe;
 
 import java.util.Observable;
 
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLElementChangeListener;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLElementChangeListener;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Observable class that represents XPDL model.

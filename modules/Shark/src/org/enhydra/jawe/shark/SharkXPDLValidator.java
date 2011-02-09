@@ -26,30 +26,28 @@ import java.util.Properties;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.xpdlvalidator.TogWEXPDLValidator;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.StandardPackageValidator;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XMLValidationError;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.XPDLValidationErrorIds;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.Application;
-import org.enhydra.shark.xpdl.elements.ArrayType;
-import org.enhydra.shark.xpdl.elements.BasicType;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.EnumerationType;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.FinishMode;
-import org.enhydra.shark.xpdl.elements.ListType;
-import org.enhydra.shark.xpdl.elements.Manual;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Performer;
-import org.enhydra.shark.xpdl.elements.RecordType;
-import org.enhydra.shark.xpdl.elements.Script;
-import org.enhydra.shark.xpdl.elements.UnionType;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLValidationError;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.XPDLValidationErrorIds;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.ArrayType;
+import org.enhydra.jxpdl.elements.BasicType;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.EnumerationType;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ListType;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.RecordType;
+import org.enhydra.jxpdl.elements.Script;
+import org.enhydra.jxpdl.elements.UnionType;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
  * Special shark validation - to determine if the package is 'shark' valid. It extends the
@@ -115,7 +113,35 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             }
          }
       }
+      if ((el.toName().equals("StartMode") || el.toName().equals("FinishMode"))
+          && el.toValue().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)
+          && parent instanceof Activity) {
+         Activity act = (Activity) parent;
+         if (act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
+             || el.toName().equals("FinishMode"))
+            return;
 
+         String performer = act.getFirstPerformer();
+         boolean isSystemParticipantPerformer = false;
+         Participant p = null;
+         p = XMLUtil.findParticipant(xmlInterface,
+                                     XMLUtil.getWorkflowProcess(act),
+                                     performer);
+         if (p != null) {
+            String participantType = p.getParticipantType().getType();
+            if (participantType.equals(XPDLConstants.PARTICIPANT_TYPE_SYSTEM)) {
+               isSystemParticipantPerformer = true;
+            }
+         }
+         if (isSystemParticipantPerformer) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_MANUAL_START_MODE_FOR_TOOL_ACTIVITY_WITH_SYSTEM_PARTICIPANT_PERFORMER,
+                                                             act.getId(),
+                                                             el);
+            existingErrors.add(verr);
+         }
+      }
    }
 
    public void validateElement(Application el, List existingErrors, boolean fullCheck) {
@@ -159,35 +185,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       existingErrors.add(verr);
    }
 
-   public void validateElement(Manual el, List existingErrors, boolean fullCheck) {
-      Activity act = XMLUtil.getActivity(el);
-      if (act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TOOL
-          || el.getParent().getParent() instanceof FinishMode)
-         return;
-
-      String performer = act.getPerformer();
-      boolean isSystemParticipantPerformer = false;
-      Participant p = null;
-      p = XMLUtil.findParticipant(xmlInterface,
-                                  XMLUtil.getWorkflowProcess(act),
-                                  performer);
-      if (p != null) {
-         String participantType = p.getParticipantType().getType();
-         if (participantType.equals(XPDLConstants.PARTICIPANT_TYPE_SYSTEM)) {
-            isSystemParticipantPerformer = true;
-         }
-      }
-      if (isSystemParticipantPerformer) {
-         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                          XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_MANUAL_START_MODE_FOR_TOOL_ACTIVITY_WITH_SYSTEM_PARTICIPANT_PERFORMER,
-                                                          act.getId(),
-                                                          el);
-         existingErrors.add(verr);
-      }
-   }
-
-   public void validateElement(org.enhydra.shark.xpdl.elements.Package el,
+   public void validateElement(org.enhydra.jxpdl.elements.Package el,
                                List existingErrors,
                                boolean fullCheck) {
       super.validateElement(el, existingErrors, fullCheck);
@@ -201,6 +199,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (fullCheck || existingErrors.size() == 0) {
          // check performer
          Activity act = XMLUtil.getActivity(el);
+         if (act==null) return;
          String performer = el.toValue();
          int type = act.getActivityType();
          if (type == XPDLConstants.ACTIVITY_TYPE_NO) {
@@ -279,95 +278,95 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       return super.isIdValid(id) && id.length() <= 90;
    }
 
-   protected StandardPackageValidator createValidatorInstance () {
+   protected StandardPackageValidator createValidatorInstance() {
       return new SharkXPDLValidator();
    }
 
    protected Map getActualParameterOrConditionChoices(XMLElement el) {
-	      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
+      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
 
-	      DataField df = new DataField(null);
-	      df.setId(SharkConstants.PROCESS_ID);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-	      map.put(SharkConstants.PROCESS_ID, df);
+      DataField df = new DataField(null);
+      df.setId(SharkConstants.PROCESS_ID);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.PROCESS_ID, df);
 
-	      df = new DataField(null);
-	      df.setId(SharkConstants.ACTIVITY_ID);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-	      map.put(SharkConstants.ACTIVITY_ID, df);
+      df = new DataField(null);
+      df.setId(SharkConstants.ACTIVITY_ID);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.ACTIVITY_ID, df);
 
-	      return map;
-	   }
+      return map;
+   }
 
-	   protected Map getDeadlineConditionChoices(XMLElement el) {
-	      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
+   protected Map getDeadlineConditionChoices(XMLElement el) {
+      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
 
-	      DataField df = new DataField(null);
-	      df.setId(SharkConstants.PROCESS_ID);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-	      map.put(SharkConstants.PROCESS_ID, df);
+      DataField df = new DataField(null);
+      df.setId(SharkConstants.PROCESS_ID);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.PROCESS_ID, df);
 
-	      df = new DataField(null);
-	      df.setId(SharkConstants.ACTIVITY_ID);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-	      map.put(SharkConstants.ACTIVITY_ID, df);
+      df = new DataField(null);
+      df.setId(SharkConstants.ACTIVITY_ID);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.ACTIVITY_ID, df);
 
-	      df = new DataField(null);
-	      df.setId(SharkConstants.PROCESS_STARTED_TIME);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-	      map.put(SharkConstants.PROCESS_STARTED_TIME, df);
+      df = new DataField(null);
+      df.setId(SharkConstants.PROCESS_STARTED_TIME);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+      map.put(SharkConstants.PROCESS_STARTED_TIME, df);
 
-	      df = new DataField(null);
-	      df.setId(SharkConstants.ACTIVITY_ACTIVATED_TIME);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-	      map.put(SharkConstants.ACTIVITY_ACTIVATED_TIME, df);
+      df = new DataField(null);
+      df.setId(SharkConstants.ACTIVITY_ACTIVATED_TIME);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+      map.put(SharkConstants.ACTIVITY_ACTIVATED_TIME, df);
 
-	      df = new DataField(null);
-	      df.setId(SharkConstants.ACTIVITY_ACCEPTED_TIME);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-	      map.put(SharkConstants.ACTIVITY_ACCEPTED_TIME, df);
+      df = new DataField(null);
+      df.setId(SharkConstants.ACTIVITY_ACCEPTED_TIME);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+      map.put(SharkConstants.ACTIVITY_ACCEPTED_TIME, df);
 
-	      return map;
-	   }
+      return map;
+   }
 
-	   protected Map getPerformerChoices(XMLElement el) {
-	      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
+   protected Map getPerformerChoices(XMLElement el) {
+      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
 
-	      DataField df = new DataField(null);
-	      df.setId(SharkConstants.PROCESS_ID);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-	      map.put(SharkConstants.PROCESS_ID, df);
+      DataField df = new DataField(null);
+      df.setId(SharkConstants.PROCESS_ID);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.PROCESS_ID, df);
 
-	      df = new DataField(null);
-	      df.setId(SharkConstants.ACTIVITY_ID);
-	      df.getDataType().getDataTypes().setBasicType();
-	      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-	      map.put(SharkConstants.ACTIVITY_ID, df);
+      df = new DataField(null);
+      df.setId(SharkConstants.ACTIVITY_ID);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.ACTIVITY_ID, df);
 
-	      Map parts = XMLUtil.getPossibleParticipants(XMLUtil.getWorkflowProcess(el),
-	                                                  JaWEManager.getInstance()
-	                                                     .getXPDLHandler());
-	      Iterator it = parts.entrySet().iterator();
-	      while (it.hasNext()) {
-	         Map.Entry me = (Map.Entry) it.next();
-	         if (map.containsKey(me.getKey()))
-	            continue;
-	         df = new DataField(null);
-	         df.setId(me.getKey().toString());
-	         df.getDataType().getDataTypes().setBasicType();
-	         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-	         map.put(me.getKey().toString(), df);
-	      }
+      Map parts = XMLUtil.getPossibleParticipants(XMLUtil.getWorkflowProcess(el),
+                                                  JaWEManager.getInstance()
+                                                     .getXPDLHandler());
+      Iterator it = parts.entrySet().iterator();
+      while (it.hasNext()) {
+         Map.Entry me = (Map.Entry) it.next();
+         if (map.containsKey(me.getKey()))
+            continue;
+         df = new DataField(null);
+         df.setId(me.getKey().toString());
+         df.getDataType().getDataTypes().setBasicType();
+         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         map.put(me.getKey().toString(), df);
+      }
 
-	      return map;
-	   }
-   
+      return map;
+   }
+
 }

@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 
 import org.enhydra.jawe.base.editor.XPDLElementEditor;
 import org.enhydra.jawe.base.panel.PanelContainer;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Standard interface for creating all panels for editing XPDL content.

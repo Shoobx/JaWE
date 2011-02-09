@@ -32,7 +32,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.editor.TogWEStandardXPDLElementEditor;
 import org.enhydra.jawe.base.panel.InlinePanel;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * @author Zoran Milakovic

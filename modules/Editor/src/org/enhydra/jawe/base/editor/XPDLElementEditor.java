@@ -21,7 +21,7 @@ package org.enhydra.jawe.base.editor;
 import java.awt.Window;
 
 import org.enhydra.jawe.JaWEComponent;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 public interface XPDLElementEditor extends JaWEComponent {
 

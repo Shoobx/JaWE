@@ -44,8 +44,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import org.enhydra.jawe.base.controller.JaWEActions;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XPDLConstants;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XPDLConstants;
 
 /**
  * Creates a panel for LDAP component.

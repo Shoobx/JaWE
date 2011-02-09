@@ -19,7 +19,7 @@
 package org.enhydra.jawe.base.label;
 
 import org.enhydra.jawe.Settings;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  *  Used to generate labels for XML elements.

@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observer;
 
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
 
 /**
  * Structure representing info for the change of some XPDL Element.

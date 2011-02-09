@@ -17,8 +17,8 @@
 -->
 <Package>
    <PackageHeader>
-      <XPDLVersion>1.0</XPDLVersion>
-      <Vendor>Together</Vendor>
+      <XPDLVersion>2.1</XPDLVersion>
+      <Vendor>Together Teamsolutions Co., Ltd.</Vendor>
    </PackageHeader>
    <Script Type="text/javascript"/>
    <ExtendedAttributes>

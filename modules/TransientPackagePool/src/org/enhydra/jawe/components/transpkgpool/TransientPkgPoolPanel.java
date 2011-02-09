@@ -51,10 +51,10 @@ import org.enhydra.jawe.XPDLElementChangeInfo;
 import org.enhydra.jawe.base.controller.JaWEActions;
 import org.enhydra.jawe.components.XPDLTreeCellRenderer;
 import org.enhydra.jawe.components.XPDLTreeNode;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Panel for displaying transient package pool.

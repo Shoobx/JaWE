@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel;
 
@@ -31,18 +31,25 @@ import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTabbedPanel;
 import org.enhydra.jawe.base.transitionhandler.TransitionHandler;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.XPDLValidationErrorIds;
-import org.enhydra.shark.xpdl.elements.*;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jawe.components.graph.SizeObject;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLEmptyChoiceElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.XPDLValidationErrorIds;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Condition;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Transition;
 
 /**
  * Class used to validate panels for all XPDL entities.
@@ -57,434 +64,68 @@ public class StandardPanelValidator implements PanelValidator {
       this.properties = props;
    }
 
-   public boolean validatePanel(Activities el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Activity el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ActivitySet el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ActivitySets el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ActivityTypes el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ActualParameter el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ActualParameters el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Application el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Applications el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ApplicationTypes el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ArrayType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Author el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Automatic el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(BasicType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(BlockActivity el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Codepage el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Condition el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ConformanceClass el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Cost el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(CostUnit el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Countrykey el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Created el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(DataField el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(DataFields el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(DataType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(DataTypes el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Deadline el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(DeadlineCondition el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Deadlines el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(DeclaredType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Description el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Documentation el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Duration el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(EnumerationType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(EnumerationValue el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ExceptionName el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ExtendedAttribute el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ExtendedAttributes el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ExternalPackage el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ExternalPackages el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ExternalReference el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(FinishMode el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(FormalParameter el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(FormalParameters el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Icon el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Implementation el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ImplementationTypes el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(InitialValue el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Join el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Length el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Limit el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ListType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Manual el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Member el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Namespace el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Namespaces el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(No el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(org.enhydra.shark.xpdl.elements.Package el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(PackageHeader el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Participant el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Participants el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ParticipantType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Performer el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Priority el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(PriorityUnit el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ProcessHeader el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(RecordType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(RedefinableHeader el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Responsible el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Responsibles el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Route el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(SchemaType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Script el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(SimulationInformation el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Split el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(StartFinishModes el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(StartMode el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(SubFlow el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(TimeEstimation el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Tool el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Tools el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Transition el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(TransitionRef el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(TransitionRefs el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(TransitionRestriction el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(TransitionRestrictions el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Transitions el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(TypeDeclaration el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(TypeDeclarations el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(UnionType el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ValidFrom el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(ValidTo el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Vendor el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(Version el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(WaitingTime el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(WorkflowProcess el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(WorkflowProcesses el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(WorkingTime el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(XPDLVersion el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(XMLComplexChoice el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(XMLCollection el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(XMLCollectionElement el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(XMLComplexElement el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
-   }
-
-   public boolean validatePanel(XMLSimpleElement el, XMLPanel panel) {
-      return standardPanelValidation(el, panel);
+   public boolean validatePanel(SizeObject el, XMLPanel panel) {
+      XMLPanel widthPanel = findPanel(panel, el.get("Width"));
+      XMLPanel heightPanel = findPanel(panel, el.get("Height"));
+
+      String w = (String) widthPanel.getValue();
+      String h = (String) heightPanel.getValue();
+
+      try {
+         double width = Double.parseDouble(w);
+         double height = Double.parseDouble(h);
+         if (width <= 10 || height < 10) {
+            XMLBasicPanel.errorMessage(panel.getWindow(),
+                                       ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                       "",
+                                       ResourceManager.getLanguageDependentString("MessageInvalidDimension"));
+            return false;
+         }
+      } catch (Exception ex) {
+         XMLBasicPanel.errorMessage(panel.getWindow(),
+                                    ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                    "",
+                                    ResourceManager.getLanguageDependentString("MessageInvalidValue"));
+         return false;
+      }
+      return true;
    }
 
    public boolean validatePanel(XMLAttribute el, XMLPanel panel) {
       return standardPanelValidation(el, panel);
-   }
+   }   
+   
+   public boolean validatePanel(XMLEmptyChoiceElement el, XMLPanel panel) {
+      return standardPanelValidation(el, panel);
+   }   
+
+   public boolean validatePanel(XMLComplexChoice el, XMLPanel panel) {
+      return standardPanelValidation(el, panel);
+   }   
+
+   public boolean validatePanel(XMLCollection el, XMLPanel panel) {
+      return standardPanelValidation(el, panel);
+   }   
+   
+   public boolean validatePanel(XMLComplexElement el, XMLPanel panel) {
+      return standardPanelValidation(el, panel);
+   }   
+
+   public boolean validatePanel(XMLSimpleElement el, XMLPanel panel) {
+      return standardPanelValidation(el, panel);
+   }   
 
    public boolean validatePanel(XMLElement el, XMLPanel panel) {
       try {
          Class cl = el.getClass();
          Method m = null;
          try {
-            m = this.getClass().getMethod("validatePanel", new Class[] { cl, XMLPanel.class });
+            m = this.getClass().getMethod("validatePanel", new Class[] {
+                  cl, XMLPanel.class
+            });
          } catch (Exception ex) {
-            if (!(cl == XMLSimpleElement.class || cl == XMLAttribute.class || cl == XMLComplexChoice.class
+            if (!(cl == XMLSimpleElement.class
+                  || cl == XMLAttribute.class || cl == XMLComplexChoice.class
                   || cl == XMLComplexElement.class || cl == XMLCollectionElement.class || cl == XMLCollection.class)) {
                if (XMLComplexChoice.class.isAssignableFrom(cl)) {
                   cl = XMLComplexChoice.class;
@@ -499,9 +140,13 @@ public class StandardPanelValidator implements PanelValidator {
                }
             }
          }
-         m = this.getClass().getMethod("validatePanel", new Class[] { cl, XMLPanel.class });
+         m = this.getClass().getMethod("validatePanel", new Class[] {
+               cl, XMLPanel.class
+         });
          // System.err.println("calling "+m.toString());
-         return ((Boolean) m.invoke(this, new Object[] { el, panel })).booleanValue();
+         return ((Boolean) m.invoke(this, new Object[] {
+               el, panel
+         })).booleanValue();
       } catch (Throwable e) {
          e.printStackTrace();
       }
@@ -511,12 +156,11 @@ public class StandardPanelValidator implements PanelValidator {
 
    public boolean standardPanelValidation(XMLElement el, XMLPanel panel) {
       boolean idValidation = false;
-      if (el instanceof Tool) {
-         idValidation = false;
-      } else if (el instanceof XMLCollectionElement || el instanceof Package) {
+      if (el instanceof XMLCollectionElement || el instanceof Package) {
          idValidation = true;
-      } else if (el instanceof XMLAttribute && el.toName().equals("Id")
-            && (el.getParent() instanceof XMLCollectionElement || el.getParent() instanceof Package)) {
+      } else if (el instanceof XMLAttribute
+                 && el.toName().equals("Id")
+                 && (el.getParent() instanceof XMLCollectionElement || el.getParent() instanceof Package)) {
          idValidation = true;
       }
       if (idValidation) {
@@ -525,11 +169,20 @@ public class StandardPanelValidator implements PanelValidator {
          }
       }
 
-      if (el instanceof Transition || el instanceof Condition || el.getParent() instanceof Transition || el.getParent() instanceof Condition) {
+      if (el instanceof Transition
+          || el instanceof Condition || el.getParent() instanceof Transition
+          || el.getParent() instanceof Condition) {
          if (!validateTransition(panel, el)) {
             return false;
          }
       }
+
+      if (el instanceof Association || el.getParent() instanceof Association) {
+         if (!validateAssociation(panel, el)) {
+            return false;
+         }
+      }
+
       return true;
    }
 
@@ -558,8 +211,8 @@ public class StandardPanelValidator implements PanelValidator {
          cel = (XMLComplexElement) el;
          newId = cel.get("Id").toValue();
          idPanel = findPanel(pnl, cel.get("Id"));
-         if (idPanel==null) {
-            idPanel=pnl;
+         if (idPanel == null) {
+            idPanel = pnl;
          }
          if (idPanel != null) {
             if (idPanel.getValue() instanceof String) {
@@ -573,11 +226,15 @@ public class StandardPanelValidator implements PanelValidator {
          }
       }
 
-      System.err.println("Valid for " + el + ", par=" + el.getParent() + ", newid=" + newId + ", idp=" + idPanel);
+      System.err.println("Valid for "
+                         + el + ", par=" + el.getParent() + ", newid=" + newId + ", idp="
+                         + idPanel);
       boolean isValid = XMLUtil.isIdValid(newId);
       if (!isValid) {
-         XMLBasicPanel.errorMessage(pnl.getWindow(), ResourceManager.getLanguageDependentString("ErrorMessageKey"), "",
-               ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_INVALID_ID));
+         XMLBasicPanel.errorMessage(pnl.getWindow(),
+                                    ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                    "",
+                                    ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_INVALID_ID));
          idPanel.requestFocus();
          return false;
       }
@@ -586,7 +243,9 @@ public class StandardPanelValidator implements PanelValidator {
 
          boolean isUniqueId = true;
          if (cel instanceof XMLCollectionElement) {
-            isUniqueId = JaWEManager.getInstance().getIdFactory().isIdUnique((XMLCollectionElement) cel, newId);
+            isUniqueId = JaWEManager.getInstance()
+               .getIdFactory()
+               .isIdUnique((XMLCollectionElement) cel, newId);
          } else {
             Package fp = JaWEManager.getInstance().getXPDLHandler().getPackageById(newId);
             if (fp != null && fp != cel && fp.getId().equals(newId)) {
@@ -595,8 +254,10 @@ public class StandardPanelValidator implements PanelValidator {
          }
 
          if (!isUniqueId) {
-            XMLBasicPanel.errorMessage(pnl.getWindow(), ResourceManager.getLanguageDependentString("ErrorMessageKey"),
-                  "", ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_NON_UNIQUE_ID));
+            XMLBasicPanel.errorMessage(pnl.getWindow(),
+                                       ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                       "",
+                                       ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_NON_UNIQUE_ID));
             idPanel.requestFocus();
             return false;
          }
@@ -639,7 +300,7 @@ public class StandardPanelValidator implements PanelValidator {
                newTo = ((String) v).trim();
             }
          }
-         ftPanel = findPanel(pnl, ((Condition)tra.get("Condition")).getTypeAttribute());
+         ftPanel = findPanel(pnl, ((Condition) tra.get("Condition")).getTypeAttribute());
          // System.err.println("Found panel From ->"+ftPanel);
          if (ftPanel != null) {
             Object v = ftPanel.getValue();
@@ -648,7 +309,8 @@ public class StandardPanelValidator implements PanelValidator {
                newType = ((String) v).trim();
             }
          }
-      } else if (el instanceof XMLAttribute && (el.toName().equals("From") || el.toName().equals("To"))) {
+      } else if (el instanceof XMLAttribute
+                 && (el.toName().equals("From") || el.toName().equals("To"))) {
          Object v = pnl.getValue();
          String toOrFrom = null;
          if (v instanceof XMLElement) {
@@ -666,7 +328,8 @@ public class StandardPanelValidator implements PanelValidator {
             }
          }
       } else if (el instanceof Condition) {
-         XMLPanel ftPanel = findPanel(pnl, ((Condition)tra.get("Condition")).getTypeAttribute());
+         XMLPanel ftPanel = findPanel(pnl,
+                                      ((Condition) tra.get("Condition")).getTypeAttribute());
          // System.err.println("Found panel From ->"+ftPanel);
          if (ftPanel != null) {
             Object v = ftPanel.getValue();
@@ -675,31 +338,34 @@ public class StandardPanelValidator implements PanelValidator {
                newType = ((String) v).trim();
             }
          }
-      } else if (el instanceof XMLAttribute && el.getParent() instanceof Condition && el.toName().equals("Type")) {
+      } else if (el instanceof XMLAttribute
+                 && el.getParent() instanceof Condition && el.toName().equals("Type")) {
          Object v = pnl.getValue();
          if (v instanceof String) {
-            newType=((String)v).trim();
+            newType = ((String) v).trim();
          }
       }
 
-      boolean isExcTra=false;
-      if (newType.equals(XPDLConstants.CONDITION_TYPE_EXCEPTION) || 
-            newType.equals(XPDLConstants.CONDITION_TYPE_DEFAULTEXCEPTION)) {
-         isExcTra=true;
-      }
-//      System.err.println("T=" + oldTo + ", F=" + oldFrom + ", NT=" + newTo + ", NF=" + newFrom+", NT="+newType);
+      // System.err.println("T=" + oldTo + ", F=" + oldFrom + ", NT=" + newTo + ", NF=" +
+      // newFrom+", NT="+newType);
 
       Activities acts = (Activities) ((XMLCollectionElement) tra.getParent().getParent()).get("Activities");
       Activity actFrom = acts.getActivity(newFrom);
       Activity actTo = acts.getActivity(newTo);
-//System.err.println("AF=="+actFrom+", aTO="+actTo);
+      // System.err.println("AF=="+actFrom+", aTO="+actTo);
       if (actFrom == null || actTo == null)
          return false;
 
       TransitionHandler th = JaWEManager.getInstance().getTransitionHandler();
       List status = new ArrayList();
+      boolean isExcTra = false;
+      if (newType.equals(XPDLConstants.CONDITION_TYPE_EXCEPTION)
+          || newType.equals(XPDLConstants.CONDITION_TYPE_DEFAULTEXCEPTION)) {
+         isExcTra = true;
+      }
+
       boolean ac = th.allowsConnection(actFrom, actTo, tra, isExcTra, status);
-//System.err.println("ALLOW C="+ac);
+      // System.err.println("ALLOW C="+ac);
 
       if (!ac) {
          String errorMsg = "WarningSourceActivityCannotHaveMoreOutgoingTransitions";
@@ -708,11 +374,88 @@ public class StandardPanelValidator implements PanelValidator {
          } else if (((Integer) status.get(0)).intValue() == 3) {
             errorMsg = "ErrorActivityCannotHaveMoreThenOneIncomingOutgoingTransitionFromToTheSameActivity";
          }
-         XMLBasicPanel.errorMessage(pnl.getWindow(), ResourceManager.getLanguageDependentString("ErrorMessageKey"), "",
-               ResourceManager.getLanguageDependentString(errorMsg));
+         XMLBasicPanel.errorMessage(pnl.getWindow(),
+                                    ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                    "",
+                                    ResourceManager.getLanguageDependentString(errorMsg));
 
       }
       return ac;
+   }
+
+   protected boolean validateAssociation(XMLPanel pnl, XMLElement el) {
+      Association assoc = XMLUtil.getAssociation(el);
+      String oldFrom = assoc.getSource();
+      String oldTo = assoc.getTarget();
+      String newFrom = oldFrom;
+      String newTo = oldTo;
+
+      if (el instanceof Association) {
+         XMLPanel ftPanel = findPanel(pnl, assoc.get("Source"));
+         // System.err.println("Found panel From ->"+ftPanel);
+         if (ftPanel != null) {
+            Object v = ftPanel.getValue();
+            // System.err.println("..... panel val ->"+v);
+            if (v instanceof XMLCollectionElement) {
+               newFrom = ((XMLCollectionElement) v).getId();
+            } else if (v instanceof String) {
+               newFrom = ((String) v).trim();
+            }
+         }
+         ftPanel = findPanel(pnl, assoc.get("Target"));
+         // System.err.println("Found panel To ->"+ftPanel);
+         if (ftPanel != null) {
+            Object v = ftPanel.getValue();
+            // System.err.println("..... panel val ->"+v);
+            if (v instanceof XMLCollectionElement) {
+               newTo = ((XMLCollectionElement) v).getId();
+            } else if (v instanceof String) {
+               newTo = ((String) v).trim();
+            }
+         }
+      } else if (el instanceof XMLAttribute
+                 && (el.toName().equals("Source") || el.toName().equals("Target"))) {
+         Object v = pnl.getValue();
+         String toOrFrom = null;
+         if (v instanceof XMLCollectionElement) {
+            toOrFrom = ((XMLCollectionElement) v).getId();
+         } else if (v instanceof String) {
+            toOrFrom = ((String) v).trim();
+         }
+         if (toOrFrom != null) {
+            if (el.toName().equals("Source")) {
+               newFrom = toOrFrom;
+            } else {
+               newTo = toOrFrom;
+            }
+         }
+      }
+
+      // System.err.println("T=" + oldTo + ", F=" + oldFrom + ", NT=" + newTo + ", NF=" +
+      // newFrom+", NT="+newType);
+      Package pkg = XMLUtil.getPackage(el);
+      XMLCollectionElement aFrom = pkg.getActivity(newFrom);
+      if (aFrom == null) {
+         aFrom = pkg.getArtifact(newFrom);
+      }
+
+      XMLCollectionElement aTo = pkg.getActivity(newTo);
+      if (aTo == null) {
+         aTo = pkg.getArtifact(newTo);
+      }
+
+      // System.err.println("AF=="+actFrom+", aTO="+actTo);
+      if (aFrom == null
+          || aTo == null || (aFrom instanceof Activity && aTo instanceof Activity)
+          || (aFrom instanceof Artifact && aTo instanceof Artifact)) {
+         XMLBasicPanel.errorMessage(pnl.getWindow(),
+                                    ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                    "",
+                                    ResourceManager.getLanguageDependentString("ErrorImproperAssociationConnection"));
+         return false;
+      }
+
+      return true;
    }
 
    public static XMLPanel findPanel(XMLPanel p, XMLElement idEl) {

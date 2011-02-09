@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.enhydra.jawe.components.graph.Graph;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;

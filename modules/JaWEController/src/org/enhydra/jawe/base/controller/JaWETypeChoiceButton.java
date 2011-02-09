@@ -36,7 +36,7 @@ import javax.swing.JPopupMenu;
 
 import org.enhydra.jawe.ChoiceButton;
 import org.enhydra.jawe.ChoiceButtonListener;
-import org.enhydra.shark.utilities.SequencedHashMap;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
  * @author Miroslav Popov

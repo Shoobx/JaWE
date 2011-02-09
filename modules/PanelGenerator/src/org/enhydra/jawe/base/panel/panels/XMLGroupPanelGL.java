@@ -22,7 +22,7 @@ import java.awt.GridLayout;
 import java.util.List;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * @author Sasa Bojanic

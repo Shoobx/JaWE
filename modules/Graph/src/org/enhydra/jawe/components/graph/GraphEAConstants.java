@@ -51,10 +51,10 @@ public class GraphEAConstants {
    public static final String EA_JAWE_GRAPH_END_OF_BLOCK_OLD = "EndOfBlock";
    
    // ****** PARTICIPANT   
-   public static final String PARTICIPANT_TYPE_FREE_TEXT_EXPRESSION = "PARTICIPANT_FREE_TEXT_EXPRESSION";
-   public static final String PARTICIPANT_TYPE_COMMON_EXPRESSION = "PARTICIPANT_COMMON_EXPRESSION";
-   public static final String COMMON_EXPRESSION_PARTICIPANT_PREFIX="### CEP -> ";
-   public static final String COMMON_EXPRESSION_PARTICIPANT_SUFIX=" <- CEP ###";
+   public static final String LANE_TYPE_FREE_TEXT_EXPRESSION = "LANE_FREE_TEXT_EXPRESSION";
+   public static final String LANE_TYPE_COMMON_EXPRESSION = "LANE_COMMON_EXPRESSION";
+   public static final String COMMON_EXPRESSION_LANE_PREFIX="### CEP -> ";
+   public static final String COMMON_EXPRESSION_LANE_SUFIX=" <- CEP ###";
 
    // ****** ACTIVITY
    public static final String EA_JAWE_GRAPH_PARTICIPANT_ID = "JaWE_GRAPH_PARTICIPANT_ID";

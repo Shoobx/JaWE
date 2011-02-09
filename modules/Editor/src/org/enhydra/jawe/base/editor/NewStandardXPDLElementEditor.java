@@ -45,9 +45,9 @@ import org.enhydra.jawe.JaWEComponentSettings;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  *  

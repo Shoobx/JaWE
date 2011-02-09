@@ -219,7 +219,33 @@ public class JaWEGraphModel extends DefaultGraphModel implements Serializable {
 		return participants;
 	}
 
-	/**
+   /**
+    * Gets all existing artifacts within model.
+    */
+   public static List getAllArtifactsInModel(GraphModel model) {
+      if (!(model instanceof JaWEGraphModel)) return null;
+
+      List allCellsInModel = getAllCellsInModel(model);
+      if (allCellsInModel == null) {
+         return null;
+      }
+
+      List artifacts = new LinkedList();
+      Iterator it = allCellsInModel.iterator();
+      while (it.hasNext()) {
+         Object cell = it.next();
+         if (cell instanceof GraphArtifactInterface) {
+            artifacts.add(cell);
+         }
+      }
+      if (artifacts.size() == 0) {
+         return null;
+      }
+
+      return artifacts;
+   }
+
+   /**
 	 * Gets all existing activities within model.
 	 */
 	public static List getAllActivitiesInModel(GraphModel model) {
@@ -245,32 +271,6 @@ public class JaWEGraphModel extends DefaultGraphModel implements Serializable {
 		return activities;
 	}
 
-   /**
-    * Gets all existing start/end bubbles within model. 
-    */
-   public static List getAllBubblesInModel(GraphModel model) {
-      if (!(model instanceof JaWEGraphModel)) return null;
-
-      List allCellsInModel = getAllCellsInModel(model);
-      if (allCellsInModel == null) {
-         return null;
-      }
-
-      List bubbles = new LinkedList();
-      Iterator it = allCellsInModel.iterator();
-      while (it.hasNext()) {
-         Object cell = it.next();
-         if (cell instanceof GraphBubbleActivityInterface) {
-            bubbles.add(cell);
-         }
-      }
-      if (bubbles.size() == 0) {
-         return null;
-      }
-
-      return bubbles;
-   }   
-   
 	/**
 	 * Gets all existing transitions within model.
 	 */

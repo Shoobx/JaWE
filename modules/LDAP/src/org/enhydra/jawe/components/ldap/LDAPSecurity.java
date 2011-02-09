@@ -29,9 +29,9 @@
 package org.enhydra.jawe.components.ldap;
 
 
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
 
  // This is not a real WfMC DTD element, but it is introduced to help
 public class LDAPSecurity extends XMLComplexElement {

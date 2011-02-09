@@ -35,7 +35,7 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.base.panel.panels.XMLRadioPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
-import org.enhydra.shark.xpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLAttribute;
 
 public class LDAPPanel extends JPanel implements JaWEComponentView {
 

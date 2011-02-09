@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.enhydra.jawe.ResourceManager;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.Participants;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Participants;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Represents collection of imaginary participants for entering 
@@ -94,9 +94,9 @@ public class CommonExpressionParticipants extends Participants {
          while (it.hasNext()) {
             CommonExpressionParticipant p=(CommonExpressionParticipant)it.next();
             String idToSearch=
-               GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX+
+               GraphEAConstants.COMMON_EXPRESSION_LANE_PREFIX+
                p.getId()+
-               GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX;
+               GraphEAConstants.COMMON_EXPRESSION_LANE_SUFIX;
             if (!vo.contains(idToSearch)) {
                cep=p;
                break;
@@ -119,9 +119,9 @@ public class CommonExpressionParticipants extends Participants {
          while (it.hasNext()) {
             CommonExpressionParticipant cep=(CommonExpressionParticipant)it.next();
             String idToSearch=
-               GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX+
+               GraphEAConstants.COMMON_EXPRESSION_LANE_PREFIX+
                cep.getId()+
-               GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX;
+               GraphEAConstants.COMMON_EXPRESSION_LANE_SUFIX;
             if (!vo.contains(idToSearch)) {
                cepsToRemove.add(cep);
             }
@@ -166,18 +166,18 @@ public class CommonExpressionParticipants extends Participants {
    }
    
    public String getIdForVisualOrderEA (String pId) {
-      return GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX+pId+GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX;
+      return GraphEAConstants.COMMON_EXPRESSION_LANE_PREFIX+pId+GraphEAConstants.COMMON_EXPRESSION_LANE_SUFIX;
    }
    
    public String getIdFromVisualOrderEA (String pId) {
       return pId.substring(
-            GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX.length(),
-            pId.length()-GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX.length());      
+            GraphEAConstants.COMMON_EXPRESSION_LANE_PREFIX.length(),
+            pId.length()-GraphEAConstants.COMMON_EXPRESSION_LANE_SUFIX.length());      
    }
    
    public boolean isCommonExpressionParticipantId (String pId) {
-      return pId.startsWith(GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX) &&
-            pId.endsWith(GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX);      
+      return pId.startsWith(GraphEAConstants.COMMON_EXPRESSION_LANE_PREFIX) &&
+            pId.endsWith(GraphEAConstants.COMMON_EXPRESSION_LANE_SUFIX);      
    }
    
 }

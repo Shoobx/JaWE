@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Properties;
 
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.shark.xpdl.StandardPackageValidator;
-import org.enhydra.shark.xpdl.XMLValidationError;
-import org.enhydra.shark.xpdl.XPDLValidationErrorIds;
-import org.enhydra.shark.xpdl.elements.Activity;
+import org.enhydra.jxpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.XMLValidationError;
+import org.enhydra.jxpdl.XPDLValidationErrorIds;
+import org.enhydra.jxpdl.elements.Activity;
 
 /**
  *  Used to validate XPDL model.

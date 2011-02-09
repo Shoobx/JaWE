@@ -37,10 +37,10 @@ import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.controller.JaWEType;
 import org.enhydra.jawe.base.xpdlvalidator.ValidationError;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XMLValidationError;
-import org.enhydra.shark.xpdl.elements.Activity;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLValidationError;
+import org.enhydra.jxpdl.elements.Activity;
 
 /**
  *  Used to paint Package hierarchy tree.

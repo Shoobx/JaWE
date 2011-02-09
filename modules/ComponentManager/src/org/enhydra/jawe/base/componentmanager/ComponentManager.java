@@ -32,6 +32,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.PropertyMgr;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Utils;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * Used to manage JaWE components.
@@ -103,7 +104,7 @@ public class ComponentManager {
 
         // main components
         String mcomp = ResourceManager.getResourceString(properties, "Main.ComponentOrder");
-        String[] mcomps = Utils.tokenize(mcomp, " ");
+        String[] mcomps = XMLUtil.tokenize(mcomp, " ");
         for (int i = 0; i < mcomps.length; i++) {
             int position = shoudBeAdded(compToAdd, mcomps[i]);
             if (position != -1) {
@@ -132,7 +133,7 @@ public class ComponentManager {
 
         // special components
         String scomp = ResourceManager.getResourceString(properties, "Special.ComponentOrder");
-        String[] scomps = Utils.tokenize(scomp, " ");
+        String[] scomps = XMLUtil.tokenize(scomp, " ");
         for (int i = 0; i < scomps.length; i++) {
             int pos = shoudBeAdded(compToAdd, scomps[i]);
             if (pos != -1) {
@@ -161,7 +162,7 @@ public class ComponentManager {
 
         // tree components
         String tcomp = ResourceManager.getResourceString(properties, "Tree.ComponentOrder");
-        String[] tcomps = Utils.tokenize(tcomp, " ");
+        String[] tcomps = XMLUtil.tokenize(tcomp, " ");
         for (int i = 0; i < tcomps.length; i++) {
             int pos = shoudBeAdded(compToAdd, tcomps[i]);
             if (pos != -1) {
@@ -190,7 +191,7 @@ public class ComponentManager {
 
         // other components
         String ocomp = ResourceManager.getResourceString(properties, "Other.ComponentOrder");
-        String[] ocomps = Utils.tokenize(ocomp, " ");
+        String[] ocomps = XMLUtil.tokenize(ocomp, " ");
         for (int i = 0; i < ocomps.length; i++) {
             int pos = shoudBeAdded(compToAdd, ocomps[i]);
             if (pos != -1) {

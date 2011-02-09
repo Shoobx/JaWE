@@ -37,9 +37,9 @@ import javax.swing.table.TableColumn;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLElementChangeListener;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLElementChangeListener;
 
 /**
  * Creates a panel for WfXML.

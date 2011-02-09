@@ -33,8 +33,8 @@ import javax.swing.SwingConstants;
 import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Creates a panel with a checkbox which represents a boolean value.

@@ -46,6 +46,7 @@ import org.enhydra.jawe.JaWETabbedPane;
 import org.enhydra.jawe.JaWEXMLUtil;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Utils;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  *  Used to handle JaWE.
@@ -258,11 +259,11 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       int divLoc3 = controller.getControllerSettings().getMainDividerLocation();
 
       try {
-         String[] temp = Utils.tokenize(splitString, ";");
+         String[] temp = XMLUtil.tokenize(splitString, ";");
          String bigSplitString = temp[0];
          
          if (temp.length == 1) {
-            String[] smallSplitData = Utils.tokenize(bigSplitString, " ");
+            String[] smallSplitData = XMLUtil.tokenize(bigSplitString, " ");
             
             // without split
             if (smallSplitData.length == 1) {
@@ -283,7 +284,7 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
             String smallSplit1String = temp[1];
             String smallSplit2String = temp[2];
 
-            String[] smallSplit1Data = Utils.tokenize(smallSplit1String, " ");
+            String[] smallSplit1Data = XMLUtil.tokenize(smallSplit1String, " ");
             int splitType = JSplitPane.HORIZONTAL_SPLIT;
             JComponent firstC = getFrameComponentByName(smallSplit1Data[0]);
             JComponent secondC = null;
@@ -299,7 +300,7 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
                smallSplit1.setDividerLocation(divLoc1);
             }
 
-            String[] smallSplit2Data = Utils.tokenize(smallSplit2String, " ");
+            String[] smallSplit2Data = XMLUtil.tokenize(smallSplit2String, " ");
             splitType = JSplitPane.HORIZONTAL_SPLIT;
             firstC = getFrameComponentByName(smallSplit2Data[0]);
             secondC = null;

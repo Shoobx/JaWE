@@ -18,6 +18,8 @@
 
 package org.enhydra.jawe.components.graph;
 
+import java.awt.Rectangle;
+
 import org.jgraph.graph.CellView;
 
 /**
@@ -26,4 +28,6 @@ import org.jgraph.graph.CellView;
  * @author Sasa Bojanic   
  */
 public interface GraphActivityViewInterface extends CellView {
+   public abstract Rectangle getOriginalBounds ();
+   public abstract void setOriginalBounds (Rectangle bounds);
 }

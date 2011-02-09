@@ -40,17 +40,17 @@ import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.controller.JaWESelectionManager;
 import org.enhydra.jawe.base.panel.InlinePanel;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.BasicType;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.DataFields;
-import org.enhydra.shark.xpdl.elements.DeclaredType;
-import org.enhydra.shark.xpdl.elements.FormalParameter;
-import org.enhydra.shark.xpdl.elements.FormalParameters;
-import org.enhydra.shark.xpdl.elements.SchemaType;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.BasicType;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
+import org.enhydra.jxpdl.elements.DeclaredType;
+import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.SchemaType;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 public class XMLTablePanelForVariables extends XMLTablePanel{
    public static final String CONVERT_ACTION = "Convert";
@@ -89,11 +89,14 @@ public class XMLTablePanelForVariables extends XMLTablePanel{
          FormalParameter newFormalParam = JaWEManager.getInstance()
             .getXPDLObjectFactory()
             .createXPDLObject(fp, "",true);
-         newFormalParam.setId(((DataField) el).getId());
-         
-         newFormalParam.setDescription(((DataField) el).getDescription());
-         
-         XMLElement choosen = ((DataField) el).getDataType().getDataTypes().getChoosen();
+         DataField df = (DataField)el;
+         newFormalParam.setId(df.getId());
+         newFormalParam.setName(df.getName());
+         newFormalParam.setDescription(df.getDescription());
+         newFormalParam.setInitialValue(df.getInitialValue());
+         newFormalParam.setIsArray(df.getIsArray());
+         newFormalParam.setLength(df.getLength());
+         XMLElement choosen = df.getDataType().getDataTypes().getChoosen();
          if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_STRING))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeSTRING();
          else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_FLOAT))
@@ -133,10 +136,15 @@ public class XMLTablePanelForVariables extends XMLTablePanel{
          DataField newDataField = JaWEManager.getInstance()
             .getXPDLObjectFactory()
             .createXPDLObject(df, "",true);
-         newDataField.setId(((FormalParameter) el).getId());
+         FormalParameter fp = (FormalParameter)el;
+         newDataField.setId(fp.getId());
+         newDataField.setName(fp.getName());
+         newDataField.setDescription(fp.getDescription());
+         newDataField.setInitialValue(fp.getInitialValue());
+         newDataField.setIsArray(fp.getIsArray());
+         newDataField.setLength(fp.getLength());
          
-         newDataField.setDescription(((FormalParameter) el).getDescription());
-         XMLElement choosen = ((FormalParameter) el).getDataType().getDataTypes().getChoosen();
+         XMLElement choosen = fp.getDataType().getDataTypes().getChoosen();
          if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_STRING))
             newDataField.getDataType().getDataTypes().getBasicType().setTypeSTRING();
          else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_FLOAT))

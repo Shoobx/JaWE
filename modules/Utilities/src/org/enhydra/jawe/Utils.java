@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe;
 
@@ -42,10 +42,8 @@ import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -53,8 +51,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -63,25 +59,25 @@ import javax.swing.ImageIcon;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.xpdlvalidator.ValidationError;
 import org.enhydra.jawe.misc.PFLocale;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XMLValidationError;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.Application;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.FormalParameter;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.TypeDeclaration;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLValidationError;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
  * Various utilities.
@@ -260,26 +256,6 @@ public class Utils {
       }
    }
 
-   /**
-    * Take the given string and chop it up into a series of strings on given boundries.
-    * This is useful for trying to get an array of strings out of the resource file.
-    */
-   public static String[] tokenize(String input, String boundary) {
-      if (input == null)
-         input = "";
-      Vector v = new Vector();
-      StringTokenizer t = new StringTokenizer(input, boundary);
-      String cmd[];
-
-      while (t.hasMoreTokens())
-         v.addElement(t.nextToken());
-      cmd = new String[v.size()];
-      for (int i = 0; i < cmd.length; i++)
-         cmd[i] = (String) v.elementAt(i);
-
-      return cmd;
-   }
-
    /** Returns the class name without package. */
    public static String getUnqualifiedClassName(Class cls) {
       String name = cls.getName();
@@ -294,9 +270,11 @@ public class Utils {
     * Returns the color parsed from the given string. The color can be given in three
     * different string form:
     * <ul>
-    * <li> using prefix Color, dot and wanted color, e.g. <b>Color.red</b>
-    * <li> using prefix SystemColor, dot and wanted color, e.g. <b>SystemColor.desktop</b>
-    * <li> using RGB like string, e.g. <b>R=124,G=213,B=12</b>
+    * <li>using prefix Color, dot and wanted color, e.g. <b>Color.red</b>
+    * <li>using prefix SystemColor, dot and wanted color, e.g. <b>SystemColor.desktop</b>
+    * <li>using RGB like string, e.g. <b>R=124,G=213,B=12</b>
+    * <li>using RGB like string without letters, e.g. <b>124,213,12</b>
+    * <li>using hexadecimal RGB string, e.g. <b>#FF9988</b>
     * </ul>
     * 
     * @param col The string representation of wanted color.
@@ -350,8 +328,38 @@ public class Utils {
             }
          } catch (Exception ex) {
          }
+         if (c == null) {
+            try {
+               String[] clrs = XMLUtil.tokenize(col, ",");
+               r = Integer.valueOf(clrs[0]);
+               g = Integer.valueOf(clrs[1]);
+               b = Integer.valueOf(clrs[2]);
+               c = new Color(r, g, b);
+            } catch (Exception ex) {
+            }
+         }
+         if (c == null) {
+            try {
+               String rs = col.substring(1, 3);
+               String gs = col.substring(4, 6);
+               String bs = col.substring(5, 7);
+               r = Integer.parseInt(rs, 16);
+               g = Integer.parseInt(gs, 16);
+               b = Integer.parseInt(bs, 16);
+               c = new Color(r, g, b);
+            } catch (Exception ex) {
+            }
+         }
       }
       return c;
+   }
+
+   public static String getColorString(Color c) {
+      if (c == null) {
+         return "128,128,128";
+      }
+      return String.valueOf(c.getRed())
+             + "," + String.valueOf(c.getGreen()) + "," + String.valueOf(c.getBlue());
    }
 
    public static void flipCoordinates(Point p) {
@@ -527,46 +535,6 @@ public class Utils {
       System.err.println();
    }
 
-   /** Gets the current date and time string in ISO-8601 format. */
-   public static String getCurrentDateAndTime() {
-      String dateSeparator = "-";
-      String timeSeparator = ":";
-      Calendar cal = new GregorianCalendar();
-      String dateTime = "";
-      dateTime = dateTime + String.valueOf(cal.get(Calendar.YEAR)) + dateSeparator;
-      int mnth = cal.get(Calendar.MONTH) + 1;
-      if (mnth < 10) {
-         dateTime = dateTime + "0";
-      }
-      dateTime = dateTime + String.valueOf(mnth) + dateSeparator;
-      int dayOfMnth = cal.get(Calendar.DAY_OF_MONTH);
-      if (dayOfMnth < 10) {
-         dateTime = dateTime + "0";
-      }
-      dateTime = dateTime + String.valueOf(dayOfMnth) + " ";
-      int hr = cal.get(Calendar.HOUR_OF_DAY);
-      int ampm = cal.get(Calendar.AM_PM);
-      if (ampm == Calendar.PM && hr < 12) {
-         hr += 12;
-      }
-      if (hr < 10) {
-         dateTime = dateTime + "0";
-      }
-      dateTime = dateTime + String.valueOf(hr) + timeSeparator;
-      int min = cal.get(Calendar.MINUTE);
-      if (min < 10) {
-         dateTime = dateTime + "0";
-      }
-      dateTime = dateTime + String.valueOf(min) + timeSeparator;
-      int sec = cal.get(Calendar.SECOND);
-      if (sec < 10) {
-         dateTime = dateTime + "0";
-      }
-      dateTime = dateTime + String.valueOf(sec);
-
-      return dateTime;
-   }
-
    public static String getActivityStringType(int activityType) {
       String retVal = "";
 
@@ -574,7 +542,7 @@ public class Utils {
          case XPDLConstants.ACTIVITY_TYPE_NO:
             retVal = JaWEConstants.ACTIVITY_TYPE_NO;
             break;
-         case XPDLConstants.ACTIVITY_TYPE_TOOL:
+         case XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION:
             retVal = JaWEConstants.ACTIVITY_TYPE_TOOL;
             break;
          case XPDLConstants.ACTIVITY_TYPE_BLOCK:
@@ -586,6 +554,18 @@ public class Utils {
          case XPDLConstants.ACTIVITY_TYPE_SUBFLOW:
             retVal = JaWEConstants.ACTIVITY_TYPE_SUBFLOW;
             break;
+      }
+
+      return retVal;
+   }
+
+   public static String getArtifactStringType(String artifactType) {
+      String retVal = "";
+
+      if (artifactType.equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)) {
+         retVal = JaWEConstants.ARTIFACT_TYPE_ANNOTATION;
+      } else if (artifactType.equals(XPDLConstants.ARTIFACT_TYPE_DATAOBJECT)) {
+         retVal = JaWEConstants.ARTIFACT_TYPE_DATA_OBJECT;
       }
 
       return retVal;
@@ -808,7 +788,10 @@ public class Utils {
          location = XMLUtil.getTransition(el);
       }
       if (location == null) {
-         location = XMLUtil.getTransition(el);
+         location = XMLUtil.getArtifact(el);
+      }
+      if (location == null) {
+         location = XMLUtil.getAssociation(el);
       }
       if (location == null) {
          location = XMLUtil.getParentElement(TypeDeclaration.class, el);
@@ -863,11 +846,10 @@ public class Utils {
                 + " '" + ((XMLComplexElement) location).get("Id").toValue() + "'";
       }
       if (el != location && el != as && el != wp && el != pkg) {
-         XMLElement parent=el.getParent();         
-         if (parent!=location && !(parent instanceof XMLCollection)) {
+         XMLElement parent = el.getParent();
+         if (parent != location && !(parent instanceof XMLCollection)) {
             loc += ", "
-                   + ResourceManager.getLanguageDependentString(parent.toName()
-                                                                + "Key");
+                   + ResourceManager.getLanguageDependentString(parent.toName() + "Key");
          }
          loc += " -> " + ResourceManager.getLanguageDependentString(el.toName() + "Key");
       }
@@ -956,19 +938,19 @@ public class Utils {
 
             if (ja.getAction() != null) {
                componentAction.put(actionName, ja);
-               JaWEManager.getInstance().getLoggingManager().info("Created "
-                                                                  + comp.getName()
-                                                                  + " action for class "
-                                                                  + actionName);
+               JaWEManager.getInstance()
+                  .getLoggingManager()
+                  .info("Created " + comp.getName() + " action for class " + actionName);
             } else {
-               JaWEManager.getInstance().getLoggingManager().info("Missing action for "
-                                                                  + actionName);
+               JaWEManager.getInstance()
+                  .getLoggingManager()
+                  .info("Missing action for " + actionName);
             }
          } catch (Throwable thr) {
-            JaWEManager.getInstance().getLoggingManager().error("Can't create "
-                                                                + comp.getName()
-                                                                + " action for class "
-                                                                + actionName);
+            JaWEManager.getInstance()
+               .getLoggingManager()
+               .error("Can't create "
+                      + comp.getName() + " action for class " + actionName);
          }
       }
 
@@ -1057,9 +1039,9 @@ public class Utils {
       if (actImgResources == null) {
          Map m = new HashMap();
          String classPath = System.getProperty("java.class.path");
-         String[] cps = Utils.tokenize(classPath, File.pathSeparator);
+         String[] cps = XMLUtil.tokenize(classPath, File.pathSeparator);
          String jed = System.getProperty("java.ext.dirs");
-         String[] jeds = Utils.tokenize(jed, File.pathSeparator);
+         String[] jeds = XMLUtil.tokenize(jed, File.pathSeparator);
          for (int i = 0; i < cps.length; i++) {
             String cp = cps[i];
             if (cp.indexOf("activityicons") >= 0) {
@@ -1226,6 +1208,16 @@ public class Utils {
       } finally {
          ws.setVisible(false);
       }
+   }
+
+   public static String getCallerMethodName(int whichOne) {
+      Throwable t = new Throwable();
+      StackTraceElement[] elements = t.getStackTrace();
+      whichOne += 2;
+      if (elements.length >= whichOne + 1) {
+         return elements[whichOne].getMethodName();
+      }
+      return "";
    }
 
 }

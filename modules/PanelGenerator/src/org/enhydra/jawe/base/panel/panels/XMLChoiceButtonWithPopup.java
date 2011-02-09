@@ -34,9 +34,9 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
  * Creates button which displays popup with available choices for inserting into

@@ -30,12 +30,12 @@ public abstract class GraphTransitionInterface extends DefaultEdge implements Wo
    /**
     * Returns source activity.
     */
-   public abstract GraphActivityInterface getSourceActivity ();
+   public abstract GraphCommonInterface getSourceActivityOrArtifact ();
 
    /**
     * Returns target activity.
     */
-   public abstract GraphActivityInterface getTargetActivity ();
+   public abstract GraphCommonInterface getTargetActivityOrArtifact ();
    
    public abstract boolean hasCondition ();
 

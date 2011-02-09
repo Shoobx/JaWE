@@ -27,16 +27,16 @@ import java.awt.Point;
  */
 public class CopiedActivityInfo {
 
-   private String parIdEA;
+   private String laneId;
    private Point offsetPoint;
    
-   public CopiedActivityInfo (String pId,Point off) {
-      this.parIdEA=pId;
+   public CopiedActivityInfo (String laneId,Point off) {
+      this.laneId=laneId;
       this.offsetPoint=off;
    }
    
-   public String getParIdEA () {
-      return parIdEA;
+   public String getLaneId () {
+      return laneId;
    }
    
    public Point getOffsetPoint () {
@@ -47,13 +47,13 @@ public class CopiedActivityInfo {
 //      System.err.println("... Comparing ainfo "+ai+", to ainfo "+this);
       if (ai instanceof CopiedActivityInfo) {
          CopiedActivityInfo ainfo=(CopiedActivityInfo)ai;
-         return this.parIdEA.equals(ainfo.parIdEA) && this.offsetPoint.equals(ainfo.offsetPoint);
+         return this.laneId.equals(ainfo.laneId) && this.offsetPoint.equals(ainfo.offsetPoint);
       }
       return false;
    }
    
    public String toString () {
-      return "<-CopiedActivityInfo: parIdEA="+parIdEA+", offsetPoint="+offsetPoint+"->";
+      return "<-CopiedActivityInfo: laneId="+laneId+", offsetPoint="+offsetPoint+"->";
    }
    
 }

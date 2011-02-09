@@ -25,8 +25,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Creates a tabbed panel.

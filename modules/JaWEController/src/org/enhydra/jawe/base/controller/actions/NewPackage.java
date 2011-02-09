@@ -25,7 +25,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.NewActionBase;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.controller.JaWETypeChoiceButton;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Class that realizes <B>new</B> action.

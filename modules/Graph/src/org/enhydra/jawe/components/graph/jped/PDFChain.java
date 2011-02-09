@@ -20,7 +20,8 @@ package org.enhydra.jawe.components.graph.jped;
 import java.io.OutputStream;
 
 import org.enhydra.jawe.components.graph.Graph;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;

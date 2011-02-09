@@ -26,8 +26,8 @@ import javax.swing.event.ListSelectionListener;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.panel.PanelContainer;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Creates a table panel.

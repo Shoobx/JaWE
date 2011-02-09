@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.components.graph;
 
+import java.awt.Rectangle;
 import java.util.Comparator;
 
 /**
@@ -36,12 +37,28 @@ public class GraphParticipantComparator implements Comparator {
       GraphParticipantInterface p2 = (GraphParticipantInterface) o2;
       int pos1;
       int pos2;
+      Rectangle b1 = graphManager.getCBounds(p1, null);
+      Rectangle b2 = graphManager.getCBounds(p2, null);
       if (!graphManager.isGraphRotated()) {
-         pos1 = graphManager.getBounds(p1, null).y;
-         pos2 = graphManager.getBounds(p2, null).y;
+         pos1 = b1.y;
+         pos2 = b2.y;
+         if (pos1==pos2) {
+            if (b1.x>b2.x) {
+               pos1++;
+            } else {
+               pos2++;
+            }
+         }
       } else {
-         pos1 = graphManager.getBounds(p1, null).x;
-         pos2 = graphManager.getBounds(p2, null).x;         
+         pos1 = b1.x;
+         pos2 = b2.x;
+         if (pos1==pos2) {
+            if (b1.y>b2.y) {
+               pos1++;
+            } else {
+               pos2++;
+            }
+         }         
       }
 
       return (pos1 < pos2 ? -1 : (pos1 == pos2 ? 0 : 1)); //sort that highest is the first

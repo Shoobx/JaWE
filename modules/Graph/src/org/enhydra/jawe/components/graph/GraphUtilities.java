@@ -1,23 +1,24 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -31,36 +32,59 @@ import java.util.Map;
 import java.util.Set;
 
 import org.enhydra.jawe.JaWEComponent;
+import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.XPDLElementChangeInfo;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.ActivitySets;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Participants;
-import org.enhydra.shark.xpdl.elements.Performer;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.Transitions;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
-import org.enhydra.shark.xpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.ActivitySets;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Artifacts;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Associations;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
+import org.enhydra.jxpdl.elements.ConnectorGraphicsInfos;
+import org.enhydra.jxpdl.elements.Coordinates;
+import org.enhydra.jxpdl.elements.Coordinatess;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Lanes;
+import org.enhydra.jxpdl.elements.NestedLane;
+import org.enhydra.jxpdl.elements.NestedLanes;
+import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
+import org.enhydra.jxpdl.elements.NodeGraphicsInfos;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.Performers;
+import org.enhydra.jxpdl.elements.Pool;
+import org.enhydra.jxpdl.elements.Pools;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.Transitions;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
+import org.jgraph.graph.AbstractCellView;
+import org.jgraph.graph.AttributeMap;
+import org.jgraph.graph.DefaultGraphCell;
+import org.jgraph.graph.GraphCell;
+import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.ParentMap;
 
 public class GraphUtilities {
 
    public static GraphController getGraphController() {
-      GraphController gc=null;
+      GraphController gc = null;
       List cs = JaWEManager.getInstance().getComponentManager().getComponents();
       Iterator it = cs.iterator();
       while (it.hasNext()) {
@@ -89,47 +113,48 @@ public class GraphUtilities {
       ExtendedAttribute ea = getParticipantVisualOrderEA(wp, asId);
       if (ea != null) {
          String ord = ea.getVValue();
-//         System.err.println("VOVAL for wp=" + wp.getId() + " as=" + asId + " is " + ord + "!");
-         String pId=null;
+         // System.err.println("VOVAL for wp=" + wp.getId() + " as=" + asId + " is " + ord
+         // + "!");
+         String pId = null;
          while (true) {
-            int ind=ord.indexOf(";");
-            String tmpId=null;
-            boolean clearPid=false;
-            if (ind<0) {
-               if (ord.length()==0) {
+            int ind = ord.indexOf(";");
+            String tmpId = null;
+            boolean clearPid = false;
+            if (ind < 0) {
+               if (ord.length() == 0) {
                   break;
-               } 
-               tmpId=ord;               
+               }
+               tmpId = ord;
             } else {
-               tmpId=ord.substring(0,ind);
-               ord=ord.substring(ind+1);
-            }            
-            int cepPrefInd=tmpId.indexOf(GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX);
-            int cepSuffInd=tmpId.indexOf(GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX);
-            if (cepPrefInd>=0 && cepSuffInd<0) {
-               if (pId==null) {
-                  pId=tmpId+";";
+               tmpId = ord.substring(0, ind);
+               ord = ord.substring(ind + 1);
+            }
+            int cepPrefInd = tmpId.indexOf(GraphEAConstants.COMMON_EXPRESSION_LANE_PREFIX);
+            int cepSuffInd = tmpId.indexOf(GraphEAConstants.COMMON_EXPRESSION_LANE_SUFIX);
+            if (cepPrefInd >= 0 && cepSuffInd < 0) {
+               if (pId == null) {
+                  pId = tmpId + ";";
                } else {
-                  pId+=tmpId+";";
+                  pId += tmpId + ";";
                }
                continue;
-            } else if (cepPrefInd<0 && cepSuffInd>=0) {
-               pId+=tmpId;
-               clearPid=true;
-            } else if (cepPrefInd<0 && cepSuffInd<0) {
-               if (pId!=null) {
-                  pId+=tmpId+";";
+            } else if (cepPrefInd < 0 && cepSuffInd >= 0) {
+               pId += tmpId;
+               clearPid = true;
+            } else if (cepPrefInd < 0 && cepSuffInd < 0) {
+               if (pId != null) {
+                  pId += tmpId + ";";
                   continue;
-               } 
-               pId=tmpId;
-               clearPid=true;               
+               }
+               pId = tmpId;
+               clearPid = true;
             } else {
-               pId=tmpId;
-               clearPid=true;
+               pId = tmpId;
+               clearPid = true;
             }
             order.add(pId);
             if (clearPid) {
-               pId=null;
+               pId = null;
             }
             if (tmpId.equals(ord)) {
                break;
@@ -139,19 +164,31 @@ public class GraphUtilities {
             order.remove(0);
          }
       }
-//      System.out.println("VOORD for wp=" + wp.getId() + " as=" + asId + " is " + order + "!");
+      // System.out.println("VOORD for wp=" + wp.getId() + " as=" + asId + " is " + order
+      // + "!");
       return order;
    }
 
-   public static void setParticipantVisualOrder(XMLCollectionElement wpOrAs, List order) {
-//      System.out.println("Setting pvo for " + wpOrAs.getId() + ", ord=" + order + "!");
-      ExtendedAttribute ea = getParticipantVisualOrderEA(wpOrAs);
-      String ord = GraphUtilities.createParticipantVisualOrderEAVal(wpOrAs, order);
-      if (ea == null) {
-         ea = GraphUtilities.createParticipantVisualOrderEA(wpOrAs, ord, true);
-      } else {
-         ea.setVValue(ord);
+   public static List getLaneVisualOrder(XMLCollectionElement wpOrAs) {
+      List order = new ArrayList();
+      List lh = getLanesInVisualOrder(wpOrAs);
+      for (int i = 0; i < lh.size(); i++) {
+         Lane l = (Lane) lh.get(i);
+         order.add(l.getId());
       }
+      // System.out.println("VOORD for wp=" + wp.getId() + " as=" + asId + " is " + order
+      // + "!");
+      return order;
+   }
+
+   public static List getLanesInVisualOrder(XMLCollectionElement wpOrAs) {
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      List lh = getLaneHierarchy(p);
+      // System.out.println("VOORD for wp=" + wp.getId() + " as=" + asId + " is " + order
+      // + "!");
+      return lh;
    }
 
    protected static ExtendedAttribute getParticipantVisualOrderEA(XMLCollectionElement wpOrAs) {
@@ -163,7 +200,8 @@ public class GraphUtilities {
       return GraphUtilities.getParticipantVisualOrderEA(wp, asId);
    }
 
-   protected static ExtendedAttribute getParticipantVisualOrderEA(WorkflowProcess wp, String asId) {
+   protected static ExtendedAttribute getParticipantVisualOrderEA(WorkflowProcess wp,
+                                                                  String asId) {
       ExtendedAttributes eas = wp.getExtendedAttributes();
       ExtendedAttribute ea = null;
       String eaname = GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER;
@@ -190,15 +228,16 @@ public class GraphUtilities {
    }
 
    protected static String getActivitySetIdForBlockParticipantVisualOrderOrOrientationEA(String eaval) {
-      String[] strarr = Utils.tokenize(eaval, ";");
+      String[] strarr = XMLUtil.tokenize(eaval, ";");
       if (strarr.length > 0) {
          return strarr[0];
       }
-      return "";      
+      return "";
    }
 
-   protected static ExtendedAttribute createParticipantVisualOrderEA(XMLCollectionElement wpOrAs, String val,
-         boolean addToCollection) {
+   protected static ExtendedAttribute createParticipantVisualOrderEA(XMLCollectionElement wpOrAs,
+                                                                     String val,
+                                                                     boolean addToCollection) {
       ExtendedAttributes eas = XMLUtil.getWorkflowProcess(wpOrAs).getExtendedAttributes();
       String eaname = GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER;
       if (wpOrAs instanceof ActivitySet) {
@@ -213,7 +252,8 @@ public class GraphUtilities {
       return ea;
    }
 
-   protected static String createParticipantVisualOrderEAVal(XMLCollectionElement wpOrAs, List order) {
+   protected static String createParticipantVisualOrderEAVal(XMLCollectionElement wpOrAs,
+                                                             List order) {
       String ord = "";
       if (wpOrAs instanceof ActivitySet) {
          ord = wpOrAs.getId() + ";";
@@ -229,35 +269,22 @@ public class GraphUtilities {
       return ord;
    }
 
-   protected static List getParticipantVisualOrderOld(XMLCollectionElement wpOrAs) {
-      List order = new ArrayList();
-      ExtendedAttribute ea = getParticipantVisualOrderEAOld(wpOrAs);
-      if (ea != null) {
-         String ord = ea.getVValue();
-         String[] vosa = Utils.tokenize(ord, ";");
-         for (int i = 0; i < vosa.length; i++) {
-            order.add(vosa[i]);
-         }
-      }
-      return order;
+   public static String getGraphOrientation(XMLCollectionElement wpOrAs) {
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      return p != null ? p.getOrientation() : XPDLConstants.POOL_ORIENTATION_HORIZONTAL;
    }
 
-   protected static ExtendedAttribute getParticipantVisualOrderEAOld(XMLCollectionElement wpOrAs) {
-      ExtendedAttribute ea = null;
-      String eaname = GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER_OLD;
-      if (wpOrAs instanceof WorkflowProcess) {
-         ea = ((WorkflowProcess) wpOrAs).getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
-      } else {
-         eaname = GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER_OLD;
-         Activity refAct = GraphUtilities.getReferencingBlockActivity((ActivitySet) wpOrAs);
-         if (refAct != null) {
-            ea = refAct.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
-         }
-      }
-      return ea;
+   public static void setGraphOrientation(XMLCollectionElement wpOrAs, String orientation) {
+      JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs)
+         .setOrientation(orientation);
    }
 
-   public static String getGraphParticipantOrientation(WorkflowProcess wp, XMLCollectionElement wpOrAs) {
+   public static String getGraphParticipantOrientation(WorkflowProcess wp,
+                                                       XMLCollectionElement wpOrAs) {
       String asId = null;
       if (wpOrAs instanceof ActivitySet) {
          asId = wpOrAs.getId();
@@ -271,34 +298,15 @@ public class GraphUtilities {
       if (ea != null) {
          orientation = ea.getVValue();
          if (asId != null) {
-            String[] parts = Utils.tokenize(orientation, ";");
+            String[] parts = XMLUtil.tokenize(orientation, ";");
             orientation = parts[1];
          }
       }
       return orientation;
    }
 
-   public static void setGraphParticipantOrientation(WorkflowProcess wp, XMLCollectionElement wpOrAs, String orientation) {
-      if (wpOrAs instanceof ActivitySet) {
-         orientation = wpOrAs.getId() + ";" + orientation;
-      }
-      ExtendedAttribute ea = GraphUtilities.getGraphParticipantOrientationEA(wp, wpOrAs);
-      if (ea == null) {
-         ea = GraphUtilities.createGraphParticipantOrientationEA(wp, wpOrAs, orientation, true);
-      } else {
-         ea.setVValue(orientation);
-      }
-   }
-
-   protected static ExtendedAttribute getGraphParticipantOrientationEA(WorkflowProcess wp, XMLCollectionElement wpOrAs) {
-      String asId = null;
-      if (wpOrAs instanceof ActivitySet) {
-         asId = wpOrAs.getId();
-      }
-      return GraphUtilities.getGraphParticipantOrientationEA(wp, asId);
-   }
-
-   protected static ExtendedAttribute getGraphParticipantOrientationEA(WorkflowProcess wp, String asId) {
+   protected static ExtendedAttribute getGraphParticipantOrientationEA(WorkflowProcess wp,
+                                                                       String asId) {
       String eaname = GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION;
       if (asId != null) {
          eaname = GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION;
@@ -321,23 +329,8 @@ public class GraphUtilities {
       return ea;
    }
 
-   protected static ExtendedAttribute createGraphParticipantOrientationEA(WorkflowProcess wp,
-         XMLCollectionElement wpOrAs, String val, boolean addToCollection) {
-      ExtendedAttributes eas = wp.getExtendedAttributes();
-      String eaname = GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION;
-      if (wpOrAs instanceof ActivitySet) {
-         eaname = GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION;
-      }
-      ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
-      ea.setName(eaname);
-      ea.setVValue(val);
-      if (addToCollection) {
-         eas.add(0, ea);
-      }
-      return ea;
-   }
-
-   public static List getStartOrEndDescriptions(XMLCollectionElement wpOrAs, boolean isStart) {
+   public static List getStartOrEndDescriptions(XMLCollectionElement wpOrAs,
+                                                boolean isStart) {
       List startOrEndDescriptions = new ArrayList();
       List eas = GraphUtilities.getStartOrEndExtendedAttributes(wpOrAs, isStart);
       Iterator it = eas.iterator();
@@ -349,7 +342,8 @@ public class GraphUtilities {
       return startOrEndDescriptions;
    }
 
-   public static List getStartOrEndExtendedAttributes(XMLCollectionElement wpOrAs, boolean isStart) {
+   public static List getStartOrEndExtendedAttributes(XMLCollectionElement wpOrAs,
+                                                      boolean isStart) {
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
       String asId = null;
       if (wpOrAs instanceof ActivitySet) {
@@ -359,7 +353,9 @@ public class GraphUtilities {
       return GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, isStart);
    }
 
-   public static List getStartOrEndExtendedAttributes(WorkflowProcess wp, String asId, boolean isStart) {
+   public static List getStartOrEndExtendedAttributes(WorkflowProcess wp,
+                                                      String asId,
+                                                      boolean isStart) {
       List ret = new ArrayList();
       ExtendedAttributes eas = wp.getExtendedAttributes();
       String eaname = null;
@@ -377,7 +373,8 @@ public class GraphUtilities {
          }
       }
       List l = eas.getElementsForName(eaname);
-//      System.out.println("Found " + l.size() + " eas with name " + eaname + " for wp " + wp.getId() + ", as=" + asId);
+      // System.out.println("Found " + l.size() + " eas with name " + eaname + " for wp "
+      // + wp.getId() + ", as=" + asId);
       if (asId == null) {
          ret.addAll(l);
       } else {
@@ -385,10 +382,12 @@ public class GraphUtilities {
          while (it.hasNext()) {
             ExtendedAttribute ea = (ExtendedAttribute) it.next();
             String sedstr = ea.getVValue();
-//            System.out.println("EA for BA = " + sedstr);
-            String[] startOrEndD = Utils.tokenize(sedstr, ",");
-            int ind = startOrEndD[0].indexOf(GraphEAConstants.EA_PART_ACTIVITY_SET_ID + "=");
-            String asetId = startOrEndD[0].substring(ind + (GraphEAConstants.EA_PART_ACTIVITY_SET_ID + "=").length());
+            // System.out.println("EA for BA = " + sedstr);
+            String[] startOrEndD = XMLUtil.tokenize(sedstr, ",");
+            int ind = startOrEndD[0].indexOf(GraphEAConstants.EA_PART_ACTIVITY_SET_ID
+                                             + "=");
+            String asetId = startOrEndD[0].substring(ind
+                                                     + (GraphEAConstants.EA_PART_ACTIVITY_SET_ID + "=").length());
             if (!asetId.equals(asId))
                continue;
             ret.add(0, ea);
@@ -397,7 +396,9 @@ public class GraphUtilities {
       return ret;
    }
 
-   public static List getStartOrEndExtendedAttributes(XMLCollectionElement wpOrAs, String id, String eapart) {
+   public static List getStartOrEndExtendedAttributes(XMLCollectionElement wpOrAs,
+                                                      String id,
+                                                      String eapart) {
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
       String asId = null;
       if (wpOrAs instanceof ActivitySet) {
@@ -406,149 +407,30 @@ public class GraphUtilities {
       return GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, id, eapart);
    }
 
-   public static List getStartOrEndExtendedAttributes(WorkflowProcess wp, String asId, String id, String eapart) {
+   public static List getStartOrEndExtendedAttributes(WorkflowProcess wp,
+                                                      String asId,
+                                                      String id,
+                                                      String eapart) {
       List seeas = GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, true);
       seeas.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, false));
-      //      System.out.println("There are "+seeas.size()+" seeas in graph
+      // System.out.println("There are "+seeas.size()+" seeas in graph
       // "+wpOrAs.getId());
       List toRet = new ArrayList();
       Iterator it = seeas.iterator();
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          StartEndDescription sed = new StartEndDescription(ea);
-//         System.out.println("SED=" + sed.toString());
+         // System.out.println("SED=" + sed.toString());
          // NOTE: sed.getXXXId() can be null
          if ((eapart.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) && id.equals(sed.getParticipantId()))
-               || (eapart.equals(GraphEAConstants.EA_PART_ACTIVITY_SET_ID) && id.equals(sed.getActSetId()))
-               || (eapart.equals(GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID) && id.equals(sed.getActId()))) {
+             || (eapart.equals(GraphEAConstants.EA_PART_ACTIVITY_SET_ID) && id.equals(sed.getActSetId()))
+             || (eapart.equals(GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID) && id.equals(sed.getActId()))) {
             toRet.add(ea);
          }
       }
-//      System.out.println("Found " + toRet.size() + " seds for " + eapart + ", id=" + id);
+      // System.out.println("Found " + toRet.size() + " seds for " + eapart + ", id=" +
+      // id);
       return toRet;
-   }
-
-   public static ExtendedAttribute createStartOrEndExtendedAttribute(XMLCollectionElement wpOrAs, boolean isStart,
-         String pId, Point offset, String type, boolean addToCollection) {
-
-      WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
-      ExtendedAttributes eas = wp.getExtendedAttributes();
-      String eaname = null;
-      if (isStart) {
-         if (wpOrAs instanceof WorkflowProcess) {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW;
-         } else {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK;
-         }
-      } else {
-         if (wpOrAs instanceof WorkflowProcess) {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW;
-         } else {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK;
-         }
-      }
-      StartEndDescription sed = new StartEndDescription();
-      sed.setEAName(eaname);
-      if (wpOrAs instanceof ActivitySet) {
-         sed.setActSetId(wpOrAs.getId());
-      }
-      sed.setParticipantId(pId);
-      sed.setOffset(offset);
-      sed.setTransitonStyle(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_BEZIER);
-      sed.setType(type);
-      ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
-      ea.setName(eaname);
-      ea.setVValue(sed.toString());
-      if (addToCollection) {
-         eas.add(0, ea);
-      }
-      return ea;
-   }
-
-   protected static List getStartOrEndDescriptionsOld(XMLCollectionElement wpOrAs, boolean isStart) {
-      List startOrEndDescriptions = new ArrayList();
-      List eas = GraphUtilities.getStartOrEndExtendedAttributesOld(wpOrAs, isStart);
-      Iterator it = eas.iterator();
-      while (it.hasNext()) {
-         ExtendedAttribute ea = (ExtendedAttribute) it.next();
-         String sedstr = ea.getVValue();
-         StartEndDescription sed = new StartEndDescription();
-         if (!isStart) {
-            if (wpOrAs instanceof ActivitySet) {
-               sed.setEAName(GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK);
-            } else {
-               sed.setEAName(GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW);
-            }
-         } else {
-            if (wpOrAs instanceof ActivitySet) {
-               sed.setEAName(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK);
-            } else {
-               sed.setEAName(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW);
-            }
-         }
-
-         String[] startOrEndD = Utils.tokenize(sedstr, ";");
-         int i = 0;
-
-         if (wpOrAs instanceof ActivitySet) {
-            sed.setActSetId(wpOrAs.getId());
-         }
-         try {
-            sed.setParticipantId(startOrEndD[i++]);
-            String actId = startOrEndD[i++];
-            if (actId.equals("-1"))
-               actId = null;
-            sed.setActId(actId);
-         } catch (Exception ex) {
-            continue;
-         }
-
-         try {
-            int ah=getGraphController().getGraphSettings().getActivityHeight();
-            sed.setOffset(new Point(ah/5+Integer.parseInt(startOrEndD[i++]), ah/5+Integer.parseInt(startOrEndD[i++])));
-            String style = GraphUtilities.getNewStyle(null, startOrEndD[i++]);
-            sed.setTransitonStyle(style);
-         } catch (Exception ex) {
-         }
-
-         String type = null;
-         if (isStart) {
-            type = GraphEAConstants.START_TYPE_DEFAULT;
-         } else {
-            type = GraphEAConstants.END_TYPE_DEFAULT;
-         }
-         sed.setType(type);
-         startOrEndDescriptions.add(sed);
-         ((ExtendedAttributes)ea.getParent()).remove(ea);
-      }
-      return startOrEndDescriptions;
-   }
-
-   protected static List getStartOrEndExtendedAttributesOld(XMLCollectionElement wpOrAs, boolean isStart) {
-      List ret = new ArrayList();
-      String eaname = null;
-      if (isStart) {
-         if (wpOrAs instanceof WorkflowProcess) {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW_OLD;
-         } else {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK_OLD;
-         }
-      } else {
-         if (wpOrAs instanceof WorkflowProcess) {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW_OLD;
-         } else {
-            eaname = GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK_OLD;
-         }
-      }
-      if (wpOrAs instanceof WorkflowProcess) {
-         ret.addAll(((WorkflowProcess) wpOrAs).getExtendedAttributes().getElementsForName(eaname));
-      } else {
-         Activity refAct = GraphUtilities.getReferencingBlockActivity((ActivitySet) wpOrAs);
-         if (refAct != null) {
-            ret.addAll(refAct.getExtendedAttributes().getElementsForName(eaname));
-         }
-      }
-      return ret;
    }
 
    // ---------------- ACTIVITY
@@ -561,24 +443,14 @@ public class GraphUtilities {
       return participantId;
    }
 
-   public static void setParticipantId(Activity act, String participantId) {
-      if (participantId == null || participantId.equals("")) {
-         participantId = FreeTextExpressionParticipant.getInstance().getId();
-      }
-      ExtendedAttribute ea = GraphUtilities.getParticipantIdEA(act);
-      if (ea == null) {
-         ea = GraphUtilities.createParticipantIdEA(act, participantId, true);
-      } else {
-         ea.setVValue(participantId);
-      }
-   }
-
    protected static ExtendedAttribute getParticipantIdEA(Activity act) {
       return act.getExtendedAttributes()
-            .getFirstExtendedAttributeForName(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID);
+         .getFirstExtendedAttributeForName(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID);
    }
 
-   protected static ExtendedAttribute createParticipantIdEA(Activity act, String val, boolean addToCollection) {
+   protected static ExtendedAttribute createParticipantIdEA(Activity act,
+                                                            String val,
+                                                            boolean addToCollection) {
       ExtendedAttributes eas = act.getExtendedAttributes();
       ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
       ea.setName(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID);
@@ -589,114 +461,374 @@ public class GraphUtilities {
       return ea;
    }
 
-   protected static String getParticipantIdOld(Activity act) {
-      String participantId = null;
-      ExtendedAttribute ea = getParticipantIdEAOld(act);
-      if (ea != null) {
-         participantId = ea.getVValue();
-      }
-      return participantId;
-   }
-
-   protected static ExtendedAttribute getParticipantIdEAOld(Activity act) {
-      return act.getExtendedAttributes().getFirstExtendedAttributeForName(
-            GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID_OLD);
-   }
-
    public static Point getOffsetPoint(Activity act) {
       Point offset = new Point(0, 0);
-      ExtendedAttribute ea = GraphUtilities.getOffsetPointEA(act);
+      NodeGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(act);
       if (ea != null) {
-         String offsetstr = ea.getVValue();
-         String[] offsetstrD = Utils.tokenize(offsetstr, ",");
          try {
-            offset.x = Integer.parseInt(offsetstrD[0]);
-            offset.y = Integer.parseInt(offsetstrD[1]);
+            offset.x = (int) Double.parseDouble(ea.getCoordinates().getXCoordinate());
+         } catch (Exception ex) {
+         }
+         try {
+            offset.y = (int) Double.parseDouble(ea.getCoordinates().getYCoordinate());
          } catch (Exception ex) {
          }
       }
       return offset;
    }
 
-   public static void setOffsetPoint(Activity act, Point offset) {
+   public static Point getOffsetPoint(XMLCollectionElement actOrArtif) {
+      Point offset = new Point(0, 0);
+      NodeGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(actOrArtif);
+      if (ea != null) {
+         try {
+            offset.x = (int) Double.parseDouble(ea.getCoordinates().getXCoordinate());
+         } catch (Exception ex) {
+         }
+         try {
+            offset.y = (int) Double.parseDouble(ea.getCoordinates().getYCoordinate());
+         } catch (Exception ex) {
+         }
+      }
+      return offset;
+   }
+
+   public static void setOffsetPoint(XMLCollectionElement actOrArtif,
+                                     Point offset,
+                                     String laneId) {
       if (offset == null) {
          offset = new Point(0, 0);
       }
-      String ofs = offset.x + "," + offset.y;
-      ExtendedAttribute ea = GraphUtilities.getOffsetPointEA(act);
-      //      System.out.println("Act "+act.getId()+", eaxoff="+ea);
+      NodeGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(actOrArtif);
+      // System.out.println("Act "+act.getId()+", eaxoff="+ea);
       if (ea == null) {
-         ea = GraphUtilities.createOffsetPointEA(act, ofs, true);
+         ea = GraphUtilities.createNodeGraphicsInfo(actOrArtif, offset, laneId, true);
       } else {
-         ea.setVValue(ofs);
+         if (laneId != null) {
+            ea.setLaneId(laneId);
+         }
+         ea.getCoordinates().setXCoordinate(String.valueOf(offset.x));
+         ea.getCoordinates().setYCoordinate(String.valueOf(offset.y));
       }
    }
 
-   protected static ExtendedAttribute getOffsetPointEA(Activity act) {
-      return act.getExtendedAttributes().getFirstExtendedAttributeForName(GraphEAConstants.EA_JAWE_GRAPH_OFFSET);
-   }
+   protected static NodeGraphicsInfo createNodeGraphicsInfo(XMLCollectionElement actOrArtif,
+                                                            Point val,
+                                                            String laneId,
+                                                            boolean addToCollection) {
+      NodeGraphicsInfos eas = (NodeGraphicsInfos) actOrArtif.get("NodeGraphicsInfos");
+      NodeGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(eas, "", false);
+      if (laneId != null) {
+         ea.setLaneId(laneId);
+      }
+      if (val != null) {
+         ea.getCoordinates().setXCoordinate(String.valueOf(val.x));
+         ea.getCoordinates().setYCoordinate(String.valueOf(val.y));
+      }
+      int width = GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .getActivityWidth();
+      int height = GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .getActivityHeight();
 
-   protected static ExtendedAttribute createOffsetPointEA(Activity act, String val, boolean addToCollection) {
-      ExtendedAttributes eas = act.getExtendedAttributes();
-      ExtendedAttribute ea = (ExtendedAttribute) act.getExtendedAttributes().generateNewElement();
-      ea.setName(GraphEAConstants.EA_JAWE_GRAPH_OFFSET);
-      ea.setVValue(val);
+      if (actOrArtif instanceof Activity) {
+         Activity act = (Activity) actOrArtif;
+         if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START
+             || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+            width = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getEventRadius() * 2 + 1;
+            height = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getEventRadius() * 2 + 1;
+         } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE) {
+            width = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getGatewayWidth();
+            height = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getGatewayHeight();
+         }
+      } else if (actOrArtif instanceof Artifact) {
+         Artifact art = (Artifact) actOrArtif;
+         if (art.getArtifactType().equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)) {
+            width = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getAnnotationWidth();
+            height = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getAnnotationHeight();
+         } else {
+            width = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getDataObjectWidth();
+            height = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getDataObjectHeight();
+         }
+      }
+      Color c = null;
+      Color bc = GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .getLaneBorderColor();
+      if (actOrArtif instanceof Pool || actOrArtif instanceof Lane) {
+         Object par = null;
+         if (actOrArtif instanceof Lane) {
+            Lane l = (Lane) actOrArtif;
+            par = GraphUtilities.getParticipantForLane(l, null);
+            if (par == null && l.getPerformers().size() > 0) {
+               par = l;
+            }
+         }
+         if (par == null) {
+            par = FreeTextExpressionParticipant.getInstance();
+         }
+
+         if (par instanceof FreeTextExpressionParticipant) {
+            c = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getLaneFreeTextExpressionColor();
+         } else if (par instanceof Lane) {
+            c = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getLaneCommonExpressionColor();
+         } else {
+            c = JaWEManager.getInstance()
+               .getJaWEController()
+               .getTypeResolver()
+               .getJaWEType((Participant) par)
+               .getColor();
+         }
+      } else {
+         ea.setWidth(width);
+         ea.setHeight(height);
+         c = JaWEManager.getInstance()
+            .getJaWEController()
+            .getTypeResolver()
+            .getJaWEType(actOrArtif)
+            .getColor();
+      }
+
+      ea.setFillColor(Utils.getColorString(c));
+      ea.setBorderColor(Utils.getColorString(bc));
+      ea.setToolId("JaWE");
       if (addToCollection) {
-         eas.add(0, ea);
+         eas.add(ea);
       }
       return ea;
    }
 
-   public static Point getOffsetPointOld(Activity act) {
-      Point offset = null;
-      ExtendedAttributes eas=act.getExtendedAttributes();
-      ExtendedAttribute eax = eas.getFirstExtendedAttributeForName(
-            GraphEAConstants.EA_JAWE_GRAPH_OFFSET_OLD_X);
-      ExtendedAttribute eay = eas.getFirstExtendedAttributeForName(
-            GraphEAConstants.EA_JAWE_GRAPH_OFFSET_OLD_Y);
-      if (eax != null && eay != null) {
-         try {
-            offset = new Point(Integer.parseInt(eax.getVValue()), Integer.parseInt(eay.getVValue()));
-            eas.remove(eax);
-            eas.remove(eay);            
-         } catch (Exception ex) {
-
+   protected static NodeGraphicsInfo createNodeGraphicsInfo(XMLCollectionElement wpOrAs,
+                                                            XMLCollectionElement actOrArtif,
+                                                            NodeGraphicsInfo ngi) {
+      NodeGraphicsInfos eas = (NodeGraphicsInfos) actOrArtif.get("NodeGraphicsInfos");
+      NodeGraphicsInfo ngin = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(eas, "", false);
+      ngin.setLaneId(ngi.getLaneId());
+      int participantNameWidth = GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .getLaneNameWidth();
+      double x = participantNameWidth + 1;
+      double y = participantNameWidth + 1;
+      try {
+         x = Double.parseDouble(ngi.getCoordinates().getXCoordinate());
+      } catch (Exception ex) {
+      }
+      try {
+         y = Double.parseDouble(ngi.getCoordinates().getYCoordinate());
+      } catch (Exception ex) {
+      }
+      if (wpOrAs != null) {
+         String gor = getGraphOrientation(wpOrAs);
+         if (gor.equals(XPDLConstants.POOL_ORIENTATION_HORIZONTAL)) {
+            if (x < participantNameWidth + 1) {
+               x = participantNameWidth + 1;
+            }
+         } else {
+            if (y < participantNameWidth + 1) {
+               y = participantNameWidth + 1;
+            }
          }
+      }
+      if (x < 1) {
+         x = 1;
+      }
+      if (y < 1) {
+         y = 1;
+      }
+      ngin.getCoordinates().setXCoordinate(String.valueOf(x));
+      ngin.getCoordinates().setYCoordinate(String.valueOf(y));
+      try {
+         ngin.setWidth(ngi.getWidth());
+      } catch (Exception ex) {
+      }
+      try {
+         ngin.setHeight(ngi.getHeight());
+      } catch (Exception ex) {
+      }
+      if (ngin.getWidth() == 0 || ngin.getHeight() == 0) {
+         if (actOrArtif instanceof Activity) {
+            Activity act = (Activity) actOrArtif;
+            if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START
+                || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+               if (ngin.getWidth() == 0) {
+                  ngin.setWidth(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getEventRadius() * 2 + 1);
+               }
+               if (ngin.getHeight() == 0) {
+                  ngin.setHeight(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getEventRadius() * 2 + 1);
+               }
+            } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE) {
+               if (ngin.getWidth() == 0) {
+                  ngin.setWidth(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getGatewayWidth());
+               }
+               if (ngin.getHeight() == 0) {
+                  ngin.setHeight(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getGatewayHeight());
+               }
+            } else {
+               if (ngin.getWidth() == 0) {
+                  ngin.setWidth(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getActivityWidth());
+               }
+               if (ngin.getHeight() == 0) {
+                  ngin.setHeight(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getActivityHeight());
+               }
+            }
+         } else if (actOrArtif instanceof Artifact) {
+            Artifact art = (Artifact) actOrArtif;
+            if (art.getArtifactType().equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)) {
+               if (ngin.getWidth() == 0) {
+                  ngin.setWidth(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getAnnotationWidth());
+               }
+               if (ngin.getHeight() == 0) {
+                  ngin.setHeight(GraphUtilities.getGraphController()
+                     .getGraphSettings()
+                     .getAnnotationHeight());
+               } else {
+                  if (ngin.getWidth() == 0) {
+                     ngin.setWidth(GraphUtilities.getGraphController()
+                        .getGraphSettings()
+                        .getDataObjectWidth());
+                  }
+                  if (ngin.getHeight() == 0) {
+                     ngin.setHeight(GraphUtilities.getGraphController()
+                        .getGraphSettings()
+                        .getDataObjectHeight());
+                  }
+               }
+            }
+         }
+      }
+
+      if (!ngi.getFillColor().equals("")) {
+         Color c = Utils.getColor(ngi.getFillColor());
+         ngin.setFillColor(Utils.getColorString(c));
+      }
+      if (!ngi.getBorderColor().equals("")) {
+         Color bc = Utils.getColor(ngi.getBorderColor());
+         ngin.setBorderColor(Utils.getColorString(bc));
+      }
+      ngin.setToolId("JaWE");
+      eas.add(ngin);
+      return ngin;
+   }
+
+   public static Point getOffsetPointOld(Activity act) {
+      Point offset = new Point(0, 0);
+      ExtendedAttribute ea = act.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(GraphEAConstants.EA_JAWE_GRAPH_OFFSET);
+
+      if (ea != null) {
+         String offsetstr = ea.getVValue();
+         String[] offsetstrD = XMLUtil.tokenize(offsetstr, ",");
+         try {
+            offset.x = Integer.parseInt(offsetstrD[0]);
+            offset.y = Integer.parseInt(offsetstrD[1]);
+
+         } catch (Exception ex) {
+         }
+         ((ExtendedAttributes) ea.getParent()).remove(ea);
       }
       return offset;
    }
 
+   protected static NodeGraphicsInfo updateNodeGraphicsInfoFromAnyOtherVendor(XMLCollectionElement actOrArtif,
+                                                                              XMLCollectionElement wpOrAs) {
+      Iterator it = ((NodeGraphicsInfos) actOrArtif.get("NodeGraphicsInfos")).toElements()
+         .iterator();
+      NodeGraphicsInfo ngi = null;
+      while (it.hasNext()) {
+         ngi = (NodeGraphicsInfo) it.next();
+         break;
+      }
+      if (ngi != null) {
+         return createNodeGraphicsInfo(wpOrAs, actOrArtif, ngi);
+      }
+      return null;
+   }
+
    // --------------- TRANSITION
-   public static String getStyle(Transition tra) {
-      String style = GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_BEZIER;
-      ExtendedAttribute ea = getStyleEA(tra);
+   public static String getStyle(XMLCollectionElement tra) {
+      String style = GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_SPLINE;
+      ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getConnectorGraphicsInfo(tra);
       if (ea != null) {
-         style = ea.getVValue();
+         style = ea.getStyle();
       }
       return style;
    }
 
-   public static void setStyle(Transition tra, String style) {
-      ExtendedAttribute ea = GraphUtilities.getStyleEA(tra);
+   public static void setStyle(XMLCollectionElement tra, String style) {
+      ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getConnectorGraphicsInfo(tra);
       if (ea == null) {
-         ea = GraphUtilities.createStyleEA(tra, style, true);
+         ea = GraphUtilities.createConnectorGraphicsInfo(tra, style, true);
       } else {
-         ea.setVValue(style);
+         ea.setStyle(style);
       }
    }
 
-   protected static ExtendedAttribute getStyleEA(Transition tra) {
-      return tra.getExtendedAttributes().getFirstExtendedAttributeForName(
-            GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE);
-   }
-
-   protected static ExtendedAttribute createStyleEA(Transition tra, String val, boolean addToCollection) {
-      ExtendedAttributes eas = tra.getExtendedAttributes();
-      ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
-      ea.setName(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE);
-      ea.setVValue(val);
+   protected static ConnectorGraphicsInfo createConnectorGraphicsInfo(XMLCollectionElement tra,
+                                                                      String val,
+                                                                      boolean addToCollection) {
+      ConnectorGraphicsInfos eas = (ConnectorGraphicsInfos) tra.get("ConnectorGraphicsInfos");
+      ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(eas, "", false);
+      ea.setStyle(val);
+      Color c = JaWEManager.getInstance()
+         .getJaWEController()
+         .getTypeResolver()
+         .getJaWEType(tra)
+         .getColor();
+      ea.setFillColor(Utils.getColorString(c));
+      ea.setToolId("JaWE");
       if (addToCollection) {
-         eas.add(0, ea);
+         eas.add(ea);
       }
       return ea;
    }
@@ -706,27 +838,29 @@ public class GraphUtilities {
       ExtendedAttribute ea = getStyleEAOld(tra);
       if (ea != null) {
          style = ea.getVValue();
-         ((ExtendedAttributes)ea.getParent()).remove(ea);
+         ((ExtendedAttributes) ea.getParent()).remove(ea);
       }
       return style;
    }
 
    protected static ExtendedAttribute getStyleEAOld(Transition tra) {
-      return tra.getExtendedAttributes().getFirstExtendedAttributeForName(
-            GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_OLD);
+      return tra.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE);
    }
 
-   public static List getBreakpoints(Transition tra) {
+   public static List getBreakpoints(XMLCollectionElement tra) {
       List breakPoints = new ArrayList();
-      ExtendedAttribute ea = GraphUtilities.getBreakpointsEA(tra);
+      ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getConnectorGraphicsInfo(tra);
       if (ea != null) {
          Point p;
-         String[] pPos = Utils.tokenize(ea.getVValue(), "-");
-         for (int i = 0; i < pPos.length; i++) {
-            String pos = pPos[i];
-            String[] posD = Utils.tokenize(pos, ",");
+         List pPos = ea.getCoordinatess().toElements();
+         for (int i = 0; i < pPos.size(); i++) {
+            Coordinates c = (Coordinates) pPos.get(i);
             try {
-               p = new Point(Integer.parseInt(posD[0]), Integer.parseInt(posD[1]));
+               p = new Point((int) Double.parseDouble(c.getXCoordinate()),
+                             (int) Double.parseDouble(c.getYCoordinate()));
                breakPoints.add(p);
             } catch (Exception ex) {
             }
@@ -735,103 +869,135 @@ public class GraphUtilities {
       return breakPoints;
    }
 
-   public static void setBreakpoints(Transition tra, List breakPoints) {
-      ExtendedAttribute ea = GraphUtilities.getBreakpointsEA(tra);
-      String eaval = GraphUtilities.createBreakpointsEAVal(breakPoints);
-      if (!eaval.equals("")) {
-         if (ea == null) {
-            ea = GraphUtilities.createBreakpointsEA(tra, eaval, true);
-         } else {
-            ea.setVValue(eaval);
-         }
+   public static void setBreakpoints(XMLCollectionElement tra, List breakPoints) {
+      ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getConnectorGraphicsInfo(tra);
+      if (ea == null) {
+         ea = GraphUtilities.createConnectorGraphicsInfo(tra, breakPoints, true);
       } else {
-         if (ea != null) {
-            ((ExtendedAttributes) ea.getParent()).remove(ea);
-         }
+         setBreakPointCoordinates(ea, breakPoints);
       }
    }
 
-   public static ExtendedAttribute getBreakpointsEA(Transition tra) {
-      return tra.getExtendedAttributes().getFirstExtendedAttributeForName(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS);
-   }
-
-   public static ExtendedAttribute createBreakpointsEA(Transition tra, String val, boolean addToCollection) {
-      ExtendedAttributes eas = tra.getExtendedAttributes();
-      ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
-      ea.setName(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS);
-      ea.setVValue(val);
+   public static ConnectorGraphicsInfo createConnectorGraphicsInfo(XMLCollectionElement tra,
+                                                                   List val,
+                                                                   boolean addToCollection) {
+      ConnectorGraphicsInfos eas = (ConnectorGraphicsInfos) tra.get("ConnectorGraphicsInfos");
+      ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(eas, "", false);
+      setBreakPointCoordinates(ea, val);
+      ea.setStyle(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_SPLINE);
+      Color c = JaWEManager.getInstance()
+         .getJaWEController()
+         .getTypeResolver()
+         .getJaWEType(tra)
+         .getColor();
+      ea.setFillColor(Utils.getColorString(c));
+      ea.setToolId("JaWE");
       if (addToCollection) {
-         eas.add(0, ea);
+         eas.add(ea);
       }
       return ea;
    }
 
-   protected static String createBreakpointsEAVal(List breakPoints) {
-      String eaval = "";
-      if (breakPoints != null) {
-         for (int i = 0; i < breakPoints.size(); i++) {
-            Point p = (Point) breakPoints.get(i);
-            String pPos = String.valueOf(p.x) + "," + String.valueOf(p.y);
-            eaval += pPos;
-            if (i != breakPoints.size() - 1) {
-               eaval += "-";
-            }
+   protected static void setBreakPointCoordinates(ConnectorGraphicsInfo cgi, List bps) {
+      Coordinatess cs = cgi.getCoordinatess();
+      cs.clear();
+      if (bps != null) {
+         for (int i = 0; i < bps.size(); i++) {
+            Point p = (Point) bps.get(i);
+            Coordinates c = (Coordinates) cs.generateNewElement();
+            c.setXCoordinate(String.valueOf(p.x));
+            c.setYCoordinate(String.valueOf(p.y));
+            cs.add(c);
          }
       }
-      return eaval;
    }
 
    protected static List getBreakpointsOld(Transition tra) {
-      Map ordNoToPoint = new HashMap();
-      ExtendedAttributes eas = tra.getExtendedAttributes();
-      if (eas.size() > 0) {
-         ExtendedAttribute ea;
-         Iterator it = eas.toElements().iterator();
+      List breakPoints = new ArrayList();
+      ExtendedAttribute ea = tra.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS);
+
+      if (ea != null) {
          Point p;
-         String[] pPos;
-         int i = 1;
-         while (it.hasNext()) {
-            ea = (ExtendedAttribute) it.next();
-            if (ea.getName().equals(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS_OLD)) {
-               pPos = Utils.tokenize(ea.getVValue(), ";");
-               if (pPos == null || pPos.length != 3) {
-                  continue;
-               }
-               try {
-                  p = new Point(Integer.parseInt(pPos[0]), Integer.parseInt(pPos[1]));
-                  int index;
-                  try {
-                     index = Integer.parseInt(pPos[2]);
-                  } catch (Exception exInner) {
-                     index = i;
-                  }
-                  ordNoToPoint.put(new Integer(index), p);
-                  eas.remove(ea);
-               } catch (Exception ex) {
-               }
-               i++;
+         String[] pPos = XMLUtil.tokenize(ea.getVValue(), "-");
+         int offsetx = 0;
+         int offsety = 0;
+         if (XPDLConstants.POOL_ORIENTATION_HORIZONTAL.equals(getGraphParticipantOrientation(XMLUtil.getWorkflowProcess(tra),
+                                                                                             XMLUtil.getActivitySet(tra)))) {
+            offsetx = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getLaneNameWidth();
+         } else {
+            offsety = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getLaneNameWidth();
+         }
+         for (int i = 0; i < pPos.length; i++) {
+            String pos = pPos[i];
+            String[] posD = XMLUtil.tokenize(pos, ",");
+            try {
+               p = new Point(offsetx + Integer.parseInt(posD[0]),
+                             offsety + Integer.parseInt(posD[1]));
+               breakPoints.add(p);
+            } catch (Exception ex) {
             }
          }
-      }
-      List breakPoints = new ArrayList();
-      for (int i = 1; i <= ordNoToPoint.size(); i++) {
-         breakPoints.add(ordNoToPoint.get(new Integer(i)));
+         ((ExtendedAttributes) ea.getParent()).remove(ea);
       }
       return breakPoints;
    }
 
-   //----------------------------------------------------------------------------------------------
+   protected static ConnectorGraphicsInfo updateConnectorGraphicsInfoFromAnyOtherVendor(XMLCollectionElement tra) {
+      Iterator it = ((ConnectorGraphicsInfos) tra.get("ConnectorGraphicsInfos")).toElements()
+         .iterator();
+      ConnectorGraphicsInfo cgi = null;
+      while (it.hasNext()) {
+         cgi = (ConnectorGraphicsInfo) it.next();
+         break;
+      }
+      ConnectorGraphicsInfo cgin = null;
+      if (cgi != null) {
+         cgin = createConnectorGraphicsInfo(tra, new ArrayList(), true);
+         Coordinatess cs = cgin.getCoordinatess();
+         List bps = cgi.getCoordinatess().toElements();
+         if (bps.size() >= 3) {
+            for (int i = 1; i < bps.size() - 1; i++) {
+               Coordinates c = (Coordinates) bps.get(i);
+               String x = c.getXCoordinate();
+               String y = c.getYCoordinate();
+               if (!((x.equals("0") && y.equals("0")) || (x.equals("0.0") && y.equals("0.0")))) {
+                  Coordinates cn = (Coordinates) cs.generateNewElement();
+                  cn.setXCoordinate(c.getXCoordinate());
+                  cn.setYCoordinate(c.getYCoordinate());
+                  cs.add(cn);
+               }
+            }
+         }
+         if (!cgi.getFillColor().equals("")) {
+            Color c = Utils.getColor(cgi.getFillColor());
+            cgin.setFillColor(Utils.getColorString(c));
+         }
+      }
+      return cgin;
+   }
+
+   // ----------------------------------------------------------------------------------------------
 
    /**
-    * Returns the sorted set of participants for given object. The object can be activity set or
-    * workflow process.
+    * Returns the sorted set of participants for given object. The object can be activity
+    * set or workflow process.
     */
    public static List gatherParticipants(XMLCollectionElement wpOrAs) {
       List ownedActivities = ((Activities) wpOrAs.get("Activities")).toElements();
       List gatherInto = new ArrayList();
 
       List vorder = GraphUtilities.getParticipantVisualOrder(wpOrAs);
-//      System.out.println("VORDER for " + wpOrAs.getId() + "=" + vorder + ", size=" + vorder.size());
+      // System.out.println("VORDER for " + wpOrAs.getId() + "=" + vorder + ", size=" +
+      // vorder.size());
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
 
       // gathering participants in ordered way defined by ext. attrib
@@ -839,25 +1005,30 @@ public class GraphUtilities {
          ParticipantInfo dpInfo = null;
          for (int i = 0; i < vorder.size(); i++) {
             String pId = (String) vorder.get(i);
-//            System.err.println("Gathering for  par id "+pId);
-            Participant p = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, pId);
-            if (p==null) {
-               if (CommonExpressionParticipants.getInstance().isCommonExpressionParticipantId(pId)) {
-                  pId=CommonExpressionParticipants.getInstance().getIdFromVisualOrderEA(pId);
-                  p=CommonExpressionParticipants.getInstance().getCommonExpressionParticipant(wpOrAs, pId);
+            // System.err.println("Gathering for  par id "+pId);
+            Participant p = XMLUtil.findParticipant(JaWEManager.getInstance()
+               .getXPDLHandler(), wp, pId);
+            if (p == null) {
+               if (CommonExpressionParticipants.getInstance()
+                  .isCommonExpressionParticipantId(pId)) {
+                  pId = CommonExpressionParticipants.getInstance()
+                     .getIdFromVisualOrderEA(pId);
+                  p = CommonExpressionParticipants.getInstance()
+                     .getCommonExpressionParticipant(wpOrAs, pId);
                }
             }
             if (p != null) {
                ParticipantInfo pi = new ParticipantInfo(p);
-               List afp = GraphUtilities.getAllActivitiesForParticipantId(ownedActivities, pId);
+               List afp = GraphUtilities.getAllActivitiesForParticipantId(ownedActivities,
+                                                                          pId);
                pi.setActivities(afp);
                ownedActivities.removeAll(afp);
-//               System.err.println("Gathered par "+pi);
+               // System.err.println("Gathered par "+pi);
                gatherInto.add(pi);
             } else {
-               if (dpInfo==null) {
+               if (dpInfo == null) {
                   dpInfo = new ParticipantInfo(FreeTextExpressionParticipant.getInstance());
-//                  System.err.println("Gathered par "+dpInfo);
+                  // System.err.println("Gathered par "+dpInfo);
                   gatherInto.add(dpInfo);
                }
             }
@@ -866,8 +1037,8 @@ public class GraphUtilities {
             dpInfo.setActivities(ownedActivities);
          }
       }
-//      CommonExpressionParticipants.getInstance().printList(wpOrAs);
-//System.err.println("all gathered participants for "+wpOrAs.getId()+" are:"+gatherInto);
+      // CommonExpressionParticipants.getInstance().printList(wpOrAs);
+      // System.err.println("all gathered participants for "+wpOrAs.getId()+" are:"+gatherInto);
       return gatherInto;
    }
 
@@ -884,62 +1055,108 @@ public class GraphUtilities {
       return pacts;
    }
 
-   protected static Activity getReferencingBlockActivity(ActivitySet as) {
-      WorkflowProcess wp = XMLUtil.getWorkflowProcess(as);
-      Activity act = GraphUtilities.getReferencingBlockActivity(wp.getActivities(), as.getId());
-      if (act == null) {
-         Iterator it = wp.getActivitySets().toElements().iterator();
-         while (it.hasNext()) {
-            ActivitySet aset = (ActivitySet) it.next();
-            act = GraphUtilities.getReferencingBlockActivity(aset.getActivities(), as.getId());
-            if (act != null)
-               break;
+   /**
+    * Returns the sorted set of participants for given object. The object can be activity
+    * set or workflow process.
+    */
+   public static List gatherLanes(XMLCollectionElement wpOrAs) {
+      List ownedActivitiesAndArtifacts = new ArrayList(((Activities) wpOrAs.get("Activities")).toElements());
+      ownedActivitiesAndArtifacts.addAll(XMLUtil.getPackage(wpOrAs)
+         .getArtifacts()
+         .toElements());
+      List gatherInto = new ArrayList();
+
+      List vorder = GraphUtilities.getLaneVisualOrder(wpOrAs);
+      // System.out.println("VORDER for " + wpOrAs.getId() + "=" + vorder + ", size=" +
+      // vorder.size());
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
+
+      // gathering participants in ordered way defined by ext. attrib
+      if (vorder.size() > 0) {
+         for (int i = 0; i < vorder.size(); i++) {
+            String pId = (String) vorder.get(i);
+            // System.err.println("Gathering for  par id "+pId);
+            Lane p = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getPoolForProcessOrActivitySet(wpOrAs)
+               .getLanes()
+               .getLane(pId);
+            LaneInfo pi = new LaneInfo(p);
+            List afp = GraphUtilities.getAllActivitiesAndArtifactsForLaneId(ownedActivitiesAndArtifacts,
+                                                                            pId);
+            pi.setActivitiesAndArtifacts(afp);
+            ownedActivitiesAndArtifacts.removeAll(afp);
+            // System.err.println("Gathered par "+pi);
+            gatherInto.add(pi);
          }
       }
-      return act;
+      // CommonExpressionParticipants.getInstance().printList(wpOrAs);
+      // System.err.println("all gathered participants for "+wpOrAs.getId()+" are:"+gatherInto);
+      return gatherInto;
    }
 
-   protected static Activity getReferencingBlockActivity(Activities acts, String asId) {
-      Iterator it = acts.toElements().iterator();
+   public static List getAllActivitiesAndArtifactsForLaneId(Collection actsAndArtifs,
+                                                            String pId) {
+      List pacts = new ArrayList();
+      Iterator it = actsAndArtifs.iterator();
       while (it.hasNext()) {
-         Activity act = (Activity) it.next();
-         if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
-            String bid = act.getActivityTypes().getBlockActivity().getBlockId();
-            if (bid.equals(asId)) {
-               return act;
-            }
+         XMLCollectionElement actOrArtif = (XMLCollectionElement) it.next();
+         String laneId = JaWEManager.getInstance().getXPDLUtils().getLaneId(actOrArtif);
+         if (pId.equals(laneId)) {
+            pacts.add(actOrArtif);
          }
       }
-      return null;
+      return pacts;
    }
 
    public static boolean scanExtendedAttributes(Package pkg) {
-//      JaWEManager.getInstance().getLoggingManager().debug("Scanning extended attributes for package " + pkg.getId());
+      // JaWEManager.getInstance().getLoggingManager().debug("Scanning extended attributes for package "
+      // + pkg.getId());
       Iterator wps = pkg.getWorkflowProcesses().toElements().iterator();
       boolean changed = false;
       while (wps.hasNext()) {
          WorkflowProcess wp = (WorkflowProcess) wps.next();
          changed = GraphUtilities.scanExtendedAttributes(wp) || changed;
-      }      
-      return changed;
-   }
-
-   protected static boolean scanExtendedAttributes(WorkflowProcess wp) {
-//      JaWEManager.getInstance().getLoggingManager().debug(
-//            "Scanning extended attributes for workflow process " + wp.getId());
-      boolean changed = GraphUtilities.scanExtendedAttributesForWPOrAs(wp);
-      Iterator it = wp.getActivitySets().toElements().iterator();
-      while (it.hasNext()) {
-         ActivitySet as = (ActivitySet) it.next();
-         changed = scanExtendedAttributes(as) || changed;
       }
       return changed;
    }
 
-   protected static boolean scanExtendedAttributes(ActivitySet as) {
-//      JaWEManager.getInstance().getLoggingManager()
-//            .debug("Scanning extended attributes for activity set " + as.getId());
-      return scanExtendedAttributesForWPOrAs(as);
+   protected static boolean scanExtendedAttributes(WorkflowProcess wp) {
+      // JaWEManager.getInstance().getLoggingManager().debug(
+      // "Scanning extended attributes for workflow process " + wp.getId());
+      boolean changed = false;
+      boolean doMigration = false;
+
+      Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForProcess(wp);
+      if (p == null) {
+         p = JaWEManager.getInstance().getXPDLUtils().createPoolForProcess(wp);
+         createNodeGraphicsInfo(p, null, null, true);
+         p.setOrientation(getGraphParticipantOrientation(wp, (String) null));
+         changed = true;
+         doMigration = true;
+      }
+      changed = GraphUtilities.scanExtendedAttributesForWPOrAs(wp, doMigration)
+                || changed;
+      Iterator it = wp.getActivitySets().toElements().iterator();
+      while (it.hasNext()) {
+         ActivitySet as = (ActivitySet) it.next();
+         changed = scanExtendedAttributes(as, doMigration) || changed;
+      }
+      return changed;
+   }
+
+   protected static boolean scanExtendedAttributes(ActivitySet as, boolean doMigration) {
+      // JaWEManager.getInstance().getLoggingManager()
+      // .debug("Scanning extended attributes for activity set " + as.getId());
+      Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForActivitySet(as);
+      if (p == null) {
+         p = JaWEManager.getInstance().getXPDLUtils().createPoolForActivitySet(as);
+         p.setOrientation(getGraphParticipantOrientation(XMLUtil.getWorkflowProcess(as),
+                                                         as.getId()));
+         createNodeGraphicsInfo(p, null, null, true);
+         doMigration = true;
+      }
+      return scanExtendedAttributesForWPOrAs(as, doMigration);
    }
 
    protected static String getNewStyle(Transition tra, String oldStyle) {
@@ -949,369 +1166,624 @@ public class GraphUtilities {
          if (tra != null && tra.getFrom().equals(tra.getTo())) {
             return GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_BEZIER;
          }
-         return GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_ORTHOGONAL;         
+         return GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_ORTHOGONAL;
       }
       return GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_ORTHOGONAL;
    }
 
-   public static boolean scanExtendedAttributesForWPOrAs(XMLCollectionElement wpOrAs) {
+   public static boolean scanExtendedAttributesForWPOrAs(XMLCollectionElement wpOrAs,
+                                                         boolean doMigration) {
       boolean changed = false;
       Participant defaultP = FreeTextExpressionParticipant.getInstance();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
-      ExtendedAttributes wpEAs=wp.getExtendedAttributes();
+      ExtendedAttributes wpEAs = wp.getExtendedAttributes();
       Activities acts = (Activities) wpOrAs.get("Activities");
+      Transitions tras = (Transitions) wpOrAs.get("Transitions");
       List ownedActivities = acts.toElements();
 
-      // participants required by XPDL model
-      List participants = GraphUtilities.getParticipants(acts);
+      if (doMigration) {
+         int defwidth = GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .getActivityWidth();
+         int defheight = GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .getActivityHeight();
+         // participants required by XPDL model
+         List participants = GraphUtilities.getParticipants(acts);
 
-      Map pIdToPar = new HashMap();
-      for (int i = 0; i < participants.size(); i++) {
-         Participant par = (Participant) participants.get(i);
-         pIdToPar.put(par.getId(), par);
-      }
-
-      // read visual order e.a. if any, and append participants that are contained there
-      boolean newAttrib = true;
-      List vo = new ArrayList();
-      ExtendedAttribute eavo = GraphUtilities.getParticipantVisualOrderEA(wpOrAs);
-      if (eavo == null) {
-         newAttrib = false;
-         eavo = GraphUtilities.getParticipantVisualOrderEAOld(wpOrAs);
-         if (eavo != null) {
-            vo = GraphUtilities.getParticipantVisualOrderOld(wpOrAs);
-            ((ExtendedAttributes)eavo.getParent()).remove(eavo);
-            changed=true;
+         Map pIdToPar = new HashMap();
+         for (int i = 0; i < participants.size(); i++) {
+            Participant par = (Participant) participants.get(i);
+            pIdToPar.put(par.getId(), par);
          }
-      } else {
-         vo = GraphUtilities.getParticipantVisualOrder(wpOrAs);
-      }
 
-      List toAdd = new ArrayList(vo);
-      toAdd.removeAll(pIdToPar.keySet());
-      // do not add if appropriate participant exists
-      for (int i = 0; i < toAdd.size(); i++) {
-         String pId = (String) toAdd.get(i);
-         Participant p = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, pId);
-         if (p != null && !participants.contains(p)) {
-            participants.add(p);
-            pIdToPar.put(pId,p);
-         } else if (CommonExpressionParticipants.getInstance().isCommonExpressionParticipantId(pId)) {
-            String pIdForP=CommonExpressionParticipants.getInstance().getIdFromVisualOrderEA(pId);
-            CommonExpressionParticipant cep=CommonExpressionParticipants.getInstance().getCommonExpressionParticipant(wpOrAs, pIdForP);
-            if (cep==null) {
-               cep=CommonExpressionParticipants.getInstance().generateCommonExpressionParticipant(wpOrAs);
-               cep.setId(pIdForP);
+         // read visual order e.a. if any, and append participants that are contained
+         // there
+         boolean newAttrib = true;
+         List vo = new ArrayList();
+         ExtendedAttribute eavo = GraphUtilities.getParticipantVisualOrderEA(wpOrAs);
+         if (eavo == null) {
+            newAttrib = false;
+         } else {
+            vo = GraphUtilities.getParticipantVisualOrder(wpOrAs);
+         }
+
+         List toAdd = new ArrayList(vo);
+         toAdd.removeAll(pIdToPar.keySet());
+         // do not add if appropriate participant exists
+         for (int i = 0; i < toAdd.size(); i++) {
+            String pId = (String) toAdd.get(i);
+            Participant p = XMLUtil.findParticipant(JaWEManager.getInstance()
+               .getXPDLHandler(), wp, pId);
+            if (p != null && !participants.contains(p)) {
+               participants.add(p);
+               pIdToPar.put(pId, p);
+            } else if (CommonExpressionParticipants.getInstance()
+               .isCommonExpressionParticipantId(pId)) {
+               String pIdForP = CommonExpressionParticipants.getInstance()
+                  .getIdFromVisualOrderEA(pId);
+               CommonExpressionParticipant cep = CommonExpressionParticipants.getInstance()
+                  .getCommonExpressionParticipant(wpOrAs, pIdForP);
+               if (cep == null) {
+                  cep = CommonExpressionParticipants.getInstance()
+                     .generateCommonExpressionParticipant(wpOrAs);
+                  cep.setId(pIdForP);
+               }
+               participants.add(cep);
+               pIdToPar.put(pIdForP, cep);
+            } else if (defaultP.getId().equals(pId) && !participants.contains(defaultP)) {
+               participants.add(defaultP);
+               pIdToPar.put(pId, defaultP);
+
             }
-            participants.add(cep);
-            pIdToPar.put(pIdForP,cep);
-         } else if (defaultP.getId().equals(pId) && !participants.contains(defaultP)) {
-            participants.add(defaultP);
-            pIdToPar.put(pId,defaultP);
-            
          }
-      }
 
-      SequencedHashMap gatherInto = new SequencedHashMap();
-      // initial gathering of activities per participant, without considering
-      // ext. attribs.
-      boolean hasDefaultPerformer = false;
-      for (int i = 0; i < participants.size(); i++) {
-         Participant p = (Participant) participants.get(i);
-//         System.out.println("Processing p: id=" + p.getId() + ", n=" + p.getName());
-         if (p == defaultP) {
-            hasDefaultPerformer = true;
-            continue;
-         }
-         List afp = GraphUtilities.getActivitiesWithPerformer(ownedActivities, p.getId());
-//         System.out.println("Acts for p: id=" + p.getId() + ", n=" + p.getName() + " are: " + afp);
-         ownedActivities.removeAll(afp);
-         ParticipantInfo pi = new ParticipantInfo(p);
-         Iterator it = afp.iterator();
-         while (it.hasNext()) {
-            Activity act = (Activity) it.next();
-            ExtendedAttribute ea = GraphUtilities.getParticipantIdEA(act);
-            if (ea != null) {
-               String pId = ea.getVValue();
-               String perf = act.getPerformer();
-               if (!pId.equals(perf)) {
-                  if (!pIdToPar.containsKey(perf)) {
-                     ea.setVValue(defaultP.getId());
-                  } else {
-                     ea.setVValue(perf);                     
+         SequencedHashMap gatherInto = new SequencedHashMap();
+         // initial gathering of activities per participant, without considering
+         // ext. attribs.
+         boolean hasDefaultPerformer = false;
+         for (int i = 0; i < participants.size(); i++) {
+            Participant p = (Participant) participants.get(i);
+            // System.out.println("Processing p: id=" + p.getId() + ", n=" + p.getName());
+            if (p == defaultP) {
+               hasDefaultPerformer = true;
+               continue;
+            }
+            List afp = GraphUtilities.getActivitiesWithPerformer(ownedActivities,
+                                                                 p.getId());
+            // System.out.println("Acts for p: id=" + p.getId() + ", n=" + p.getName() +
+            // " are: " + afp);
+            ownedActivities.removeAll(afp);
+            ParticipantInfo pi = new ParticipantInfo(p);
+            Iterator it = afp.iterator();
+            while (it.hasNext()) {
+               Activity act = (Activity) it.next();
+               ExtendedAttribute ea = GraphUtilities.getParticipantIdEA(act);
+               if (ea != null) {
+                  String pId = ea.getVValue();
+                  String perf = act.getFirstPerformer();
+                  if (!pId.equals(perf)) {
+                     if (!pIdToPar.containsKey(perf)) {
+                        ea.setVValue(defaultP.getId());
+                     } else {
+                        ea.setVValue(perf);
+                     }
+                     changed = true;
                   }
+               } else {
+                  ea = GraphUtilities.createParticipantIdEA(act,
+                                                            act.getFirstPerformer(),
+                                                            false);
+                  ((ExtendedAttributes) ea.getParent()).add(0, ea);
+                  changed = true;
+               }
+            }
+
+            pi.setActivities(afp);
+            gatherInto.put(p.getId(), pi);
+
+         }
+         if (!hasDefaultPerformer && ownedActivities.size() > 0) {
+            hasDefaultPerformer = true;
+         }
+         // now, for the activities other than NO and TOOL, consider
+         // ext. attribs. if any, otherwise add them
+         if (hasDefaultPerformer) {
+            ParticipantInfo pi = new ParticipantInfo(defaultP);
+            pi.setActivities(new ArrayList(ownedActivities));
+            gatherInto.put(defaultP.getId(), pi);
+
+            // adding common expression participants
+            Set ceps = CommonExpressionParticipants.getInstance()
+               .getCommonExpressionParticipants(wpOrAs);
+            Iterator it = ceps.iterator();
+            while (it.hasNext()) {
+               CommonExpressionParticipant cep = (CommonExpressionParticipant) it.next();
+               if (!gatherInto.containsKey(cep.getId())) {
+                  gatherInto.put(cep.getId(), new ParticipantInfo(cep));
+               }
+            }
+            // read ext attribs to see if route/block/subflow acts are placed
+            // somewhere else
+            // System.out.println("Further processing acts " + ownedActivities);
+            for (int i = 0; i < ownedActivities.size(); i++) {
+               Activity act = (Activity) ownedActivities.get(i);
+               ExtendedAttributes actEAs = act.getExtendedAttributes();
+               // if new JaWE ext. attrib exists:
+               ExtendedAttribute ea = GraphUtilities.getParticipantIdEA(act);
+               if (ea != null) {
+                  String pId = GraphUtilities.getParticipantId(act);
+                  ParticipantInfo pinf = (ParticipantInfo) gatherInto.get(pId);
+                  if (pinf == null) {
+                     ea.setVValue(defaultP.getId());
+                     changed = true;
+                  } else if (pinf != pi) {
+                     pi.removeActivity(act);
+                     pinf.addActivity(act);
+                  }
+               }
+               // if there is no e.a, add e.a. for default expression
+               // participant
+               if (ea == null) {
+                  ea = GraphUtilities.createParticipantIdEA(act, defaultP.getId(), false);
+                  actEAs.add(0, ea);
+                  changed = true;
+               }
+            }
+            // if there are no activities for default participant, and it is not in
+            // visual order list remove it
+            if (pi.getActivities().size() == 0 && !vo.contains(defaultP.getId())) {
+               gatherInto.remove(defaultP.getId());
+            }
+         }
+
+         // read visual order e.a. if any
+         if (eavo != null) {
+            List newVO = new ArrayList();
+            Iterator it = gatherInto.sequence().iterator();
+            while (it.hasNext()) {
+               String pId = (String) it.next();
+               Participant par = (Participant) pIdToPar.get(pId);
+               if (par instanceof CommonExpressionParticipant) {
+                  pId = CommonExpressionParticipants.getInstance()
+                     .getIdForVisualOrderEA(pId);
+               }
+               newVO.add(pId);
+            }
+            List addToVo = new ArrayList(newVO);
+            addToVo.removeAll(vo);
+            List removeFromVo = new ArrayList(vo);
+            removeFromVo.removeAll(newVO);
+            // do not remove if appropriate participant exists
+            it = removeFromVo.iterator();
+            while (it.hasNext()) {
+               String pId = (String) it.next();
+               Participant p = XMLUtil.findParticipant(JaWEManager.getInstance()
+                  .getXPDLHandler(), wp, pId);
+               if (p == null) {
+                  p = CommonExpressionParticipants.getInstance()
+                     .getCommonExpressionParticipant(wpOrAs, pId);
+               }
+               if (p != null || pId.equals(defaultP.getId())) {
+                  it.remove();
+               }
+            }
+            vo.removeAll(removeFromVo);
+            vo.addAll(addToVo);
+            checkLanes(JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getPoolForProcessOrActivitySet(wpOrAs), vo);
+
+            if (!newAttrib) {
+               if (vo.size() > 0) {
+                  eavo = GraphUtilities.createParticipantVisualOrderEA(wpOrAs,
+                                                                       GraphUtilities.createParticipantVisualOrderEAVal(wpOrAs,
+                                                                                                                        vo),
+                                                                       false);
+                  wpEAs.add(0, eavo);
                   changed = true;
                }
             } else {
-               ea=GraphUtilities.getParticipantIdEAOld(act);
-               if (ea!=null) {
-                  ((ExtendedAttributes)ea.getParent()).remove(ea);
+               if (removeFromVo.size() != 0 || addToVo.size() != 0) {
+                  String val = GraphUtilities.createParticipantVisualOrderEAVal(wpOrAs,
+                                                                                vo);
+                  eavo.setVValue(val);
+                  changed = true;
                }
-               ea = GraphUtilities.createParticipantIdEA(act, act.getPerformer(), false);
-               ((ExtendedAttributes) ea.getParent()).add(0, ea);
+            }
+         } else {
+            eavo = GraphUtilities.createParticipantVisualOrderEA(wpOrAs,
+                                                                 GraphUtilities.createParticipantVisualOrderEAVal(wpOrAs,
+                                                                                                                  gatherInto.sequence()),
+                                                                 false);
+            // System.out.println("Created vo attr for " + wpOrAs.getId() + "=" +
+            // eavo.getVValue() + ", vosize="+ gatherInto.sequence().size());
+            ((ExtendedAttributes) eavo.getParent()).add(0, eavo);
+            checkLanes(JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getPoolForProcessOrActivitySet(wpOrAs), gatherInto.sequence());
+
+            changed = true;
+         }
+
+         if (eavo != null) {
+            ((ExtendedAttributes) eavo.getParent()).remove(eavo);
+            changed = true;
+         }
+
+         // activity positions - read e.a. if exist, otherwise perform some kind of
+         // layout
+         Iterator it = gatherInto.values().iterator();
+         while (it.hasNext()) {
+            ParticipantInfo pi = (ParticipantInfo) it.next();
+            List actsForParticipant = pi.getActivities();
+            // System.out.println("Final acts for p:" + pi.getParticipant().getId() +
+            // " are "
+            // + actsForParticipant);
+            int incX = 2 * defwidth;
+            int incY = defheight;
+            int translateX = 10;
+            int translateY = 10;
+            double chngDir = (int) Math.sqrt(actsForParticipant.size());
+            int cnt = 0;
+            for (int i = 0; i < actsForParticipant.size(); i++) {
+               Activity act = (Activity) actsForParticipant.get(i);
+               String lid = getLaneIdForMigration(act);
+               NodeGraphicsInfo ea = JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getNodeGraphicsInfo(act);
+               if (ea == null) {
+                  ea = updateNodeGraphicsInfoFromAnyOtherVendor(act, wpOrAs);
+                  if (ea != null) {
+                     ea.setLaneId(lid);
+                     changed = true;
+                  }
+               }
+               if (ea == null) {
+                  Point off = GraphUtilities.getOffsetPointOld(act);
+                  if (off == null) {
+                     cnt++;
+                     if ((cnt / chngDir) == ((int) (cnt / chngDir))) {
+                        incX = -incX;
+                        translateY += incY;
+                     } else {
+                        translateX += incX;
+                     }
+                     off = new Point(translateX, translateY);
+                  }
+
+                  ea = GraphUtilities.createNodeGraphicsInfo(act, off, lid, false);
+                  ((NodeGraphicsInfos) ea.getParent()).add(ea);
+                  changed = true;
+               }
+               ExtendedAttribute pidea = getParticipantIdEA(act);
+               if (pidea != null) {
+                  ((ExtendedAttributes) pidea.getParent()).remove(pidea);
+                  changed = true;
+               }
+            }
+         }
+
+         // handle start/ends
+         List sds = GraphUtilities.getStartOrEndDescriptions(wpOrAs, true);
+         List eds = GraphUtilities.getStartOrEndDescriptions(wpOrAs, false);
+
+         String asId = null;
+         if (wpOrAs instanceof ActivitySet) {
+            asId = wpOrAs.getId();
+         }
+         List bubbles = new ArrayList(sds);
+         bubbles.addAll(eds);
+         it = bubbles.iterator();
+         Set eastoremove = new HashSet();
+         while (it.hasNext()) {
+            StartEndDescription sed = (StartEndDescription) it.next();
+            if (!gatherInto.containsKey(sed.getParticipantId())) {
+               eastoremove.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp,
+                                                                                 asId,
+                                                                                 sed.getParticipantId(),
+                                                                                 GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID));
+               // System.err.println("Removing sed1 "+sed.toString()+"\n..... because gatherInto doesn't have key "+sed.getParticipantId());
+            }
+            if (sed.getActId() != null && wp.getActivity(sed.getActId()) == null) {
+               eastoremove.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp,
+                                                                                 asId,
+                                                                                 sed.getActId(),
+                                                                                 GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID));
+               // System.err.println("Removing sed2 "+sed.toString());
+            }
+            if (sed.getActSetId() != null && wp.getActivitySet(sed.getActSetId()) == null) {
+               eastoremove.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp,
+                                                                                 asId,
+                                                                                 sed.getActSetId(),
+                                                                                 GraphEAConstants.EA_PART_ACTIVITY_SET_ID));
+               // System.err.println("Removing sed3 "+sed.toString());
+            }
+
+            String t = JaWEConstants.ACTIVITY_TYPE_START;
+            if (!sed.isStart()) {
+               t = JaWEConstants.ACTIVITY_TYPE_END;
+            }
+            Activity seev = JaWEManager.getInstance()
+               .getXPDLObjectFactory()
+               .createXPDLObject(acts, t, true);
+            createParticipantIdEA(seev, sed.getParticipantId(), true);
+            createNodeGraphicsInfo(seev,
+                                   sed.getOffset(),
+                                   getLaneIdForMigration(seev),
+                                   true);
+            ExtendedAttribute pidea = getParticipantIdEA(seev);
+            if (pidea != null) {
+               ((ExtendedAttributes) pidea.getParent()).remove(pidea);
                changed = true;
             }
+
+            Transition tra = JaWEManager.getInstance()
+               .getXPDLObjectFactory()
+               .createXPDLObject(tras, "", false);
+            if (sed.isStart()) {
+               tra.setFrom(seev.getId());
+               tra.setTo(sed.getActId());
+            } else {
+               tra.setTo(seev.getId());
+               String fromAct = sed.getActId();
+               if (!"".equals(fromAct)) {
+                  Activity startingAct = wp.getActivity(fromAct);
+                  if (startingAct != null) {
+                     fromAct = getProperActIdForEnd(wp, startingAct, 1);
+                  }
+               }
+               tra.setFrom(fromAct);
+            }
+            tras.add(tra);
+            createConnectorGraphicsInfo(tra, sed.getTransitionStyle(), true);
+            eastoremove.addAll(getStartOrEndExtendedAttributes(wpOrAs, true));
+            eastoremove.addAll(getStartOrEndExtendedAttributes(wpOrAs, false));
+         }
+         if (eastoremove.size() > 0) {
+            wpEAs.removeAll(new ArrayList(eastoremove));
+            changed = true;
          }
 
-         pi.setActivities(afp);
-         gatherInto.put(p.getId(), pi);
-
-      }
-      if (!hasDefaultPerformer && ownedActivities.size() > 0) {
-         hasDefaultPerformer = true;
-      }
-      // now, for the activities other than NO and TOOL, consider
-      // ext. attribs. if any, otherwise add them
-      if (hasDefaultPerformer) {
-         ParticipantInfo pi = new ParticipantInfo(defaultP);
-         pi.setActivities(new ArrayList(ownedActivities));
-         gatherInto.put(defaultP.getId(), pi);
-         
-         // adding common expression participants
-         Set ceps=CommonExpressionParticipants.getInstance().getCommonExpressionParticipants(wpOrAs);
-         Iterator it=ceps.iterator();
+         // handle transitions
+         it = tras.toElements().iterator();
          while (it.hasNext()) {
-            CommonExpressionParticipant cep=(CommonExpressionParticipant)it.next();            
-            gatherInto.put(cep.getId(), new ParticipantInfo(cep));            
-         }
-         // read ext attribs to see if route/block/subflow acts are placed
-         // somewhere else
-//         System.out.println("Further processing acts " + ownedActivities);
-         for (int i = 0; i < ownedActivities.size(); i++) {
-            Activity act = (Activity) ownedActivities.get(i);
-            ExtendedAttributes actEAs=act.getExtendedAttributes();
-            // if new JaWE ext. attrib exists:
-            ExtendedAttribute ea = GraphUtilities.getParticipantIdEA(act);
-            if (ea != null) {
-               String pId = GraphUtilities.getParticipantId(act);
-               ParticipantInfo pinf = (ParticipantInfo) gatherInto.get(pId);
-               if (pinf == null) {
-                  ea.setVValue(defaultP.getId());
+            Transition tra = (Transition) it.next();
+            ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getConnectorGraphicsInfo(tra);
+            if (ea == null) {
+               ea = updateConnectorGraphicsInfoFromAnyOtherVendor(tra);
+               changed = true;
+            }
+            if (ea == null) {
+               String oldStyle = GraphUtilities.getStyleOld(tra);
+               ea = GraphUtilities.createConnectorGraphicsInfo(tra, oldStyle, false);
+               List bps = GraphUtilities.getBreakpointsOld(tra);
+               if (bps.size() > 0) {
+                  setBreakPointCoordinates(ea, bps);
+               }
+               ((ConnectorGraphicsInfos) ea.getParent()).add(ea);
+               changed = true;
+            } else {
+               String style = GraphUtilities.getStyle(tra);
+               if (!GraphEAConstants.transitionStyles.contains(style)) {
+                  ea.setStyle(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_SPLINE);
                   changed = true;
-               } else if (pinf != pi) {
-                  pi.removeActivity(act);
-                  pinf.addActivity(act);
                }
             }
-            // if there is no new JaWE e.a. try to convert from old JaWE e.a. if
-            // any
+         }
+         // System.err.println("FINAL GPDws="+gatherInto);
+         // for the duplicated activities which are the consequence of the migration,
+         // adjust the positions
+         it = gatherInto.values().iterator();
+         while (it.hasNext()) {
+            ParticipantInfo pi = (ParticipantInfo) it.next();
+            List actsForParticipant = pi.getActivities();
+            Map pnt2Act = new HashMap();
+            for (int i = 0; i < actsForParticipant.size(); i++) {
+               Activity act = (Activity) actsForParticipant.get(i);
+               Point p = GraphUtilities.getOffsetPoint(act);
+               if (pnt2Act.containsKey(p)) {
+                  Activity oa = (Activity) pnt2Act.get(p);
+                  Point pr = GraphUtilities.getOffsetPoint(oa);
+                  pr.x += defwidth + 30;
+                  pr.y += defheight + 15;
+                  GraphUtilities.setOffsetPoint(act, pr, JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .getLaneId(act));
+                  changed = true;
+               }
+               pnt2Act.put(p, act);
+            }
+         }
+
+      } else {
+         Pool p = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getPoolForProcessOrActivitySet(wpOrAs);
+         Iterator it = acts.toElements().iterator();
+         while (it.hasNext()) {
+            Activity act = (Activity) it.next();
+            NodeGraphicsInfo ea = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getNodeGraphicsInfo(act);
             if (ea == null) {
-               ea = GraphUtilities.getParticipantIdEAOld(act);
-               if (ea != null) {
-                  String pId = ea.getVValue();
-                  ParticipantInfo pinf = (ParticipantInfo) gatherInto.get(pId);
-                  if (pinf == null) {
-                     actEAs.remove(ea);
-//                     System.err.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr1");
-                     ea = GraphUtilities.createParticipantIdEA(act, defaultP.getId(), false);
-                     actEAs.add(0, ea);
-                     changed = true;
+               ea = updateNodeGraphicsInfoFromAnyOtherVendor(act, wpOrAs);
+               if (ea == null || ea.getLaneId().equals("")) {
+                  String lId = null;
+                  if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
+                      || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+                     String perf = act.getFirstPerformer();
+                     Lane l = getLaneForPerformer(p, perf);
+                     if (l == null) {
+                        l = getDefaultLane(p);
+                        if (l == null) {
+                           l = createDefaultLane(p);
+                        }
+                     }
+                     lId = l.getId();
                   } else {
-                     actEAs.remove(ea);
-//                     System.err.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr2");
-                     ea = GraphUtilities.createParticipantIdEA(act, pId, false);
-                     actEAs.add(0, ea);
-                     changed = true;
-                     if (pinf != pi) {
-                        pi.removeActivity(act);
-                        pinf.addActivity(act);
+                     if (p.getLanes().size() > 0) {
+                        lId = ((Lane) p.getLanes().get(0)).getId();
+                     } else {
+                        Lane l = createDefaultLane(p);
+                        lId = l.getId();
                      }
                   }
-               }
-            }
-            // if there is no e.a (new or old) add e.a. for default expression
-            // participant
-            if (ea == null) {
-               ea = GraphUtilities.createParticipantIdEA(act, defaultP.getId(), false);
-               actEAs.add(0, ea);
-               changed = true;
-            }
-         }
-         // if there are no activities for default participant, and it is not in
-         // visual order list remove it
-         if (pi.getActivities().size() == 0 && !vo.contains(defaultP.getId())) {
-            gatherInto.remove(defaultP.getId());
-         }
-      }
-
-      // read visual order e.a. if any
-      if (eavo!=null) {
-         List newVO = new ArrayList();
-         Iterator it=gatherInto.sequence().iterator();
-         while (it.hasNext()) {
-            String pId=(String)it.next();
-            Participant par=(Participant)pIdToPar.get(pId);
-            if (par instanceof CommonExpressionParticipant) {
-               pId=CommonExpressionParticipants.getInstance().getIdForVisualOrderEA(pId);
-            }
-            newVO.add(pId);
-         }         
-         List addToVo=new ArrayList(newVO);
-         addToVo.removeAll(vo);
-         List removeFromVo = new ArrayList(vo);
-         removeFromVo.removeAll(newVO);
-         // do not remove if appropriate participant exists
-         it = removeFromVo.iterator();
-         while (it.hasNext()) {
-            String pId = (String) it.next();
-            Participant p = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, pId);
-            if (p==null) {
-               p=CommonExpressionParticipants.getInstance().getCommonExpressionParticipant(wpOrAs, pId);
-            }
-            if (p != null || pId.equals(defaultP.getId())) {
-               it.remove();
-            }
-         }
-         vo.removeAll(removeFromVo);
-         vo.addAll(addToVo);
-         if (!newAttrib) {
-            if (vo.size() > 0) {
-               eavo = GraphUtilities.createParticipantVisualOrderEA(wpOrAs, GraphUtilities
-                     .createParticipantVisualOrderEAVal(wpOrAs, vo), false);
-               wpEAs.add(0, eavo);
-               changed = true;
-            }
-         } else {
-            if (removeFromVo.size() != 0 || addToVo.size() != 0) {
-               String val = GraphUtilities.createParticipantVisualOrderEAVal(wpOrAs, vo);
-               eavo.setVValue(val);
-               changed = true;
-            }
-         }
-      } else {
-         eavo = GraphUtilities.createParticipantVisualOrderEA(wpOrAs, GraphUtilities.createParticipantVisualOrderEAVal(
-               wpOrAs, gatherInto.sequence()), false);
-//         System.out.println("Created vo attr for " + wpOrAs.getId() + "=" + eavo.getVValue() + ", vosize="+ gatherInto.sequence().size());
-         ((ExtendedAttributes) eavo.getParent()).add(0, eavo);
-         changed = true;
-      }
-      
-
-      // activity positions - read e.a. if exist, otherwise perform some kind of
-      // layout
-      Iterator it = gatherInto.values().iterator();
-      while (it.hasNext()) {
-         ParticipantInfo pi = (ParticipantInfo) it.next();
-         List actsForParticipant = pi.getActivities();
-//         System.out.println("Final acts for p:" + pi.getParticipant().getId() + " are " + actsForParticipant);
-         int incX = 2 * 85;
-         int incY = 55;
-         int translateX = 10;
-         int translateY = 10;
-         double chngDir = (int) Math.sqrt(actsForParticipant.size());
-         int cnt = 0;
-         for (int i = 0; i < actsForParticipant.size(); i++) {
-            Activity act = (Activity) actsForParticipant.get(i);
-            ExtendedAttribute ea = GraphUtilities.getOffsetPointEA(act);
-            if (ea == null) {
-               Point off = GraphUtilities.getOffsetPointOld(act);
-               if (off == null) {
-                  cnt++;
-                  if ((cnt / chngDir) == ((int) (cnt / chngDir))) {
-                     incX = -incX;
-                     translateY += incY;
+                  if (ea == null) {
+                     ea = createNodeGraphicsInfo(act,
+                                                 new Point(10 + (int) (300 * Math.random()),
+                                                           (int) (10 + 200 * Math.random())),
+                                                 lId,
+                                                 true);
                   } else {
-                     translateX += incX;
+                     ea.setLaneId(lId);
                   }
-                  off = new Point(translateX, translateY);
                }
-               ea = GraphUtilities.createOffsetPointEA(act, (off.x + "," + off.y), false);
-               ((ExtendedAttributes) ea.getParent()).add(0, ea);
                changed = true;
             }
          }
-      }
-
-      // handle start/ends
-      List sds=GraphUtilities.getStartOrEndDescriptions(wpOrAs, true);
-      if (sds.size() == 0) {
-         sds = GraphUtilities.getStartOrEndDescriptionsOld(wpOrAs, true);         
-         it = sds.iterator();
+         it = tras.toElements().iterator();
          while (it.hasNext()) {
-            StartEndDescription sed = (StartEndDescription) it.next();
-            ExtendedAttribute ea = (ExtendedAttribute) wpEAs.generateNewElement();
-            ea.setName(sed.getEAName());
-            ea.setVValue(sed.toString());
-            wpEAs.add(0, ea);
-            changed = true;
+            Transition tra = (Transition) it.next();
+            ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getConnectorGraphicsInfo(tra);
+            if (ea == null) {
+               ea = updateConnectorGraphicsInfoFromAnyOtherVendor(tra);
+               if (ea == null) {
+                  ea = createConnectorGraphicsInfo(tra,
+                                                   GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_SPLINE,
+                                                   true);
+               }
+               changed = true;
+            }
          }
-      }
-      List eds=GraphUtilities.getStartOrEndDescriptions(wpOrAs, false);
-      if (eds.size() == 0) {
-         eds = GraphUtilities.getStartOrEndDescriptionsOld(wpOrAs, false);
-         it = eds.iterator();
+
+         it = XMLUtil.getPackage(wpOrAs).getArtifacts().toElements().iterator();
          while (it.hasNext()) {
-            StartEndDescription sed = (StartEndDescription) it.next();
-            ExtendedAttribute ea = (ExtendedAttribute) wpEAs.generateNewElement();
-            ea.setName(sed.getEAName());
-            ea.setVValue(sed.toString());
-            wpEAs.add(0, ea);
-            changed = true;
+            Artifact art = (Artifact) it.next();
+            NodeGraphicsInfo ea = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getNodeGraphicsInfo(art);
+            if (ea == null) {
+               ea = updateNodeGraphicsInfoFromAnyOtherVendor(art, wpOrAs);
+               if (ea == null || ea.getLaneId().equals("")) {
+                  List refs = XMLUtil.getArtifactReferences(XMLUtil.getPackage(p),
+                                                            art.getId());
+                  String lId = null;
+                  if (refs.size() > 0) {
+                     for (int i = 0; i < refs.size(); i++) {
+                        Association assoc = XMLUtil.getAssociation((XMLElement) refs.get(i));
+                        String actId = assoc.getSource().equals(art.getId()) ? assoc.getTarget()
+                                                                            : assoc.getSource();
+                        Activity act = ((Activities) wpOrAs.get("Activities")).getActivity(actId);
+                        if (act != null) {
+                           lId = JaWEManager.getInstance()
+                              .getXPDLUtils()
+                              .getNodeGraphicsInfo(act)
+                              .getLaneId();
+                           break;
+                        }
+                     }
+                  }
+                  if (lId != null) {
+                     if (ea == null) {
+                        ea = createNodeGraphicsInfo(art,
+                                                    new Point(10 + (int) (300 * Math.random()),
+                                                              (int) (10 + 200 * Math.random())),
+                                                    lId,
+                                                    true);
+                     } else {
+                        ea.setLaneId(lId);
+                     }
+                     changed = true;
+                  }
+               } else {
+                  changed = true;
+               }
+            }
          }
-      }
 
-      String asId=null;
-      if (wpOrAs instanceof ActivitySet) {
-         asId=wpOrAs.getId();
-      } 
-      List bubbles=new ArrayList(sds);
-      bubbles.addAll(eds);
-      it=bubbles.iterator();
-      Set eastoremove=new HashSet();
-      while (it.hasNext()) {
-         StartEndDescription sed = (StartEndDescription) it.next();
-         if (!gatherInto.containsKey(sed.getParticipantId())) {
-            eastoremove.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, sed.getParticipantId(),
-                  GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID));            
-//            System.err.println("Removing sed1 "+sed.toString()+"\n..... because gatherInto doesn't have key "+sed.getParticipantId());
-         }
-         if (sed.getActId()!=null && wp.getActivity(sed.getActId())==null) {
-            eastoremove.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, sed.getActId(),
-                  GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID));            
-//            System.err.println("Removing sed2 "+sed.toString());
-         }
-         if (sed.getActSetId()!=null && wp.getActivitySet(sed.getActSetId())==null) {
-            eastoremove.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, sed.getActSetId(),
-                  GraphEAConstants.EA_PART_ACTIVITY_SET_ID));            
-//            System.err.println("Removing sed3 "+sed.toString());
-         }
-      }
-      if (eastoremove.size()>0) {
-         wpEAs.removeAll(new ArrayList(eastoremove));
-         changed=true;
-      }
-      // handle transitions
-      Transitions tras = (Transitions) wpOrAs.get("Transitions");
-      it = tras.toElements().iterator();
-      while (it.hasNext()) {
-         Transition tra = (Transition) it.next();
-         ExtendedAttribute ea = GraphUtilities.getStyleEA(tra);
-         if (ea == null) {
-            String oldStyle = GraphUtilities.getStyleOld(tra);
-            ea = GraphUtilities.createStyleEA(tra, GraphUtilities.getNewStyle(tra, oldStyle), false);
-            ((ExtendedAttributes) ea.getParent()).add(0, ea);
-            changed = true;
-         } else {
-            String style = GraphUtilities.getStyle(tra);
-            if (!GraphEAConstants.transitionStyles.contains(style)) {
-               ea.setVValue(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_ORTHOGONAL);
+         it = XMLUtil.getPackage(wpOrAs).getAssociations().toElements().iterator();
+         while (it.hasNext()) {
+            Association ass = (Association) it.next();
+            ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getConnectorGraphicsInfo(ass);
+            if (ea == null) {
+               ea = updateConnectorGraphicsInfoFromAnyOtherVendor(ass);
+               if (ea == null) {
+                  ea = createConnectorGraphicsInfo(ass,
+                                                   GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_SPLINE,
+                                                   true);
+               }
                changed = true;
             }
          }
-         ea = null;
-         ea = GraphUtilities.getBreakpointsEA(tra);
+
+         NodeGraphicsInfo ea = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getNodeGraphicsInfo(p);
          if (ea == null) {
-            List bps = GraphUtilities.getBreakpointsOld(tra);
-            if (bps.size() > 0) {
-               ea = GraphUtilities.createBreakpointsEA(tra, GraphUtilities.createBreakpointsEAVal(bps), false);
-               ((ExtendedAttributes) ea.getParent()).add(0, ea);
+            ea = updateNodeGraphicsInfoFromAnyOtherVendor(p, null);
+            if (ea == null) {
+               ea = createNodeGraphicsInfo(p, null, null, true);
+            }
+            changed = true;
+         }
+         it = p.getLanes().toElements().iterator();
+         while (it.hasNext()) {
+            Lane l = (Lane) it.next();
+            ea = JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(l);
+            if (ea == null) {
+               ea = updateNodeGraphicsInfoFromAnyOtherVendor(l, null);
+               if (ea == null) {
+                  ea = createNodeGraphicsInfo(l, null, null, true);
+               }
                changed = true;
             }
          }
-      }
-      //System.err.println("FINAL GPDws="+gatherInto);
 
+      }
       return changed;
+   }
+
+   protected static String getProperActIdForEnd(WorkflowProcess wp,
+                                                Activity startingAct,
+                                                int cnt) {
+      Set tras = XMLUtil.getNonExceptionalOutgoingTransitions(startingAct);
+      if (tras.size() == 1) {
+         String actTo = ((Transition) tras.toArray()[0]).getTo();
+         Activity nextAct = wp.getActivity(actTo);
+         if (nextAct != null) {
+            return getProperActIdForEnd(wp, nextAct, ++cnt);
+         }
+      }
+      return startingAct.getId();
+   }
+
+   protected static String getLaneIdForMigration(Activity act) {
+      String perf = act.getFirstPerformer();
+      if (perf.equals("")) {
+         perf = getParticipantId(act);
+      }
+      XMLCollectionElement wpOrAs = XMLUtil.getActivitySet(act);
+      if (wpOrAs == null) {
+         wpOrAs = XMLUtil.getWorkflowProcess(act);
+      }
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      Lane l = getLaneForPerformer(p, perf);
+      if (l == null) {
+         l = getDefaultLane(p);
+         if (l == null) {
+            l = createDefaultLane(p);
+         }
+      }
+      return l.getId();
    }
 
    protected static List getParticipants(Activities acts) {
@@ -1324,7 +1796,8 @@ public class GraphUtilities {
       Participant defaultP = FreeTextExpressionParticipant.getInstance();
       for (int i = 0; i < performers.size(); i++) {
          String perf = (String) performers.get(i);
-         Participant p = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, perf);
+         Participant p = XMLUtil.findParticipant(JaWEManager.getInstance()
+            .getXPDLHandler(), wp, perf);
          if (p == null) {
             p = defaultP;
          }
@@ -1333,9 +1806,9 @@ public class GraphUtilities {
          }
       }
 
-      //      if (pars.size()==0 && acts.size()>0) {
-      //         pars.add(defaultP);
-      //      }
+      // if (pars.size()==0 && acts.size()>0) {
+      // pars.add(defaultP);
+      // }
 
       return pars;
    }
@@ -1345,11 +1818,14 @@ public class GraphUtilities {
 
       List types = new ArrayList();
       types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_NO));
-      types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_TOOL));
+      types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION));
 
-      Iterator it = JaWEManager.getInstance().getXPDLUtils().getActivities(acts, types).iterator();
+      Iterator it = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getActivities(acts, types)
+         .iterator();
       while (it.hasNext()) {
-         String perf = ((Activity) it.next()).getPerformer();
+         String perf = ((Activity) it.next()).getFirstPerformer();
          if (!perf.equals("")) {
             if (!pps.contains(perf)) {
                pps.add(perf);
@@ -1365,22 +1841,19 @@ public class GraphUtilities {
       ExtendedAttributes eas = (ExtendedAttributes) ea.getParent();
       String eaname = ea.getName();
       if (eas.getParent() instanceof WorkflowProcess
-            && (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)
-                  || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION)
-                  || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER)
-                  || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER)
-                  || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW)
-                  || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
-                  || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK) || eaname
-                  .equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK))) {
+          && (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)
+              || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION)
+              || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER)
+              || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER)
+              || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW)
+              || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
+              || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK) || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK))) {
          isMK = true;
       } else if (eas.getParent() instanceof Activity
-            && (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) || eaname
-                  .equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET))) {
+                 && (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET))) {
          isMK = true;
       } else if (eas.getParent() instanceof Transition
-            && (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS) || eaname
-                  .equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE))) {
+                 && (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS) || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE))) {
          isMK = true;
       }
 
@@ -1388,31 +1861,45 @@ public class GraphUtilities {
    }
 
    // MUST NOT CHANGE ANYTHING ON THE XPDL MODEL - JUST PERFORM GRAPH CHANGES
-   public static void adjustPackageOnUndoOrRedoEvent(List allInfo) {
+   public static void adjustPackageOnUndoOrRedoEvent(List allInfo, boolean undo) {
       Package pkg = JaWEManager.getInstance().getJaWEController().getMainPackage();
       GraphController graphController = GraphUtilities.getGraphController();
 
-      XMLCollectionElement wpOrAs=GraphUtilities.getRotatedGraphObject(allInfo);
-      if (wpOrAs!=null) {
-         Graph g=graphController.getGraph(wpOrAs);
-         Object[] elem = JaWEGraphModel.getAll(g.getModel());
-         g.getModel().remove(elem);
+      Pool rpool = GraphUtilities.getRotatedGraphObject(allInfo);
+      if (rpool != null) {
+         XMLCollectionElement wpOrAs = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getProcessForPool(rpool);
+         if (wpOrAs == null) {
+            wpOrAs = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getActivitySetForPool(rpool);
+         }
+         if (wpOrAs != null) {
+            Graph g = graphController.getGraph(wpOrAs);
+            Object[] elem = JaWEGraphModel.getAll(g.getModel());
+            g.getModel().remove(elem);
 
-         g.getGraphManager().createWorkflowGraph(g.getXPDLObject());
-         return;
+            g.getGraphManager().createWorkflowGraph(g.getXPDLObject());
+            return;
+         }
       }
-      
-      Set insertedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo, true);
-      Set insertedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo, true);
-      Set removedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo, false);
-      Set removedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo, false);
+      Set insertedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo,
+                                                                                   true);
+      Set insertedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo,
+                                                                                 true);
+      Set removedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo,
+                                                                                  false);
+      Set removedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo,
+                                                                                false);
 
-//      LoggingManager lm = JaWEManager.getInstance().getLoggingManager();
-//      lm.debug("GraphUtilities -> adjusting pkg " + pkg.getId() + " on undo/redo event");
-//      lm.debug("    Inserted processes: " + insertedProcesses);
-//      lm.debug("    Removed processes: " + removedProcesses);
-//      lm.debug("    Inserted activity sets: " + insertedActivitySets);
-//      lm.debug("    Removed activity sets: " + removedActivitySets);
+      // LoggingManager lm = JaWEManager.getInstance().getLoggingManager();
+      // lm.debug("GraphUtilities -> adjusting pkg " + pkg.getId() +
+      // " on undo/redo event");
+      // lm.debug("    Inserted processes: " + insertedProcesses);
+      // lm.debug("    Removed processes: " + removedProcesses);
+      // lm.debug("    Inserted activity sets: " + insertedActivitySets);
+      // lm.debug("    Removed activity sets: " + removedActivitySets);
 
       // remove removed processes and their activity sets
       Iterator it = removedProcesses.iterator();
@@ -1453,7 +1940,9 @@ public class GraphUtilities {
          if (insertedProcesses.contains(wp))
             continue;
 
-         GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoOrRedoEvent(allInfo, wp);
+         GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoOrRedoEvent(allInfo,
+                                                                            wp,
+                                                                            undo);
          Iterator asi = wp.getActivitySets().toElements().iterator();
          while (asi.hasNext()) {
             ActivitySet as = (ActivitySet) asi.next();
@@ -1461,7 +1950,9 @@ public class GraphUtilities {
             if (insertedActivitySets.contains(as))
                continue;
 
-            GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoOrRedoEvent(allInfo, as);
+            GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoOrRedoEvent(allInfo,
+                                                                               as,
+                                                                               undo);
          }
       }
 
@@ -1475,244 +1966,182 @@ public class GraphUtilities {
    }
 
    // MUST NOT CHANGE ANYTHING ON THE XPDL MODEL - JUST PERFORM GRAPH CHANGES
-   public static void adjustWorkflowProcessOrActivitySetOnUndoOrRedoEvent(List allInfo, XMLCollectionElement wpOrAs) {
+   public static void adjustWorkflowProcessOrActivitySetOnUndoOrRedoEvent(List allInfo,
+                                                                          XMLCollectionElement wpOrAs,
+                                                                          boolean undo) {
       Graph graph = GraphUtilities.getGraphController().getGraph(wpOrAs);
 
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
 
-      Participant defaultPar = FreeTextExpressionParticipant.getInstance();
-
       GraphManager gmgr = graph.getGraphManager();
 
-      List vo = GraphUtilities.getParticipantVisualOrder(wpOrAs);
-      
+      // org.enhydra.jawe.base.logger.LoggingManager lm =
+      // JaWEManager.getInstance().getLoggingManager();
+      // lm.debug("GraphUtilities->adjusting wp or as " + wpOrAs.getId());
+      // lm.debug("    Activities to update graph position: " + graphUpdPosActs);
+      // lm.debug("    Inserted activities: " + insertedActivities);
+      // lm.debug("    Removed activities: " + removedActs);
+      // lm.debug("    Inserted transitions: " + insertedTrans);
+      // lm.debug("    Updated transitions: " + updatedTrans);
+      // lm.debug("    Removed transitions: " + removedTrans);
+      // lm.debug("    PVO start: " + vo);
 
-//      org.enhydra.jawe.base.logger.LoggingManager lm = JaWEManager.getInstance().getLoggingManager();
-//      lm.debug("GraphUtilities->adjusting wp or as " + wpOrAs.getId());
-//      lm.debug("    Activities to update graph position: " + graphUpdPosActs);
-//      lm.debug("    Inserted activities: " + insertedActivities);
-//      lm.debug("    Removed activities: " + removedActs);
-//      lm.debug("    Inserted transitions: " + insertedTrans);
-//      lm.debug("    Updated transitions: " + updatedTrans);
-//      lm.debug("    Removed transitions: " + removedTrans);
-//      lm.debug("    PVO start: " + vo);
+      List currentPars = GraphUtilities.getLanesInVisualOrder(wpOrAs);
 
-      List currentPars = new ArrayList();
-      for (int i = 0; i < vo.size(); i++) {
-         String parId = (String) vo.get(i);
-//         System.err.println("Par to search="+parId);
-         boolean isCEP=CommonExpressionParticipants.getInstance().isCommonExpressionParticipantId(parId);
-         if (isCEP) {
-            parId=CommonExpressionParticipants.getInstance().getIdFromVisualOrderEA(parId);            
-         }
-//         System.err.println("Par to search final="+parId);
-         Participant par = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, parId);
-//System.err.println("Handling par "+par);
-         if (par == null) { // this must be default participant
-            if (!isCEP) {
-               par = defaultPar;
-            } else {
-               par=CommonExpressionParticipants.getInstance().getCommonExpressionParticipant(wpOrAs, parId);
-               if (par==null) {
-                  par=CommonExpressionParticipants.getInstance().getUpdatedCommonExpressionParticipant(vo, wpOrAs);
-                  if (par==null) {
-                     par=CommonExpressionParticipants.getInstance().generateCommonExpressionParticipant(wpOrAs);
-                  }
-                  par.setId(parId);
-               }
-            }
-         }
-         // if there is such participant in graph, switch user objects for any case.
-         // It could be that the participants have the same Id, but are really
-         // not the same
-//         GraphParticipantInterface gpar = gmgr.getGraphParticipant(parId);
-//         if (gpar != null) {
-//            gpar.setUserObject(par);
-//System.err.println("USER OBJECT REPLACED WITH "+par);
-//Thread.dumpStack();
-//         }
-         currentPars.add(par);         
-      }
+      // Map pkgParsWithChangedIds =
+      // GraphUtilities.getPackageParticipantsWithChangedId(allInfo);
+      // Map wpParsWithChangedIds =
+      // GraphUtilities.getWorkflowProcessParticipantsWithChangedId(allInfo,
+      // XMLUtil.getWorkflowProcess(wpOrAs));
+      // for (int i = 0; i < currentPars.size(); i++) {
+      // Participant par = (Participant) currentPars.get(i);
+      // String pId = par.getId();
+      // if (pkgParsWithChangedIds.containsKey(pId)
+      // || wpParsWithChangedIds.containsKey(pId)) {
+      // reloadGraph(graph);
+      // return;
+      // }
+      // }
+      // if (reloadGraphIfNeccessary(graph)) {
+      // return;
+      // }
 
-      CommonExpressionParticipants.getInstance().removeUnusedCommonExpressionParticipants(vo, wpOrAs);
-      
-      Map pkgParsWithChangedIds = GraphUtilities.getPackageParticipantsWithChangedId(allInfo);
-      Map wpParsWithChangedIds = GraphUtilities.getWorkflowProcessParticipantsWithChangedId(allInfo, XMLUtil
-            .getWorkflowProcess(wpOrAs));
-      for (int i=0; i<currentPars.size(); i++) {
-         Participant par=(Participant)currentPars.get(i);
-         String pId=par.getId();
-         if (pkgParsWithChangedIds.containsKey(pId) || wpParsWithChangedIds.containsKey(pId)) {
-            reloadGraph(graph);
-            return;
-         }
-      }
-      if (reloadGraphIfNeccessary(graph)) {
-         return;
-      }
-            
-      
       Set participantsToRemoveFromGraph = new HashSet();
 
-      Set insertedActivities = GraphUtilities.getInsertedOrRemovedActivities(allInfo, wpOrAs, true);
-      Set removedActs = GraphUtilities.getInsertedOrRemovedActivities(allInfo, wpOrAs, false);
-      Set graphUpdPosActs = GraphUtilities.getActivitiesWithChangedOffset(allInfo, wpOrAs);
-      graphUpdPosActs.addAll(GraphUtilities.getActivitiesWithChangedParticipantId(allInfo, wpOrAs));
+      Set insertedActivities = GraphUtilities.getInsertedOrRemovedActivitiesAndArtifacts(allInfo,
+                                                                                         wpOrAs,
+                                                                                         true,
+                                                                                         !undo);
+      Set removedActs = GraphUtilities.getInsertedOrRemovedActivitiesAndArtifacts(allInfo,
+                                                                                  wpOrAs,
+                                                                                  false,
+                                                                                  !undo);
+      updateJGraphForActivityAndArtifactBounds(graph, allInfo, wpOrAs);
+      Set graphUpdPosActs = GraphUtilities.getActivitiesAndArtifactsWithChangedOffset(allInfo,
+                                                                                      wpOrAs);
+      graphUpdPosActs.addAll(GraphUtilities.getActivitiesAndArtifactsWithChangedLaneId(allInfo,
+                                                                                       wpOrAs));
       graphUpdPosActs.removeAll(removedActs);
-      Set insertedTrans = GraphUtilities.getInsertedOrRemovedTransitions(allInfo, wpOrAs, true);
-      Set removedTrans = GraphUtilities.getInsertedOrRemovedTransitions(allInfo, wpOrAs, false);
-      Set updatedTrans = GraphUtilities.getUpdatedTransitions(allInfo, wpOrAs);
-      updatedTrans.addAll(GraphUtilities.getTransitionsWithChangedBreakpointsOrStyle(allInfo, wpOrAs));
+      Set insertedTrans = GraphUtilities.getInsertedOrRemovedTransitionsAndAssociations(allInfo,
+                                                                                        wpOrAs,
+                                                                                        true);
+      Set removedTrans = GraphUtilities.getInsertedOrRemovedTransitionsAndAssociations(allInfo,
+                                                                                       wpOrAs,
+                                                                                       false);
+      Set updatedTrans = GraphUtilities.getUpdatedTransitionsAndAssociations(allInfo,
+                                                                             wpOrAs);
+      updatedTrans.addAll(GraphUtilities.getTransitionsWithChangedBreakpointsOrStyle(allInfo,
+                                                                                     wpOrAs));
       updatedTrans.removeAll(removedTrans);
-      Set insertedBubbles = GraphUtilities.getInsertedOrRemovedBubbles(allInfo, wpOrAs, true);
-      Set removedBubbles = GraphUtilities.getInsertedOrRemovedBubbles(allInfo, wpOrAs, false);
-      Set updatedBubbles = GraphUtilities.getUpdatedBubbles(allInfo, wpOrAs);
-      updatedBubbles.removeAll(removedBubbles);
-      
+
       List partsInGraph = new ArrayList();
       List allGraphParticipants = JaWEGraphModel.getAllParticipantsInModel(graph.getModel());
       if (allGraphParticipants != null) {
          Iterator it = allGraphParticipants.iterator();
          while (it.hasNext()) {
             GraphParticipantInterface gpar = (GraphParticipantInterface) it.next();
-            partsInGraph.add(gpar.getUserObject());
+            if (gpar.getUserObject() instanceof Lane) {
+               partsInGraph.add(gpar.getUserObject());
+            }
          }
-//System.err.println("PING="+partsInGraph);         
+         // System.err.println("PING="+partsInGraph);
       }
-      
+
       // get missing participants
       Set participantsToInsertIntoGraph = new HashSet(currentPars);
       participantsToInsertIntoGraph.removeAll(partsInGraph);
       participantsToRemoveFromGraph.addAll(partsInGraph);
       participantsToRemoveFromGraph.removeAll(currentPars);
-      Map participantsToReplace=new HashMap();
-      Iterator itp=participantsToRemoveFromGraph.iterator();
+      Map participantsToReplace = new HashMap();
+      Iterator itp = participantsToRemoveFromGraph.iterator();
       while (itp.hasNext()) {
-         Participant p=(Participant)itp.next();
-         GraphParticipantInterface gpar=gmgr.getGraphParticipant(p);
-         Set chas=gpar.getChildActivities();
-         if (chas!=null && chas.size()>0) {
-            Iterator ita=chas.iterator();
-            while (ita.hasNext()) {               
-               GraphActivityInterface ga=(GraphActivityInterface)ita.next();
-               if (!(ga instanceof GraphBubbleActivityInterface) && 
-                     !removedActs.contains(ga.getUserObject()) && !graphUpdPosActs.contains(ga.getUserObject())) {                  
-                  String pId=GraphUtilities.getParticipantId((Activity)ga.getUserObject());
-                  Participant toRep=XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, pId);
-                  if (toRep!=null) {
+         Lane p = (Lane) itp.next();
+         GraphParticipantInterface gpar = gmgr.getGraphParticipant(p);
+         Set chas = gpar.getChildActivitiesAndArtifacts();
+         if (chas != null && chas.size() > 0) {
+            Iterator ita = chas.iterator();
+            while (ita.hasNext()) {
+               WorkflowElement ga = (WorkflowElement) ita.next();
+               if (!removedActs.contains(ga.getPropertyObject())
+                   && !graphUpdPosActs.contains(ga.getPropertyObject())) {
+                  String pId = JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .getLaneId((XMLCollectionElement) ga.getPropertyObject());
+                  Lane toRep = getLane(wpOrAs, pId);
+                  if (toRep != null) {
                      participantsToReplace.put(p, toRep);
                   }
                }
-                     
+
             }
-         }         
+         }
       }
-//System.err.println("PTR="+participantsToReplace);
-      Iterator itm=participantsToReplace.entrySet().iterator();
+      // System.err.println("PTR="+participantsToReplace);
+      Iterator itm = participantsToReplace.entrySet().iterator();
       while (itm.hasNext()) {
-         Map.Entry me=(Map.Entry)itm.next();
-         Participant pold=(Participant)me.getKey();
-         Participant pnew=(Participant)me.getValue();
-         GraphParticipantInterface gpar=gmgr.getGraphParticipant(pold);
+         Map.Entry me = (Map.Entry) itm.next();
+         Lane pold = (Lane) me.getKey();
+         Lane pnew = (Lane) me.getValue();
+         GraphParticipantInterface gpar = gmgr.getGraphParticipant(pold);
          gpar.setUserObject(pnew);
          participantsToInsertIntoGraph.remove(pnew);
-         participantsToRemoveFromGraph.remove(pold);         
+         participantsToRemoveFromGraph.remove(pold);
       }
-      
-//      lm.debug("    Participants to insert into graph: " + participantsToInsertIntoGraph);
-//      lm.debug("    Pars to remove from graph: " + participantsToRemoveFromGraph);
-      
-      
+
+      // lm.debug("    Participants to insert into graph: " +
+      // participantsToInsertIntoGraph);
+      // lm.debug("    Pars to remove from graph: " + participantsToRemoveFromGraph);
+
       // Insert graph participants
-      Iterator it = participantsToInsertIntoGraph.iterator();
+      List pti = new ArrayList(currentPars);
+      pti.retainAll(participantsToInsertIntoGraph);
+      Iterator it = pti.iterator();
       while (it.hasNext()) {
-         Participant par = (Participant) it.next();
-         gmgr.insertParticipantAndArrangeParticipants(par);
+         Lane par = (Lane) it.next();
+         gmgr.insertParticipantAndArrangeParticipants(par, null);
       }
 
       // remove transitions that are not longer present
       it = removedTrans.iterator();
       while (it.hasNext()) {
-         Transition tra = (Transition) it.next();
-         gmgr.removeTransition(tra);
+         XMLCollectionElement tra = (XMLCollectionElement) it.next();
+         gmgr.removeTransitionOrAssociation(tra);
       }
 
       // remove activities that are not longer present
       it = removedActs.iterator();
       while (it.hasNext()) {
-         Activity act = (Activity) it.next();
-         gmgr.removeActivity(act);
+         XMLCollectionElement act = (XMLCollectionElement) it.next();
+         gmgr.removeActivityOrArtifact(act);
       }
 
       // insert new activities
       it = insertedActivities.iterator();
       while (it.hasNext()) {
-         Activity act = (Activity) it.next();
-         gmgr.insertActivity(act);
-         // adjust bubbles if neccessary (re-connect them)
-//         List seeas = GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, act.getId(),
-//               GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID);
-//         for (int i = 0; i < seeas.size(); i++) {
-//            ExtendedAttribute ea = (ExtendedAttribute) seeas.get(i);
-//            GraphBubbleActivityInterface bubble = gmgr.getBubble(ea);
-//            gmgr.connectStartOrEndBubble(bubble, act.getId());
-//         }
+         XMLCollectionElement act = (XMLCollectionElement) it.next();
+         gmgr.insertActivityOrArtifact(act);
       }
 
       // insert new transitions
       it = insertedTrans.iterator();
       while (it.hasNext()) {
-         Transition tra = (Transition) it.next();
-         gmgr.insertTransition(tra);
+         XMLCollectionElement tra = (XMLCollectionElement) it.next();
+         gmgr.insertTransitionOrAssociation(tra);
       }
 
       // adjusted activity position
-//      lm.debug("    Activities to update position: " + graphUpdPosActs);
+      // lm.debug("    Activities to update position: " + graphUpdPosActs);
       it = graphUpdPosActs.iterator();
       while (it.hasNext()) {
-         Activity act = (Activity) it.next();
-         gmgr.arrangeActivityPosition(act);
+         XMLCollectionElement act = (XMLCollectionElement) it.next();
+         gmgr.arrangeActivityOrArtifactPosition(act);
       }
 
       // update transitions that changed source or target
       it = updatedTrans.iterator();
       while (it.hasNext()) {
-         Transition tra = (Transition) it.next();
-         gmgr.updateTransition(tra);
-      }
-
-      // remove bubbles
-      it = removedBubbles.iterator();
-      while (it.hasNext()) {
-         ExtendedAttribute ea = (ExtendedAttribute) it.next();
-         gmgr.removeBubble(ea);
-      }
-
-      // insert new bubbles
-      it = insertedBubbles.iterator();
-      while (it.hasNext()) {
-         ExtendedAttribute ea = (ExtendedAttribute) it.next();
-         String eaName=ea.getName();
-         if (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
-               || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK)) {
-            gmgr.insertStart(ea);
-         } else {
-            gmgr.insertEnd(ea);
-         }
-      }
-
-      // update bubbles
-      it = updatedBubbles.iterator();
-      while (it.hasNext()) {
-         ExtendedAttribute ea = (ExtendedAttribute) it.next();
-         //         gmgr.removeBubble(ea);
-         //         if (ea.getName().equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW) ||
-         //               ea.getName().equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK)) {
-         //            gmgr.insertStart(ea);
-         //         } else {
-         //            gmgr.insertEnd(ea);
-         //         }
-         gmgr.updateBubble(ea);
+         XMLCollectionElement tra = (XMLCollectionElement) it.next();
+         gmgr.updateTransitionOrAssociation(tra);
       }
 
       // remove participants that are not longer present
@@ -1720,41 +2149,117 @@ public class GraphUtilities {
          List gparstorem = new ArrayList();
          it = participantsToRemoveFromGraph.iterator();
          while (it.hasNext()) {
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant((Participant) it.next());
+            GraphParticipantInterface gpar = gmgr.getGraphParticipant((Lane) it.next());
             gparstorem.add(gpar);
          }
          gmgr.removeCellsAndArrangeParticipants(gparstorem.toArray());
       }
 
-      // sort graph participants
+      ParentMap parentMap = new JaWEParentMap();
+      Map propertyMap = new HashMap();
+      // TODO: sort graph participants
       allGraphParticipants = JaWEGraphModel.getAllParticipantsInModel(graph.getModel());
       if (allGraphParticipants != null) {
+         allGraphParticipants.remove(graph.getGraphManager()
+            .getGraphParticipant(JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getPoolForProcessOrActivitySet(wpOrAs)));
          GraphParticipantComparator gpc = new GraphParticipantComparator(gmgr);
          Collections.sort(allGraphParticipants, gpc);
 
-         List helper = new ArrayList(allGraphParticipants);
-         Map propertyMap = new HashMap();
-         ParentMap parentMap = new JaWEParentMap();
-         boolean updated = false;
-         for (int i = helper.size() - 1; i >= 0; i--) {
-            GraphParticipantInterface gpar = (GraphParticipantInterface) helper.get(i);
-            Participant par = (Participant) gpar.getUserObject();
-            String parIdForVO=par.getId();
-            if (par instanceof CommonExpressionParticipant) {
-               parIdForVO=CommonExpressionParticipants.getInstance().getIdForVisualOrderEA(parIdForVO);
+         Set lanes = getLanesWithChangedOrder(allInfo);
+         Set nestedlanes = getNestedLanesWithChangedOrder(allInfo);
+         List helper = new ArrayList();
+         List helper2 = new ArrayList();
+         it = lanes.iterator();
+         while (it.hasNext()) {
+            Lane l = (Lane) it.next();
+            GraphParticipantInterface gpi = graph.getGraphManager()
+               .getGraphParticipant(l);
+            if (gpi != null) {
+               if (gpi.getParent() instanceof GraphParticipantInterface
+                   && ((GraphParticipantInterface) gpi.getParent()).getPropertyObject() instanceof Pool) {
+                  helper.add(gpi);
+               }
+            } else {
+               System.out.println("Can't find GPI for lane " + l);
             }
+         }
+         it = nestedlanes.iterator();
+         while (it.hasNext()) {
+            Lane l = (Lane) it.next();
+            GraphParticipantInterface gpi = graph.getGraphManager()
+               .getGraphParticipant(l);
+            if (gpi != null) {
+               helper2.add(gpi);
+            } else {
+               System.out.println("Can't find GPI for lane " + l);
+            }
+         }
+         boolean updated = false;
+         System.out.println("CPARS=" + currentPars);
+         // List agp = new ArrayList(allGraphParticipants);
+         // for (int i = 0; i < agp.size(); i++) {
+         // System.out.println("GPARS="+allGraphParticipants);
+         // GraphParticipantInterface gpar = (GraphParticipantInterface)agp.get(i);
+         // int realInd = currentPars.indexOf(gpar.getPropertyObject());
+         // int currentPos = allGraphParticipants.indexOf(gpar);
+         // if (realInd != currentPos) {
+         // int diff = realInd - currentPos;
+         // System.out.println("Repositioning participant "+gpar+" for "+diff+",oi="+currentPos+", ni="+realInd);
+         // for (int j = 0; j < Math.abs(diff); j++) {
+         // // updated = gmgr.moveParticipant(gpar, (diff < 0), propertyMap, parentMap)
+         // // || updated;
+         // updated = gmgr.moveParticipant(gpar, (diff < 0), propertyMap, parentMap)
+         // || updated;
+         // }
+         // allGraphParticipants.remove(currentPos);
+         // allGraphParticipants.add(realInd, gpar);
+         // // break;
+         // }
+         // }
 
-            int realInd = vo.indexOf(parIdForVO);
+         for (int i = 0; i < currentPars.size(); i++) {
+            System.out.println("GPARS=" + allGraphParticipants);
+            GraphParticipantInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
+            if (!helper.contains(gpar))
+               continue;
+            int realInd = i;
             int currentPos = allGraphParticipants.indexOf(gpar);
-            List toMove = new ArrayList();
-            toMove.add(gpar);
             if (realInd != currentPos) {
                int diff = realInd - currentPos;
-               //            System.out.println("Repositioning participant "+gpar+" for "+diff+",
-               // oi="+currentPos+", ni="+realInd);
+               System.out.println("Repositioning participant "
+                                  + gpar + " for " + diff + ",oi=" + currentPos + ", ni="
+                                  + realInd);
                for (int j = 0; j < Math.abs(diff); j++) {
-                  updated = gmgr.moveParticipants(toMove, (diff < 0), propertyMap, parentMap) || updated;
+                  updated = gmgr.moveParticipant(gpar, (diff < 0), propertyMap, parentMap)
+                            || updated;
                }
+               allGraphParticipants.remove(currentPos);
+               allGraphParticipants.add(realInd, gpar);
+            } else {
+               System.out.println("participant "
+                                  + gpar + ",oi=" + currentPos + ", ni=" + realInd
+                                  + ", needs no repositioning");
+
+            }
+         }
+         for (int i = 0; i < currentPars.size(); i++) {
+            System.out.println("GPARS=" + allGraphParticipants);
+            GraphParticipantInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
+            if (!helper2.contains(gpar))
+               continue;
+            int realInd = i;
+            int currentPos = allGraphParticipants.indexOf(gpar);
+            if (realInd != currentPos) {
+               int diff = realInd - currentPos;
+               System.out.println("Repositioning nested participant "
+                                  + gpar + " for " + diff + ",oi=" + currentPos + ", ni="
+                                  + realInd);
+               // for (int j = 0; j < Math.abs(diff); j++) {
+               updated = gmgr.moveParticipant(gpar, (diff < 0), propertyMap, parentMap)
+                         || updated;
+               // }
                allGraphParticipants.remove(currentPos);
                allGraphParticipants.add(realInd, gpar);
             }
@@ -1763,7 +2268,6 @@ public class GraphUtilities {
             gmgr.graphModel().insertAndEdit(null, propertyMap, null, parentMap, null);
          }
       }
-
       graph.repaint();
    }
 
@@ -1771,33 +2275,45 @@ public class GraphUtilities {
       Package pkg = JaWEManager.getInstance().getJaWEController().getMainPackage();
       GraphController graphController = GraphUtilities.getGraphController();
 
-      Set insertedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo, true);
-      Set insertedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo, true);
-      Set removedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo, false);
-      Set removedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo, false);
+      Set insertedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo,
+                                                                                   true);
+      Set insertedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo,
+                                                                                 true);
+      Set removedProcesses = GraphUtilities.getInsertedOrRemovedWorkflowProcesses(allInfo,
+                                                                                  false);
+      Set removedActivitySets = GraphUtilities.getInsertedOrRemovedActivitySets(allInfo,
+                                                                                false);
       Map activitySetsWithChangedId = GraphUtilities.getActivitySetsWithChangedId(allInfo);
 
-//      LoggingManager lm = JaWEManager.getInstance().getLoggingManager();
-//      lm.debug("GraphUtilities->adjusting pkg " + pkg.getId());
-//      lm.debug("    Inserted processes: " + insertedProcesses);
-//      lm.debug("    Removed processes: " + removedProcesses);
-//      lm.debug("    Inserted activity sets: " + insertedActivitySets);
-//      lm.debug("    Removed activity sets: " + removedActivitySets);
+      // LoggingManager lm = JaWEManager.getInstance().getLoggingManager();
+      // lm.debug("GraphUtilities->adjusting pkg " + pkg.getId());
+      // lm.debug("    Inserted processes: " + insertedProcesses);
+      // lm.debug("    Removed processes: " + removedProcesses);
+      // lm.debug("    Inserted activity sets: " + insertedActivitySets);
+      // lm.debug("    Removed activity sets: " + removedActivitySets);
 
       // NOTE: order of insertion/removal/updating is VERY IMPORTANT
-      //       because of activity set related extended attributes
-      //       that are defined as e.attribs of its process (as does
-      //       not have e.attribs)
+      // because of activity set related extended attributes
+      // that are defined as e.attribs of its process (as does
+      // not have e.attribs)
 
       // remove removed processes and their activity sets
       Iterator it = removedProcesses.iterator();
       while (it.hasNext()) {
          WorkflowProcess wp = (WorkflowProcess) it.next();
          graphController.removeGraph(wp);
+         Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForProcess(wp);
+         if (p != null) {
+            ((Pools) p.getParent()).remove(p);
+         }
          Iterator asi = wp.getActivitySets().toElements().iterator();
          while (asi.hasNext()) {
             ActivitySet as = (ActivitySet) asi.next();
             graphController.removeGraph(as);
+            p = JaWEManager.getInstance().getXPDLUtils().getPoolForActivitySet(as);
+            if (p != null) {
+               ((Pools) p.getParent()).remove(p);
+            }
          }
       }
 
@@ -1806,15 +2322,16 @@ public class GraphUtilities {
       while (it.hasNext()) {
          ActivitySet as = (ActivitySet) it.next();
          // first remove all extended attributes from activity set's process
-         ExtendedAttributes eas = XMLUtil.getWorkflowProcess(as).getExtendedAttributes();
-         List seds = GraphUtilities.getStartOrEndExtendedAttributes(as, false);
-         seds.addAll(GraphUtilities.getStartOrEndExtendedAttributes(as, true));
-         Iterator sedit = seds.iterator();
-         while (sedit.hasNext()) {
-            ExtendedAttribute ea = (ExtendedAttribute) sedit.next();
-            eas.remove(ea);
-         }
-         eas.remove(GraphUtilities.getParticipantVisualOrderEA(as));
+         // ExtendedAttributes eas =
+         // XMLUtil.getWorkflowProcess(as).getExtendedAttributes();
+         // List seds = GraphUtilities.getStartOrEndExtendedAttributes(as, false);
+         // seds.addAll(GraphUtilities.getStartOrEndExtendedAttributes(as, true));
+         // Iterator sedit = seds.iterator();
+         // while (sedit.hasNext()) {
+         // ExtendedAttribute ea = (ExtendedAttribute) sedit.next();
+         // eas.remove(ea);
+         // }
+         // eas.remove(GraphUtilities.getParticipantVisualOrderEA(as));
          graphController.removeGraph(as);
       }
 
@@ -1822,60 +2339,48 @@ public class GraphUtilities {
       it = insertedProcesses.iterator();
       while (it.hasNext()) {
          WorkflowProcess wp = (WorkflowProcess) it.next();
-         GraphUtilities.scanExtendedAttributesForWPOrAs(wp);
+         Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForProcess(wp);
+         GraphUtilities.createNodeGraphicsInfo(p, null, null, true);
+
+         // GraphUtilities.scanExtendedAttributesForWPOrAs(wp, false);
          graphController.createGraph(wp);
          Iterator asi = wp.getActivitySets().toElements().iterator();
          while (asi.hasNext()) {
             ActivitySet as = (ActivitySet) asi.next();
-
-            GraphUtilities.scanExtendedAttributesForWPOrAs(as);
+            p = JaWEManager.getInstance().getXPDLUtils().getPoolForActivitySet(as);
+            GraphUtilities.createNodeGraphicsInfo(p, null, null, true);
+            // GraphUtilities.scanExtendedAttributesForWPOrAs(as, false);
             graphController.createGraph(as);
          }
       }
 
-      // update Id part for block visual order e.attribs for activity sets that changed Id
-      // and also the same for start/end of block and participant orientation attributes
-      it = activitySetsWithChangedId.entrySet().iterator();
-      while (it.hasNext()) {
-         Map.Entry me = (Map.Entry) it.next();
-         String oldId = (String) me.getKey();
-         ActivitySet as = (ActivitySet) me.getValue();
-         WorkflowProcess wp = XMLUtil.getWorkflowProcess(as);
-
-         // visual order
-         ExtendedAttribute ea = GraphUtilities.getParticipantVisualOrderEA(wp, oldId);
-         List vo = GraphUtilities.getParticipantVisualOrder(wp, oldId);
-         ea.setVValue(GraphUtilities.createParticipantVisualOrderEAVal(as, vo));
-
-         // participant orientation
-         ea = GraphUtilities.getGraphParticipantOrientationEA(wp, oldId);
-         if (ea != null) {
-            String[] parts = Utils.tokenize(ea.getVValue(), ";");
-            String orientation = parts[1];
-            ea.setVValue(as.getId() + ";" + orientation);
-         }
-
-         // start/end attributes
-         GraphUtilities.adjustBubbles(wp, oldId, GraphEAConstants.EA_PART_ACTIVITY_SET_ID, oldId, as.getId());
-      }
-
       // update other processes and activity sets
-      it = pkg.getWorkflowProcesses().toElements().iterator();
-      while (it.hasNext()) {
-         WorkflowProcess wp = (WorkflowProcess) it.next();
+      if (insertedProcesses.size() == 0) {
+         it = pkg.getWorkflowProcesses().toElements().iterator();
+         while (it.hasNext()) {
+            WorkflowProcess wp = (WorkflowProcess) it.next();
 
-         if (insertedProcesses.contains(wp))
-            continue;
+            // if (insertedProcesses.contains(wp))
+            // continue;
 
-         GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoableChangeEvent(allInfo, wp,null,false);
-         Iterator asi = wp.getActivitySets().toElements().iterator();
-         while (asi.hasNext()) {
-            ActivitySet as = (ActivitySet) asi.next();
+            GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoableChangeEvent(allInfo,
+                                                                                   wp,
+                                                                                   null,
+                                                                                   false);
+            if (insertedActivitySets.size() == 0) {
+               Iterator asi = wp.getActivitySets().toElements().iterator();
+               while (asi.hasNext()) {
+                  ActivitySet as = (ActivitySet) asi.next();
 
-            if (insertedActivitySets.contains(as))
-               continue;
+                  // if (insertedActivitySets.contains(as))
+                  // continue;
 
-            GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoableChangeEvent(allInfo, as,null,false);
+                  GraphUtilities.adjustWorkflowProcessOrActivitySetOnUndoableChangeEvent(allInfo,
+                                                                                         as,
+                                                                                         null,
+                                                                                         false);
+               }
+            }
          }
       }
 
@@ -1883,615 +2388,521 @@ public class GraphUtilities {
       it = insertedActivitySets.iterator();
       while (it.hasNext()) {
          ActivitySet as = (ActivitySet) it.next();
-         GraphUtilities.scanExtendedAttributesForWPOrAs(as);
+         Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForActivitySet(as);
+         GraphUtilities.createNodeGraphicsInfo(p, null, null, true);
+         // GraphUtilities.scanExtendedAttributesForWPOrAs(as, false);
          graphController.createGraph(as);
       }
 
    }
 
-   public static void adjustWorkflowProcessOrActivitySetOnUndoableChangeEvent(List allInfo, XMLCollectionElement wpOrAs,Map extPkgPars,boolean insertedExtPkg) {
+   public static void adjustWorkflowProcessOrActivitySetOnUndoableChangeEvent(List allInfo,
+                                                                              XMLCollectionElement wpOrAs,
+                                                                              Map extPkgPars,
+                                                                              boolean insertedExtPkg) {
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
+      Pool pool = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+
+      
       GraphController gc = GraphUtilities.getGraphController();
       Graph graph = gc.getGraph(wpOrAs);
-      if (graph==null) {
-         System.err.println("can't find graph for wporas "+wpOrAs.getId());         
+      if (graph == null) {
+         System.err.println("can't find graph for wporas " + wpOrAs.getId());
       }
       GraphManager gmgr = graph.getGraphManager();
-      boolean reloaded=GraphUtilities.reloadGraphIfNeccessary(graph);
+      
+      boolean reloaded = GraphUtilities.reloadGraphIfNeccessary(graph);
       if (reloaded) {
          return;
       }
-      
-      WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
+
+      if (GraphUtilities.hasPoolOrientationChanged(allInfo, wpOrAs)) {
+         GraphUtilities.rotateProcess(graph);
+         return;
+      }
       String asId = null;
       if (wpOrAs instanceof ActivitySet) {
          asId = wpOrAs.getId();
       }
 
-      Map insertedExtPkgPars=new HashMap();
-      Map removedExtPkgPars=new HashMap();
-      if (extPkgPars!=null) {
-         if (insertedExtPkg) {
-            insertedExtPkgPars.putAll(extPkgPars);            
-         } else {
-            removedExtPkgPars.putAll(extPkgPars);
+      List currentPars = GraphUtilities.getLanesInVisualOrder(wpOrAs);
+      List partsInGraph = new ArrayList();
+      List allGraphParticipants = JaWEGraphModel.getAllParticipantsInModel(graph.getModel());
+      if (allGraphParticipants != null) {
+         Iterator it = allGraphParticipants.iterator();
+         while (it.hasNext()) {
+            GraphParticipantInterface gpar = (GraphParticipantInterface) it.next();
+            if (gpar.getUserObject() instanceof Lane) {
+               partsInGraph.add(gpar.getUserObject());
+            }
          }
+         // System.err.println("PING="+partsInGraph);
       }
-      
-      Map pkgParsWithChangedIds = GraphUtilities.getPackageParticipantsWithChangedId(allInfo);
-      Map wpParsWithChangedIds = GraphUtilities.getWorkflowProcessParticipantsWithChangedId(allInfo, XMLUtil
-            .getWorkflowProcess(wpOrAs));
-      Map insertedPkgPars = GraphUtilities.getPackageInsertedOrRemovedParticipants(allInfo, true);
-      Map insertedWPPars = GraphUtilities.getWorkflowProcessInsertedOrRemovedParticipants(allInfo, XMLUtil
-            .getWorkflowProcess(wpOrAs), true);
-      Map removedPkgPars = GraphUtilities.getPackageInsertedOrRemovedParticipants(allInfo, false);
-      Map removedWPPars = GraphUtilities.getWorkflowProcessInsertedOrRemovedParticipants(allInfo, XMLUtil
-            .getWorkflowProcess(wpOrAs), false);
 
-      
-      Map pkgParsWithChangedIds2=new HashMap();
-      Iterator itp=pkgParsWithChangedIds.values().iterator();
-      while (itp.hasNext()) {
-         Participant p=(Participant)itp.next();
-         pkgParsWithChangedIds2.put(p.getId(), p);
-      }
-      Map wpParsWithChangedIds2=new HashMap();
-      itp=wpParsWithChangedIds.values().iterator();
-      while (itp.hasNext()) {
-         Participant p=(Participant)itp.next();
-         wpParsWithChangedIds2.put(p.getId(), p);
-      }
-      
-      Participant defaultPar = FreeTextExpressionParticipant.getInstance();
-      String defaultParId = defaultPar.getId();
+      // get missing participants
+      Set participantsToInsertIntoGraph = new HashSet(currentPars);
+      Set participantsToRemoveFromGraph = new HashSet(partsInGraph);
+      participantsToInsertIntoGraph.removeAll(partsInGraph);
+      participantsToRemoveFromGraph.removeAll(currentPars);
 
-      Set graphParticipantsToRemoveFromGraph = new HashSet();
-
-      Set bubblesToUpdatePosition = new HashSet();
-      Set removedBubbles = GraphUtilities.getInsertedOrRemovedBubbles(allInfo, wpOrAs, false);
-
-      Set insertedActivities = GraphUtilities.getInsertedOrRemovedActivities(allInfo, wpOrAs, true);
-      Set removedActs = GraphUtilities.getInsertedOrRemovedActivities(allInfo, wpOrAs, false);
-      Set activitiesToUpdatePosition = GraphUtilities.getActivitiesWithChangedPerformer(allInfo, wpOrAs);
+      Set insertedActivities = GraphUtilities.getInsertedOrRemovedActivitiesAndArtifacts(allInfo,
+                                                                                         wpOrAs,
+                                                                                         true,
+                                                                                         false);
+      Set removedActs = GraphUtilities.getInsertedOrRemovedActivitiesAndArtifacts(allInfo,
+                                                                                  wpOrAs,
+                                                                                  false,
+                                                                                  false);
+      Map propertyMap = updateJGraphForActivityAndArtifactBounds(graph, allInfo, wpOrAs);
+      Set activitiesToUpdatePosition = GraphUtilities.getActivitiesWithChangedPerformer(allInfo,
+                                                                                        wpOrAs);
       activitiesToUpdatePosition.removeAll(removedActs);
-      Set graphUpdPosActs = GraphUtilities.getActivitiesWithChangedOffset(allInfo, wpOrAs);
+      Set graphUpdPosActs = GraphUtilities.getActivitiesAndArtifactsWithChangedOffset(allInfo,
+                                                                                      wpOrAs);
       graphUpdPosActs.removeAll(removedActs);
 
-      Map activitiesWithChangedId = GraphUtilities.getActivitiesWithChangedId(allInfo, wpOrAs);
-      Set insertedTrans = GraphUtilities.getInsertedOrRemovedTransitions(allInfo, wpOrAs, true);
-      Set removedTrans = GraphUtilities.getInsertedOrRemovedTransitions(allInfo, wpOrAs, false);
-      Set updatedTrans = GraphUtilities.getUpdatedTransitions(allInfo, wpOrAs);
+      Set insertedTrans = GraphUtilities.getInsertedOrRemovedTransitionsAndAssociations(allInfo,
+                                                                                        wpOrAs,
+                                                                                        true);
+      Set removedTrans = GraphUtilities.getInsertedOrRemovedTransitionsAndAssociations(allInfo,
+                                                                                       wpOrAs,
+                                                                                       false);
+      Set updatedTrans = GraphUtilities.getUpdatedTransitionsAndAssociations(allInfo,
+                                                                             wpOrAs);
       updatedTrans.removeAll(removedTrans);
 
-      List vo = GraphUtilities.getParticipantVisualOrder(wpOrAs);
+      List vo = GraphUtilities.getLaneVisualOrder(wpOrAs);
 
-//      org.enhydra.jawe.base.logger.LoggingManager lm = JaWEManager.getInstance().getLoggingManager();
-//      lm.debug("GraphUtilities->adjusting wp or as " + wpOrAs.getId());
-//      lm.debug("    pkg pars with changed ids: " + pkgParsWithChangedIds);
-//      lm.debug("    wp pars with changed ids: " + wpParsWithChangedIds);
-//      lm.debug("    inserted ext pkg pars: " + insertedExtPkgPars);
-//      lm.debug("    inserted pkg pars: " + insertedPkgPars);
-//      lm.debug("    inserted wp pars: " + insertedWPPars);
-//      lm.debug("    Removed ext pkg pars: " + removedExtPkgPars);
-//      lm.debug("    Removed pkg pars: " + removedPkgPars);
-//      lm.debug("    Removed wp pars: " + removedWPPars);
-//      lm.debug("    Activities with changed performer: " + activitiesToUpdatePosition);
-//      lm.debug("    Activities with changed id: " + activitiesWithChangedId);
-//      lm.debug("    Activities to update position via graph: " + graphUpdPosActs);
-//      lm.debug("    Inserted activities: " + insertedActivities);
-//      lm.debug("    Removed activities: " + removedActs);
-//      lm.debug("    Inserted transitions: " + insertedTrans);
-//      lm.debug("    Updated transitions: " + updatedTrans);
-//      lm.debug("    Removed transitions: " + removedTrans);
-//      lm.debug("    PVO start: " + vo);
+      // org.enhydra.jawe.base.logger.LoggingManager lm =
+      // JaWEManager.getInstance().getLoggingManager();
+      // lm.debug("GraphUtilities->adjusting wp or as " + wpOrAs.getId());
+      // lm.debug("    Activities with changed performer: " + activitiesToUpdatePosition);
+      // lm.debug("    Activities with changed id: " + activitiesWithChangedId);
+      // lm.debug("    Activities to update position via graph: " + graphUpdPosActs);
+      // lm.debug("    Inserted activities: " + insertedActivities);
+      // lm.debug("    Removed activities: " + removedActs);
+      // lm.debug("    Inserted transitions: " + insertedTrans);
+      // lm.debug("    Updated transitions: " + updatedTrans);
+      // lm.debug("    Removed transitions: " + removedTrans);
+      // lm.debug("    PVO start: " + vo);
 
-      List newVo = new ArrayList(vo);
-            
-      for (int i = 0; i < vo.size(); i++) {
-         String parId = (String) vo.get(i);
-//System.err.println("Testing change of pid "+parId);
-         Participant changedIdWPPar = (Participant) wpParsWithChangedIds.get(parId);
-         Participant changedIdWPPar2 = (Participant) wpParsWithChangedIds2.get(parId);
-         Participant changedIdPkgPar = (Participant) pkgParsWithChangedIds.get(parId);
-         Participant changedIdPkgPar2 = (Participant) pkgParsWithChangedIds2.get(parId);
-         Participant addedIdWPPar = (Participant) insertedWPPars.get(parId);
-         Participant addedIdPkgPar = (Participant) insertedPkgPars.get(parId);
-         Participant addedIdExtPkgPar = (Participant) insertedExtPkgPars.get(parId);
-         Participant removedIdWPPar = (Participant) removedWPPars.get(parId);
-         Participant removedIdPkgPar = (Participant) removedPkgPars.get(parId);
-         Participant removedIdExtPkgPar=(Participant)removedExtPkgPars.get(parId);
+      // lm.debug("    PVO 2: " + newVo);
 
-//         System.err.println("CWPId="+changedIdWPPar);
-//         System.err.println("CWPId2="+changedIdWPPar2);
-//         System.err.println("CPkgId="+changedIdPkgPar);
-//         System.err.println("CPkgId2="+changedIdPkgPar2);
-//         System.err.println("AWPId="+addedIdWPPar);
-//         System.err.println("APkgId="+addedIdPkgPar);
-//         System.err.println("AExtPkgId="+addedIdExtPkgPar);
-//         System.err.println("RWPId="+removedIdWPPar);
-//         System.err.println("RPkgId="+removedIdPkgPar);
-//         System.err.println("RExtPkgId="+removedIdExtPkgPar);
-         
-         List allActsForParId = getAllActivitiesForParticipantId(((Activities) wpOrAs.get("Activities")).toElements(),
-               parId);
+      boolean pasteInProgress = JaWEManager.getInstance()
+         .getJaWEController()
+         .getEdit()
+         .isPasteInProgress();
+      CopyOrCutInfo cci = gc.getCopyOrCutInfo();
+      boolean graphPasteInProgress = pasteInProgress
+                                     && cci != null
+                                     && (insertedActivities.size() > 0 || insertedTrans.size() > 0);
 
-         Set awcp = GraphUtilities.getActivitiesWithChangedPerformer(allInfo, wpOrAs, parId);
-         // wp participant changed Id -> update participantId e.a. for corresponding acts
-         if (changedIdWPPar != null) {
-            // check if performer change events were caused by the change of participant Id,
-            // or the performer was changed in other way
-            Iterator it = awcp.iterator();
-            while (it.hasNext()) {
-               Activity act = (Activity) it.next();
-               String newPerf = act.getPerformer();
-               // performer change event was caused by participant Id change
-               if (!newPerf.equals(changedIdWPPar.getId())) {
-                  allActsForParId.remove(act);
-               }
-            }
-
-            // find participant in Graph - maybe it was package participant before
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(changedIdWPPar.getId());
-            if (gpar != null) {
-               gpar.setUserObject(changedIdWPPar);
-               int pos=newVo.indexOf(parId);
-               newVo.remove(parId);
-               newVo.add(pos,changedIdWPPar.getId());
-               GraphUtilities.setNewParticipantId(allActsForParId, changedIdWPPar.getId());
-
-               // arrange start/end bubbles also
-               GraphUtilities.adjustBubbles(wp, asId, GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID, parId,
-                     changedIdWPPar.getId());
-            }
-         } 
-         else if (changedIdWPPar2!=null) {
-            // find participant in Graph - maybe it was ext. pkg or pkg. participant before
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(changedIdWPPar2.getId());
-//System.err.println("CIDWPPAR, oldgpar ="+gpar);
-            if (gpar != null) {
-               gpar.setUserObject(changedIdWPPar2);
-
-//System.err.println("CIDWPPAR, changed ogp");
-            }
-         }
-
-         // pkg participant changed Id -> update participantId e.a. for corresponding acts
-         else if (changedIdPkgPar != null) {
-            // check if performer change events were caused by the change of participant Id,
-            // or the performer was changed in other way
-            Iterator it = awcp.iterator();
-            while (it.hasNext()) {
-               Activity act = (Activity) it.next();
-               String newPerf = act.getPerformer();
-               // performer change event was not caused by participant Id change
-               if (!newPerf.equals(changedIdPkgPar.getId())) {
-                  allActsForParId.remove(act);
-               }
-            }
-            // change participant in Graph - maybe it was workflow participant before, and it was
-            // removed now
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(changedIdPkgPar.getId());
-            if (gpar != null) {
-               gpar.setUserObject(changedIdPkgPar);
-               int pos=newVo.indexOf(parId);
-               newVo.remove(parId);
-               newVo.add(pos,changedIdPkgPar.getId());
-               GraphUtilities.setNewParticipantId(allActsForParId, changedIdPkgPar.getId());
-
-               // arrange start/end bubbles also
-               GraphUtilities.adjustBubbles(wp, asId, GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID, parId,
-                     changedIdPkgPar.getId());
-            }
-         }
-         else if (changedIdPkgPar2!=null) {
-            // find participant in Graph - maybe it was ext. pkg participant before and it was
-            // removed now
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(changedIdPkgPar2.getId());
-            if (gpar != null) {
-               gpar.setUserObject(changedIdPkgPar2);
-            }
-         }
-
-         // if the participant with this Id was added to workflow process,
-         // replace user object of participant graph object
-         else if (addedIdWPPar != null) {
-            // change participant in Graph - maybe it was package participant before
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(parId);
-            if (gpar != null) {
-               gpar.setUserObject(addedIdWPPar);
-            }
-         }
-
-         // if the participant with this Id was added to package ,
-         // replace user object of participant graph object
-         else if (addedIdPkgPar != null) {
-            // change participant in Graph - maybe it was workfloe participant before, and it was
-            // removed now
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(parId);
-            if (gpar != null) {
-               gpar.setUserObject(addedIdPkgPar);
-            }
-         }
-
-         // if workflow or package participant with this id was removed
-         if (removedIdWPPar != null || removedIdPkgPar != null || removedIdExtPkgPar!=null) {
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(parId);
-//System.err.println("GPAR="+gpar+", gparuo="+gpar.getUserObject());
-            Participant newPar = null;
-            if (gpar != null) {
-               if (gpar.getUserObject() == removedIdWPPar || gpar.getUserObject() == removedIdPkgPar || gpar.getUserObject() == removedIdExtPkgPar) {
-                  // if process participant was removed, try to find if there is a participant
-                  // with such Id somewhere in the package level
-                  newPar = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, parId);
-//System.err.println("NEWPAR for id "+parId+"="+newPar);
-                  if (newPar == null) {
-                     graphParticipantsToRemoveFromGraph.add(gpar);
-                  } else {
-                     gpar.setUserObject(newPar);
-                  }
-               } else {
-                  newPar=(Participant)gpar.getUserObject();
-               }
-            }
-            // remove participant from the order if there is no other participant
-            // added before, or some participant changed it to be the same as
-            // of the one we are removing
-            // Also, in that case, add their activities for updating
-            if (changedIdWPPar == null && changedIdPkgPar == null && addedIdWPPar == null && addedIdPkgPar == null && addedIdExtPkgPar==null
-                  && newPar == null) {
-               newVo.remove(parId);
-//System.err.println("REMPIDFROMVO "+parId);
-               // mark all the activities with participant id e.a. equal to removed performer
-               // so they can be moved afterwards to another participant
-               activitiesToUpdatePosition.addAll(getAllActivitiesForParticipantId(((Activities) wpOrAs
-                     .get("Activities")).toElements(), parId));
-
-               // arrange start/end bubbles also
-               bubblesToUpdatePosition.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, parId,
-                     GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID));
-            }
-         }
-
+      if (graphPasteInProgress
+          && getGraphController().getSelectedGraph().getXPDLObject() != wpOrAs) {
+         return;
       }
-//      lm.debug("    PVO 2: " + newVo);
-
-      Set participantsToInsertIntoGraph = new HashSet();
       // get all participants required by the model, and check against visual order
-      List acts=((Activities)wpOrAs.get("Activities")).toElements();
-      List actsToMove=new ArrayList();
-      for (int i=0; i<acts.size(); i++) {
-         Activity act=(Activity)acts.get(i);
-         int actType=act.getActivityType();
-         if (actType==XPDLConstants.ACTIVITY_TYPE_NO || actType==XPDLConstants.ACTIVITY_TYPE_TOOL) {
-            String actPerf=act.getPerformer();
-            String actPId=GraphUtilities.getParticipantId(act);
-            if (!actPerf.equals(actPId)) {
-               if (newVo.contains(actPerf)) {            
-                  actsToMove.add(act);
-               } else {
-                  Participant p=XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),wp, actPerf);
-//                  System.err.println("Part for aperf "+actPerf+" is "+p);
-                  if (p!=null) {
+      List acts = ((Activities) wpOrAs.get("Activities")).toElements();
+      List actsToMove = new ArrayList();
+      for (int i = 0; i < acts.size(); i++) {
+         Activity act = (Activity) acts.get(i);
+         Lane lfp = null;
+         if (activitiesToUpdatePosition.contains(act)) {
+            lfp = getLaneForPerformer(pool, act.getFirstPerformer());
+         } else {
+            String lId = JaWEManager.getInstance().getXPDLUtils().getLaneId(act);
+            lfp = getLane(wpOrAs, lId);
+         }
+         if (lfp == null) {
+            if (!graphPasteInProgress) {
+               actsToMove.add(act);
+               lfp = getDefaultLane(pool);
+               if (lfp == null) {
+                  lfp = createDefaultLane(pool);
+               }
+               if (!vo.contains(lfp.getId())) {
+                  participantsToInsertIntoGraph.add(lfp);
+                  vo.add(lfp.getId());
+               }
+               setLaneId(act, lfp.getId());
+            }
+         } else {
+            setLaneId(act, lfp.getId());
+            boolean isInGraph = graph.getGraphManager().getGraphParticipant(lfp) != null;
+            if (!isInGraph) {
+               participantsToInsertIntoGraph.add(lfp);
+               actsToMove.add(act);
+            } else {
+               GraphActivityInterface ga = graph.getGraphManager().getGraphActivity(act);
+               if (ga != null) {
+                  Lane inGraph = (Lane) ((GraphParticipantInterface) ga.getParent()).getUserObject();
+                  if (inGraph != lfp) {
                      actsToMove.add(act);
-                     newVo.add(actPerf);
-                     participantsToInsertIntoGraph.add(p);
                   }
                }
             }
          }
       }
-//      System.err.println("ACTSTOMOVE="+actsToMove);
+      // System.err.println("ACTSTOMOVE="+actsToMove);
       activitiesToUpdatePosition.addAll(actsToMove);
-      
-      bubblesToUpdatePosition.removeAll(removedBubbles);
-
-//      lm.debug("    PVO 3: " + newVo);
-//      lm.debug("    Activities with changed performer end: " + activitiesToUpdatePosition);
+      actsToMove.removeAll(insertedActivities);
+      // lm.debug("    PVO 3: " + newVo);
+      // lm.debug("    Activities with changed performer end: " +
+      // activitiesToUpdatePosition);
 
       // adjust newly inserted activities e.attribs, and activities with updated performer
-      boolean pasteInProgress = JaWEManager.getInstance().getJaWEController().getEdit().isPasteInProgress();
-      CopyOrCutInfo cci=gc.getCopyOrCutInfo();
-      boolean graphPasteInProgress=pasteInProgress && cci!=null && (insertedActivities.size()>0 || insertedTrans.size()>0);
-      
-      Iterator it = insertedActivities.iterator();      
+
+      Iterator it = insertedActivities.iterator();
       while (it.hasNext()) {
-         Activity act = (Activity) it.next();
+         XMLCollectionElement act = (XMLCollectionElement) it.next();
          if (graphPasteInProgress) {
-            GraphUtilities.adjustPastedActivity(act, newVo, participantsToInsertIntoGraph, cci, gmgr);
+            GraphUtilities.adjustPastedActivityOrArtifact(act,
+                                                          vo,
+                                                          participantsToInsertIntoGraph,
+                                                          cci,
+                                                          gmgr);
          } else {
-            GraphUtilities.adjustInsertedOrUpdatedActivity(act, newVo, participantsToInsertIntoGraph);
+            GraphUtilities.adjustInsertedOrUpdatedActivityOrArtifact(wpOrAs,
+                                                                     act,
+                                                                     vo,
+                                                                     participantsToInsertIntoGraph);
          }
       }
       it = activitiesToUpdatePosition.iterator();
       while (it.hasNext()) {
          Activity act = (Activity) it.next();
-         GraphUtilities.adjustInsertedOrUpdatedActivity(act, newVo, participantsToInsertIntoGraph);
+         GraphUtilities.adjustInsertedOrUpdatedActivityOrArtifact(wpOrAs,
+                                                                  act,
+                                                                  vo,
+                                                                  participantsToInsertIntoGraph);
       }
-
-      // update visual order
-      GraphUtilities.setParticipantVisualOrder(wpOrAs, newVo);
-//      lm.debug("    PVO end: " + newVo);
 
       // Insert graph participants
       it = participantsToInsertIntoGraph.iterator();
       while (it.hasNext()) {
-         Participant par = (Participant) it.next();
-         gmgr.insertParticipantAndArrangeParticipants(par);
-//         lm.debug("    Inserted new graph participant: " + gpar);
+         Lane par = (Lane) it.next();
+         GraphUtilities.createNodeGraphicsInfo(par, null, null, true);
+         gmgr.insertParticipantAndArrangeParticipants(par, null);
+         // lm.debug("    Inserted new graph participant: " + gpar);
          // Insert newly created activities into graph participant
-         List l = GraphUtilities.getAllActivitiesForParticipantId(insertedActivities, par.getId());
+         List l = GraphUtilities.getAllActivitiesAndArtifactsForLaneId(insertedActivities,
+                                                                       par.getId());
          for (int i = 0; i < l.size(); i++) {
-            Activity act = (Activity) l.get(i);
-            gmgr.insertActivity(act);
+            XMLCollectionElement act = (XMLCollectionElement) l.get(i);
+            gmgr.insertActivityOrArtifact(act);
          }
          insertedActivities.removeAll(l);
          // Adjust position for repositioned activities
-         l = GraphUtilities.getAllActivitiesForParticipantId(activitiesToUpdatePosition, par.getId());
-         activitiesToUpdatePosition.removeAll(l);
+         l = GraphUtilities.getAllActivitiesAndArtifactsForLaneId(activitiesToUpdatePosition,
+                                                                  par.getId());
          for (int i = 0; i < l.size(); i++) {
-            Activity act = (Activity) l.get(i);
-            gmgr.arrangeActivityPosition(act);
+            XMLCollectionElement act = (XMLCollectionElement) l.get(i);
+            gmgr.arrangeActivityOrArtifactPosition(act);
          }
+         activitiesToUpdatePosition.removeAll(l);
+      }
+
+      // insert the rest of new activities (some of them were alredy inserted into newly
+      // inserted
+      // participants)
+      it = insertedActivities.iterator();
+      while (it.hasNext()) {
+         XMLCollectionElement act = (XMLCollectionElement) it.next();
+         gmgr.insertActivityOrArtifact(act);
       }
 
       // adjust position for the rest of the activities
       it = activitiesToUpdatePosition.iterator();
       while (it.hasNext()) {
-         Activity act = (Activity) it.next();
-         gmgr.arrangeActivityPosition(act);
-      }
-
-      // insert the rest of new activities (some of them were alredy inserted into newly inserted
-      // participants)
-      it = insertedActivities.iterator();
-      while (it.hasNext()) {
-         Activity act = (Activity) it.next();
-         gmgr.insertActivity(act);
+         XMLCollectionElement act = (XMLCollectionElement) it.next();
+         gmgr.arrangeActivityOrArtifactPosition(act);
       }
 
       // make ea changes for inserted or updated transitions
       List toUpd = new ArrayList(updatedTrans);
       toUpd.addAll(insertedTrans);
       if (graphPasteInProgress) {
-         GraphUtilities.adjustPastedTransitions(toUpd,cci,gmgr);
+         GraphUtilities.adjustPastedTransitionsOrAssociations(toUpd, cci, gmgr);
       } else {
-         GraphUtilities.adjustInsertedOrUpdatedTransitions(toUpd,gmgr);
+         GraphUtilities.adjustInsertedOrUpdatedTransitionsOrAssociations(toUpd, gmgr);
       }
 
       // remove transitions that are not longer present
       it = removedTrans.iterator();
       while (it.hasNext()) {
-         Transition tra = (Transition) it.next();
-         gmgr.removeTransition(tra);
+         XMLCollectionElement tra = (XMLCollectionElement) it.next();
+         gmgr.removeTransitionOrAssociation(tra);
       }
 
       // update transitions that changed source or target
       it = updatedTrans.iterator();
       while (it.hasNext()) {
-         Transition tra = (Transition) it.next();
-         gmgr.updateTransition(tra);
+         XMLCollectionElement tra = (XMLCollectionElement) it.next();
+         gmgr.updateTransitionOrAssociation(tra);
       }
 
       // insert new transitions
       it = insertedTrans.iterator();
       while (it.hasNext()) {
-         Transition tra = (Transition) it.next();
-         gmgr.insertTransition(tra);
+         XMLCollectionElement tra = (XMLCollectionElement) it.next();
+         gmgr.insertTransitionOrAssociation(tra);
       }
 
       // remove activities that are not longer present
       it = removedActs.iterator();
       while (it.hasNext()) {
-         Activity act = (Activity) it.next();
-         gmgr.removeActivity(act);
-         // arrange start/end bubbles also
-         GraphUtilities.adjustBubbles(wp, asId, GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID, act.getId(), null);
-      }
-
-      // remove bubbles
-      it = removedBubbles.iterator();
-      while (it.hasNext()) {
-         ExtendedAttribute ea = (ExtendedAttribute) it.next();
-         gmgr.removeBubble(ea);
-      }
-      
-      // handle start/end bubbles for the activities with changed Id
-      it = activitiesWithChangedId.entrySet().iterator();
-      while (it.hasNext()) {
-         Map.Entry me = (Map.Entry) it.next();
-         String oldId = (String) me.getKey();
-         Activity act = (Activity) me.getValue();
-         GraphUtilities.adjustBubbles(wp, asId, GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID, oldId, act.getId());
-      }
-
-      if (bubblesToUpdatePosition.size() > 0) {
-         GraphParticipantInterface gpar = null;
-         if (newVo.size() == 0) {
-            newVo.add(defaultParId);
-            gpar = gmgr.insertParticipantAndArrangeParticipants(defaultPar);
-         }
-         String parId = (String) newVo.get(0);
-
-         GraphUtilities.adjustBubbles(bubblesToUpdatePosition, GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID, parId);
-         it = bubblesToUpdatePosition.iterator();
-
-         if (gpar == null) {
-            gpar = gmgr.getGraphParticipant(parId);
-         }
-         while (it.hasNext()) {
-            ExtendedAttribute ea = (ExtendedAttribute) it.next();
-            gmgr.arrangeBubblePosition(ea, gpar);
-         }
+         XMLCollectionElement act = (XMLCollectionElement) it.next();
+         gmgr.removeActivityOrArtifact(act);
       }
 
       // remove participants that are not longer present
-      if (graphParticipantsToRemoveFromGraph.size() > 0) {
+      if (participantsToRemoveFromGraph.size() > 0) {
+         Set graphParticipantsToRemoveFromGraph = new HashSet();
+         it = participantsToRemoveFromGraph.iterator();
+         while (it.hasNext()) {
+            Lane l = (Lane) it.next();
+            graphParticipantsToRemoveFromGraph.add(gmgr.getGraphParticipant(l));
+         }
          gmgr.removeCellsAndArrangeParticipants(graphParticipantsToRemoveFromGraph.toArray());
       }
 
       if (graphPasteInProgress) {
          cci.incrementOffsetPoint(graph);
       }
+      if (propertyMap.size() > 0) {
+         gmgr.updateModelAndArrangeParticipants(null,
+                                                propertyMap,
+                                                new JaWEParentMap(),
+                                                null,
+                                                "",
+                                                null,
+                                                true);
+      }
       graph.repaint();
+      System.out.println("AGP2="
+                         + JaWEGraphModel.getAllParticipantsInModel(graph.getModel()));
    }
 
-   public static void adjustInsertedOrUpdatedActivity(Activity act, List vo, Set participantsToInsertIntoGraph) {
-      int type = act.getActivityType();
-//      System.err.println("Adjusting act " + act + ", type=" + type + ", vo=" + vo);
-      ExtendedAttribute ea = GraphUtilities.getParticipantIdEA(act);
-      String pId=null;
-      if (!(type == XPDLConstants.ACTIVITY_TYPE_NO || type == XPDLConstants.ACTIVITY_TYPE_TOOL)) {
-         if (vo.size() == 0) {
-            vo.add(FreeTextExpressionParticipant.getInstance().getId());
-            participantsToInsertIntoGraph.add(FreeTextExpressionParticipant.getInstance());
-         } 
-         if (ea == null) {
-            pId = (String) vo.get(0);
+   public static void adjustInsertedOrUpdatedActivityOrArtifact(XMLCollectionElement wpOrAs,
+                                                                XMLCollectionElement actOrArtif,
+                                                                List vo,
+                                                                Set participantsToInsertIntoGraph) {
+      Pool pool = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(actOrArtif);
+      Lane l = null;
+      if (ngi == null) {
+         int inw = getGraphController().getGraphSettings().getLaneNameWidth();
+         if (actOrArtif instanceof Activity) {
+            String perf = ((Activity) actOrArtif).getFirstPerformer();
+            if (perf.equals("")) {
+               l = getDefaultLane(pool);
+               if (l == null) {
+                  l = createDefaultLane(pool);
+               }
+            } else {
+               l = getLaneForPerformer(pool, ((Activity) actOrArtif).getFirstPerformer());
+               if (l == null) {
+                  l = createLaneForPerformer(pool,
+                                             ((Activity) actOrArtif).getFirstPerformer());
+               }
+            }
          } else {
-            pId = ea.getVValue();
+            l = getDefaultLane(pool);
+            if (l == null) {
+               l = createDefaultLane(pool);
+            }
          }
-         if (!vo.contains(pId)) {
-            pId = (String) vo.get(0);
-         }
+         ngi = GraphUtilities.createNodeGraphicsInfo(actOrArtif,
+                                                     new Point(inw, inw),
+                                                     l.getId(),
+                                                     true);
       } else {
-         Participant p = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),XMLUtil.getWorkflowProcess(act), act.getPerformer());
-         if (p == null) {
-//            System.err.println("Can't find part for performer " + act.getPerformer());
-            p = FreeTextExpressionParticipant.getInstance();
-         }
-         pId = p.getId();
-         if (!vo.contains(pId)) {
-            vo.add(pId);
-            participantsToInsertIntoGraph.add(p);
+         l = pool.getLanes().getLane(ngi.getLaneId());
+         if (l == null) {
+            l = getDefaultLane(pool);
+            if (l == null) {
+               l = createDefaultLane(pool);
+            }
+            ngi.setLaneId(l.getId());
          }
       }
-      GraphUtilities.setParticipantId(act, pId);
-//      System.err.println("VO after adj act is " + vo);
-      ea = GraphUtilities.getOffsetPointEA(act);
-      if (ea == null) {
-         int inw = getGraphController().getGraphSettings().getParticipantNameWidth();
-         ea = GraphUtilities.createOffsetPointEA(act, inw + "," + inw, true);
+      if (!vo.contains(l.getId())) {
+         participantsToInsertIntoGraph.add(l);
       }
    }
 
-   public static void adjustPastedActivity(Activity act, List vo, Set participantsToInsertIntoGraph,CopyOrCutInfo cci,GraphManager gm) {
-//      System.err.println("Adjusting pasted act " + act + ", vo=" + vo+" for proc/as "+gm.getXPDLOwner().getId());
-//      System.err.println(cci);
-      Point pasteTo=cci.getPastePoint();
-      Point pasteOffset=cci.getOffsetPoint(gm.getGraph());
-      Point referencePoint=cci.getReferencePoint();
-//System.err.println("       ....pasteTo="+pasteTo+", pasteOffset="+pasteOffset+", refPoint="+referencePoint);      
-      if (pasteTo!=null) {
-         String pId=GraphUtilities.getParticipantId(act);
-         Point off=GraphUtilities.getOffsetPoint(act);
-         CopiedActivityInfo ai=new CopiedActivityInfo(pId,off);
-//         System.err.println("..........Searching for rectangle for the info "+ai);
-         Rectangle r=cci.getActivityBounds(ai);
-//         System.err.println("..........Rectangle is "+r);
-         Point refPoint=referencePoint;
-         if (r!=null) {
-            refPoint=r.getLocation();
+   public static void adjustPastedActivityOrArtifact(XMLCollectionElement actOrArt,
+                                                     List vo,
+                                                     Set participantsToInsertIntoGraph,
+                                                     CopyOrCutInfo cci,
+                                                     GraphManager gm) {
+      // System.err.println("Adjusting pasted act " + act + ", vo=" +
+      // vo+" for proc/as "+gm.getXPDLOwner().getId());
+      // System.err.println(cci);
+      Point pasteTo = cci.getPastePoint();
+      Point pasteOffset = cci.getOffsetPoint(gm.getGraph());
+      Point referencePoint = cci.getReferencePoint();
+      // System.err.println("       ....pasteTo="+pasteTo+", pasteOffset="+pasteOffset+", refPoint="+referencePoint);
+      if (pasteTo != null) {
+         String pId = JaWEManager.getInstance().getXPDLUtils().getLaneId(actOrArt);
+         Point off = GraphUtilities.getOffsetPoint(actOrArt);
+         CopiedActivityInfo ai = new CopiedActivityInfo(pId, off);
+         // System.err.println("..........Searching for rectangle for the info "+ai);
+         Rectangle r = cci.getActivityBounds(ai);
+         // System.err.println("..........Rectangle is "+r);
+         Point refPoint = referencePoint;
+         if (r != null) {
+            refPoint = r.getLocation();
          }
-         Point diffPoint=new Point(refPoint.x+pasteTo.x-referencePoint.x,refPoint.y+pasteTo.y-referencePoint.y);
-         GraphParticipantInterface par=gm.findParentActivityParticipantForLocation(diffPoint, null, null);
-         String parId=((Participant)par.getPropertyObject()).getId();
-//         System.err.println("..........RefPoint="+refPoint+", diffPoing="+diffPoint+", newparId="+parId+", newop="+gm.getOffset(diffPoint));
-         GraphUtilities.setOffsetPoint(act, gm.getOffset(diffPoint));
-         GraphUtilities.setParticipantId(act, parId);
-         int type = act.getActivityType();
-         if (type == XPDLConstants.ACTIVITY_TYPE_NO || type == XPDLConstants.ACTIVITY_TYPE_TOOL) {
-            if (!parId.equals(FreeTextExpressionParticipant.getInstance().getId())) {
-               act.setPerformer(parId);
-            } else {
-               act.setPerformer("");
-            }
-//            System.err.println("..........Perf changed to "+parId);
-         }
-      } else {
-         Point oldPoint = GraphUtilities.getOffsetPoint(act);
-         Point setPoint = new Point(pasteOffset.x + oldPoint.x, pasteOffset.y + oldPoint.y);            
-//System.err.println("    ....... moving offset point from "+oldPoint+" to "+setPoint);
-         GraphUtilities.setOffsetPoint(act, setPoint);
-         String pId=GraphUtilities.getParticipantId(act);
-         if (!vo.contains(pId) && !vo.contains(CommonExpressionParticipants.getInstance().getIdForVisualOrderEA(pId))) {
-            boolean changePId=false;
-            Participant p = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),XMLUtil.getWorkflowProcess(act), pId);
-            if (p == null) {
-               p=CommonExpressionParticipants.getInstance().getCommonExpressionParticipant(gm.getXPDLOwner(), pId);
-               if (p==null) {
-                  p = FreeTextExpressionParticipant.getInstance();
+         Point diffPoint = new Point(refPoint.x + pasteTo.x - referencePoint.x,
+                                     refPoint.y + pasteTo.y - referencePoint.y);
+         GraphParticipantInterface par = gm.findParentParticipantForLocation(diffPoint,
+                                                                             null,
+                                                                             null);
+         String parId = ((Lane) par.getPropertyObject()).getId();
+         // System.err.println("..........RefPoint="+refPoint+", diffPoing="+diffPoint+", newparId="+parId+", newop="+gm.getOffset(diffPoint));
+         GraphUtilities.setOffsetPoint(actOrArt, gm.getOffset(diffPoint), parId);
+         if (actOrArt instanceof Activity) {
+            Activity act = (Activity) actOrArt;
+            int type = act.getActivityType();
+            if (type == XPDLConstants.ACTIVITY_TYPE_NO
+                || type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+               Lane defL = getDefaultLane(JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getPoolForProcessOrActivitySet(gm.getGraph().getXPDLObject()));
+               if (defL == null || !parId.equals(defL.getId())) {
+                  String lp = getLanesFirstPerformer((Lane) par.getPropertyObject());
+                  if (lp == null) {
+                     lp = "";
+                  }
+                  act.setFirstPerformer(lp);
+               } else {
+                  act.setFirstPerformer("");
                }
-            }
-            if (!p.getId().equals(pId)) {
-               changePId=true;
-            }
-            pId = p.getId();
-            if (!vo.contains(pId)) {
-               vo.add(pId);
-               participantsToInsertIntoGraph.add(p);
-            }
-            if (changePId) {
-               GraphUtilities.setParticipantId(act, pId);
+               // System.err.println("..........Perf changed to "+parId);
             }
          }
+      } else {
+         Point oldPoint = GraphUtilities.getOffsetPoint(actOrArt);
+         Point setPoint = new Point(pasteOffset.x + oldPoint.x, pasteOffset.y
+                                                                + oldPoint.y);
+         // System.err.println("    ....... moving offset point from "+oldPoint+" to "+setPoint);
+         Lane l = GraphUtilities.getLaneForActivityOrArtifact(actOrArt, gm.getGraph()
+            .getXPDLObject());
+         if (l == null || !vo.contains(l.getId())) {
+            Pool pool = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getPoolForProcessOrActivitySet(gm.getGraph().getXPDLObject());
+            if (actOrArt instanceof Activity) {
+               l = getLaneForPerformer(pool, ((Activity) actOrArt).getFirstPerformer());
+               if (l != null) {
+                  if (!vo.contains(l.getId())) {
+                     vo.add(l.getId());
+                     participantsToInsertIntoGraph.add(l);
+                  }
+               } else {
+                  l = createLaneForPerformer(pool,
+                                             ((Activity) actOrArt).getFirstPerformer());
+                  vo.add(l.getId());
+                  participantsToInsertIntoGraph.add(l);
+               }
+            } else {
+               if (l == null) {
+                  l = getDefaultLane(pool);
+                  if (l == null) {
+                     l = createDefaultLane(pool);
+                     vo.add(l.getId());
+                     participantsToInsertIntoGraph.add(l);
+                  }
+               }
+
+            }
+         }
+         GraphUtilities.setOffsetPoint(actOrArt, setPoint, l.getId());
       }
    }
 
-   public static void adjustPastedTransitions(List tras,CopyOrCutInfo cci,GraphManager gm) {
-//System.err.println("Adjusting pasted transitions " + tras.size() + ", for proc/as "+gm.getXPDLOwner().getId());
+   public static void adjustPastedTransitionsOrAssociations(List tras,
+                                                            CopyOrCutInfo cci,
+                                                            GraphManager gm) {
+      // System.err.println("Adjusting pasted transitions " + tras.size() +
+      // ", for proc/as "+gm.getXPDLOwner().getId());
       Iterator ittras = tras.iterator();
-//      System.err.println(cci);
-      Point pasteTo=cci.getPastePoint();
-//      Point pasteOffset=cci.getOffsetPoint(gm.getGraph());
-      Point referencePoint=cci.getReferencePoint();
-//System.err.println("       ....pasteTo="+pasteTo+", pasteOffset="+pasteOffset+", refPoint="+referencePoint);      
+      // System.err.println(cci);
+      Point pasteTo = cci.getPastePoint();
+      // Point pasteOffset=cci.getOffsetPoint(gm.getGraph());
+      Point referencePoint = cci.getReferencePoint();
+      // System.err.println("       ....pasteTo="+pasteTo+", pasteOffset="+pasteOffset+", refPoint="+referencePoint);
       while (ittras.hasNext()) {
-         Transition tra = (Transition) ittras.next();         
-//         ExtendedAttribute bpea = GraphUtilities.getBreakpointsEA(tra);
-         List bps=GraphUtilities.getBreakpoints(tra);
-//System.err.println("       bps1="+bps);      
-         if (bps.size()>0) {
-            if (pasteTo!=null) {
-               Iterator itbps=bps.iterator();
+         XMLCollectionElement tra = (XMLCollectionElement) ittras.next();
+         // ExtendedAttribute bpea = GraphUtilities.getBreakpointsEA(tra);
+         List bps = GraphUtilities.getBreakpoints(tra);
+         // System.err.println("       bps1="+bps);
+         if (bps.size() > 0) {
+            if (pasteTo != null) {
+               Iterator itbps = bps.iterator();
                while (itbps.hasNext()) {
-                  Point bp=(Point)itbps.next();
-                  bp.x+=(pasteTo.x-referencePoint.x);
-                  bp.y+=(pasteTo.y-referencePoint.y);
-//System.err.println("       changed bp");      
-                  
+                  Point bp = (Point) itbps.next();
+                  bp.x += (pasteTo.x - referencePoint.x);
+                  bp.y += (pasteTo.y - referencePoint.y);
+                  // System.err.println("       changed bp");
+
                }
             } else {
-               bps=new ArrayList();
+               bps = new ArrayList();
             }
-//System.err.println("       bps2="+bps);      
-            GraphUtilities.setBreakpoints(tra, bps);            
+            // System.err.println("       bps2="+bps);
+            GraphUtilities.setBreakpoints(tra, bps);
          }
-      }      
+      }
    }
 
-   public static void adjustInsertedOrUpdatedTransitions(List tras,GraphManager gmgr) {
+   public static void adjustInsertedOrUpdatedTransitionsOrAssociations(List tras,
+                                                                       GraphManager gmgr) {
       Iterator ittras = tras.iterator();
       while (ittras.hasNext()) {
-         Transition tra = (Transition) ittras.next();         
-         ExtendedAttribute ea = GraphUtilities.getStyleEA(tra);
+         XMLCollectionElement tra = (XMLCollectionElement) ittras.next();
+         ConnectorGraphicsInfo ea = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getConnectorGraphicsInfo(tra);
+         String from = null;
+         String to = null;
+         if (tra instanceof Transition) {
+            from = ((Transition) tra).getFrom();
+            to = ((Transition) tra).getTo();
+         } else {
+            from = ((Association) tra).getSource();
+            to = ((Association) tra).getTarget();
+         }
          if (ea == null) {
             String style = GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_ORTHOGONAL;
-            if (tra.getFrom().equals(tra.getTo())) {
-               style = GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_BEZIER;
+            if (tra instanceof Transition) {
+               if (from.equals(to)) {
+                  style = GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_BEZIER;
+               }
             }
-            ea = GraphUtilities.createStyleEA(tra, style, true);
+            ea = GraphUtilities.createConnectorGraphicsInfo(tra, style, true);
          } else {
             String style = GraphUtilities.getStyle(tra);
             if (!GraphEAConstants.transitionStyles.contains(style)) {
-               ea.setVValue(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_ORTHOGONAL);
+               ea.setStyle(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_ORTHOGONAL);
             }
          }
 
-         if (tra.getFrom().equals(tra.getTo()) && !tra.getFrom().equals("")) {
-            ExtendedAttribute bpea = GraphUtilities.getBreakpointsEA(tra);
+         if (from.equals(to) && !from.equals("")) {
+            ConnectorGraphicsInfo bpea = JaWEManager.getInstance()
+               .getXPDLUtils()
+               .getConnectorGraphicsInfo(tra);
             if (bpea == null) {
-               GraphActivityInterface gact=gmgr.getGraphActivity(tra.getFrom());
-               Point realP = new Point(50,50);
-               if (gact!=null) {
+               GraphActivityInterface gact = gmgr.getGraphActivity(from);
+               Point realP = new Point(50, 50);
+               if (gact != null) {
                   realP = gmgr.getCenter(gact);
                }
                List breakpoints = new ArrayList();
@@ -2502,119 +2913,17 @@ public class GraphUtilities {
                   rp50x1 = 0;
                }
                int rp50y = realP.y - 50;
-               if (rp50y < 0) rp50y = realP.y + 50;
+               if (rp50y < 0)
+                  rp50y = realP.y + 50;
 
                breakpoints.add(new Point(Math.abs(rp50x1), Math.abs(rp50y)));
                breakpoints.add(new Point(Math.abs(rp50x2), Math.abs(rp50y)));
-                              
-               bpea = GraphUtilities.createBreakpointsEA(tra, GraphUtilities.createBreakpointsEAVal(breakpoints), true);
+
+               bpea = GraphUtilities.createConnectorGraphicsInfo(tra, breakpoints, true);
             }
          }
       }
 
-   }
-
-   public static void adjustBubbles(WorkflowProcess wp, String asId, String eapart, String oldId, String newId) {
-      List seeas = GraphUtilities.getStartOrEndExtendedAttributes(wp, asId, oldId, eapart);
-      GraphUtilities.adjustBubbles(seeas, eapart, newId);
-   }
-
-   public static void adjustBubbles(Collection seeas, String eapart, String newId) {
-      Iterator it = seeas.iterator();
-      while (it.hasNext()) {
-         ExtendedAttribute ea = (ExtendedAttribute) it.next();
-         StartEndDescription sed = new StartEndDescription(ea);
-         if (eapart.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID)) {
-            sed.setParticipantId(newId);
-         } else if (eapart.equals(GraphEAConstants.EA_PART_CONNECTING_ACTIVITY_ID)) {
-            sed.setActId(newId);
-         } else {
-            sed.setActSetId(newId);
-         }
-         ea.setVValue(sed.toString());
-      }
-   }
-
-   public static Map getPackageParticipantsWithChangedId(List allInfo) {
-      List parAttrChanges = GraphUtilities.findInfoList(allInfo, Participant.class, XMLAttribute.class);
-
-      Map changedIdsPkgPar = new HashMap();
-      for (int i = 0; i < parAttrChanges.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) parAttrChanges.get(i);
-         XMLAttribute el = (XMLAttribute) info.getChangedElement();
-         Participant par = XMLUtil.getParticipant(el);
-         if (par.getParent().getParent() instanceof Package && el.toName().equals("Id")) {
-            changedIdsPkgPar.put(info.getOldValue(), par);
-         }
-      }
-
-      return changedIdsPkgPar;
-   }
-
-   public static Map getPackageInsertedOrRemovedParticipants(List allInfo, boolean inserted) {
-      List pkgParInsertionOrRemoval = GraphUtilities.findInfoList(allInfo, Package.class, Participants.class);
-
-      Map insertedOrRemovedIdsPkgPar = new HashMap();
-
-      for (int i = 0; i < pkgParInsertionOrRemoval.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) pkgParInsertionOrRemoval.get(i);
-         if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
-               || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
-
-            List pars = info.getChangedSubElements();
-            if (pars != null) {
-               for (int j = 0; j < pars.size(); j++) {
-                  Participant par = (Participant) pars.get(j);
-                  insertedOrRemovedIdsPkgPar.put(par.getId(), par);
-               }
-            }
-
-         }
-      }
-
-      return insertedOrRemovedIdsPkgPar;
-   }
-
-   public static Map getWorkflowProcessParticipantsWithChangedId(List allInfo, WorkflowProcess wp) {
-      List parAttrChanges = GraphUtilities.findInfoList(allInfo, Participant.class, XMLAttribute.class);
-
-      Map changedIdsWpPar = new HashMap();
-      for (int i = 0; i < parAttrChanges.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) parAttrChanges.get(i);
-         XMLAttribute el = (XMLAttribute) info.getChangedElement();
-         Participant par = XMLUtil.getParticipant(el);
-         if (par.getParent().getParent() == wp && el.toName().equals("Id")) {
-            changedIdsWpPar.put(info.getOldValue(), par);
-         }
-      }
-
-      return changedIdsWpPar;
-   }
-
-   public static Map getWorkflowProcessInsertedOrRemovedParticipants(List allInfo, WorkflowProcess wp, boolean inserted) {
-      List wpParInsertionOrRemoval = GraphUtilities.findInfoList(allInfo, WorkflowProcess.class, Participants.class);
-
-      Map insertedOrRemovedIdsWPPar = new HashMap();
-
-      for (int i = 0; i < wpParInsertionOrRemoval.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) wpParInsertionOrRemoval.get(i);
-         if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
-               || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
-
-            if (info.getChangedElement().getParent() == wp) {
-               List pars = info.getChangedSubElements();
-               if (pars != null) {
-                  for (int j = 0; j < pars.size(); j++) {
-                     Participant par = (Participant) pars.get(j);
-                     insertedOrRemovedIdsWPPar.put(par.getId(), par);
-                  }
-               }
-            }
-
-         }
-      }
-
-      return insertedOrRemovedIdsWPPar;
    }
 
    public static Set getInsertedOrRemovedWorkflowProcesses(List allInfo, boolean inserted) {
@@ -2623,7 +2932,7 @@ public class GraphUtilities {
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
-               || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
+             || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
 
             List wps = info.getChangedSubElements();
             if (wps != null) {
@@ -2641,7 +2950,7 @@ public class GraphUtilities {
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
-               || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
+             || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
 
             List ass = info.getChangedSubElements();
             if (ass != null && ass.size() > 0) {
@@ -2651,6 +2960,19 @@ public class GraphUtilities {
          }
       }
       return s;
+   }
+
+   public static boolean hasPoolOrientationChanged(List allInfo,XMLCollectionElement wpOrAs) {      
+      Map m = new HashMap();      
+      List l = findInfoList(allInfo, Pool.class, XMLAttribute.class);
+      Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForProcessOrActivitySet(wpOrAs);
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         if (info.getChangedElement().toName().equals("Orientation") && XMLUtil.getPool(info.getChangedElement())==p) {
+            return true;
+         }
+      }
+      return false;
    }
 
    public static Map getActivitySetsWithChangedId(List allInfo) {
@@ -2664,13 +2986,16 @@ public class GraphUtilities {
       return m;
    }
 
-   public static Set getInsertedOrRemovedActivities(List allInfo, XMLCollectionElement wpOrAs, boolean inserted) {
+   public static Set getInsertedOrRemovedActivitiesAndArtifacts(List allInfo,
+                                                                XMLCollectionElement wpOrAs,
+                                                                boolean inserted,
+                                                                boolean isRedo) {
       Set s = new HashSet();
       List l = findInfoList(allInfo, wpOrAs.getClass(), Activities.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
-               || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
+             || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
 
             if (info.getChangedElement().getParent() == wpOrAs) {
                List acts = info.getChangedSubElements();
@@ -2681,45 +3006,68 @@ public class GraphUtilities {
 
          }
       }
-      return s;
-   }
+      l = findInfoList(allInfo, Package.class, Artifacts.class);
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      if (p != null) {
+         Package pkg = XMLUtil.getPackage(wpOrAs);
+         for (int i = 0; i < l.size(); i++) {
+            XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+            if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
+                || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
 
-   public static Map getActivitiesWithChangedId(List allInfo, XMLCollectionElement wpOrAs) {
-      Map m = new HashMap();
-      List l = findInfoList(allInfo, Activity.class, XMLAttribute.class);
-      for (int i = 0; i < l.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-         if (info.getChangedElement().toName().equals("Id")) {
-            Activity act = XMLUtil.getActivity(info.getChangedElement());
-            if (act.getParent().getParent() == wpOrAs) {
-               m.put(info.getOldValue(), act);
+               if (info.getChangedElement().getParent() == pkg) {
+
+                  List arts = info.getChangedSubElements();
+                  if (arts != null && arts.size() > 0) {
+                     if (isRedo) {
+                        for (int j = 0; j < arts.size(); j++) {
+                           Artifact art = (Artifact) arts.get(j);
+                           String laneId = JaWEManager.getInstance()
+                              .getXPDLUtils()
+                              .getLaneId(art);
+                           if (p.getLanes().getLane(laneId) != null) {
+                              s.add(art);
+                           }
+                        }
+                     } else {
+                        s.addAll(arts);
+                     }
+                  }
+               }
+
             }
          }
       }
-      return m;
+
+      return s;
    }
 
-   public static Set getActivitiesWithChangedPerformer(List allInfo, XMLCollectionElement wpOrAs) {
+   public static Set getActivitiesWithChangedPerformer(List allInfo,
+                                                       XMLCollectionElement wpOrAs) {
       Set s = new HashSet();
-      List l = findInfoList(allInfo, Activity.class, Performer.class);
+      List l = findInfoList(allInfo, Performers.class, Performer.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          Activity act = XMLUtil.getActivity(info.getChangedElement());
-         if (act.getParent().getParent() == wpOrAs) {
+         if (act != null && act.getParent().getParent() == wpOrAs) {
             s.add(act);
          }
       }
       return s;
    }
 
-   public static Set getActivitiesWithChangedPerformer(List allInfo, XMLCollectionElement wpOrAs, String oldPerf) {
+   public static Set getActivitiesWithChangedPerformer(List allInfo,
+                                                       XMLCollectionElement wpOrAs,
+                                                       String oldPerf) {
       Set s = new HashSet();
-      List l = findInfoList(allInfo, Activity.class, Performer.class);
+      List l = findInfoList(allInfo, Performers.class, Performer.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          if (info.getOldValue().equals(oldPerf)) {
             Activity act = XMLUtil.getActivity(info.getChangedElement());
-            if (act.getParent().getParent() == wpOrAs) {
+            if (act != null && act.getParent().getParent() == wpOrAs) {
                s.add(act);
             }
          }
@@ -2727,13 +3075,15 @@ public class GraphUtilities {
       return s;
    }
 
-   public static Set getInsertedOrRemovedTransitions(List allInfo, XMLCollectionElement wpOrAs, boolean inserted) {
+   public static Set getInsertedOrRemovedTransitionsAndAssociations(List allInfo,
+                                                                    XMLCollectionElement wpOrAs,
+                                                                    boolean inserted) {
       Set s = new HashSet();
       List l = findInfoList(allInfo, wpOrAs.getClass(), Transitions.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
-               || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
+             || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
 
             if (info.getChangedElement().getParent() == wpOrAs) {
                List tras = info.getChangedSubElements();
@@ -2744,10 +3094,35 @@ public class GraphUtilities {
 
          }
       }
+      l = findInfoList(allInfo, Package.class, Associations.class);
+      Package pkg = XMLUtil.getPackage(wpOrAs);
+      Activities acts = (Activities) wpOrAs.get("Activities");
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
+             || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
+
+            if (info.getChangedElement().getParent() == pkg) {
+               List asocs = info.getChangedSubElements();
+               if (asocs != null && asocs.size() > 0) {
+                  for (int j = 0; j < asocs.size(); j++) {
+                     Association asoc = (Association) asocs.get(j);
+                     if (acts.getActivity(asoc.getSource()) != null
+                         || acts.getActivity(asoc.getTarget()) != null) {
+                        s.add(asoc);
+                     }
+                  }
+               }
+            }
+
+         }
+      }
+
       return s;
    }
 
-   public static Set getUpdatedTransitions(List allInfo, XMLCollectionElement wpOrAs) {
+   public static Set getUpdatedTransitionsAndAssociations(List allInfo,
+                                                          XMLCollectionElement wpOrAs) {
       Set s = new HashSet();
       List l = findInfoList(allInfo, Transition.class, XMLAttribute.class);
       for (int i = 0; i < l.size(); i++) {
@@ -2760,235 +3135,289 @@ public class GraphUtilities {
             }
          }
       }
+
+      l = findInfoList(allInfo, Association.class, XMLAttribute.class);
+      Activities acts = (Activities) wpOrAs.get("Activities");
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         XMLAttribute el = (XMLAttribute) info.getChangedElement();
+         String elName = el.toName();
+         if (elName.equals("Source") || elName.equals("Target")) {
+            Association asoc = (Association) el.getParent();
+            if (acts.getActivity(asoc.getSource()) != null
+                || acts.getActivity(asoc.getTarget()) != null) {
+               s.add(asoc);
+            }
+         }
+      }
+
       return s;
    }
 
    // Extended attributes change
-   public static Set getWorkflowProcessesAndActivitySetsWithChangedVisualParticipantOrder(List allInfo) {
+   public static Set getLanesWithChangedOrder(List allInfo) {
       Set s = new HashSet();
-      List l = findInfoList(allInfo, ExtendedAttribute.class, XMLAttribute.class);
+      List l = findInfoList(allInfo, Pool.class, Lanes.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-         XMLElement el = info.getChangedElement();
-         if (el.toName().equals("Value")) {
-            ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
-            String eaname = ea.getName();
-            if (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER)
-                  || eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER)) {
-
-               WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
-
-               if (wp != null) {
-                  if (eaname.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER)) {
-                     s.add(wp);
-                  } else {
-                     String asId = GraphUtilities.getActivitySetIdForBlockParticipantVisualOrderOrOrientationEA(ea);
-                     ActivitySet as = wp.getActivitySet(asId);
-                     s.add(as);
-                  }
-               }
+         List l2 = info.getChangedSubElements();
+         for (int j = 0; j < l2.size(); j++) {
+            XMLElement el = (XMLElement) l2.get(j);
+            if (el instanceof Lane) {
+               s.add(el);
             }
          }
       }
       return s;
    }
 
-   public static Set getActivitiesWithChangedOffset(List allInfo, XMLCollectionElement wpOrAs) {
+   public static Set getNestedLanesWithChangedOrder(List allInfo) {
       Set s = new HashSet();
-      List l = findInfoList(allInfo, ExtendedAttribute.class, XMLAttribute.class);
+      List l = findInfoList(allInfo, Lane.class, NestedLanes.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-         XMLElement el = info.getChangedElement();
-         if (el.toName().equals("Value")) {
-            ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
-            if (ea.getName().equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET)) {
-               Activity act = XMLUtil.getActivity(el);
-               if (act != null && act.getParent().getParent() == wpOrAs) {
-                  s.add(act);
+         List l2 = info.getChangedSubElements();
+         for (int j = 0; j < l2.size(); j++) {
+            XMLElement el = (XMLElement) l2.get(j);
+            if (el instanceof NestedLane) {
+               Lane lane = XMLUtil.getPool(el)
+                  .getLanes()
+                  .getLane(((NestedLane) el).getLaneId());
+               if (lane != null) {
+                  s.add(lane);
                }
             }
          }
-      }
-      return s;
-   }
-
-   public static Set getActivitiesWithChangedParticipantId(List allInfo, XMLCollectionElement wpOrAs) {
-      Set s = new HashSet();
-      List l = findInfoList(allInfo, ExtendedAttribute.class, XMLAttribute.class);
-      for (int i = 0; i < l.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-         XMLElement el = info.getChangedElement();
-         if (el.toName().equals("Value")) {
-            ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
-            if (ea.getName().equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID)) {
-               Activity act = XMLUtil.getActivity(el);
-               if (act != null && act.getParent().getParent() == wpOrAs) {
-                  s.add(act);
-               }
-            }
-         }
-      }
-      return s;
-   }
-
-   public static Set getTransitionsWithChangedBreakpointsOrStyle(List allInfo, XMLCollectionElement wpOrAs) {
-      Set s = new HashSet();
-      List l = findInfoList(allInfo, ExtendedAttribute.class, XMLAttribute.class);
-      for (int i = 0; i < l.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-         XMLElement el = info.getChangedElement();
-         if (el.toName().equals("Value")) {
-            ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
-            String eaName = ea.getName();
-            if (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE)
-                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS)) {
-               Transition tra = XMLUtil.getTransition(el);
-               if (tra != null && tra.getParent().getParent() == wpOrAs) {
-                  s.add(tra);
-               }
-            }
-         }
-      }
-      l = findInfoList(allInfo, Transition.class, ExtendedAttributes.class);
-      for (int i = 0; i < l.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-         ExtendedAttributes eas = (ExtendedAttributes) info.getChangedElement();
-         if (eas.getParent().getParent().getParent() == wpOrAs) {
-            List chngdeas = info.getChangedSubElements();
-            if (chngdeas != null) {
-               for (int j = 0; j < chngdeas.size(); j++) {
-                  ExtendedAttribute ea = (ExtendedAttribute) chngdeas.get(j);
-                  String eaName = ea.getName();
-                  if (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE)
-                        || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BREAK_POINTS)) {
-                     s.add(XMLUtil.getTransition(eas));
-                  }
-               }
-            }
-         }         
       }
 
       return s;
    }
 
-   public static Set getUpdatedBubbles(List allInfo, XMLCollectionElement wpOrAs) {
+   public static Set getActivitiesAndArtifactsWithChangedOffset(List allInfo,
+                                                                XMLCollectionElement wpOrAs) {
       Set s = new HashSet();
-      WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
-      List l = findInfoList(allInfo, ExtendedAttribute.class, XMLAttribute.class);
+      List l = findInfoList(allInfo, Coordinates.class, XMLAttribute.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          XMLElement el = info.getChangedElement();
-         if (el.toName().equals("Value")) {
-            ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
-            if (ea.getParent().getParent() == wp) {
-               String eaName=ea.getName();
-               if ((wpOrAs instanceof WorkflowProcess && (eaName.equals(
-                     GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW) || eaName.equals(
-                     GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW)))
-                     || ((wpOrAs instanceof ActivitySet) && (eaName.equals(
-                           GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK) || eaName.equals(
-                           GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK)))) {
-
-                  s.add(ea);
-
-               }
-            }
-         }
-      }
-      return s;
-   }
-
-   public static Set getInsertedOrRemovedBubbles(List allInfo, XMLCollectionElement wpOrAs, boolean inserted) {
-      Set s = new HashSet();
-      WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
-      List l = findInfoList(allInfo, WorkflowProcess.class, ExtendedAttributes.class);
-      for (int i = 0; i < l.size(); i++) {
-         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-         if ((inserted && info.getAction() == XMLElementChangeInfo.INSERTED)
-               || (!inserted && info.getAction() == XMLElementChangeInfo.REMOVED)) {
-
-            ExtendedAttributes eas = (ExtendedAttributes) info.getChangedElement();
-            if (eas.getParent() == wp) {
-               List chngdeas = info.getChangedSubElements();
-               if (chngdeas != null) {
-                  for (int j = 0; j < chngdeas.size(); j++) {
-                     ExtendedAttribute ea = (ExtendedAttribute) chngdeas.get(j);
-                     String eaName=ea.getName();
-                     if ((wpOrAs instanceof WorkflowProcess && (eaName.equals(
-                           GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW) || eaName.equals(
-                           GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW)))
-                           || ((wpOrAs instanceof ActivitySet) && (eaName.equals(
-                                 GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK) || eaName.equals(
-                                 GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK)))) {
-
-                        s.add(ea);
-
+         Coordinates ea = (Coordinates) el.getParent();
+         if (ea.getParent() instanceof NodeGraphicsInfo) {
+            Activity act = XMLUtil.getActivity(el);
+            if (act != null && act.getParent().getParent() == wpOrAs) {
+               s.add(act);
+            } else {
+               Artifact art = XMLUtil.getArtifact(el);
+               if (art != null) {
+                  Pool p = JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .getPoolForProcessOrActivitySet(wpOrAs);
+                  if (p != null) {
+                     String laneId = JaWEManager.getInstance()
+                        .getXPDLUtils()
+                        .getLaneId(art);
+                     if (p.getLanes().getLane(laneId) != null) {
+                        s.add(art);
                      }
                   }
                }
             }
-
          }
       }
       return s;
    }
 
-   public static XMLCollectionElement getRotatedGraphObject (List allInfo) {
-      XMLCollectionElement wpOrAs=null;
-      List l=GraphUtilities.findInfoList(allInfo, WorkflowProcess.class, ExtendedAttributes.class);
-      if (l.size()>0) {
-         for (int i = 0; i < l.size(); i++) {
-            XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-            if ((info.getAction() == XMLElementChangeInfo.INSERTED)
-                  || (info.getAction() == XMLElementChangeInfo.REMOVED)) {
+   public static Map updateJGraphForActivityAndArtifactBounds(Graph graph,
+                                                              List allInfo,
+                                                              XMLCollectionElement wpOrAs) {
+      Map propertyMap = new HashMap();
+      GraphLayoutCache glc = graph.getGraphLayoutCache();
+      Set s = new HashSet();
+      List l = findInfoList(allInfo, Coordinates.class, XMLAttribute.class);
+      l.addAll(findInfoList(allInfo, NodeGraphicsInfo.class, XMLAttribute.class));
 
-               ExtendedAttributes eas = (ExtendedAttributes) info.getChangedElement();
-               List chngdeas = info.getChangedSubElements();
-               if (chngdeas != null) {
-                  for (int j = 0; j < chngdeas.size(); j++) {
-                     ExtendedAttribute ea = (ExtendedAttribute) chngdeas.get(j);
-                     String eaName=ea.getName();
-                     if (eaName.equals(
-                           GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)) {
-                        wpOrAs=(WorkflowProcess)eas.getParent();
-                        break;
-                     } else if (eaName.equals(
-                                 GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION)) {
-                        String asId=GraphUtilities.getActivitySetIdForBlockParticipantVisualOrderOrOrientationEA(ea.getVValue());
-                        wpOrAs=((WorkflowProcess)eas.getParent()).getActivitySet(asId);
-                        break;
+      Map a2cx = new HashMap();
+      Map a2cy = new HashMap();
+      Map a2sw = new HashMap();
+      Map a2sh = new HashMap();
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         XMLElement el = info.getChangedElement();
+         if ((el.toName().equals("XCoordinate")
+              || el.toName().equals("YCoordinate") || el.toName().equals("Width") || el.toName()
+            .equals("Height"))
+             && (el.getParent() instanceof NodeGraphicsInfo || el.getParent().getParent() instanceof NodeGraphicsInfo)) {
+            Activity act = XMLUtil.getActivity(el);
+            if (act != null && act.getParent().getParent() == wpOrAs) {
+               s.add(act);
+               if (el.toName().equals("XCoordinate")) {
+                  a2cx.put(act, info.getOldValue());
+               } else if (el.toName().equals("YCoordinate")) {
+                  a2cy.put(act, info.getOldValue());
+               } else if (el.toName().equals("Width")) {
+                  a2sw.put(act, info.getOldValue());
+               } else {
+                  a2sh.put(act, info.getOldValue());
+               }
+            } else {
+               Artifact art = XMLUtil.getArtifact(el);
+               if (art != null) {
+                  Pool p = JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .getPoolForProcessOrActivitySet(wpOrAs);
+                  if (p != null) {
+                     String laneId = JaWEManager.getInstance()
+                        .getXPDLUtils()
+                        .getLaneId(art);
+                     if (p.getLanes().getLane(laneId) != null) {
+                        s.add(art);
+                        if (el.toName().equals("XCoordinate")) {
+                           a2cx.put(act, info.getOldValue());
+                        } else if (el.toName().equals("YCoordinate")) {
+                           a2cy.put(act, info.getOldValue());
+                        } else if (el.toName().equals("Width")) {
+                           a2sw.put(act, info.getOldValue());
+                        } else {
+                           a2sh.put(act, info.getOldValue());
+                        }
                      }
                   }
                }
             }
-         }         
-      }
-      if (wpOrAs==null) {
-         l=GraphUtilities.findInfoList(allInfo, ExtendedAttribute.class, XMLAttribute.class);
-         if (l.size()>0) {
-            for (int i = 0; i < l.size(); i++) {
-               XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
-               if (info.getAction() == XMLElementChangeInfo.UPDATED) {
-                  ExtendedAttribute ea = (ExtendedAttribute) info.getChangedElement().getParent();
-                  String eaName=ea.getName();
-                  if (eaName.equals(
-                        GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)) {
-                     wpOrAs=(WorkflowProcess)ea.getParent().getParent();
-                     break;
-                  } else if (eaName.equals(
-                              GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION)) {
-                     String asId=GraphUtilities.getActivitySetIdForBlockParticipantVisualOrderOrOrientationEA(ea.getVValue());
-                     wpOrAs=((WorkflowProcess)ea.getParent().getParent()).getActivitySet(asId);
-                     break;
-                  }
-               }
-            }         
          }
       }
-//      System.err.println("ROTATED ELEMENT="+wpOrAs);
-      return wpOrAs;
-   }     
-   
+
+      Iterator it = s.iterator();
+      while (it.hasNext()) {
+         XMLCollectionElement a = (XMLCollectionElement) it.next();
+         GraphCell graphCell = null;
+         if (a instanceof Activity) {
+            graphCell = graph.getGraphManager().getGraphActivity((Activity) a);
+         } else {
+            graphCell = graph.getGraphManager().getGraphArtifact((Artifact) a);
+         }
+         AbstractCellView view = (AbstractCellView) glc.getMapping(graphCell, false);
+         if (view==null) continue;
+         Rectangle origr = null;
+         if (view instanceof GraphActivityViewInterface) {
+            origr = ((GraphActivityViewInterface) view).getOriginalBounds();
+         } else {
+            origr = ((GraphArtifactViewInterface) view).getOriginalBounds();
+         }
+         NodeGraphicsInfo ngi = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getNodeGraphicsInfo(a);
+         int width = ngi.getWidth();
+         int height = ngi.getHeight();
+         int x = (int) Double.parseDouble(ngi.getCoordinates().getXCoordinate());
+         int y = (int) Double.parseDouble(ngi.getCoordinates().getYCoordinate());
+
+         String oldws = (String) a2sw.get(a);
+         int oldw = oldws == null ? width : (int) Double.parseDouble(oldws);
+         String oldhs = (String) a2sh.get(a);
+         int oldh = oldhs == null ? height : (int) Double.parseDouble(oldhs);
+         String oldxs = (String) a2cx.get(a);
+         int oldx = oldxs == null ? x : (int) Double.parseDouble(oldxs);
+         String oldys = (String) a2cy.get(a);
+         int oldy = oldys == null ? y : (int) Double.parseDouble(oldys);
+
+         double dx = oldx - x;
+         double dy = oldy - y;
+
+         Rectangle newR = new Rectangle((int) (origr.getX() - dx),
+                                        (int) (origr.getY() - dy),
+                                        width,
+                                        height);
+         Map attributes = new HashMap();
+         attributes.put(GraphConstants.BOUNDS, newR);
+         glc.editCell(graphCell, attributes);
+         AttributeMap map = new AttributeMap(graphCell.getAttributes());
+         propertyMap.put(graphCell, map);
+      }
+      return propertyMap;
+   }
+
+   public static Set getActivitiesAndArtifactsWithChangedLaneId(List allInfo,
+                                                                XMLCollectionElement wpOrAs) {
+      Set s = new HashSet();
+      List l = findInfoList(allInfo, NodeGraphicsInfo.class, XMLAttribute.class);
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         XMLElement el = info.getChangedElement();
+         if (el.toName().equals("LaneId")) {
+            Activity act = XMLUtil.getActivity(el);
+            if (act != null && act.getParent().getParent() == wpOrAs) {
+               s.add(act);
+            }
+            Artifact art = XMLUtil.getArtifact(el);
+            if (art != null) {
+               Pool p = JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getPoolForProcessOrActivitySet(wpOrAs);
+               if (p != null) {
+                  String laneId = JaWEManager.getInstance().getXPDLUtils().getLaneId(art);
+                  if (p.getLanes().getLane(laneId) != null) {
+                     s.add(art);
+                  }
+               }
+            }
+         }
+      }
+      return s;
+   }
+
+   public static Set getTransitionsWithChangedBreakpointsOrStyle(List allInfo,
+                                                                 XMLCollectionElement wpOrAs) {
+      Set s = new HashSet();
+      List l = findInfoList(allInfo, ConnectorGraphicsInfo.class, XMLAttribute.class);
+      Activities acts = (Activities) wpOrAs.get("Activities");
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         XMLElement el = info.getChangedElement();
+         if (el.toName().equals("Style")) {
+            Transition tra = XMLUtil.getTransition(el);
+            if (tra != null && tra.getParent().getParent() == wpOrAs) {
+               s.add(tra);
+            }
+            Association asoc = XMLUtil.getAssociation(el);
+            if (asoc != null
+                && (acts.getActivity(asoc.getSource()) != null || acts.getActivity(asoc.getTarget()) != null)) {
+               s.add(asoc);
+            }
+         }
+      }
+      l = findInfoList(allInfo, Coordinates.class, XMLAttribute.class);
+      l.addAll(findInfoList(allInfo, ConnectorGraphicsInfo.class, Coordinatess.class));
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         XMLElement el = info.getChangedElement();
+         if (el instanceof Coordinatess
+             || el.getParent().getParent().getParent() instanceof ConnectorGraphicsInfo) {
+            Transition tra = XMLUtil.getTransition(el);
+            if (tra != null && tra.getParent().getParent() == wpOrAs) {
+               s.add(tra);
+            }
+            Association asoc = XMLUtil.getAssociation(el);
+            if (asoc != null
+                && (acts.getActivity(asoc.getSource()) != null || acts.getActivity(asoc.getTarget()) != null)) {
+               s.add(asoc);
+            }
+         }
+      }
+
+      return s;
+   }
+
+   public static Pool getRotatedGraphObject(List allInfo) {
+      List l = GraphUtilities.findInfoList(allInfo, Pool.class, XMLAttribute.class);
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         if (info.getChangedElement().toName().equals("Orientation")) {
+            return XMLUtil.getPool(info.getChangedElement());
+         }
+      }
+      return null;
+   }
+
    public static List findInfoList(List allInfo, Class parentObjClass, Class objClass) {
       List toRet = new ArrayList();
 
@@ -3002,57 +3431,407 @@ public class GraphUtilities {
       return toRet;
    }
 
-   public static void setNewParticipantId(List acts, String Id) {
-      for (int i = 0; i < acts.size(); i++) {
-         Activity act = (Activity) acts.get(i);
-         GraphUtilities.setParticipantId(act, Id);
-      }
-   }
-
-   protected static boolean reloadGraphIfNeccessary (Graph graph) {
-      // if there are two parts with the same id within the graph (as a result of change of
+   protected static boolean reloadGraphIfNeccessary(Graph graph) {
+      // if there are two parts with the same id within the graph (as a result of change
+      // of
       // more relevant participant Id), reload the graph
       List allGraphParticipants = JaWEGraphModel.getAllParticipantsInModel(graph.getModel());
       List partsInGraph = new ArrayList();
-      boolean shouldReload=false;
-      if (allGraphParticipants != null) {
-         Iterator it = allGraphParticipants.iterator();
-         while (it.hasNext()) {
-            GraphParticipantInterface gpar = (GraphParticipantInterface) it.next();
-            Participant p=(Participant)gpar.getUserObject();
-            if (partsInGraph.contains(p.getId())) {
-               shouldReload=true;
-               break;
-            } 
-            partsInGraph.add(p.getId());
-         }
-      }      
+      boolean shouldReload = false;
+      // if (allGraphParticipants != null) {
+      // Iterator it = allGraphParticipants.iterator();
+      // while (it.hasNext()) {
+      // GraphParticipantInterface gpar = (GraphParticipantInterface) it.next();
+      // Participant p = (Participant) gpar.getUserObject();
+      // if (partsInGraph.contains(p.getId())) {
+      // shouldReload = true;
+      // break;
+      // }
+      // partsInGraph.add(p.getId());
+      // }
+      // }
 
       if (shouldReload) {
          GraphUtilities.reloadGraph(graph);
       }
-      return shouldReload;      
+      return shouldReload;
    }
-   
-   protected static void reloadGraph (Graph graph) {
+
+   protected static void reloadGraph(Graph graph) {
       Object[] elem = JaWEGraphModel.getAll(graph.getModel());
       graph.getModel().remove(elem);
-      GraphUtilities.scanExtendedAttributesForWPOrAs(graph.getXPDLObject());
-      graph.getGraphManager().createWorkflowGraph(graph.getXPDLObject());      
+      GraphUtilities.scanExtendedAttributesForWPOrAs(graph.getXPDLObject(), false);
+      graph.getGraphManager().createWorkflowGraph(graph.getXPDLObject());
    }
-   
-   protected static List getActivitiesWithPerformer (List acts,String parId) {
-      List l=new ArrayList();
 
-      Iterator it=acts.iterator();
-      while (it.hasNext()){
-         Activity act=(Activity)it.next();
-         if (act.getPerformer().equals(parId)) {
+   protected static List getActivitiesWithPerformer(List acts, String parId) {
+      List l = new ArrayList();
+
+      Iterator it = acts.iterator();
+      while (it.hasNext()) {
+         Activity act = (Activity) it.next();
+         if (act.getFirstPerformer().equals(parId)) {
             l.add(act);
          }
       }
-      
-      return l;         
+
+      return l;
    }
-     
+
+   protected static Lane getLaneForActivityOrArtifact(XMLCollectionElement actOrArtif,
+                                                      XMLCollectionElement wpOrAs) {
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(actOrArtif);
+      if (ngi != null) {
+         String laneId = ngi.getLaneId();
+         if (wpOrAs == null) {
+            wpOrAs = XMLUtil.getActivitySet(actOrArtif);
+            if (wpOrAs == null) {
+               wpOrAs = XMLUtil.getWorkflowProcess(actOrArtif);
+            }
+         }
+         Pool p = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getPoolForProcessOrActivitySet(wpOrAs);
+         return p.getLanes().getLane(laneId);
+      }
+      return null;
+   }
+
+   protected static Lane getLaneForPerformer(Pool p, String perf) {
+      Iterator it = p.getLanes().toElements().iterator();
+      while (it.hasNext()) {
+         Lane l = (Lane) it.next();
+         if (hasPerformer(l, perf)) {
+            return l;
+         }
+      }
+      return null;
+   }
+
+   protected static Lane createLaneForActivity(Activity act, boolean addToCollection) {
+      String perf = act.getFirstPerformer();
+      XMLCollectionElement wpOrAs = XMLUtil.getActivitySet(act);
+      if (wpOrAs == null) {
+         wpOrAs = XMLUtil.getWorkflowProcess(act);
+      }
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      Lanes ls = p.getLanes();
+      Lane l = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(ls, "", false);
+      Performer pf = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(l.getPerformers(), "", true);
+      pf.setValue(perf);
+      Participant par = getParticipantForLane(l,
+                                              FreeTextExpressionParticipant.getInstance());
+      l.setName(par.getName().equals("") ? par.getId() : par.getName());
+      createNodeGraphicsInfo(l, null, null, true);
+      if (addToCollection) {
+         ls.add(l);
+      }
+      return l;
+   }
+
+   protected static Lane createLaneForPerformer(Pool p, String perf) {
+      System.out.println("CREATING LANE for perf " + perf);
+      Lanes ls = p.getLanes();
+      Lane l = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(ls, "", false);
+      String laneName = "";
+      if (perf.equals("")
+          || perf.equals(FreeTextExpressionParticipant.getInstance().getId())) {
+         laneName = FreeTextExpressionParticipant.getInstance().getName();
+      } else {
+         Performer pf = JaWEManager.getInstance()
+            .getXPDLObjectFactory()
+            .createXPDLObject(l.getPerformers(), "", true);
+         if (CommonExpressionParticipants.getInstance()
+            .isCommonExpressionParticipantId(perf)) {
+            laneName = CommonExpressionParticipants.getInstance()
+               .getIdFromVisualOrderEA(perf);
+            pf.setValue(laneName);
+         } else {
+            pf.setValue(perf);
+            Participant parForLane = getParticipantForLane(l, null);
+            laneName = perf;
+            if (parForLane != null) {
+               laneName = parForLane.getName().equals("") ? parForLane.getId()
+                                                         : parForLane.getName();
+            }
+         }
+      }
+      createNodeGraphicsInfo(l, null, null, true);
+      l.setName(laneName);
+      ls.add(l);
+      return l;
+   }
+
+   public static void setLanesFirstPerformer(Lane l, String perf) {
+      List perfs = l.getPerformers().toElements();
+      if (perfs.size() > 0) {
+         Performer p = (Performer) perfs.get(0);
+         p.setValue(perf);
+      }
+   }
+
+   protected static String getLanesFirstPerformer(Lane lane) {
+      Iterator it = lane.getPerformers().toElements().iterator();
+      while (it.hasNext()) {
+         Performer perf = (Performer) it.next();
+         return perf.toValue();
+      }
+      return null;
+   }
+
+   protected static boolean hasPerformer(Lane l, String perf) {
+      Iterator it = l.getPerformers().toElements().iterator();
+      while (it.hasNext()) {
+         Performer p = (Performer) it.next();
+         if (p.toValue().equals(perf)) {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   protected static Lane getDefaultLane(Pool p) {
+      if (p == null)
+         return null;
+      Iterator it = p.getLanes().toElements().iterator();
+      while (it.hasNext()) {
+         Lane l = (Lane) it.next();
+         if (l.getPerformers().size() == 0) {
+            return l;
+         }
+      }
+      return null;
+   }
+
+   protected static Lane createDefaultLane(Pool p) {
+      return createLaneForPerformer(p, FreeTextExpressionParticipant.getInstance()
+         .getId());
+   }
+
+   protected static void checkLanes(Pool p, List pids) {
+      for (int i = 0; i < pids.size(); i++) {
+         String pid = (String) pids.get(i);
+         if (getLaneForPerformer(p, pid) == null) {
+            createLaneForPerformer(p, pid);
+         }
+      }
+   }
+
+   public static void setNewLaneId(List acts, String Id) {
+      for (int i = 0; i < acts.size(); i++) {
+         Activity act = (Activity) acts.get(i);
+         GraphUtilities.setLaneId(act, Id);
+      }
+   }
+
+   public static void setNewPerformer(List acts, String perf) {
+      for (int i = 0; i < acts.size(); i++) {
+         Activity act = (Activity) acts.get(i);
+         act.setFirstPerformer(perf);
+      }
+   }
+
+   public static void setLaneId(XMLCollectionElement actOrArt, String laneId) {
+      if (laneId == null || laneId.equals("")) {
+         laneId = FreeTextExpressionParticipant.getInstance().getId();
+      }
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(actOrArt);
+      if (ngi != null) {
+         ngi.setLaneId(laneId);
+      }
+   }
+
+   public static Lane getParentLane(Lane lane) {
+      Lanes lanes = (Lanes) lane.getParent();
+      Iterator it = lanes.toElements().iterator();
+      while (it.hasNext()) {
+         Lane l = (Lane) it.next();
+         if (l.equals(lane))
+            continue;
+         Iterator it2 = l.getNestedLanes().toElements().iterator();
+         while (it2.hasNext()) {
+            NestedLane nl = (NestedLane) it2.next();
+            if (nl.getLaneId().equals(lane.getId())) {
+               return l;
+            }
+         }
+      }
+      return null;
+   }
+
+   protected static List getLaneHierarchy(Pool pool) {
+      List ret = new ArrayList();
+      List rls = getRootLanes(pool);
+      for (int i = 0; i < rls.size(); i++) {
+         Lane l = (Lane) rls.get(i);
+         ret.addAll(getLaneHierarchy(l));
+      }
+      return ret;
+   }
+
+   protected static List getLaneHierarchy(Lane lane) {
+      List ret = new ArrayList();
+      ret.add(lane);
+      List nestedL = getNestedLanes(lane);
+      for (int j = 0; j < nestedL.size(); j++) {
+         ret.addAll(getLaneHierarchy((Lane) nestedL.get(j)));
+      }
+      return ret;
+   }
+
+   protected static List getRootLanes(Pool pool) {
+      List ret = new ArrayList();
+      List lanes = pool.getLanes().toElements();
+      for (int i = 0; i < lanes.size(); i++) {
+         Lane l = (Lane) lanes.get(i);
+         if (getParentLane(l) == null) {
+            ret.add(l);
+         }
+      }
+      return ret;
+   }
+
+   protected static List getNestedLanes(Lane l) {
+      List ret = new ArrayList();
+      Lanes ls = (Lanes) l.getParent();
+      Iterator it = l.getNestedLanes().toElements().iterator();
+      while (it.hasNext()) {
+         NestedLane nl = (NestedLane) it.next();
+         Lane rnl = ls.getLane(nl.getLaneId());
+         ret.add(rnl);
+      }
+      return ret;
+   }
+
+   protected static void fillParentLanes(Lane l, List pls) {
+      Lane pl = getParentLane(l);
+      if (pl != null) {
+         pls.add(pl);
+         fillParentLanes(pl, pls);
+      }
+   }
+
+   public static Participant getParticipantForLane(Lane l, Participant defaultToReturn) {
+      Participant par = null;
+      String perf = "";
+      Iterator it = l.getPerformers().toElements().iterator();
+      while (it.hasNext()) {
+         perf = ((Performer) it.next()).toValue();
+         break;
+      }
+      Pool pool = XMLUtil.getPool(l);
+      WorkflowProcess wp = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getProcessForPool(pool);
+      if (wp == null) {
+         ActivitySet as = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getActivitySetForPool(pool);
+         if (as != null) {
+            wp = XMLUtil.getWorkflowProcess(as);
+         }
+      }
+      if (wp != null) {
+         par = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(),
+                                       wp,
+                                       perf);
+      }
+      if (par == null) {
+         par = defaultToReturn;
+      }
+
+      return par;
+   }
+
+   public static boolean isCommonExpressionLane(Lane l) {
+      return getParticipantForLane(l, null) == null && l.getPerformers().size() > 0;
+   }
+
+   public static Lane getLane(XMLCollectionElement wpOrAs, String laneId) {
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      return p.getLanes().getLane(laneId);
+   }
+
+   public static Set getArtifacts(XMLCollectionElement wpOrAs) {
+      Set s = new HashSet();
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      if (p != null) {
+         Package pkg = XMLUtil.getPackage(wpOrAs);
+         List arts = pkg.getArtifacts().toElements();
+
+         if (arts != null && arts.size() > 0) {
+            for (int j = 0; j < arts.size(); j++) {
+               Artifact art = (Artifact) arts.get(j);
+               String laneId = JaWEManager.getInstance().getXPDLUtils().getLaneId(art);
+               if (p.getLanes().getLane(laneId) != null) {
+                  s.add(art);
+               }
+            }
+         }
+      }
+
+      return s;
+   }
+
+   public static Set getAssociations(XMLCollectionElement wpOrAs) {
+      Set s = new HashSet();
+      Package pkg = XMLUtil.getPackage(wpOrAs);
+      Activities acts = (Activities) wpOrAs.get("Activities");
+      List asocs = pkg.getAssociations().toElements();
+      if (asocs != null && asocs.size() > 0) {
+         for (int j = 0; j < asocs.size(); j++) {
+            Association asoc = (Association) asocs.get(j);
+            if (acts.getActivity(asoc.getSource()) != null
+                || acts.getActivity(asoc.getTarget()) != null) {
+               s.add(asoc);
+            }
+         }
+      }
+
+      return s;
+   }
+
+   public static void rotateProcess (Graph selectedGraph) {
+      Object[] elem = JaWEGraphModel.getAll(selectedGraph.getModel());
+      selectedGraph.getModel().remove(elem);
+      // GraphUtilities.rotateCoordinates(elem);
+      for (int i = 0; i < elem.length; i++) {
+         if (elem[i] instanceof DefaultGraphCell) {
+            Object uo = ((DefaultGraphCell) elem[i]).getUserObject();
+            if (uo instanceof Activity || uo instanceof Artifact) {
+               XMLCollectionElement act = (XMLCollectionElement) uo;
+
+               Point p = GraphUtilities.getOffsetPoint(act);
+               Utils.flipCoordinates(p);
+               GraphUtilities.setOffsetPoint(act, p, null);
+            } else if (uo instanceof Transition || uo instanceof Association) {
+               XMLCollectionElement tr = (XMLCollectionElement) uo;
+               List bpoi = GraphUtilities.getBreakpoints(tr);
+               for (int j = 0; j < bpoi.size(); j++) {
+                  Point p = (Point) bpoi.get(j);
+                  Utils.flipCoordinates(p);
+               }
+               GraphUtilities.setBreakpoints(tr, bpoi);
+            }
+         }
+      }
+
+      selectedGraph.getGraphManager().createWorkflowGraph(selectedGraph.getXPDLObject());      
+   }
 }

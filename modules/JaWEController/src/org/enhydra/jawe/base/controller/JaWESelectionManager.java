@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 /**
  * Miroslav Popov, Sep 14, 2005 miroslav.popov@gmail.com
@@ -28,25 +28,32 @@ import java.util.List;
 import java.util.Set;
 
 import org.enhydra.jawe.XPDLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.Application;
-import org.enhydra.shark.xpdl.elements.DataField;
-import org.enhydra.shark.xpdl.elements.FormalParameter;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.TypeDeclaration;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
-import org.enhydra.shark.xpdl.elements.WorkflowProcesses;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Artifacts;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Associations;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Pool;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcesses;
 
 /**
  * @author Miroslav Popov
@@ -188,7 +195,7 @@ public class JaWESelectionManager {
          // while (parent != null && parent != el) {
          // parent = parent.getParent();
          // }
-         //            
+         //
          // if (parent != null)
          // elementsToRemove.add(element);
          // }
@@ -290,6 +297,8 @@ public class JaWESelectionManager {
 
       boolean hasActivity = false;
       boolean hasTransition = false;
+      boolean hasArtifact = false;
+      boolean hasAssociation = false;
       boolean hasSingleSelectionElement = false;
       boolean hasOther = false;
 
@@ -304,6 +313,10 @@ public class JaWESelectionManager {
             hasActivity = true;
          } else if (el instanceof Transition) {
             hasTransition = true;
+         } else if (el instanceof Artifact) {
+            hasArtifact = true;
+         } else if (el instanceof Association) {
+            hasAssociation = true;
          } else if (!(parent instanceof XMLCollection)) {
             hasSingleSelectionElement = true;
          } else {
@@ -318,6 +331,36 @@ public class JaWESelectionManager {
       // only one other component is allowed
       if (hasSingleSelectionElement) {
          return false;
+      }
+
+      if (hasActivity && hasTransition && hasAssociation && !hasOther) {
+         Set parentsParents = new HashSet();         
+         for (int i = 0; i < selection.size(); i++) {
+            XMLElement el = (XMLElement) selection.get(i);
+            if (el instanceof Activity || el instanceof Transition) {
+               XMLElement elParentParent = el.getParent().getParent();
+               parentsParents.add(elParentParent);
+            }
+         }
+         if (parentsParents.size() != 1) {
+            return false;
+         }
+         
+         XMLCollectionElement wpOrAs = (XMLCollectionElement)parentsParents.toArray()[0];
+         Activities acts = (Activities)wpOrAs.get("Activities");
+         for (int i = 0; i < selection.size(); i++) {
+            XMLElement el = (XMLElement) selection.get(i);
+            if (el instanceof Association) {
+               Association asoc = (Association)selection.get(i);
+               Activity from = acts.getActivity(asoc.getSource());
+               Activity to = acts.getActivity(asoc.getTarget());
+               if (!((from!=null && from.getParent().getParent()==wpOrAs) || (to!=null && to.getParent().getParent()==wpOrAs))) {
+                  return false;
+               }
+            }
+         }
+         
+         return true;
       }
 
       // if only activities and transitions are selected, check if they
@@ -335,7 +378,9 @@ public class JaWESelectionManager {
 
          return true;
       }
-
+      if ((hasArtifact || hasAssociation) && !hasOther) {
+         return true;
+      }
       // if there are more than one parent, or more than one type of object class, return
       // false
       return !(parents.size() > 1 || classes.size() > 1);
@@ -410,8 +455,9 @@ public class JaWESelectionManager {
       Class clipboardElementsClass2 = null;
       for (int i = 0; i < jc.getEdit().getClipboard().size(); i++) {
          XMLElement el = (XMLElement) jc.getEdit().getClipboard().get(i);
+         if (el instanceof Pool)
+            continue;
          XMLElement parent = el.getParent();
-
          if (el instanceof Transition) {
             clipboardParentsClass2 = parent.getClass();
             clipboardElementsClass2 = el.getClass();
@@ -447,6 +493,7 @@ public class JaWESelectionManager {
       boolean allowPaste2 = clipboardElementsClass2 == null ? false
                                                            : (selectionElementsClass2 == null ? false
                                                                                              : clipboardElementsClass2 == selectionElementsClass2);
+
       // System.err.println("AP2="+allowPaste2);
       boolean allowPaste = (allowPaste1 || allowPaste2);
 
@@ -456,6 +503,8 @@ public class JaWESelectionManager {
          return false;
 
       XMLElement firstSelected = (XMLElement) selectedElements.get(0);
+
+      if ((firstSelected instanceof WorkflowProcess || firstSelected instanceof ActivitySet) && (clipboardElementsClass1==Artifact.class || clipboardElementsClass1==Association.class)) return true;
       if (firstSelected instanceof XMLAttribute
           || firstSelected instanceof XMLSimpleElement
           || firstSelected instanceof XMLComplexChoice) {
@@ -522,7 +571,7 @@ public class JaWESelectionManager {
           || selected instanceof DataField
           || (selected instanceof FormalParameter && selected.getParent().getParent() instanceof WorkflowProcess)
           || selected instanceof Activity || selected instanceof Transition
-          || selected instanceof Package) {
+          || selected instanceof Package || selected instanceof Lane) {
          return true;
       }
       return false;
@@ -543,15 +592,33 @@ public class JaWESelectionManager {
             Activity from = acts.getActivity(((Transition) el).getFrom());
             Activity to = acts.getActivity(((Transition) el).getTo());
 
-            if (!(selectedElements.contains(from) && selectedElements.contains(to))) {
+            if (from == null
+                || to == null
+                || !(selectedElements.contains(from) && selectedElements.contains(to))) {
+               return false;
+            }
+         } else if (el instanceof Association) {
+            Package pkg = XMLUtil.getPackage(el);
+
+            XMLCollectionElement from = pkg.getArtifact(((Association) el).getSource());
+            XMLCollectionElement to = pkg.getArtifact(((Association) el).getTarget());
+            if (from == null) {
+               from = pkg.getActivity(((Association) el).getSource());
+            }
+            if (to == null) {
+               to = pkg.getActivity(((Association) el).getTarget());
+            }
+            if (from == null
+                || to == null
+                || !(selectedElements.contains(from) && selectedElements.contains(to))) {
                return false;
             }
          } else if (!(parent instanceof XMLCollection)) {
             return false;
          }
          XMLCollection col = (XMLCollection) parent;
-         if ((!(el instanceof Transition) && !jc.canDuplicateElement(col, el, false))
-             || !jc.canInsertElement(col, el, false) || !jc.canCreateElement(col, false)) {
+         if ((!(el instanceof Transition || el instanceof Association) && !jc.canDuplicateElement(col, el, false))
+             || ((!jc.canInsertElement(col, el, false) || !jc.canCreateElement(col, false)) && !(col instanceof Associations || col instanceof Artifacts))) {
             return false;
          }
 

@@ -32,25 +32,20 @@ import javax.swing.event.CaretListener;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
-import org.enhydra.jawe.base.panel.SpecialChoiceElement;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLEmptyChoiceElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Performer;
-import org.enhydra.shark.xpdl.elements.Tool;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLEmptyChoiceElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 import org.jedit.syntax.JEditTextArea;
 
 /**
@@ -84,7 +79,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel {
          
          // check if there is a property to disable panel
          String discbo = settings.getSettingString("XMLComboPanel.DisablePanel");
-         String[] hstra = Utils.tokenize(discbo, " ");
+         String[] hstra = XMLUtil.tokenize(discbo, " ");
          if (hstra!=null) {
             for (int i=0;i<hstra.length;i++) {
                if(hstra[i].equals(myOwner.toName())) {
@@ -94,21 +89,31 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel {
             }
          }           
       }
-      
-      SequencedHashMap ch = XMLUtil.getPossibleParticipants(XMLUtil.getWorkflowProcess(this.myOwner),
+      SequencedHashMap ch = new SequencedHashMap(); 
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(this.myOwner);
+      if (wp==null) {
+         String wpOrAsId = XMLUtil.getPool(this.myOwner).getProcess();
+         wp = XMLUtil.getPackage(this.myOwner).getWorkflowProcess(wpOrAsId);
+         if (wp==null) {
+            XMLElement as = XMLUtil.getPackage(this.myOwner).getActivitySet(wpOrAsId);
+            if (as!=null) {
+               wp = XMLUtil.getWorkflowProcess(as);
+            }
+         }
+      }
+      if (wp != null) {
+         ch = XMLUtil.getPossibleParticipants(wp,
               JaWEManager.getInstance()
                  .getXPDLHandler());
-      
+      }
       participants = new ArrayList(ch.values());
       
       XMLChoiceButtonWithPopup variableList = null;
       List choice = null;    
-      XMLElement holder = myOwner;
       
-      if (XMLUtil.getWorkflowProcess(holder) != null && (holder instanceof Activity || holder instanceof Performer
-              || holder instanceof Transition || holder instanceof Tool || holder instanceof WorkflowProcess)) {
+      if (wp != null) {
       
-	      choice = new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(holder)).values());
+	      choice = new ArrayList(XMLUtil.getPossibleVariables(wp).values());
 	      
 	      variableList = new XMLChoiceButtonWithPopup(this, choice, ((PanelSettings)pc.getSettings()).getInsertVariableDefaultIcon(), 
 	              ((PanelSettings)pc.getSettings()).getInsertVariablePressedIcon());
@@ -225,20 +230,20 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel {
       }
 //      System.err.println("SIV="+siv);
 //      System.err.println("IREQ="+getOwner().isRequired()+", iro="+getOwner().isReadOnly());
-      if ((selItem==null || siv.trim().equals("")) &&
-          getOwner().isRequired() && !getOwner().isReadOnly()) {
-         int cs=((SpecialChoiceElement)myOwner).getChoices().size();
-         Object ec=null;
-         if (cs==1) {
-            ec=((SpecialChoiceElement)myOwner).getChoices().get(0);
-         }
+//      if ((selItem==null || siv.trim().equals("")) &&
+//          getOwner().isRequired() && !getOwner().isReadOnly()) {
+//         int cs=((SpecialChoiceElement)myOwner).getChoices().size();
+//         Object ec=null;
+//         if (cs==1) {
+//            ec=((SpecialChoiceElement)myOwner).getChoices().get(0);
+//         }
 //         System.err.println("CCCCSSSS="+cs+", ec="+ec);
-         if (!(cs==0 || cs==1)) {
-            XMLBasicPanel.defaultErrorMessage(this.getWindow(),panel.jl.getText());
-            panel.jta.requestFocus();
-            return false;
-         }
-      }
+//         if (!(cs==0 || cs==1)) {
+//            XMLBasicPanel.defaultErrorMessage(this.getWindow(),panel.jl.getText());
+//            panel.jta.requestFocus();
+//            return false;
+//         }
+//      }
       return true;
    }
 

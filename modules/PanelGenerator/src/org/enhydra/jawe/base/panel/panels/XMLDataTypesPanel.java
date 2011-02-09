@@ -30,8 +30,8 @@ import javax.swing.JScrollPane;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.DataTypes;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.DataTypes;
 
 /**
 * Creates a combo panel and a panel which type is determined by the

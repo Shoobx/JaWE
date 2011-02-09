@@ -25,7 +25,7 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.editor.XPDLElementEditor;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Class that realizes <B>activities overview</B> action.

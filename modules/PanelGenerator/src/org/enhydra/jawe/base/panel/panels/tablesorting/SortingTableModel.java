@@ -24,9 +24,9 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLElement;
 
 public class SortingTableModel extends DefaultTableModel {
 

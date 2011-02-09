@@ -180,8 +180,7 @@
       <!-- Examples -->
       <copy todir="${build.dir}/examples">
          <fileset dir="${basedir}/examples">
-            <include name="Valid/**" />
-            <include name="Invalid/**" />
+            <include name="**/**" />
          </fileset>
       </copy>
 

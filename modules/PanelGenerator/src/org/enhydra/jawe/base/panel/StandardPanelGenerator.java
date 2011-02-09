@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel;
 
@@ -37,38 +37,94 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.tools.Tool;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
-import org.enhydra.jawe.base.panel.panels.XMLBasicListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
-import org.enhydra.jawe.base.panel.panels.XMLBasicTablePanel;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
+import org.enhydra.jawe.base.panel.panels.XMLColorPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboChoicePanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
+import org.enhydra.jawe.base.panel.panels.XMLComboPanelWithReferenceLink;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
+import org.enhydra.jawe.base.panel.panels.XMLHighlightPanelWithReferenceLink;
+import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLLocationPanel;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLRadioPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTabbedPanel;
+import org.enhydra.jawe.base.panel.panels.XMLTablePanel;
+import org.enhydra.jawe.base.panel.panels.XMLTablePanelForVariables;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLEmptyChoiceElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.*;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jawe.base.panel.panels.XMLTextPanelWithReferenceLink;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLEmptyChoiceElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.ActualParameter;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.BasicType;
+import org.enhydra.jxpdl.elements.BlockActivity;
+import org.enhydra.jxpdl.elements.Condition;
+import org.enhydra.jxpdl.elements.ConformanceClass;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
+import org.enhydra.jxpdl.elements.DataObject;
+import org.enhydra.jxpdl.elements.DataType;
+import org.enhydra.jxpdl.elements.DataTypes;
+import org.enhydra.jxpdl.elements.DeadlineDuration;
+import org.enhydra.jxpdl.elements.Deadlines;
+import org.enhydra.jxpdl.elements.DeclaredType;
+import org.enhydra.jxpdl.elements.Description;
+import org.enhydra.jxpdl.elements.Documentation;
+import org.enhydra.jxpdl.elements.EnumerationType;
+import org.enhydra.jxpdl.elements.ExceptionName;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.ExternalPackage;
+import org.enhydra.jxpdl.elements.ExternalPackages;
+import org.enhydra.jxpdl.elements.ExternalReference;
+import org.enhydra.jxpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.Icon;
+import org.enhydra.jxpdl.elements.InitialValue;
+import org.enhydra.jxpdl.elements.Join;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.ParticipantType;
+import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.Pool;
+import org.enhydra.jxpdl.elements.RecordType;
+import org.enhydra.jxpdl.elements.Responsible;
+import org.enhydra.jxpdl.elements.Responsibles;
+import org.enhydra.jxpdl.elements.SchemaType;
+import org.enhydra.jxpdl.elements.Script;
+import org.enhydra.jxpdl.elements.Split;
+import org.enhydra.jxpdl.elements.SubFlow;
+import org.enhydra.jxpdl.elements.TaskApplication;
+import org.enhydra.jxpdl.elements.TimeEstimation;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.TransitionRefs;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
+import org.enhydra.jxpdl.elements.UnionType;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
  * Used to generate panels for all XPDL entities.
@@ -86,7 +142,7 @@ public class StandardPanelGenerator implements PanelGenerator {
    // public String getLanguageDependentString (String nm) {
    // return pc.getPanelSettings().getLanguageDependentString(nm);
    // }
-   //   
+   //
    public StandardPanelGenerator() {
    }
 
@@ -96,10 +152,6 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public PanelContainer getPanelContainer() {
       return pc;
-   }
-
-   public XMLPanel getPanel(Activities el) {
-      return generateStandardTablePanel(el, true, false);
    }
 
    public XMLPanel getPanel(Activity el) {
@@ -144,18 +196,18 @@ public class StandardPanelGenerator implements PanelGenerator {
             if (!hidden.contains(el.get("Name"))) {
                panelElements.add(el.get("Name"));
             }
-            if (!hidden.contains(el.get("Performer"))) {
+            if (!hidden.contains(el.getFirstPerformerObj())) {
                int type = el.getActivityType();
                if (type == XPDLConstants.ACTIVITY_TYPE_NO
-                   || type == XPDLConstants.ACTIVITY_TYPE_TOOL) {
-                  panelElements.add(el.get("Performer"));
+                   || type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+                  panelElements.add(el.getFirstPerformerObj());
                }
             }
-            if (!hidden.contains(el.getStartMode())) {
-               panelElements.add(el.getStartMode());
+            if (!hidden.contains(el.get("StartMode"))) {
+               panelElements.add(el.get("StartMode"));
             }
-            if (!hidden.contains(el.getFinishMode())) {
-               panelElements.add(el.getFinishMode());
+            if (!hidden.contains(el.get("FinishMode"))) {
+               panelElements.add(el.get("FinishMode"));
             }
             if (!hidden.contains(el.getDeadlines())) {
                panelElements.add(el.getDeadlines());
@@ -188,46 +240,37 @@ public class StandardPanelGenerator implements PanelGenerator {
 
          case 2:
             if (!hidden.contains(el.getActivityTypes())) {
-               int type = el.getActivityType();
-               if (type == XPDLConstants.ACTIVITY_TYPE_TOOL) {
-                  Tools tools = el.getActivityTypes()
-                     .getImplementation()
-                     .getImplementationTypes()
-                     .getTools();
-                  p = this.getPanel(tools);
-               } else if (type == XPDLConstants.ACTIVITY_TYPE_SUBFLOW) {
-                  SubFlow sbflw = el.getActivityTypes()
-                     .getImplementation()
-                     .getImplementationTypes()
-                     .getSubFlow();
-                  p = this.getPanel(sbflw);
-               } else if (type == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
-                  BlockActivity ba = el.getActivityTypes().getBlockActivity();
-                  p = this.getPanel(ba);
+               ActivityTypesChoiceElement atce = new ActivityTypesChoiceElement(el.getActivityTypes());
+               atce.setReadOnly(el.getActivityTypes().isReadOnly());
+               p = this.getPanel(atce);
+               if (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE
+                   && el.getActivityTypes()
+                      .getRoute()
+                      .getGatewayType()
+                      .equals(XPDLConstants.JOIN_SPLIT_TYPE_EXCLUSIVE)
+                   && XMLUtil.getNonExceptionalOutgoingTransitions(el).size() > 1) {
+
+                  if (p instanceof XMLGroupPanel) {
+                     ((XMLGroupPanel) p).addToGroup(XMLUtil.getSplit(el)
+                        .getTransitionRefs());
+                  } else {
+                     p.add(getPanel(XMLUtil.getSplit(el).getTransitionRefs()));
+                  }
                }
             }
             break;
 
          case 3:
-            TransitionRestrictions trs = el.getTransitionRestrictions();
-            if (!hidden.contains(trs) && trs.size() > 0) {
-               TransitionRestriction tr = (TransitionRestriction) trs.get(0);
-               p = getPanel(tr);
-            }
-            break;
-
-         case 4:
             if (!hidden.contains(el.getSimulationInformation())) {
                p = this.getPanel(el.getSimulationInformation());
             }
             break;
 
-         case 5:
+         case 4:
             if (!hidden.contains(el.getExtendedAttributes())) {
                p = this.getPanel(el.getExtendedAttributes());
             }
             break;
-
          default:
             throw new RuntimeException();
 
@@ -239,83 +282,56 @@ public class StandardPanelGenerator implements PanelGenerator {
       return generateStandardGroupPanel(el, true, false);
    }
 
-   public XMLPanel getPanel(ActivitySets el) {
-      return generateStandardTablePanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(ActivityTypes el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(ActualParameter el) {
-      SequencedHashMap choices = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
-      Object choosen = choices.get(el.toValue());
-      if (choosen == null) {
-         if (!el.toValue().equals("")) {
-            choosen = el.toValue();
-         }
-      }
-      SpecialChoiceElement cc = new SpecialChoiceElement(el,
-                                                         "",
-                                                         new ArrayList(choices.values()),
-                                                         choosen,
-                                                         true,
-                                                         "Id",
-                                                         el.toName(),
-                                                         el.isRequired());
-      cc.setReadOnly(el.isReadOnly());
-
-      return new XMLComboPanel(getPanelContainer(),
-                               cc,
-                               null,
-                               false,
-                               true,
-                               false,
-                               true,
-                               JaWEManager.getInstance()
-                                  .getJaWEController()
-                                  .canModifyElement(el));
-   }
-
-   public XMLPanel getPanel(ActualParameters el) {
-      return generateStandardTablePanel(el, true, false);
+      // List panelElements=new ArrayList();
+      // SequencedHashMap choices =
+      // XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
+      // Object choosen=choices.get(el.toValue());
+      // if (choosen==null) {
+      // if (!el.toValue().equals("")) {
+      // choosen=el.toValue();
+      // }
+      // }
+      // SpecialChoiceElement cc=new SpecialChoiceElement(
+      // el,
+      // "",
+      // new ArrayList(choices.values()),
+      // choosen,
+      // true,
+      // "Id",
+      // el.toName(),
+      // el.isRequired());
+      // cc.setReadOnly(el.isReadOnly());
+      return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
+                                                            el,
+                                                            "Xpression",
+                                                            false,
+                                                            true,
+                                                            XMLMultiLineTextPanel.SIZE_LARGE,
+                                                            false,
+                                                            getActualParameterOrConditionChoices(el),
+                                                            JaWEManager.getInstance()
+                                                               .getJaWEController()
+                                                               .canModifyElement(el));
+      // return new
+      // XMLComboPanelWithReferenceLink(getPanelContainer(),cc,null,true,false,true);
    }
 
    public XMLPanel getPanel(Application el) {
       return generateStandardGroupPanel(el, true, false);
    }
 
-   public XMLPanel getPanel(Applications el) {
-      return generateStandardPanel(el);
+   public XMLPanel getPanel(Association el) {
+      return generateStandardGroupPanel(el, true, false);
    }
 
-   public XMLPanel getPanel(ApplicationTypes el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(ArrayType el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Author el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Automatic el) {
-      return new XMLBasicPanel();
+   public XMLPanel getPanel(Artifact el) {
+      return generateStandardGroupPanel(el, true, false);
    }
 
    public XMLPanel getPanel(BasicType el) {
       return this.getPanel((XMLAttribute) el.get("Type"));
       // return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(BlockActivity el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Codepage el) {
-      return generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(Condition el) {
@@ -328,22 +344,6 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getPanel(ConformanceClass el) {
       return generateStandardPanel(el.getGraphConformanceAttribute());
-   }
-
-   public XMLPanel getPanel(Cost el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(CostUnit el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Countrykey el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Created el) {
-      return generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(DataField el) {
@@ -378,7 +378,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             true,
                                             JaWEManager.getInstance()
                                                .getJaWEController()
-                                               .canModifyElement(isa), false));
+                                               .canModifyElement(isa),
+                                            false));
       }
 
       if (subpanels.size() > 0) {
@@ -426,8 +427,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                true);
    }
 
-   public XMLPanel getPanel(DataFields el) {
-      return generateStandardPanel(el);
+   public XMLPanel getPanel(DataObject el) {
+      return generateStandardGroupPanel(el, true, false);
    }
 
    public XMLPanel getPanel(DataType el) {
@@ -446,21 +447,20 @@ public class StandardPanelGenerator implements PanelGenerator {
                                       .canModifyElement(el));
    }
 
-   public XMLPanel getPanel(Deadline el) {
-      return generateStandardPanel(el);
-   }
 
-   public XMLPanel getPanel(DeadlineCondition el) {
-      return new XMLMultiLineTextPanel(getPanelContainer(),
-                                       el,
-                                       el.toName(),
-                                       false,
-                                       true,
-                                       XMLMultiLineTextPanel.SIZE_LARGE,
-                                       false,
-                                       JaWEManager.getInstance()
-                                          .getJaWEController()
-                                          .canModifyElement(el));
+   public XMLPanel getPanel(DeadlineDuration el) {
+      return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
+                                                            el,
+                                                            el.toName(),
+                                                            false,
+                                                            true,
+                                                            XMLMultiLineTextPanel.SIZE_LARGE,
+                                                            false,
+                                                            new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el))
+                                                               .values()),
+                                                            JaWEManager.getInstance()
+                                                               .getJaWEController()
+                                                               .canModifyElement(el));
    }
 
    public XMLPanel getPanel(Deadlines el) {
@@ -468,18 +468,16 @@ public class StandardPanelGenerator implements PanelGenerator {
    }
 
    public XMLPanel getPanel(DeclaredType el) {
-      XMLElement tdsel = el;
-      while (!(tdsel instanceof TypeDeclarations)) {
-         tdsel = tdsel.getParent();
-         if (tdsel == null) {
-            tdsel = XMLUtil.getPackage(el).getTypeDeclarations();
-            break;
+      SequencedHashMap chMap = XMLUtil.getPossibleTypeDeclarations(XMLUtil.getPackage(el),
+                                                                   JaWEManager.getInstance()
+                                                                      .getXPDLHandler());
+      Object choosen = chMap.get(el.getId());
+      if (choosen == null) {
+         if (!el.toValue().equals("")) {
+            choosen = el.toValue();
          }
       }
-
-      TypeDeclarations tds = (TypeDeclarations) tdsel;
-      List choices = tds.toElements();
-      XMLElement choosen = tds.getTypeDeclaration(el.getId());
+      List choices = new ArrayList(chMap.values());
       // if (choosen==null) {
       // if (choices.size()>0) {
       // choosen=(XMLElement)choices.get(0);
@@ -500,16 +498,15 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                          el.isRequired());
       cc.setReadOnly(el.isReadOnly());
 
-      return new XMLComboPanel(getPanelContainer(),
-                               cc,
-                               null,
-                               false,
-                               true,
-                               false,
-                               false,
-                               JaWEManager.getInstance()
-                                  .getJaWEController()
-                                  .canModifyElement(el));
+      return new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                cc,
+                                                null,
+                                                true,
+                                                false,
+                                                false,
+                                                JaWEManager.getInstance()
+                                                   .getJaWEController()
+                                                   .canModifyElement(el));
 
    }
 
@@ -526,24 +523,35 @@ public class StandardPanelGenerator implements PanelGenerator {
          .canModifyElement(el));
    }
 
-   public XMLPanel getPanel(Duration el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(EnumerationType el) {
       return generateStandardListPanel(el, true, false);
    }
 
-   public XMLPanel getPanel(EnumerationValue el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(ExceptionName el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(ExtendedAttributes el) {
-      return generateStandardTablePanel(el, true, false);
+      Activity act = XMLUtil.getActivity(el);
+      Set ets = XMLUtil.getExceptionalOutgoingTransitions(act);
+      List choices = new ArrayList();
+      Iterator it = ets.iterator();
+      while (it.hasNext()) {
+         Transition t = (Transition) it.next();
+         String ctype = t.getCondition().getType();
+         if (ctype.equals(XPDLConstants.CONDITION_TYPE_EXCEPTION)) {
+            if (!t.getCondition().toValue().equals("")) {
+               choices.add(t.getCondition());
+            }
+         }
+      }
+      return new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
+                                                       el,
+                                                       el.toName(),
+                                                       false,
+                                                       true,
+                                                       XMLMultiLineTextPanel.SIZE_SMALL,
+                                                       false,
+                                                       choices,
+                                                       JaWEManager.getInstance()
+                                                          .getJaWEController()
+                                                          .canModifyElement(el));
    }
 
    public XMLPanel getPanel(ExtendedAttribute el) {
@@ -560,18 +568,6 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getPanel(ExternalReference el) {
       return generateStandardGroupPanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(FinishMode el) {
-      return getPanel(el.getStartFinishModes());
-   }
-
-   public XMLPanel getPanel(FormalParameter el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(FormalParameters el) {
-      return generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(Icon el) {
@@ -605,21 +601,6 @@ public class StandardPanelGenerator implements PanelGenerator {
       return p;
    }
 
-   public XMLPanel getPanel(Implementation el) {
-      // XMLComplexChoice refMode=new XMLComplexChoice(null, "Type" , true ) {
-      // protected void fillChoices() {
-      // this.choices.add(new No(null));
-      // this.choices.add(new Tools(null));
-      // this.choices.add(new SubFlow(null));
-      // }
-      // };
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(ImplementationTypes el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(InitialValue el) {
       return generateStandardMultiLineTextPanel(el,
                                                 true,
@@ -629,38 +610,6 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getPanel(Join el) {
       return generateStandardGroupPanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(Length el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Limit el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(ListType el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Manual el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Member el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Namespace el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Namespaces el) {
-      return generateStandardTablePanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(No el) {
-      return generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(Package el) {
@@ -798,12 +747,30 @@ public class StandardPanelGenerator implements PanelGenerator {
             break;
 
          case 9:
+            if (!hidden.contains(el.getAssociations())) {
+               p = this.getPanel(el.getAssociations());
+            }
+            break;
+
+         case 10:
+            if (!hidden.contains(el.getArtifacts())) {
+               p = this.getPanel(el.getArtifacts());
+            }
+            break;
+
+         case 11:
+            if (!hidden.contains(el.getPools())) {
+               p = this.getPanel(el.getPools());
+            }
+            break;
+
+         case 12:
             if (!hidden.contains(el.getWorkflowProcesses())) {
                p = this.getPanel(el.getWorkflowProcesses());
             }
             break;
 
-         case 10:
+         case 13:
             if (!hidden.contains(el.getNamespaces())) {
                p = this.getPanel(el.getNamespaces());
             }
@@ -816,16 +783,8 @@ public class StandardPanelGenerator implements PanelGenerator {
       return p;
    }
 
-   public XMLPanel getPanel(PackageHeader el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(Participant el) {
       return generateStandardGroupPanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(Participants el) {
-      return generateStandardTablePanel(el, true, false);
    }
 
    public XMLPanel getPanel(ParticipantType el) {
@@ -844,38 +803,17 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getPanel(Performer el) {
       Activity act = XMLUtil.getActivity(el);
-      int type = act.getActivityType();
-      if (type == XPDLConstants.ACTIVITY_TYPE_NO
-          || type == XPDLConstants.ACTIVITY_TYPE_TOOL) {
-         SequencedHashMap choices = XMLUtil.getPossibleParticipants(XMLUtil.getWorkflowProcess(el),
-                                                                    JaWEManager.getInstance()
-                                                                       .getXPDLHandler());
-         Object choosen = choices.get(el.toValue());
-         if (choosen == null) {
-            if (!el.toValue().equals("")) {
-               choosen = el.toValue();
-            }
-         }
-         SpecialChoiceElement cc = new SpecialChoiceElement(el,
-                                                            "",
-                                                            new ArrayList(choices.values()),
-                                                            choosen,
-                                                            true,
-                                                            "Id",
-                                                            el.toName(),
-                                                            el.isRequired());
-         cc.setReadOnly(el.isReadOnly());
-
-         return new XMLComboPanel(getPanelContainer(),
-                                  cc,
-                                  null,
-                                  false,
-                                  true,
-                                  false,
-                                  true,
-                                  JaWEManager.getInstance()
-                                     .getJaWEController()
-                                     .canModifyElement(el));
+      if (act == null
+          || (act != null && (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION))) {
+         return new XMLHighlightPanelWithReferenceLink(getPanelContainer(),
+                                                       el,
+                                                       null,
+                                                       true,
+                                                       false,
+                                                       true,
+                                                       JaWEManager.getInstance()
+                                                          .getJaWEController()
+                                                          .canModifyElement(el));
 
       }
       return new XMLTextPanel(getPanelContainer(),
@@ -887,16 +825,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                  .canModifyElement(el));
    }
 
-   public XMLPanel getPanel(Priority el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(PriorityUnit el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(ProcessHeader el) {
-      return generateStandardPanel(el);
+   public XMLPanel getPanel(Pool el) {
+      return generateStandardGroupPanel(el, true, false);
    }
 
    public XMLPanel getPanel(RecordType el) {
@@ -905,19 +835,15 @@ public class StandardPanelGenerator implements PanelGenerator {
        * XMLListPanel controlledPanel=new XMLListPanel(el,"",false,true,false) { public
        * boolean checkRequired () { if (el.isReadOnly() || (el.size()>0)) { return true; }
        * else {
-       * XMLPanel.errorMessage(this.getDialog(),JaWEManager.getInstance().getLabelGenerator().getLabel(el),"",
+       * XMLPanel.errorMessage(this.getDialog(),JaWEManager.getInstance().getLabelGenerator
+       * ().getLabel(el),"",
        * getLanguageDependentString("ErrorTheListMustContainAtLeastOneElement"));
        * controlPanel.getComponent(1).requestFocus(); return false; } } };
        * controlPanel=new XMLListControlPanel(el,"",true,false,true); return new
        * XMLGroupPanel(el,new XMLPanel[]{
-       * controlledPanel,controlPanel},JaWEManager.getInstance().getLabelGenerator().getLabel(el),XMLPanel.BOX_LAYOUT,
-       * false,true);
+       * controlledPanel,controlPanel},JaWEManager.getInstance
+       * ().getLabelGenerator().getLabel(el),XMLPanel.BOX_LAYOUT, false,true);
        */
-   }
-
-   public XMLPanel getPanel(RedefinableHeader el) {
-      // TODO
-      return generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(Responsible el) {
@@ -956,28 +882,19 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                          el.isRequired());
       cc.setReadOnly(el.isReadOnly());
 
-      return new XMLComboPanel(getPanelContainer(),
-                               cc,
-                               null,
-                               false,
-                               true,
-                               false,
-                               false,
-                               JaWEManager.getInstance()
-                                  .getJaWEController()
-                                  .canModifyElement(el));
+      return new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                cc,
+                                                null,
+                                                true,
+                                                false,
+                                                false,
+                                                JaWEManager.getInstance()
+                                                   .getJaWEController()
+                                                   .canModifyElement(el));
    }
 
    public XMLPanel getPanel(Responsibles el) {
       return generateStandardListPanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(Route el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(SchemaType el) {
-      return generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(Script el) {
@@ -988,29 +905,8 @@ public class StandardPanelGenerator implements PanelGenerator {
       return generateStandardGroupPanel(el, hasTitle, false);
    }
 
-   public XMLPanel getPanel(SimulationInformation el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(Split el) {
       return generateStandardGroupPanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(StartFinishModes el) {
-      return new XMLComboPanel(getPanelContainer(),
-                               el,
-                               null,
-                               false,
-                               true,
-                               false,
-                               false,
-                               JaWEManager.getInstance()
-                                  .getJaWEController()
-                                  .canModifyElement(el));
-   }
-
-   public XMLPanel getPanel(StartMode el) {
-      return getPanel(el.getStartFinishModes());
    }
 
    public XMLPanel getPanel(SubFlow el) {
@@ -1041,16 +937,15 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                          true);
       cc.setReadOnly(el.get("Id").isReadOnly());
 
-      final XMLComboPanel cp = new XMLComboPanel(getPanelContainer(),
-                                                 cc,
-                                                 null,
-                                                 false,
-                                                 true,
-                                                 false,
-                                                 true,
-                                                 JaWEManager.getInstance()
-                                                    .getJaWEController()
-                                                    .canModifyElement(el.get("Id")));
+      final XMLComboPanelWithReferenceLink cp = new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                                                   cc,
+                                                                                   null,
+                                                                                   true,
+                                                                                   false,
+                                                                                   true,
+                                                                                   JaWEManager.getInstance()
+                                                                                      .getJaWEController()
+                                                                                      .canModifyElement(el.get("Id")));
 
       if (!hidden.contains(el.get("Id"))) {
          panelElements.add(cp);
@@ -1123,7 +1018,8 @@ public class StandardPanelGenerator implements PanelGenerator {
       return generateStandardGroupPanel(el, false, false);
    }
 
-   public XMLPanel getPanel(Tool el) {
+
+   public XMLPanel getPanel(TaskApplication el) {
       Set hidden = getHiddenElements("XMLGroupPanel", el);
       List panelElements = new ArrayList();
       SequencedHashMap choices = XMLUtil.getPossibleApplications(XMLUtil.getWorkflowProcess(el),
@@ -1151,23 +1047,28 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                          el.isRequired());
       cc.setReadOnly(el.get("Id").isReadOnly());
 
-      final XMLComboPanel cp = new XMLComboPanel(getPanelContainer(),
-                                                 cc,
-                                                 null,
-                                                 false,
-                                                 true,
-                                                 false,
-                                                 false,
-                                                 JaWEManager.getInstance()
-                                                    .getJaWEController()
-                                                    .canModifyElement(el.get("Id")));
+      final XMLComboPanelWithReferenceLink cp = new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                                                   cc,
+                                                                                   null,
+                                                                                   true,
+                                                                                   false,
+                                                                                   false,
+                                                                                   JaWEManager.getInstance()
+                                                                                      .getJaWEController()
+                                                                                      .canModifyElement(el.get("Id")));
 
       if (!hidden.contains(el.get("Id"))) {
          panelElements.add(cp);
       }
-      if (!hidden.contains(el.getTypeAttribute())) {
-         panelElements.add(el.getTypeAttribute());
+      if (!hidden.contains(el.get("Id"))) {
+         panelElements.add(cp);
       }
+      if (!hidden.contains(el.get("Name"))) {
+         panelElements.add(el.get("Name"));
+      }
+      // if (!hidden.contains(el.get("PackageRef"))) {
+      // panelElements.add(el.get("PackageRef"));
+      // }
       if (!hidden.contains(el.getActualParameters())) {
          FormalParameters fps = null;
          if (choosen instanceof Application) {
@@ -1192,9 +1093,6 @@ public class StandardPanelGenerator implements PanelGenerator {
       if (!hidden.contains(el.get("Description"))) {
          panelElements.add(el.get("Description"));
       }
-      if (!hidden.contains(el.getExtendedAttributes())) {
-         panelElements.add(el.getExtendedAttributes());
-      }
       if (panelElements.size() > 0) {
          return new XMLGroupPanel(getPanelContainer(),
                                   el,
@@ -1206,10 +1104,6 @@ public class StandardPanelGenerator implements PanelGenerator {
                                   true);
       }
       return null;
-   }
-
-   public XMLPanel getPanel(Tools el) {
-      return generateStandardTablePanel(el, true, false);
    }
 
    public XMLPanel getPanel(Transition el) {
@@ -1251,106 +1145,12 @@ public class StandardPanelGenerator implements PanelGenerator {
       return new XMLBasicPanel();
    }
 
-   public XMLPanel getPanel(TransitionRef el) {
-      // Activity act=XMLUtil.getActivity(el);
-      // Set ogt=XMLUtil.getNonExceptionalOutgoingTransitions(act);
-      // List ordrdl=XMLUtil.getOrderedOutgoingTransitions(act, ogt);
-      // SequencedHashMap choices=new SequencedHashMap();
-      // Iterator it=ordrdl.iterator();
-      // while (it.hasNext()) {
-      // Transition t=(Transition)it.next();
-      // choices.put(t.getId(),t);
-      // }
-      // Transition choosen=null;
-      // String tId=el.getId();
-      // if (!tId.equals("")) {
-      // it=choices.values().iterator();
-      // while (it.hasNext()) {
-      // Transition t=(Transition)it.next();
-      // if (tId.equals(t.getId())) {
-      // choosen=t;
-      // break;
-      // }
-      // }
-      // }
-      // // filter choices: exclude already existing
-      // it=((TransitionRefs)el.getParent()).toElements().iterator();
-      // System.out.println("Choices="+choices.keySet());
-      // while (it.hasNext()) {
-      // TransitionRef tr=(TransitionRef)it.next();
-      // choices.remove(tr.getId());
-      // }
-      // if (choosen!=null) {
-      // choices.put(choosen.getId(),choosen);
-      // }
-      // // else if (choices.size()>0) {
-      // // choosen=(Transition)choices.getValue(0);
-      // // getPanelContainer().setModified(true);
-      // // }
-      //      
-      //      
-      // SpecialChoiceElement cc=new SpecialChoiceElement(
-      // el,
-      // "Id",
-      // new ArrayList(choices.values()),
-      // choosen,
-      // false,
-      // "Id",
-      // el.toName(),
-      // el.isRequired());
-      // cc.setReadOnly(true);
-      //         
-      // return new XMLComboPanel(getPanelContainer(),cc,null,true,false,false);
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(TransitionRefs el) {
       return generateStandardListPanel(el, true, false);
    }
 
-   public XMLPanel getPanel(TransitionRestriction el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(TransitionRestrictions el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Transitions el) {
-      return generateStandardTablePanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(TypeDeclaration el) {
-
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(TypeDeclarations el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(UnionType el) {
       return generateStandardListPanel(el, true, false);
-   }
-
-   public XMLPanel getPanel(ValidFrom el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(ValidTo el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Vendor el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(Version el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(WaitingTime el) {
-      return generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(WorkflowProcess el) {
@@ -1504,18 +1304,6 @@ public class StandardPanelGenerator implements PanelGenerator {
       return p;
    }
 
-   public XMLPanel getPanel(WorkflowProcesses el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(WorkingTime el) {
-      return generateStandardPanel(el);
-   }
-
-   public XMLPanel getPanel(XPDLVersion el) {
-      return generateStandardPanel(el);
-   }
-
    public XMLPanel getPanel(XMLAttribute el) {
       if (el.getParent() instanceof ExternalPackage && el.toName().equals("href")) {
          return new XMLLocationPanel(getPanelContainer(), el, JaWEManager.getInstance()
@@ -1547,28 +1335,33 @@ public class StandardPanelGenerator implements PanelGenerator {
          if (XMLUtil.getWorkflowProcess(holder) != null
              && (holder instanceof Activity
                  || holder instanceof Transition || holder instanceof Tool || holder instanceof WorkflowProcess)) {
-            return new XMLMultiLineTextPanel(getPanelContainer(),
-                                             el,
-                                             "Value",
-                                             false,
-                                             true,
-                                             XMLMultiLineTextPanel.SIZE_LARGE,
-                                             false,
-                                             JaWEManager.getInstance()
-                                                .getJaWEController()
-                                                .canModifyElement(el));
+            return new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
+                                                             el,
+                                                             "Value",
+                                                             false,
+                                                             true,
+                                                             XMLMultiLineTextPanel.SIZE_LARGE,
+                                                             false,
+                                                             new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(holder))
+                                                                .values()),
+                                                             JaWEManager.getInstance()
+                                                                .getJaWEController()
+                                                                .canModifyElement(el));
          } else if (holder instanceof Application
                     && ((Application) holder).getApplicationTypes().getChoosen() instanceof FormalParameters) {
-            return new XMLMultiLineTextPanel(getPanelContainer(),
-                                             el,
-                                             "Value",
-                                             false,
-                                             true,
-                                             XMLMultiLineTextPanel.SIZE_LARGE,
-                                             false,
-                                             JaWEManager.getInstance()
-                                                .getJaWEController()
-                                                .canModifyElement(el));
+            FormalParameters fps = ((Application) holder).getApplicationTypes()
+               .getFormalParameters();
+            return new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
+                                                             el,
+                                                             "Value",
+                                                             false,
+                                                             true,
+                                                             XMLMultiLineTextPanel.SIZE_LARGE,
+                                                             false,
+                                                             fps.toElements(),
+                                                             JaWEManager.getInstance()
+                                                                .getJaWEController()
+                                                                .canModifyElement(el));
          } else {
             return new XMLMultiLineTextPanel(getPanelContainer(),
                                              el,
@@ -1600,23 +1393,46 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                             el.isRequired());
          cc.setReadOnly(el.isReadOnly());
 
-         return new XMLComboPanel(getPanelContainer(),
-                                  cc,
-                                  null,
-                                  false,
-                                  true,
-                                  false,
-                                  false,
-                                  JaWEManager.getInstance()
-                                     .getJaWEController()
-                                     .canModifyElement(el));
+         return new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                   cc,
+                                                   null,
+                                                   true,
+                                                   false,
+                                                   false,
+                                                   JaWEManager.getInstance()
+                                                      .getJaWEController()
+                                                      .canModifyElement(el));
 
       }
       if (el.toName().equalsIgnoreCase("From")) {
          return getPanelForFROMAttribute((Transition) el.getParent());
       }
+      if (el.toName().equalsIgnoreCase("Source")) {
+         return getPanelForFROMAttribute((Association) el.getParent());
+      }
       if (el.toName().equalsIgnoreCase("To")) {
          return getPanelForTOAttribute((Transition) el.getParent());
+      }
+      if (el.toName().equalsIgnoreCase("Target")) {
+         return getPanelForTOAttribute((Association) el.getParent());
+      }
+      if (el.toName().equalsIgnoreCase("Process")) {
+         Package pkg = XMLUtil.getPackage(el);
+         XMLCollectionElement wpOrAs = pkg.getWorkflowProcess(el.toValue());
+         if (wpOrAs == null) {
+            wpOrAs = pkg.getActivitySet(el.toValue());
+         }
+         return new XMLTextPanelWithReferenceLink(getPanelContainer(),
+                                                  el,
+                                                  wpOrAs,
+                                                  null,
+                                                  false,
+                                                  JaWEManager.getInstance()
+                                                     .getJaWEController()
+                                                     .canModifyElement(el));
+      }
+      if (el.toName().equalsIgnoreCase("FillColor")) {
+         return new XMLColorPanel(pc, el, "FillColor", false, true);
       }
       if (el.toName().equalsIgnoreCase("ObjectClassFilter")) {
          return new XMLComboPanel(getPanelContainer(),
@@ -1627,11 +1443,43 @@ public class StandardPanelGenerator implements PanelGenerator {
                                   false,
                                   true,
                                   true);
-
       }
       if (el.toName().equalsIgnoreCase("Password")) {
          return new XMLTextPanel(getPanelContainer(), el, false, true, true);
       }
+
+      // search dialog
+      if (el.toName().equalsIgnoreCase("SearchForElement")) {
+         return new XMLComboPanel(getPanelContainer(),
+                                  el,
+                                  null,
+                                  true,
+                                  true,
+                                  false,
+                                  true,
+                                  true);
+      }
+      if (el.toName().equalsIgnoreCase("SearchByProperty")) {
+         return new XMLComboPanel(getPanelContainer(),
+                                  el,
+                                  null,
+                                  true,
+                                  true,
+                                  false,
+                                  true,
+                                  true);
+      }
+      if (el.toName().equalsIgnoreCase("SearchByAttribute")) {
+         return new XMLComboPanel(getPanelContainer(),
+                                  el,
+                                  null,
+                                  true,
+                                  true,
+                                  false,
+                                  true,
+                                  true);
+      }
+
       return generateStandardPanel(el);
    }
 
@@ -1696,29 +1544,35 @@ public class StandardPanelGenerator implements PanelGenerator {
       return generateStandardPanel(el);
    }
 
-   protected XMLPanel getPanelForFROMAttribute(Transition transition) {
-      SequencedHashMap choices = JaWEManager.getInstance()
-         .getTransitionHandler()
-         .getPossibleSourceActivities(transition);
+   protected XMLPanel getPanelForFROMAttribute(XMLCollectionElement tOrAss) {
+      SequencedHashMap choices = (tOrAss instanceof Transition) ? JaWEManager.getInstance()
+                                                                  .getTransitionHandler()
+                                                                  .getPossibleSourceActivities((Transition) tOrAss)
+                                                               : JaWEManager.getInstance()
+                                                                  .getTransitionHandler()
+                                                                  .getPossibleSourceOrTargetActivitiesOrArtifacts((Association) tOrAss);
 
       // System.out.println("Choices="+choices);
-      String tFrom = transition.getFrom();
+      String tFrom = (tOrAss instanceof Transition) ? ((Transition) tOrAss).getFrom()
+                                                   : ((Association) tOrAss).getSource();
 
-      Activity current = ((Activities) ((XMLCollectionElement) transition.getParent()
-         .getParent()).get("Activities")).getActivity(tFrom);
+      XMLCollectionElement current = XMLUtil.getPackage(tOrAss).getActivity(tFrom);
+      if (current == null)
+         current = XMLUtil.getPackage(tOrAss).getArtifact(tFrom);
       if (current != null)
          choices.put(current.getId(), current);
 
-      Activity choosen = null;
+      XMLCollectionElement choosen = null;
       if (!tFrom.equals("")) {
-         choosen = (Activity) choices.get(tFrom);
+         choosen = (XMLCollectionElement) choices.get(tFrom);
       }
       // if (choosen==null && choices.size()>0) {
       // choosen=(Activity)choices.getValue(0);
       // getPanelContainer().setModified(true);
       // }
 
-      XMLAttribute from = (XMLAttribute) transition.get("From");
+      XMLElement from = (tOrAss instanceof Transition) ? ((Transition) tOrAss).get("From")
+                                                      : ((Association) tOrAss).get("Source");
       SpecialChoiceElement cc = new SpecialChoiceElement(from,
                                                          "",
                                                          new ArrayList(choices.values()),
@@ -1728,39 +1582,46 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                          "From",
                                                          from.isRequired());
       cc.setReadOnly(from.isReadOnly());
-      return new XMLComboPanel(getPanelContainer(),
-                               cc,
-                               null,
-                               false,
-                               true,
-                               false,
-                               false,
-                               JaWEManager.getInstance()
-                                  .getJaWEController()
-                                  .canModifyElement(from));
+      return new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                cc,
+                                                null,
+                                                true,
+                                                false,
+                                                false,
+                                                JaWEManager.getInstance()
+                                                   .getJaWEController()
+                                                   .canModifyElement(from));
    }
 
-   protected XMLPanel getPanelForTOAttribute(Transition transition) {
-      SequencedHashMap choices = JaWEManager.getInstance()
-         .getTransitionHandler()
-         .getPossibleTargetActivities(transition);
-      String tTo = transition.getTo();
+   protected XMLPanel getPanelForTOAttribute(XMLCollectionElement tOrAss) {
+      SequencedHashMap choices = (tOrAss instanceof Transition) ? JaWEManager.getInstance()
+                                                                  .getTransitionHandler()
+                                                                  .getPossibleTargetActivities((Transition) tOrAss)
+                                                               : JaWEManager.getInstance()
+                                                                  .getTransitionHandler()
+                                                                  .getPossibleSourceOrTargetActivitiesOrArtifacts((Association) tOrAss);
 
-      Activity current = ((Activities) ((XMLCollectionElement) transition.getParent()
-         .getParent()).get("Activities")).getActivity(tTo);
+      // System.out.println("Choices="+choices);
+      String tTo = (tOrAss instanceof Transition) ? ((Transition) tOrAss).getTo()
+                                                 : ((Association) tOrAss).getTarget();
+
+      XMLCollectionElement current = XMLUtil.getPackage(tOrAss).getActivity(tTo);
+      if (current == null)
+         current = XMLUtil.getPackage(tOrAss).getArtifact(tTo);
       if (current != null)
          choices.put(current.getId(), current);
 
-      Activity choosen = null;
+      XMLCollectionElement choosen = null;
       if (!tTo.equals("")) {
-         choosen = (Activity) choices.get(tTo);
+         choosen = (XMLCollectionElement) choices.get(tTo);
       }
       // if (choosen==null && choices.size()>0) {
       // choosen=(Activity)choices.getValue(0);
       // getPanelContainer().setModified(true);
       // }
 
-      XMLAttribute to = (XMLAttribute) transition.get("To");
+      XMLElement to = (tOrAss instanceof Transition) ? ((Transition) tOrAss).get("To")
+                                                    : ((Association) tOrAss).get("Target");
       SpecialChoiceElement cc = new SpecialChoiceElement(to,
                                                          "",
                                                          new ArrayList(choices.values()),
@@ -1770,16 +1631,15 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                          "To",
                                                          to.isRequired());
       cc.setReadOnly(to.isReadOnly());
-      return new XMLComboPanel(getPanelContainer(),
-                               cc,
-                               null,
-                               false,
-                               true,
-                               false,
-                               false,
-                               JaWEManager.getInstance()
-                                  .getJaWEController()
-                                  .canModifyElement(to));
+      return new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                cc,
+                                                null,
+                                                true,
+                                                false,
+                                                false,
+                                                JaWEManager.getInstance()
+                                                   .getJaWEController()
+                                                   .canModifyElement(to));
    }
 
    public XMLPanel generateStandardPanel(XMLElement el) {
@@ -1845,9 +1705,9 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    }
 
-   protected XMLBasicTablePanel generateStandardTablePanel(XMLCollection cl,
-                                                           boolean hasTitle,
-                                                           boolean hasEmptyBorder) {
+   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl,
+                                                      boolean hasTitle,
+                                                      boolean hasEmptyBorder) {
       List elementsToShow = cl.toElements();
       Set hidden = getHiddenElements("XMLTablePanel", cl);
       elementsToShow.removeAll(hidden);
@@ -1856,45 +1716,68 @@ public class StandardPanelGenerator implements PanelGenerator {
       if (cl instanceof ExtendedAttributes) {
          miniDim = true;
       }
-      return new XMLBasicTablePanel((InlinePanel) getPanelContainer(),
-                                    cl,
-                                    columnsToShow,
-                                    elementsToShow,
-                                    JaWEManager.getInstance()
-                                       .getLabelGenerator()
-                                       .getLabel(cl)
-                                          + ", "
-                                          + (cl.size() - hidden.size())
-                                          + " "
-                                          + getPanelContainer().getLanguageDependentString("ElementsKey"),
-                                    true,
-                                    false,
-                                    false,
-                                    miniDim,
-                                    true,
-                                    true);
+      if ((cl instanceof DataFields && cl.getParent() instanceof WorkflowProcess)
+          || (cl instanceof FormalParameters)
+          && cl.getParent() instanceof WorkflowProcess) {
+         return new XMLTablePanelForVariables((InlinePanel) getPanelContainer(),
+                                              cl,
+                                              columnsToShow,
+                                              elementsToShow,
+                                              JaWEManager.getInstance()
+                                                 .getLabelGenerator()
+                                                 .getLabel(cl)
+                                                    + ", "
+                                                    + (cl.size() - hidden.size())
+                                                    + " "
+                                                    + getPanelContainer().getLanguageDependentString("ElementsKey"),
+                                              true,
+                                              false,
+                                              false,
+                                              miniDim,
+                                              true,
+                                              true);
+
+      } else {
+         return new XMLTablePanel((InlinePanel) getPanelContainer(),
+                                  cl,
+                                  columnsToShow,
+                                  elementsToShow,
+                                  JaWEManager.getInstance()
+                                     .getLabelGenerator()
+                                     .getLabel(cl)
+                                        + ", "
+                                        + (cl.size() - hidden.size())
+                                        + " "
+                                        + getPanelContainer().getLanguageDependentString("ElementsKey"),
+                                  true,
+                                  false,
+                                  false,
+                                  miniDim,
+                                  true,
+                                  true);
+      }
    }
 
-   protected XMLBasicListPanel generateStandardListPanel(XMLCollection cl,
-                                                         boolean hasTitle,
-                                                         boolean hasEmptyBorder) {
+   protected XMLListPanel generateStandardListPanel(XMLCollection cl,
+                                                    boolean hasTitle,
+                                                    boolean hasEmptyBorder) {
       List elementsToShow = cl.toElements();
       Set hidden = getHiddenElements("XMLListPanel", cl);
       elementsToShow.removeAll(hidden);
-      return new XMLBasicListPanel((InlinePanel) getPanelContainer(),
-                                   cl,
-                                   elementsToShow,
-                                   JaWEManager.getInstance()
-                                      .getLabelGenerator()
-                                      .getLabel(cl)
-                                         + ", "
-                                         + (cl.size() - hidden.size())
-                                         + " "
-                                         + getPanelContainer().getLanguageDependentString("ElementsKey"),
-                                   true,
-                                   false,
-                                   true,
-                                   false);
+      return new XMLListPanel((InlinePanel) getPanelContainer(),
+                              cl,
+                              elementsToShow,
+                              JaWEManager.getInstance().getLabelGenerator().getLabel(cl)
+                                    + ", "
+                                    + (cl.size() - hidden.size())
+                                    + " "
+                                    + getPanelContainer().getLanguageDependentString("ElementsKey"),
+                              true,
+                              false,
+                              true,
+                              false,
+                              false,
+                              false);
    }
 
    protected XMLGroupPanel generateStandardGroupPanel(XMLComplexElement cel,
@@ -1904,32 +1787,51 @@ public class StandardPanelGenerator implements PanelGenerator {
       List toShow = new ArrayList(cel.toElements());
       toShow.removeAll(hidden);
       if (cel instanceof Condition) {
-         toShow.add(new XMLMultiLineTextPanel(getPanelContainer(),
-                                              cel,
-                                              "Xpression",
-                                              false,
-                                              true,
-                                              XMLMultiLineTextPanel.SIZE_MEDIUM,
-                                              false,
-                                              JaWEManager.getInstance()
-                                                 .getJaWEController()
-                                                 .canModifyElement(cel)));
+         toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
+                                                                   cel,
+                                                                   "Xpression",
+                                                                   false,
+                                                                   true,
+                                                                   XMLMultiLineTextPanel.SIZE_MEDIUM,
+                                                                   false,
+                                                                   getActualParameterOrConditionChoices(cel),
+                                                                   JaWEManager.getInstance()
+                                                                      .getJaWEController()
+                                                                      .canModifyElement(cel)));
+
       } else if (cel instanceof ExtendedAttribute) {
          XMLElement holder = cel.getParent().getParent();
          if (XMLUtil.getWorkflowProcess(holder) != null
              && (holder instanceof Activity
-                 || holder instanceof Transition || holder instanceof Application
-                 || holder instanceof Tool || holder instanceof WorkflowProcess)) {
-            toShow.add(new XMLMultiLineTextPanel(getPanelContainer(),
-                                                 cel,
-                                                 "ComplexContent",
-                                                 false,
-                                                 true,
-                                                 XMLMultiLineTextPanel.SIZE_LARGE,
-                                                 false,
-                                                 JaWEManager.getInstance()
-                                                    .getJaWEController()
-                                                    .canModifyElement(cel)));
+                 || holder instanceof Transition || holder instanceof Tool || holder instanceof WorkflowProcess)) {
+            toShow.add(new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
+                                                                 cel,
+                                                                 "ComplexContent",
+                                                                 false,
+                                                                 true,
+                                                                 XMLMultiLineTextPanel.SIZE_LARGE,
+                                                                 false,
+                                                                 new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(holder))
+                                                                    .values()),
+                                                                 JaWEManager.getInstance()
+                                                                    .getJaWEController()
+                                                                    .canModifyElement(cel)));
+
+         } else if (holder instanceof Application
+                    && ((Application) holder).getApplicationTypes().getChoosen() instanceof FormalParameters) {
+            FormalParameters fps = ((Application) holder).getApplicationTypes()
+               .getFormalParameters();
+            toShow.add(new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
+                                                                 cel,
+                                                                 "ComplexContent",
+                                                                 false,
+                                                                 true,
+                                                                 XMLMultiLineTextPanel.SIZE_LARGE,
+                                                                 false,
+                                                                 fps.toElements(),
+                                                                 JaWEManager.getInstance()
+                                                                    .getJaWEController()
+                                                                    .canModifyElement(cel)));
          } else {
             toShow.add(new XMLMultiLineTextPanel(getPanelContainer(),
                                                  cel,
@@ -1965,6 +1867,11 @@ public class StandardPanelGenerator implements PanelGenerator {
                                hasEmptyBorder);
    }
 
+   protected List getActualParameterOrConditionChoices(XMLElement el) {
+      return new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el))
+         .values());
+   }
+   
    protected Set getHiddenElements(String panelName, XMLComplexElement cel) {
       Set hidden = new HashSet();
 
@@ -1972,7 +1879,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                        + panelName + "."
                                                                        + cel.toName());
 
-      String[] hstra = Utils.tokenize(hstr, " ");
+      String[] hstra = XMLUtil.tokenize(hstr, " ");
       if (hstra != null) {
          for (int i = 0; i < hstra.length; i++) {
             XMLElement el = cel.get(hstra[i]);
@@ -2007,7 +1914,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                          + panelName
                                                                          + "."
                                                                          + col.toName());
-      String[] els = Utils.tokenize(elAttr, " ");
+      String[] els = XMLUtil.tokenize(elAttr, " ");
       for (int k = 0; k < els.length; k++) {
          String key = els[k];
          String hstr = getPanelContainer().getSettings().getSettingString("HideElements."
@@ -2015,7 +1922,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           + "."
                                                                           + col.toName()
                                                                           + "." + key);
-         String[] hstra = Utils.tokenize(hstr, " ");
+         String[] hstra = XMLUtil.tokenize(hstr, " ");
          if (hstra != null) {
             for (int i = 0; i < hstra.length; i++) {
                if (hstra[i].equals("*")) {
@@ -2058,7 +1965,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           + "."
                                                                           + col.toName());
          // System.err.println("CTS for col "+col+" is "+hstr);
-         String[] hstra = Utils.tokenize(hstr, " ");
+         String[] hstra = XMLUtil.tokenize(hstr, " ");
          if (hstra.length > 0) {
             toShow.addAll(Arrays.asList(hstra));
          } else {

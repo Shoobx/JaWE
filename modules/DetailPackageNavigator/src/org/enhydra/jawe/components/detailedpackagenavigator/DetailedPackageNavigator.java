@@ -34,10 +34,10 @@ import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.XPDLElementChangeInfo;
 import org.enhydra.jawe.components.XPDLTreeNode;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  *  Used to handle events in TreeView tree.
@@ -158,7 +158,7 @@ public class DetailedPackageNavigator implements Observer, TreeSelectionListener
             XPDLTreeNode node = (XPDLTreeNode) sel[i].getLastPathComponent();
             if (node == null || node.getXPDLElement() == null) return;
             selection.add(node.getXPDLElement());
-//            if (node.getUserObject() instanceof org.enhydra.shark.xpdl.XMLElement) {
+//            if (node.getUserObject() instanceof org.enhydra.jxpdl.XMLElement) {
 //               JaWEManager.getInstance().getLoggingManager().info(
 //                     "node.getUserObject().getClass() = " + node.getUserObject());
 //            }

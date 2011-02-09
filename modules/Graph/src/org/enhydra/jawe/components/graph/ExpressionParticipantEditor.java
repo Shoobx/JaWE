@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph;
 
@@ -47,170 +47,176 @@ import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.Participant;
+import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * The dialog for showing special FreeTextExpression and CommonExpression participant
  * objects used for the JaWE's graph component.
+ * 
  * @author Sasa Bojanic
  */
 public class ExpressionParticipantEditor {
    public final static int STATUS_OK = 0;
+
    public final static int STATUS_CANCEL = 1;
 
    protected JDialog dialog;
 
-   protected Properties properties=new Properties();
+   protected Properties properties = new Properties();
 
-   protected Participant elementToEdit;
-   protected XMLPanel panelToEdit=new XMLBasicPanel();
+   protected Lane elementToEdit;
+
+   protected XMLPanel panelToEdit = new XMLBasicPanel();
+
    protected JButton buttonOK;
+
    protected JButton buttonCancel;
+
    protected String title = null;
-   protected XMLMultiLineTextPanel pIdPanel;
-   
+
+   protected XMLPanel pIdPanel;
+
    protected int status = STATUS_OK;
 
-   public void configure (Properties props) {
-      this.properties=props;
+   public void configure(Properties props) {
+      this.properties = props;
    }
 
-   public void setProperty (String key,String value) {
+   public void setProperty(String key, String value) {
       properties.setProperty(key, value);
    }
 
-   public ExpressionParticipantEditor (Participant el) {
-       elementToEdit=el;
-       dialog=new JDialog(JaWEManager.getInstance().getJaWEController().getJaWEFrame(),true);
-       this.title = ResourceManager.getLanguageDependentString(el.toName()+"Key");
-       
-       initDialog();
+   public ExpressionParticipantEditor(Lane el) {
+      elementToEdit = el;
+      dialog = new JDialog(JaWEManager.getInstance().getJaWEController().getJaWEFrame(),
+                           true);
+      this.title = ResourceManager.getLanguageDependentString(el.toName() + "Key");
+
+      initDialog();
    }
 
-   public void setTitle (String title) {
-      if (dialog!=null) {
+   public void setTitle(String title) {
+      if (dialog != null) {
          dialog.setTitle(title);
       }
    }
 
-   public void editXPDLElement () {
+   public void editXPDLElement() {
       editXPDLElement(this.getParticipantPanel());
    }
 
-   public void editXPDLElement (XMLPanel panel) {
-      Container cp=dialog.getContentPane();
+   public void editXPDLElement(XMLPanel panel) {
+      Container cp = dialog.getContentPane();
       cp.remove(panelToEdit);
-      panelToEdit=panel;
+      panelToEdit = panel;
 
-      cp.add(panelToEdit,0);
+      cp.add(panelToEdit, 0);
       dialog.pack();
 
       dialog.setLocationRelativeTo(getParentWindow());
       dialog.pack();
       dialog.setVisible(true);
-//      requestFocus();
+      // requestFocus();
 
    }
 
-   public boolean canApplyChanges () {
+   public boolean canApplyChanges() {
       if (panelToEdit.validateEntry()) {
-         String id=pIdPanel.getText();
-         Participant p=CommonExpressionParticipants.getInstance().getCommonExpressionParticipant(((CommonExpressionParticipant)elementToEdit).getGraphXPDLElement(),id);
-         if (p!=null && p!=elementToEdit) {
-            return false;
-         }
          return true;
-      } 
-      return false;      
+      }
+      return false;
    }
 
-   public void applyChanges () {
-      String oldId=elementToEdit.getId();
-      String newId=pIdPanel.getText();
-      if (!newId.equals(oldId)) {
-         XMLCollectionElement wpOrAs=((CommonExpressionParticipant)elementToEdit).getGraphXPDLElement();
-         List vo=GraphUtilities.getParticipantVisualOrder(wpOrAs);
-         String toRemove=
-            GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX+
-            oldId+
-            GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX;
-         int ind=vo.indexOf(toRemove);
-         vo.remove(ind);
-         String toAdd=
-            GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_PREFIX+
-            newId+
-            GraphEAConstants.COMMON_EXPRESSION_PARTICIPANT_SUFIX;
-
-         vo.add(ind,toAdd);
-         elementToEdit.setId(newId);
-         GraphController gc=GraphUtilities.getGraphController();
-         gc.setUpdateInProgress(true);
-         JaWEManager.getInstance().getJaWEController().startUndouableChange();  
-         List acts=((Activities)wpOrAs.get("Activities")).toElements();
-         acts=GraphUtilities.getAllActivitiesForParticipantId(acts, oldId);
-         for (int i=0; i<acts.size(); i++) {
-            Activity act=(Activity)acts.get(i);
-            int type=act.getActivityType();
-            if (type==XPDLConstants.ACTIVITY_TYPE_NO || type==XPDLConstants.ACTIVITY_TYPE_TOOL) {
-               act.setPerformer(newId);
+   public void applyChanges() {
+      GraphController gc = GraphUtilities.getGraphController();
+      WorkflowProcess wp = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getProcessForPool(XMLUtil.getPool(elementToEdit));
+      String oldId = GraphUtilities.getLanesFirstPerformer(elementToEdit);
+      String newId = null;
+      if (oldId != null) {
+         newId = ((XMLMultiLineTextPanel) pIdPanel).getText();
+         if (!newId.equals(oldId)) {
+            List acts = wp.getActivities().toElements();
+            List ass = wp.getActivitySets().toElements();
+            for (int i = 0; i < ass.size(); i++) {
+               ActivitySet as = (ActivitySet) ass.get(i);
+               acts.addAll(as.getActivities().toElements());
             }
+
+            gc.setUpdateInProgress(true);
+            JaWEManager.getInstance().getJaWEController().startUndouableChange();
+            GraphUtilities.setLanesFirstPerformer(elementToEdit, newId);
+            elementToEdit.setName(newId);
+            acts = GraphUtilities.getAllActivitiesAndArtifactsForLaneId(acts,
+                                                                        elementToEdit.getId());
+            for (int i = 0; i < acts.size(); i++) {
+               Activity act = (Activity) acts.get(i);
+               int type = act.getActivityType();
+               if (type == XPDLConstants.ACTIVITY_TYPE_NO
+                   || type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+                  act.setFirstPerformer(newId);
+               }
+            }
+            List toSelect = new ArrayList();
+            JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);
+            gc.getGraph(wp).refresh();
+            gc.setUpdateInProgress(false);
          }
-         GraphUtilities.setNewParticipantId(acts, newId);
-         String asId=null;
-         if (wpOrAs instanceof ActivitySet) {
-            asId=wpOrAs.getId();
-         }
-         GraphUtilities.adjustBubbles(XMLUtil.getWorkflowProcess(wpOrAs), asId, GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID, oldId, newId);
-         GraphUtilities.setParticipantVisualOrder(wpOrAs, vo);
-         List toSelect=new ArrayList();
+      } else {
+         newId = ((XMLTextPanel) pIdPanel).getText();
+         JaWEManager.getInstance().getJaWEController().startUndouableChange();
+         elementToEdit.setName(newId);
+         List toSelect = new ArrayList();
+         toSelect.add(elementToEdit);
          JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);
-         gc.setUpdateInProgress(false);
+         gc.getGraph(wp).refresh();
       }
    }
 
    public void requestFocus() {
       try {
-//         if (panelToEdit instanceof XMLGroupPanel) {
-//            if (panelToEdit.getComponent(0).isEnabled()) {
-//               panelToEdit.getComponent(0).requestFocus();
-//            } else {
-//               panelToEdit.getComponent(1).requestFocus();
-//            }
-//         }
+         // if (panelToEdit instanceof XMLGroupPanel) {
+         // if (panelToEdit.getComponent(0).isEnabled()) {
+         // panelToEdit.getComponent(0).requestFocus();
+         // } else {
+         // panelToEdit.getComponent(1).requestFocus();
+         // }
+         // }
       } catch (Exception ex) {
          panelToEdit.requestFocus();
       }
    }
 
    public int getStatus() {
-       return status;
+      return status;
    }
 
-   public Window getWindow () {
+   public Window getWindow() {
       return dialog;
    }
 
-   public Window getParentWindow () {
+   public Window getParentWindow() {
       return JaWEManager.getInstance().getJaWEController().getJaWEFrame();
    }
 
-   protected void initDialog () {
+   protected void initDialog() {
       try {
-         JPanel buttonPanel=new JPanel();
-         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.X_AXIS));
+         JPanel buttonPanel = new JPanel();
+         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
          buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
          buttonPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
-         buttonOK=new JButton(ResourceManager.getLanguageDependentString("OKKey"));
+         buttonOK = new JButton(ResourceManager.getLanguageDependentString("OKKey"));
 
-         buttonCancel=new JButton(ResourceManager.getLanguageDependentString("CancelKey"));
+         buttonCancel = new JButton(ResourceManager.getLanguageDependentString("CancelKey"));
 
          buttonPanel.add(Box.createHorizontalGlue());
          buttonPanel.add(buttonOK);
@@ -218,8 +224,8 @@ public class ExpressionParticipantEditor {
          buttonPanel.add(buttonCancel);
          buttonPanel.add(Box.createHorizontalStrut(4));
 
-         Container cp=dialog.getContentPane();
-         cp.setLayout(new BoxLayout(cp,BoxLayout.Y_AXIS));
+         Container cp = dialog.getContentPane();
+         cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));
 
          cp.add(panelToEdit);
          cp.add(Box.createVerticalStrut(5));
@@ -228,48 +234,48 @@ public class ExpressionParticipantEditor {
          // action listener for confirming
          buttonOK.addActionListener(okl);
 
-//       action listener for cancel
+         // action listener for cancel
          buttonCancel.addActionListener(cl);
          dialog.addWindowListener(wl);
 
-         dialog.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0,false),"Cancel");
+         dialog.getRootPane()
+            .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "Cancel");
          dialog.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
-                  public void actionPerformed(ActionEvent e) {
-                     cl.actionPerformed(e);
-                  }
-               });
+            public void actionPerformed(ActionEvent e) {
+               cl.actionPerformed(e);
+            }
+         });
 
       } catch (Exception e) {
          e.printStackTrace();
       }
       dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
       dialog.setResizable(true);
-      //dialog.setLocationRelativeTo(getParentWindow());
+      // dialog.setLocationRelativeTo(getParentWindow());
       buttonOK.setDefaultCapable(true);
       dialog.getRootPane().setDefaultButton(buttonOK);
       dialog.setTitle(this.title);
 
    }
 
-   
-   protected WindowListener wl=new WindowAdapter() {
+   protected WindowListener wl = new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-          //make configurable?
-          status = STATUS_CANCEL;
-          dialog.dispose();
-      }
-   };
-
-   protected ActionListener cl=new ActionListener(){
-      public void actionPerformed( ActionEvent ae ){
+         // make configurable?
          status = STATUS_CANCEL;
          dialog.dispose();
       }
    };
-   
-   protected ActionListener okl=new ActionListener(){
-      public void actionPerformed( ActionEvent ae ){
+
+   protected ActionListener cl = new ActionListener() {
+      public void actionPerformed(ActionEvent ae) {
+         status = STATUS_CANCEL;
+         dialog.dispose();
+      }
+   };
+
+   protected ActionListener okl = new ActionListener() {
+      public void actionPerformed(ActionEvent ae) {
          if (elementToEdit == null || panelToEdit.getOwner().isReadOnly()) {
             status = STATUS_CANCEL;
             dialog.dispose();
@@ -277,22 +283,44 @@ public class ExpressionParticipantEditor {
             applyChanges();
             status = STATUS_OK;
             dialog.dispose();
-            if (dialog.getParent() != null){
-               dialog.getParent().repaint();//do repaint
+            if (dialog.getParent() != null) {
+               dialog.getParent().repaint();// do repaint
             }
          }
       }
    };
-   
-   protected XMLGroupPanel getParticipantPanel () {
-      List toShow=new ArrayList();
-      if (elementToEdit instanceof CommonExpressionParticipant) {
-         pIdPanel=new XMLMultiLineTextPanel(null, elementToEdit.get("Id"),"Xpression",false,true,XMLMultiLineTextPanel.SIZE_MEDIUM,false,!elementToEdit.isReadOnly());
+
+   protected XMLGroupPanel getParticipantPanel() {
+      List toShow = new ArrayList();
+      if (elementToEdit instanceof Lane) {
+         if (elementToEdit.getPerformers().size() > 0) {
+            pIdPanel = new XMLMultiLineTextPanel(null,
+                                                 elementToEdit.getPerformers().get(0),
+                                                 "Xpression",
+                                                 false,
+                                                 true,
+                                                 XMLMultiLineTextPanel.SIZE_MEDIUM,
+                                                 false,
+                                                 !elementToEdit.isReadOnly());
+         } else {
+            pIdPanel = new XMLTextPanel(null,
+                                        elementToEdit.get("Name"),
+                                        false,
+                                        false,
+                                        !elementToEdit.isReadOnly());
+         }
          toShow.add(pIdPanel);
-         XMLPanel descPnl=new XMLMultiLineTextPanel(null, elementToEdit.get("Description"),true,XMLMultiLineTextPanel.SIZE_MEDIUM,true,false);
-         toShow.add(descPnl);
+         // XMLPanel descPnl=new XMLMultiLineTextPanel(null,
+         // elementToEdit.get("Description"),true,XMLMultiLineTextPanel.SIZE_MEDIUM,true,false);
+         // toShow.add(descPnl);
       }
-      XMLGroupPanel gp=new XMLGroupPanel(null, elementToEdit,toShow,"",true,false,true);
+      XMLGroupPanel gp = new XMLGroupPanel(null,
+                                           elementToEdit,
+                                           toShow,
+                                           "",
+                                           true,
+                                           false,
+                                           true);
       return gp;
    }
 

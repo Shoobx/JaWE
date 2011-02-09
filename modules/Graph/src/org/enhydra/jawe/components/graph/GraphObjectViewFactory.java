@@ -57,10 +57,10 @@ public class GraphObjectViewFactory implements CellViewFactory {
 	protected CellView createVertexView(Object cell) {
       if (cell instanceof GraphParticipantInterface) {
          return new DefaultGraphParticipantView(cell);
-      } else if (cell instanceof GraphBubbleActivityInterface) {
-         return new DefaultGraphBubbleActivityView(cell);
       } else if (cell instanceof GraphActivityInterface) {
          return new DefaultGraphActivityView(cell);
+      } else if (cell instanceof GraphArtifactInterface){
+         return new DefaultGraphArtifactView(cell);
       } else {
           return null;
       }

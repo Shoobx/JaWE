@@ -18,12 +18,17 @@
 
 package org.enhydra.jawe.components.graph;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.enhydra.shark.xpdl.elements.Activity;
+import org.enhydra.jawe.Utils;
+import org.enhydra.jxpdl.elements.Activity;
 import org.jgraph.graph.CellViewRenderer;
 import org.jgraph.graph.EdgeView;
 import org.jgraph.graph.VertexView;
@@ -36,6 +41,15 @@ import org.jgraph.graph.VertexView;
 public class DefaultGraphActivityView extends VertexView implements GraphActivityViewInterface {
 
    protected static Map renderers = new HashMap();
+   protected static String[] mths = new String[] {
+                                 "intersection",
+                                 "getPerimeterPoint",
+                                 "getCenterPoint",
+                                 "getLocation",
+                                 "paintPort",
+                                 "getCBounds"
+                           };
+   protected static List mthlst = Arrays.asList(mths);
 
    /**
    * Constructs a activity view for the specified model object.
@@ -63,14 +77,74 @@ public class DefaultGraphActivityView extends VertexView implements GraphActivit
    * Returns the bounding rectangle for this view.
    */
    public Rectangle2D getBounds() {//HM, JGraph3.4.1
-      return bounds;
+      String mn = Utils.getCallerMethodName(0);
+//      System.out.println("MN="+mn);
+      if (mthlst.contains(mn)) {
+         return bounds;
+      }
+      Dimension d = ((GraphActivityRendererInterface) getRenderer()).getLabelDimension(this);
+
+      int dx = d.getWidth() > bounds.getWidth() ? (int) (d.getWidth() - bounds.getWidth()) / 2
+                                               : 0;
+      Rectangle2D rect = new Rectangle((int) (bounds.getX() - dx),
+                                       (int) (bounds.getY() + bounds.getHeight()),
+                                       (int) d.getWidth(),
+                                       (int) d.getHeight());
+      if (rect != null)
+         Rectangle2D.union(bounds, rect, rect);
+      return rect;
    }
 
+   public Rectangle getOriginalBounds () {
+//      System.out.println("OB "+getCell()+" ="+bounds.getBounds());
+      return bounds.getBounds();
+   }
+
+   public void setOriginalBounds (Rectangle bounds) {
+      this.bounds = bounds; 
+   }
+   
    protected GraphActivityRendererInterface createRenderer (Activity act) {
       return GraphUtilities.getGraphController().getGraphObjectRendererFactory().createActivityRenderer(act);
    }
  
 	public Point2D getPerimeterPoint(EdgeView edge, Point2D source, Point2D p) {
-		return ((MultiLinedRenderer)getRenderer()).getPerimeterPoint(this, p);
+	   CellViewRenderer r = getRenderer();
+	   if (r instanceof DefaultGraphEventActivityRenderer) {
+	       return ((DefaultGraphEventActivityRenderer)getRenderer()).getPerimeterPoint(this, p);	      
+	   }
+	   return ((MultiLinedRenderer)getRenderer()).getPerimeterPoint(this, p);
 	}
+	
+//   public CellHandle getHandle(GraphContext context) {
+//      if (GraphConstants.isSizeable(getAllAttributes())
+//            && !GraphConstants.isAutoSize(getAllAttributes())
+//            && context.getGraph().isSizeable())
+//         return new MySizeHandle(this, context);
+//      return null;
+//   }
+//   
+//   public static class MySizeHandle extends SizeHandle {
+//      public MySizeHandle(VertexView vertexview, GraphContext ctx) {
+//         super(vertexview,ctx);
+//      }
+//      
+//      public void mouseReleased(MouseEvent e) {
+//         if (index != -1) {
+//            cachedBounds = computeBounds(e);
+//System.out.println("CB="+cachedBounds);
+//            vertex.setBounds(cachedBounds);
+//            CellView[] views = AbstractCellView
+//                  .getDescendantViews(new CellView[] { vertex });
+//            Map attributes = GraphConstants.createAttributes(views, null);
+//            graph.getGraphLayoutCache().edit(attributes, null, null, null);
+//         }
+//         e.consume();
+//         cachedBounds = null;
+//         initialBounds = null;
+//         firstDrag = true;
+//         
+//      }      
+//   }
+	
 }

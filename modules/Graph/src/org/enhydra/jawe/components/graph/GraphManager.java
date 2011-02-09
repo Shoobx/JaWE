@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph;
 
@@ -37,20 +37,28 @@ import java.util.Set;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activities;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.Transitions;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Artifacts;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Associations;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Lanes;
+import org.enhydra.jxpdl.elements.NestedLane;
+import org.enhydra.jxpdl.elements.NestedLanes;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Pool;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.Transitions;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.ConnectionSet;
@@ -61,22 +69,20 @@ import org.jgraph.graph.ParentMap;
 import org.jgraph.graph.Port;
 
 /**
- * Class intended to serve as a control center for creation, removal, resizing
- * and changing position of Participants as well as for doing the same things
- * with Activity objects and Transitions. Class manages this actions in such a
- * way that undoing of operations are possible. It incorporates multiple view
- * and model changes into one by doing them virtually, and after all changes are
- * done, in interaction with JaWEGraphModel class applies this changes so that
- * undo is possible. Instance of this class is joined to to all objects of
- * classes derived from Graph class.
+ * Class intended to serve as a control center for creation, removal, resizing and
+ * changing position of Participants as well as for doing the same things with Activity
+ * objects and Transitions. Class manages this actions in such a way that undoing of
+ * operations are possible. It incorporates multiple view and model changes into one by
+ * doing them virtually, and after all changes are done, in interaction with
+ * JaWEGraphModel class applies this changes so that undo is possible. Instance of this
+ * class is joined to to all objects of classes derived from Graph class.
  * <p>
- * This class also handles the relationships between visual and logical
- * representation of workflow graph.
+ * This class also handles the relationships between visual and logical representation of
+ * workflow graph.
  * <p>
- * When reading a package from an XML file, this class creates imported objects
- * and establishes relationship between graph objects (classes within jawe and
- * jawe.graph package) and 'graph logic' objects ( classes within jawe.xml
- * package).
+ * When reading a package from an XML file, this class creates imported objects and
+ * establishes relationship between graph objects (classes within jawe and jawe.graph
+ * package) and 'graph logic' objects ( classes within jawe.xml package).
  * 
  * @author Sasa Bojanic
  * @author Miroslav Popov
@@ -93,28 +99,14 @@ public class GraphManager implements Serializable {
 
    private int verticalOffset = 0;
 
-   // some default values for setting participants and activity sizes
-//   /** Variable that holds width of process */
-//   private static final int defProcessWidth = JaWEConfig.getInstance().getProcessWidth();
-//
-//   /** Variable that holds height of process */
-//   private static final int defProcessHeight = JaWEConfig.getInstance().getProcessHeight();
-
-   /*
-    * horozontal paritcipant minParWidth
-    * +===========================================+ + | + + | + minParHeight + | +
-    * +===========================================+ vertical participant
-    * minParHeight +++++++ = = =------ = = = = = = = minParWidht = = = = = = = = = = = =
-    * +++++++
-    */
    /** Variable that holds minimum width for any participant */
-   private static int minParWidth;
+   private static int minLaneWidth;
 
    /** Variable that holds minimum height for any participant */
-   private static int minParHeight;
+   private static int minLaneHeight;
 
    /** Variable that holds the width for participant name section */
-   private static int defParNameWidth;
+   private static int defLaneNameWidth;
 
    /** Variable that holds width of activities */
    private static int defActivityWidth;
@@ -129,11 +121,21 @@ public class GraphManager implements Serializable {
    public void init() {
       if (!pLoaded) {
 
-         defActivityWidth = GraphUtilities.getGraphController().getGraphSettings().getActivityWidth();
-         defActivityHeight = GraphUtilities.getGraphController().getGraphSettings().getActivityHeight();
-         minParWidth = GraphUtilities.getGraphController().getGraphSettings().getMinParWidth();
-         minParHeight = GraphUtilities.getGraphController().getGraphSettings().getMinParHeight();
-         defParNameWidth = GraphUtilities.getGraphController().getGraphSettings().getParticipantNameWidth();
+         defActivityWidth = GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .getActivityWidth();
+         defActivityHeight = GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .getActivityHeight();
+         minLaneWidth = GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .getMinLaneWidth();
+         minLaneHeight = GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .getMinLaneHeight();
+         defLaneNameWidth = GraphUtilities.getGraphController()
+            .getGraphSettings()
+            .getLaneNameWidth();
 
          pLoaded = true;
       }
@@ -142,8 +144,7 @@ public class GraphManager implements Serializable {
    /**
     * Creates new workflow manager for given graph.
     * 
-    * @param g
-    *           The graph that manager manages.
+    * @param g The graph that manager manages.
     */
    public GraphManager(Graph g) {
       this.graph = g;
@@ -160,86 +161,67 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns the graph model - the model that represents the graph view. (See
-    * JGraph documentation).
+    * Returns the graph model - the model that represents the graph view. (See JGraph
+    * documentation).
     */
    public JaWEGraphModel graphModel() {
       return (JaWEGraphModel) graph.getModel();
    }
 
    /**
-    * Creates graph representation of given workflow process. It creates a graph
-    * entities (participants, activities, transitions) and associates the
-    * workflow logic to it. The graph entities are inserted according to the
-    * data that <tt>wp</tt> object holds (the data from XML file).
+    * Creates graph representation of given workflow process. It creates a graph entities
+    * (participants, activities, transitions) and associates the workflow logic to it. The
+    * graph entities are inserted according to the data that <tt>wp</tt> object holds (the
+    * data from XML file).
     * <p>
     * This is used when reading a workflow definition from an XML file.
     * 
-    * @param wpOrAs
-    *           Object that mapps the logic of WorkflowProcess element of XML -
+    * @param wpOrAs Object that mapps the logic of WorkflowProcess element of XML -
     *           defines a particular Workflow process.
     */
    public void createWorkflowGraph(XMLCollectionElement wpOrAs) {
       creatingGraph = true;
       // checks if it is graph made by JaWE
 
-      //********* the creation other is very important and shouldn't be changed
-      //System.out.println("Creating graph for WP "+wp+" and
+      // ********* the creation other is very important and shouldn't be changed
+      // System.out.println("Creating graph for WP "+wp+" and
       // VO="+getVisualOwner());
 
-      List participantsToInsert = GraphUtilities.gatherParticipants(wpOrAs);
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      insertParticipantAndArrangeParticipants(p, null);
+
+      List participantsToInsert = GraphUtilities.gatherLanes(wpOrAs);
 
       // show Participants and their activities
       Iterator it = participantsToInsert.iterator();
       while (it.hasNext()) {
-         ParticipantInfo pi = (ParticipantInfo) it.next();
-//         GraphParticipantInterface gpar = insertParticipantAndArrangeParticipants(pi.getParticipant());
-         insertParticipantAndArrangeParticipants(pi.getParticipant());
-//         System.out.println("Participant " + gpar + " inserted for xpdl par " + pi.getParticipant().getId());
-         Iterator acts = pi.getActivities().iterator();
-         while (acts.hasNext()) {
-            Activity act = (Activity) acts.next();
-            insertActivity(act);
+         LaneInfo pi = (LaneInfo) it.next();
+         // GraphParticipantInterface gpar =
+         // insertParticipantAndArrangeParticipants(pi.getParticipant());
+         insertParticipantAndArrangeParticipants(pi.getLane(), null);
+         // System.out.println("Participant " + gpar + " inserted for xpdl par " +
+         // pi.getParticipant().getId());
+         Iterator actsAndArts = pi.getActivitiesAndArtifacts().iterator();
+         while (actsAndArts.hasNext()) {
+            XMLCollectionElement actOrArt = (XMLCollectionElement) actsAndArts.next();
+            insertActivityOrArtifact(actOrArt);
          }
       }
 
       // show transitions
-//      System.out.println("Inserting transitions for " + getXPDLOwner().getId());
-      it = ((Transitions)wpOrAs.get("Transitions")).toElements().iterator();
+      // System.out.println("Inserting transitions for " + getXPDLOwner().getId());
+      it = ((Transitions) wpOrAs.get("Transitions")).toElements().iterator();
       while (it.hasNext()) {
          Transition tra = (Transition) it.next();
-         insertTransition(tra);
+         insertTransitionOrAssociation(tra);
       }
 
-      // show starts/ends
-      if (GraphUtilities.getGraphController().getGraphSettings().shouldUseBubbles()) {
-         // show starts
-         List starteas = GraphUtilities.getStartOrEndExtendedAttributes(getXPDLOwner(), true);
-         if (starteas.size() > 0) {
-            it = starteas.iterator();
-            ExtendedAttribute ea;
-            while (it.hasNext()) {
-               ea = (ExtendedAttribute) it.next();
-               insertStart(ea);
-            }
-         }
-
-         // show ends
-         List endeas = GraphUtilities.getStartOrEndExtendedAttributes(getXPDLOwner(), false);
-         if (endeas.size() > 0) {
-            it = endeas.iterator();
-            ExtendedAttribute ea;
-            while (it.hasNext()) {
-               ea = (ExtendedAttribute) it.next();
-               insertEnd(ea);
-            }
-         }
-      } else {
-         if (!wpOrAs.isReadOnly()) {
-            List eas=GraphUtilities.getStartOrEndExtendedAttributes(wpOrAs, true);
-            eas.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wpOrAs, false));
-            XMLUtil.getWorkflowProcess(wpOrAs).getExtendedAttributes().removeAll(eas);
-         }
+      it = XMLUtil.getPackage(wpOrAs).getAssociations().toElements().iterator();
+      while (it.hasNext()) {
+         Association asoc = (Association) it.next();
+         insertTransitionOrAssociation(asoc);
       }
 
       creatingGraph = false;
@@ -250,24 +232,23 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns the object (part of mapped XML logic) that is represented by the
-    * graph managed by WorklowManager. That object can be instance of the
-    * Package, WorkflowProcess or ...xml.elements.BlockActivity class, and is
-    * held as a property of the manager's graph object.
+    * Returns the object (part of mapped XML logic) that is represented by the graph
+    * managed by WorklowManager. That object can be instance of the Package,
+    * WorkflowProcess or ...xml.elements.BlockActivity class, and is held as a property of
+    * the manager's graph object.
     * 
-    * @return The object (representing XML logic) that is represented by this
-    *         manager's graph.
+    * @return The object (representing XML logic) that is represented by this manager's
+    *         graph.
     */
    public XMLCollectionElement getXPDLOwner() {
       return graph.getXPDLObject();
    }
 
    /**
-    * Returns the (XML logic) WorkflowProcess object that is represented by the
-    * manager's graph, or (if the graph represents the (XML logic) BlockActivity
-    * content) the WorkflowProcess object that holds BlockActivity represented
-    * by manager's graph. If graph represents (XML logic) Package object,
-    * <tt>null</tt> is returned.
+    * Returns the (XML logic) WorkflowProcess object that is represented by the manager's
+    * graph, or (if the graph represents the (XML logic) BlockActivity content) the
+    * WorkflowProcess object that holds BlockActivity represented by manager's graph. If
+    * graph represents (XML logic) Package object, <tt>null</tt> is returned.
     */
    private WorkflowProcess getWorkflowProcess() {
       return graph.getWorkflowProcess();
@@ -281,7 +262,12 @@ public class GraphManager implements Serializable {
          Iterator it = graphParts.iterator();
          while (it.hasNext()) {
             graphPart = (GraphParticipantInterface) it.next();
-            dps.add(graphPart.getPropertyObject());
+            Object gp = graphPart.getPropertyObject();
+            if (gp instanceof Pool)
+               continue;
+            Participant par = GraphUtilities.getParticipantForLane((Lane) gp,
+                                                                   FreeTextExpressionParticipant.getInstance());
+            dps.add(par);
          }
       }
       return dps;
@@ -291,12 +277,21 @@ public class GraphManager implements Serializable {
       Set rootParticipants = JaWEGraphModel.getRootParticipants(graphModel());
       if (rootParticipants != null && rootParticipants.size() > 0) {
          return true;
-      } 
-      return false;      
+      }
+      return false;
+   }
+
+   public boolean hasLane() {
+      Set rootParticipants = JaWEGraphModel.getRootParticipants(graphModel());
+      if (rootParticipants != null && rootParticipants.size() > 0) {
+         GraphParticipantInterface gp = (GraphParticipantInterface) rootParticipants.toArray()[0];
+         return gp.hasAnyParticipant();
+      }
+      return false;
    }
 
    public String getParticipantId(Point pos) {
-      GraphParticipantInterface gpar = findParentActivityParticipantForLocation(pos, null, null);
+      GraphParticipantInterface gpar = findParentParticipantForLocation(pos, null, null);
       if (gpar != null) {
          return gpar.getPropertyObject().get("Id").toValue();
       }
@@ -304,95 +299,153 @@ public class GraphManager implements Serializable {
    }
 
    // ----------------------- Activity handling
-   public GraphActivityInterface insertActivity(Activity xpdla) {
-//      System.out.println("Inserting activity "+xpdla+", id=" + xpdla.getId() + ", name=" + xpdla.getName() + ", parId="
-//            + GraphUtilities.getParticipantId(xpdla));
+   public GraphCommonInterface insertActivityOrArtifact(XMLCollectionElement xpdla) {
+      if (xpdla instanceof Artifact && !getGraph().shouldShowArtifacts())
+         return null;
+      // System.out.println("Inserting activity "+xpdla+", id=" + xpdla.getId() +
+      // ", name=" + xpdla.getName() + ", parId="
+      // + GraphUtilities.getParticipantId(xpdla));
       Map viewMap = new HashMap();
-      
-      GraphParticipantInterface gpar = getGraphParticipant(GraphUtilities.getParticipantId(xpdla));
-      //      if (gpar==null) {
-      //         Point p=JaWEEAHandler.getOffsetPoint(xpdla);
-      //         gpar=findParentActivityParticipantForLocation(p,null,null);
-      //      }
-      //      System.out.println("Inserting act "+xpdla.getId()+" par="+gpar);
-      Point p = getBounds(gpar, null).getBounds().getLocation();
-      GraphActivityInterface gact = getGraphController().getGraphObjectFactory().createActivity(viewMap, xpdla, p);
-      //updateModelAndArrangeParticipants(new Object[] {act},viewMap,null,null,
-      updateModelAndArrangeParticipants(new Object[] { gact }, null, null, viewMap, getGraphController().getSettings()
-            .getLanguageDependentString("MessageInsertingGenericActivity"), null, true);
+
+      GraphParticipantInterface gpar = getGraphParticipant(GraphUtilities.getLaneForActivityOrArtifact(xpdla,
+                                                                                                       graph.getXPDLObject()));
+      if (gpar == null)
+         return null;
+      // if (gpar==null) {
+      // Point p=JaWEEAHandler.getOffsetPoint(xpdla);
+      // gpar=findParentActivityParticipantForLocation(p,null,null);
+      // }
+      Point p = getCBounds(gpar, null).getBounds().getLocation();
+      GraphCommonInterface gact = null;
+      if (xpdla instanceof Activity) {
+         gact = getGraphController().getGraphObjectFactory()
+            .createActivity(viewMap, (Activity) xpdla, p);
+      } else {
+         gact = getGraphController().getGraphObjectFactory()
+            .createArtifact(viewMap, (Artifact) xpdla, p);
+      }
+      // updateModelAndArrangeParticipants(new Object[] {act},viewMap,null,null,
+      updateModelAndArrangeParticipants(new Object[] {
+         gact
+      }, null, null, viewMap, getGraphController().getSettings()
+         .getLanguageDependentString("MessageInsertingGenericActivity"), null, true);
       return gact;
    }
 
-   public void removeActivity(Activity xpdla) {
-      GraphActivityInterface gact = getGraphActivity(xpdla);
-      Set edges = gact.getPort().getEdges();
+   public void removeActivityOrArtifact(XMLCollectionElement xpdla) {
+      if (xpdla instanceof Artifact && !getGraph().shouldShowArtifacts())
+         return;
+
+      Set edges = null;
+      GraphCommonInterface gora = null;
+      if (xpdla instanceof Activity) {
+         gora = getGraphActivity((Activity) xpdla);
+      } else {
+         gora = getGraphArtifact((Artifact) xpdla);
+      }
+      if (gora == null)
+         return;
+      edges = gora.getPort().getEdges();
       Iterator it = edges.iterator();
       Set toRem = new HashSet();
       while (it.hasNext()) {
          GraphTransitionInterface gt = (GraphTransitionInterface) it.next();
          toRem.add(gt);
       }
-      toRem.add(gact);
+      toRem.add(gora);
       Object[] remove = toRem.toArray();
       graphModel().removeAndEdit(remove, null);
 
       Map propertyMap = new HashMap();
       ParentMap parentMap = new JaWEParentMap();
       arrangeParticipants(propertyMap, parentMap);
-      updateModelAndArrangeParticipants(new Object[] {}, propertyMap, parentMap, new HashMap(), "an", null, true);
+      updateModelAndArrangeParticipants(new Object[] {},
+                                        propertyMap,
+                                        parentMap,
+                                        new HashMap(),
+                                        "an",
+                                        null,
+                                        true);
 
    }
 
-   public void arrangeActivityPosition(Activity act) {
-//      System.out.println("Searching graph act for id "+act.getId());
-      GraphActivityInterface gact = getGraphActivity(act.getId());
-//      System.out.println("agact "+gact);
-      GraphParticipantInterface newPar=getGraphParticipant(GraphUtilities.getParticipantId(act));
-//      System.out.println("newpar "+newPar);
-      GraphParticipantInterface oldPar=(GraphParticipantInterface)gact.getParent();
-//      System.out.println("odlpar "+oldPar);
-      //if (newPar==null || oldPar==null) return; // can happen when participant Id is updated
+   public void arrangeActivityOrArtifactPosition(XMLCollectionElement actOrArt) {
+      // System.out.println("Searching graph act for id "+act.getId());
+      GraphCommonInterface gact = actOrArt instanceof Activity ? getGraphActivity((Activity) actOrArt)
+                                                              : getGraphArtifact((Artifact) actOrArt);
+      // System.out.println("agact "+gact);
+      GraphParticipantInterface newPar = getGraphParticipant(GraphUtilities.getLaneForActivityOrArtifact(actOrArt,
+                                                                                                         getXPDLOwner()));
+      // System.out.println("newpar "+newPar);
+      GraphParticipantInterface oldPar = (GraphParticipantInterface) gact.getParent();
+      // System.out.println("odlpar "+oldPar);
+      // if (newPar==null || oldPar==null) return; // can happen when participant Id is
+      // updated
       ParentMap parentMap = new JaWEParentMap();
       if (!newPar.equals(oldPar)) {
          parentMap.addEntry(gact, newPar);
       }
 
       Map propertyMap = new HashMap();
-      Point actRealPos=getRealPosition(gact, newPar);
-//      GraphParticipantViewInterface gpvi=(GraphParticipantViewInterface)getView(newPar);
-//      Rectangle parBounds=getBounds(newPar, propertyMap);
-//      if (actRealPos.x>parBounds.width) {
-////         gpvi.
-//         resizeAllParticipantsHorizontally(propertyMap, parentMap);
-//      }
-         
-      changeBounds(gact, propertyMap, new Rectangle(actRealPos, new Dimension(defActivityWidth,defActivityHeight)));
+      Point actRealPos = getRealPosition(gact, newPar);
+      // GraphParticipantViewInterface
+      // gpvi=(GraphParticipantViewInterface)getView(newPar);
+      // Rectangle parBounds=getBounds(newPar, propertyMap);
+      // if (actRealPos.x>parBounds.width) {
+      // // gpvi.
+      // resizeAllParticipantsHorizontally(propertyMap, parentMap);
+      // }
+      Rectangle oldb = getCBounds(gact, propertyMap);
+      changeBounds(gact,
+                   propertyMap,
+                   new Rectangle(actRealPos, new Dimension(oldb.width, oldb.height)));
       if (!newPar.equals(oldPar)) {
          if (isGraphRotated()) {
             arrangeParticipantHorizontally(newPar, propertyMap, parentMap);
-            if (oldPar!=null) {
+            if (oldPar != null) {
                arrangeParticipantHorizontally(oldPar, propertyMap, parentMap);
             }
          } else {
             arrangeParticipantVertically(newPar, propertyMap, parentMap);
-            if (oldPar!=null) {
+            if (oldPar != null) {
                arrangeParticipantVertically(oldPar, propertyMap, parentMap);
             }
          }
       }
-      updateModelAndArrangeParticipants(null, propertyMap, parentMap, null, getGraphController().getSettings().getLanguageDependentString(
-            "MessageMovingObjects"), null, true);
+      updateModelAndArrangeParticipants(null,
+                                        propertyMap,
+                                        parentMap,
+                                        null,
+                                        getGraphController().getSettings()
+                                           .getLanguageDependentString("MessageMovingObjects"),
+                                        null,
+                                        true);
 
    }
 
    // --------------------- transition handling
-   public GraphTransitionInterface insertTransition(Transition xpdltra) {
+   public GraphTransitionInterface insertTransitionOrAssociation(XMLCollectionElement xpdltra) {
       Map viewMap = new HashMap();
-//      System.out.println("Inserting xpdltra " + xpdltra.getId() + ", F=" + xpdltra.getFrom() + ", T=" + xpdltra.getTo());
+      // System.out.println("Inserting xpdltra " + xpdltra.getId() + ", F=" +
+      // xpdltra.getFrom() + ", T=" + xpdltra.getTo());
       List breakPoints = GraphUtilities.getBreakpoints(xpdltra);
-      GraphActivityInterface source = getGraphActivity(xpdltra.getFrom());
-      GraphActivityInterface target = getGraphActivity(xpdltra.getTo());
-      if (source == null || target == null) return null;
+      GraphCommonInterface source = null;
+      GraphCommonInterface target = null;
+      if (xpdltra instanceof Transition) {
+         source = getGraphActivity(((Transition) xpdltra).getFrom());
+         target = getGraphActivity(((Transition) xpdltra).getTo());
+      } else {
+         source = getGraphActivity(((Association) xpdltra).getSource());
+         if (source == null) {
+            source = getGraphArtifact(((Association) xpdltra).getSource());
+         }
+         target = getGraphActivity(((Association) xpdltra).getTarget());
+         if (target == null) {
+            target = getGraphArtifact(((Association) xpdltra).getTarget());
+         }
+      }
+      if (source == null || target == null)
+         return null;
       Point p11 = getCenter(source);
       Point p21 = getCenter(target);
       Point p = (Point) graph.fromScreen(new Point(p11));
@@ -402,73 +455,88 @@ public class GraphManager implements Serializable {
       points.addAll(breakPoints);
       points.add(p2);
 
-      GraphTransitionInterface gtra = getGraphController().getGraphObjectFactory().createTransition(points, viewMap,
-            xpdltra);
-      //      System.out.println("\ngTra11="+getView(gtra).getBounds());
-      Object[] insert = new Object[] { gtra };
+      GraphTransitionInterface gtra = getGraphController().getGraphObjectFactory()
+         .createTransition(points, viewMap, xpdltra);
+      // System.out.println("\ngTra11="+getView(gtra).getBounds());
+      Object[] insert = new Object[] {
+         gtra
+      };
       ConnectionSet cs = new ConnectionSet();
 
       cs.connect(gtra, source.getPort(), target.getPort());
 
-      //cs.connect(transition,source.getCell(),true);
-      //cs.connect(transition,target.getCell(),false);
-      //      graphModel().insertAndEdit(insert,cs,null,null,viewMap,undoMsg);
+      // cs.connect(transition,source.getCell(),true);
+      // cs.connect(transition,target.getCell(),false);
+      // graphModel().insertAndEdit(insert,cs,null,null,viewMap,undoMsg);
 
       graphModel().insertAndEdit(insert, viewMap, cs, null, null);
 
       return gtra;
    }
 
-   public void removeTransition(Transition xpdltra) {
-//System.out.println("Graphmanager->removing transition "+xpdltra.getId());
+   public void removeTransitionOrAssociation(XMLCollectionElement xpdltra) {
+      // System.out.println("Graphmanager->removing transition "+xpdltra.getId());
       GraphTransitionInterface gtra = getGraphTransition(xpdltra);
-//System.out.println("              found graph transition "+gtra);
+      // System.out.println("              found graph transition "+gtra);
       removeTransition(gtra);
    }
 
-   public void updateTransition (Transition xpdltra) {
+   public void updateTransitionOrAssociation(XMLCollectionElement xpdltra) {
       GraphTransitionInterface gtra = getGraphTransition(xpdltra);
-      if (gtra==null) {
-         gtra=insertTransition(xpdltra);
+      if (gtra == null) {
+         gtra = insertTransitionOrAssociation(xpdltra);
       } else {
-         GraphActivityInterface s1=gtra.getSourceActivity();
-         GraphActivityInterface t1=gtra.getTargetActivity();
-         
-         if (s1==null || t1==null) {
+
+         GraphCommonInterface s1 = gtra.getSourceActivityOrArtifact();
+         GraphCommonInterface t1 = gtra.getTargetActivityOrArtifact();
+
+         if (s1 == null || t1 == null) {
             removeTransition(gtra);
-            gtra=insertTransition(xpdltra);
+            gtra = insertTransitionOrAssociation(xpdltra);
             return;
          }
-         
-         if (!s1.getPropertyObject().get("Id").toValue().equals(xpdltra.getFrom()) || 
-               !t1.getPropertyObject().get("Id").toValue().equals(xpdltra.getTo())) {
+         String from = null;
+         String to = null;
+         if (xpdltra instanceof Transition) {
+            from = ((Transition) xpdltra).getFrom();
+            to = ((Transition) xpdltra).getTo();
+         } else {
+            from = ((Association) xpdltra).getSource();
+            to = ((Association) xpdltra).getTarget();
+         }
+         if (!s1.getPropertyObject().get("Id").toValue().equals(from)
+             || !t1.getPropertyObject().get("Id").toValue().equals(to)) {
             removeTransition(gtra);
-            gtra=insertTransition(xpdltra);
+            gtra = insertTransitionOrAssociation(xpdltra);
             return;
          }
 
-         
          Map propertyMap = new HashMap();
-         
+
          // breakpoints
          updateBreakPoints(gtra, propertyMap);
-         
+
          // style
-         updateStyle(gtra,propertyMap);
-         
-         ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
-         
+         updateStyle(gtra, propertyMap);
+
+         ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
+                                                           propertyMap,
+                                                           null,
+                                                           null,
+                                                           null);
+
       }
    }
 
-   public void updateBreakPoints (GraphTransitionInterface gtra,Map propertyMap) {
-      List bps = GraphUtilities.getBreakpoints((Transition)gtra.getUserObject());
+   public void updateBreakPoints(GraphTransitionInterface gtra, Map propertyMap) {
+      List bps = GraphUtilities.getBreakpoints((XMLCollectionElement) gtra.getUserObject());
       GraphTransitionViewInterface gtraview = (GraphTransitionViewInterface) getView(gtra);
-      if (gtraview==null) return;
-      AttributeMap map = (AttributeMap)propertyMap.get(gtra); 
-      if (map==null) {
+      if (gtraview == null)
+         return;
+      AttributeMap map = (AttributeMap) propertyMap.get(gtra);
+      if (map == null) {
          map = new AttributeMap(gtra.getAttributes());
-         propertyMap.put(gtra, map);         
+         propertyMap.put(gtra, map);
       }
       int pcnt = gtraview.getPointCount();
       Point2D ps = gtraview.getPoint(0);
@@ -477,13 +545,13 @@ public class GraphManager implements Serializable {
       points.add(ps);
       points.addAll(bps);
       points.add(pt);
-//JaWEManager.getInstance().getLoggingManager().debug("Updating breakpoints for transition: "+points);
+      // JaWEManager.getInstance().getLoggingManager().debug("Updating breakpoints for transition: "+points);
       GraphConstants.setPoints(map, points);
    }
 
-   public List addOrRemoveBreakPoint (GraphTransitionInterface gtra,Point p,boolean toAdd) {
-      CellView view=graph.getGraphLayoutCache().getMapping(gtra,false);
-      GraphTransitionViewInterface tv=(GraphTransitionViewInterface)view;
+   public List addOrRemoveBreakPoint(GraphTransitionInterface gtra, Point p, boolean toAdd) {
+      CellView view = graph.getGraphLayoutCache().getMapping(gtra, false);
+      GraphTransitionViewInterface tv = (GraphTransitionViewInterface) view;
       if (toAdd) {
          tv.addPoint(graph, p);
       } else {
@@ -491,293 +559,287 @@ public class GraphManager implements Serializable {
       }
       graph.refresh();
 
-      int noOfPoints=tv.getPointCount();
-      List pnts=new ArrayList();
-      for (int i=1; i<noOfPoints-1; i++) {
-         pnts.add(new Point((int)tv.getPoint(i).getX(),(int)tv.getPoint(i).getY()));//HM, JGraph3.4.1
+      int noOfPoints = tv.getPointCount();
+      List pnts = new ArrayList();
+      for (int i = 1; i < noOfPoints - 1; i++) {
+         pnts.add(new Point((int) tv.getPoint(i).getX(), (int) tv.getPoint(i).getY()));// HM,
+         // JGraph3.4.1
       }
-//JaWEManager.getInstance().getLoggingManager().debug("Adding/removing breakpoint for transition: "+pnts);
+      // JaWEManager.getInstance().getLoggingManager().debug("Adding/removing breakpoint for transition: "+pnts);
       return pnts;
    }
-   
-   public void updateStyle (GraphTransitionInterface gtra) {
+
+   public void updateStyle(GraphTransitionInterface gtra) {
       Map propertyMap = new HashMap();
-      updateStyle(gtra,propertyMap);
-      ((JaWEGraphModel)graph.getModel()).insertAndEdit(null,propertyMap,null,null,null);      
+      updateStyle(gtra, propertyMap);
+      ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
+                                                        propertyMap,
+                                                        null,
+                                                        null,
+                                                        null);
    }
-   
-   protected void updateStyle (GraphTransitionInterface gtra,Map propertyMap) {
-      String style=GraphUtilities.getStyle((Transition)gtra.getUserObject());
-      AttributeMap map = (AttributeMap)propertyMap.get(gtra); 
-      if (map==null) {
+
+   protected void updateStyle(GraphTransitionInterface gtra, Map propertyMap) {
+      String style = GraphUtilities.getStyle((XMLCollectionElement) gtra.getUserObject());
+      AttributeMap map = (AttributeMap) propertyMap.get(gtra);
+      if (map == null) {
          map = new AttributeMap(gtra.getAttributes());
-         propertyMap.put(gtra, map);         
+         propertyMap.put(gtra, map);
       }
 
       if (style.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_BEZIER)) {
-         GraphConstants.setRouting(map,new NoRouting());
-         GraphConstants.setLineStyle(map,GraphConstants.STYLE_BEZIER);
+         GraphConstants.setRouting(map, new NoRouting());
+         GraphConstants.setLineStyle(map, GraphConstants.STYLE_BEZIER);
       } else if (style.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_SPLINE)) {
-         GraphConstants.setRouting(map,new NoRouting());
-         GraphConstants.setLineStyle(map,GraphConstants.STYLE_SPLINE);
+         GraphConstants.setRouting(map, new NoRouting());
+         GraphConstants.setLineStyle(map, GraphConstants.STYLE_SPLINE);
       } else if (style.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_BEZIER)) {
          GraphConstants.setRouting(map, GraphConstants.ROUTING_SIMPLE);
-         GraphConstants.setLineStyle(map,GraphConstants.STYLE_BEZIER);
+         GraphConstants.setLineStyle(map, GraphConstants.STYLE_BEZIER);
       } else if (style.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_ORTHOGONAL)) {
          GraphConstants.setRouting(map, GraphConstants.ROUTING_SIMPLE);
-         GraphConstants.setLineStyle(map,GraphConstants.STYLE_ORTHOGONAL);
+         GraphConstants.setLineStyle(map, GraphConstants.STYLE_ORTHOGONAL);
       } else if (style.equals(GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_SPLINE)) {
          GraphConstants.setRouting(map, GraphConstants.ROUTING_SIMPLE);
-         GraphConstants.setLineStyle(map,GraphConstants.STYLE_SPLINE);
+         GraphConstants.setLineStyle(map, GraphConstants.STYLE_SPLINE);
       } else {
-         GraphConstants.setRouting(map,new NoRouting());
-         GraphConstants.setLineStyle(map,GraphConstants.STYLE_ORTHOGONAL);
+         GraphConstants.setRouting(map, new NoRouting());
+         GraphConstants.setLineStyle(map, GraphConstants.STYLE_ORTHOGONAL);
       }
 
-   }   
+   }
 
    protected void removeTransition(GraphTransitionInterface gtra) {
-      if (gtra==null) return;
-      //      System.out.println("\ngTra11="+getView(gtra).getBounds());
-      Object[] remove = new Object[] { gtra };
-      //cs.connect(transition,source.getCell(),true);
-      //cs.connect(transition,target.getCell(),false);
+      if (gtra == null)
+         return;
+      // System.out.println("\ngTra11="+getView(gtra).getBounds());
+      Object[] remove = new Object[] {
+         gtra
+      };
+      // cs.connect(transition,source.getCell(),true);
+      // cs.connect(transition,target.getCell(),false);
       graphModel().removeAndEdit(remove, null);
 
       Map propertyMap = new HashMap();
       ParentMap parentMap = new JaWEParentMap();
       arrangeParticipants(propertyMap, parentMap);
-      updateModelAndArrangeParticipants(new Object[] {}, propertyMap, parentMap, new HashMap(), "an", null, true);
+      updateModelAndArrangeParticipants(new Object[] {},
+                                        propertyMap,
+                                        parentMap,
+                                        new HashMap(),
+                                        "an",
+                                        null,
+                                        true);
 
    }
 
-   // --------------------- start/end bubble handling
-   public GraphActivityInterface insertStart(ExtendedAttribute sea) {
+   // --------------------- start/end event handling
+   public GraphActivityInterface insertStartOrEndEvent(Activity sea,
+                                                       String connectingActId) {
       Map viewMap = new HashMap();
-      StartEndDescription sd = new StartEndDescription(sea);
-      GraphParticipantInterface gpar = getGraphParticipant(sd.getParticipantId());
-      Point p = getBounds(gpar, null).getBounds().getLocation();
-      GraphBubbleActivityInterface gact = getGraphController().getGraphObjectFactory().createStart(viewMap, sea, p);
-      updateModelAndArrangeParticipants(new Object[] { gact }, null, null, viewMap, getGraphController().getSettings()
-            .getLanguageDependentString("MessageInsertingGenericActivity"), null, true);
-      connectStartOrEndBubble(gact, sd.getActId());
+      GraphActivityInterface gact = (GraphActivityInterface) insertActivityOrArtifact(sea);
+      connectStartOrEndEvent(gact, connectingActId);
       return gact;
    }
 
-   public GraphActivityInterface insertEnd(ExtendedAttribute eea) {
-      Map viewMap = new HashMap();
-      StartEndDescription ed = new StartEndDescription(eea);
-      GraphParticipantInterface gpar = getGraphParticipant(ed.getParticipantId());
-//      System.err.println("Par for id "+ed.getParticipantId()+" is "+gpar);
-      Point p = getBounds(gpar, null).getBounds().getLocation();
-      GraphBubbleActivityInterface gact = getGraphController().getGraphObjectFactory().createEnd(viewMap, eea, p);
-      updateModelAndArrangeParticipants(new Object[] { gact }, null, null, viewMap, getGraphController().getSettings()
-            .getLanguageDependentString("MessageInsertingGenericActivity"), null, true);
-      connectStartOrEndBubble(gact, ed.getActId());
-      return gact;
-   }
+   public GraphTransitionInterface connectStartOrEndEvent(GraphActivityInterface startOrEnd,
+                                                          String actId) {
+      if (actId == null)
+         return null;
 
-   public void removeBubble(ExtendedAttribute ea) {
-//      System.err.println("REMOVVING BUBBLE " + ea.getVValue());
-      GraphBubbleActivityInterface gact = getBubble(ea);
-      if (gact==null) return;
-      Set edges = gact.getPort().getEdges();
-      Object[] remove;
-      if (edges != null && edges.size() > 0) {
-         remove = new Object[] { gact, edges.toArray()[0] };
-      } else {
-         remove = new Object[] { gact };
-      }
-
-      graphModel().removeAndEdit(remove, null);
-
-      Map propertyMap = new HashMap();
-      ParentMap parentMap = new JaWEParentMap();
-      arrangeParticipants(propertyMap, parentMap);
-      updateModelAndArrangeParticipants(new Object[] {}, propertyMap, parentMap, new HashMap(), "an", null, true);
-
-   }
-
-   
-   public GraphTransitionInterface connectStartOrEndBubble(GraphBubbleActivityInterface startOrEnd, String actId) {
-      if (actId==null) return null;
-
-      Map viewMap = new HashMap();
-
-      StartEndDescription sed=startOrEnd.getStartEndDescription();
       GraphActivityInterface source = startOrEnd;
+      Activity sed = (Activity) startOrEnd.getPropertyObject();
       GraphActivityInterface target = getGraphActivity(actId);
-      
-      if (source==null || target==null) return null;
-      
-      if (!sed.isStart()) {
+
+      if (source == null || target == null)
+         return null;
+
+      if (sed.getActivityType() != XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
          source = target;
          target = startOrEnd;
       }
-      Point p11 = getCenter(source);
-      Point p21 = getCenter(target);
-      Point p = (Point) graph.fromScreen(new Point(p11));
-      Point p2 = (Point) graph.fromScreen(new Point(p21));
-      List points = new ArrayList();
-      points.add(p);
-      points.add(p2);
+      Transitions tras = (Transitions) getXPDLOwner().get("Transitions");
+      Transition tra = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .createXPDLObject(tras, "", true);
+      tra.setFrom(source.getPropertyObject().get("Id").toValue());
+      tra.setTo(target.getPropertyObject().get("Id").toValue());
 
-      GraphTransitionInterface gtra = getGraphController().getGraphObjectFactory().createBubbleTransition(points,
-            viewMap, sed.getTransitionStyle());
-      //      System.out.println("\ngTra11="+getView(gtra).getBounds());
-      Object[] insert = new Object[] { gtra };
-      ConnectionSet cs = new ConnectionSet();
-
-      cs.connect(gtra, source.getPort(), target.getPort());
-
-      //cs.connect(transition,source.getCell(),true);
-      //cs.connect(transition,target.getCell(),false);
-      //      graphModel().insertAndEdit(insert,cs,null,null,viewMap,undoMsg);
-
-      graphModel().insertAndEdit(insert, viewMap, cs, null, null);
-
-      return gtra;
+      return insertTransitionOrAssociation(tra);
    }
-
-   public void updateBubble (ExtendedAttribute ea) {
-      GraphBubbleActivityInterface gact = getBubble(ea);
-      if (gact == null) {
-         return;
-      }
-      StartEndDescription sed=gact.getStartEndDescription();
-      String connectingActivityId=sed.getActId();
-      GraphActivityInterface connAct=null;
-      Set cas=null;
-      if (gact.isStart()) {
-         cas=gact.getReferencedActivities();
-      } else {
-         cas=gact.getReferencingActivities();
-      }
-      if (cas.size()>0) {
-         connAct=(GraphActivityInterface)cas.toArray()[0];
-      }
-      boolean disconnect=false;
-      boolean connect=false;
-      if (connectingActivityId==null) {
-         if (connAct!=null) {
-            disconnect=true;
-         }
-      } else {
-         if (connAct==null) {
-            connect=true;
-         } else {
-            if (!connAct.getPropertyObject().get("Id").toValue().equals(connectingActivityId)) {
-               disconnect=true;
-               connect=true;
-            }
-         }
-      }
-      if (disconnect) {
-         Set edges = gact.getPort().getEdges();
-         removeTransition((GraphTransitionInterface) edges.toArray()[0]);
-      }
-      if (connect) {
-         connectStartOrEndBubble(gact, connectingActivityId);
-      }
-            
-      
-      GraphParticipantInterface oldPar=(GraphParticipantInterface)gact.getParent();
-      GraphParticipantInterface newPar=getGraphParticipant(sed.getParticipantId());
-
-      if (newPar==null || oldPar==null) {
-         Thread.dumpStack();
-         return; // can happen when participant Id is updated
-      }
-      ParentMap parentMap = new JaWEParentMap();
-      if (!newPar.equals(oldPar)) {
-         parentMap.addEntry(gact, newPar);
-      }
-   
-      Map propertyMap = new HashMap();
-      changeBounds(gact, propertyMap, new Rectangle(getRealPosition(gact, newPar), 
-            new Dimension(defActivityHeight / 5 * 3, defActivityHeight / 5 * 3)));
-
-      if (!newPar.equals(oldPar)) {
-         if (isGraphRotated()) {
-            arrangeParticipantHorizontally(newPar, propertyMap, parentMap);
-            if (oldPar!=null) {
-               arrangeParticipantHorizontally(oldPar, propertyMap, parentMap);
-            }
-         } else {
-            arrangeParticipantVertically(newPar, propertyMap, parentMap);
-            if (oldPar!=null) {
-               arrangeParticipantVertically(oldPar, propertyMap, parentMap);
-            }
-         }
-      }
-      
-      updateModelAndArrangeParticipants(null, propertyMap, parentMap, null, getGraphController().getSettings().getLanguageDependentString(
-            "MessageMovingObjects"), null, true);
-   
-   }
-
-   public void arrangeBubblePosition(ExtendedAttribute ea,GraphParticipantInterface newPar) {
-      GraphBubbleActivityInterface gact = getBubble(ea);
-//      System.out.println("bubble "+gact);
-//      System.out.println("newpar "+newPar);
-      GraphParticipantInterface oldPar=(GraphParticipantInterface)gact.getParent();
-//      System.out.println("odlpar "+oldPar);
-      if (newPar==null || oldPar==null) return; // can happen when participant Id is updated
-      ParentMap parentMap = new JaWEParentMap();
-      if (!newPar.equals(oldPar)) {
-         parentMap.addEntry(gact, newPar);
-      }
-   
-      Map propertyMap = new HashMap();
-      changeBounds(gact, propertyMap, new Rectangle(getRealPosition(gact, newPar), 
-            new Dimension(defActivityHeight / 5 * 3, defActivityHeight / 5 * 3)));
-      updateModelAndArrangeParticipants(null, propertyMap, parentMap, null, getGraphController().getSettings().getLanguageDependentString(
-            "MessageMovingObjects"), null, true);
-   
-   }
-
 
    // ----------------------- participant handling
 
    /**
-    * Inserts new Participant cell into model. First, the
-    * parent of new Participant is searched, and if found, put into ParentMap
-    * (it is not inserted into model at ones). If parent participant isn't found ->
-    * root participant will be inserted. After that model's view is arranged
-    * (Participants are moved and translated along with it's children cells) to
-    * suite to the new model state - this is done "virtually" which means that
-    * changes are not directly applied to view until all changes are made. At
-    * the end, all changes are applied to model and view. Such procedure enables
-    * compound undo support. <BR>
+    * Inserts new Participant cell into model. First, the parent of new Participant is
+    * searched, and if found, put into ParentMap (it is not inserted into model at ones).
+    * If parent participant isn't found -> root participant will be inserted. After that
+    * model's view is arranged (Participants are moved and translated along with it's
+    * children cells) to suite to the new model state - this is done "virtually" which
+    * means that changes are not directly applied to view until all changes are made. At
+    * the end, all changes are applied to model and view. Such procedure enables compound
+    * undo support. <BR>
     * This method is called when inserting new Participant into model.
-    * 
     */
-   public GraphParticipantInterface insertParticipantAndArrangeParticipants(Participant par) {
-
+   public GraphParticipantInterface insertParticipantAndArrangeParticipants(Object par,
+                                                                            Point whereTo) {
+      GraphParticipantInterface gparentpar = getParticipantForLocation(whereTo);
+      if (par instanceof Lane) {
+         Lane parentLane = GraphUtilities.getParentLane((Lane) par);
+         if (parentLane != null) {
+            gparentpar = getGraphParticipant(parentLane);
+         } else {
+            if (gparentpar == null) {
+               gparentpar = getGraphParticipant(JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getPoolForProcessOrActivitySet(getXPDLOwner()));
+            }
+         }
+      }
       Map viewMap = new HashMap();
-      ParentMap parentMap = null;
+      ParentMap parentMap = new JaWEParentMap();
       Map propertyMap = null;
 
       // get the topmost participant at the location where
       // user want to insert participant
       Rectangle bounds = null;
-//System.err.println("Inserting participant "+par.getId()+", isGR="+isGraphRotated());
-      if (isGraphRotated()) {
-         bounds = new Rectangle(getNewRootParXPos(null, null), verticalOffset, minParHeight, getRootParticipantHeight(
-               null, null));
+      // System.err.println("Inserting participant "+par.getId()+", isGR="+isGraphRotated());
+      if (gparentpar == null) {
+         if (isGraphRotated()) {
+            bounds = new Rectangle(getNewRootParXPos(null, null),
+                                   verticalOffset,
+                                   minLaneHeight,
+                                   getRootParticipantHeight(null, null));
+         } else {
+            bounds = new Rectangle(horizontalOffset,
+                                   getNewRootParYPos(null, null),
+                                   getRootParticipantWidth(null, null),
+                                   minLaneHeight);
+         }
       } else {
-         bounds = new Rectangle(horizontalOffset, getNewRootParYPos(null, null), getRootParticipantWidth(null, null),
-               minParHeight);
+
+         // get the number of existing child participants in parent par.
+         int hmc = gparentpar.howManyChildParticipants();
+         // get the number of parent participants of ppar
+         int hmp = gparentpar.getLevel();
+
+         if (!isGraphRotated()) {
+            // calculate position and dimension of new participant
+            boolean resizeAllhorizontally = false;
+            int dhorizontally = 0;
+            Rectangle r = getCBounds(gparentpar, null);
+            int xPos = (1 + hmp) * defLaneNameWidth + horizontalOffset;
+            int yPos = ((int) r.getY());
+            int height = minLaneHeight;
+            if (hmc > 0) {
+               yPos += (int) r.getHeight();
+            } else {
+               height = (int) r.getHeight();
+            }
+            int dWidth = getRootParticipantWidth(null, null) + horizontalOffset - xPos;
+
+            if (dWidth < minLaneWidth) {
+               resizeAllhorizontally = true;
+               dhorizontally = minLaneWidth - dWidth;
+               dWidth = minLaneWidth;
+            }
+
+            // bounds of new Participant
+            bounds = new Rectangle(xPos, yPos, dWidth, height);
+
+            propertyMap = new HashMap();
+            // if there is a need, resize all participants horizontally
+            if (resizeAllhorizontally) {
+               List participants = JaWEGraphModel.getAllParticipantsInModel(graphModel());
+               if (participants != null) {
+                  resize(participants.toArray(), propertyMap, dhorizontally, 0);
+               }
+            }
+
+            // if there is a need, translate participants under yPos vertically, and
+            // resize all parents of new participant
+            if (hmc > 0) {
+               translateVertically(propertyMap, null, yPos, minLaneHeight);
+               resize(gparentpar.getPath(), propertyMap, 0, minLaneHeight);
+            }
+
+         } else {
+            // calculate position and dimension of new participant
+            boolean resizeAllVertically = false;
+            int dvertically = 0;
+            Rectangle r = getCBounds(gparentpar, null);
+            int yPos = (1 + hmp) * defLaneNameWidth + verticalOffset;
+            int xPos = ((int) r.getX());
+            int width = minLaneHeight;
+            if (hmc > 0) {
+               xPos += (int) r.getWidth();
+            } else {
+               width = (int) r.getWidth();
+            }
+            int dHeight = getRootParticipantHeight(null, null) + verticalOffset - yPos;
+
+            if (dHeight < minLaneWidth) {
+               resizeAllVertically = true;
+               dvertically = minLaneWidth - dHeight;
+               dHeight = minLaneWidth;
+            }
+
+            // bounds of new Participant
+            bounds = new Rectangle(xPos, yPos, width, dHeight);
+
+            propertyMap = new HashMap();
+            // if there is a need, resize all participants horizontally
+            if (resizeAllVertically) {
+               List participants = JaWEGraphModel.getAllParticipantsInModel(graphModel());
+               if (participants != null) {
+                  resize(participants.toArray(), propertyMap, 0, dvertically);
+               }
+            }
+
+            // if there is a need, translate participants under yPos vertically, and
+            // resize all parents of new participant
+            if (hmc > 0) {
+               translateHorizontally(propertyMap, null, xPos, minLaneHeight);
+               resize(gparentpar.getPath(), propertyMap, minLaneHeight, 0);
+            }
+         }
+         // par=createParticipant(rNew,viewMap);
+         // // creating parent map and adding entry for this participant
+         // parentMap = new PEParentMap();
+         // parentMap.addEntry(par,pPar);
+         //
+         //
+         // Rectangle b = getBounds(gparentpar, null);
+         // if (isGraphRotated()) {
+         // bounds = new Rectangle(b.x, b.y + defLaneNameWidth, b.width, b.height);
+         // } else {
+         // bounds = new Rectangle(b.x + defLaneNameWidth,
+         // b.y,
+         // b.width,
+         // b.height);
+         // }
       }
-      GraphParticipantInterface gpar = getGraphController().getGraphObjectFactory().createParticipant(bounds, viewMap,
-            par);
+      GraphParticipantInterface gpar = getGraphController().getGraphObjectFactory()
+         .createParticipant(bounds, viewMap, par);
 
-      propertyMap = new HashMap(viewMap);
+      if (gparentpar != null) {
+         parentMap.addEntry(gpar, gparentpar);
+         propertyMap.putAll(viewMap);
+      } else {
+         propertyMap = new HashMap(viewMap);
+      }
 
-      Object[] insert = new Object[] { gpar };
-      //         graphModel().insertAndEdit(insert,null,propertyMap,parentMap,viewMap,
+      Object[] insert = new Object[] {
+         gpar
+      };
+      // if (isGraphRotated()) {
+      // resizeAllParticipantsVertically(propertyMap, parentMap);
+      // } else {
+      // resizeAllParticipantsHorizontally(propertyMap, parentMap);
+      // }
+      // graphModel().insertAndEdit(insert,null,propertyMap,parentMap,viewMap,
       graphModel().insertAndEdit(insert, propertyMap, null, parentMap, null);
-      
+
       if (!creatingGraph) {
          try {
             graph.setPreferredSize(getGraphsPreferredSize());
@@ -788,17 +850,33 @@ public class GraphManager implements Serializable {
       return gpar;
    }
 
+   public GraphParticipantInterface getParticipantForLocation(Point whereTo) {
+      GraphParticipantInterface gparentpar = null;
+      if (whereTo != null) {
+         Object fc = graph.getFirstCellForLocation(whereTo.x, whereTo.y);
+         if (fc == null || !(fc instanceof GraphParticipantInterface)) {
+            if (isGraphRotated()) {
+               gparentpar = getLeafParticipantForXPos(whereTo.x, null, null);
+            } else {
+               gparentpar = getLeafParticipantForYPos(whereTo.y, null, null);
+            }
+         } else {
+            gparentpar = (GraphParticipantInterface) fc;
+         }
+      }
+      return gparentpar;
+   }
+
    /**
-    * Removes cells <b>cellsToDelete </b> from model. This means that given
-    * cells and all of their descendants as well as all transitions that
-    * connects given cells, will be removed from model. First, all remained
-    * participants are moved and resized according to participants that are
-    * beeing removed and ParentMap for all removed cells is created (all these
-    * things are made "virtually" - not applied to model and view). After that
-    * model's new view is arranged (Participants are moved and translated (along
-    * with it's children cells) according to the remained children - this is
-    * also done "virtually". At the end, all changes are applied to model and
-    * view. Such procedure enables compound undo support. <BR>
+    * Removes cells <b>cellsToDelete </b> from model. This means that given cells and all
+    * of their descendants as well as all transitions that connects given cells, will be
+    * removed from model. First, all remained participants are moved and resized according
+    * to participants that are beeing removed and ParentMap for all removed cells is
+    * created (all these things are made "virtually" - not applied to model and view).
+    * After that model's new view is arranged (Participants are moved and translated
+    * (along with it's children cells) according to the remained children - this is also
+    * done "virtually". At the end, all changes are applied to model and view. Such
+    * procedure enables compound undo support. <BR>
     * This method is called when deleting or cutting cells from graph.
     */
    public void removeCellsAndArrangeParticipants(Object[] cellsToDelete) {
@@ -814,10 +892,10 @@ public class GraphManager implements Serializable {
                GraphParticipantInterface par = (GraphParticipantInterface) cellsToDelete[i];
 
                // getting bounds of rectangle
-               Rectangle2D r = getBounds(par, propertyMap);//HM, JGraph3.4.1
-               int yPos = r.getBounds().y + r.getBounds().height - 1;//HM,
-               int xPos = r.getBounds().x + r.getBounds().width - 1;//HM,
-                                                                     // JGraph3.4.1
+               Rectangle2D r = getCBounds(par, propertyMap);// HM, JGraph3.4.1
+               int yPos = r.getBounds().y + r.getBounds().height - 1;// HM,
+               int xPos = r.getBounds().x + r.getBounds().width - 1;// HM,
+               // JGraph3.4.1
 
                // resize all parent participants (reduce their sizes) if needed,
                // and
@@ -827,21 +905,36 @@ public class GraphManager implements Serializable {
                   // resizing and translating is needed only if "first" parent
                   // has other children except one that is beeing removed
                   // or if its height can be reduced
-                  if (ppar.getChildCount() > 1 || getParticipantHeight(ppar, propertyMap) > minParHeight) {
+                  if (ppar.getChildCount() > 1
+                      || getParticipantHeight(ppar, propertyMap) > minLaneHeight) {
                      // gets all parents and resizes it
                      Object[] allParents = ppar.getPath();
                      // calculates resize value
-                     int resizeValue = r.getBounds().height;//HM, JGraph3.4.1
-                     int pHeight = getParticipantHeight(ppar, propertyMap);
-                     // do not allow to resize participant under it's minimal
-                     // height
-                     if (pHeight - r.getBounds().height < minParHeight) {//HM,
-                                                                         // JGraph3.4.1
-                        resizeValue = pHeight - minParHeight;
+                     if (!isGraphRotated()) {
+                        int resizeValue = r.getBounds().height;// HM, JGraph3.4.1
+                        int pHeight = getParticipantHeight(ppar, propertyMap);
+                        // do not allow to resize participant under it's minimal
+                        // height
+                        if (pHeight - resizeValue < minLaneHeight) {// HM,
+                           // JGraph3.4.1
+                           resizeValue = pHeight - minLaneHeight;
+                        }
+                        resize(allParents, propertyMap, 0, -resizeValue);
+                        // translate up all participants under yPos
+                        translateVertically(propertyMap, null, yPos, -resizeValue);
+                     } else {
+                        int resizeValue = r.getBounds().width;// HM, JGraph3.4.1
+                        int pWidth = getParticipantWidth(ppar, propertyMap);
+                        // do not allow to resize participant under it's minimal
+                        // height
+                        if (pWidth - resizeValue < minLaneHeight) {// HM,
+                           // JGraph3.4.1
+                           resizeValue = pWidth - minLaneHeight;
+                        }
+                        resize(allParents, propertyMap, -resizeValue, 0);
+                        // translate up all participants under yPos
+                        translateHorizontally(propertyMap, null, xPos, -resizeValue);
                      }
-                     resize(allParents, propertyMap, 0, -resizeValue);
-                     // translate up all participants under yPos
-                     translateVertically(propertyMap, null, yPos, -resizeValue);
                   }
                }
                // if participant is root there is a need of translating
@@ -849,8 +942,8 @@ public class GraphManager implements Serializable {
                else {
                   // translate up all participants under yPos
                   if (!isGraphRotated()) {
-                     translateVertically(propertyMap, null, yPos, -r.getBounds().height);//HM,
-                                                                                      // JGraph3.4.1
+                     translateVertically(propertyMap, null, yPos, -r.getBounds().height);// HM,
+                     // JGraph3.4.1
                   } else {
                      // JGraph3.4.1
                      translateHorizontally(propertyMap, null, xPos, -r.getBounds().width);
@@ -923,10 +1016,14 @@ public class GraphManager implements Serializable {
          // resizing remained participants
          if (!isGraphRotated()) {
             resizeAllParticipantsHorizontally(propertyMap, parentMap);
-            arrangeParticipantsVertically(participantsToArrange.toArray(), propertyMap, parentMap);
+            arrangeParticipantsVertically(participantsToArrange.toArray(),
+                                          propertyMap,
+                                          parentMap);
          } else {
             resizeAllParticipantsVertically(propertyMap, parentMap);
-            arrangeParticipantsHorizontally(participantsToArrange.toArray(), propertyMap, parentMap);
+            arrangeParticipantsHorizontally(participantsToArrange.toArray(),
+                                            propertyMap,
+                                            parentMap);
          }
 
          graphModel().removeAndEdit(cellsToDel.toArray(), propertyMap);
@@ -947,20 +1044,20 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns the point within the graph where the upper-left corner of given
-    * graph activity is placed. The point origin is the upper-left corner of
-    * participant graph object that holds given activity.
+    * Returns the point within the graph where the upper-left corner of given graph
+    * activity is placed. The point origin is the upper-left corner of participant graph
+    * object that holds given activity.
     */
-   public Point getOffset(GraphActivityInterface a, Map propertyMap) {
+   public Point getOffset(GraphCommonInterface a, Map propertyMap) {
       if (a != null) {
          GraphParticipantInterface par = (GraphParticipantInterface) a.getParent();
          if (par != null) {
-            Rectangle2D rpar = getBounds(par, propertyMap);//HM, JGraph3.4.1
-            Rectangle2D ract = getBounds(a, propertyMap);//HM, JGraph3.4.1
-            int yOff = ract.getBounds().y - rpar.getBounds().y;//HM,
-                                                               // JGraph3.4.1
-            int xOff = ract.getBounds().x - rpar.getBounds().x;//HM,
-                                                               // JGraph3.4.1
+            Rectangle2D rpar = getCBounds(par, propertyMap);// HM, JGraph3.4.1
+            Rectangle2D ract = getCBounds(a, propertyMap);// HM, JGraph3.4.1
+            int yOff = ract.getBounds().y - rpar.getBounds().y;// HM,
+            // JGraph3.4.1
+            int xOff = ract.getBounds().x - rpar.getBounds().x;// HM,
+            // JGraph3.4.1
             return new Point(xOff, yOff);
          }
       }
@@ -969,33 +1066,36 @@ public class GraphManager implements Serializable {
 
    public Point getOffset(Point actPoint) {
       if (actPoint != null) {
-         GraphParticipantInterface par = findParentActivityParticipantForLocation(actPoint, null, null);
-//         System.err.println("Handling relative offset for point "+actPoint+", found par="+par);
+         GraphParticipantInterface par = findParentParticipantForLocation(actPoint,
+                                                                          null,
+                                                                          null);
+         // System.err.println("Handling relative offset for point "+actPoint+", found par="+par);
          if (par != null) {
-            Rectangle2D rpar = getBounds(par, new HashMap());//HM, JGraph3.4.1
-            int yOff = actPoint.y - rpar.getBounds().y;//HM, JGraph3.4.1
-            int xOff = actPoint.x - rpar.getBounds().x;//HM, JGraph3.4.1
-//            System.err.println("               ..........par  bounds "+rpar+", offset="+new Point(xOff,yOff));
+            Rectangle2D rpar = getCBounds(par, new HashMap());// HM, JGraph3.4.1
+            int yOff = actPoint.y - rpar.getBounds().y;// HM, JGraph3.4.1
+            int xOff = actPoint.x - rpar.getBounds().x;// HM, JGraph3.4.1
+            // System.err.println("               ..........par  bounds "+rpar+", offset="+new
+            // Point(xOff,yOff));
             return new Point(xOff, yOff);
          }
       }
       return new Point(0, 0);
    }
 
-   public Point getRealPosition(GraphActivityInterface a, GraphParticipantInterface gpar) {
+   public Point getRealPosition(GraphCommonInterface a, GraphParticipantInterface gpar) {
       if (a != null) {
          if (gpar != null) {
             CellView view = getView(gpar);
             Rectangle2D rpar = view.getBounds();
-            Point aoffset=a.getOffset();
+            Point aoffset = a.getOffset();
             int y = aoffset.y + rpar.getBounds().y;
             int x = aoffset.x + rpar.getBounds().x;
-//            System.out.println("NP1="+new Point(x,y));
-//            
-//            if (y>rpar.getHeight()) y=(int)rpar.getHeight()-defActivityHeight-5;
-//            if (x>rpar.getWidth()) x=(int)rpar.getWidth()-defActivityWidth-10;
-            Point p=new Point(x,y);
-//            System.out.println("NP2="+p);
+            // System.out.println("NP1="+new Point(x,y));
+            //
+            // if (y>rpar.getHeight()) y=(int)rpar.getHeight()-defActivityHeight-5;
+            // if (x>rpar.getWidth()) x=(int)rpar.getWidth()-defActivityWidth-10;
+            Point p = new Point(x, y);
+            // System.out.println("NP2="+p);
             return p;
          }
       }
@@ -1003,22 +1103,24 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Inserts new activities into model, changes positions and sizes of
-    * participants due to a insertion of new activities or due to a moving of
-    * activities. Also, finds and changes parent's of inserted/changed-position
-    * activities. This method is called when inserting new activities, when
-    * pasting activities, and when moving activities. All changes to the model
-    * and to the view are at first made virtually (to the parentMap and to the
-    * propertyMap) and when all is done, method insertAndEdit of PEGraphModel
-    * class is called to actually make changes. The updateCollection parameter
-    * is used when some objects are inserted into model, to update collection of
-    * XML elements.
+    * Inserts new activities into model, changes positions and sizes of participants due
+    * to a insertion of new activities or due to a moving of activities. Also, finds and
+    * changes parent's of inserted/changed-position activities. This method is called when
+    * inserting new activities, when pasting activities, and when moving activities. All
+    * changes to the model and to the view are at first made virtually (to the parentMap
+    * and to the propertyMap) and when all is done, method insertAndEdit of PEGraphModel
+    * class is called to actually make changes. The updateCollection parameter is used
+    * when some objects are inserted into model, to update collection of XML elements.
     * 
-    * @param arrangeParticipants
-    *           TODO
+    * @param arrangeParticipants TODO
     */
-   protected void updateModelAndArrangeParticipants(Object[] insert, Map propertyMap, ParentMap parentMap, Map viewMap,
-         String actionName, ConnectionSet cs, boolean arrangeParticipants) {
+   public void updateModelAndArrangeParticipants(Object[] insert,
+                                                    Map propertyMap,
+                                                    ParentMap parentMap,
+                                                    Map viewMap,
+                                                    String actionName,
+                                                    ConnectionSet cs,
+                                                    boolean arrangeParticipants) {
 
       if (propertyMap == null && viewMap == null)
          return;
@@ -1039,29 +1141,28 @@ public class GraphManager implements Serializable {
       // could press mouse when inserting or pasting activities at the
       // forbiden position so position of activity is changed during
       // updateActivityParent method) and applying change to model and view
-      
-//        if (viewMap != null) { Iterator it = viewMap.keySet().iterator(); while
-//        (it.hasNext()) { Object cell=it.next(); 
-//        // removing entry for cell that is contained within viewMap 
-//        Map mapP=(Map)propertyMap.remove(cell); 
-//        //  apply position changes to corresponding viewMap element 
-//        Map  mapV=(Map)viewMap.get(cell); 
-//        if (!(cell instanceof Port)) { 
-//           Rectangle2D r=GraphConstants.getBounds(mapP); 
-//           GraphConstants.setBounds(mapV,r); 
-//           } 
-//        } 
-//        }
-       
+
+      // if (viewMap != null) { Iterator it = viewMap.keySet().iterator(); while
+      // (it.hasNext()) { Object cell=it.next();
+      // // removing entry for cell that is contained within viewMap
+      // Map mapP=(Map)propertyMap.remove(cell);
+      // // apply position changes to corresponding viewMap element
+      // Map mapV=(Map)viewMap.get(cell);
+      // if (!(cell instanceof Port)) {
+      // Rectangle2D r=GraphConstants.getBounds(mapP);
+      // GraphConstants.setBounds(mapV,r);
+      // }
+      // }
+      // }
 
       if (insert != null && ((JaWEParentMap) parentMap).entryCount() != insert.length) {
-         //return; //HM: enable Transition-copy/paste
+         // return; //HM: enable Transition-copy/paste
       }
 
       // makes all changes (if there was any) - to model and to view
-      //graphModel().insertAndEdit(insert,null,propertyMap,parentMap,viewMap,actionName);
+      // graphModel().insertAndEdit(insert,null,propertyMap,parentMap,viewMap,actionName);
       graphModel().insertAndEdit(insert, propertyMap, cs, parentMap, null);
-      
+
       Dimension prefSize = null;
       if (!creatingGraph) {
          try {
@@ -1081,18 +1182,20 @@ public class GraphManager implements Serializable {
    /**
     * Arranges participants according to the given property and parent maps.
     */
-   protected void arrangeParticipants(Map propertyMap, ParentMap parentMap) {
+   public void arrangeParticipants(Map propertyMap, ParentMap parentMap) {
       Set parsToArrange = new HashSet();
       // going through given propertyMap keys, and if key is
       // activity->updating it's parent if needed.
       // WARNING: must extract keys and put it in a array because
-      //          propertyMap changes -> ConcurrentModificationException
-      //          can happend
+      // propertyMap changes -> ConcurrentModificationException
+      // can happend
       Object[] cellsToManage = propertyMap.keySet().toArray();
       for (int i = 0; i < cellsToManage.length; i++) {
          Object cell = cellsToManage[i];
-         if (cell instanceof GraphActivityInterface) {
-            Set oldAndNewParentPar = updateActivityParent((GraphActivityInterface) cell, propertyMap, parentMap);
+         if (cell instanceof GraphCommonInterface) {
+            Set oldAndNewParentPar = updateParent((GraphCommonInterface) cell,
+                                                  propertyMap,
+                                                  parentMap);
             parsToArrange.addAll(oldAndNewParentPar);
          }
       }
@@ -1112,24 +1215,28 @@ public class GraphManager implements Serializable {
       // going through given propertyMap keys, and if key is
       // activity->updating it's parent if needed.
       // WARNING: must extract keys and put it in a array because
-      //          propertyMap changes -> ConcurrentModificationException
-      //          can happend
+      // propertyMap changes -> ConcurrentModificationException
+      // can happend
       Object[] cellsToManage = propertyMap.keySet().toArray();
       for (int i = 0; i < cellsToManage.length; i++) {
          Object cell = cellsToManage[i];
-         if (cell instanceof GraphActivityInterface) {
-            Set oldAndNewParentPar = updateActivityParent((GraphActivityInterface) cell, propertyMap, parentMap);
+         if (cell instanceof GraphActivityInterface
+             || cell instanceof GraphArtifactInterface) {
+            Set oldAndNewParentPar = updateParent((GraphActivityInterface) cell,
+                                                  propertyMap,
+                                                  parentMap);
             parsToArrange.addAll(oldAndNewParentPar);
          }
       }
    }
 
    /**
-    * Determines old and new participant for activity, adjusts activities
-    * position if needed and properly changes parent of activity (adds entry
-    * into the parentMap).
+    * Determines old and new participant for activity, adjusts activities position if
+    * needed and properly changes parent of activity (adds entry into the parentMap).
     */
-   protected Set updateActivityParent(GraphActivityInterface ac, Map propertyMap, ParentMap parentMap) {
+   protected Set updateParent(GraphCommonInterface ac,
+                              Map propertyMap,
+                              ParentMap parentMap) {
       // must return old and new participant to the caller method
       Set oldAndNewPar = new HashSet();
       // old and new parent participant of given activity
@@ -1143,18 +1250,18 @@ public class GraphManager implements Serializable {
       GraphParticipantInterface newPar = null;
       // taking position elements of Activity
       // taking bounding rectangle
-      Rectangle2D acRect = getBounds(ac, propertyMap);//HM, JGraph3.4.1
+      Rectangle2D acRect = getCBounds(ac, propertyMap);// HM, JGraph3.4.1
       // taking upper-left corner, this will be reference for moving activitys
-      Point acUpperLeft = acRect.getBounds().getLocation();//HM, JGraph3.4.1
+      Point acUpperLeft = acRect.getBounds().getLocation();// HM, JGraph3.4.1
       Point newAcUpperLeft = new Point(acUpperLeft);
 
-      newPar = findParentActivityParticipantForLocation(newAcUpperLeft, propertyMap, parentMap);
+      newPar = findParentParticipantForLocation(newAcUpperLeft, propertyMap, parentMap);
 
-//      System.out.println("Old par for activity "+ac+" is "+oldPar+", and new par is "+newPar);
+      // System.out.println("Old par for activity "+ac+" is "+oldPar+", and new par is "+newPar);
       // if previous method changed location of upper-left point,
       // move activity to new location
       if (!newAcUpperLeft.equals(acUpperLeft)) {
-         Rectangle r = new Rectangle(acRect.getBounds());//HM, JGraph3.4.1
+         Rectangle r = new Rectangle(acRect.getBounds());// HM, JGraph3.4.1
          r.setLocation(newAcUpperLeft);
          changeBounds(ac, propertyMap, r);
       }
@@ -1175,7 +1282,7 @@ public class GraphManager implements Serializable {
 
    }
 
-   public GraphParticipantInterface findParentForLocation(Point loc) {
+   public GraphParticipantInterface findParentParticipantForLocation(Point loc) {
       GraphParticipantInterface newPar = null;
       // if user put activity cell somewhere outside visible area, move it back
       if (loc.y <= 0) {
@@ -1191,16 +1298,17 @@ public class GraphManager implements Serializable {
       } else {
          newPar = getLeafParticipantForYPos(loc.y, null, null);
       }
-      
+
       return newPar;
    }
-   
+
    /**
-    * Finds new participant for activity after it's position changes. WARNING:
-    * this method changes it's argument loc if not appropriate.
+    * Finds new participant for activity after it's position changes. WARNING: this method
+    * changes it's argument loc if not appropriate.
     */
-   public GraphParticipantInterface findParentActivityParticipantForLocation(Point loc, Map propertyMap,
-         ParentMap parentMap) {
+   public GraphParticipantInterface findParentParticipantForLocation(Point loc,
+                                                                     Map propertyMap,
+                                                                     ParentMap parentMap) {
       GraphParticipantInterface newPar = null;
       // if user put activity cell somewhere outside visible area, move it back
       if (loc.y <= 0) {
@@ -1219,16 +1327,18 @@ public class GraphManager implements Serializable {
          // so it's new participant will be the leaf participant with the
          // highest y-coord
          if (newPar == null) {
-            newPar = getLeafParticipantForXPos(getNewRootParXPos(propertyMap, null) - 10, propertyMap, parentMap);
+            newPar = getLeafParticipantForXPos(getNewRootParXPos(propertyMap, null) - 10,
+                                               propertyMap,
+                                               parentMap);
          }
 
          if (newPar != null) {
             // Adjust activities x-pos if needed
-            Rectangle2D newParRect = getBounds(newPar, propertyMap);//HM,
+            Rectangle2D newParRect = getCBounds(newPar, propertyMap);// HM,
             // JGraph3.4.1
             // if x-position is not OK, set appropriate position
-            if (newParRect.getY() + defParNameWidth >= loc.y) {
-               loc.y = (int) (newParRect.getY() + defParNameWidth + 1);
+            if (newParRect.getY() + defLaneNameWidth >= loc.y) {
+               loc.y = (int) (newParRect.getY() + defLaneNameWidth + 1);
             }
          }
          // it is activity that belongs to an block activity
@@ -1246,16 +1356,18 @@ public class GraphManager implements Serializable {
          // so it's new participant will be the leaf participant with the
          // highest y-coord
          if (newPar == null) {
-            newPar = getLeafParticipantForYPos(getNewRootParYPos(propertyMap, null) - 10, propertyMap, parentMap);
+            newPar = getLeafParticipantForYPos(getNewRootParYPos(propertyMap, null) - 10,
+                                               propertyMap,
+                                               parentMap);
          }
 
          if (newPar != null) {
             // Adjust activities x-pos if needed
-            Rectangle2D newParRect = getBounds(newPar, propertyMap);//HM,
+            Rectangle2D newParRect = getCBounds(newPar, propertyMap);// HM,
             // JGraph3.4.1
             // if x-position is not OK, set appropriate position
-            if (newParRect.getX() + defParNameWidth >= loc.x) {
-               loc.x = (int) newParRect.getX() + defParNameWidth + 1;
+            if (newParRect.getX() + defLaneNameWidth >= loc.x) {
+               loc.x = (int) newParRect.getX() + defLaneNameWidth + 1;
             }
          }
          // it is activity that belongs to an block activity
@@ -1270,7 +1382,9 @@ public class GraphManager implements Serializable {
       return newPar;
    }
 
-   protected void arrangeParticipantsHorizontally(Object[] pars, Map propertyMap, ParentMap parentMap) {
+   protected void arrangeParticipantsHorizontally(Object[] pars,
+                                                  Map propertyMap,
+                                                  ParentMap parentMap) {
       if ((pars == null) || (pars.length == 0))
          return;
 
@@ -1280,11 +1394,12 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Arranging heights and positions of given participants and positions of
-    * participants that must be translated due to a change of given
-    * participants.
+    * Arranging heights and positions of given participants and positions of participants
+    * that must be translated due to a change of given participants.
     */
-   protected void arrangeParticipantsVertically(Object[] pars, Map propertyMap, ParentMap parentMap) {
+   protected void arrangeParticipantsVertically(Object[] pars,
+                                                Map propertyMap,
+                                                ParentMap parentMap) {
       if ((pars == null) || (pars.length == 0))
          return;
 
@@ -1294,7 +1409,9 @@ public class GraphManager implements Serializable {
       }
    }
 
-   protected void arrangeParticipantHorizontally(Object par, Map propertyMap, ParentMap parentMap) {
+   protected void arrangeParticipantHorizontally(Object par,
+                                                 Map propertyMap,
+                                                 ParentMap parentMap) {
       // can't be null, must be instance of Participant,
       // and can't have other participants
       // also it can't be removed
@@ -1317,7 +1434,10 @@ public class GraphManager implements Serializable {
       if (dwidth != 0) {
          // translating horizontally participants under right edge
          // of participant for value of dwidth
-         translateHorizontally(propertyMap, parentMap, getBounds(p, propertyMap).getBounds().x + curWidth - 1, dwidth);//HM,
+         translateHorizontally(propertyMap,
+                               parentMap,
+                               getCBounds(p, propertyMap).getBounds().x + curWidth - 1,
+                               dwidth);// HM,
          // JGraph3.4.1
 
          // gets all parents participant (and given participant) into array
@@ -1328,16 +1448,17 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Resizing participant par and it's parents to appropriate height, and
-    * translating other participants accordingly to changes of participant par.
-    * The size's and positions are calculated considering propertyMap and
-    * parentMap - which means for future children state, and for bounds that are
-    * constantly changed during other calculations. If propertyMap and parentMap
-    * are null, size's and positions are calculated for current state. Also, if
-    * par that is to be arranged has entry in parentMap as removed participant,
-    * it will not be arranged.
+    * Resizing participant par and it's parents to appropriate height, and translating
+    * other participants accordingly to changes of participant par. The size's and
+    * positions are calculated considering propertyMap and parentMap - which means for
+    * future children state, and for bounds that are constantly changed during other
+    * calculations. If propertyMap and parentMap are null, size's and positions are
+    * calculated for current state. Also, if par that is to be arranged has entry in
+    * parentMap as removed participant, it will not be arranged.
     */
-   protected void arrangeParticipantVertically(Object par, Map propertyMap, ParentMap parentMap) {
+   protected void arrangeParticipantVertically(Object par,
+                                               Map propertyMap,
+                                               ParentMap parentMap) {
       // can't be null, must be instance of Participant,
       // and can't have other participants
       // also it can't be removed
@@ -1360,8 +1481,11 @@ public class GraphManager implements Serializable {
       if (dheight != 0) {
          // translating verticaly participants under bottom edge
          // of participant for value of dheight
-         translateVertically(propertyMap, parentMap, getBounds(p, propertyMap).getBounds().y + curHeight - 1, dheight);//HM,
-                                                                                                                       // JGraph3.4.1
+         translateVertically(propertyMap,
+                             parentMap,
+                             getCBounds(p, propertyMap).getBounds().y + curHeight - 1,
+                             dheight);// HM,
+         // JGraph3.4.1
 
          // gets all parents participant (and given participant) into array
          // and resizes them for value of dheight
@@ -1372,11 +1496,11 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Method that resizes all participants horizontally to get there minimal
-    * needed sizes. The size is calculated considering propertyMap and parentMap -
-    * which means for future children state, and for bounds that are constantly
-    * changed during other calculations. If propertyMap and parentMap are null,
-    * size is calculated for current state.
+    * Method that resizes all participants horizontally to get there minimal needed sizes.
+    * The size is calculated considering propertyMap and parentMap - which means for
+    * future children state, and for bounds that are constantly changed during other
+    * calculations. If propertyMap and parentMap are null, size is calculated for current
+    * state.
     */
    protected void resizeAllParticipantsHorizontally(Map propertyMap, ParentMap parentMap) {
       List participants = JaWEGraphModel.getAllParticipantsInModel(graphModel());
@@ -1414,13 +1538,15 @@ public class GraphManager implements Serializable {
       }
    }
 
-   protected int optimalRootParticipantHeight(List participants, Map propertyMap, ParentMap parentMap) {
+   protected int optimalRootParticipantHeight(List participants,
+                                              Map propertyMap,
+                                              ParentMap parentMap) {
       // initial value for width stays the same
       int minHeight;
       if (isGraphRotated())
-         minHeight = minParWidth;
+         minHeight = minLaneWidth;
       else
-         minHeight = minParHeight;
+         minHeight = minLaneHeight;
 
       // exits if there are no participants created
       if (participants == null)
@@ -1451,15 +1577,17 @@ public class GraphManager implements Serializable {
          int minChildrenBEdge = 0;
          // getting future participant bounds
          if (isGraphRotated())
-            minParBEdge = (int) getBounds(lpar, propertyMap).getY() + minParWidth;//HM,
+            minParBEdge = (int) getCBounds(lpar, propertyMap).getY() + minLaneWidth;// HM,
          else
-            minParBEdge = (int) getBounds(lpar, propertyMap).getY() + minParHeight;//HM,
+            minParBEdge = (int) getCBounds(lpar, propertyMap).getY() + minLaneHeight;// HM,
          // JGraph3.4.1
          // getting the future child views bounding rectangle -> its right
          // edge plus some extra space is min. right edge for that participant
-         Rectangle r = getBoundsOfParticipantFutureActivities(lpar, propertyMap, parentMap);
+         Rectangle r = getBoundsOfParticipantFutureActivitiesAndArtifacts(lpar,
+                                                                          propertyMap,
+                                                                          parentMap);
          if (r != null) {
-            minChildrenBEdge = r.y + r.height + defParNameWidth;
+            minChildrenBEdge = r.y + r.height + defLaneNameWidth;
          }
 
          minBEdge = java.lang.Math.max(minParBEdge, minChildrenBEdge);
@@ -1473,8 +1601,8 @@ public class GraphManager implements Serializable {
 
       int minH = maxBottomEdgePosition - verticalOffset;
 
-      // can't allow that the minWidth<minParWidth
-      if (minH > minParWidth) {
+      // can't allow that the minWidth<minLaneWidth
+      if (minH > minLaneWidth) {
          minHeight = minH;
       }
 
@@ -1483,20 +1611,22 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Calculates the minimal width of root participants. It depends of minimal
-    * allowed width of leaf participants, which depends on the position of
-    * Activity cells in them. The width is calculated considering propertyMap
-    * and parentMap - which means for future children state, and for bounds that
-    * are constantly changed during other calculations. If propertyMap and
-    * parentMap are null, size is calculated for current state.
+    * Calculates the minimal width of root participants. It depends of minimal allowed
+    * width of leaf participants, which depends on the position of Activity cells in them.
+    * The width is calculated considering propertyMap and parentMap - which means for
+    * future children state, and for bounds that are constantly changed during other
+    * calculations. If propertyMap and parentMap are null, size is calculated for current
+    * state.
     */
-   protected int optimalRootParticipantWidth(List participants, Map propertyMap, ParentMap parentMap) {
+   protected int optimalRootParticipantWidth(List participants,
+                                             Map propertyMap,
+                                             ParentMap parentMap) {
       // initial value for width stays the same
       int minWidth;
       if (isGraphRotated())
-         minWidth = minParHeight;
+         minWidth = minLaneHeight;
       else
-         minWidth = minParWidth;
+         minWidth = minLaneWidth;
 
       // exits if there are no participants created
       if (participants == null)
@@ -1527,16 +1657,18 @@ public class GraphManager implements Serializable {
          int minChildrenREdge = 0;
          // getting future participant bounds
          if (isGraphRotated())
-            minParREdge = (int) getBounds(lpar, propertyMap).getX() + minParHeight;//HM,
-                                                                                   // JGraph3.4.1
+            minParREdge = (int) getCBounds(lpar, propertyMap).getX() + minLaneHeight;// HM,
+         // JGraph3.4.1
          else
-            minParREdge = (int) getBounds(lpar, propertyMap).getX() + minParWidth;//HM,
-                                                                                  // JGraph3.4.1
+            minParREdge = (int) getCBounds(lpar, propertyMap).getX() + minLaneWidth;// HM,
+         // JGraph3.4.1
          // getting the future child views bounding rectangle -> its right
          // edge plus some extra space is min. right edge for that participant
-         Rectangle r = getBoundsOfParticipantFutureActivities(lpar, propertyMap, parentMap);
+         Rectangle r = getBoundsOfParticipantFutureActivitiesAndArtifacts(lpar,
+                                                                          propertyMap,
+                                                                          parentMap);
          if (r != null) {
-            minChildrenREdge = r.x + r.width + defParNameWidth;
+            minChildrenREdge = r.x + r.width + defLaneNameWidth;
          }
 
          minREdge = java.lang.Math.max(minParREdge, minChildrenREdge);
@@ -1550,8 +1682,8 @@ public class GraphManager implements Serializable {
 
       int minW = maxRightEdgePosition - horizontalOffset;
 
-      // can't allow that the minWidth<minParWidth
-      if (minW > minParWidth) {
+      // can't allow that the minWidth<minLaneWidth
+      if (minW > minLaneWidth) {
          minWidth = minW;
       }
 
@@ -1559,25 +1691,29 @@ public class GraphManager implements Serializable {
 
    }
 
-   protected int optimalParticipantWidth(GraphParticipantInterface par, Map propertyMap, ParentMap parentMap) {
+   protected int optimalParticipantWidth(GraphParticipantInterface par,
+                                         Map propertyMap,
+                                         ParentMap parentMap) {
       // initial value for width
       int optWidth;
       if (isGraphRotated())
-         optWidth = minParHeight;
+         optWidth = minLaneHeight;
       else
-         optWidth = minParWidth;
+         optWidth = minLaneWidth;
 
-      // exits returning minParHeight if there are no activity cells within
+      // exits returning minLaneHeight if there are no activity cells within
       // participant
-      if (!hasAnyActivity(par, parentMap))
+      if (!hasAnyActivityOrArtifact(par, parentMap))
          return optWidth;
 
       // get bounds of par (either current or future)
-      Rectangle2D rCurrent = getBounds(par, propertyMap);//HM,
+      Rectangle2D rCurrent = getCBounds(par, propertyMap);// HM,
       // JGraph3.4.1
       // get preffered bounding rectangle of participant (according to it's
       // children)
-      Rectangle rPreferred = getBoundsOfParticipantFutureActivities(par, propertyMap, parentMap);
+      Rectangle rPreferred = getBoundsOfParticipantFutureActivitiesAndArtifacts(par,
+                                                                                propertyMap,
+                                                                                parentMap);
 
       // difference of these rectangle's bottom positions plus current par
       // height
@@ -1586,7 +1722,8 @@ public class GraphManager implements Serializable {
       // calculate difference in bottom edges of these rectangles, and optimal
       // height
       if (rPreferred != null) {
-         int dRight = (rPreferred.x + rPreferred.width) - (int) (rCurrent.getX() + rCurrent.getWidth());
+         int dRight = (rPreferred.x + rPreferred.width)
+                      - (int) (rCurrent.getX() + rCurrent.getWidth());
          int optW = (int) rCurrent.getWidth() + dRight + 10;
 
          // optimal height can't be less then minHeight
@@ -1600,31 +1737,35 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Calculates minimal participant height, which depends of position of all of
-    * its Activity cells. The height is calculated considering propertyMap and
-    * parentMap - which means for future children state, and for bounds that are
-    * constantly changed during other calculations. If propertyMap and parentMap
-    * are null, size is calculated for current state.
+    * Calculates minimal participant height, which depends of position of all of its
+    * Activity cells. The height is calculated considering propertyMap and parentMap -
+    * which means for future children state, and for bounds that are constantly changed
+    * during other calculations. If propertyMap and parentMap are null, size is calculated
+    * for current state.
     */
-   protected int optimalParticipantHeight(GraphParticipantInterface par, Map propertyMap, ParentMap parentMap) {
+   protected int optimalParticipantHeight(GraphParticipantInterface par,
+                                          Map propertyMap,
+                                          ParentMap parentMap) {
       // initial value for height
       int optHeight;
       if (isGraphRotated())
-         optHeight = minParWidth;
+         optHeight = minLaneWidth;
       else
-         optHeight = minParHeight;
+         optHeight = minLaneHeight;
 
-      // exits returning minParHeight if there are no activity cells within
+      // exits returning minLaneHeight if there are no activity cells within
       // participant
-      if (!hasAnyActivity(par, parentMap))
+      if (!hasAnyActivityOrArtifact(par, parentMap))
          return optHeight;
 
       // get bounds of par (either current or future)
-      Rectangle2D rCurrent = getBounds(par, propertyMap);//HM, JGraph3.4.1
+      Rectangle2D rCurrent = getCBounds(par, propertyMap);// HM, JGraph3.4.1
       // get preffered bounding rectangle of participant (according to it's
       // children)
-      Rectangle rPreferred = getBoundsOfParticipantFutureActivities(par, propertyMap, parentMap);
-      
+      Rectangle rPreferred = getBoundsOfParticipantFutureActivitiesAndArtifacts(par,
+                                                                                propertyMap,
+                                                                                parentMap);
+
       // difference of these rectangle's bottom positions plus current par
       // height
       // plus some extra space is min. height for given participant
@@ -1632,7 +1773,8 @@ public class GraphManager implements Serializable {
       // calculate difference in bottom edges of these rectangles, and optimal
       // height
       if (rPreferred != null) {
-         int dBottom = (rPreferred.y + rPreferred.height) - (int) (rCurrent.getY() + rCurrent.getHeight());
+         int dBottom = (rPreferred.y + rPreferred.height)
+                       - (int) (rCurrent.getY() + rCurrent.getHeight());
          int optH = (int) rCurrent.getHeight() + dBottom + 10;
 
          // optimal height can't be less then minHeight
@@ -1640,7 +1782,7 @@ public class GraphManager implements Serializable {
             optHeight = optH;
          }
       } else {
-         //System.err.println("OHINNNNNNNNNNNNNNNNNNNUUUUUUUUUUUUULLLLLLLLLL");
+         // System.err.println("OHINNNNNNNNNNNNNNNNNNNUUUUUUUUUUUUULLLLLLLLLL");
       }
 
       return optHeight;
@@ -1648,84 +1790,108 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Resizes given participants. The resizing is done to propertyMap which will
-    * later (after all needed operation) be applied.
+    * Resizes given participants. The resizing is done to propertyMap which will later
+    * (after all needed operation) be applied.
     */
    protected void resize(Object[] cells, Map propertyMap, int dw, int dh) {
       if (cells != null && cells.length > 0) {
          Rectangle r;
          for (int i = 0; i < cells.length; i++) {
-            r = new Rectangle(getBounds(cells[i], propertyMap).getBounds());//HM,
-                                                                            // JGraph3.4.1
+            r = new Rectangle(getCBounds(cells[i], propertyMap).getBounds());// HM,
+            // JGraph3.4.1
 
             int newWidth = r.width + dw;
             int newHeight = r.height + dh;
 
             if (isGraphRotated()) {
-               if (newWidth < minParHeight || newHeight < minParWidth) {
-                  System.err.println("There was an error in calculating size of participant " + cells[i] + "!!!");
-                  System.err.println("New width=" + newWidth + ", new height=" + newHeight);
+               if (newWidth < minLaneHeight || newHeight < minLaneWidth) {
+                  System.err.println("There was an error in calculating size of participant "
+                                     + cells[i] + "!!!");
+                  System.err.println("New width="
+                                     + newWidth + ", new height=" + newHeight);
                }
             } else {
-               if (newWidth < minParWidth || newHeight < minParHeight) {
-                  System.err.println("There was an error in calculating size of participant " + cells[i] + "!!!");
-                  System.err.println("New width=" + newWidth + ", new height=" + newHeight);
+               if (newWidth < minLaneWidth || newHeight < minLaneHeight) {
+                  System.err.println("There was an error in calculating size of participant "
+                                     + cells[i] + "!!!");
+                  System.err.println("New width="
+                                     + newWidth + ", new height=" + newHeight);
                }
             }
 
             r.setSize(newWidth, newHeight);
-            changeBounds(cells[i], propertyMap, r);            
+            changeBounds(cells[i], propertyMap, r);
          }
       }
    }
 
-   protected void translateHorizontally(Map propertyMap, ParentMap parentMap, int xPos, int dv) {
-      GraphParticipantInterface[] pars = getParticipantsForXPos(xPos, 0, propertyMap, parentMap);
+   protected void translateHorizontally(Map propertyMap,
+                                        ParentMap parentMap,
+                                        int xPos,
+                                        int dv) {
+      GraphParticipantInterface[] pars = getParticipantsForXPos(xPos,
+                                                                0,
+                                                                propertyMap,
+                                                                parentMap,
+                                                                true);
       translateParticipants(pars, propertyMap, parentMap, dv, 0);
    }
 
    /**
-    * Translates participants under given position yPos vertically for a value
-    * of dv. The translating is done to propertyMap which will later (after all
-    * needed operation) be applied.
+    * Translates participants under given position yPos vertically for a value of dv. The
+    * translating is done to propertyMap which will later (after all needed operation) be
+    * applied.
     * 
     * @see #translateParticipants
     */
-   protected void translateVertically(Map propertyMap, ParentMap parentMap, int yPos, int dv) {
-      GraphParticipantInterface[] pars = getParticipantsForYPos(yPos, 0, propertyMap, parentMap);
+   protected void translateVertically(Map propertyMap,
+                                      ParentMap parentMap,
+                                      int yPos,
+                                      int dv) {
+      GraphParticipantInterface[] pars = getParticipantsForYPos(yPos,
+                                                                0,
+                                                                propertyMap,
+                                                                parentMap,
+                                                                true);
       translateParticipants(pars, propertyMap, parentMap, 0, dv);
    }
 
    /**
-    * Translates given participants using propertyMap for bounds checking and
-    * parentMap for future children checking. The translating is done to
-    * propertyMap which will later (after all needed operation) be applied.
+    * Translates given participants using propertyMap for bounds checking and parentMap
+    * for future children checking. The translating is done to propertyMap which will
+    * later (after all needed operation) be applied.
     * 
     * @see #translateParticipant
     */
-   protected void translateParticipants(GraphParticipantInterface[] cells, Map propertyMap, ParentMap parentMap,
-         int dx, int dy) {
+   protected void translateParticipants(GraphParticipantInterface[] cells,
+                                        Map propertyMap,
+                                        ParentMap parentMap,
+                                        int dx,
+                                        int dy) {
       if (cells != null && cells.length > 0) {
          for (int i = 0; i < cells.length; i++) {
-            translateParticipant(cells[i], propertyMap, parentMap, dx, dy);
+            translateParticipant(cells[i], propertyMap, parentMap, dx, dy, false);
          }
       }
    }
 
    /**
-    * Translates single participant and its children.The method checks for
-    * bounds of cells within propertyMap and uses parentMap to translate right
-    * children (the children that will be it's after applying parentMap). The
-    * translating is done to propertyMap which will later (after all needed
-    * operation) be applied.
+    * Translates single participant and its children.The method checks for bounds of cells
+    * within propertyMap and uses parentMap to translate right children (the children that
+    * will be it's after applying parentMap). The translating is done to propertyMap which
+    * will later (after all needed operation) be applied.
     */
-   protected void translateParticipant(GraphParticipantInterface par, Map propertyMap, ParentMap parentMap, int dx,
-         int dy) {
+   protected void translateParticipant(GraphParticipantInterface par,
+                                       Map propertyMap,
+                                       ParentMap parentMap,
+                                       int dx,
+                                       int dy,
+                                       boolean handleChildren) {
       Set participantAndItsFutureActivities = new HashSet();
       participantAndItsFutureActivities.add(par);
 
       // Get future activities of participant
-      Set futureActivities = getParticipantFutureActivities(par, parentMap);
+      Set futureActivities = getParticipantFutureActivitiesAndArtifacts(par, parentMap);
 
       participantAndItsFutureActivities.addAll(futureActivities);
 
@@ -1734,28 +1900,40 @@ public class GraphManager implements Serializable {
       Iterator it = participantAndItsFutureActivities.iterator();
       while (it.hasNext()) {
          Object cell = it.next();
-         r = new Rectangle(getBounds(cell, propertyMap).getBounds());//HM,
-                                                                     // JGraph3.4.1
+         r = new Rectangle(getCBounds(cell, propertyMap).getBounds());// HM,
+         // JGraph3.4.1
          r.translate(dx, dy);
          changeBounds(cell, propertyMap, r);
+      }
+      if (handleChildren) {
+         it = getAllChildParticipants(par).iterator();
+         while (it.hasNext()) {
+            translateParticipant((GraphParticipantInterface) it.next(),
+                                 propertyMap,
+                                 parentMap,
+                                 dx,
+                                 dy,
+                                 true);
+         }
       }
    }
 
    /**
-    * Gets the bounding rectangle of future children activities of given
-    * Participant par (that will be participants activities after parent map is
-    * applied). Bounding rectangle is union of previous mentioned activities.
+    * Gets the bounding rectangle of future children activities of given Participant par
+    * (that will be participants activities after parent map is applied). Bounding
+    * rectangle is union of previous mentioned activities.
     */
-   protected Rectangle getBoundsOfParticipantFutureActivities(GraphParticipantInterface par, Map propertyMap,
-         ParentMap parentMap) {
+   protected Rectangle getBoundsOfParticipantFutureActivitiesAndArtifacts(GraphParticipantInterface par,
+                                                                          Map propertyMap,
+                                                                          ParentMap parentMap) {
       // simulate future state of children and get it's bounds
-      Set futureActivities = getParticipantFutureActivities(par, parentMap);
+      Set futureActivities = getParticipantFutureActivitiesAndArtifacts(par, parentMap);
       Set futureActivityBounds = new HashSet();
 
       Iterator it = futureActivities.iterator();
       while (it.hasNext()) {
-         Rectangle actBnd = getBounds(it.next(), propertyMap).getBounds();//HM,
-                                                                          // JGraph3.4.1
+         Rectangle actBnd = getCBounds(it.next(), propertyMap).getBounds();// HM,
+         // JGraph3.4.1
          futureActivityBounds.add(actBnd);
       }
 
@@ -1767,15 +1945,16 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Gets future children activities of given participant par (that will be
-    * par's activities after parent map is applied).
+    * Gets future children activities of given participant par (that will be par's
+    * activities after parent map is applied).
     */
-   protected Set getParticipantFutureActivities(GraphParticipantInterface par, ParentMap parentMap) {
+   protected Set getParticipantFutureActivitiesAndArtifacts(GraphParticipantInterface par,
+                                                            ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
       // in it, return current participants activities
       if (parentMap == null) {// || !parentMap.getChangedNodes().contains(par))
-                              // {
-         return par.getChildActivities();
+         // {
+         return par.getChildActivitiesAndArtifacts();
       }
       Set futureActivities = new HashSet();
       // getting participants which will be empty after applying parentMap
@@ -1788,7 +1967,7 @@ public class GraphManager implements Serializable {
       Set changedNodes = parentMap.getChangedNodes();
       // get all (previous) participants activities and make the future look
       // of participant activities
-      futureActivities = new HashSet(par.getChildActivities());
+      futureActivities = new HashSet(par.getChildActivitiesAndArtifacts());
       Object[] previousActivities = futureActivities.toArray();
       // iterate through child activities and remove ones which are
       // contained in changed nodes of parent map - they will no longer
@@ -1806,9 +1985,15 @@ public class GraphManager implements Serializable {
       return futureActivities;
    }
 
-   protected GraphParticipantInterface getLeafParticipantForXPos(int xPos, Map propertyMap, ParentMap parentMap) {
+   protected GraphParticipantInterface getLeafParticipantForXPos(int xPos,
+                                                                 Map propertyMap,
+                                                                 ParentMap parentMap) {
       // getting all participants that contains yPos
-      GraphParticipantInterface[] pars = getParticipantsForXPos(xPos, 2, propertyMap, parentMap);
+      GraphParticipantInterface[] pars = getParticipantsForXPos(xPos,
+                                                                2,
+                                                                propertyMap,
+                                                                parentMap,
+                                                                true);
 
       // if there is no participants at this location, return null
       if (pars == null)
@@ -1837,7 +2022,7 @@ public class GraphManager implements Serializable {
          Rectangle parRect;
 
          // taking bounding rectangle of first par
-         parRect = getBounds(rightPar, propertyMap).getBounds();//HM,
+         parRect = getCBounds(rightPar, propertyMap).getBounds();// HM,
          // JGraph3.4.1
          // taking upper-left corner y-coord
          upperLeftX = parRect.getLocation().x;
@@ -1846,7 +2031,7 @@ public class GraphManager implements Serializable {
          // finding the participant with min. y-coord
          while (it.hasNext()) {
             Object curPar = it.next();
-            parRect = getBounds(curPar, propertyMap).getBounds();//HM,
+            parRect = getCBounds(curPar, propertyMap).getBounds();// HM,
             // JGraph3.4.1
             upperLeftX = parRect.getLocation().x;
             if (upperLeftX < minUpperLeftX) {
@@ -1861,13 +2046,19 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns leaf participant that bounds given y-coordinate. If y-coordinate
-    * is at boundary of two participants, method returns one that is above. The
-    * method checks for bounds of cells within propertyMap.
+    * Returns leaf participant that bounds given y-coordinate. If y-coordinate is at
+    * boundary of two participants, method returns one that is above. The method checks
+    * for bounds of cells within propertyMap.
     */
-   protected GraphParticipantInterface getLeafParticipantForYPos(int yPos, Map propertyMap, ParentMap parentMap) {
+   protected GraphParticipantInterface getLeafParticipantForYPos(int yPos,
+                                                                 Map propertyMap,
+                                                                 ParentMap parentMap) {
       // getting all participants that contains yPos
-      GraphParticipantInterface[] pars = getParticipantsForYPos(yPos, 2, propertyMap, parentMap);
+      GraphParticipantInterface[] pars = getParticipantsForYPos(yPos,
+                                                                2,
+                                                                propertyMap,
+                                                                parentMap,
+                                                                true);
 
       // if there is no participants at this location, return null
       if (pars == null)
@@ -1898,8 +2089,8 @@ public class GraphManager implements Serializable {
          Rectangle parRect;
 
          // taking bounding rectangle of first par
-         parRect = getBounds(rightPar, propertyMap).getBounds();//HM,
-                                                                // JGraph3.4.1
+         parRect = getCBounds(rightPar, propertyMap).getBounds();// HM,
+         // JGraph3.4.1
          // taking upper-left corner y-coord
          upperLeftY = parRect.getLocation().y;
          minUpperLeftY = upperLeftY;
@@ -1907,8 +2098,8 @@ public class GraphManager implements Serializable {
          // finding the participant with min. y-coord
          while (it.hasNext()) {
             Object curPar = it.next();
-            parRect = getBounds(curPar, propertyMap).getBounds();//HM,
-                                                                 // JGraph3.4.1
+            parRect = getCBounds(curPar, propertyMap).getBounds();// HM,
+            // JGraph3.4.1
             upperLeftY = parRect.getLocation().y;
             if (upperLeftY < minUpperLeftY) {
                minUpperLeftY = upperLeftY;
@@ -1922,8 +2113,75 @@ public class GraphManager implements Serializable {
 
    }
 
-   protected GraphParticipantInterface[] getParticipantsForXPos(int xPos, int direction, Map propertyMap,
-         ParentMap parentMap) {
+   protected GraphParticipantInterface getLeafestParticipantForPos(Point pos,
+                                                                   Map propertyMap,
+                                                                   ParentMap parentMap) {
+      GraphParticipantInterface[] pars = null;
+      if (isGraphRotated()) {
+         pars = getParticipantsForXPos(pos.x, 2, propertyMap, parentMap, true);
+
+      } else {
+         pars = getParticipantsForYPos(pos.y, 2, propertyMap, parentMap, true);
+      }
+
+      // if there is no participants at this location, return null
+      if (pars == null)
+         return null;
+
+      // getting leaf participant(s)
+      Set leafPars = new HashSet();
+      Set nonLeafPars = new HashSet();
+      for (int i = 0; i < pars.length; i++) {
+         if (!hasAnyParticipant(pars[i], parentMap)) {
+            leafPars.add(pars[i]);
+         } else {
+            nonLeafPars.add(pars[i]);
+         }
+      }
+
+      // if there is no leaf participant at this location (THIS SHOULD
+      // NEVER HAPPEND, BUT ...) return null
+      if (leafPars.size() == 0)
+         return null;
+
+      // taking first and making it the right one
+      Iterator it = leafPars.iterator();
+      Object rightPar = it.next();
+
+      if (leafPars.size() > 1) {
+         int upperLeftX;
+         int minUpperLeftX;
+         Rectangle parRect;
+
+         // taking bounding rectangle of first par
+         parRect = getCBounds(rightPar, propertyMap).getBounds();// HM,
+         // JGraph3.4.1
+         // taking upper-left corner y-coord
+         upperLeftX = parRect.getLocation().x;
+         minUpperLeftX = upperLeftX;
+
+         // finding the participant with min. y-coord
+         while (it.hasNext()) {
+            Object curPar = it.next();
+            parRect = getCBounds(curPar, propertyMap).getBounds();// HM,
+            // JGraph3.4.1
+            upperLeftX = parRect.getLocation().x;
+            if (upperLeftX < minUpperLeftX) {
+               minUpperLeftX = upperLeftX;
+               rightPar = curPar;
+            }
+         }
+      }
+
+      // return found participant
+      return (GraphParticipantInterface) rightPar;
+   }
+
+   protected GraphParticipantInterface[] getParticipantsForXPos(int xPos,
+                                                                int direction,
+                                                                Map propertyMap,
+                                                                ParentMap parentMap,
+                                                                boolean returnRootPart) {
       // getting all participants that are in collection
       List participants = JaWEGraphModel.getAllParticipantsInModel(graphModel());
 
@@ -1944,24 +2202,26 @@ public class GraphManager implements Serializable {
       Set xPosPars = new HashSet();
 
       for (int i = 0; i < pars.length; i++) {
-         Rectangle2D r = getBounds(pars[i], propertyMap);//HM,
+         if (pars[i].getPropertyObject() instanceof Pool && !returnRootPart)
+            continue;
+         Rectangle2D r = getCBounds(pars[i], propertyMap);// HM,
          // JGraph3.4.1
          switch (direction) {
-         case 0:
-            if (r.getX() >= xPos) {
-               xPosPars.add(pars[i]);
-            }
-            break;
-         case 1:
-            if (r.getX() < xPos) {
-               xPosPars.add(pars[i]);
-            }
-            break;
-         case 2:
-            if ((r.getX() <= xPos) && (r.getX() + r.getWidth() >= xPos)) {
-               xPosPars.add(pars[i]);
-            }
-            break;
+            case 0:
+               if (r.getX() >= xPos) {
+                  xPosPars.add(pars[i]);
+               }
+               break;
+            case 1:
+               if (r.getX() < xPos) {
+                  xPosPars.add(pars[i]);
+               }
+               break;
+            case 2:
+               if ((r.getX() <= xPos) && (r.getX() + r.getWidth() >= xPos)) {
+                  xPosPars.add(pars[i]);
+               }
+               break;
          }
       }
 
@@ -1969,8 +2229,8 @@ public class GraphManager implements Serializable {
          pars = new GraphParticipantInterface[xPosPars.size()];
          xPosPars.toArray(pars);
          return pars;
-      } 
-      return null;      
+      }
+      return null;
    }
 
    /**
@@ -1978,12 +2238,15 @@ public class GraphManager implements Serializable {
     * y-position: <BR>
     * direction=0 -> under, <BR>
     * direction=1 -> above, <BR>
-    * direction=2 -> contains. The method checks for bounds of cells within
-    * propertyMap. If some of model's participants is entered in parentMap as
-    * removed participant, this method doesn't consider that participant.
+    * direction=2 -> contains. The method checks for bounds of cells within propertyMap.
+    * If some of model's participants is entered in parentMap as removed participant, this
+    * method doesn't consider that participant.
     */
-   protected GraphParticipantInterface[] getParticipantsForYPos(int yPos, int direction, Map propertyMap,
-         ParentMap parentMap) {
+   protected GraphParticipantInterface[] getParticipantsForYPos(int yPos,
+                                                                int direction,
+                                                                Map propertyMap,
+                                                                ParentMap parentMap,
+                                                                boolean returnRootPart) {
       // getting all participants that are in collection
       List participants = JaWEGraphModel.getAllParticipantsInModel(graphModel());
 
@@ -2004,23 +2267,25 @@ public class GraphManager implements Serializable {
       Set yPosPars = new HashSet();
 
       for (int i = 0; i < pars.length; i++) {
-         Rectangle2D r = getBounds(pars[i], propertyMap);//HM, JGraph3.4.1
+         if (pars[i].getPropertyObject() instanceof Pool && !returnRootPart)
+            continue;
+         Rectangle2D r = getCBounds(pars[i], propertyMap);// HM, JGraph3.4.1
          switch (direction) {
-         case 0:
-            if (r.getY() >= yPos) {
-               yPosPars.add(pars[i]);
-            }
-            break;
-         case 1:
-            if (r.getY() < yPos) {
-               yPosPars.add(pars[i]);
-            }
-            break;
-         case 2:
-            if ((r.getY() <= yPos) && (r.getY() + r.getHeight() >= yPos)) {
-               yPosPars.add(pars[i]);
-            }
-            break;
+            case 0:
+               if (r.getY() >= yPos) {
+                  yPosPars.add(pars[i]);
+               }
+               break;
+            case 1:
+               if (r.getY() < yPos) {
+                  yPosPars.add(pars[i]);
+               }
+               break;
+            case 2:
+               if ((r.getY() <= yPos) && (r.getY() + r.getHeight() >= yPos)) {
+                  yPosPars.add(pars[i]);
+               }
+               break;
          }
       }
 
@@ -2028,8 +2293,8 @@ public class GraphManager implements Serializable {
          pars = new GraphParticipantInterface[yPosPars.size()];
          yPosPars.toArray(pars);
          return pars;
-      } 
-      return null;      
+      }
+      return null;
    }
 
    protected int getNewRootParXPos(Map propertyMap, ParentMap parentMap) {
@@ -2041,7 +2306,8 @@ public class GraphManager implements Serializable {
          Iterator it = propertyMap.keySet().iterator();
          while (it.hasNext()) {
             Object rootPar = it.next();
-            if ((rootPar instanceof GraphParticipantInterface) && (((DefaultGraphCell) rootPar).getParent() == null)) {
+            if ((rootPar instanceof GraphParticipantInterface)
+                && (((DefaultGraphCell) rootPar).getParent() == null)) {
                rootPars.add(rootPar);
             }
          }
@@ -2055,12 +2321,12 @@ public class GraphManager implements Serializable {
       if (rootPars == null || rootPars.size() == 0)
          return newRootParXPos;
 
-      newRootParXPos = minParHeight;
+      newRootParXPos = minLaneHeight;
       // find the bottom of bottom most root participant
       Iterator it = rootPars.iterator();
       while (it.hasNext()) {
-         Rectangle2D bounds = getBounds(it.next(), propertyMap);//HM,
-                                                                // JGraph3.4.1
+         Rectangle2D bounds = getCBounds(it.next(), propertyMap);// HM,
+         // JGraph3.4.1
          if (bounds.getX() + bounds.getWidth() > newRootParXPos) {
             newRootParXPos = (int) (bounds.getX() + bounds.getWidth());
          }
@@ -2085,7 +2351,8 @@ public class GraphManager implements Serializable {
          Iterator it = propertyMap.keySet().iterator();
          while (it.hasNext()) {
             Object rootPar = it.next();
-            if ((rootPar instanceof GraphParticipantInterface) && (((DefaultGraphCell) rootPar).getParent() == null)) {
+            if ((rootPar instanceof GraphParticipantInterface)
+                && (((DefaultGraphCell) rootPar).getParent() == null)) {
                rootPars.add(rootPar);
             }
          }
@@ -2104,12 +2371,12 @@ public class GraphManager implements Serializable {
       if (rootPars == null || rootPars.size() == 0)
          return newRootParYPos;
 
-      newRootParYPos = minParHeight;
+      newRootParYPos = minLaneHeight;
       // find the bottom of bottom most root participant
       Iterator it = rootPars.iterator();
       while (it.hasNext()) {
-         Rectangle bounds = getBounds(it.next(), propertyMap).getBounds();// HM,
-                                                                          // JGraph3.4.1
+         Rectangle bounds = getCBounds(it.next(), propertyMap).getBounds();// HM,
+         // JGraph3.4.1
          if (bounds.getY() + bounds.getHeight() > newRootParYPos) {
             newRootParYPos = (int) (bounds.getY() + bounds.getHeight());
          }
@@ -2121,13 +2388,13 @@ public class GraphManager implements Serializable {
    protected int getRootParticipantHeight(Map propertyMap, ParentMap parentMap) {
       int rootParHeight;
       if (isGraphRotated())
-         rootParHeight = minParWidth;
+         rootParHeight = minLaneWidth;
       else
-         rootParHeight = minParHeight;
+         rootParHeight = minLaneHeight;
 
       Set rootPars = JaWEGraphModel.getRootParticipants(graphModel());
 
-      // if there is no root participants, width is equal to minParWidth
+      // if there is no root participants, width is equal to minLaneWidth
       if (rootPars == null)
          return rootParHeight;
 
@@ -2137,7 +2404,7 @@ public class GraphManager implements Serializable {
          rootPars.removeAll(((JaWEParentMap) parentMap).getRemovedNodes());
       }
 
-      // if there is no root participants, width is equal to minParWidth
+      // if there is no root participants, width is equal to minLaneWidth
       if (rootPars.size() == 0)
          return rootParHeight;
 
@@ -2150,19 +2417,19 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Gets the width of root participants. The method checks for bounds of cells
-    * within propertyMap. If some of model's participants has entry within
-    * propertyMap as removed, this participant doesn't count.
+    * Gets the width of root participants. The method checks for bounds of cells within
+    * propertyMap. If some of model's participants has entry within propertyMap as
+    * removed, this participant doesn't count.
     */
    protected int getRootParticipantWidth(Map propertyMap, ParentMap parentMap) {
       int rootParWidth;
       if (isGraphRotated())
-         rootParWidth = minParHeight;
+         rootParWidth = minLaneHeight;
       else
-         rootParWidth = minParWidth;
+         rootParWidth = minLaneWidth;
       Set rootPars = JaWEGraphModel.getRootParticipants(graphModel());
 
-      // if there is no root participants, width is equal to minParWidth
+      // if there is no root participants, width is equal to minLaneWidth
       if (rootPars == null)
          return rootParWidth;
 
@@ -2172,7 +2439,7 @@ public class GraphManager implements Serializable {
          rootPars.removeAll(((JaWEParentMap) parentMap).getRemovedNodes());
       }
 
-      // if there is no root participants, width is equal to minParWidth
+      // if there is no root participants, width is equal to minLaneWidth
       if (rootPars.size() == 0)
          return rootParWidth;
 
@@ -2185,14 +2452,13 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Checks if given participant par has other participants. If parentMap is
-    * null, or there is no entry for this this participant within a parentMap,
-    * the current state is checked, elsewhere parentMap is checked-in other
-    * words future state of participant participants (state after aplying
-    * parentMap) is returned.
+    * Checks if given participant par has other participants. If parentMap is null, or
+    * there is no entry for this this participant within a parentMap, the current state is
+    * checked, elsewhere parentMap is checked-in other words future state of participant
+    * participants (state after aplying parentMap) is returned.
     * <p>
-    * This method has meaning in previous versions of JaWE, now it always
-    * returns <tt>false</tt>.
+    * This method has meaning in previous versions of JaWE, now it always returns
+    * <tt>false</tt>.
     */
    protected boolean hasAnyParticipant(GraphParticipantInterface par, ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
@@ -2205,19 +2471,19 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Checks if given participant par has activities. If parentMap is null, or
-    * there is no entry for this this participant within a parentMap, the
-    * current state is checked, elsewhere parentMap is checked-in other words
-    * future state of participant activities (state after aplying parentMap) is
-    * returned.
+    * Checks if given participant par has activities. If parentMap is null, or there is no
+    * entry for this this participant within a parentMap, the current state is checked,
+    * elsewhere parentMap is checked-in other words future state of participant activities
+    * (state after aplying parentMap) is returned.
     */
-   protected boolean hasAnyActivity(GraphParticipantInterface par, ParentMap parentMap) {
+   protected boolean hasAnyActivityOrArtifact(GraphParticipantInterface par,
+                                              ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
       // in it, return original participant state
       if (parentMap == null || !parentMap.getChangedNodes().contains(par)) {
-         return par.hasAnyActivity();
+         return par.hasAnyActivityOrArtifact();
       }
-      
+
       // else, check if participant will be empty after applying parent map
 
       // getting participants which will be empty after applying parentMap
@@ -2227,52 +2493,22 @@ public class GraphManager implements Serializable {
       if (emptyPars.contains(par)) {
          return false;
       }
-      return true;      
+      return true;
    }
 
-   // Useful only if JaWE is set to work with start/end bubbles
-   public static boolean hasConnectedStartBubble (GraphActivityInterface act) {
-      Set acts=act.getReferencingActivities();
-      Iterator it=acts.iterator();
-      while (it.hasNext()) {         
-         Object o=it.next();
-         if (o instanceof GraphBubbleActivityInterface) {
-            if (((GraphBubbleActivityInterface)o).isStart()) {
-               return true; 
-            }
-         }
-      }
-      return false;
-   }
-
-   // Useful only if JaWE is set to work with start/end bubbles
-   public static boolean hasConnectedEndBubble (GraphActivityInterface act) {
-      Set acts=act.getReferencedActivities();
-      Iterator it=acts.iterator();
-      while (it.hasNext()) {         
-         Object o=it.next();
-         if (o instanceof GraphBubbleActivityInterface) {
-            if (!((GraphBubbleActivityInterface)o).isStart()) {
-               return true; 
-            }
-         }
-      }
-      return false;
-   }
-   
-   
    /**
-    * Returns start bubbles.
+    * Returns start events.
     */
-   protected Set getStarts() {
+   protected Set getStartEvents() {
       Set starts = new HashSet();
-      List allActivities = JaWEGraphModel.getAllBubblesInModel(graphModel());
+      List allActivities = JaWEGraphModel.getAllActivitiesInModel(graphModel());
 
       if (allActivities != null) {
          Iterator it = allActivities.iterator();
          while (it.hasNext()) {
             Object act = it.next();
-            if (((GraphBubbleActivityInterface) act).isStart()) {
+            int actType = ((Activity) ((GraphActivityInterface) act).getPropertyObject()).getActivityType();
+            if (actType == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
                starts.add(act);
             }
          }
@@ -2281,9 +2517,9 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns end bubbles.
+    * Returns end events.
     */
-   protected Set getEnds() {
+   protected Set getEndEvents() {
       Set ends = new HashSet();
       List allActivities = JaWEGraphModel.getAllActivitiesInModel(graphModel());
 
@@ -2291,7 +2527,8 @@ public class GraphManager implements Serializable {
          Iterator it = allActivities.iterator();
          while (it.hasNext()) {
             Object act = it.next();
-            if (!((GraphBubbleActivityInterface) act).isStart()) {
+            int actType = ((Activity) ((GraphActivityInterface) act).getPropertyObject()).getActivityType();
+            if (actType == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
                ends.add(act);
             }
          }
@@ -2303,34 +2540,32 @@ public class GraphManager implements Serializable {
     * Gets view of given object.
     */
    public CellView getView(Object cell) {
-      //return graph.getView().getMapping(cell,false);
+      // return graph.getView().getMapping(cell,false);
       return graph.getGraphLayoutCache().getMapping(cell, false);
    }
 
    /**
-    * Gets width of given participant (from it's current view or from
-    * propertyMap).
+    * Gets width of given participant (from it's current view or from propertyMap).
     */
    protected int getParticipantWidth(Object par, Map propertyMap) {
-      return getBounds(par, propertyMap).getBounds().width;//HM, JGraph3.4.1
+      return getCBounds(par, propertyMap).getBounds().width;// HM, JGraph3.4.1
    }
 
    /**
-    * Gets height of given participant (from it's current view or from
-    * propertyMap).
+    * Gets height of given participant (from it's current view or from propertyMap).
     */
    protected int getParticipantHeight(Object par, Map propertyMap) {
-      return getBounds(par, propertyMap).getBounds().height;//HM, JGraph3.4.1
+      return getCBounds(par, propertyMap).getBounds().height;// HM, JGraph3.4.1
    }
 
    /**
-    * Replaces bounding rectangle of given cell in propertyMap object with
-    * rectangle r if cell is contained within the propertyMap object, otherwise
-    * adds new entry to the propertyMap that consists of given cell and a map
-    * containing given rectangle r.
+    * Replaces bounding rectangle of given cell in propertyMap object with rectangle r if
+    * cell is contained within the propertyMap object, otherwise adds new entry to the
+    * propertyMap that consists of given cell and a map containing given rectangle r.
     */
    protected void changeBounds(Object cell, Map propertyMap, Rectangle r) {
       AttributeMap map;
+//      System.out.println("Changing cell " + cell + " bounds to " + r);
       if (propertyMap == null || !propertyMap.containsKey(cell)) {
          map = new AttributeMap();
          GraphConstants.setBounds(map, r);
@@ -2342,22 +2577,21 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Gets bounding rectangle of given cell. The rectangle is either current
-    * rectangle of cellView either from propertyMap where are held bounding
-    * rectangles of various cells during multiple resizing and/or translating of
-    * cells.
+    * Gets bounding rectangle of given cell. The rectangle is either current rectangle of
+    * cellView either from propertyMap where are held bounding rectangles of various cells
+    * during multiple resizing and/or translating of cells.
     */
-   public Rectangle getBounds(Object cell, Map propertyMap) {//HM,
-                                                               // JGraph3.4.1
-      Rectangle2D bounds=null;
+   public Rectangle getCBounds(Object cell, Map propertyMap) {// HM,
+      // JGraph3.4.1
+      Rectangle2D bounds = null;
       if (propertyMap != null && propertyMap.containsKey(cell)) {
          Map map = (Map) propertyMap.get(cell);
-         bounds=GraphConstants.getBounds(map);
+         bounds = GraphConstants.getBounds(map);
       } else {
          CellView view = getView(cell);
-         bounds=view.getBounds();
+         bounds = view.getBounds();
       }
-      if (bounds!=null) {
+      if (bounds != null) {
          return bounds.getBounds();
       }
       return null;
@@ -2373,7 +2607,11 @@ public class GraphManager implements Serializable {
             if (unionRect == null) {
                unionRect = new Rectangle(rects[i]);
             } else {
-               SwingUtilities.computeUnion(rects[i].x, rects[i].y, rects[i].width, rects[i].height, unionRect);
+               SwingUtilities.computeUnion(rects[i].x,
+                                           rects[i].y,
+                                           rects[i].width,
+                                           rects[i].height,
+                                           unionRect);
             }
          }
          return unionRect;
@@ -2387,14 +2625,16 @@ public class GraphManager implements Serializable {
    public Point getCenter(Object go) {
       if (go == null)
          return null;
-      Rectangle2D r = getBounds(go, null);//HM, JGraph3.4.1
+      Rectangle2D r = getCBounds(go, null);// HM, JGraph3.4.1
       if (!(go instanceof GraphParticipantInterface)) {
-         return new Point((int) (r.getX() + (int) (r.getWidth() / 2)), (int) (r.getY() + (int) (r.getHeight() / 2)));
-      } 
-      return new Point((int) (r.getX() + defParNameWidth / 2), (int) (r.getY() + (int) (r.getHeight() / 2)));      
+         return new Point((int) (r.getX() + (int) (r.getWidth() / 2)),
+                          (int) (r.getY() + (int) (r.getHeight() / 2)));
+      }
+      return new Point((int) (r.getX() + defLaneNameWidth / 2),
+                       (int) (r.getY() + (int) (r.getHeight() / 2)));
    }
 
-   ///////////////////////////// retreival of graph object for corresponding
+   // /////////////////////////// retreival of graph object for corresponding
    // XPDL object
    /**
     * Returns graph Activity object which represents XPDL activity with given Id
@@ -2407,10 +2647,8 @@ public class GraphManager implements Serializable {
          GraphActivityInterface gact;
          while (it.hasNext()) {
             gact = (GraphActivityInterface) it.next();
-            if (!(gact instanceof GraphBubbleActivityInterface)) {
-               if (gact.getPropertyObject().get("Id").toValue().equals(id)) {
-                  return gact;
-               }
+            if (gact.getPropertyObject().get("Id").toValue().equals(id)) {
+               return gact;
             }
          }
       }
@@ -2424,7 +2662,7 @@ public class GraphManager implements Serializable {
          GraphActivityInterface gact;
          while (it.hasNext()) {
             gact = (GraphActivityInterface) it.next();
-            if (gact.getUserObject()==act) {
+            if (gact.getUserObject() == act) {
                return gact;
             }
          }
@@ -2433,52 +2671,47 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns start/end graph bubble object which represents start/end ext.
-    * attrib.
+    * Returns graph Artifact object which represents XPDL artifact with given Id
+    * attribute.
     */
-   public GraphBubbleActivityInterface getBubble(ExtendedAttribute ea) {
-      List allActs = JaWEGraphModel.getAllBubblesInModel(graphModel());
+   public GraphArtifactInterface getGraphArtifact(String id) {
+      List allActs = JaWEGraphModel.getAllArtifactsInModel(graphModel());
       if (allActs != null) {
          Iterator it = allActs.iterator();
-         GraphActivityInterface se;
+         GraphArtifactInterface gact;
          while (it.hasNext()) {
-            se = (GraphBubbleActivityInterface) it.next();
-            if (se.getUserObject() == ea) {
-               return (GraphBubbleActivityInterface) se;
+            gact = (GraphArtifactInterface) it.next();
+            if (gact.getPropertyObject().get("Id").toValue().equals(id)) {
+               return gact;
             }
          }
       }
       return null;
    }
 
-   /**
-    * Returns graph Transition object which represents XPDL transition with
-    * given Id attribute.
-    */
-   public GraphTransitionInterface getGraphTransition(String id) {
-      List allTrans = JaWEGraphModel.getAllTransitionsInModel(graphModel());
-      if (allTrans != null) {
-         Iterator it = allTrans.iterator();
-         GraphTransitionInterface gtra;
+   public GraphArtifactInterface getGraphArtifact(Artifact art) {
+      List allActs = JaWEGraphModel.getAllArtifactsInModel(graphModel());
+      if (allActs != null) {
+         Iterator it = allActs.iterator();
+         GraphArtifactInterface gact;
          while (it.hasNext()) {
-            gtra = (GraphTransitionInterface) it.next();
-            Transition tra = (Transition) gtra.getUserObject();
-            if (tra!=null && tra.getId().equals(id)) {
-               return gtra;
+            gact = (GraphArtifactInterface) it.next();
+            if (gact.getUserObject() == art) {
+               return gact;
             }
          }
       }
       return null;
    }
 
-   public GraphTransitionInterface getGraphTransition(Transition tra) {
+   public GraphTransitionInterface getGraphTransition(XMLCollectionElement tra) {
       List allTrans = JaWEGraphModel.getAllTransitionsInModel(graphModel());
       if (allTrans != null) {
          Iterator it = allTrans.iterator();
          GraphTransitionInterface gtra;
          while (it.hasNext()) {
             gtra = (GraphTransitionInterface) it.next();
-            if (gtra.getUserObject()==tra) {
+            if (gtra.getUserObject() == tra) {
                return gtra;
             }
          }
@@ -2487,8 +2720,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns graph Participant object which represents XPDL participant with
-    * given Id attribute.
+    * Returns graph Participant object which represents XPDL participant with given Id
+    * attribute.
     */
    public GraphParticipantInterface getGraphParticipant(String id) {
       List allPartic = JaWEGraphModel.getAllParticipantsInModel(graphModel());
@@ -2505,54 +2738,57 @@ public class GraphManager implements Serializable {
       return null;
    }
 
-   public GraphParticipantInterface getGraphParticipant(Participant par) {
+   public GraphParticipantInterface getGraphParticipant(Object par) {
       List allPartic = JaWEGraphModel.getAllParticipantsInModel(graphModel());
       if (allPartic != null) {
          Iterator it = allPartic.iterator();
          GraphParticipantInterface gpar;
          while (it.hasNext()) {
             gpar = (GraphParticipantInterface) it.next();
-            if (gpar.getUserObject()==par) {
+            if (gpar.getUserObject() == par) {
                return gpar;
             }
          }
       }
       return null;
    }
-   
-   public boolean isFreeTextExpressionParticipantShown () {
+
+   public boolean isFreeTextExpressionParticipantShown() {
       List allPartic = JaWEGraphModel.getAllParticipantsInModel(graphModel());
       if (allPartic != null) {
          Iterator it = allPartic.iterator();
          GraphParticipantInterface gpar;
+         Lane defL = GraphUtilities.getDefaultLane(JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getPoolForProcessOrActivitySet(getXPDLOwner()));
+         if (defL == null)
+            return false;
          while (it.hasNext()) {
             gpar = (GraphParticipantInterface) it.next();
-            if (gpar.getUserObject()==FreeTextExpressionParticipant.getInstance()) {
+            if (gpar.getUserObject() == defL) {
                return true;
             }
          }
       }
-      return false;      
+      return false;
    }
-   
-   ///////////////////// Position handling
+
+   // /////////////////// Position handling
    // //////////////////////////////////////
 
    /**
     * Finds the nearest cell to the given cell in given direction.
     * 
-    * @param selectedCell
-    *           first currently selected cell
-    * @param direction
-    *           0-Up, 1-Down, 2-Left, 3-Right (if given some other no, the Up is
+    * @param selectedCell first currently selected cell
+    * @param direction 0-Up, 1-Down, 2-Left, 3-Right (if given some other no, the Up is
     *           assumed)
-    * @return The nearest cell to the given one in given direction, or null if
-    *         no such cell.
+    * @return The nearest cell to the given one in given direction, or null if no such
+    *         cell.
     */
    public Object findNearestCell(Object selectedCell, int direction) {
       // retrieve all cells from model
       List cellSet = JaWEGraphModel.getAllCellsInModel(graphModel());
-      //Set cellSet=PEGraphModel.getAllActivitiesInModel(graphModel());
+      // Set cellSet=PEGraphModel.getAllActivitiesInModel(graphModel());
       // if there is no any return null
       if (cellSet == null || cellSet.size() == 0)
          return null;
@@ -2585,140 +2821,185 @@ public class GraphManager implements Serializable {
          Point centerOfCell = getCenter(cells[i]);
          Point ref = new Point(centerOfCell.x, centerOfSelectedCell.y);
          double dist = centerOfSelectedCell.distance(centerOfCell);
-         double absOfTan = centerOfCell.distance(ref) / ref.distance(centerOfSelectedCell);
+         double absOfTan = centerOfCell.distance(ref)
+                           / ref.distance(centerOfSelectedCell);
 
          switch (direction) {
-         case 1: //DOWN
-            if (centerOfCell.y >= centerOfSelectedCell.y) {
-               if (dist < minDistance && absOfTan >= 1) {
-                  minDistance = dist;
-                  nearestCell = cells[i];
+            case 1: // DOWN
+               if (centerOfCell.y >= centerOfSelectedCell.y) {
+                  if (dist < minDistance && absOfTan >= 1) {
+                     minDistance = dist;
+                     nearestCell = cells[i];
+                  }
                }
-            }
-            break;
-         case 2: //LEFT
-            if (centerOfCell.x <= centerOfSelectedCell.x) {
-               if (dist < minDistance && absOfTan <= 1) {
-                  minDistance = dist;
-                  nearestCell = cells[i];
+               break;
+            case 2: // LEFT
+               if (centerOfCell.x <= centerOfSelectedCell.x) {
+                  if (dist < minDistance && absOfTan <= 1) {
+                     minDistance = dist;
+                     nearestCell = cells[i];
+                  }
                }
-            }
-            break;
-         case 3: //RIGHT
-            if (centerOfCell.x >= centerOfSelectedCell.x) {
-               if (dist < minDistance && absOfTan <= 1) {
-                  minDistance = dist;
-                  nearestCell = cells[i];
+               break;
+            case 3: // RIGHT
+               if (centerOfCell.x >= centerOfSelectedCell.x) {
+                  if (dist < minDistance && absOfTan <= 1) {
+                     minDistance = dist;
+                     nearestCell = cells[i];
+                  }
                }
-            }
-            break;
-         default: //UP
-            if (centerOfCell.y <= centerOfSelectedCell.y) {
-               if (dist < minDistance && absOfTan >= 1) {
-                  minDistance = dist;
-                  nearestCell = cells[i];
+               break;
+            default: // UP
+               if (centerOfCell.y <= centerOfSelectedCell.y) {
+                  if (dist < minDistance && absOfTan >= 1) {
+                     minDistance = dist;
+                     nearestCell = cells[i];
+                  }
                }
-            }
-            break;
+               break;
          }
       }
       return nearestCell;
    }
 
-   public boolean moveParticipants (List partsToMove,boolean direction,Map propertyMap,ParentMap parentMap) {
+   public boolean moveParticipant(GraphParticipantInterface parSource,
+                                  boolean direction,
+                                  Map propertyMap,
+                                  ParentMap parentMap) {
       boolean updated = false;
-      for (int i = 0; i < partsToMove.size(); i++) {
-         GraphParticipantInterface parSource = (GraphParticipantInterface) partsToMove.get(i);
-         Rectangle rSource = getBounds(parSource, propertyMap).getBounds();// getting
-                                                                           // bounds
-                                                                           // of
-                                                                           // rectangle//HM,
-                                                                           // JGraph3.4.1
+      Rectangle rSource = getCBounds(parSource, propertyMap).getBounds();// getting
+      // bounds
+      // of
+      // rectangle//HM,
+      // JGraph3.4.1
 
-         Rectangle matching = new Rectangle(rSource); // added by SB
+      Rectangle matching = new Rectangle(rSource); // added by SB
 
-         int yPos;
-         int xPos;
-         GraphParticipantInterface[] parts;
-         if (direction) {//move up
-            yPos = rSource.y - 1;
-            xPos = rSource.x - 1;
-            if (!isGraphRotated()) {
-               parts = getParticipantsForYPos(yPos, 2, propertyMap, parentMap);
-               if (parts != null && parts.length > 0) {
-                  GraphParticipantInterface parTarget = parts[0];
-                  Rectangle rTarget = getBounds(parTarget, propertyMap);//HM,
-                                                                                    // JGraph3.4.1
-   
-                  translateParticipant(parSource, propertyMap, parentMap, 0, -rTarget.height);//source
-                                                                                              // part
-                                                                                              // up
-   
-                  translateParticipant(parTarget, propertyMap, parentMap, 0, rSource.height);//target
-                                                                                             // part
-                                                                                             // down
-               }
-            } else {
-               parts = getParticipantsForXPos(xPos, 2, propertyMap, parentMap);
-               if (parts != null && parts.length > 0) {
-                  GraphParticipantInterface parTarget = parts[0];
-                  Rectangle rTarget = getBounds(parTarget, propertyMap);//HM,
-                                                                                    // JGraph3.4.1
-   
-                  translateParticipant(parSource, propertyMap, parentMap, -rTarget.width, 0);//source
-                                                                                              // part
-                                                                                              // up
-   
-                  translateParticipant(parTarget, propertyMap, parentMap, rSource.width, 0);//target
-                                                                                             // part
-                                                                                             // down
-               }               
+      int yPos;
+      int xPos;
+      GraphParticipantInterface[] parts;
+      if (direction) {// move up
+         yPos = rSource.y - 1;
+         xPos = rSource.x - 1;
+         if (!isGraphRotated()) {
+            parts = getParticipantsForYPos(yPos, 2, propertyMap, parentMap, false);
+            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+                                                                             parSource.getParent());
+            if (parTarget != null) {
+               Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
+               // JGraph3.4.1
+
+               translateParticipant(parSource,
+                                    propertyMap,
+                                    parentMap,
+                                    0,
+                                    -rTarget.height,
+                                    true);// source
+               // part
+               // up
+
+               translateParticipant(parTarget,
+                                    propertyMap,
+                                    parentMap,
+                                    0,
+                                    rSource.height,
+                                    true);// target
+               // part
+               // down
             }
-         } else {//move down
-            yPos = rSource.y + rSource.height + 1;
-            xPos = rSource.x + rSource.width + 1;
-            if (!isGraphRotated()) {
-               parts = getParticipantsForYPos(yPos, 2, propertyMap, parentMap);
-               if (parts != null && parts.length > 0) {
-                  GraphParticipantInterface parTarget = parts[0];
-                  Rectangle rTarget = getBounds(parTarget, propertyMap);//HM,
-                                                                                    // JGraph3.4.1
-   
-                  translateParticipant(parSource, propertyMap, parentMap, 0, rTarget.height);//source
-                                                                                             // part
-                                                                                             // down
-   
-                  translateParticipant(parTarget, propertyMap, parentMap, 0, -rSource.height);//target
-                                                                                              // part
-                                                                                              // up
-               }
-            } else {
-               parts = getParticipantsForXPos(xPos, 2, propertyMap, parentMap);
-               if (parts != null && parts.length > 0) {
-                  GraphParticipantInterface parTarget = parts[0];
-                  Rectangle rTarget = getBounds(parTarget, propertyMap);//HM,
-                                                                                    // JGraph3.4.1
+         } else {
+            parts = getParticipantsForXPos(xPos, 2, propertyMap, parentMap, false);
+            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+                                                                             parSource.getParent());
+            if (parTarget != null) {
+               Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
+               // JGraph3.4.1
 
-                  translateParticipant(parSource, propertyMap, parentMap, rTarget.width, 0);//source
-                                                                                             // part
-                                                                                             // down
+               translateParticipant(parSource,
+                                    propertyMap,
+                                    parentMap,
+                                    -rTarget.width,
+                                    0,
+                                    true);// source
+               // part
+               // up
 
-                  translateParticipant(parTarget, propertyMap, parentMap, -rSource.width, 0);//target
-                                                                                              // part
-                                                                                              // up
-               }               
+               translateParticipant(parTarget,
+                                    propertyMap,
+                                    parentMap,
+                                    rSource.width,
+                                    0,
+                                    true);// target
+               // part
+               // down
             }
          }
+      } else {// move down
+         yPos = rSource.y + rSource.height + 1;
+         xPos = rSource.x + rSource.width + 1;
+         if (!isGraphRotated()) {
+            parts = getParticipantsForYPos(yPos, 2, propertyMap, parentMap, false);
+            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+                                                                             parSource.getParent());
+            if (parTarget != null) {
+               Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
+               // JGraph3.4.1
 
-         Rectangle toMatch = getBounds(parSource, propertyMap); // added
-                                                                            // by
-                                                                            // SB//HM,
-                                                                            // JGraph3.4.1
-         arrangeParticipants(propertyMap, parentMap);
+               translateParticipant(parSource,
+                                    propertyMap,
+                                    parentMap,
+                                    0,
+                                    rTarget.height,
+                                    true);// source
+               // part
+               // down
 
-         if (!toMatch.equals(matching)) {
-            updated = true;
+               translateParticipant(parTarget,
+                                    propertyMap,
+                                    parentMap,
+                                    0,
+                                    -rSource.height,
+                                    true);// target
+               // part
+               // up
+            }
+         } else {
+            parts = getParticipantsForXPos(xPos, 2, propertyMap, parentMap, false);
+            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+                                                                             parSource.getParent());
+            if (parTarget != null) {
+               Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
+               // JGraph3.4.1
+
+               translateParticipant(parSource,
+                                    propertyMap,
+                                    parentMap,
+                                    rTarget.width,
+                                    0,
+                                    true);// source
+               // part
+               // down
+
+               translateParticipant(parTarget,
+                                    propertyMap,
+                                    parentMap,
+                                    -rSource.width,
+                                    0,
+                                    true);// target
+               // part
+               // up
+            }
          }
+      }
+
+      Rectangle toMatch = getCBounds(parSource, propertyMap); // added
+      // by
+      // SB//HM,
+      // JGraph3.4.1
+      arrangeParticipants(propertyMap, parentMap);
+
+      if (!toMatch.equals(matching)) {
+         updated = true;
       }
       return updated;
    }
@@ -2727,12 +3008,14 @@ public class GraphManager implements Serializable {
 
    public Dimension getGraphsPreferredSize() {
       if (!isGraphRotated()) {
-         return new Dimension(getRootParticipantWidth(null, null) + 50, getNewRootParYPos(null, null) + 50);
+         return new Dimension(getRootParticipantWidth(null, null) + 50,
+                              getNewRootParYPos(null, null) + 50);
       }
-      return new Dimension(getNewRootParXPos(null, null) + 50, getRootParticipantHeight(null, null) + 50);      
+      return new Dimension(getNewRootParXPos(null, null) + 50,
+                           getRootParticipantHeight(null, null) + 50);
    }
 
-   protected List getPoints(GraphTransitionInterface cell, Map propertyMap) {//HM,
+   protected List getPoints(GraphTransitionInterface cell, Map propertyMap) {// HM,
       // JGraph3.4.1
       if (propertyMap != null && propertyMap.containsKey(cell)) {
          Map map = (Map) propertyMap.get(cell);
@@ -2745,85 +3028,71 @@ public class GraphManager implements Serializable {
             toRet.add(p);
          }
          return toRet;
-      } 
-      return new ArrayList();      
+      }
+      return new ArrayList();
    }
 
-   protected boolean isGraphRotated () {
-      return GraphUtilities.getGraphParticipantOrientation(
-            getWorkflowProcess(), 
-            getXPDLOwner()).
-            equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_VERTICAL);      
+   public boolean isGraphRotated() {
+      return GraphUtilities.getGraphOrientation(getXPDLOwner())
+         .equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_VERTICAL);
    }
-   
-   //// THE FOLLOWING METHODS ARE MODIFYING XPDL MODEL !!!
+
+   // // THE FOLLOWING METHODS ARE MODIFYING XPDL MODEL !!!
    public void moveCellsAndArrangeParticipants(Map propertyMap) {
-      if (getGraphController().isUpdateInProgress()==true) Thread.dumpStack();
-      JaWEManager.getInstance().getJaWEController().startUndouableChange();             
-      getGraphController().setUpdateInProgress(true);      
-      updateModelAndArrangeParticipants(null, propertyMap, null, null, getGraphController().getSettings().getLanguageDependentString(
-      "MessageMovingObjects"), null, true);
-      JaWEManager.getInstance().getJaWEController().endUndouableChange(updateXPDLActivitiesPosition(propertyMap));
-      getGraphController().setUpdateInProgress(false);      
+      if (getGraphController().isUpdateInProgress() == true)
+         Thread.dumpStack();
+      JaWEManager.getInstance().getJaWEController().startUndouableChange();
+      getGraphController().setUpdateInProgress(true);
+      updateModelAndArrangeParticipants(null,
+                                        propertyMap,
+                                        null,
+                                        null,
+                                        getGraphController().getSettings()
+                                           .getLanguageDependentString("MessageMovingObjects"),
+                                        null,
+                                        true);
+      JaWEManager.getInstance()
+         .getJaWEController()
+         .endUndouableChange(updateXPDLActivitiesAndArtifactsPosition(propertyMap));
+      getGraphController().setUpdateInProgress(false);
    }
-      
-   protected List updateXPDLActivitiesPosition(Map propertyMap) {
-      List updatedPositions=new ArrayList();
+
+   protected List updateXPDLActivitiesAndArtifactsPosition(Map propertyMap) {
+      List updatedPositions = new ArrayList();
       if (propertyMap == null) {
          return updatedPositions;
       }
       Object[] cellsToManage = propertyMap.keySet().toArray();
       for (int i = 0; i < cellsToManage.length; i++) {
          Object cell = cellsToManage[i];
-         if (cell instanceof GraphActivityInterface) {
-            GraphActivityInterface gact = (GraphActivityInterface) cell;
+         if (cell instanceof GraphCommonInterface) {
+            GraphCommonInterface gact = (GraphCommonInterface) cell;
             GraphParticipantInterface gpar = (GraphParticipantInterface) gact.getParent();
             Point offset = getOffset(gact, propertyMap);
-            XMLElement el=gact.getPropertyObject();
-            if (gact instanceof GraphBubbleActivityInterface) {
-               ExtendedAttribute ea=(ExtendedAttribute)el;
-               StartEndDescription sed=new StartEndDescription(ea);
-               if (!sed.getOffset().equals(offset)) {
-                  sed.setOffset(offset);               
-                  ea.setVValue(sed.toString());
-                  updatedPositions.add(el);
-               }
-            } else {
-               Activity a=(Activity)el;
-               if (!GraphUtilities.getOffsetPoint(a).equals(offset)) {
-                  GraphUtilities.setOffsetPoint((Activity)el, offset);
-                  updatedPositions.add(el);
-               }
+            XMLCollectionElement el = (XMLCollectionElement) ((WorkflowElement) gact).getPropertyObject();
+            if (!GraphUtilities.getOffsetPoint(el).equals(offset)) {
+               GraphUtilities.setOffsetPoint(el, offset, null);
+               updatedPositions.add(el);
             }
-            Participant defaultP = FreeTextExpressionParticipant.getInstance();
-            Participant newPar = (Participant)gpar.getPropertyObject();
-            if (el instanceof Activity) {
-               Activity act=(Activity)el;
-               String parIdOld=GraphUtilities.getParticipantId(act);
+            Lane newPar = (Lane) gpar.getPropertyObject();
+            if (el instanceof Activity || el instanceof Artifact) {
+               String parIdOld = JaWEManager.getInstance().getXPDLUtils().getLaneId(el);
+               GraphUtilities.setLaneId(el, newPar.getId());
                // Setting the new performer for activity
-               int actType = act.getActivityType();
-               if ((actType == XPDLConstants.ACTIVITY_TYPE_NO || actType == XPDLConstants.ACTIVITY_TYPE_TOOL)) {
-                  if (!newPar.getId().equals(parIdOld)) {
-                     if (newPar != defaultP) {
-                        act.setPerformer(newPar.getId());
-                     } else {
-                        act.setPerformer("");
+               if (el instanceof Activity) {
+                  Activity act = (Activity) el;
+                  int actType = act.getActivityType();
+                  if ((actType == XPDLConstants.ACTIVITY_TYPE_NO || actType == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION)) {
+                     if (!newPar.getId().equals(parIdOld)) {
+                        String perf = GraphUtilities.getLanesFirstPerformer(newPar);
+                        act.setFirstPerformer((perf != null) ? perf : "");
                      }
                   }
                }
-               
-               GraphUtilities.setParticipantId(act, newPar.getId());
-            } else {
-               ExtendedAttribute ea=(ExtendedAttribute)el;
-               StartEndDescription sed=new StartEndDescription(ea);
-               sed.setParticipantId(newPar.getId());
-               ea.setVValue(sed.toString());               
-//               System.err.println("Setting pid for ea "+el);
             }
-            
          } else if (cell instanceof GraphTransitionInterface) {
             GraphTransitionInterface gtra = (GraphTransitionInterface) cell;
-            Transition tra = (Transition) gtra.getPropertyObject();
+            XMLCollectionElement tra = (XMLCollectionElement) gtra.getPropertyObject();
             if (tra == null) {
                continue;
             }
@@ -2839,22 +3108,24 @@ public class GraphManager implements Serializable {
    }
 
    public void removeCells(Object[] cellsToDelete) {
-      boolean updated=false;
-      Set bubblesToDelete = new HashSet();
-      Set bubblesToDisconnect= new HashSet();
+      boolean updated = false;
       Set transitionsToDelete = new HashSet();
+      Set associationsToDelete = new HashSet();
       Set activitiesToDelete = new HashSet();
+      Set artifactsToDelete = new HashSet();
       Set participantsToDelete = new HashSet();
 
       // begining arrangement of parent of cells that will be deleted
       if (cellsToDelete != null && cellsToDelete.length > 0) {
 
          // All cells in model to be deleted
-         Set allCellsToDelete = new HashSet(JaWEGraphModel.getDescendants(graphModel(), cellsToDelete));
+         Set allCellsToDelete = new HashSet(JaWEGraphModel.getDescendants(graphModel(),
+                                                                          cellsToDelete));
 
          // getting transitions(edges) which are connected to the cellsForDel ->
          // also has to be deleted
-         Set edges = new HashSet(JaWEGraphModel.getEdges(graphModel(), allCellsToDelete.toArray()));
+         Set edges = new HashSet(JaWEGraphModel.getEdges(graphModel(),
+                                                         allCellsToDelete.toArray()));
 
          // putting all items for deletion (edges and cells) together - thats
          // ALL FOR DELETION
@@ -2866,302 +3137,360 @@ public class GraphManager implements Serializable {
          while (it.hasNext()) {
             i++;
             Object cell = it.next();
-            //            System.out.println("Cell "+i+"="+cell+",
+            // System.out.println("Cell "+i+"="+cell+",
             // cn="+cell.getClass().getName()+", hc="+cell.hashCode());
             if (cell instanceof GraphTransitionInterface) {
-               if (((GraphTransitionInterface) cell).getPropertyObject() != null) {
+               if (((GraphTransitionInterface) cell).getPropertyObject() instanceof Transition) {
                   transitionsToDelete.add(cell);
                } else {
-                  GraphTransitionInterface gtra = (GraphTransitionInterface) cell;
-                  GraphBubbleActivityInterface sOrE = null;
-                  if (gtra.getSourceActivity() instanceof GraphBubbleActivityInterface) {
-                     sOrE = (GraphBubbleActivityInterface) gtra.getSourceActivity();
-                  } else {
-                     sOrE = (GraphBubbleActivityInterface) gtra.getTargetActivity();
-                  }
-                  bubblesToDisconnect.add(sOrE);
+                  associationsToDelete.add(cell);
                }
-            } else if (cell instanceof GraphBubbleActivityInterface) {
-               bubblesToDelete.add(cell);
             } else if (cell instanceof GraphActivityInterface) {
                activitiesToDelete.add(cell);
+            } else if (cell instanceof GraphArtifactInterface) {
+               artifactsToDelete.add(cell);
             } else if (cell instanceof GraphParticipantInterface) {
                participantsToDelete.add(cell);
             }
          }
       }
 
-      updated=updated || bubblesToDisconnect.size()>0 || bubblesToDelete.size()>0 || transitionsToDelete.size()>0 || 
-         activitiesToDelete.size()>0 || participantsToDelete.size()>0;
-      
+      updated = updated
+                || transitionsToDelete.size() > 0 || associationsToDelete.size() > 0
+                || activitiesToDelete.size() > 0 || artifactsToDelete.size() > 0
+                || participantsToDelete.size() > 0;
+
       if (updated) {
-         GraphController gcon=getGraph().getGraphController();
-         JaWEController jc=JaWEManager.getInstance().getJaWEController();
+         GraphController gcon = getGraph().getGraphController();
+         JaWEController jc = JaWEManager.getInstance().getJaWEController();
          gcon.setUpdateInProgress(true);
          jc.startUndouableChange();
          removeCellsAndArrangeParticipants(cellsToDelete);
-         
-//         JaWEManager.getInstance().getLoggingManager().debug(
-//               "BTD=" + bubblesToDisconnect.size() + ",BTD=" + bubblesToDelete.size() + ", TRTD=" + transitionsToDelete.size() + ", ATD="
-//                     + activitiesToDelete.size());
-         Iterator it = bubblesToDisconnect.iterator();
-         List toDel=new ArrayList();
-         while (it.hasNext()) {
-            GraphBubbleActivityInterface b = (GraphBubbleActivityInterface) it.next();
-            ExtendedAttribute ea = (ExtendedAttribute) b.getPropertyObject();
-            StartEndDescription sed=new StartEndDescription(ea);
-            sed.setActId(null);
-            ea.setVValue(sed.toString());
-         }
-         it = bubblesToDelete.iterator();
-         toDel=new ArrayList();
-         while (it.hasNext()) {
-            GraphBubbleActivityInterface b = (GraphBubbleActivityInterface) it.next();
-            ExtendedAttribute ea = (ExtendedAttribute) b.getPropertyObject();
-            toDel.add(ea);
-         }
-         getWorkflowProcess().getExtendedAttributes().removeAll(toDel);
-         toDel.clear();
-         
-         it = transitionsToDelete.iterator();      
+
+         Iterator it = transitionsToDelete.iterator();
+         Transitions tras = (Transitions) getXPDLOwner().get("Transitions");
          while (it.hasNext()) {
             GraphTransitionInterface gt = (GraphTransitionInterface) it.next();
             Transition t = (Transition) gt.getPropertyObject();
-            toDel.add(t);
+            tras.remove(t);
          }
-         ((Transitions)getXPDLOwner().get("Transitions")).removeAll(toDel);
-         toDel.clear();
-         
+
+         it = associationsToDelete.iterator();
+         Associations assocs = XMLUtil.getPackage(getWorkflowProcess()).getAssociations();
+         while (it.hasNext()) {
+            GraphTransitionInterface gt = (GraphTransitionInterface) it.next();
+            Association a = (Association) gt.getPropertyObject();
+            assocs.remove(a);
+         }
+
          it = activitiesToDelete.iterator();
+         Activities acts = (Activities) getXPDLOwner().get("Activities");
          while (it.hasNext()) {
             GraphActivityInterface ga = (GraphActivityInterface) it.next();
             Activity a = (Activity) ga.getPropertyObject();
-            toDel.add(a);
+            acts.remove(a);
          }
-         ((Activities)getXPDLOwner().get("Activities")).removeAll(toDel);
-         toDel.clear();
-         
-         List porder = GraphUtilities.getParticipantVisualOrder(getXPDLOwner());
-   
+
+         it = artifactsToDelete.iterator();
+         Artifacts arts = XMLUtil.getPackage(getWorkflowProcess()).getArtifacts();
+         while (it.hasNext()) {
+            GraphArtifactInterface ga = (GraphArtifactInterface) it.next();
+            Artifact a = (Artifact) ga.getPropertyObject();
+            arts.remove(a);
+         }
+
          it = participantsToDelete.iterator();
+         Lanes ls = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(getXPDLOwner())
+         .getLanes();
          while (it.hasNext()) {
             GraphParticipantInterface gp = (GraphParticipantInterface) it.next();
-            Participant p = (Participant) gp.getPropertyObject();
-            String toRem = p.getId();
-            if (p instanceof CommonExpressionParticipant) {
-               toRem=CommonExpressionParticipants.getInstance().getIdForVisualOrderEA(toRem);
-               CommonExpressionParticipants.getInstance().remove(p);
+            Object p = gp.getPropertyObject();
+            if (p instanceof Lane) {
+               ls.remove((Lane)p);
             }
-            porder.remove(toRem);
          }
-         GraphUtilities.setParticipantVisualOrder(getXPDLOwner(), porder);
-         List toSelect=new ArrayList();
+
+         List toSelect = new ArrayList();
          toSelect.add(getXPDLOwner());
          jc.endUndouableChange(toSelect);
          gcon.setUpdateInProgress(false);
       }
    }
 
-   //Harald Meister: method for moving participants in graph
+   // method for moving participant in graph
    // direction=true for up, false for down
-   //Note: the participants have to be correctly sorted so that moving of
-   // multiple part's works
-   public void moveParticipants(Object[] cellsToMove, boolean direction) {
-      GraphParticipantComparator pc=new GraphParticipantComparator(this);
-      List partsToMove=new ArrayList();
-      List toSelect=new ArrayList();
-      
-      if (cellsToMove!=null) {
-         for (int i=0; i<cellsToMove.length; i++) {
-            if (cellsToMove[i] instanceof GraphParticipantInterface) {
-               GraphParticipantInterface gpar=(GraphParticipantInterface)cellsToMove[i];
-               partsToMove.add(gpar);
-               toSelect.add(gpar.getPropertyObject());
-            }
-         }
+   public void moveParticipant(Object cellToMove, boolean direction) {
+      GraphParticipantComparator pc = new GraphParticipantComparator(this);
+      GraphParticipantInterface partToMove;
+      Lane laneToMove;
+      System.out.println("MOVING PARTICIPANT1");
+      if (cellToMove instanceof GraphParticipantInterface
+          && ((GraphParticipantInterface) cellToMove).getPropertyObject() instanceof Lane) {
+         partToMove = (GraphParticipantInterface) cellToMove;
+         laneToMove = (Lane) partToMove.getPropertyObject();
       } else {
          return;
       }
-      Collections.sort(partsToMove,pc);//sort so that the move works correctly with mutliple selected participants
       Map propertyMap = new HashMap();
       ParentMap parentMap = new JaWEParentMap();
-      boolean updated=moveParticipants(partsToMove, direction,propertyMap,parentMap);
+      boolean updated = moveParticipant(partToMove, direction, propertyMap, parentMap);
       // changed by Sasa Bojanic - so that undo/redo actions are compound
       // and that there is no action if position doesn't change
       if (updated) {
          getGraphController().setUpdateInProgress(true);
          graphModel().insertAndEdit(null, propertyMap, null, parentMap, null);
          // make new visual order list
+
+         Pool pool = JaWEManager.getInstance()
+            .getXPDLUtils()
+            .getPoolForProcessOrActivitySet(getXPDLOwner());
          List allGraphParticipants = JaWEGraphModel.getAllParticipantsInModel(graph.getModel());
+         allGraphParticipants.remove(getGraphParticipant(pool));
          if (allGraphParticipants != null) {
             GraphParticipantComparator gpc = new GraphParticipantComparator(this);
             Collections.sort(allGraphParticipants, gpc);
          }
-         List vo=new ArrayList();
-         for (int i=0; i<allGraphParticipants.size(); i++) {
-            GraphParticipantInterface gp=(GraphParticipantInterface)allGraphParticipants.get(i);
-            Participant par=(Participant)gp.getPropertyObject();
-            if (!(par instanceof CommonExpressionParticipant)) {
-               vo.add(par.getId());
+         JaWEManager.getInstance().getJaWEController().startUndouableChange();
+         Object parentObj = ((GraphParticipantInterface) partToMove.getParent()).getPropertyObject();
+         if (parentObj instanceof Pool) {
+            Lanes lanes = pool.getLanes();
+            int pos = lanes.indexOf(laneToMove);
+            if (direction) {
+               pos--;
             } else {
-               vo.add(CommonExpressionParticipants.getInstance().getIdForVisualOrderEA(par.getId()));
+               pos++;
+            }
+            lanes.reposition(laneToMove, pos);
+         } else {
+            Lane pl = (Lane) parentObj;
+            NestedLanes nls = pl.getNestedLanes();
+            NestedLane nl = nls.getNestedLane(laneToMove.getId());
+            int pos = nls.indexOf(nl);
+            if (direction) {
+               pos--;
+            } else {
+               pos++;
+            }
+            nls.reposition(nl, pos);
+
+         }
+         List toSelect = new ArrayList();
+         toSelect.add(laneToMove);
+
+         // GraphUtilities.setParticipantVisualOrder(getXPDLOwner(), vo);
+         JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);
+         getGraphController().adjustActions();
+         getGraphController().setUpdateInProgress(false);
+      }
+   }
+
+   public void removeStartAndEndEvents() {
+      XMLCollectionElement wpOrAs = getXPDLOwner();
+
+      Set sas = XMLUtil.getStartingActivities(wpOrAs);
+      sas.addAll(XMLUtil.getEndingActivities(wpOrAs));
+      List toRem = new ArrayList();
+      if (sas.size() > 0) {
+         getGraphController().setUpdateInProgress(true);
+         Iterator it = sas.iterator();
+         while (it.hasNext()) {
+            Activity act = (Activity) it.next();
+            if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START
+                || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+               removeActivityOrArtifact(act);
+               if (!toRem.contains(act)) {
+                  toRem.add(act);
+               }
             }
          }
          JaWEManager.getInstance().getJaWEController().startUndouableChange();
-         
-         GraphUtilities.setParticipantVisualOrder(getXPDLOwner(), vo);
+         it = toRem.iterator();
+         Activities acts = (Activities) wpOrAs.get("Activities");
+         while (it.hasNext()) {
+            acts.remove((Activity)it.next());
+         }
+         List toSelect = new ArrayList();
+         toSelect.add(wpOrAs);
          JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);
          getGraphController().setUpdateInProgress(false);
       }
    }
 
-   public void removeStartEndBubbles () {      
-      XMLCollectionElement wpOrAs=getXPDLOwner();      
-      List eas=GraphUtilities.getStartOrEndExtendedAttributes(wpOrAs, true);
-      eas.addAll(GraphUtilities.getStartOrEndExtendedAttributes(wpOrAs, false));
-      if (eas.size()>0) {
-         getGraphController().setUpdateInProgress(true);
-         for (int i=0; i<eas.size(); i++) {
-            removeBubble((ExtendedAttribute)eas.get(i));
-         }
-         JaWEManager.getInstance().getJaWEController().startUndouableChange();
-         XMLUtil.getWorkflowProcess(wpOrAs).getExtendedAttributes().removeAll(eas);
-         List toSelect=new ArrayList();
-         toSelect.add(wpOrAs);
-         JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);
-         getGraphController().setUpdateInProgress(false);         
-      }
-   }
-   
-   public List insertMissingStartEndBubbles () {
-      XMLCollectionElement wpOrAs=getXPDLOwner();
-      WorkflowProcess wp=getWorkflowProcess();
-      String asId=null;
+   public void insertMissingStartAndEndEvents() {
+      XMLCollectionElement wpOrAs = getXPDLOwner();
+      WorkflowProcess wp = getWorkflowProcess();
+      String asId = null;
       if (wpOrAs instanceof ActivitySet) {
-         asId=wpOrAs.getId();
+         asId = wpOrAs.getId();
       }
-      GraphController gc=getGraphController();      
-      Dimension defActDim=new Dimension(gc.getGraphSettings().getActivityWidth(),gc.getGraphSettings().getActivityHeight());
-      Set sas=XMLUtil.getStartingActivities(wpOrAs);      
-      Set eas=XMLUtil.getEndingActivities(wpOrAs);
-      
-      List easToAdd=new ArrayList();
-      Iterator it=sas.iterator();
-      String eaname = null;
-      if (wpOrAs instanceof WorkflowProcess) {
-         eaname = GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW;
-      } else {
-         eaname = GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK;
-      }
-      int ah=gc.getGraphSettings().getActivityHeight();
-      int aw=gc.getGraphSettings().getActivityWidth();
+      GraphController gc = getGraphController();
+      Dimension defActDim = new Dimension(gc.getGraphSettings().getActivityWidth(),
+                                          gc.getGraphSettings().getActivityHeight());
+      Set sas = XMLUtil.getStartingActivities(wpOrAs);
+      Set eas = XMLUtil.getEndingActivities(wpOrAs);
+
+      List easToAdd = new ArrayList();
+      Iterator it = sas.iterator();
+      int ah = gc.getGraphSettings().getActivityHeight();
+      int aw = gc.getGraphSettings().getActivityWidth();
       while (it.hasNext()) {
-         Activity act=(Activity)it.next();
-         GraphActivityInterface gact=getGraphActivity(act);
-         Set racts=gact.getReferencingActivities();
-         if (!GraphManager.containsBubble(racts, true)) {
-            StartEndDescription sed=new StartEndDescription();
-            sed.setEAName(eaname);
-            sed.setActSetId(asId);
-            sed.setActId(act.getId());
-            sed.setParticipantId(GraphUtilities.getParticipantId(act));
-            Point op=GraphManager.getBubbleOffsetPoint(GraphUtilities.getOffsetPoint(act),true,defActDim,isGraphRotated());
-//            if (!isGraphRotated()) {
-               op.x+=(aw-0.6*ah)/2;
-               op.y+=ah/5;
-//            } else {
-//               op.x+=(aw-0.6*ah)/2;
-//               op.y+=ah/5;
-//            }
-            sed.setOffset(op);
-            sed.setType(GraphEAConstants.START_TYPE_DEFAULT);
-            ExtendedAttribute ea=(ExtendedAttribute)wp.getExtendedAttributes().generateNewElement();
-            ea.setName(sed.getEAName());
-            ea.setVValue(sed.toString());
-            easToAdd.add(ea);
-            insertStart(ea);
-         }
-      }
-      
-      if (wpOrAs instanceof WorkflowProcess) {
-         eaname = GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW;
-      } else {
-         eaname = GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK;
-      }
-      it=eas.iterator();
-      while (it.hasNext()) {
-         Activity act=(Activity)it.next();
-         GraphActivityInterface gact=getGraphActivity(act);
-         Set racts=gact.getReferencedActivities();
-         if (!GraphManager.containsBubble(racts, false)) {
-            StartEndDescription sed=new StartEndDescription();
-            sed.setEAName(eaname);
-            sed.setActSetId(asId);
-            sed.setActId(act.getId());
-            sed.setParticipantId(GraphUtilities.getParticipantId(act));
-            Point op=GraphManager.getBubbleOffsetPoint(GraphUtilities.getOffsetPoint(act),false,defActDim,isGraphRotated());
-//            if (!isGraphRotated()) {
-               op.x+=(aw-0.6*ah)/2;
-               op.y+=ah/5;
-//            } else {
-//               op.x+=(aw-0.6*ah)/2;
-//               op.y+=ah/5;               
-//            }
-            sed.setOffset(op);
-            sed.setType(GraphEAConstants.END_TYPE_DEFAULT);
-            ExtendedAttribute ea=(ExtendedAttribute)wp.getExtendedAttributes().generateNewElement();
-            ea.setName(sed.getEAName());
-            ea.setVValue(sed.toString());
-            easToAdd.add(ea);
-            insertEnd(ea);
-         }         
-      }                  
-      
-      return easToAdd;
-   }
-   
-   protected static boolean containsBubble (Set gacts,boolean start) {
-      boolean ret=false;
-      
-      Iterator it=gacts.iterator();
-      while (it.hasNext()) {
-         GraphActivityInterface gact=(GraphActivityInterface)it.next();
-         if (gact instanceof GraphBubbleActivityInterface) {
-            if (((GraphBubbleActivityInterface)gact).isStart()==start) {
-               return true;
+         Activity act = (Activity) it.next();
+         if (act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_EVENT_START
+             && act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+            GraphActivityInterface gact = getGraphActivity(act);
+            Set racts = gact.getReferencingActivities();
+            if (!GraphManager.containsStartOrEndEvent(racts, true)) {
+               Activity start = JaWEManager.getInstance()
+                  .getXPDLObjectFactory()
+                  .createXPDLObject((Activities) wpOrAs.get("Activities"),
+                                    JaWEConstants.ACTIVITY_TYPE_START,
+                                    true);
+               Point op = GraphManager.getStartOrEndEventOffsetPointForInsertion(GraphUtilities.getOffsetPoint(act),
+                                                                                 true,
+                                                                                 defActDim,
+                                                                                 isGraphRotated());
+               // if (!isGraphRotated()) {
+               op.x += (aw - 0.6 * ah) / 2;
+               op.y += ah / 5;
+               // } else {
+               // op.x+=(aw-0.6*ah)/2;
+               // op.y+=ah/5;
+               // }
+               GraphUtilities.createNodeGraphicsInfo(start, op, JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getLaneId(act), true);
+               insertStartOrEndEvent(start, act.getId());
             }
          }
       }
-      
-      return ret;
+
+      it = eas.iterator();
+      while (it.hasNext()) {
+         Activity act = (Activity) it.next();
+         if (act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_EVENT_START
+             && act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+            GraphActivityInterface gact = getGraphActivity(act);
+            Set racts = gact.getReferencedActivities();
+            if (!GraphManager.containsStartOrEndEvent(racts, false)
+                && !XMLUtil.hasCircularTransitions(XMLUtil.getNonExceptionalOutgoingTransitions(act))) {
+               Activity end = JaWEManager.getInstance()
+                  .getXPDLObjectFactory()
+                  .createXPDLObject((Activities) wpOrAs.get("Activities"),
+                                    JaWEConstants.ACTIVITY_TYPE_END,
+                                    true);
+               Point op = GraphManager.getStartOrEndEventOffsetPointForInsertion(GraphUtilities.getOffsetPoint(act),
+                                                                                 false,
+                                                                                 defActDim,
+                                                                                 isGraphRotated());
+               // if (!isGraphRotated()) {
+               op.x += (aw - 0.6 * ah) / 2;
+               op.y += ah / 5;
+               // } else {
+               // op.x+=(aw-0.6*ah)/2;
+               // op.y+=ah/5;
+               // }
+               GraphUtilities.createNodeGraphicsInfo(end, op, JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .getLaneId(act), true);
+               insertStartOrEndEvent(end, act.getId());
+            }
+         }
+      }
    }
-   
-   protected static Point getBubbleOffsetPoint (Point actOffs,boolean start,Dimension defActDim,boolean isGraphRotated) {
-      Point p=new Point(actOffs);
-      
+
+   protected static boolean containsStartOrEndEvent(Set gacts, boolean start) {
+      Iterator it = gacts.iterator();
+      while (it.hasNext()) {
+         GraphActivityInterface gact = (GraphActivityInterface) it.next();
+         Activity act = (Activity) gact.getPropertyObject();
+         if ((start && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START)
+             || (!start && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END)) {
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   protected static Point getStartOrEndEventOffsetPointForInsertion(Point actOffs,
+                                                                    boolean start,
+                                                                    Dimension defActDim,
+                                                                    boolean isGraphRotated) {
+      Point p = new Point(actOffs);
+
       if (start) {
          if (!isGraphRotated) {
-            p.x-=defActDim.width*1.5;
+            p.x -= defActDim.width * 1.5;
          } else {
-            p.y-=defActDim.height*1.5;
+            p.y -= defActDim.height * 1.5;
          }
       } else {
          if (!isGraphRotated) {
-            p.x+=defActDim.width*1.5;
+            p.x += defActDim.width * 1.5;
          } else {
-            p.y+=defActDim.height*1.5;
+            p.y += defActDim.height * 1.5;
          }
       }
       if (!isGraphRotated) {
-         if (p.x<0) {
-            p.x=0;
+         if (p.x < 0) {
+            p.x = 0;
          }
       } else {
-         if (p.y<0) {
-            p.y=0;
-         }            
+         if (p.y < 0) {
+            p.y = 0;
+         }
       }
-      return p;      
-   }   
-}
+      return p;
+   }
 
+   protected static List getAllChildParticipants(GraphParticipantInterface gpar) {
+      List toRet = new ArrayList();
+      Set cpars = gpar.getChildParticipants();
+      toRet.addAll(cpars);
+      Iterator it = cpars.iterator();
+      while (it.hasNext()) {
+         GraphParticipantInterface cp = (GraphParticipantInterface) it.next();
+         toRet.addAll(cp.getChildParticipants());
+      }
+      return toRet;
+   }
+
+   protected static GraphParticipantInterface getCommonParentParticipant(GraphParticipantInterface[] parts,
+                                                                         Object parent) {
+      if (parts != null) {
+         for (int i = 0; i < parts.length; i++) {
+            if (parts[i].getParent() == parent) {
+               return parts[i];
+            }
+         }
+      }
+      return null;
+   }
+
+   public void showArtifacts(boolean show) {
+      Set arts = GraphUtilities.getArtifacts(getXPDLOwner());
+      Set assocs = GraphUtilities.getAssociations(getXPDLOwner());
+      Iterator it = arts.iterator();
+      while (it.hasNext()) {
+         Artifact art = (Artifact) it.next();
+         if (show) {
+            insertActivityOrArtifact(art);
+         } else {
+            removeActivityOrArtifact(art);
+         }
+      }
+      it = assocs.iterator();
+      while (it.hasNext()) {
+         Association assoc = (Association) it.next();
+         if (show) {
+            insertTransitionOrAssociation(assoc);
+         } else {
+            removeTransitionOrAssociation(assoc);
+         }
+      }
+
+   }
+
+}

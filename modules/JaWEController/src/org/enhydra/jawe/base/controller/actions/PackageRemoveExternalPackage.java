@@ -23,8 +23,8 @@ import java.awt.event.ActionEvent;
 import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.base.controller.JaWEController;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Package;
 
 
 /**

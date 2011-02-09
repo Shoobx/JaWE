@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
-import org.enhydra.shark.xpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * @author Miroslav Popov

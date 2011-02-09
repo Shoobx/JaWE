@@ -26,7 +26,7 @@ package org.enhydra.jawe.components.graph;
  */
 import java.awt.Point;
 
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
 
 public final class StartEndDescription {
    

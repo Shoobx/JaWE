@@ -18,9 +18,9 @@
 
 package org.enhydra.jawe.components.wfxml;
 
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
 
 public class DefInfos extends XMLCollection {
 

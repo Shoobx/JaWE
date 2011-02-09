@@ -28,19 +28,47 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.base.label.LabelGenerator;
 import org.enhydra.jawe.base.xpdlhandler.XPDLHandler;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLBaseForCollectionAndComplex;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLEmptyChoiceElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.*;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLBaseForCollectionAndComplex;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLEmptyChoiceElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activities;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActualParameter;
+import org.enhydra.jxpdl.elements.BasicType;
+import org.enhydra.jxpdl.elements.Condition;
+import org.enhydra.jxpdl.elements.DataType;
+import org.enhydra.jxpdl.elements.DataTypes;
+import org.enhydra.jxpdl.elements.Deadline;
+import org.enhydra.jxpdl.elements.DeclaredType;
+import org.enhydra.jxpdl.elements.EnumerationType;
+import org.enhydra.jxpdl.elements.ExternalPackage;
+import org.enhydra.jxpdl.elements.ExternalReference;
+import org.enhydra.jxpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.Join;
+import org.enhydra.jxpdl.elements.Member;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.ParticipantType;
+import org.enhydra.jxpdl.elements.RecordType;
+import org.enhydra.jxpdl.elements.Responsible;
+import org.enhydra.jxpdl.elements.Route;
+import org.enhydra.jxpdl.elements.Split;
+import org.enhydra.jxpdl.elements.SubFlow;
+import org.enhydra.jxpdl.elements.TaskApplication;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.TransitionRef;
+import org.enhydra.jxpdl.elements.Transitions;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
+import org.enhydra.jxpdl.elements.UnionType;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
  *  Used to generate strings for graphical representation of all XPDL entities.
@@ -61,26 +89,6 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
       this.settings.init((JaWEComponent) null);
    }
    
-   public String getDisplayName(Activities el) {
-      return generateStandardDisplayName(el);
-   }
-   
-   public String getDisplayName(Activity el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ActivitySet el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ActivitySets el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ActivityTypes el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(ActualParameter el) {
       WorkflowProcess wp=XMLUtil.getWorkflowProcess(el);
       Map vars=XMLUtil.getPossibleVariables(wp);
@@ -94,77 +102,12 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
       return vId;      
    }
 
-   public String getDisplayName(ActualParameters el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Application el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Applications el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ApplicationTypes el) {
-      return generateStandardDisplayName(el);
-   }
-   
-   public String getDisplayName(ArrayType el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Author el) {
-      return generateStandardDisplayName(el);
-   }
-
-
-   public String getDisplayName(Automatic el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(BasicType el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
    }
 
-   public String getDisplayName(BlockActivity el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Codepage el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(Condition el) {
       return el.toValue();
-   }
-
-   public String getDisplayName(ConformanceClass el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Cost el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(CostUnit el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Countrykey el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Created el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(DataField el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(DataFields el) {
-      return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(DataType el) {
@@ -180,27 +123,14 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
          disp+=" -> "+ settings.getLanguageDependentString(((BasicType)ch).getType() + "Key");
       } else if (ch instanceof DeclaredType) {
          String tdId=((DeclaredType)ch).getId();
-         TypeDeclaration td=null;
-         if (el.getParent() instanceof TypeDeclaration) {
-            td=((TypeDeclarations)el.getParent().getParent()).getTypeDeclaration(tdId);
-         } else {
-            td =XMLUtil.getPackage(el).getTypeDeclaration(tdId);
-         }
+         TypeDeclaration td=XMLUtil.getTypeDeclaration(JaWEManager.getInstance().getXPDLHandler(), XMLUtil.getPackage(el), tdId);
          disp+=" -> "+getDisplayName(td);
       }
       return disp;
    }
 
    public String getDisplayName(Deadline el) {
-      return el.getDeadlineCondition();
-   }
-
-   public String getDisplayName(DeadlineCondition el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Deadlines el) {
-      return generateStandardDisplayName(el);
+      return el.getDeadlineDuration();
    }
 
    public String getDisplayName(DeclaredType el) {
@@ -209,36 +139,8 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
       //return generateStandardDisplayName(el);
    }
 
-   public String getDisplayName(Description el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Documentation el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Duration el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(EnumerationType el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
-   }
-
-   public String getDisplayName(EnumerationValue el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ExceptionName el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ExtendedAttribute el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ExtendedAttributes el) {
-      return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(ExternalPackage el) {
@@ -246,20 +148,8 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
       return el.getHref();
    }
 
-   public String getDisplayName(ExternalPackages el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(ExternalReference el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
-   }
-
-   public String getDisplayName(FinishMode el) {
-      return generateStandardDisplayName(el.getStartFinishModes());
-   }
-
-   public String getDisplayName(FormalParameter el) {
-      return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(FormalParameters el) {
@@ -269,100 +159,20 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
       return String.valueOf(el.size());      
    }
 
-   public String getDisplayName(Icon el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Implementation el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ImplementationTypes el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(InitialValue el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(Join el) {
        return generateStandardDisplayName(el.getTypeAttribute());
-   }
-
-   public String getDisplayName(Length el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Limit el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ListType el) {
-       return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Manual el) {
-      return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(Member el) {
       return getDisplayName(el.getDataTypes());
    }
 
-   public String getDisplayName(Namespace el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Namespaces el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(No el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(org.enhydra.shark.xpdl.elements.Package el) {
-      return generateStandardDisplayName(el);
-   }
-   
-   public String getDisplayName(PackageHeader el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Participant el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Participants el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(ParticipantType el) {
       return generateStandardDisplayName(el.getTypeAttribute());
    }
 
-   public String getDisplayName(Performer el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Priority el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(PriorityUnit el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ProcessHeader el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(RecordType el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
-   }
-
-   public String getDisplayName(RedefinableHeader el) {
-      return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(Responsible el) {
@@ -385,127 +195,30 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
       return pId;
    }
 
-   public String getDisplayName(Responsibles el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(Route el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
-   }
-
-   public String getDisplayName(SchemaType el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Script el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(SimulationInformation el) {
-      return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(Split el) {
       return generateStandardDisplayName(el.getTypeAttribute());
    }
 
-   public String getDisplayName(StartFinishModes el) {
-      return generateStandardDisplayName(el.getChoosen());
-   }
-
-   public String getDisplayName(StartMode el) {
-      return generateStandardDisplayName(el.getStartFinishModes());
-   }
-
    public String getDisplayName(SubFlow el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
    }
 
-   public String getDisplayName(TimeEstimation el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Tool el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Tools el) {
+   public String getDisplayName(TaskApplication el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
-   }
-
-   public String getDisplayName(Transition el) {
-      return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(TransitionRef el) {
       return getDisplayName(el.get("Id"));
    }
 
-   public String getDisplayName(TransitionRefs el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(TransitionRestriction el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(TransitionRestrictions el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Transitions el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(TypeDeclaration el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(TypeDeclarations el) {
-      return generateStandardDisplayName(el);
-   }
-
    public String getDisplayName(UnionType el) {
       return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
    }
 
-   public String getDisplayName(ValidFrom el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(ValidTo el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Vendor el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(Version el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(WaitingTime el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(WorkflowProcess el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(WorkflowProcesses el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(WorkingTime el) {
-      return generateStandardDisplayName(el);
-   }
-
-   public String getDisplayName(XPDLVersion el) {
-      return generateStandardDisplayName(el);
-   }
-
-   
    public String getDisplayName(XMLAttribute el) {
       if (el.getParent() instanceof Transition && (el.toName().equals("From") || el.toName().equals("To"))) {
          XMLCollectionElement wpOrAs=XMLUtil.getActivitySet(el);

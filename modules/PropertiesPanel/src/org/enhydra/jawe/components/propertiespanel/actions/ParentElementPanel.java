@@ -24,7 +24,7 @@ import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.components.propertiespanel.PropertiesPanelComponent;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
  * @author Sasa Bojanic

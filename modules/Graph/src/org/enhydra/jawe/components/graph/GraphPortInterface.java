@@ -31,7 +31,7 @@ public abstract class GraphPortInterface extends DefaultPort {
       super(name);
    }
    
-   public abstract GraphActivityInterface getActivity ();
+   public abstract GraphCommonInterface getActivityOrArtifact ();
    
    public abstract String getType ();
    

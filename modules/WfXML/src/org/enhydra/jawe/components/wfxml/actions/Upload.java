@@ -31,8 +31,8 @@ import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.components.wfxml.WfXML;
 import org.enhydra.jawe.components.wfxml.WfXMLConnector;
 import org.enhydra.jawe.components.wfxml.WfXMLPanel;
+import org.enhydra.jxpdl.elements.Package;
 
-import org.enhydra.shark.xpdl.elements.Package;
 
 /**
  * Uploads XPDL to the engine.

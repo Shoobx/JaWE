@@ -36,6 +36,7 @@ import javax.swing.SwingConstants;
 
 import org.enhydra.jawe.base.controller.JaWEType;
 import org.enhydra.jawe.base.controller.JaWETypeChoiceButton;
+import org.enhydra.jxpdl.XMLUtil;
 
 public class BarFactory {
 
@@ -75,7 +76,7 @@ public class BarFactory {
       JMenuBar mbar = new JMenuBar();
 
       String actionOrder = comp.getSettings().getMainMenuActionOrder();
-      String[] act = Utils.tokenize(actionOrder, ACTION_DELIMITER);
+      String[] act = XMLUtil.tokenize(actionOrder, ACTION_DELIMITER);
 
       for (int i = 0; i < act.length; i++) {
          if (act[i].startsWith(JAWECOMPONENT_AS_MENU_PREFIX)) {
@@ -127,7 +128,7 @@ public class BarFactory {
 
       JToolBar toolbar = new JToolBar();
       toolbar.setRollover(true);
-      String[] act = Utils.tokenize(actionOrder, ACTION_DELIMITER);
+      String[] act = XMLUtil.tokenize(actionOrder, ACTION_DELIMITER);
 
       for (int i = 0; i < act.length; i++) {
          if (act[i].equals(ACTION_SEPARATOR)) {
@@ -232,7 +233,7 @@ public class BarFactory {
                                      boolean addBCListener) {
       JMenu menu = new JMenu();
 
-      String[] act = Utils.tokenize(actionOrder, ACTION_DELIMITER);
+      String[] act = XMLUtil.tokenize(actionOrder, ACTION_DELIMITER);
 
       for (int i = 0; i < act.length; i++) {
          if (act[i].equals(ACTION_SEPARATOR)) {
@@ -292,7 +293,7 @@ public class BarFactory {
       menu.setText(langDepName);
 
       String actionOrder = comp.getSettings().getMenuActionOrder(name);
-      String[] act = Utils.tokenize(actionOrder, ACTION_DELIMITER);
+      String[] act = XMLUtil.tokenize(actionOrder, ACTION_DELIMITER);
       int cnt=0;
       for (int i = 0; i < act.length; i++) {
          if (act[i].equals(ACTION_SEPARATOR)) {

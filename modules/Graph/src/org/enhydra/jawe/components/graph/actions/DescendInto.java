@@ -29,13 +29,13 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.components.graph.GraphController;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.XPDLConstants;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.BlockActivity;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.BlockActivity;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * @author Miroslav Popov
@@ -84,7 +84,7 @@ public class DescendInto extends ActionBase {
             gc.selectGraphForElement(wp);
          } else {
             BlockActivity blk = a.getActivityTypes().getBlockActivity();
-            String blockId = blk.getBlockId();
+            String blockId = blk.getActivitySetId();
             // check if the activity set exists
             ActivitySet as = XMLUtil.getWorkflowProcess(a).getActivitySet(blockId);
             gc.selectGraphForElement(as);

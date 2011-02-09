@@ -21,10 +21,10 @@ package org.enhydra.jawe.components;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
 
 /**
  *  Used to handle events in TreeView tree.

@@ -23,8 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * Used to handle history.

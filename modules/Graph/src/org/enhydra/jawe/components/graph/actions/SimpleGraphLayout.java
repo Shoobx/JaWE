@@ -36,16 +36,14 @@ import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
 import org.enhydra.jawe.components.graph.GraphUtilities;
 import org.enhydra.jawe.components.graph.JaWEGraphModel;
-import org.enhydra.shark.utilities.SequencedHashMap;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.Transition;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+import org.enhydra.jxpdl.utilities.SequencedHashMap;
 import org.jgraph.graph.DefaultGraphCell;
 
 /**
@@ -122,8 +120,7 @@ public class SimpleGraphLayout extends ActionBase {
    }
 
    public static void layoutGraph(GraphController gcon, Graph selectedGraph) {
-      boolean isHorizontal = GraphUtilities.getGraphParticipantOrientation(selectedGraph.getWorkflowProcess(),
-                                                                           selectedGraph.getXPDLObject())
+      boolean isHorizontal = GraphUtilities.getGraphOrientation(selectedGraph.getXPDLObject())
          .equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_HORIZONTAL);
 
       Object[] elem = JaWEGraphModel.getAll(selectedGraph.getModel());
@@ -136,9 +133,6 @@ public class SimpleGraphLayout extends ActionBase {
                if (!tr.getTo().equals(tr.getFrom())) {
                   GraphUtilities.setBreakpoints(tr, new ArrayList());
                }
-            } else if (((DefaultGraphCell) elem[i]).getUserObject() instanceof ExtendedAttribute) {
-               ExtendedAttribute ea = (ExtendedAttribute) ((DefaultGraphCell) elem[i]).getUserObject();
-               ((ExtendedAttributes) ea.getParent()).remove(ea);
             }
          }
       }
@@ -146,12 +140,6 @@ public class SimpleGraphLayout extends ActionBase {
       SimpleGraphLayout.sortItOut(selectedGraph.getXPDLObject(), isHorizontal);
 
       selectedGraph.getGraphManager().createWorkflowGraph(selectedGraph.getXPDLObject());
-      if (gcon.getGraphSettings().shouldUseBubbles()) {
-         List easToAdd = selectedGraph.getGraphManager().insertMissingStartEndBubbles();
-         XMLUtil.getWorkflowProcess(selectedGraph.getXPDLObject())
-            .getExtendedAttributes()
-            .addAll(easToAdd);
-      }
    }
 
    protected static void sortItOut(XMLCollectionElement wpOrAs, boolean isHorizontal) {
@@ -172,7 +160,7 @@ public class SimpleGraphLayout extends ActionBase {
                                              act,
                                              null,
                                              isHorizontal);
-         GraphUtilities.setOffsetPoint(act, p);
+         GraphUtilities.setOffsetPoint(act, p, null);
          inserted.add(act);
       }
 
@@ -239,7 +227,7 @@ public class SimpleGraphLayout extends ActionBase {
       }
       if (prev != null) {
          Point p = SimpleGraphLayout.getXPos(posX, actX, act, prev, isHorizontal);
-         GraphUtilities.setOffsetPoint(act, p);
+         GraphUtilities.setOffsetPoint(act, p, null);
          inserted.add(act);
       }
 
@@ -262,7 +250,7 @@ public class SimpleGraphLayout extends ActionBase {
 
       int xoff = GraphUtilities.getGraphController()
          .getGraphSettings()
-         .getParticipantNameWidth();
+         .getLaneNameWidth();
 
       if (isHorizontal) {
          xoff += (xdiff * 1.5);

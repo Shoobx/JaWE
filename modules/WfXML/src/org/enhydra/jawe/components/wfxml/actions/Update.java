@@ -32,7 +32,7 @@ import org.enhydra.jawe.components.wfxml.DefInfo;
 import org.enhydra.jawe.components.wfxml.WfXML;
 import org.enhydra.jawe.components.wfxml.WfXMLConnector;
 import org.enhydra.jawe.components.wfxml.WfXMLPanel;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Update XPDL to the engine.

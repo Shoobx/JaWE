@@ -37,11 +37,11 @@ import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.base.controller.JaWEType;
 import org.enhydra.jawe.base.controller.JaWETypeChoiceButton;
 import org.enhydra.jawe.base.panel.PanelContainer;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
-import org.enhydra.shark.xpdl.elements.Member;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.elements.Member;
 
 /**
  * Various panel utilities.

@@ -18,8 +18,8 @@
 
 package org.enhydra.jawe.components.ldap;
 
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLComplexElement;
 
 public class LDAPEntryInfo extends XMLComplexElement {
    

@@ -32,11 +32,11 @@ import java.util.Set;
 
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.ResourceManager;
-import org.enhydra.shark.xpdl.XMLInterface;
-import org.enhydra.shark.xpdl.XMLInterfaceForJDK13;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.ExternalPackage;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLInterface;
+import org.enhydra.jxpdl.XMLInterfaceForJDK13;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.ExternalPackage;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Class which purpose is to provide methods which are

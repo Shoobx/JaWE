@@ -29,8 +29,8 @@ import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.controller.JaWEFrame;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.Activity;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Activity;
 
 /**
  * @author Sasa Bojanic

@@ -24,7 +24,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.enhydra.shark.xpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Participant;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellMapper;
 import org.jgraph.graph.CellView;
@@ -57,7 +57,7 @@ public class DefaultGraphParticipantView extends VertexView implements GraphPart
       String type=((GraphParticipantInterface)super.getCell()).getType();
       GraphParticipantRendererInterface gprenderer=(GraphParticipantRendererInterface)renderers.get(type);
       if (gprenderer==null) {
-         gprenderer=createRenderer((Participant)((GraphParticipantInterface)super.getCell()).getUserObject());
+         gprenderer=createRenderer(((GraphParticipantInterface)super.getCell()).getUserObject());
          renderers.put(type,gprenderer);
       }
       return gprenderer;
@@ -68,16 +68,16 @@ public class DefaultGraphParticipantView extends VertexView implements GraphPart
    */
    public boolean intersects(JGraph graph, Rectangle2D rect) {//HM, JGraph3.4.1
       Rectangle2D lBounds = getBounds();//HM, JGraph3.4.1
-      boolean rotateParticipant = GraphUtilities.getGraphParticipantOrientation(((Graph) graph).getWorkflowProcess(), ((Graph) graph).getXPDLObject()).equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_VERTICAL);
+      boolean rotateParticipant = GraphUtilities.getGraphOrientation(((Graph) graph).getXPDLObject()).equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_VERTICAL);
       
       if (lBounds != null) {
       	 Rectangle nameBounds;
       	 if (rotateParticipant)
       	 	nameBounds=new Rectangle((int)lBounds.getX(),(int)lBounds.getY(),
-      	 			(int)lBounds.getWidth(), GraphUtilities.getGraphController().getGraphSettings().getParticipantNameWidth());
+      	 			(int)lBounds.getWidth(), GraphUtilities.getGraphController().getGraphSettings().getLaneNameWidth());
       	 else
       	 	nameBounds=new Rectangle((int)lBounds.getX(),(int)lBounds.getY(),
-                 GraphUtilities.getGraphController().getGraphSettings().getParticipantNameWidth(), (int)lBounds.getHeight());
+                 GraphUtilities.getGraphController().getGraphSettings().getLaneNameWidth(), (int)lBounds.getHeight());
          return nameBounds.intersects(rect);
       }
       return false;
@@ -107,7 +107,7 @@ public class DefaultGraphParticipantView extends VertexView implements GraphPart
       }
    }
 
-   protected GraphParticipantRendererInterface createRenderer (Participant par) {
+   protected GraphParticipantRendererInterface createRenderer (Object par) {
       return GraphUtilities.getGraphController().getGraphObjectRendererFactory().createParticipantRenderer(par);
    }   
 

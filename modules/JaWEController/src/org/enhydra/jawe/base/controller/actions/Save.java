@@ -27,8 +27,8 @@ import org.enhydra.jawe.BarFactory;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
-import org.enhydra.shark.xpdl.StandardPackageValidator;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Class that realizes <B>save</B> action.

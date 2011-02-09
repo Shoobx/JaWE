@@ -40,6 +40,7 @@ import org.enhydra.jawe.base.controller.actions.Exit;
 import org.enhydra.jawe.base.controller.actions.ExternalApplications;
 import org.enhydra.jawe.base.controller.actions.ExternalParticipants;
 import org.enhydra.jawe.base.controller.actions.ExternalProcesses;
+import org.enhydra.jawe.base.controller.actions.ExternalTypeDeclarations;
 import org.enhydra.jawe.base.controller.actions.HelpAbout;
 import org.enhydra.jawe.base.controller.actions.NewPackage;
 import org.enhydra.jawe.base.controller.actions.Open;
@@ -282,7 +283,7 @@ public class ControllerSettings extends JaWEComponentSettings {
                             "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters - ProcessActivitySetsOverview ProcessActivitiesOverview ProcessTransitionsOverview");
       componentSettings.put("ProcessLangName", "process");
       componentSettings.put("ExternalPackagesMenu",
-                            "ExternalParticipants ExternalProcesses ExternalApplications");
+                            "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
       componentSettings.put("ExternalPackagesLangName", "externalPackage");
       componentSettings.put("SettingsMenu", "@LanguageSwitcher @Reconfigurator");
       componentSettings.put("SettingsLangName", "settings");
@@ -300,7 +301,7 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("processtoolbarToolbar",
                             "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters");
       componentSettings.put("externaltoolbarToolbar",
-                            "ExternalParticipants ExternalProcesses ExternalApplications");
+                            "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
 
       // actions
       ActionBase action;
@@ -608,6 +609,14 @@ public class ControllerSettings extends JaWEComponentSettings {
       langDepName = "ExternalApplications";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ExternalApplications", ja);
+
+      // External TypeDeclarations
+      action = new ExternalTypeDeclarations(comp);
+      icon = new ImageIcon(ResourceManager.class.getClassLoader()
+         .getResource("org/enhydra/jawe/images/externaltypedeclarations.gif"));
+      langDepName = "ExternalTypeDeclarations";
+      ja = new JaWEAction(action, icon, langDepName);
+      componentAction.put("ExternalTypeDeclarations", ja);
 
       // ExternalParticipants
       action = new ExternalParticipants(comp);

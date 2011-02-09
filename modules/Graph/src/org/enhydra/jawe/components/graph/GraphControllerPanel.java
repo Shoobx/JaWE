@@ -38,22 +38,24 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.XMLElementChoiceButton;
 import org.enhydra.jawe.base.controller.JaWEType;
 import org.enhydra.jawe.base.controller.JaWETypes;
 import org.enhydra.jawe.components.graph.actions.SetActivityMode;
-import org.enhydra.jawe.components.graph.actions.SetEndMode;
-import org.enhydra.jawe.components.graph.actions.SetParticipantMode;
-import org.enhydra.jawe.components.graph.actions.SetParticipantModeFreeTextExpression;
+import org.enhydra.jawe.components.graph.actions.SetArtifactMode;
+import org.enhydra.jawe.components.graph.actions.SetAssociationMode;
+import org.enhydra.jawe.components.graph.actions.SetLaneMode;
+import org.enhydra.jawe.components.graph.actions.SetLaneModeFreeTextExpression;
 import org.enhydra.jawe.components.graph.actions.SetSelectMode;
-import org.enhydra.jawe.components.graph.actions.SetStartMode;
 import org.enhydra.jawe.components.graph.actions.SetTransitionMode;
-import org.enhydra.shark.xpdl.XMLUtil;
-import org.enhydra.shark.xpdl.elements.Activity;
-import org.enhydra.shark.xpdl.elements.ActivitySet;
-import org.enhydra.shark.xpdl.elements.Participant;
-import org.enhydra.shark.xpdl.elements.Transition;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActivitySet;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.enhydra.jxpdl.elements.Association;
+import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Transition;
 
 /**
  *  Container for displaying menubar, toolbar, process graphs ...
@@ -89,7 +91,7 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 		toolbar = BarFactory.createToolbar("defaultToolbar", controller);
 		toolbar.setFloatable(false);
 		// creating button panel
-		ImageIcon curIc = controller.getGraphSettings().getParticipantsIcon();
+		ImageIcon curIc = controller.getGraphSettings().getLanesIcon();
 		showParticipantChoiceButton = new XMLElementChoiceButton(Participant.class,controller,curIc, true, new String[]
 		                                                                                                              {"Id","Name","ParticipantType","Description"});
 		showParticipantChoiceButton.setToolTipText(controller.getSettings().getLanguageDependentString("InsertExistingParticipant" + BarFactory.TOOLTIP_POSTFIX));
@@ -99,13 +101,13 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 		JToolBar part = new JToolBar();
 
 
-		if (controller.getGraphSettings().useParticipantChoiceButton())
+		if (controller.getGraphSettings().useLaneChoiceButton())
 			part.add(showParticipantChoiceButton);
 
 		if (controller.getGraphSettings().useActivitySetChoiceButton())
 			part.add(asChoiceButton);
 
-		if (controller.getGraphSettings().useParticipantChoiceButton() || controller.getGraphSettings().useActivitySetChoiceButton()) {
+		if (controller.getGraphSettings().useLaneChoiceButton() || controller.getGraphSettings().useActivitySetChoiceButton()) {
 	//		toolbar.addSeparator();
 			toolbar.add(part);
 		}
@@ -145,7 +147,7 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 
 		JToolBar toolbar = new JToolBar();
 		toolbar.setRollover(true);
-		String[] act = Utils.tokenize(actionOrder, BarFactory.ACTION_DELIMITER);
+		String[] act = XMLUtil.tokenize(actionOrder, BarFactory.ACTION_DELIMITER);
 
 		for (int j=0; j<act.length; j++) {
 			if (act[j].equals(BarFactory.ACTION_SEPARATOR)) {
@@ -159,10 +161,10 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 				b.setToolTipText(ja.getLangDepName());
 				toolbar.add(b);
 				controller.getSettings().addAction("SetSelectMode", ja);
-			} else if (act[j].equals("SetParticipantModeCommonExpression")) {
+			} else if (act[j].equals("SetLaneModeCommonExpression")) {
 				JaWEAction ja=new JaWEAction();
 				try {
-					String clsName = "org.enhydra.jawe.components.graph.actions.SetParticipantModeCommonExpression";
+					String clsName = "org.enhydra.jawe.components.graph.actions.SetLaneModeCommonExpression";
 					ActionBase action = (ActionBase) Class.forName(clsName).getConstructor(new Class[] {
 							GraphController.class
 					}).newInstance(new Object[] {
@@ -170,47 +172,29 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 					});               
 					ja.setAction(action);
 				} catch (Exception ex) {}
-				ja.setIcon(((GraphSettings)controller.getSettings()).getCommonExpresionParticipantIcon());
+				ja.setIcon(((GraphSettings)controller.getSettings()).getCommonExpresionLaneIcon());
 				ja.setLangDepName(controller.getSettings().getLanguageDependentString("CommonExpressionParticipantKey"));
 				JButton b=BarFactory.createToolbarButton(ja, controller);
 				b.setToolTipText(ja.getLangDepName());
 				toolbar.add(b);
-				controller.getSettings().addAction("SetParticipantModeCommonExpression", ja);
-			} else if (act[j].equals("SetParticipantModeFreeTextExpression")) {
+				controller.getSettings().addAction("SetLaneModeCommonExpression", ja);
+			} else if (act[j].equals("SetLaneModeFreeTextExpression")) {
 				JaWEAction ja=new JaWEAction();
-				ja.setAction(new SetParticipantModeFreeTextExpression(controller));
-				ja.setIcon(((GraphSettings)controller.getSettings()).getFreeTextParticipantIcon());
+				ja.setAction(new SetLaneModeFreeTextExpression(controller));
+				ja.setIcon(((GraphSettings)controller.getSettings()).getFreeTextLaneIcon());
 				ja.setLangDepName(controller.getSettings().getLanguageDependentString("FreeTextExpressionParticipantKey"));
 				JButton b=BarFactory.createToolbarButton(ja, controller);
 				b.setToolTipText(ja.getLangDepName());
 				toolbar.add(b);
-				controller.getSettings().addAction("SetParticipantModeFreeTextExpression", ja);
-			} else if (act[j].equals("SetStartMode")) {
-				JaWEAction ja=new JaWEAction();
-				ja.setAction(new SetStartMode(controller));
-				ja.setIcon(((GraphSettings)controller.getSettings()).getBubbleStartIcon());
-				ja.setLangDepName(controller.getSettings().getLanguageDependentString("StartBubbleKey"));
-				JButton b=BarFactory.createToolbarButton(ja, controller);
-				b.setToolTipText(ja.getLangDepName());
-				toolbar.add(b);
-				controller.getSettings().addAction("SetStartMode", ja);
-			} else if (act[j].equals("SetEndMode")) {
-				JaWEAction ja=new JaWEAction();
-				ja.setAction(new SetEndMode(controller));
-				ja.setIcon(((GraphSettings)controller.getSettings()).getBubbleEndIcon());
-				ja.setLangDepName(controller.getSettings().getLanguageDependentString("EndBubbleKey"));
-				JButton b=BarFactory.createToolbarButton(ja, controller);
-				b.setToolTipText(ja.getLangDepName());
-				toolbar.add(b);
-				controller.getSettings().addAction("SetEndMode", ja);
-			} else if (act[j].startsWith("SetParticipantMode")) {
-				String type=act[j].substring("SetParticipantMode".length());
+				controller.getSettings().addAction("SetLaneModeFreeTextExpression", ja);
+			} else if (act[j].startsWith("SetLaneMode")) {
+				String type=act[j].substring("SetLaneMode".length());
 				if (type.equals("*")) {
-					List parTypes=jts.getTypes(Participant.class,null);
+					List parTypes=jts.getTypes(Lane.class,null);
 					for (int i=0; i<parTypes.size(); i++) {
 						JaWEType jt=(JaWEType)parTypes.get(i);
 						JaWEAction ja=new JaWEAction();
-						ja.setAction(new SetParticipantMode(controller,jt.getTypeId()));
+						ja.setAction(new SetLaneMode(controller,jt.getTypeId()));
 						ja.setIcon(jt.getIcon());
 						ja.setLangDepName(jt.getDisplayName());
 						JButton b=BarFactory.createToolbarButton(ja, controller);
@@ -218,11 +202,11 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 						toolbar.add(b);
 						controller.getSettings().addAction(jt.getTypeId(), ja);
 					}
-				} else if (!(type.equals("SetParticipantModeCommonExpression") || type.equals("SetParticipantModeFreeTextExpression"))){
+				} else if (!(type.equals("SetLaneModeCommonExpression") || type.equals("SetLaneModeFreeTextExpression"))){
 					JaWEType jt=jts.getType(type);
 					if (jt==null) continue;
 					JaWEAction ja=new JaWEAction();
-					ja.setAction(new SetParticipantMode(controller,jt.getTypeId()));
+					ja.setAction(new SetLaneMode(controller,jt.getTypeId()));
 					ja.setIcon(jt.getIcon());
 					ja.setLangDepName(jt.getDisplayName());
 					JButton b=BarFactory.createToolbarButton(ja, controller);
@@ -230,6 +214,22 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 					toolbar.add(b);
 					controller.getSettings().addAction(jt.getTypeId(), ja);
 				}
+         } else if (act[j].startsWith("SetArtifactMode")) {
+            String type=act[j].substring("SetArtifactMode".length());
+            if (type.equals("*")) {
+               List artTypes=jts.getTypes(Artifact.class,null);
+               for (int i=0; i<artTypes.size(); i++) {
+                  JaWEType jt=(JaWEType)artTypes.get(i);
+                  JaWEAction ja=new JaWEAction();
+                  ja.setAction(new SetArtifactMode(controller,jt.getTypeId()));
+                  ja.setIcon(jt.getIcon());
+                  ja.setLangDepName(jt.getDisplayName());
+                  JButton b=BarFactory.createToolbarButton(ja, controller);
+                  b.setToolTipText(ja.getLangDepName());
+                  toolbar.add(b);
+                  controller.getSettings().addAction(jt.getTypeId(), ja);
+               }
+            }
 			} else if (act[j].startsWith("SetActivityMode")) {
 				String type=act[j].substring("SetActivityMode".length());
 				if (type.equals("*")) {
@@ -268,7 +268,21 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 				}
 				
 				
-			}
+         } else if (act[j].startsWith("SetAssociationMode")) {
+            String type=act[j].substring("SetAssociationMode".length());
+            List ascTypes=jts.getTypes(Association.class,null);
+            for (int i=0; i<ascTypes.size(); i++) {
+               JaWEType jt=(JaWEType)ascTypes.get(i);
+               JaWEAction ja=new JaWEAction();
+               ja.setAction(new SetAssociationMode(controller,jt.getTypeId()));
+               ja.setIcon(jt.getIcon());
+               ja.setLangDepName(jt.getDisplayName());
+               JButton b=BarFactory.createToolbarButton(ja, controller);
+               b.setToolTipText(ja.getLangDepName());
+               toolbar.add(b);
+               controller.getSettings().addAction(jt.getTypeId(), ja);
+            }                        
+         }
 		}
 
 		toolbar.setName(controller.getSettings().getLanguageDependentString(toolbarName
@@ -325,7 +339,8 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 		if (jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_NO)
 			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_TOOL)
 			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_BLOCK)
-			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_ROUTE)
+			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE)
+         || jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_PARALLEL)
 			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_SUBFLOW)) {
 				return false;
 		}
@@ -352,9 +367,20 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 	public void enableDisableButtons() {
 		if (controller.getSelectedGraph() != null) {
 			if (XMLUtil.getPackage(controller.getSelectedGraph().getXPDLObject()) == JaWEManager.getInstance().getJaWEController().getMainPackage())
-				if (controller.getChoices(showParticipantChoiceButton).size() != 0)
-					showParticipantChoiceButton.setEnabled(true);
-				else
+				if (controller.getChoices(showParticipantChoiceButton).size() != 0) {
+		            Object[] scells=controller.getSelectedGraph().getSelectionCells();
+		            if (scells!=null && scells.length>0 && ((WorkflowElement)scells[0]).getPropertyObject() instanceof Lane) {		            
+			            Lane parentL = (Lane) ((WorkflowElement)scells[0]).getPropertyObject();
+			            GraphParticipantInterface gpar = controller.getSelectedGraph()
+			               .getGraphManager()
+			               .getGraphParticipant(parentL);
+			            if (gpar!=null && (gpar.howManyChildActivitiesOrArtifacts() > 0 || ((Lane)gpar.getPropertyObject()).getPerformers().size()==0)) {
+			               showParticipantChoiceButton.setEnabled(false);
+			               return;
+			            }
+			         }
+			         showParticipantChoiceButton.setEnabled(true);
+				} else
 					showParticipantChoiceButton.setEnabled(false);
 			else
 				showParticipantChoiceButton.setEnabled(false);

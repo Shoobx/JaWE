@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -68,13 +68,15 @@ import org.enhydra.jawe.base.editor.StandardXPDLElementEditor;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jawe.base.panel.panels.tablesorting.SortingTable;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLElementChangeInfo;
-import org.enhydra.shark.xpdl.XMLElementChangeListener;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLElementChangeListener;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.Performer;
 
 /**
  * Creates a table panel.
@@ -146,10 +148,10 @@ public class XMLTablePanel extends XMLBasicPanel implements
    protected NewActionBase newElementAction = null;
 
    protected boolean notifyPanel;
-   
-	protected int newPos;
-	protected int oldPos;
 
+   protected int newPos;
+
+   protected int oldPos;
 
    public XMLTablePanel(InlinePanel ipc,
                         XMLCollection myOwner,
@@ -367,10 +369,12 @@ public class XMLTablePanel extends XMLBasicPanel implements
                                                                                 0);
          int newpos = owncol.indexOf(currentElementAtPosition);
 
-        // DefaultTableModel dtm = (DefaultTableModel) allItems.getModel();
+         // DefaultTableModel dtm = (DefaultTableModel) allItems.getModel();
          Vector v = getRow(movingElement);
-      /*   dtm.removeRow(movingElementPosition);
-         dtm.insertRow(newMovingElementPosition, v);*/
+         /*
+          * dtm.removeRow(movingElementPosition); dtm.insertRow(newMovingElementPosition,
+          * v);
+          */
 
          JaWEController jc = JaWEManager.getInstance().getJaWEController();
          jc.startUndouableChange();
@@ -513,6 +517,9 @@ public class XMLTablePanel extends XMLBasicPanel implements
             String elemName = (String) it.next();
             if (!elemName.equals("ElementValue")) {
                XMLElement el = ((XMLComplexElement) cel).get(elemName);
+               if (el == null && elemName.equals("Performer") && cel instanceof Activity) {
+                  el = new Performer((Activity) cel);
+               }
                if (el != null) {
                   cnames.add(JaWEManager.getInstance().getLabelGenerator().getLabel(el));
                } else {
@@ -570,7 +577,7 @@ public class XMLTablePanel extends XMLBasicPanel implements
 
       return t;
    }
- 
+
    protected void setupTable(boolean miniDimension,
                              boolean automaticWidth,
                              final boolean showArrows) {
@@ -663,19 +670,19 @@ public class XMLTablePanel extends XMLBasicPanel implements
             newMovingElementPosition = allItems.getSelectedRow();
             moveItem();
             try {
-                XMLElement el = getSelectedElement();
-                if (el != null) {
-                   ipc.getJaWEComponent().setUpdateInProgress(true);
-                   JaWEManager.getInstance()
-                      .getJaWEController()
-                      .getSelectionManager()
-                      .setSelection(el, true);
-                   ipc.getJaWEComponent().setUpdateInProgress(false);
-                   adjustActions();
-                }
-             } catch (Exception ex) {
-            	 ex.printStackTrace();
-             }
+               XMLElement el = getSelectedElement();
+               if (el != null) {
+                  ipc.getJaWEComponent().setUpdateInProgress(true);
+                  JaWEManager.getInstance()
+                     .getJaWEController()
+                     .getSelectionManager()
+                     .setSelection(el, true);
+                  ipc.getJaWEComponent().setUpdateInProgress(false);
+                  adjustActions();
+               }
+            } catch (Exception ex) {
+               ex.printStackTrace();
+            }
          }
       });
 
@@ -686,30 +693,27 @@ public class XMLTablePanel extends XMLBasicPanel implements
          ListSelectionModel rowSM = allItems.getSelectionModel();
          rowSM.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse) {
-    			if (dragging) {
-    				//oldPos = movingElementPosition;
-    				newPos = allItems.getSelectedRow();
-    				if (oldPos != newPos) {
-    					for (int i=0; i<allItems.getColumnCount(); i++) {
-    					   Object oldVal=allItems.getValueAt(oldPos, i);
-    					   Object newVal=allItems.getValueAt(newPos, i);
-    					   allItems.setValueAt(oldVal, newPos, i);
-    					   allItems.setValueAt(newVal, oldPos, i);
-    					}
-                        replacingElementPosition=oldPos;
-    				}
-    				oldPos=newPos;
-    			}
+               if (dragging) {
+                  // oldPos = movingElementPosition;
+                  newPos = allItems.getSelectedRow();
+                  if (oldPos != newPos) {
+                     for (int i = 0; i < allItems.getColumnCount(); i++) {
+                        Object oldVal = allItems.getValueAt(oldPos, i);
+                        Object newVal = allItems.getValueAt(newPos, i);
+                        allItems.setValueAt(oldVal, newPos, i);
+                        allItems.setValueAt(newVal, oldPos, i);
+                     }
+                     replacingElementPosition = oldPos;
+                  }
+                  oldPos = newPos;
+               }
             }
          });
       }
-   /*   JTableHeader h = allItems.getTableHeader();
-
-      h.addMouseListener(new MouseAdapter() {
-         public void mouseClicked(MouseEvent event) {
-             performSorting(event);
-         }
-      });*/
+      /*
+       * JTableHeader h = allItems.getTableHeader(); h.addMouseListener(new MouseAdapter()
+       * { public void mouseClicked(MouseEvent event) { performSorting(event); } });
+       */
 
    }
 
@@ -734,6 +738,12 @@ public class XMLTablePanel extends XMLBasicPanel implements
             String elName = (String) itAllElems.next();
             if (!elName.equals("ElementValue")) {
                XMLElement el = cmel.get(elName);
+               if (el == null && elName.equals("Performer") && cmel instanceof Activity) {
+                  el = ((Activity) cmel).getFirstPerformerObj();
+                  if (el == null) {
+                     el = new Performer((Activity) cmel);
+                  }
+               }
                if (el != null) {
                   v.add(new XMLElementView(ipc, el, XMLElementView.TOVALUE));
                }
@@ -957,7 +967,7 @@ public class XMLTablePanel extends XMLBasicPanel implements
                if (!statOK || !canIns) {
                   if (!canIns) {
                      jc.message(ed.getLanguageDependentString("WarningCannotInsertElement"),
-                                 JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.WARNING_MESSAGE);
                   }
                   ipc.getJaWEComponent().setUpdateInProgress(true);
                   sm.setSelection(ipc.getActiveElement(), true);

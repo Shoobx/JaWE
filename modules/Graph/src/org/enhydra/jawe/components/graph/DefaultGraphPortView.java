@@ -60,8 +60,8 @@ public class DefaultGraphPortView extends GraphPortViewInterface {
       return (Dimension)getAttributes().get(GraphConstants.SIZE);
    }
 
-   public GraphActivityInterface getGraphActivity () {
-      return (GraphActivityInterface)getParentView().getCell();
+   public GraphCommonInterface getGraphActivityOrArtifact () {
+      return (GraphCommonInterface)getParentView().getCell();
    }
    
    public CellViewRenderer getRenderer() {

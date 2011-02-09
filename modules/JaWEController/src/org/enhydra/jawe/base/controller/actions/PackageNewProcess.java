@@ -28,8 +28,9 @@ import org.enhydra.jawe.NewActionBase;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.controller.JaWETypeChoiceButton;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactory;
-import org.enhydra.shark.xpdl.elements.Package;
-import org.enhydra.shark.xpdl.elements.WorkflowProcess;
+import org.enhydra.jawe.components.graph.GraphUtilities;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Class that realizes <B>new</B> action.

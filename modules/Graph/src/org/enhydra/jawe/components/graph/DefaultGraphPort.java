@@ -37,8 +37,8 @@ public class DefaultGraphPort extends GraphPortInterface {
       this.type=type;
    }
 
-   public GraphActivityInterface getActivity () {
-      return (GraphActivityInterface)getParent();
+   public GraphCommonInterface getActivityOrArtifact () {
+      return (GraphCommonInterface)getParent();
    }
    
    public String getType () {

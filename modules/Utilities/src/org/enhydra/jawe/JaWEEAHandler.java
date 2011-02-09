@@ -22,12 +22,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.ExtendedAttribute;
-import org.enhydra.shark.xpdl.elements.ExtendedAttributes;
-import org.enhydra.shark.xpdl.elements.ExternalPackage;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.ExternalPackage;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * Various utilities for handling extended attributes for old and new version of JaWE.
@@ -50,9 +50,12 @@ public class JaWEEAHandler {
          JaWEConstants.ACTIVITY_SET_TYPE_DEFAULT,
          JaWEConstants.ACTIVITY_TYPE_BLOCK,
          JaWEConstants.ACTIVITY_TYPE_NO,
-         JaWEConstants.ACTIVITY_TYPE_ROUTE,
+         JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE,
+         JaWEConstants.ACTIVITY_TYPE_ROUTE_PARALLEL,
          JaWEConstants.ACTIVITY_TYPE_SUBFLOW,
          JaWEConstants.ACTIVITY_TYPE_TOOL,
+         JaWEConstants.ACTIVITY_TYPE_START,
+         JaWEConstants.ACTIVITY_TYPE_END,
          JaWEConstants.APPLICATION_TYPE_DEFAULT,
          JaWEConstants.DATA_FIELD_DEFAULT,
          JaWEConstants.DEADLINE_DEFAULT,
@@ -196,28 +199,18 @@ public class JaWEEAHandler {
             .getFirstExtendedAttributeForName(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID);
          String extPkgId = pkg.getExternalPackageId(ep.getHref());
          if (extPkgId != null) {
-            if (ea == null) {
-               JaWEEAHandler.setExternalPackageEA(ep, extPkgId);
+            if ("".equals(ep.getId())) {
+               ep.setId(extPkgId);
                changed = true;
-            } else {
-               String eav = ea.getVValue();
-               if (!eav.equals(extPkgId)) {
-                  ea.setVValue(extPkgId);
-                  changed = true;
-               }
+            }
+            if (ea != null) {
+               ((ExtendedAttributes)ea.getParent()).remove(ea);
+               changed = true;
             }
          }
       }
 
       return changed;
-   }
-
-   public static void setExternalPackageEA(ExternalPackage ep, String extPkgId) {
-      ExtendedAttributes eas = ep.getExtendedAttributes();
-      ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
-      ea.setName(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID);
-      ea.setVValue(extPkgId);
-      eas.add(0, ea);
    }
 
    public static void setJaWEType(XMLElement el, String type) {

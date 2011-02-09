@@ -23,7 +23,6 @@
 	<classpathentry kind="src" path="modules/XPDLTreeModel/src"/>
 	<classpathentry kind="src" path="modules/LDAP/src"/>
 	<classpathentry kind="src" path="modules/TransientPackagePool/src"/>
-	<classpathentry kind="src" path="modules/WfMOpen/src"/>
 	<classpathentry kind="src" path="modules/Shark/src"/>
 	<classpathentry kind="src" path="modules/LanguageSwitcher/src"/>
 	<classpathentry kind="src" path="modules/Reconfiguration/src"/>
@@ -47,7 +46,7 @@
 	<classpathentry kind="lib" path="lib/jgraph.jar"/>
 	<classpathentry kind="lib" path="lib/jEdit-syntax.jar"/>
 	<classpathentry kind="lib" path="lib/itext.jar"/>
-	<classpathentry kind="lib" path="lib/sharkxpdlmodel.jar"/>
 	<classpathentry kind="lib" path="util/fop/lib/batik.jar"/>
+	<classpathentry kind="lib" path="lib/jxpdl.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

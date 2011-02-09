@@ -66,8 +66,9 @@ import org.enhydra.jawe.base.xpdlhandler.XPDLRepHandler;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactory;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactorySettings;
 import org.enhydra.jawe.base.xpdlvalidator.XPDLValidatorSettings;
-import org.enhydra.shark.xpdl.StandardPackageValidator;
-import org.enhydra.shark.xpdl.XPDLRepositoryHandler;
+import org.enhydra.jxpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLRepositoryHandler;
 
 /**
  * This class is used to get all jawe's managers.
@@ -356,7 +357,7 @@ public class JaWEManager {
       String xpdlvSettings = properties.getProperty("XPDLValidator.Settings",
                                                     "org.enhydra.jawe.base.xpdlvalidator.XPDLValidatorSettings");
       String xpdlrhClass = properties.getProperty("XPDLRepositoryHandler.Class",
-                                                  "org.enhydra.shark.xpdl.XPDLRepositoryHandler");
+                                                  "org.enhydra.jxpdl.XPDLRepositoryHandler");
       String xpdleeClass = properties.getProperty("XPDLElementEditor.Class",
                                                   "org.enhydra.jawe.base.editor.TogWEStandardXPDLElementEditor");
       String xpdlEditorSettings = properties.getProperty("XPDLElementEditor.Settings",
@@ -371,7 +372,7 @@ public class JaWEManager {
       String ttgSettings = properties.getProperty("TooltipGenerator.Settings",
                                                   "org.enhydra.jawe.base.tooltip.TooltipGeneratorSettings");
       panelGeneratorClassName = properties.getProperty("PanelGenerator.Class",
-                                                       "org.enhydra.jawe.base.panel.TogWEPanelGenerator");
+                                                       "org.enhydra.jawe.base.panel.StandardPanelGenerator");
       inlinePanelClassName = properties.getProperty("InlinePanel.Class",
                                                     "org.enhydra.jawe.base.panel.InlinePanel");
 
@@ -709,16 +710,16 @@ public class JaWEManager {
       JaWEManager.getInstance().start(filename);
    }
 
-   public void loadTransientPackages() {
-      String ltpstr = properties.getProperty("DefaultTransientPackages", "");
-      String[] tps = Utils.tokenize(ltpstr, ",");
-      if (tps != null) {
-         for (int i = 0; i < tps.length; i++) {
-            String tp = tps[i].trim();
-            getJaWEController().addTransientPackage(tp);
-         }
-      }
-   }
+    public void loadTransientPackages() {
+        String ltpstr = properties.getProperty("DefaultTransientPackages", "");
+        String[] tps = XMLUtil.tokenize(ltpstr, ",");
+        if (tps != null) {
+            for (int i = 0; i < tps.length; i++) {
+                String tp = tps[i].trim();
+                getJaWEController().addTransientPackage(tp);
+            }
+        }
+    }
 
    public String getName() {
       return ResourceManager.getLanguageDependentString("Title");

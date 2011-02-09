@@ -18,7 +18,7 @@
 
 package org.enhydra.jawe.components.graph;
 
-import org.enhydra.shark.xpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLComplexElement;
 
 public interface WorkflowElement {
 

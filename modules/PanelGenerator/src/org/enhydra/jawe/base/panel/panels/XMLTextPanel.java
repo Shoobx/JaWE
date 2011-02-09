@@ -34,7 +34,7 @@ import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 /**
 * Creates panel with JLabel and JTextField.
@@ -44,7 +44,7 @@ public class XMLTextPanel extends XMLBasicPanel {
 
    protected JLabel jl;
    protected JTextField jtf;
-   
+
    public XMLTextPanel (
          PanelContainer pc,
          XMLElement myOwnerL,

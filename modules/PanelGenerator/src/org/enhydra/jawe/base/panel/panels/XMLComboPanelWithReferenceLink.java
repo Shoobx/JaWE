@@ -45,12 +45,13 @@ import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
-import org.enhydra.shark.xpdl.XMLAttribute;
-import org.enhydra.shark.xpdl.XMLComplexChoice;
-import org.enhydra.shark.xpdl.XMLComplexElement;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.XMLEmptyChoiceElement;
-import org.enhydra.shark.xpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLComplexChoice;
+import org.enhydra.jxpdl.XMLComplexElement;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLEmptyChoiceElement;
+import org.enhydra.jxpdl.XMLSimpleElement;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * Creates panel with JLabel and JComboBox.
@@ -90,7 +91,7 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
          
          // check if there is a property to disable combo
          String discbo = settings.getSettingString("XMLComboPanel.DisableCombo");
-         String[] hstra = Utils.tokenize(discbo, " ");
+         String[] hstra = XMLUtil.tokenize(discbo, " ");
          if (hstra!=null) {
             for (int i=0;i<hstra.length;i++) {
                if(hstra[i].equals(myOwner.toName())) {

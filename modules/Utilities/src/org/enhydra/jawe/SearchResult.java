@@ -18,7 +18,7 @@
 
 package org.enhydra.jawe;
 
-import org.enhydra.shark.xpdl.XMLElement;
+import org.enhydra.jxpdl.XMLElement;
 
 public class SearchResult {
 

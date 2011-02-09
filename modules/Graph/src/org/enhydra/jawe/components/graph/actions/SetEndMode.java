@@ -28,7 +28,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
 import org.enhydra.jawe.components.graph.GraphSettings;
-import org.enhydra.shark.xpdl.XMLUtil;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * @author Miroslav Popov
@@ -43,7 +43,7 @@ public class SetEndMode extends SetToolboxMode {
    public void enableDisableAction() {
       GraphController gc = (GraphController)jawecomponent;
       
-      if (gc.getGraphSettings().shouldUseBubbles() && gc.getSelectedGraph() != null && XMLUtil.getPackage(gc.getSelectedGraph().getXPDLObject()) == JaWEManager.getInstance().getJaWEController().getMainPackage()
+      if (gc.getSelectedGraph() != null && XMLUtil.getPackage(gc.getSelectedGraph().getXPDLObject()) == JaWEManager.getInstance().getJaWEController().getMainPackage()
             && gc.getSelectedGraph().getRoots().length != 0)      
          setEnabled(true);
       else      
@@ -51,7 +51,7 @@ public class SetEndMode extends SetToolboxMode {
    }
    
    protected ImageIcon getIcon () {
-      return ((GraphSettings)jawecomponent.getSettings()).getBubbleEndIcon();
+      return ((GraphSettings)jawecomponent.getSettings()).getEndIcon();
    }
 
 }

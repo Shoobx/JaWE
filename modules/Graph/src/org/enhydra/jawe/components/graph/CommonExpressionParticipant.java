@@ -19,8 +19,8 @@
 package org.enhydra.jawe.components.graph;
 
 import org.enhydra.jawe.ResourceManager;
-import org.enhydra.shark.xpdl.XMLCollectionElement;
-import org.enhydra.shark.xpdl.elements.Participant;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.elements.Participant;
 
 /**
  *  Represents imaginary participant for entering performer expressions.

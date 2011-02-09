@@ -68,6 +68,8 @@ public class TableEditorSettings extends PanelSettings {
 
 
       componentSettings.put("ShowColumns.XMLTablePanel.Applications", "Id Name");
+      componentSettings.put("ShowColumns.XMLTablePanel.Associations", "Id Name Source Target AssociationDirection");
+      componentSettings.put("ShowColumns.XMLTablePanel.Artifacts", "Id Name ArtifactType TextAnnotation");
       componentSettings.put("ShowColumns.XMLTablePanel.Participants", "Id Name ParticipantType");
       componentSettings.put("ShowColumns.XMLTablePanel.WorkflowProcesses", "Id Name AccessLevel");      
 

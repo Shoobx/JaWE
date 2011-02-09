@@ -48,6 +48,7 @@ import org.enhydra.jawe.base.controller.actions.defaultactions.New;
 import org.enhydra.jawe.base.controller.actions.defaultactions.Paste;
 import org.enhydra.jawe.base.controller.actions.defaultactions.Redo;
 import org.enhydra.jawe.base.controller.actions.defaultactions.Undo;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * @author Miroslav Popov
@@ -244,7 +245,7 @@ public class JaWEActions {
          String actionOrder = controller.getControllerSettings()
             .getDefaultActionsEditOrder();
 
-         String[] act = Utils.tokenize(actionOrder, BarFactory.ACTION_DELIMITER);
+         String[] act = XMLUtil.tokenize(actionOrder, BarFactory.ACTION_DELIMITER);
 
          for (int i = 0; i < act.length; i++) {
             if (act[i].equals(BarFactory.ACTION_SEPARATOR)) {
@@ -281,7 +282,7 @@ public class JaWEActions {
 
          String actionOrder = controller.getControllerSettings()
             .getDefaultActionsEditOrder();
-         String[] act = Utils.tokenize(actionOrder, BarFactory.ACTION_DELIMITER);
+         String[] act = XMLUtil.tokenize(actionOrder, BarFactory.ACTION_DELIMITER);
 
          for (int i = 0; i < act.length; i++) {
             if (act[i].equals(BarFactory.ACTION_SEPARATOR)) {

@@ -50,9 +50,9 @@ import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
-import org.enhydra.shark.xpdl.XMLCollection;
-import org.enhydra.shark.xpdl.XMLElement;
-import org.enhydra.shark.xpdl.elements.Package;
+import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Package;
 
 /**
  * The dialog for showing objects derived from {@link XMLPanel} classes. The
