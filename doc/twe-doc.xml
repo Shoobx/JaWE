@@ -1651,7 +1651,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
                   </para></entry>
 
                   <entry><para>This menu shows the list of configurations that
-                  you can use (currently default, shark, wfmopen, purexpdl and
+                  you can use (currently default, shark and
                   samples-loopactivity configurations are provided). After you
                   select the configuration, the editor is being re-configured
                   to use this new configuration with all of its customizations
@@ -9672,19 +9672,6 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
-          <para>wfmopen - configuration specific to TWE usage with WfMOpen
-          engine. Includes special property panels for editing some of
-          extended attributes, wfmopen specific restrictions and validation
-          according to these restrictions.</para>
-        </listitem>
-
-        <listitem>
-          <para>purexpdl - configuration which does not read nor store TWE
-          specific extended attributes into XPDL (see the list of TWE specific
-          extended attributes in the next chapter).</para>
-        </listitem>
-
-        <listitem>
           <para>samples-loopactivity - sample configuration that introduces
           new type of activity along with the special icon for this activity
           and special property panel for editing its properties.</para>
@@ -9999,7 +9986,18 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <listitem>
           <para>twe-includes.xlsx file with the list of 3rd party libraries
-          updated.</para>
+          updated</para>
+        </listitem>
+
+        <listitem>
+          <para>Removed wfmopen configuration since WfMOpen engine still does
+          not support XPDL 2</para>
+        </listitem>
+
+        <listitem>
+          <para>Removed purexpdl configuration - does not make sense any more
+          since TWE 4.x does not use extended attributes for storing graphical
+          information (standard XPDL 2 elements are used now)</para>
         </listitem>
       </itemizedlist>
     </section>

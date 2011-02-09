@@ -214,7 +214,7 @@ public class StandardXPDLElementEditorSettings extends PanelSettings {
 
       componentSettings.put("HideElements.XMLTablePanel.ExtendedAttributes", "Name");
       componentSettings.put("HideElements.XMLTablePanel.ExtendedAttributes.Name",
-                            "JaWE_CONFIGURATION JaWE_TYPE EDITING_TOOL EDITING_TOOL_VERSION JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION JaWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER JaWE_GRAPH_BLOCK_PARTICIPANT_ORDER JaWE_GRAPH_START_OF_WORKFLOW JaWE_GRAPH_END_OF_WORKFLOW JaWE_GRAPH_START_OF_BLOCK JaWE_GRAPH_END_OF_BLOCK JaWE_GRAPH_PARTICIPANT_ID JaWE_GRAPH_OFFSET JaWE_GRAPH_BREAK_POINTS JaWE_GRAPH_TRANSITION_STYLE");
+                            "JaWE_CONFIGURATION JaWE_TYPE EDITING_TOOL EDITING_TOOL_VERSION");
 
       List hide = ResourceManager.getResourceStrings(properties, "HideElements.", false);
       for (int i = 0; i < hide.size(); i++) {

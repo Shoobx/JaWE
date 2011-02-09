@@ -1,3 +1,57 @@
+###### TWE 4.0-1 RELEASED ######
+
+2011-02-09 Sasa Bojanic <sasaboy@together.at>
+   # Now supporting XPDL 2.1 and BPMN
+   # Using jxpdl.jar file, the output of Together XPDL Model(TXM)/jXPDL project. 
+     This contains the XPDL 2 model classes that were previously the part of 
+     Enhydra Shark (Together Workflow Server) project
+   # Automatic migration of XPDL 1.0 files into XPDL 2.1 files:
+      - Inserting pools and lanes for each workflow process definition
+      - Migrating Ids for activities and activity sets - must be unique on the package level (done by TXM)
+      - Migrating Tool activities into Task-Application activities, if there are more than one 
+        tool for the activity - new activities get created and connected sequentially (done by TXM)
+      - Migrating activities (other than Route activities) with Join type different than XOR and Split 
+        type different than AND by creating additional Route (gateway) activities that are
+        containing those Join/Split types, and connecting them sequentially (done by TXM)
+      - Migrating Route activities with different Join/Split type into two seperate activities and 
+        connecting them sequentially (done by TXM)
+      - Migrating old Deadline's DeadlineCondition into DeadlineDuration sub-element, according to 
+        new schema (done by TXM)
+      - Migrating old XOR/AND Join/Split types into Exclusive/Parallel, according to new schema (done by TXM)
+      - Removing FormalParameter Index attribute, according to new schema (done by TXM)
+      - Migrating IsArray attribute value (of DataField element) from TRUE into true and from FALSE 
+        into false, according to new schema (done by TXM)
+      - Migrating Activity's Start/Finish mode elements into appropriate attributes according to new 
+        schema (done by TXM)
+      - Migrating Activity's Performer element into Performers element according to new schema (done by TXM)
+      - Migrating order of WorkflowProcess sub-elements(DataFields,Participants,Applications -> Participants,
+        Applications, DataFields) (done by TXM)
+        
+   # Using BPMN graphical notation for Graph component
+   # Partial XPDL2.1/BPMN support:
+      - Using Pools and Lanes (supported nesting of lanes)
+      - Support for Artifacts (DataObject and Annotation type) and Associations
+      - Support for Start and End event Activities
+      - Support for Task-Application activities (Tool activities from XPDL 2.1 converted 
+        into Task-Application activities)            
+      - Support for Graphical notation elements that hold information about position, 
+        color, etc. of the objects (removed extended attributes previously used for that purpose)
+   # Introduced possibility to change graphical element colors and sizes (information 
+     written into appropriate XPDL2.1 entities)
+   # Sub-Flow and Block activity now showing their graphs when single-clicking on the 
+     rectangle area that graphically describes such activities
+   # New actions to show and hide transition conditions (expressions) in/from the graph
+   # New actions to show/hide artifacts and associations in/from the graph
+   # Property panels for elements adjusted according to new XPDL 2.1 schema/specification
+   # Validation adjusted according to new XPDL 2.1 schema/specification
+   # Documentation updated
+   # XPDL2.1 samples added (now there are old XPDL1.0 samples,and corresponding XPDL2.1 samples)
+   # Build procedure updated
+   # twe-includes.xlsx file with the list of 3rd party libraries updated
+   # Removed wfmopen configuration since WfMOpen engine still does not support XPDL 2
+   # Removed purexpdl configuration - does not make sense any more since TWE 4.x does not 
+     use extended attributes for storing graphical information (standard XPDL 2 elements are used now)
+        
 ###### TWE 3.3-1 RELEASED ######
 2010-11-18 Sasa Bojanic <sasaboy@together.at>
    # readme files for source and binary distributions removed - all the information now contained within the user manual

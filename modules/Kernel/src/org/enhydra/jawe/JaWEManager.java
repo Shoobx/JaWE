@@ -62,7 +62,6 @@ import org.enhydra.jawe.base.transitionhandler.TransitionHandler;
 import org.enhydra.jawe.base.transitionhandler.TransitionHandlerSettings;
 import org.enhydra.jawe.base.xpdlhandler.XPDLHandler;
 import org.enhydra.jawe.base.xpdlhandler.XPDLHandlerSettings;
-import org.enhydra.jawe.base.xpdlhandler.XPDLRepHandler;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactory;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactorySettings;
 import org.enhydra.jawe.base.xpdlvalidator.XPDLValidatorSettings;
@@ -413,7 +412,7 @@ public class JaWEManager {
                              + xpdlrhClass
                              + "' implementation of XPDL Repository Handler");
       } catch (Throwable ex) {
-         xpdlRHandler = new XPDLRepHandler();
+         xpdlRHandler = new XPDLRepositoryHandler();
          String msg = "JaweManager -> Problems while instantiating XPDL Repository Handler class '"
                       + xpdlrhClass + "' - using default implementation!";
          loggingManager.error(msg, ex);
