@@ -347,7 +347,6 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
          i = intersection(view, p, center, top, right);
       else
          i = intersection(view, p, center, bottom, right);
-      System.out.println("PP="+i);
       return i;
    }
 
