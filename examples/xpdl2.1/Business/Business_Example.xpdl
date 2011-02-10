@@ -190,7 +190,7 @@
             <xpdl:ActivitySets>
                 <xpdl:ActivitySet Id="Business_Example_Wor1_Ase1" Name="Ship and receive">
                     <xpdl:Activities>
-                        <xpdl:Activity FinishMode="Automatic" Id="ship" Name="ship" StartMode="Automatic">
+                        <xpdl:Activity Id="ship" Name="ship">
                             <xpdl:Description>Ship from stock or production</xpdl:Description>
                             <xpdl:Implementation>
                                 <xpdl:No/>
@@ -207,7 +207,7 @@
                                 </xpdl:NodeGraphicsInfo>
                             </xpdl:NodeGraphicsInfos>
                         </xpdl:Activity>
-                        <xpdl:Activity FinishMode="Automatic" Id="received_in_good_condition" Name="received in good condition" StartMode="Automatic">
+                        <xpdl:Activity Id="received_in_good_condition" Name="received in good condition">
                             <xpdl:Description>Report to the manager if the items are received in good condition</xpdl:Description>
                             <xpdl:Implementation>
                                 <xpdl:No/>
@@ -262,7 +262,7 @@
                 </xpdl:ActivitySet>
             </xpdl:ActivitySets>
             <xpdl:Activities>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act1" Name="receive order" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act1" Name="receive order">
                     <xpdl:Description>Enter the data for current order (Customer name, the product name and the desired number of product items)</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>
@@ -282,7 +282,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act3" Name="check finances" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act3" Name="check finances">
                     <xpdl:Description>Credit-checking process</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:SubFlow Execution="SYNCHR" Id="Business_Example_Wor3">
@@ -301,7 +301,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act4" Name="check stock" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act4" Name="check stock">
                     <xpdl:Description>Check the stock status of ordered product. Fill the variable Stock_Status with:
 - "ALL" If there are enough items on stock,
 - "PARTIAL" - if there are some stocked items (but not enough)
@@ -325,7 +325,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act5" Name="decline order" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act5" Name="decline order">
                     <xpdl:Description>Tell customer they haven't credit for order</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>
@@ -345,7 +345,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act9" Name="R1" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act9">
                     <xpdl:Description>For partial shipments, check with customer and plan production in parallel</xpdl:Description>
                     <xpdl:Route GatewayType="Parallel"/>
                     <xpdl:TransitionRestrictions>
@@ -364,7 +364,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act10" Name="check part. ship" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act10" Name="check part. ship">
                     <xpdl:Description>Ask customer if OK to partial-ship (24 hrs)</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:SubFlow Execution="SYNCHR" Id="Business_Example_Wor2">
@@ -384,7 +384,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act11" Name="plan part. production" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act11" Name="plan part. production">
                     <xpdl:Description>Make plan assuming OK to partial-ship</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>
@@ -404,7 +404,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act13" Name="R2" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act13">
                     <xpdl:Description>For partial production, wait until check with customer</xpdl:Description>
                     <xpdl:Route GatewayType="Parallel"/>
                     <xpdl:TransitionRestrictions>
@@ -442,7 +442,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act18" Name="produce" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act18" Name="produce">
                     <xpdl:Description>Assemble parts, execute plan</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:SubFlow Execution="SYNCHR" Id="Process_Repository_Wor2">
@@ -464,7 +464,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act19" Name="Notify full shipment" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act19" Name="Notify full shipment">
                     <xpdl:Implementation>
                         <xpdl:SubFlow Execution="ASYNCHR" Id="Process_Repository_Wor1">
                             <xpdl:ActualParameters>
@@ -482,7 +482,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act20" Name="Notify partial shipment" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act20" Name="Notify partial shipment">
                     <xpdl:Implementation>
                         <xpdl:SubFlow Execution="ASYNCHR" Id="Process_Repository_Wor1">
                             <xpdl:ActualParameters>
@@ -500,7 +500,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act21" Name="Ship &amp; Report" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor1_Act21" Name="Ship &amp; Report">
                     <xpdl:BlockActivity ActivitySetId="Business_Example_Wor1_Ase1"/>
                     <xpdl:Icon>gear_time.png</xpdl:Icon>
                     <xpdl:TransitionRestrictions>
@@ -514,10 +514,8 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act31" Name="check finances" StartMode="Automatic">
-                    <xpdl:Description>Credit-checking process</xpdl:Description>
+                <xpdl:Activity Id="Business_Example_Wor1_Act31">
                     <xpdl:Route GatewayType="Exclusive"/>
-                    <xpdl:Icon>money.png</xpdl:Icon>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
                             <xpdl:Split Type="Exclusive">
@@ -534,13 +532,8 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act41" Name="check stock" StartMode="Automatic">
-                    <xpdl:Description>Check the stock status of ordered product. Fill the variable Stock_Status with:
-- "ALL" If there are enough items on stock,
-- "PARTIAL" - if there are some stocked items (but not enough)
-- "NONE" - if there are no any stocked item</xpdl:Description>
+                <xpdl:Activity Id="Business_Example_Wor1_Act41">
                     <xpdl:Route GatewayType="Exclusive"/>
-                    <xpdl:Icon>help.png</xpdl:Icon>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
                             <xpdl:Split Type="Exclusive">
@@ -564,10 +557,8 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor1_Act101" Name="check part. ship" StartMode="Automatic">
-                    <xpdl:Description>Ask customer if OK to partial-ship (24 hrs)</xpdl:Description>
+                <xpdl:Activity Id="Business_Example_Wor1_Act101">
                     <xpdl:Route GatewayType="Exclusive"/>
-                    <xpdl:Icon>mobilephone1.png</xpdl:Icon>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
                             <xpdl:Split Type="Exclusive">
@@ -786,7 +777,7 @@
                 </xpdl:FormalParameter>
             </xpdl:FormalParameters>
             <xpdl:Activities>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor2_Act4" Name="notify sales" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor2_Act4" Name="notify sales">
                     <xpdl:Description>Enter the customer response ("OK" if customer accepts partial shipment)</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>
@@ -803,7 +794,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor2_Act2" Name="ask customer for partial shipment" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor2_Act2" Name="ask customer for partial shipment">
                     <xpdl:Description>Asks customer if it is OK to partialy ship the existing number of wanted items</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>
@@ -894,7 +885,7 @@
                 </xpdl:FormalParameter>
             </xpdl:FormalParameters>
             <xpdl:Activities>
-                <xpdl:Activity FinishMode="Automatic" Id="Business_Example_Wor3_Act1" Name="check credit" StartMode="Automatic">
+                <xpdl:Activity Id="Business_Example_Wor3_Act1" Name="check credit">
                     <xpdl:Description>Check the credit status of the customer. If the customer has enough money to cover 25% of ordered items price, allow further order processing by setting the Credit_Status value to "OK"</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>

@@ -386,7 +386,7 @@
                     </xpdl:Event>
                     <xpdl:NodeGraphicsInfos>
                         <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="102,204,51" Height="31" IsVisible="true" LaneId="workflow_patterns_pool1_lan1" ToolId="JaWE" Width="31">
-                            <xpdl:Coordinates XCoordinate="91" YCoordinate="101"/>
+                            <xpdl:Coordinates XCoordinate="92" YCoordinate="88"/>
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
@@ -619,8 +619,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity Id="D1" Name="D">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
+                <xpdl:Activity Id="D1">
                     <xpdl:Route GatewayType="Parallel"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -760,8 +759,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity Id="A1" Name="A">
-                    <xpdl:Description>you have option to change the value of variable whereToGo. If you set it to B process will follow to activity B, if you set it to C it will proceed to activity C, otherwise activity D will be executed</xpdl:Description>
+                <xpdl:Activity Id="A1">
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -957,8 +955,7 @@
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
-                <xpdl:Activity Id="A2" Name="A">
-                    <xpdl:Description>you have option to change the value of variable whereToGo. If you set it to B process will follow to activity B, if you set it to C it will proceed to activity C, otherwise activity D will be executed</xpdl:Description>
+                <xpdl:Activity Id="A2">
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -1137,7 +1134,7 @@
                     </xpdl:Event>
                     <xpdl:NodeGraphicsInfos>
                         <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="102,204,51" Height="31" IsVisible="true" LaneId="workflow_patterns_pool6_lan1" ToolId="JaWE" Width="31">
-                            <xpdl:Coordinates XCoordinate="91" YCoordinate="71"/>
+                            <xpdl:Coordinates XCoordinate="96" YCoordinate="65"/>
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
@@ -1356,7 +1353,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="D2">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Parallel"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -1897,7 +1893,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="B1">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -1916,7 +1911,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="C1">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -1935,7 +1929,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="D3">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -2392,7 +2385,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="B2">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -2411,7 +2403,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="C2">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -2430,7 +2421,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="D4">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -2735,7 +2725,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="C3">
-                    <xpdl:Description>you have option to change the value of variable whereToGo. If you set it to B process will loop to activity B and otherwise it'll go to activity D</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -2757,7 +2746,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="D5">
-                    <xpdl:Description>you have option to change the value of variable whereToGo. If you set it to C process will loop to activity C and otherwise it'll go to activity E</xpdl:Description>
                     <xpdl:Route GatewayType="Exclusive"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -3157,7 +3145,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="B3">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Parallel"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -3365,7 +3352,6 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
                 <xpdl:Activity Id="B4">
-                    <xpdl:Description>Just press 'Complete' button</xpdl:Description>
                     <xpdl:Route GatewayType="Parallel"/>
                     <xpdl:TransitionRestrictions>
                         <xpdl:TransitionRestriction>
@@ -3492,7 +3478,7 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:Event>
                     <xpdl:NodeGraphicsInfos>
                         <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="102,204,51" Height="31" IsVisible="true" LaneId="workflow_patterns_pool15_lan1" ToolId="JaWE" Width="31">
-                            <xpdl:Coordinates XCoordinate="144" YCoordinate="74"/>
+                            <xpdl:Coordinates XCoordinate="151" YCoordinate="72"/>
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>
@@ -3502,7 +3488,7 @@ WARNING: this process can't contain loops (at least, the branch with synchronizi
                     </xpdl:Event>
                     <xpdl:NodeGraphicsInfos>
                         <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="236,120,98" Height="31" IsVisible="true" LaneId="workflow_patterns_pool15_lan1" ToolId="JaWE" Width="31">
-                            <xpdl:Coordinates XCoordinate="392" YCoordinate="74"/>
+                            <xpdl:Coordinates XCoordinate="380" YCoordinate="74"/>
                         </xpdl:NodeGraphicsInfo>
                     </xpdl:NodeGraphicsInfos>
                 </xpdl:Activity>

@@ -95,7 +95,7 @@
                 </xpdl:FormalParameter>
             </xpdl:FormalParameters>
             <xpdl:Activities>
-                <xpdl:Activity FinishMode="Automatic" Id="Process_Repository_Wor1_Act1" Name="notify customer" StartMode="Automatic">
+                <xpdl:Activity Id="Process_Repository_Wor1_Act1" Name="notify customer">
                     <xpdl:Description>Notify customer that some or all of the ordered items will be delivered</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>
@@ -170,7 +170,7 @@
                 </xpdl:FormalParameter>
             </xpdl:FormalParameters>
             <xpdl:Activities>
-                <xpdl:Activity FinishMode="Automatic" Id="Process_Repository_Wor2_Act1" Name="Receive order" StartMode="Automatic">
+                <xpdl:Activity Id="Process_Repository_Wor2_Act1" Name="Receive order">
                     <xpdl:Description>Produces the given number of items of the given produce.</xpdl:Description>
                     <xpdl:Implementation>
                         <xpdl:No/>
