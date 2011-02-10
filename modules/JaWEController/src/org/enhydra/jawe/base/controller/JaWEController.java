@@ -138,8 +138,6 @@ import org.enhydra.jxpdl.elements.WorkflowProcesses;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
 import org.w3c.dom.Document;
 
-import com.sun.jmx.snmp.tasks.Task;
-
 /**
  * Used to handle JaWE.
  * 
