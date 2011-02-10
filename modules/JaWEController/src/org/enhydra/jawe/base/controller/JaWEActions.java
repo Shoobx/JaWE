@@ -38,7 +38,6 @@ import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.BarFactory;
 import org.enhydra.jawe.ButtonPropertyChangedListener;
 import org.enhydra.jawe.JaWEComponent;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.controller.actions.defaultactions.Copy;
 import org.enhydra.jawe.base.controller.actions.defaultactions.Cut;
 import org.enhydra.jawe.base.controller.actions.defaultactions.Delete;

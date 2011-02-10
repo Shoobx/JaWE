@@ -782,7 +782,7 @@ public class JaWEController extends Observable implements
       Iterator it = xpdlListenerObservables.iterator();
       while (it.hasNext()) {
          XPDLListenerAndObservable xpdl = (XPDLListenerAndObservable) it.next();
-         if (xpdl.getPackage() != null && xpdl.getPackage().getId().equals(xpdlId)) {
+         if (xpdl.getPackage() != null && !xpdl.getPackage().isReadOnly() && xpdl.getPackage().getId().equals(xpdlId)) {
             return xpdl.isModified();
          }
       }
@@ -2551,7 +2551,7 @@ public class JaWEController extends Observable implements
    public JaWEFrame getJaWEFrame() {
       return frame;
    }
-
+   
    public void adjustActions() {
       settings.adjustActions();
       defaultJaWEActions.enableDisableActions();
