@@ -1523,7 +1523,14 @@ public class GraphUtilities {
                .createXPDLObject(tras, "", false);
             if (sed.isStart()) {
                tra.setFrom(seev.getId());
-               tra.setTo(sed.getActId());
+               String toAct = sed.getActId();
+               if (!"".equals(toAct)) {
+                  Activity startingAct = wp.getActivity(toAct);
+                  if (startingAct != null) {
+                     toAct = getProperActIdForStart(wp, startingAct, 1);
+                  }
+               }
+               tra.setTo(toAct);
             } else {
                tra.setTo(seev.getId());
                String fromAct = sed.getActId();
@@ -1764,6 +1771,20 @@ public class GraphUtilities {
       return startingAct.getId();
    }
 
+   protected static String getProperActIdForStart(WorkflowProcess wp,
+                                                Activity startingAct,
+                                                int cnt) {
+      Set tras = XMLUtil.getIncomingTransitions(startingAct);
+      if (tras.size() == 1) {
+         String actFrom = ((Transition) tras.toArray()[0]).getFrom();
+         Activity prevAct = wp.getActivity(actFrom);
+         if (prevAct != null) {
+            return getProperActIdForStart(wp, prevAct, ++cnt);
+         }
+      }
+      return startingAct.getId();
+   }
+   
    protected static String getLaneIdForMigration(Activity act) {
       String perf = act.getFirstPerformer();
       if (perf.equals("")) {
