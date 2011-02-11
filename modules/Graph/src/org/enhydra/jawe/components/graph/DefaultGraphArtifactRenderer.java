@@ -56,47 +56,11 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
       GraphArtifactInterface gact = (GraphArtifactInterface) view.getCell();
       Artifact art = (Artifact) gact.getUserObject();
       String type = art.getArtifactType();
-      int actW = GraphUtilities.getGraphController()
-         .getGraphSettings()
-         .getDataObjectWidth();
-      int actH = GraphUtilities.getGraphController()
-         .getGraphSettings()
-         .getDataObjectHeight();
-
-      if (type.equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)) {
-         actW = GraphUtilities.getGraphController()
-            .getGraphSettings()
-            .getAnnotationWidth();
-         actH = GraphUtilities.getGraphController()
-            .getGraphSettings()
-            .getAnnotationHeight();
-      }
-
-      NodeGraphicsInfo ngi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getNodeGraphicsInfo(art);
-      Color c = null;
-      if (ngi != null) {
-         if (ngi.getWidth() != 0) {
-            actW = ngi.getWidth();
-         }
-         if (ngi.getHeight() != 0) {
-            actH = ngi.getHeight();
-         }
-         c = Utils.getColor(ngi.getFillColor());
-         bordercolor = Utils.getColor(ngi.getBorderColor());
-      }
-
-      if (c == null) {
-         c = JaWEManager.getInstance()
-            .getJaWEController()
-            .getTypeResolver()
-            .getJaWEType(art)
-            .getColor();
-      }
-      if (bordercolor == null) {
-         bordercolor = Color.BLACK;
-      }
+      Dimension d = ((GraphArtifactViewInterface) view).getOriginalBounds().getSize();
+      int actW = d.width;
+      int actH = d.height;
+      Color c = getFillColor();
+      bordercolor = getBorderColor();
       if (selected)
          c = GraphUtilities.getGraphController()
             .getGraphSettings()
@@ -196,4 +160,43 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
    public ImageIcon getIcon() {
       return null;
    }
+   
+   public Color getBorderColor() {
+      GraphArtifactInterface gart = (GraphArtifactInterface) view.getCell();
+      Artifact art = (Artifact) gart.getUserObject();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(art);
+      Color bc = null;
+      if (ngi != null) {
+         bc = Utils.getColor(ngi.getBorderColor());
+      }
+      if (bc == null) {
+         bc = Color.BLACK;
+      }
+      return bc;
+   }
+
+   public Color getFillColor() {
+      GraphArtifactInterface gart = (GraphArtifactInterface) view.getCell();
+      Artifact art = (Artifact) gart.getUserObject();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(art);
+      Color fc = null;
+      if (ngi != null) {
+         fc = Utils.getColor(ngi.getFillColor());
+      }
+
+      if (fc == null) {
+         fc = JaWEManager.getInstance()
+            .getJaWEController()
+            .getTypeResolver()
+            .getJaWEType(art)
+            .getColor();
+      }
+      return fc;
+   }
+
+   
 }

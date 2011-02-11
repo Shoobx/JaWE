@@ -56,24 +56,6 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
          lineWidth = 3;
       }
-      NodeGraphicsInfo ngi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getNodeGraphicsInfo(act);
-      Color c = null;
-      if (ngi!=null) {
-         c = Utils.getColor(ngi.getFillColor());
-         bordercolor = Utils.getColor(ngi.getBorderColor());
-      }
-      
-      if (c == null) {
-         c = GraphUtilities.getGraphController().getGraphSettings().getStartEventColor();
-         if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
-            c = GraphUtilities.getGraphController().getGraphSettings().getEndEventColor();
-         }
-      }
-      if (bordercolor==null) {
-         bordercolor = Color.BLACK;
-      }
       Rectangle ra = getBounds();
       Rectangle rg = ((GraphActivityViewInterface) view).getOriginalBounds();
       Graphics gl = g.create((int) (rg.getX() - ra.getX()),
@@ -82,6 +64,9 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
                              (int) rg.getHeight());
       Graphics2D g2 = (Graphics2D) gl;
 
+      Color c = getFillColor();
+      bordercolor = getBorderColor();
+      
       if (selected) {
          c = GraphUtilities.getGraphController()
             .getGraphSettings()
@@ -112,6 +97,43 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       }
    }
 
+   public Color getBorderColor() {
+      GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
+      Activity act = (Activity) gact.getUserObject();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(act);
+      Color bc = null;
+      if (ngi != null) {
+         bc = Utils.getColor(ngi.getBorderColor());
+      }
+      if (bc == null) {
+         bc = Color.BLACK;
+      }
+      return bc;
+   }
+
+   public Color getFillColor() {
+      GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
+      Activity act = (Activity) gact.getUserObject();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(act);
+      Color fc = null;
+      if (ngi != null) {
+         fc = Utils.getColor(ngi.getFillColor());
+      }
+
+      if (fc == null) {
+         fc = GraphUtilities.getGraphController().getGraphSettings().getStartEventColor();
+         if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
+            fc = GraphUtilities.getGraphController().getGraphSettings().getEndEventColor();
+         }
+      }
+
+      return fc;
+   }
+   
    protected void paintLabel(Graphics g, String label, int actH) {
       // Rectangle rb = ((GraphArtifactViewInterface)view).getOriginalBounds();
       // view.setBounds(new Rectangle((int)rb.getX()-50, (int)rb.getY(),

@@ -30,8 +30,10 @@ import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Artifact;
 import org.enhydra.jxpdl.elements.Association;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
+import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
 import org.enhydra.jxpdl.elements.Transition;
 import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.EdgeRenderer;
@@ -52,21 +54,7 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
    public void paint(Graphics g) {
       GraphTransitionInterface tr = (GraphTransitionInterface) view.getCell();
       XMLCollectionElement tOrA = (XMLCollectionElement) tr.getUserObject();
-      ConnectorGraphicsInfo cgi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getConnectorGraphicsInfo(tOrA);
-      Color clr = null;
-      if (cgi != null) {
-         clr = Utils.getColor(cgi.getFillColor());
-
-      }
-      if (clr == null) {
-         clr = JaWEManager.getInstance()
-            .getJaWEController()
-            .getTypeResolver()
-            .getJaWEType(tOrA)
-            .getColor();
-      }
+      Color clr = getFillColor();
       AttributeMap am = view.getAttributes();
       am.put(GraphConstants.FOREGROUND, clr);
       am.put(GraphConstants.LABELENABLED, new Boolean(GraphUtilities.getGraphController()
@@ -201,4 +189,26 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
       return c;
    }
 
+   public Color getFillColor() {
+      GraphTransitionInterface tr = (GraphTransitionInterface) view.getCell();
+      XMLCollectionElement tOrA = (XMLCollectionElement) tr.getUserObject();
+      ConnectorGraphicsInfo cgi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getConnectorGraphicsInfo(tOrA);
+      Color clr = null;
+      if (cgi != null) {
+         clr = Utils.getColor(cgi.getFillColor());
+
+      }
+      if (clr == null) {
+         clr = JaWEManager.getInstance()
+            .getJaWEController()
+            .getTypeResolver()
+            .getJaWEType(tOrA)
+            .getColor();
+      }
+      return clr;
+   }
+
+   
 }

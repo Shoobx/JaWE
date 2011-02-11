@@ -65,39 +65,13 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
          paintRoot(act, g);
          return;
       }
-      int actW = GraphUtilities.getGraphController()
-         .getGraphSettings()
-         .getActivityWidth();
-      int actH = GraphUtilities.getGraphController()
-         .getGraphSettings()
-         .getActivityHeight();
-
-      NodeGraphicsInfo ngi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getNodeGraphicsInfo(act);
-      Color bckgC = null;
-      if (ngi != null) {
-         if (ngi.getWidth() != 0) {
-            actW = ngi.getWidth();
-         }
-         if (ngi.getHeight() != 0) {
-            actH = ngi.getHeight();
-         }
-         bckgC = Utils.getColor(ngi.getFillColor());
-         bordercolor = Utils.getColor(ngi.getBorderColor());
-      }
+      Color bckgC = getFillColor();
+      bordercolor = getBorderColor();
+      Dimension ad = getBounds().getSize();
+      int actW = ad.width;
+      int actH = ad.height;
 
       Graphics2D g2 = (Graphics2D) g;
-      if (bckgC == null) {
-         bckgC = JaWEManager.getInstance()
-            .getJaWEController()
-            .getTypeResolver()
-            .getJaWEType(act)
-            .getColor();
-      }
-      if (bordercolor == null) {
-         bordercolor = Color.BLACK;
-      }
       if (selected)
          bckgC = GraphUtilities.getGraphController()
             .getGraphSettings()
@@ -147,36 +121,13 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       Graphics2D g2 = (Graphics2D) gl;
 
       Dimension d = rg.getSize();
-
       int actW = d.width;
       int actH = d.height;
 
-      NodeGraphicsInfo ngi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getNodeGraphicsInfo(act);
-      Color bckgC = null;
-      if (ngi != null) {
-         if (ngi.getWidth() != 0) {
-            actW = ngi.getWidth();
-         }
-         if (ngi.getHeight() != 0) {
-            actH = ngi.getHeight();
-         }
-         bckgC = Utils.getColor(ngi.getFillColor());
-         bordercolor = Utils.getColor(ngi.getBorderColor());
-      }
+      Color bckgC = getFillColor();
+      bordercolor = getBorderColor();
       String gt = act.getActivityTypes().getRoute().getGatewayType();
 
-      if (bckgC == null) {
-         bckgC = JaWEManager.getInstance()
-            .getJaWEController()
-            .getTypeResolver()
-            .getJaWEType(act)
-            .getColor();
-      }
-      if (bordercolor == null) {
-         bordercolor = Color.BLACK;
-      }
       if (selected)
          bckgC = GraphUtilities.getGraphController()
             .getGraphSettings()
@@ -260,6 +211,43 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       }
 
       return ii;
+   }
+
+   public Color getBorderColor() {
+      GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
+      Activity act = (Activity) gact.getUserObject();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(act);
+      Color bc = null;
+      if (ngi != null) {
+         bc = Utils.getColor(ngi.getBorderColor());
+      }
+      if (bc == null) {
+         bc = Color.BLACK;
+      }
+      return bc;
+   }
+
+   public Color getFillColor() {
+      GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
+      Activity act = (Activity) gact.getUserObject();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo(act);
+      Color fc = null;
+      if (ngi != null) {
+         fc = Utils.getColor(ngi.getFillColor());
+      }
+
+      if (fc == null) {
+         fc = JaWEManager.getInstance()
+            .getJaWEController()
+            .getTypeResolver()
+            .getJaWEType(act)
+            .getColor();
+      }
+      return fc;
    }
 
    protected void paintLabel(Graphics g, String label, int actH) {

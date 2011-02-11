@@ -70,38 +70,9 @@ public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implemen
       Dimension d = view.getBounds().getBounds().getSize();// HM, JGraph3.4.1
       g2.setStroke(GraphSettings.DEPARTMENT_STROKE);
 
-      GraphParticipantInterface p = (GraphParticipantInterface) view.getCell();
-      NodeGraphicsInfo ngi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getNodeGraphicsInfo((XMLCollectionElement) p.getPropertyObject());
-      Color pc = null;
-      if (ngi != null) {
-         pc = Utils.getColor(ngi.getFillColor());
-         if (pc == null) {
-            Object par = getParticipantType(p.getPropertyObject());
-            if (par instanceof FreeTextExpressionParticipant) {
-               pc = GraphUtilities.getGraphController()
-                  .getGraphSettings()
-                  .getLaneFreeTextExpressionColor();
-            } else if (par instanceof Lane) {
-               pc = GraphUtilities.getGraphController()
-                  .getGraphSettings()
-                  .getLaneCommonExpressionColor();
-            } else {
-               pc = JaWEManager.getInstance()
-                  .getJaWEController()
-                  .getTypeResolver()
-                  .getJaWEType((Participant) par)
-                  .getColor();
-            }
-         }
-         bordercolor = Utils.getColor(ngi.getBorderColor());
-      }
-      if (bordercolor == null) {
-         bordercolor = GraphUtilities.getGraphController()
-            .getGraphSettings()
-            .getLaneBorderColor();
-      }
+      Color pc = getFillColor();
+      bordercolor = getBorderColor();
+      
       g.setColor(bordercolor);
 
       // paint bounds
@@ -235,6 +206,53 @@ public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implemen
             .getJaWEType((Participant) par)
             .getIcon();
       }
+   }
+
+   public Color getBorderColor() {
+      GraphParticipantInterface p = (GraphParticipantInterface) view.getCell();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo((XMLCollectionElement) p.getPropertyObject());
+      Color bc = null;
+      if (ngi != null) {
+         bc = Utils.getColor(ngi.getBorderColor());
+      }
+      if (bc == null) {
+         bc = GraphUtilities.getGraphController()
+         .getGraphSettings()
+         .getLaneBorderColor();
+      }
+      return bc;
+   }
+
+   public Color getFillColor() {
+      GraphParticipantInterface p = (GraphParticipantInterface) view.getCell();
+      NodeGraphicsInfo ngi = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getNodeGraphicsInfo((XMLCollectionElement) p.getPropertyObject());
+      Color pc = null;
+      if (ngi != null) {
+         pc = Utils.getColor(ngi.getFillColor());
+      }
+      if (pc == null) {
+         Object par = getParticipantType(p.getPropertyObject());
+         if (par instanceof FreeTextExpressionParticipant) {
+            pc = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getLaneFreeTextExpressionColor();
+         } else if (par instanceof Lane) {
+            pc = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getLaneCommonExpressionColor();
+         } else {
+            pc = JaWEManager.getInstance()
+               .getJaWEController()
+               .getTypeResolver()
+               .getJaWEType((Participant) par)
+               .getColor();
+         }
+      }
+      return pc;
    }
 
    protected Object getParticipantType(XMLElement po) {
