@@ -590,6 +590,10 @@
             </listitem>
 
             <listitem>
+              <para>rpm-build</para>
+            </listitem>
+
+            <listitem>
               <para>Java Development Kit (JDK) version 6 or later</para>
             </listitem>
           </itemizedlist>
