@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jxpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLValidationError;
 import org.enhydra.jxpdl.XPDLValidationErrorIds;
 import org.enhydra.jxpdl.elements.Activity;
@@ -65,6 +66,11 @@ public class TogWEXPDLValidator extends StandardPackageValidator {
          existingErrors.add(verr);                              
       }
       return (cc==0);
+   }
+  
+   protected int getNoOfReferences(XMLComplexElement parent,
+                                   XMLComplexElement el) {
+      return JaWEManager.getInstance().getXPDLUtils().getReferences(parent,el).size();
    }
    
    protected StandardPackageValidator createValidatorInstance () {

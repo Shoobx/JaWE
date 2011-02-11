@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import org.enhydra.jawe.components.graph.GraphEAConstants;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLInterface;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.Activities;
 import org.enhydra.jxpdl.elements.Activity;
@@ -79,21 +81,70 @@ public class XPDLUtils {
    }
 
    public List getReferences(XMLComplexElement pkgOrWp, XMLComplexElement referenced) {
-      return XMLUtil.getReferences(pkgOrWp, referenced,JaWEManager.getInstance().getXPDLHandler());
+      return getReferences(pkgOrWp, referenced,JaWEManager.getInstance().getXPDLHandler());
    }
 
-   public List getReferences(Package pkg, XMLComplexElement referenced) {
-      return XMLUtil.getReferences(pkg,referenced,JaWEManager.getInstance().getXPDLHandler());
+   public List getReferences(XMLComplexElement pkgOrWp,
+                                    XMLComplexElement referenced,
+                                    XMLInterface xmli) {
+      if (pkgOrWp instanceof Package) {
+         return getReferences((Package) pkgOrWp, referenced, xmli);
+      } else if (pkgOrWp instanceof WorkflowProcess) {
+         return getReferences((WorkflowProcess) pkgOrWp, referenced);
+      }
+      return new ArrayList();
+   }
+
+   public List getReferences(Package pkg,
+                                    XMLComplexElement referenced,
+                                    XMLInterface xmli) {
+      if (referenced instanceof Package) {
+         return getReferences((Package) referenced, xmli);
+      } else if (referenced instanceof TypeDeclaration) {
+         return getReferences(pkg, (TypeDeclaration) referenced);
+      } else if (referenced instanceof Participant) {
+         return getReferences(pkg, (Participant) referenced);
+      } else if (referenced instanceof Application) {
+         return getReferences(pkg, (Application) referenced);
+      } else if (referenced instanceof DataField) {
+         return getReferences(pkg, (DataField) referenced);
+      } else if (referenced instanceof WorkflowProcess) {
+         return getReferences(pkg, (WorkflowProcess) referenced);
+      } else if (referenced instanceof Lane) {
+         return getReferences(pkg, (Lane) referenced);
+      }
+      return new ArrayList();
    }
 
    public List getReferences(WorkflowProcess wp, XMLComplexElement referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      if (referenced instanceof Participant) {
+         return getReferences(wp, (Participant) referenced);
+      } else if (referenced instanceof Application) {
+         return getReferences(wp, (Application) referenced);
+      } else if (referenced instanceof DataField) {
+         return getReferences(wp, (DataField) referenced);
+      } else if (referenced instanceof WorkflowProcess) {
+         return getReferences(wp, (WorkflowProcess) referenced);
+      } else if (referenced instanceof FormalParameter) {
+         return getReferences(wp, (FormalParameter) referenced);
+      } else if (referenced instanceof ActivitySet) {
+         return getReferences(wp, (ActivitySet) referenced);
+      } else if (referenced instanceof Lane) {
+         return getReferences(wp, (Lane) referenced);
+      }
+
+      return new ArrayList();
    }
 
+   
    public List getReferences(Package pkg) {
-      return XMLUtil.getReferences(pkg,JaWEManager.getInstance().getXPDLHandler());
+      return getReferences(pkg,JaWEManager.getInstance().getXPDLHandler());
    }
 
+   public List getReferences(Package pkg, XMLInterface xmli) {
+      return XMLUtil.getReferences(pkg,xmli);
+   }   
+   
    public List getAllExternalPackageReferences(Package pkg, Package referenced) {
       return XMLUtil.getAllExternalPackageReferences(pkg, referenced);
    }

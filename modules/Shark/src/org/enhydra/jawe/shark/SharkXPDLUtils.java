@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.shark;
 
@@ -39,6 +39,7 @@ import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ActivitySet;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Transition;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
@@ -49,6 +50,47 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
  * @author Sasa Bojanic
  */
 public class SharkXPDLUtils extends XPDLUtils {
+
+   public List getDataFieldReferences(XMLComplexElement pkgOrWp, String referencedId) {
+      if (referencedId.equals("")) {
+         return new ArrayList();
+      }
+      if (pkgOrWp instanceof Package) {
+         return getDataFieldReferences((Package) pkgOrWp, referencedId);
+      }
+
+      return getDataFieldReferences((WorkflowProcess) pkgOrWp, referencedId);
+   }
+
+   public List getReferences(Package pkg, DataField referenced) {
+      return getDataFieldReferences(pkg, referenced.getId());
+   }
+
+   public List getDataFieldReferences(Package pkg, String referencedId) {
+      List references = new ArrayList();
+      if (referencedId.equals("")) {
+         return references;
+      }
+
+      Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
+      while (it.hasNext()) {
+         WorkflowProcess wp = (WorkflowProcess) it.next();
+         if (wp.getDataField(referencedId) == null) {
+            references.addAll(getDataFieldReferences(wp, referencedId));
+         }
+      }
+
+      return references;
+   }
+
+   public List getReferences(WorkflowProcess wp, DataField referenced) {
+      if (XMLUtil.getWorkflowProcess(referenced) == null
+          && (wp.getDataField(referenced.getId()) != null || wp.getFormalParameter(referenced.getId()) != null)) {
+         return new ArrayList();
+      }
+
+      return getDataFieldReferences(wp, referenced.getId());
+   }
 
    public List getDataFieldReferences(WorkflowProcess wp, String referencedId) {
       List references = new ArrayList();
@@ -66,7 +108,16 @@ public class SharkXPDLUtils extends XPDLUtils {
 
       return references;
    }
-   
+
+   public List getReferences(WorkflowProcess wp, FormalParameter referenced) {
+      List references = new ArrayList();
+      if (!(referenced.getParent().getParent() instanceof WorkflowProcess)) {
+         return references;
+      }
+
+      return getFormalParameterReferences(wp, referenced.getId());
+   }
+
    public List getFormalParameterReferences(WorkflowProcess wp, String referencedId) {
       List references = new ArrayList();
       if (referencedId.equals("")) {
@@ -86,7 +137,6 @@ public class SharkXPDLUtils extends XPDLUtils {
 
       return references;
    }
-   
 
    protected List getVariableReferences(XMLCollectionElement wpOrAs, String dfOrFpId) {
       List references = XMLUtil.getVariableReferences(wpOrAs, dfOrFpId);
