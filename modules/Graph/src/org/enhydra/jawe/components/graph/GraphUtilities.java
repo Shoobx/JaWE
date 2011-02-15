@@ -1796,7 +1796,6 @@ public class GraphUtilities {
       if (tras.size() == 1) {
          String actFrom = ((Transition) tras.toArray()[0]).getFrom();
          Activity prevAct = wp.getActivity(actFrom);
-         System.out.println("Pa=" + prevAct.getId() + ",sa=" + startingAct.getId());
          if (prevAct != null && !prevAct.getId().equals(startingAct.getId())) {
             return getProperActIdForStart(wp, prevAct, firstActId, ++cnt);
          }
