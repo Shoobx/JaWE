@@ -1,3 +1,8 @@
+2011-02-15 Sasa Bojanic <sasaboy@together.at>
+   # jxpdl.jar updated to SVN version 1.0-1 SVNR35
+   # Fix for migrating from XPDL 1: Proper handling of Start/End event connections when migrating 
+     from XPDL 1 created by older version of JaWE (the case of circular transitions)
+
 ###### TWE 4.0-1 RELEASED ######
 
 2011-02-09 Sasa Bojanic <sasaboy@together.at>
