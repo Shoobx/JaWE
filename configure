@@ -154,7 +154,6 @@ CLASSPATH=\
 $PWD/util/ant/ant.jar:\
 $PWD/util/ant/ant-launcher.jar:\
 $PWD/util/ant/antcontrib.jar:\
-$PWD/util/ant/ant-nodeps.jar:\
 $jdk_DOT_dir/lib/tools.jar
 
 JAVA_HOME=$jdk_DOT_dir

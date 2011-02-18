@@ -9819,6 +9819,38 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <title>Release Notes</title>
 
     <section>
+      <title>Release 4.1-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Ant libraries upgraded to version 1.8.2 (removed ant-nodeps.jar)</para>
+        </listitem>
+        <listitem>
+          <para>Xerces library upgraded to version 2.11.0</para>
+        </listitem>
+        <listitem>
+          <para>Commons IO library upgraded to version 2.0.1</para>
+        </listitem>
+        <listitem>
+          <para>XML Commons library upgraded to version 1.4_01</para>
+        </listitem>
+        <listitem>
+          <para>XML Commons Graphics library upgraded to version 1.4</para>
+        </listitem>
+        <listitem>
+          <para>FOP library upgraded to version 1.0</para>
+        </listitem>
+        <listitem>
+          <para>iText library upgraded to version 5.0.6</para>
+        </listitem>
+        <listitem>
+          <para>Fixed "Save as PDF" action bug</para>
+        </listitem>
+
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 4.0-1</title>
 
       <itemizedlist>

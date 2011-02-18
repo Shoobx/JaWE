@@ -1,3 +1,15 @@
+###### TWE 4.1-1 RELEASED ######
+
+2011-02-18 Sasa Bojanic <sasaboy@together.at>
+   # Ant libraries upgraded to version 1.8.2 (removed ant-nodeps.jar)
+   # Xerces library upgraded to version 2.11.0
+   # Commons IO library upgraded to version 2.0.1
+   # XML Commons library upgraded to version 1.4_01
+   # XML Graphics Commons library upgraded to version 1.4
+   # FOP library upgraded to version 1.0
+   # iText library upgraded to version 5.0.6
+   # Fixed "Save as PDF" action bug
+   
 2011-02-15 Sasa Bojanic <sasaboy@together.at>
    # jxpdl.jar updated to SVN version 1.0-1 SVNR35
    # Fix for migrating from XPDL 1: Proper handling of Start/End event connections when migrating 

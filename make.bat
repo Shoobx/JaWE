@@ -57,7 +57,6 @@ set PATH="%JAVA_HOME%\bin"
 set CLASSPATH="%CD%\util\ant\ant.jar"
 set CLASSPATH=%CLASSPATH%;"%CD%\util\ant\ant-launcher.jar"
 set CLASSPATH=%CLASSPATH%;"%CD%\util\ant\antcontrib.jar"
-set CLASSPATH=%CLASSPATH%;"%CD%\util\ant\ant-nodeps.jar"
 set CLASSPATH=%CLASSPATH%;"%JAVA_HOME%\lib\tools.jar"
 
 java -cp %CLASSPATH% org.apache.tools.ant.Main -DSYSTEMROOT=%SYSTEMROOT% %TARGET%
