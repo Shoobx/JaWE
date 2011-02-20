@@ -1,5 +1,8 @@
 ###### TWE 4.1-1 RELEASED ######
 
+2011-02-20 Sasa Bojanic <sasaboy@together.at>
+   # Updated screenshots
+
 2011-02-18 Sasa Bojanic <sasaboy@together.at>
    # Ant libraries upgraded to version 1.8.2 (removed ant-nodeps.jar)
    # Xerces library upgraded to version 2.11.0
