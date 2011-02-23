@@ -141,9 +141,13 @@
    <!-- ==================================================================== -->
    <!-- Build binaries                                                       -->
    <!-- ==================================================================== -->
-   <target name="output" depends="prepare">
+   <target name="makeOutput">
       <ant dir="${modules.dir}" />
+   </target>
 
+   <target name="makeOutputDebug" depends="setDebug, makeOutput"/>
+
+   <target name="output" depends="prepare,makeOutput">
       <!-- Bin directory -->
       <copy todir="${bin.dir}">
          <fileset dir="${input.dir}/bin" includes="*.ico" />
@@ -245,8 +249,6 @@
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
    <target name="buildOutput" depends="output, buildAllDoc"/>
-
-   <target name="buildOutputDebug" depends="setDebug, buildOutput"/>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
@@ -388,18 +390,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <if>
          <equals arg1="${os}" arg2="windows" />
          <then>         
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <antcall target="distBinWindowsDebug">
-                     <param name="dist.folder" value="${dist.debug.dir}" />
-                     <param name="name.additional" value="" />
-                  </antcall>
-                  <antcall target="cleanClasses"/>               
-               </else>
-            </if>
             <antcall target="distBinWindows">
                <param name="dist.folder" value="${dist.community.dir}" />
                <param name="name.additional" value="" />
@@ -430,18 +420,43 @@ make distributions       - Builds and configures TWE with all documentations and
                            <param name="dist.folder" value="${dist.customers.dir}" />
                            <param name="name.additional" value="tsl-" />
                         </antcall>
+                        <copy todir="${output.lib.dir}">
+                           <fileset dir="${ext.lib.dir}" includes="itext.jar"/>
+                        </copy>
+                        <copy todir="${build.dir}/licenses" overwrite="true">
+                           <fileset dir="${basedir}/licenses">
+                              <include name="License.txt" />
+                           </fileset>
+                        </copy>
                      </else>
                   </if>                  
                </then>
             </if>
+            <if>
+               <istrue value="${rebranding}" />
+               <then>
+               </then>
+               <else>
+                  <antcall target="cleanClasses"/>               
+                  <antcall target="makeOutputDebug"/>
+                  <antcall target="distZIPEXE">
+                     <param name="dist.folder" value="${dist.debug.dir}" />
+                     <param name="name.additional" value="" />
+                  </antcall>
+                  <antcall target="distWebStart">
+                     <param name="dist.folder" value="${dist.debug.dir}" />
+                  </antcall>
+               </else>
+            </if>            
             <ant target="distOther"/>
          </then>
          <else>
-            <antcall target="distBinUnixDebug">
+            <antcall target="distBinUnix"/>
+            <antcall target="cleanClasses"/>               
+            <antcall target="makeOutputDebug"/>
+            <antcall target="distTARGZ">
                <param name="dist.folder" value="${dist.debug.dir}" />
             </antcall>
-            <antcall target="cleanClasses"/>               
-            <antcall target="distBinUnix"/>
          </else>
       </if>
       
@@ -451,8 +466,6 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- Windows binary distribution                                          -->
    <!-- ==================================================================== -->
    <target name="distBinWindows" depends="output, buildAllDoc, distWebStart, distZIPEXE"/>
-
-   <target name="distBinWindowsDebug" depends="setDebug, distBinWindows"/>
 
    <target name="distZIPEXE">
       <property name="dist.folder" value="${dist.community.dir}" />
@@ -562,7 +575,9 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix binary distribution preparation                                 -->
    <!-- ==================================================================== -->
-   <target name="distBinUnix" depends="clean">
+   <target name="distBinUnix" depends="output, buildAllDoc, distTARGZ" />
+
+   <target name="distTARGZ">
       <property name="dist.folder" value="${dist.community.dir}" />
       <!-- Set the directories -->
       <delete quiet="true">
@@ -576,8 +591,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <delete file="${dist.folder}/${app.name}-${version}-${release}.src.tar" quiet="true" />
    </target>
 
-   <target name="distBinUnixDebug" depends="setDebug, distBinUnix"/>
-   
    <!-- ==================================================================== -->
    <!-- Source distribution                                                  -->
    <!-- ==================================================================== -->
