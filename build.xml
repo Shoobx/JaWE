@@ -39,7 +39,6 @@
 
    <property name="version" value="4.0" />
    <property name="release" value="1" />
-   <property name="build.debug" value="off" />
 
    <property name="rebranding" value="false" />
    <property name="language" value="English" />
@@ -89,6 +88,7 @@
    <!-- Set the directories -->
    <property name="dist.community.dir" location="${dist.dir}/community" />
    <property name="dist.customers.dir" location="${dist.dir}/customers" />
+   <property name="dist.debug.dir" location="${dist.dir}/debug" />
    <property name="dist.dependencies.dir" location="${dist.dir}/dependencies" />
    <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
    <property name="dist.internal.dir" location="${dist.dir}/internal" />
@@ -102,31 +102,25 @@
    <property name="bin.dir" location="${build.dir}/bin" />
    <property name="dist.bin.dir" location="${build.dir}/dist/bin" />
 
-   <!-- ==================================================================== -->
-   <!-- Init target                                                          -->
-   <!-- ==================================================================== -->
-   <target name="init">
-      <!-- Operating system  -->
-      <condition property="os" value="windows">
-         <os family="windows" />
-      </condition>
-      <condition property="os" value="unix">
-         <os family="unix" />
-      </condition>
+   <!-- Operating system  -->
+   <condition property="os" value="windows">
+      <os family="windows" />
+   </condition>
+   <condition property="os" value="unix">
+      <os family="unix" />
+   </condition>
 
-      <condition property="include.ext" value="bat">
-         <os family="windows" />
-      </condition>
-      <condition property="include.ext" value="sh">
-         <os family="unix" />
-      </condition>
-
-   </target>
+   <condition property="include.ext" value="bat">
+      <os family="windows" />
+   </condition>
+   <condition property="include.ext" value="sh">
+      <os family="unix" />
+   </condition>
 
    <!-- ==================================================================== -->
    <!-- Reading of version number                                            -->
    <!-- ==================================================================== -->
-   <target name="versionRead" depends="init">
+   <target name="versionRead">
       <echo message="version = ${version}" />
       <echo message="release = ${release}" />
    </target>
@@ -134,12 +128,16 @@
    <!-- ==================================================================== -->
    <!-- Prepare target                                                       -->
    <!-- ==================================================================== -->
-   <target name="prepare" depends="versionRead, init">
+   <target name="prepare" depends="versionRead">
       <mkdir dir="${output.lib.dir}" />
       <mkdir dir="${bin.dir}" />
       <mkdir dir="${dist.bin.dir}" />
    </target>
 
+   <target name="setDebug">
+      <property name="build.debug" value="on" />
+   </target>
+      
    <!-- ==================================================================== -->
    <!-- Build binaries                                                       -->
    <!-- ==================================================================== -->
@@ -225,32 +223,35 @@
    <!-- ==================================================================== -->
    <!-- Builds DocBook Documentation                                         -->
    <!-- ==================================================================== -->
-   <target name="buildDoc" depends="init">
+   <target name="buildDoc">
       <ant dir="${doc.dir}" target="buildDocBook" />
    </target>
 
    <!-- ==================================================================== -->
    <!-- Builds all                                                           -->
    <!-- ==================================================================== -->
-   <target name="buildNoDoc" depends="init, output, configure">
-   </target>
+   <target name="buildNoDoc" depends="output, configure"/>
 
+   <target name="buildNoDocDebug" depends="setDebug, buildNoDoc"/>
+   
    <!-- ==================================================================== -->
    <!-- Builds all                                                           -->
    <!-- ==================================================================== -->
-   <target name="buildAll" depends="init, output, buildAllDoc, configure">
-   </target>
+   <target name="buildAll" depends="output, buildAllDoc, configure"/>
 
+   <target name="buildAllDebug" depends="setDebug, buildAll"/>
+   
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
-   <target name="buildOutput" depends="init, output, buildAllDoc">
-   </target>
+   <target name="buildOutput" depends="output, buildAllDoc"/>
+
+   <target name="buildOutputDebug" depends="setDebug, buildOutput"/>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
    <!-- ==================================================================== -->
-   <target name="clean" depends="init">
+   <target name="clean">
       <ant dir="${modules.dir}" target="clean" />
       <ant dir="${branding.dir}" target="clean" />
       <delete dir="${output.dir}" />
@@ -263,6 +264,10 @@
       </delete>
       <delete dir="${basedir}/doc/tmp" />
       <delete dir="${basedir}/installation/unix/rpm" />
+   </target>
+
+   <target name="cleanClasses">
+      <ant dir="${modules.dir}" target="cleanClasses" />
    </target>
 
    <!-- ==================================================================== -->
@@ -296,7 +301,11 @@
 make                     - Displays Help screen
 make help                - Displays Help screen
 make buildAll            - Builds and configures TWE with javadoc and docbook documentation
+make buildAllDebug       - Builds and configures TWE with javadoc and docbook documentation. 
+                           The compiled classes have debug information.
 make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
+make buildNoDocDebug     - Builds and configures TWE without javadoc and docbook documentation.
+                           The compiled classes have debug information.
 make buildDoc            - Builds docbook documentation
 make dependencies        - Creates TWS and TAS dependencies within distributions folder
 make dependency_tws      - Creates TWS dependencies within distributions folder
@@ -318,6 +327,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <target name="initDist">
       <mkdir dir="${dist.community.dir}" />
       <mkdir dir="${dist.customers.dir}" />
+      <mkdir dir="${dist.debug.dir}" />
       <mkdir dir="${dist.community.webstart.dir}" />
       <mkdir dir="${dist.internal.dir}" />
       <mkdir dir="${dist.doc.dir}" />
@@ -374,10 +384,22 @@ make distributions       - Builds and configures TWE with all documentations and
       </zip>
    </target>
 
-   <target name="distBin" depends="init">
+   <target name="distBin">
       <if>
          <equals arg1="${os}" arg2="windows" />
          <then>         
+            <if>
+               <istrue value="${rebranding}" />
+               <then>
+               </then>
+               <else>
+                  <antcall target="distBinWindowsDebug">
+                     <param name="dist.folder" value="${dist.debug.dir}" />
+                     <param name="name.additional" value="" />
+                  </antcall>
+                  <antcall target="cleanClasses"/>               
+               </else>
+            </if>
             <antcall target="distBinWindows">
                <param name="dist.folder" value="${dist.community.dir}" />
                <param name="name.additional" value="" />
@@ -415,6 +437,10 @@ make distributions       - Builds and configures TWE with all documentations and
             <ant target="distOther"/>
          </then>
          <else>
+            <antcall target="distBinUnixDebug">
+               <param name="dist.folder" value="${dist.debug.dir}" />
+            </antcall>
+            <antcall target="cleanClasses"/>               
             <antcall target="distBinUnix"/>
          </else>
       </if>
@@ -424,8 +450,9 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Windows binary distribution                                          -->
    <!-- ==================================================================== -->
-   <target name="distBinWindows" depends="output, buildAllDoc, distWebStart, distZIPEXE">
-   </target>
+   <target name="distBinWindows" depends="output, buildAllDoc, distWebStart, distZIPEXE"/>
+
+   <target name="distBinWindowsDebug" depends="setDebug, distBinWindows"/>
 
    <target name="distZIPEXE">
       <property name="dist.folder" value="${dist.community.dir}" />
@@ -535,23 +562,26 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix binary distribution preparation                                 -->
    <!-- ==================================================================== -->
-   <target name="distBinUnix" depends="init, clean">
+   <target name="distBinUnix" depends="clean">
+      <property name="dist.folder" value="${dist.community.dir}" />
       <!-- Set the directories -->
       <delete quiet="true">
          <fileset dir="${basedir}" includes="**/*.bak" />
       </delete>
       <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
-      <tar destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar">
+      <tar destfile="${dist.folder}/${app.name}-${version}-${release}.src.tar">
          <tarfileset dir="${basedir}" prefix="${app.name}-${version}" />
       </tar>
-      <gzip zipfile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" src="${dist.community.dir}/${app.name}-${version}-${release}.src.tar" />
-      <delete file="${dist.community.dir}/${app.name}-${version}-${release}.src.tar" quiet="true" />
+      <gzip zipfile="${dist.folder}/${app.name}-${version}-${release}.src.tar.gz" src="${dist.folder}/${app.name}-${version}-${release}.src.tar" />
+      <delete file="${dist.folder}/${app.name}-${version}-${release}.src.tar" quiet="true" />
    </target>
 
+   <target name="distBinUnixDebug" depends="setDebug, distBinUnix"/>
+   
    <!-- ==================================================================== -->
    <!-- Source distribution                                                  -->
    <!-- ==================================================================== -->
-   <target name="distSource" depends="init">
+   <target name="distSource">
       <condition property="sourceBuildTarget" value="distSourceWindows">
          <os family="windows" />
       </condition>
@@ -566,7 +596,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Windows source distribution                                          -->
    <!-- ==================================================================== -->
-   <target name="distSourceWindows" depends="init">
+   <target name="distSourceWindows">
       <delete quiet="true">
          <fileset dir="${basedir}" includes="**/*.bak" />
       </delete>
@@ -613,7 +643,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix source distribution                                             -->
    <!-- ==================================================================== -->
-   <target name="distSourceUnix" depends="init">
+   <target name="distSourceUnix">
       <!-- delete binary build preparations -->
       <delete quiet="true">
          <fileset dir="${basedir}" includes="**/*.bak" />
@@ -649,7 +679,8 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- Create Web Start archives                                            -->
    <!-- ==================================================================== -->
    <target name="distWebStart" depends="prepare" unless="${rebranding}">
-      <echo message="Community Build" />
+      <property name="dist.folder" value="${dist.community.dir}" />
+      <echo message="Web Start Build" />
 
       <mkdir dir="${dist.community.webstart.dir}/lib" />
       <!--Copy jar files to webstart/lib directory -->
@@ -690,14 +721,14 @@ make distributions       - Builds and configures TWE with all documentations and
             <antcall target="signem" />
          </else>
       </if>      
-      <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.webstart.zip" update="true">
+      <zip destfile="${dist.folder}/${app.name}-${version}-${release}.webstart.zip" update="true">
          <zipfileset dir="${dist.community.webstart.dir}" prefix="${app.name}-${version}-${release}.webstart" />
       </zip>
       <delete dir="${dist.community.webstart.dir}" />
 
    </target>
 
-   <target name="signexe" depends="init" unless="${rebranding}">
+   <target name="signexe" unless="${rebranding}">
       <trycatch description="try-catch">
          <try>
             <exec executable="${sign.tool}">
@@ -721,7 +752,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </trycatch>
    </target>
 
-   <target name="signem" depends="init">
+   <target name="signem">
       <echo message="Signing with Together certificate" />
       <trycatch description="try-catch">
          <try>        

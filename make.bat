@@ -37,7 +37,9 @@ del version.txt>nul
 if "X%~1"=="X" goto help
 if %~1==help goto help
 if %~1==buildAll goto continue
+if %~1==buildAllDebug goto continue
 if %~1==buildNoDoc goto continue
+if %~1==buildNoDocDebug goto continue
 if %~1==buildDoc goto continue
 if %~1==dependencies goto continue
 if %~1==dependency_tws goto continue
@@ -74,7 +76,11 @@ echo.
 echo make                     - Displays Help screen
 echo make help                - Displays Help screen
 echo make buildAll            - Builds and configures TWE with javadoc and docbook documentation
+echo make buildAllDebug       - Builds and configures TWE with javadoc and docbook documentation. 
+                                The compiled classes have debug information.
 echo make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
+echo make buildNoDocDebug     - Builds and configures TWE without javadoc and docbook documentation.
+                                The compiled classes have debug information.
 echo make buildDoc            - Builds docbook documentation
 echo make dependencies        - Creates TWS and TAS dependencies within distributions folder
 echo make dependency_tws      - Creates TWS dependencies within distributions folder

@@ -1,4 +1,8 @@
-###### TWE 4.1-1 RELEASED ######
+2011-02-23 Sasa Bojanic <sasaboy@together.at>
+   # The build.debug property removed from build.properties file, new build targets introduced
+     to build output with DEBUG information in the classes (buildNoDocDebug and buildAllDebug)
+   # The project distribution now also contains debug binary output
+
 2011-02-22 Sasa Bojanic <sasaboy@together.at>
    # Added "silent" installation possibility
 

@@ -28,8 +28,6 @@ function help {
    echo "configure -version    - Sets the version number for the project."
    echo "configure -release    - Sets the release number for the project."
    echo "configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project."
-   echo "configure -debug      - Flag that determines if the sources will be compiled with debug option on or off."
-   echo "                        Possible values [on/off]."
    echo "configure -instdir    - Sets the location of the installation dir used when executing make script"
    echo "                        with install target specified."
    echo
@@ -38,7 +36,7 @@ function help {
    echo
    echo "Example:"
    echo
-   echo "./configure -version 3.3 -release 1 -debug off -jdkhome /usr/jdk1.6 -instdir /tmp/JaWE"
+   echo "./configure -version 3.3 -release 1 -jdkhome /usr/jdk1.6 -instdir /tmp/JaWE"
 }
 
 for n in $*
@@ -52,7 +50,6 @@ done
                         
 version=3.3
 release=1
-build_DOT_debug=off
 install_DOT_dir=
 
 cd $(dirname $0)        
@@ -91,9 +88,6 @@ do
 		
 		-jdkhome | --jdkhome)		previous=jdk_DOT_dir;;
 		-jdkhome=* | --jdkhome=*)	jdk_DOT_dir=$optarg;;
-
-		-debug | --debug)	previous=build_DOT_debug;;
-		-debug=* | --debug=*)	build_DOT_debug=$optarg;;
 
 		-instdir | --instdir)		previous=install_DOT_dir;;
 		-instdir=* | --instdir=*)	install_DOT_dir=$optarg;;
@@ -167,7 +161,13 @@ help: FORCE
 buildAll: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
+buildAllDebug: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
 buildNoDoc: FORCE
+	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
+
+buildNoDocDebug: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
 buildDoc: FORCE
@@ -215,8 +215,6 @@ version=$version
 release=$release
 /^[ 	]*jdk.dir=/c\\
 jdk.dir=$jdk_DOT_dir
-/^[ 	]*build.debug=/c\\
-build.debug=$build_DOT_debug
 /^[ 	]*install.dir=/c\\
 install.dir=$install_DOT_dir
 
@@ -226,7 +224,7 @@ rm build.properties
 
 sed  -e 's|_DOT_|\.|g' $fname >>build.properties
 (
-	for pName in jdk.dir version release build.debug install.dir
+	for pName in jdk.dir version release install.dir
 	do
 		value=$(echo $pName | sed "s/\./_DOT_/g")
 		if

@@ -23,14 +23,12 @@ rem *********************************************
 SET SET_VERSION=off
 SET SET_RELEASE=off
 SET SET_JDKHOME=off
-SET SET_DEBUG=off
 SET SET_INSTALLDIR=off
 SET SET_REBRANDING=off
 SET SET_LANGUAGE=off
 
-SET VERSION=3.3
+SET VERSION=4.0
 SET RELEASE=1
-SET DEBUG=off
 SET INSTALLDIR=
 SET REBRANDING=false
 SET LANGUAGE=English
@@ -51,7 +49,6 @@ if %~1.==. goto make
 if %~1==-version goto version
 if %~1==-release goto release
 if %~1==-jdkhome goto jdkhome
-if %~1==-debug goto debug
 if %~1==-instdir goto instdir
 if %~1==-rebranding goto rebranding
 if %~1==-language goto language
@@ -89,11 +86,6 @@ find "release=" < build.properties > release.txt
 for /F "tokens=1,2* delims==" %%i in (release.txt) do SET RELEASE=%%j
 del release.txt>nul
 
-:initdebug
-find "build.debug=" < build.properties > builddebug.txt
-for /F "tokens=1,2* delims==" %%i in (builddebug.txt) do SET DEBUG=%%j
-del builddebug.txt>nul
-
 :initinstall
 find "install.dir=" < build.properties > install.txt
 for /F "tokens=1,2* delims==" %%i in (install.txt) do SET INSTALLDIR=%%j
@@ -119,7 +111,6 @@ if exist build.properties del build.properties
 echo version=^%VERSION%>build.properties
 echo release=^%RELEASE%>>build.properties
 echo jdk.dir=^%JDKHOME%>>build.properties
-echo build.debug=^%DEBUG%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
 echo language=%LANGUAGE%>>build.properties
@@ -148,8 +139,6 @@ echo configure -help       - Displays Help screen
 echo configure -version    - Sets the version number for the project.
 echo configure -release    - Sets the release number for the project.
 echo configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project.
-echo configure -debug      - Flag that determines if the sources will be compiled with debug option on or off. 
-echo                         Possible values [on/off]. 
 echo configure -instdir    - Sets the location of the installation dir used when executing make script 
 echo                         with install target specified.
 echo configure -rebranding - Flag that determines if the project will be "rebranded" with the context of branding folder.
@@ -162,7 +151,7 @@ echo.
 echo.
 echo Example:
 echo.
-echo configure -version 3.3 -release 1 -debug off -jdkhome C:/jdk1.6 -instdir C:/JaWE
+echo configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE
 echo.
 goto end
 
@@ -210,23 +199,6 @@ goto start
 
 
 rem *********************************************************
-rem *  Set DEBUG parameter value
-rem *********************************************************
-:debug
-if %SET_DEBUG%==on goto error
-shift
-if "X%~1"=="X" goto error
-if /i "%~1"=="on" goto setdebug
-if /i "%~1"=="off" goto setdebug
-goto error
-:setdebug
-SET DEBUG=%~1
-SET SET_DEBUG=on
-shift
-if "X%~1"=="X" goto make
-goto start
-
-rem *********************************************************
 rem *  Set INSTDIR parameter value
 rem *********************************************************
 :instdir
@@ -272,7 +244,6 @@ rem *********************************************************
 SET VERSION=
 SET RELEASE=
 SET JDKHOME=
-SET DEBUG=
 SET INSTALLDIR=
 SET REBRANDING=
 SET LANGUAGE=
