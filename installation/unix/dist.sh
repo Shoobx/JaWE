@@ -22,10 +22,12 @@ MWD=$(dirname $0)
 version=$1
 release=$2
 buildtype=$3
-nameadditional=$4
+maketarget=$4
+nameadditional=$5
 version=${version:=2.0}
 release=${release:=beta1}
 buildtype=${buildtype:=community}
+maketarget=${maketarget:=buildOutput}
 nameadditional=${nameadditional:=}
 
 name=twe
@@ -100,7 +102,7 @@ cp $PWD/build.properties $RPM_ROOT/BUILD/TogWE
     export PATH=\$PATH:\$JAVA_HOME/bin
     chmod +x ./configure
     ./configure --jdkhome=\$JAVA_HOME
-    make buildOutput
+    make ${maketarget}
 
 %install
     rm -rf \$RPM_BUILD_ROOT
@@ -195,8 +197,11 @@ tar czf ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz 
 echo $JAVA_HOME|rpmbuild -ba --target noarch $RPM_ROOT/SPECS/twe.spec
 
 cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/${name}-${version}-${release}/$buildtype || exit 1
-cp ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz distribution/${name}-${version}-${release}/$buildtype
-cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}/$buildtype
+
+if [ $buildtype != 'debug' ]; then
+  cp ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz distribution/${name}-${version}-${release}/$buildtype
+  cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}/$buildtype
+fi
 
 mkdir -p tmp
 cd tmp
@@ -210,12 +215,18 @@ cd ../../..
 rm -fr tmp
 
 if [ $buildtype = 'community' ]; then
+	$0 $1 $2 debug buildOutputDebug
+	rm -f ${HOME}/.rpmmacros
+	test -f ${RPM_ROOT}/.rpmmacros && mv ${RPM_ROOT}/.rpmmacros ${HOME}
+else
+  if [ $buildtype = 'debug' ]; then
 	if [ -f licenses/License-TOG.txt ]; then
-		$0 $1 $2 customers -tsl
+		$0 $1 $2 customers buildOutput -tsl
 		rm -f ${HOME}/.rpmmacros
 		test -f ${RPM_ROOT}/.rpmmacros && mv ${RPM_ROOT}/.rpmmacros ${HOME}
 	fi
-else
+  else
 	mv licenses/License.txt licenses/License-TOG.txt
 	mv licenses/License.tmp licenses/License.txt
+  fi
 fi
