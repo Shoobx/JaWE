@@ -668,15 +668,10 @@ configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE</programli
       <para><programlisting>make help            - Displays Help screen
 make buildAll        - Builds and configures TWE with javadoc and 
                        docbook documentation
-make buildAllDebug   - Builds and configures TXM with javadoc and 
-                       docbook documentation. The compiled classes have
-                       debug information.
 make buildNoDoc      - Builds and configures TWE without javadoc and 
                        docbook documentation
-make buildNoDocDebug - Builds and configures TXM without javadoc and 
-                       docbook documentation. The compiled classes have
-                       debug information.
 make buildDoc        - Builds docbook documentation
+make debug           - Builds TWE JAR files with included debug information
 make dependencies    - Creates TWS and TAS dependencies within 
                        distributions folder
 make dependency_tws  - Creates TWS dependencies within distributions folder
@@ -9898,10 +9893,10 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <para>Added "silent" installation possibility</para>
         </listitem>
         <listitem>
-          <para>The build.debug property removed from build.properties file, new build targets introduced to build output with DEBUG information in the classes (buildNoDocDebug and buildAllDebug)</para>
+          <para>The build.debug property removed from build.properties file, new build target "debug" introduced to build TWE JAR files with DEBUG information in the classes</para>
         </listitem>
         <listitem>
-          <para>The project distribution now also contains debug binary output</para>
+          <para>The project distribution now also contains debug folder with TWE JAR files that include DEBUG information.</para>
         </listitem>
       </itemizedlist>
     </section>

@@ -141,13 +141,16 @@
    <!-- ==================================================================== -->
    <!-- Build binaries                                                       -->
    <!-- ==================================================================== -->
-   <target name="makeOutput">
+   <target name="debug" depends="cleanClasses, setDebug">
       <ant dir="${modules.dir}" />
    </target>
 
-   <target name="makeOutputDebug" depends="setDebug, makeOutput"/>
-
-   <target name="output" depends="prepare,makeOutput">
+   <target name="output" depends="prepare">
+      <ant dir="${modules.dir}" />
+		<tstamp>
+			<format property="build.timestamp" pattern="yyyyMMdd-HHmm" locale="en,UK" />
+		</tstamp>
+		<echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
       <!-- Bin directory -->
       <copy todir="${bin.dir}">
          <fileset dir="${input.dir}/bin" includes="*.ico" />
@@ -236,21 +239,15 @@
    <!-- ==================================================================== -->
    <target name="buildNoDoc" depends="output, configure"/>
 
-   <target name="buildNoDocDebug" depends="setDebug, buildNoDoc"/>
-   
    <!-- ==================================================================== -->
    <!-- Builds all                                                           -->
    <!-- ==================================================================== -->
    <target name="buildAll" depends="output, buildAllDoc, configure"/>
 
-   <target name="buildAllDebug" depends="setDebug, buildAll"/>
-   
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
    <target name="buildOutput" depends="output, buildAllDoc"/>
-
-   <target name="buildOutputDebug" depends="setDebug, buildOutput"/>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
@@ -305,12 +302,9 @@
 make                     - Displays Help screen
 make help                - Displays Help screen
 make buildAll            - Builds and configures TWE with javadoc and docbook documentation
-make buildAllDebug       - Builds and configures TWE with javadoc and docbook documentation. 
-                           The compiled classes have debug information.
 make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
-make buildNoDocDebug     - Builds and configures TWE without javadoc and docbook documentation.
-                           The compiled classes have debug information.
 make buildDoc            - Builds docbook documentation
+make debug               - Builds TWE JAR files with included debug information
 make dependencies        - Creates TWS and TAS dependencies within distributions folder
 make dependency_tws      - Creates TWS dependencies within distributions folder
 make dependency_tas      - Creates TAS dependencies within distributions folder
@@ -434,31 +428,10 @@ make distributions       - Builds and configures TWE with all documentations and
                   </if>                  
                </then>
             </if>
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <antcall target="cleanClasses"/>               
-                  <antcall target="makeOutputDebug"/>
-                  <antcall target="distZIPEXE">
-                     <param name="dist.folder" value="${dist.debug.dir}" />
-                     <param name="name.additional" value="" />
-                  </antcall>
-                  <antcall target="distWebStart">
-                     <param name="dist.folder" value="${dist.debug.dir}" />
-                  </antcall>
-               </else>
-            </if>            
             <ant target="distOther"/>
          </then>
          <else>
             <antcall target="distBinUnix"/>
-            <antcall target="cleanClasses"/>               
-            <antcall target="makeOutputDebug"/>
-            <antcall target="distTARGZ">
-               <param name="dist.folder" value="${dist.debug.dir}" />
-            </antcall>
          </else>
       </if>
       
@@ -572,6 +545,10 @@ make distributions       - Builds and configures TWE with all documentations and
       </copy>
       <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
       
+      <antcall target="debug"/>
+      <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.zip" update="true">
+         <zipfileset dir="${build.dir}" includes="**/lib/twe*.jar" excludes="**/lib/twedoc.jar,**/lib/tweactivityicons.jar" prefix="${app.name}-${version}-${release}" />
+      </zip>
    </target>
 
    <!-- ==================================================================== -->

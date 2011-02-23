@@ -161,16 +161,13 @@ help: FORCE
 buildAll: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
-buildAllDebug: FORCE
-	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
-
 buildNoDoc: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
-buildNoDocDebug: FORCE
+buildDoc: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
-buildDoc: FORCE
+debug: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
 
 dependencies: FORCE
@@ -191,9 +188,6 @@ clean: FORCE
 buildOutput: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
   
-buildOutputDebug: FORCE
-	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
-
 distributions: clean
 	@chmod +x installation/unix/dist.sh
 	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release community

@@ -117,7 +117,6 @@
 		<tstamp>
 			<format property="build.timestamp" pattern="yyyyMMdd-HHmm" locale="en,UK" />
 		</tstamp>
-		<echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
 		<propertyfile file="${sources.dir}/org/enhydra/jawe/buildinfo.properties">
 			<entry key="version" value="${version}" />
 			<entry key="release" value="${release}" />
@@ -147,7 +146,6 @@
 	<!-- Compiling of project                                                 -->
 	<!-- ==================================================================== -->
 	<target name="compile" depends="content">
-   <echo message="BD=${build.debug}"/>
 		<javac target="${targetVM}" source="${targetVM}" srcdir="${sources.dir}" destdir="${classes.dir}" classpathref="classpath" debug="${build.debug}" encoding="ISO-8859-1" />
 	</target>
 
