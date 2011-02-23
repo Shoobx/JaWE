@@ -985,6 +985,42 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <para>This will create proper <emphasis role="bold">run</emphasis>
       script in bin directory that should be used to run TWE.</para>
     </sect1>
+
+    <sect1>
+      <title>Silent Installation</title>
+
+      <para>TWE has possibility to silently install via <emphasis
+      role="bold">twe-x.y-z.x86.exe </emphasis>file. To do that, rename the
+      <emphasis role="bold">twe-x.y-z.silent.properties.txt</emphasis> file
+      comming with TWE distribution into <emphasis
+      role="bold">twe-x.y-z.silent.properties</emphasis>, put it into the same
+      folder with the <emphasis role="bold">twe-x.y-z.x86.exe</emphasis>, and
+      normally start the installation. During the installation, there will be
+      no dialogs asking you to chose Java, place to install, etc. This
+      information is taken from <emphasis
+      role="bold">twe-x.y-z.silent.properties</emphasis> file. Here is the
+      content of that file, with the properties you should modify to customize
+      your installation:</para>
+
+      <programlisting># Where to install Together Workflow Editor (default value is C:\Program Files\twe-x.y-z)
+inst.dir=C:\Program Files\twe-4.1-1
+
+# Path to local java installation (obligated - has no default value)
+jdk.dir=C:\Program Files\Java\jdk1.6.0_24
+
+# Startup menu name. (default value - Together Workflow Editor x.y-z)
+startup.menu.name=Together Workflow Editor 4.1-1
+
+# Create quick launch icon (on/off)
+create.quick.launch.icon=on
+
+# Create start menu entry (on/off)
+create.start.menu.entry=on
+
+# Create desktop icon (on/off)
+create.desktop.icon=on
+</programlisting>
+    </sect1>
   </chapter>
 
   <chapter>
@@ -9823,30 +9859,41 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <itemizedlist>
         <listitem>
-          <para>Ant libraries upgraded to version 1.8.2 (removed ant-nodeps.jar)</para>
+          <para>Ant libraries upgraded to version 1.8.2 (removed
+          ant-nodeps.jar)</para>
         </listitem>
+
         <listitem>
           <para>Xerces library upgraded to version 2.11.0</para>
         </listitem>
+
         <listitem>
           <para>Commons IO library upgraded to version 2.0.1</para>
         </listitem>
+
         <listitem>
           <para>XML Commons library upgraded to version 1.4_01</para>
         </listitem>
+
         <listitem>
           <para>XML Commons Graphics library upgraded to version 1.4</para>
         </listitem>
+
         <listitem>
           <para>FOP library upgraded to version 1.0</para>
         </listitem>
+
         <listitem>
           <para>iText library upgraded to version 5.0.6</para>
         </listitem>
+
         <listitem>
           <para>Fixed "Save as PDF" action bug</para>
         </listitem>
 
+        <listitem>
+          <para>Added "silent" installation possibility</para>
+        </listitem>
       </itemizedlist>
     </section>
 

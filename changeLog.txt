@@ -1,4 +1,6 @@
 ###### TWE 4.1-1 RELEASED ######
+2011-02-22 Sasa Bojanic <sasaboy@together.at>
+   # Added "silent" installation possibility
 
 2011-02-20 Sasa Bojanic <sasaboy@together.at>
    # Updated screenshots

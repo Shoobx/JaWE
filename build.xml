@@ -22,19 +22,90 @@
 
 
    <!-- ==================================================================== -->
+   <!-- PROPERTIES                                                           -->
+   <!-- ==================================================================== -->
+
+   <!--Set the global variables-->
+   <property name="project.name" value="Together Workflow Editor" />
+   <property name="app.name" value="twe" />
+
+   <property name="targetVM" value="1.5" />
+
+   <replace dir="${basedir}" includes="build.properties" token="\" value="/" />
+   <property file="${basedir}/build.properties" />
+   <property file="${basedir}/sign.properties" />
+   <property name="sign.tool" value="" />
+   <property name="sign.alias" value="" />
+
+   <property name="version" value="4.0" />
+   <property name="release" value="1" />
+   <property name="build.debug" value="off" />
+
+   <property name="rebranding" value="false" />
+   <property name="language" value="English" />
+
+
+   <property name="doc.dir" location="${basedir}/doc" />
+   <property name="modules.dir" location="${basedir}/modules" />
+   <property name="util.dir" location="${basedir}/util" />
+   <property name="ext.lib.dir" location="${basedir}/lib" />
+   <property name="input.dir" location="${basedir}/input" />
+   <property name="branding.dir" location="${basedir}/branding" />
+
+   <!-- Build directory -->
+   <property name="output.dir" location="${basedir}/output" />
+
+   <!-- Setting TRY-CATCH task -->
+   <taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
+      <classpath>
+         <fileset dir="${util.dir}/ant">
+            <include name="antcontrib.jar" />
+         </fileset>
+      </classpath>
+   </taskdef>
+
+   
+   <!-- Setting for IF task -->
+   <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
+      <classpath>
+         <fileset dir="${util.dir}/ant">
+            <include name="antcontrib.jar" />
+         </fileset>
+      </classpath>
+   </taskdef>
+
+   <filterset id="Filter_input">
+      <filter token="JAR_NAME" value="${app.name}" />
+      <filter token="VERSION" value="${version}" />
+      <filter token="RELEASE" value="${release}" />
+   </filterset>
+
+   <!-- Build directory -->
+   <property name="build.dir" location="${output.dir}/${app.name}-${version}-${release}" />
+
+   <!-- Distribution directories -->
+   <property name="dist.dir" location="${basedir}/distribution/${app.name}-${version}-${release}" />
+
+   <!-- Set the directories -->
+   <property name="dist.community.dir" location="${dist.dir}/community" />
+   <property name="dist.customers.dir" location="${dist.dir}/customers" />
+   <property name="dist.dependencies.dir" location="${dist.dir}/dependencies" />
+   <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
+   <property name="dist.internal.dir" location="${dist.dir}/internal" />
+   <property name="dist.doc.dir" location="${dist.dir}/documentation" />
+   <property name="dist.screenshots.dir" location="${dist.dir}/screenshots" />
+
+
+   <!-- Build directory -->
+   <property name="output.lib.dir" location="${build.dir}/lib" />
+   <property name="output.doc.dir" location="${build.dir}/doc" />
+   <property name="bin.dir" location="${build.dir}/bin" />
+   <property name="dist.bin.dir" location="${build.dir}/dist/bin" />
+
+   <!-- ==================================================================== -->
    <!-- Init target                                                          -->
    <!-- ==================================================================== -->
    <target name="init">
-      <!-- ==================================================================== -->
-      <!-- PROPERTIES                                                           -->
-      <!-- ==================================================================== -->
-
-      <!--Set the global variables-->
-      <property name="project.name" value="Together Workflow Editor" />
-      <property name="app.name" value="twe" />
-
-      <property name="targetVM" value="1.5" />
-
       <!-- Operating system  -->
       <condition property="os" value="windows">
          <os family="windows" />
@@ -50,80 +121,6 @@
          <os family="unix" />
       </condition>
 
-      <replace dir="${basedir}" includes="build.properties" token="\" value="/" />
-      <property file="${basedir}/build.properties" />
-      <property file="${basedir}/sign.properties" />
-      <property name="sign.tool" value="" />
-      <property name="sign.alias" value="" />
-
-      <property name="version" value="3.3" />
-      <property name="release" value="beta1" />
-      <property name="build.debug" value="off" />
-
-      <property name="rebranding" value="false" />
-      <property name="language" value="English" />
-
-
-      <property name="doc.dir" location="${basedir}/doc" />
-      <property name="modules.dir" location="${basedir}/modules" />
-      <property name="util.dir" location="${basedir}/util" />
-      <property name="ext.lib.dir" location="${basedir}/lib" />
-      <property name="input.dir" location="${basedir}/input" />
-      <property name="branding.dir" location="${basedir}/branding" />
-
-      <!-- Build directory -->
-      <property name="output.dir" location="${basedir}/output" />
-
-		<!-- Setting TRY-CATCH task -->
-		<taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
-			<classpath>
-				<fileset dir="${util.dir}/ant">
-					<include name="antcontrib.jar" />
-				</fileset>
-			</classpath>
-		</taskdef>
-   
-      
-      <!-- Setting for IF task -->
-      <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
-         <classpath>
-            <fileset dir="${util.dir}/ant">
-               <include name="antcontrib.jar" />
-            </fileset>
-         </classpath>
-      </taskdef>
-
-      <filterset id="Filter_input">
-         <filter token="JAR_NAME" value="${app.name}" />
-         <filter token="VERSION" value="${version}" />
-         <filter token="RELEASE" value="${release}" />
-      </filterset>
-
-   </target>
-
-   <target name="init-post" depends="init">
-
-      <!-- Build directory -->
-      <property name="build.dir" location="${output.dir}/${app.name}-${version}-${release}" />
-
-      <!-- Distribution directories -->
-      <property name="dist.dir" location="${basedir}/distribution/${app.name}-${version}-${release}" />
-
-      <!-- Set the directories -->
-      <property name="dist.community.dir" location="${dist.dir}/community" />
-      <property name="dist.customers.dir" location="${dist.dir}/customers" />
-      <property name="dist.dependencies.dir" location="${dist.dir}/dependencies" />
-      <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
-      <property name="dist.internal.dir" location="${dist.dir}/internal" />
-      <property name="dist.doc.dir" location="${dist.dir}/documentation" />
-      <property name="dist.screenshots.dir" location="${dist.dir}/screenshots" />
-
-
-      <!-- Build directory -->
-      <property name="output.lib.dir" location="${build.dir}/lib" />
-      <property name="output.doc.dir" location="${build.dir}/doc" />
-      <property name="bin.dir" location="${build.dir}/bin" />
-      <property name="dist.bin.dir" location="${build.dir}/dist/bin" />
    </target>
 
    <!-- ==================================================================== -->
@@ -137,7 +134,7 @@
    <!-- ==================================================================== -->
    <!-- Prepare target                                                       -->
    <!-- ==================================================================== -->
-   <target name="prepare" depends="versionRead, init-post">
+   <target name="prepare" depends="versionRead, init">
       <mkdir dir="${output.lib.dir}" />
       <mkdir dir="${bin.dir}" />
       <mkdir dir="${dist.bin.dir}" />
@@ -228,7 +225,7 @@
    <!-- ==================================================================== -->
    <!-- Builds DocBook Documentation                                         -->
    <!-- ==================================================================== -->
-   <target name="buildDoc" depends="init-post">
+   <target name="buildDoc" depends="init">
       <ant dir="${doc.dir}" target="buildDocBook" />
    </target>
 
@@ -431,6 +428,8 @@ make distributions       - Builds and configures TWE with all documentations and
    </target>
 
    <target name="distZIPEXE">
+      <property name="dist.folder" value="${dist.community.dir}" />
+      <property name="name.additional" value=""/>
       <if>
          <istrue value="${rebranding}" />
          <then>
@@ -525,6 +524,12 @@ make distributions       - Builds and configures TWE with all documentations and
       <copy todir="${dist.internal.dir}">
          <fileset dir="${build.dir}" includes="BuildID.txt" />
       </copy>
+      <copy todir="${dist.community.dir}">
+         <filterset refid="Filter_input" />
+         <fileset dir="${basedir}/installation/Windows/install/Modern UI" includes="twe-silent.properties" />
+      </copy>
+      <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
+      
    </target>
 
    <!-- ==================================================================== -->
@@ -561,7 +566,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Windows source distribution                                          -->
    <!-- ==================================================================== -->
-   <target name="distSourceWindows" depends="init-post">
+   <target name="distSourceWindows" depends="init">
       <delete quiet="true">
          <fileset dir="${basedir}" includes="**/*.bak" />
       </delete>
@@ -608,7 +613,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix source distribution                                             -->
    <!-- ==================================================================== -->
-   <target name="distSourceUnix" depends="init-post">
+   <target name="distSourceUnix" depends="init">
       <!-- delete binary build preparations -->
       <delete quiet="true">
          <fileset dir="${basedir}" includes="**/*.bak" />
@@ -692,7 +697,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
    </target>
 
-   <target name="signexe" depends="init-post" unless="${rebranding}">
+   <target name="signexe" depends="init" unless="${rebranding}">
       <trycatch description="try-catch">
          <try>
             <exec executable="${sign.tool}">
@@ -716,7 +721,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </trycatch>
    </target>
 
-   <target name="signem" depends="init-post">
+   <target name="signem" depends="init">
       <echo message="Signing with Together certificate" />
       <trycatch description="try-catch">
          <try>        
