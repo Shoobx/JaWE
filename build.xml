@@ -546,7 +546,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
       
       <antcall target="debug"/>
-      <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.zip" update="true">
+      <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
          <zipfileset dir="${build.dir}" includes="**/lib/twe*.jar" excludes="**/lib/twedoc.jar,**/lib/tweactivityicons.jar" prefix="${app.name}-${version}-${release}" />
       </zip>
    </target>
