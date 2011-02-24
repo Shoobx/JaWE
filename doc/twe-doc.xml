@@ -9898,6 +9898,12 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para>The project distribution now also contains debug folder with TWE JAR files that include DEBUG information.</para>
         </listitem>
+        <listitem>
+          <para>Fixed bug with copying processes/activity sets from "transient" packages</para>
+        </listitem>
+        <listitem>
+          <para>Fixed: not creating unnecessary NodeGraphicsInfo element for Pools when process/activity set gets copied</para>
+        </listitem>
       </itemizedlist>
     </section>
 

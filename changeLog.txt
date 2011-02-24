@@ -1,3 +1,7 @@
+2011-02-24 Sasa Bojanic <sasaboy@together.at>
+   # Fixed bug with copying processes/activity sets from "transient" packages
+   # Fixed: not creating unnecessary NodeGraphicsInfo element for Pools when process/activity set gets copied
+   
 2011-02-23 Sasa Bojanic <sasaboy@together.at>
    # The build.debug property removed from build.properties file, new build target "debug" introduced 
      to build TWE JAR files with DEBUG information in the classes

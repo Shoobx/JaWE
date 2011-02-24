@@ -2379,7 +2379,9 @@ public class GraphUtilities {
       while (it.hasNext()) {
          WorkflowProcess wp = (WorkflowProcess) it.next();
          Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForProcess(wp);
-         GraphUtilities.createNodeGraphicsInfo(p, null, null, true);
+         if (JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(p)==null) {
+            GraphUtilities.createNodeGraphicsInfo(p, null, null, true);
+         }
 
          // GraphUtilities.scanExtendedAttributesForWPOrAs(wp, false);
          graphController.createGraph(wp);
@@ -2387,7 +2389,9 @@ public class GraphUtilities {
          while (asi.hasNext()) {
             ActivitySet as = (ActivitySet) asi.next();
             p = JaWEManager.getInstance().getXPDLUtils().getPoolForActivitySet(as);
-            GraphUtilities.createNodeGraphicsInfo(p, null, null, true);
+            if (JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(p)==null) {
+               GraphUtilities.createNodeGraphicsInfo(p, null, null, true);
+            }
             // GraphUtilities.scanExtendedAttributesForWPOrAs(as, false);
             graphController.createGraph(as);
          }

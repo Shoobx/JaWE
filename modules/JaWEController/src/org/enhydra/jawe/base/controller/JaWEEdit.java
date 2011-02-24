@@ -21,7 +21,6 @@
  */
 package org.enhydra.jawe.base.controller;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,13 +28,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
@@ -55,6 +47,7 @@ import org.enhydra.jxpdl.elements.Artifact;
 import org.enhydra.jxpdl.elements.Artifacts;
 import org.enhydra.jxpdl.elements.Association;
 import org.enhydra.jxpdl.elements.Associations;
+import org.enhydra.jxpdl.elements.BlockActivity;
 import org.enhydra.jxpdl.elements.Lane;
 import org.enhydra.jxpdl.elements.Lanes;
 import org.enhydra.jxpdl.elements.NestedLane;
@@ -67,8 +60,6 @@ import org.enhydra.jxpdl.elements.Transition;
 import org.enhydra.jxpdl.elements.Transitions;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.elements.WorkflowProcesses;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 /**
  * @author Miroslav Popov
@@ -122,71 +113,42 @@ public class JaWEEdit {
          XMLElement cloned = JaWEManager.getInstance()
             .getXPDLObjectFactory()
             .duplicateXPDLObject(col, el);
-         Pools ps = null;
-         Pool twin = null;
+         List pools2Add = new ArrayList();
          List arts = new ArrayList();
          List assocs = new ArrayList();
          if (cloned instanceof ActivitySet || cloned instanceof WorkflowProcess) {
-            Pool p = XMLUtil.getPoolForProcessOrActivitySet((XMLCollectionElement) el);
-            ps = (Pools) p.getParent();
-            String oldid = p.getId();
-            twin = (Pool) JaWEManager.getInstance()
-               .getXPDLObjectFactory()
-               .makeIdenticalXPDLObject(ps, p);
-            String id = JaWEManager.getInstance()
-               .getIdFactory()
-               .generateSimilarOrIdenticalUniqueId(ps, new HashSet(), oldid);
-            twin.setId(id);
-            String newId = ((XMLCollectionElement) cloned).getId();
-            if (newId != null) {
-               twin.setProcess(newId);
-            }
-            List artsAndAssocs = XMLUtil.getAllArtifactsAndAssociationsForWorkflowProcessOrActivitySet((XMLCollectionElement) el);
-            Set sids = new HashSet();
-            Map artIdMappings = new HashMap();
-            for (int i = 0; i < artsAndAssocs.size(); i++) {
-               XMLCollectionElement artOrAsoc = (XMLCollectionElement) artsAndAssocs.get(i);
-               XMLCollection parent = (XMLCollection) artOrAsoc.getParent();
-               String oldaid = artOrAsoc.getId();
-               XMLCollectionElement atwin = (XMLCollectionElement) JaWEManager.getInstance()
-                  .getXPDLObjectFactory()
-                  .makeIdenticalXPDLObject(parent, artOrAsoc);
-               String aid = JaWEManager.getInstance()
-                  .getIdFactory()
-                  .generateSimilarOrIdenticalUniqueId((XMLCollection) artOrAsoc.getParent(),
-                                                      sids,
-                                                      oldaid);
-               sids.add(aid);
-               atwin.setId(aid);
-               atwin.setReadOnly(false);
-               if (atwin instanceof Artifact) {
-                  arts.add(atwin);
-                  artIdMappings.put(oldaid, (Artifact) atwin);
-               }
-               if (atwin instanceof Association) {
-                  assocs.add(atwin);
-               }
-            }
-            for (int i = 0; i < assocs.size(); i++) {
-               Association a = (Association) assocs.get(i);
-               if (artIdMappings.containsKey(a.getSource())) {
-                  Artifact art = (Artifact) artIdMappings.get(a.getSource());
-                  a.setSource(art.getId());
-               }
-               if (artIdMappings.containsKey(a.getTarget())) {
-                  Artifact art = (Artifact) artIdMappings.get(a.getTarget());
-                  a.setTarget(art.getId());
-               }
-            }
-
+            Map wpasPoolMapping = new HashMap();
+            prepareWorkflowProcessOrActivitySetForDuplicate((XMLCollectionElement) el,
+                                                            (XMLCollectionElement) cloned,
+                                                            arts,
+                                                            assocs,
+                                                            wpasPoolMapping,
+                                                            pools2Add);
             duplicateWorkflowProcessOrActivitySetContext((XMLCollectionElement) cloned,
-                                                         twin,
+                                                         wpasPoolMapping,
                                                          arts,
                                                          assocs);
+            if (cloned instanceof WorkflowProcess) {
+               Iterator asi = ((WorkflowProcess) cloned).getActivitySets()
+                  .toElements()
+                  .iterator();
+               while (asi.hasNext()) {
+                  ActivitySet as = (ActivitySet) asi.next();
+                  duplicateWorkflowProcessOrActivitySetContext(as,
+                                                               wpasPoolMapping,
+                                                               arts,
+                                                               assocs);
+               }
+
+            }
+
          }
          jc.startUndouableChange();
-         if (ps != null) {
-            ps.add(twin);
+         if (pools2Add.size() > 0) {
+            Pools ps = XMLUtil.getPackage(el).getPools();
+            for (int i = 0; i < pools2Add.size(); i++) {
+               ps.add((Pool) pools2Add.get(i));
+            }
          }
 
          Artifacts ac = XMLUtil.getPackage(el).getArtifacts();
@@ -305,7 +267,7 @@ public class JaWEEdit {
          XMLElement copied = (XMLElement) it.next();
          if (copied instanceof Pool) {
             pools.add(copied);
-            poolsCollection = (Pools) copied.getParent();
+            poolsCollection = XMLUtil.getPackage(firstSelected).getPools();
             continue;
          }
          destCollection = null;
@@ -313,13 +275,17 @@ public class JaWEEdit {
          // System.err.println("Searching for dest collection for el
          // "+copied.getClass()+", firstSelected="+firstSelected.getClass());
          if (copied instanceof Artifact) {
-            destCollection = artsCollection = (Artifacts) copied.getParent();
+            destCollection = artsCollection = XMLUtil.getPackage(firstSelected)
+               .getArtifacts();
          } else if (copied instanceof Association) {
-            destCollection = assocsCollection = (Associations) copied.getParent();
+            destCollection = assocsCollection = XMLUtil.getPackage(firstSelected)
+               .getAssociations();
          } else if (copied instanceof WorkflowProcess) {
-            destCollection = wpCollection = (WorkflowProcesses) copied.getParent();
+            destCollection = wpCollection = XMLUtil.getPackage(firstSelected)
+               .getWorkflowProcesses();
          } else if (copied instanceof ActivitySet) {
-            destCollection = asCollection = (ActivitySets) copied.getParent();
+            destCollection = asCollection = XMLUtil.getWorkflowProcess(firstSelected)
+               .getActivitySets();
          } else if (parent.getClass() == firstSelected.getClass()) {
             // System.err.println("Dest coll found -> 1");
             destCollection = (XMLCollection) firstSelected;
@@ -388,22 +354,22 @@ public class JaWEEdit {
             String id = JaWEManager.getInstance()
                .getIdFactory()
                .generateSimilarOrIdenticalUniqueId(destCol, sids, oldid);
-//            if (!oldid.equals(id)) {
-               if (cel instanceof WorkflowProcess) {
-                  wpIdMapping.put(oldid, id);
-               }
-               if (cel instanceof ActivitySet) {
-                  asIdMapping.put(oldid, id);
-               }
-               if (cel instanceof Activity) {
-                  actIdMappings.put(oldid, cel);
-               }
-               if (cel instanceof Artifact) {
-                  artIdMappings.put(oldid, cel);
-               }
-               cel.setId(id);
-               sids.add(id);
-//            }
+            // if (!oldid.equals(id)) {
+            if (cel instanceof WorkflowProcess) {
+               wpIdMapping.put(oldid, id);
+            }
+            if (cel instanceof ActivitySet) {
+               asIdMapping.put(oldid, id);
+            }
+            if (cel instanceof Activity) {
+               actIdMappings.put(oldid, cel);
+            }
+            if (cel instanceof Artifact) {
+               artIdMappings.put(oldid, cel);
+            }
+            cel.setId(id);
+            sids.add(id);
+            // }
          }
          duplicatedElements.add(twin);
       }
@@ -418,7 +384,8 @@ public class JaWEEdit {
             .makeIdenticalXPDLObject(ps, p);
          String id = JaWEManager.getInstance()
             .getIdFactory()
-            .generateSimilarOrIdenticalUniqueId(ps, skipIds, oldid);
+            .generateSimilarOrIdenticalUniqueId(poolsCollection, skipIds, oldid);
+         twin.setParent(poolsCollection);
          twin.setId(id);
          skipIds.add(id);
          String newId = (String) wpIdMapping.get(twin.getProcess());
@@ -428,6 +395,8 @@ public class JaWEEdit {
             newId = (String) asIdMapping.get(twin.getProcess());
             if (newId != null) {
                twin.setProcess(newId);
+            } else {
+               newId = twin.getProcess();
             }
          }
          duplicatedElements.add(twin);
@@ -470,10 +439,24 @@ public class JaWEEdit {
       while (it.hasNext()) {
          XMLElement el = (XMLElement) it.next();
          if (el instanceof ActivitySet || el instanceof WorkflowProcess) {
+            el.setParent(destCollection);
             duplicateWorkflowProcessOrActivitySetContext((XMLCollectionElement) el,
-                                                         (Pool) wpasPoolMapping.get(((XMLCollectionElement) el).getId()),
+                                                         wpasPoolMapping,
                                                          arts,
                                                          assocs);
+            if (el instanceof WorkflowProcess) {
+               Iterator asi = ((WorkflowProcess) el).getActivitySets()
+                  .toElements()
+                  .iterator();
+               while (asi.hasNext()) {
+                  ActivitySet as = (ActivitySet) asi.next();
+                  duplicateWorkflowProcessOrActivitySetContext(as,
+                                                               wpasPoolMapping,
+                                                               arts,
+                                                               assocs);
+               }
+
+            }
          }
       }
 
@@ -562,29 +545,119 @@ public class JaWEEdit {
          twinElements.add(twin);
          if (twin instanceof WorkflowProcess || twin instanceof ActivitySet) {
             XMLCollectionElement wpOrAs = (XMLCollectionElement) twin;
-            Pool p = JaWEManager.getInstance()
-               .getXPDLUtils()
-               .getPoolForProcessOrActivitySet(wpOrAs);
-            parent = (XMLCollection) p.getParent();
-            twin = JaWEManager.getInstance()
-               .getXPDLObjectFactory()
-               .makeIdenticalXPDLObject(parent, p);
-            twin.setReadOnly(false);
-            ((Pool) twin).setProcess(wpOrAs.getId());
-            twinElements.add(twin);
-            List artsAndAssocs = XMLUtil.getAllArtifactsAndAssociationsForWorkflowProcessOrActivitySet(wpOrAs);
-            for (int i = 0; i < artsAndAssocs.size(); i++) {
-               XMLCollectionElement artOrAsoc = (XMLCollectionElement) artsAndAssocs.get(i);
-               parent = (XMLCollection) artOrAsoc.getParent();
-               twin = JaWEManager.getInstance()
-                  .getXPDLObjectFactory()
-                  .makeIdenticalXPDLObject(parent, artOrAsoc);
-               twin.setReadOnly(false);
-               twinElements.add(twin);
-            }
+            prepareWorkflowProcessOrActivitySetForPaste(wpOrAs, twinElements);
          }
       }
       clipboard = new ArrayList(twinElements);
+   }
+
+   protected void prepareWorkflowProcessOrActivitySetForDuplicate(XMLCollectionElement wpOrAs,
+                                                                  XMLCollectionElement cloned,
+                                                                  List arts,
+                                                                  List assocs,
+                                                                  Map wpasPoolMapping,
+                                                                  List pools2Add) {
+      Pool p = XMLUtil.getPoolForProcessOrActivitySet(wpOrAs);
+      Pools ps = (Pools) p.getParent();
+      String oldid = p.getId();
+      Pool twin = (Pool) JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .makeIdenticalXPDLObject(ps, p);
+      String id = JaWEManager.getInstance()
+         .getIdFactory()
+         .generateSimilarOrIdenticalUniqueId(ps, new HashSet(), oldid);
+      twin.setId(id);
+      String newId = ((XMLCollectionElement) cloned).getId();
+      if (newId != null) {
+         twin.setProcess(newId);
+      }
+      List artsAndAssocs = XMLUtil.getAllArtifactsAndAssociationsForWorkflowProcessOrActivitySet(wpOrAs);
+      Set sids = new HashSet();
+      Map artIdMappings = new HashMap();
+      for (int i = 0; i < artsAndAssocs.size(); i++) {
+         XMLCollectionElement artOrAsoc = (XMLCollectionElement) artsAndAssocs.get(i);
+         XMLCollection parent = (XMLCollection) artOrAsoc.getParent();
+         String oldaid = artOrAsoc.getId();
+         XMLCollectionElement atwin = (XMLCollectionElement) JaWEManager.getInstance()
+            .getXPDLObjectFactory()
+            .makeIdenticalXPDLObject(parent, artOrAsoc);
+         String aid = JaWEManager.getInstance()
+            .getIdFactory()
+            .generateSimilarOrIdenticalUniqueId((XMLCollection) artOrAsoc.getParent(),
+                                                sids,
+                                                oldaid);
+         sids.add(aid);
+         atwin.setId(aid);
+         atwin.setReadOnly(false);
+         if (atwin instanceof Artifact) {
+            arts.add(atwin);
+            artIdMappings.put(oldaid, (Artifact) atwin);
+         }
+         if (atwin instanceof Association) {
+            assocs.add(atwin);
+         }
+      }
+      for (int i = 0; i < assocs.size(); i++) {
+         Association a = (Association) assocs.get(i);
+         if (artIdMappings.containsKey(a.getSource())) {
+            Artifact art = (Artifact) artIdMappings.get(a.getSource());
+            a.setSource(art.getId());
+         }
+         if (artIdMappings.containsKey(a.getTarget())) {
+            Artifact art = (Artifact) artIdMappings.get(a.getTarget());
+            a.setTarget(art.getId());
+         }
+      }
+
+      wpasPoolMapping.put(cloned.getId(), twin);
+      if (wpOrAs instanceof WorkflowProcess) {
+         Iterator asi = ((WorkflowProcess) wpOrAs).getActivitySets()
+            .toElements()
+            .iterator();
+         while (asi.hasNext()) {
+            ActivitySet as = (ActivitySet) asi.next();
+            prepareWorkflowProcessOrActivitySetForDuplicate(as,
+                                                            as,
+                                                            arts,
+                                                            assocs,
+                                                            wpasPoolMapping,
+                                                            pools2Add);
+         }
+      }
+      pools2Add.add(twin);
+   }
+
+   protected void prepareWorkflowProcessOrActivitySetForPaste(XMLCollectionElement wpOrAs,
+                                                              List twinElements) {
+      Pool p = JaWEManager.getInstance()
+         .getXPDLUtils()
+         .getPoolForProcessOrActivitySet(wpOrAs);
+      XMLCollection parent = (XMLCollection) p.getParent();
+      XMLElement twin = JaWEManager.getInstance()
+         .getXPDLObjectFactory()
+         .makeIdenticalXPDLObject(parent, p);
+      twin.setReadOnly(false);
+      ((Pool) twin).setProcess(wpOrAs.getId());
+      twinElements.add(twin);
+      List artsAndAssocs = XMLUtil.getAllArtifactsAndAssociationsForWorkflowProcessOrActivitySet(wpOrAs);
+      for (int i = 0; i < artsAndAssocs.size(); i++) {
+         XMLCollectionElement artOrAsoc = (XMLCollectionElement) artsAndAssocs.get(i);
+         parent = (XMLCollection) artOrAsoc.getParent();
+         twin = JaWEManager.getInstance()
+            .getXPDLObjectFactory()
+            .makeIdenticalXPDLObject(parent, artOrAsoc);
+         twin.setReadOnly(false);
+         twinElements.add(twin);
+      }
+      if (wpOrAs instanceof WorkflowProcess) {
+         Iterator asi = ((WorkflowProcess) wpOrAs).getActivitySets()
+            .toElements()
+            .iterator();
+         while (asi.hasNext()) {
+            ActivitySet as = (ActivitySet) asi.next();
+            prepareWorkflowProcessOrActivitySetForPaste(as, twinElements);
+         }
+      }
    }
 
    public void clear() {
@@ -615,11 +688,11 @@ public class JaWEEdit {
    }
 
    protected List duplicateWorkflowProcessOrActivitySetContext(XMLCollectionElement wpOrAs,
-                                                               Pool p,
+                                                               Map wpasPoolMapping,
                                                                List duplArtifacts,
                                                                List duplAssocs) {
       List duplicates = new ArrayList();
-
+      Pool p = (Pool) wpasPoolMapping.get(((XMLCollectionElement) wpOrAs).getId());
       Set skipActIds = new HashSet();
       Set skipTransIds = new HashSet();
 
@@ -666,7 +739,10 @@ public class JaWEEdit {
          Iterator ngit = a.getNodeGraphicsInfos().toElements().iterator();
          while (ngit.hasNext()) {
             NodeGraphicsInfo ngi = (NodeGraphicsInfo) ngit.next();
-            ngi.setLaneId((String) lnIdMapping.get(ngi.getLaneId()));
+            String mappedId = (String) lnIdMapping.get(ngi.getLaneId());
+            if (mappedId != null) {
+               ngi.setLaneId(mappedId);
+            }
          }
       }
 
@@ -729,6 +805,31 @@ public class JaWEEdit {
          }
       }
 
+      if (wpOrAs instanceof WorkflowProcess) {
+         Iterator asi = ((WorkflowProcess) wpOrAs).getActivitySets()
+            .toElements()
+            .iterator();
+         while (asi.hasNext()) {
+            ActivitySet as = (ActivitySet) asi.next();
+            List refs = XMLUtil.getActivitySetReferences((WorkflowProcess) wpOrAs,
+                                                         as.getId());
+            String id = JaWEManager.getInstance()
+               .getIdFactory()
+               .generateSimilarOrIdenticalUniqueId((ActivitySets) as.getParent(),
+                                                   new HashSet(),
+                                                   as.getId());
+            p = (Pool) wpasPoolMapping.remove(as.getId());
+            as.setId(id);
+            p.setProcess(id);
+            for (int i = 0; i < refs.size(); i++) {
+               XMLElement ref = (XMLElement) refs.get(i);
+               if (ref instanceof BlockActivity) {
+                  ((BlockActivity) ref).setActivitySetId(id);
+               }
+            }
+            wpasPoolMapping.put(id, p);
+         }
+      }
       return duplicates;
    }
 
