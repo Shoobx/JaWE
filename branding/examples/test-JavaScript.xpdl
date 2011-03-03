@@ -1100,7 +1100,7 @@
                     <xpdl:Implementation>
                         <xpdl:Tool Id="send_mail2" Type="APPLICATION">
                             <xpdl:ActualParameters>
-                                <xpdl:ActualParameter>"shark@together.at"</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>"shark@togetherteam.co.th"</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>destination_address</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>subject</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>txt_msg</xpdl:ActualParameter>
@@ -2929,7 +2929,7 @@
                     <xpdl:Implementation>
                         <xpdl:Tool Id="send_mail2" Type="APPLICATION">
                             <xpdl:ActualParameters>
-                                <xpdl:ActualParameter>"shark@together.at"</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>"shark@togetherteam.co.th"</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>mail_address</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>"Mail handling process sucessfully finished"</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>"Mail Handling process is sucessfully finished after "+loop_cnt+" iterations."</xpdl:ActualParameter>

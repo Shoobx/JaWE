@@ -324,7 +324,7 @@
       <para>Please help us to improve future editions of this book by
       reporting any errors, inaccuracies, bugs, misleading or confusing
       statements, and plain old typos that you find. Email your findings to
-      <ulink url="mailto:twe@together.at">twe@together.at</ulink>.
+      <ulink url="mailto:twe@together.at">twe@togetherteam.co.th</ulink>.
       Thanks.</para>
     </sect1>
 
@@ -9892,6 +9892,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para>Added "silent" installation possibility</para>
         </listitem>
+        
+        <listitem>
+          <para>Occurrence of twe@together.at in various source files changed to twe@togetherteam.co.th</para>
+        </listitem>
+
         <listitem>
           <para>The build.debug property removed from build.properties file, new build target "debug" introduced to build TWE JAR files with DEBUG information in the classes</para>
         </listitem>

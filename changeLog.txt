@@ -1,3 +1,6 @@
+2011-03-03 Sasa Bojanic <sasaboy@together.at>
+   # Occurrence of twe@together.at in various source files changed to twe@togetherteam.co.th
+
 2011-02-24 Sasa Bojanic <sasaboy@together.at>
    # Fixed bug with copying processes/activity sets from "transient" packages
    # Fixed: not creating unnecessary NodeGraphicsInfo element for Pools when process/activity set gets copied

@@ -661,7 +661,7 @@ d;</xpdl:DeadlineCondition>
                     <xpdl:Implementation>
                         <xpdl:Tool Id="send_mail" Type="APPLICATION">
                             <xpdl:ActualParameters>
-                                <xpdl:ActualParameter>"tws@together.at"</xpdl:ActualParameter>
+                                <xpdl:ActualParameter>"tws@togetherteam.co.th"</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>email_address</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>if (approved_by_personnel) { "Your leave request is approved!"} else {"Your leave request is declined!"}</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>msgTxt</xpdl:ActualParameter>

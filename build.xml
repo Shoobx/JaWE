@@ -141,9 +141,11 @@
    <!-- ==================================================================== -->
    <!-- Build binaries                                                       -->
    <!-- ==================================================================== -->
-   <target name="debug" depends="cleanClasses, setDebug">
+   <target name="_debug" depends="cleanClasses, setDebug">
       <ant dir="${modules.dir}" />
    </target>
+
+   <target name="debug" depends="clean, _debug"/>
 
    <target name="output" depends="prepare">
       <ant dir="${modules.dir}" />
@@ -545,7 +547,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </copy>
       <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
       
-      <antcall target="debug"/>
+      <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
          <zipfileset dir="${build.dir}" includes="**/lib/twe*.jar" excludes="**/lib/twedoc.jar,**/lib/tweactivityicons.jar" prefix="${app.name}-${version}-${release}" />
       </zip>
