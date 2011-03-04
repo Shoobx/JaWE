@@ -9886,6 +9886,10 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
+          <para>Docbook upgraded to version 1.76.1</para>
+        </listitem>
+
+        <listitem>
           <para>Fixed "Save as PDF" action bug</para>
         </listitem>
 

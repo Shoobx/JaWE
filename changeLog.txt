@@ -1,3 +1,6 @@
+2011-03-04 Sasa Bojanic <sasaboy@together.at>
+   # Docbook upgraded to version 1.76.1
+
 2011-03-03 Sasa Bojanic <sasaboy@together.at>
    # Occurrence of twe@together.at in various source files changed to twe@togetherteam.co.th
 
