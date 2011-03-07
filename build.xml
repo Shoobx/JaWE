@@ -249,7 +249,9 @@
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
-   <target name="buildOutput" depends="output, buildDocJar"/>
+   <target name="buildOutput" depends="output">
+      <ant dir="${doc.dir}" target="buildDocJar" />
+   </target>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
