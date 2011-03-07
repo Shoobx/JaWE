@@ -249,7 +249,7 @@
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
-   <target name="buildOutput" depends="output, buildAllDoc"/>
+   <target name="buildOutput" depends="output, buildDocJar"/>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
@@ -360,10 +360,10 @@ make distributions       - Builds and configures TWE with all documentations and
       </copy>
       <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
       <zip destfile="${dist.dependencies.dir}/tws/${app.name}.zip" update="true">
-         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/*.sh.in,**/*.sh" />
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/*.sh.in,**/*.sh, **/doc/api/**" />
       </zip>
       <tar destfile="${dist.dependencies.dir}/tws/${app.name}.tar">
-         <tarfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/*.bat.in,**/*.bat"/>
+         <tarfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/*.bat.in,**/*.bat,**/doc/api/**"/>
       </tar>
 
       <gzip zipfile="${dist.dependencies.dir}/tws/${app.name}.tar.gz" src="${dist.dependencies.dir}/tws/${app.name}.tar" />
@@ -380,7 +380,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </copy>
       <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
       <zip destfile="${dist.dependencies.dir}/tas/${app.name}.zip" update="true">
-         <zipfileset dir="${build.dir}" />
+         <zipfileset dir="${build.dir}" excludes="**/doc/api/**" />
       </zip>
    </target>
 
@@ -461,7 +461,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <!-- Create binary ZIP distribution -->
       <echo message="Creating ${app.name}-${name.additional}${version}-${release}.zip binary archive, please wait ..." />
       <zip destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.zip" update="true">
-         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" />
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**"/>
       </zip>
       
       <!-- TWE setup EXE -->
@@ -566,7 +566,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </delete>
       <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
       <tar destfile="${dist.folder}/${app.name}-${version}-${release}.src.tar">
-         <tarfileset dir="${basedir}" prefix="${app.name}-${version}" />
+         <tarfileset dir="${basedir}" prefix="${app.name}-${version}" excludes="**/doc/api/**"/>
       </tar>
       <gzip zipfile="${dist.folder}/${app.name}-${version}-${release}.src.tar.gz" src="${dist.folder}/${app.name}-${version}-${release}.src.tar" />
       <delete file="${dist.folder}/${app.name}-${version}-${release}.src.tar" quiet="true" />

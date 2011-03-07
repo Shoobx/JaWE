@@ -206,7 +206,15 @@ Section Install
   SetShellVarContext all
   SetOutPath "$INSTDIR"
   ;File /r ".\..\..\..\prepare\*.*"
-  File /r ${TWE_DIR}\*
+  File ${TWE_DIR}\*.*
+  File /r ${TWE_DIR}\bin
+  File /r ${TWE_DIR}\config
+  File /r ${TWE_DIR}\dist
+  File /r /x api ${TWE_DIR}\doc
+  File /r ${TWE_DIR}\examples
+  File /r ${TWE_DIR}\lib
+  File /r ${TWE_DIR}\licenses
+  
   
   !ifndef INNER
 ;	  SetOutPath ${INSTDIR}

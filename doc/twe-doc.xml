@@ -9908,6 +9908,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <para>The project distribution now also contains debug folder with TWE JAR files that include DEBUG information.</para>
         </listitem>
         <listitem>
+          <para>Not packaging Java API documentation into distribution zip/tar.gz/exe/rpm files</para>
+        </listitem>
+        <listitem>
           <para>Fixed bug with copying processes/activity sets from "transient" packages</para>
         </listitem>
         <listitem>
