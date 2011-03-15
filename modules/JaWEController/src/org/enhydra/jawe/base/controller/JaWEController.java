@@ -52,6 +52,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.enhydra.jawe.BarFactory;
+import org.enhydra.jawe.BuildInfo;
 import org.enhydra.jawe.ChoiceButton;
 import org.enhydra.jawe.ChoiceButtonListener;
 import org.enhydra.jawe.JaWEComponent;
@@ -110,7 +111,6 @@ import org.enhydra.jxpdl.elements.Namespace;
 import org.enhydra.jxpdl.elements.Namespaces;
 import org.enhydra.jxpdl.elements.NestedLane;
 import org.enhydra.jxpdl.elements.NestedLanes;
-import org.enhydra.jxpdl.elements.No;
 import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
 import org.enhydra.jxpdl.elements.NodeGraphicsInfos;
 import org.enhydra.jxpdl.elements.Package;
@@ -123,7 +123,6 @@ import org.enhydra.jxpdl.elements.Pools;
 import org.enhydra.jxpdl.elements.Responsible;
 import org.enhydra.jxpdl.elements.Responsibles;
 import org.enhydra.jxpdl.elements.Split;
-import org.enhydra.jxpdl.elements.TaskApplication;
 import org.enhydra.jxpdl.elements.TaskTypes;
 import org.enhydra.jxpdl.elements.Transition;
 import org.enhydra.jxpdl.elements.TransitionRef;
@@ -390,11 +389,8 @@ public class JaWEController extends Observable implements
          changed = true;
       }
 
-      String verInfo = JaWEManager.getVersion() + "-" + JaWEManager.getRelease() + "-"
-      /*
-       * + JaWEManager.getBuildEdition() + JaWEManager.getBuildEditionSuffix() + "-"
-       */
-      + JaWEManager.getBuildNo();
+      String verInfo = BuildInfo.getVersion()
+                       + "-" + BuildInfo.getRelease() + "-" + BuildInfo.getBuildNo();
       if (!JaWEEAHandler.getEditingToolVersion(pkg).equals(verInfo)) {
          JaWEEAHandler.setEditingToolVersion(pkg, verInfo);
          changed = true;
@@ -780,7 +776,9 @@ public class JaWEController extends Observable implements
       Iterator it = xpdlListenerObservables.iterator();
       while (it.hasNext()) {
          XPDLListenerAndObservable xpdl = (XPDLListenerAndObservable) it.next();
-         if (xpdl.getPackage() != null && !xpdl.getPackage().isReadOnly() && xpdl.getPackage().getId().equals(xpdlId)) {
+         if (xpdl.getPackage() != null
+             && !xpdl.getPackage().isReadOnly()
+             && xpdl.getPackage().getId().equals(xpdlId)) {
             return xpdl.isModified();
          }
       }
@@ -2331,8 +2329,8 @@ public class JaWEController extends Observable implements
                                + ",CSUB=" + info.getChangedSubElements());
             Activity act = XMLUtil.getActivity(changedElement);
             Performer perf = act.getFirstPerformerObj();
-            if (act.getActivityType()==XPDLConstants.ACTIVITY_TYPE_NO || 
-                  act.getActivityType()==XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+            if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
+                || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
                if (perf == null) {
                   perf = act.createFirstPerformerObj();
                   String lId = JaWEManager.getInstance().getXPDLUtils().getLaneId(act);
@@ -2549,7 +2547,7 @@ public class JaWEController extends Observable implements
    public JaWEFrame getJaWEFrame() {
       return frame;
    }
-   
+
    public void adjustActions() {
       settings.adjustActions();
       defaultJaWEActions.enableDisableActions();
@@ -2566,8 +2564,7 @@ public class JaWEController extends Observable implements
       }
 
       title += JaWEManager.getInstance().getName()
-               + " " + JaWEManager.getInstance().getVersion() + "-"
-               + JaWEManager.getInstance().getRelease();
+               + " " + BuildInfo.getVersion() + "-" + BuildInfo.getRelease();
 
       String ccn = getCurrentConfigName();
       if (ccn == null) {

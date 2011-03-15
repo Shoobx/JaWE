@@ -87,16 +87,6 @@ public class JaWEManager {
 
    protected static Properties properties;
 
-   protected static String version;
-
-   protected static String release;
-
-   protected static String buildNo;
-
-   protected static String buildEd;
-
-   protected static String buildEdSuff;
-
    protected ComponentManager componentManager;
 
    protected LabelGenerator labelGenerator;
@@ -147,12 +137,6 @@ public class JaWEManager {
    protected static JaWEManager jaweManager;
 
    protected JaWEManager() {
-      version = BuildInfo.getVersion();
-      release = BuildInfo.getRelease();
-      buildNo = BuildInfo.getBuildNo();
-      buildEdSuff = BuildInfo.getJRESuffix();
-
-      buildEd = "C";
       splash = "org/enhydra/jawe/images/JaWESplash.jpg";
       aboutMsg = " Visit <a href=\"http://www.together.at/prod/workflow/twe\">Together Workflow Editor Homepage</a>"
                  + " for more <br>information about the product."
@@ -850,26 +834,6 @@ public class JaWEManager {
       }
 
       jaweController.showJaWEFrame();
-   }
-
-   public static String getBuildNo() {
-      return buildNo;
-   }
-
-   public static String getBuildEdition() {
-      return buildEd;
-   }
-
-   public static String getBuildEditionSuffix() {
-      return buildEdSuff;
-   }
-
-   public static String getVersion() {
-      return version;
-   }
-
-   public static String getRelease() {
-      return release;
    }
 
    public static String getFontName() {

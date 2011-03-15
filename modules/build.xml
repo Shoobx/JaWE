@@ -121,7 +121,6 @@
 			<entry key="version" value="${version}" />
 			<entry key="release" value="${release}" />
 			<entry key="buildno" value="${build.timestamp}" />
-			<entry key="jresuff" value="" />
 		</propertyfile>
 
 

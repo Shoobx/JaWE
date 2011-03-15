@@ -221,7 +221,7 @@ Section Install
 	  File $%TEMP%\uninstall.exe
   !endif
 
-  StrCpy $1 $TEMP1
+  StrCpy $1 $JAVAHOME
   ; replace char '\' with char '/' at JDK directory string
   Push "$1"
   Push "\"
@@ -414,42 +414,41 @@ Function .onInit
     StrCmp $R0 "create.start.menu.entry" setsmentry
     StrCmp $R0 "create.desktop.icon" setdicon
 
-  Goto loop
+    Goto loop
   setinstdir:
     StrCpy $INSTDIR $R1
     Goto loop
   setjdkdir:
-    StrCpy $JAVAHOME $R1
-    Goto loop
+    IfFileExists $R1\bin\javaw.exe followJDK recallJava
+      recallJava:
+        call GetJavaVersion
+        Goto loop
+      followJDK:
+        StrCpy $JAVAHOME $R1
+        Goto loop
   setsmn:
     StrCpy $STARTMENU_FOLDER $R1
     StrCpy $MUI_TEMP $R1
     Goto loop
   setqli:
-    StrCmp $R1 "on" doAddQLI1 doAddQLI0
-    doAddQLI0:
-      StrCpy $ADD_QUICKLAUNCH '0'
-      Goto loop
-    doAddQLI1:
-      StrCpy $ADD_QUICKLAUNCH '1'
-      Goto loop
+     Push $R1
+     Call ConvertOptionToDigit
+     Pop $R1
+     StrCpy $ADD_QUICKLAUNCH $R1
+     Goto loop
   setsmentry:
-    StrCmp $R1 "on" doAddSM1 doAddSM0
-    doAddSM0:
-      StrCpy $ADD_STARTMENU '0'
-      Goto loop
-    doAddSM1:
-      StrCpy $ADD_STARTMENU '1'
-      Goto loop
-    Goto loop
+     Push $R1
+     Call ConvertOptionToDigit
+     Pop $R1
+     StrCpy $ADD_STARTMENU $R1
+     Goto loop
+
   setdicon:
-    StrCmp $R1 "on" doAddDTI1 doAddDTI0
-    doAddDTI0:
-      StrCpy $ADD_DESKTOP '0'
-      Goto loop
-    doAddDTI1:
-      StrCpy $ADD_DESKTOP '1'
-    Goto loop
+     Push $R1
+     Call ConvertOptionToDigit
+     Pop $R1
+     StrCpy $ADD_DESKTOP $R1
+     Goto loop
   error_handle:
     Goto loopend
 
@@ -1321,4 +1320,38 @@ FunctionEnd
    Pop $R2
    Exch $R1
  FunctionEnd
+ 
+;-----------------------------------------------------------------------
+
+; ConvertOptionToDigit
+
+; input, top of stack  (e.g. whatever$\r$\n)
+
+; output, top of stack (replaces, with e.g. whatever)
+
+; modifies "on" to 1 and "off" to 2.
+
+Function ConvertOptionToDigit
+
+ ClearErrors ; Stack: <value>
+
+ Exch $0                     ; Stack: $0 ;$0=value
+
+ StrCmp $0 "on" setOne setZero
+
+ setOne:
+
+ StrCpy $0 '1'
+
+ Goto endset
+
+ setZero:
+
+ StrCpy $0 '0'
+
+ endset:
+
+ Exch $0
+
+FunctionEnd
  
