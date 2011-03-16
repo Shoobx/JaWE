@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe;
 
@@ -27,43 +27,52 @@ import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 
 /**
- * Used to handle history.
+ * Implementation that provides a way to handle "browsing" history for {@link XMLElement}
+ * that can be used e.g. when browsing through the graph and property panels.
  * 
  * @author Sasa Bojanic
  */
 public class HistoryMgr implements HistoryManager {
 
+   /** Stack instance used to handle "undo" history. */
    protected Stack backHistory = new Stack();
 
+   /** Stack instance used to handle "re-do" history. */
    protected Stack forwardHistory = new Stack();
 
+   /** The maximum number of undo/redo history entries. -1 means unlimited. */
    protected int maxHistory = -1;
 
+   /** 
+    * Default constructor.
+    */
    public HistoryMgr() {
    }
 
-   public void init (int pMaxHistory) {
-      if (pMaxHistory>=0) {
+   public void init(int pMaxHistory) {
+      if (pMaxHistory >= 0) {
          this.maxHistory = pMaxHistory;
       } else {
          this.maxHistory = Integer.MAX_VALUE;
-      }            
+      }
    }
-   
-   public void addToHistory(XMLElement current,XMLElement el) {
-      if (maxHistory<=0) return;
-      if (el==null && current==null) return;
-      if (el!=current && current!=null) {
+
+   public void addToHistory(XMLElement current, XMLElement el) {
+      if (maxHistory <= 0)
+         return;
+      if (el == null && current == null)
+         return;
+      if (el != current && current != null) {
          if (!backHistory.isEmpty() && backHistory.lastElement() == current) {
             return;
          }
-         if (backHistory.size()>=maxHistory) {
+         if (backHistory.size() >= maxHistory) {
             backHistory.remove(0);
          }
-         
+
          backHistory.push(current);
          forwardHistory.clear();
-      }            
+      }
    }
 
    public void removeFromHistory(XMLElement el) {
@@ -81,26 +90,26 @@ public class HistoryMgr implements HistoryManager {
          forwardHistory.clear();
          backHistory.removeAll(childrenToRemove);
          // remove same elements next to each other
-         Iterator it=backHistory.iterator();
-         XMLElement cur=null;
+         Iterator it = backHistory.iterator();
+         XMLElement cur = null;
          while (it.hasNext()) {
-            XMLElement ne=(XMLElement)it.next();
-            if (cur==null) {
-               cur=ne;
+            XMLElement ne = (XMLElement) it.next();
+            if (cur == null) {
+               cur = ne;
             } else {
-               if (ne==cur) {
+               if (ne == cur) {
                   it.remove();
                } else {
-                  cur=ne;
+                  cur = ne;
                }
             }
          }
       } else {
-         boolean clear=false;
+         boolean clear = false;
          for (int j = 0; j < forwardHistory.size(); j++) {
             XMLElement elInHistory = (XMLElement) forwardHistory.get(j);
             if (elInHistory == el || XMLUtil.isParentsChild(el, elInHistory)) {
-               clear=true;
+               clear = true;
                break;
             }
          }
@@ -111,29 +120,31 @@ public class HistoryMgr implements HistoryManager {
    }
 
    public XMLElement getNext(XMLElement current) {
-      if (maxHistory<=0) return null;
-      
-      XMLElement el=null;
+      if (maxHistory <= 0)
+         return null;
+
+      XMLElement el = null;
       if (!forwardHistory.empty()) {
-         el=(XMLElement)forwardHistory.pop();
-         if (current!=null) {
-            if (backHistory.size()>=maxHistory) {
+         el = (XMLElement) forwardHistory.pop();
+         if (current != null) {
+            if (backHistory.size() >= maxHistory) {
                backHistory.remove(0);
             }
             backHistory.push(current);
          }
-      }         
+      }
       return el;
    }
 
-   public XMLElement getPrevious (XMLElement current) {
-      if (maxHistory<=0) return null;
-      
-      XMLElement el=null;
+   public XMLElement getPrevious(XMLElement current) {
+      if (maxHistory <= 0)
+         return null;
+
+      XMLElement el = null;
       if (!backHistory.empty()) {
-         el=(XMLElement)backHistory.pop();
-         if (current!=null) {
-            if (forwardHistory.size()>=maxHistory) {
+         el = (XMLElement) backHistory.pop();
+         if (current != null) {
+            if (forwardHistory.size() >= maxHistory) {
                forwardHistory.remove(0);
             }
             forwardHistory.push(current);
@@ -149,10 +160,10 @@ public class HistoryMgr implements HistoryManager {
    public boolean canGoForward() {
       return !forwardHistory.isEmpty();
    }
-   
-   public void cleanHistory () {
+
+   public void cleanHistory() {
       backHistory.clear();
       forwardHistory.clear();
    }
-   
+
 }

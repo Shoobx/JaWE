@@ -166,7 +166,11 @@
 				<include name="**/jawe/images/*.png" />
 			</fileset>
 			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
+				<attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+				<attribute name="Title" value="Together Workflow Editor" />
+				<attribute name="Version" value="${version}-${release}" />
+				<attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />            
 			</manifest>
 		</jar>
 	</target>
@@ -182,7 +186,11 @@
 				<include name="**/language/jawelanguagemisc.properties" />
 			</fileset>
 			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
+				<attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+				<attribute name="Title" value="Together Workflow Editor" />
+				<attribute name="Version" value="${version}-${release}" />
+				<attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
 			</manifest>
 		</jar>
 	</target>
@@ -217,152 +225,97 @@
 				<exclude name="**/components/wfxml/**" />
 			</fileset>
 			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
+				<attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+				<attribute name="Title" value="Together Workflow Editor" />
+				<attribute name="Version" value="${version}-${release}" />
+				<attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
 			</manifest>
 		</jar>
-
-		<jar destfile="${output.lib.dir}/${app.name}jped.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jped/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-
-		<jar destfile="${output.lib.dir}/${app.name}historymgr.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/HistoryMgr.class" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}undomgr.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/UndoHistoryMgr.class" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-
-		<jar destfile="${output.lib.dir}/${app.name}detailedpackagenavigator.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/detailedpackagenavigator/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}extpkgrelations.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/extpkgrelations/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}infobar.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/infobar/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}languageswitcher.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/languageswitcher/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}ldap.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/ldap/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}packagenavigator.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/packagenavigator/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}problemsnavigator.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/problemsnavigator/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}propertiespanel.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/propertiespanel/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}reconfiguration.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/reconfiguration/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}searchnavigator.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/searchnavigator/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}transpkgpool.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/transpkgpool/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}wfxml.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/components/wfxml/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-
-		<jar destfile="${output.lib.dir}/${app.name}shark.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/shark/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
-		<jar destfile="${output.lib.dir}/${app.name}samples.jar">
-			<fileset dir="${classes.dir}">
-				<include name="**/jawe/samples/**" />
-			</fileset>
-			<manifest>
-				<attribute name="Implementation-Version" value="${version}-${release}" />
-			</manifest>
-		</jar>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}jped.jar"/>
+         <param name="includepath" value="**/jped/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}historymgr.jar"/>
+         <param name="includepath" value="**/jawe/HistoryMgr.class"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}undomgr.jar"/>
+         <param name="includepath" value="**/jawe/UndoHistoryMgr.class"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}detailedpackagenavigator.jar"/>
+         <param name="includepath" value="**/jawe/components/detailedpackagenavigator/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}extpkgrelations.jar"/>
+         <param name="includepath" value="**/jawe/components/extpkgrelations/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}infobar.jar"/>
+         <param name="includepath" value="**/jawe/components/infobar/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}languageswitcher.jar"/>
+         <param name="includepath" value="**/jawe/components/languageswitcher/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}ldap.jar"/>
+         <param name="includepath" value="**/jawe/components/ldap/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}packagenavigator.jar"/>
+         <param name="includepath" value="**/jawe/components/packagenavigator/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}problemsnavigator.jar"/>
+         <param name="includepath" value="**/jawe/components/problemsnavigator/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}propertiespanel.jar"/>
+         <param name="includepath" value="**/jawe/components/propertiespanel/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}reconfiguration.jar"/>
+         <param name="includepath" value="**/jawe/components/reconfiguration/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}searchnavigator.jar"/>
+         <param name="includepath" value="**/jawe/components/searchnavigator/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}transpkgpool.jar"/>
+         <param name="includepath" value="**/jawe/components/transpkgpool/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}wfxml.jar"/>
+         <param name="includepath" value="**/jawe/components/wfxml/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}shark.jar"/>
+         <param name="includepath" value="**/jawe/shark/**"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}samples.jar"/>
+         <param name="includepath" value="**/jawe/samples/**"/>
+      </antcall>
 
 	</target>
-
+   <target name="makeJAR">
+      <jar destfile="${output.lib.dir}/${jar2create}">
+         <fileset dir="${classes.dir}">
+            <include name="${includepath}"/>
+         </fileset>
+         <manifest>
+				<attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+				<attribute name="Title" value="Together Workflow Editor" />
+				<attribute name="Version" value="${version}-${release}" />
+				<attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
+         </manifest>
+      </jar>
+   </target>
 	<!-- ==================================================================== -->
 	<!-- Cleans everything                                                    -->
 	<!-- ==================================================================== -->

@@ -27,18 +27,21 @@ import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.elements.Package;
 
 /**
- * JaWE component interface.
- * 
- * @author Sasa Bojanic
- * @author Miroslav Popov
+ * This interface should be implemented by any class that tends to be a JaWE's component.
  */
 public interface JaWEComponent {
 
+   /** Constant representing the name for the main area. */
    public static final String MAIN_COMPONENT = "MAIN";
+   /** Constant representing the name for the special area. */
    public static final String SPECIAL_COMPONENT = "SPECIAL";
+   /** Constant representing the name for the tree area. */
    public static final String TREE_COMPONENT = "TREE";
+   /** Constant representing the name for the other area. */
    public static final String OTHER_COMPONENT = "OTHER";   
+   /** Constant representing the name for the upper status area. */
    public static final String UPPER_STATUS_COMPONENT = "UPPER_STATUS";
+   /** Constant representing the name for the lower status area. */
    public static final String LOWER_STATUS_COMPONENT = "LOWER_STATUS";   
    
    JaWEComponentSettings getSettings();   

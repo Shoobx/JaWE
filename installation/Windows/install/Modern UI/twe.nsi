@@ -431,24 +431,24 @@ Function .onInit
     StrCpy $MUI_TEMP $R1
     Goto loop
   setqli:
-     Push $R1
-     Call ConvertOptionToDigit
-     Pop $R1
-     StrCpy $ADD_QUICKLAUNCH $R1
-     Goto loop
+    Push $R1
+    Call ConvertOptionToDigit
+    Pop $R1
+    StrCpy $ADD_QUICKLAUNCH $R1
+    Goto loop
   setsmentry:
-     Push $R1
-     Call ConvertOptionToDigit
-     Pop $R1
-     StrCpy $ADD_STARTMENU $R1
-     Goto loop
+    Push $R1
+    Call ConvertOptionToDigit
+    Pop $R1
+    StrCpy $ADD_STARTMENU $R1
+    Goto loop
 
   setdicon:
-     Push $R1
-     Call ConvertOptionToDigit
-     Pop $R1
-     StrCpy $ADD_DESKTOP $R1
-     Goto loop
+    Push $R1
+    Call ConvertOptionToDigit
+    Pop $R1
+    StrCpy $ADD_DESKTOP $R1
+    Goto loop
   error_handle:
     Goto loopend
 

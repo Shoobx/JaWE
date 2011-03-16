@@ -9916,6 +9916,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para>Fixed: not creating unnecessary NodeGraphicsInfo element for Pools when process/activity set gets copied</para>
         </listitem>
+        </listitem>
+          <para>Updated JAR's MANIFEST information</para>
+        </listitem>
       </itemizedlist>
     </section>
 

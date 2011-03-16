@@ -132,6 +132,9 @@
       <mkdir dir="${output.lib.dir}" />
       <mkdir dir="${bin.dir}" />
       <mkdir dir="${dist.bin.dir}" />
+		<tstamp>
+			<format property="build.timestamp" pattern="yyyyMMdd-HHmm" locale="en,UK" />
+		</tstamp>
    </target>
 
    <target name="setDebug">
@@ -149,9 +152,6 @@
 
    <target name="output" depends="prepare">
       <ant dir="${modules.dir}" />
-		<tstamp>
-			<format property="build.timestamp" pattern="yyyyMMdd-HHmm" locale="en,UK" />
-		</tstamp>
 		<echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
       <!-- Bin directory -->
       <copy todir="${bin.dir}">

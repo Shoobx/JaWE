@@ -322,6 +322,13 @@
 		<delete file="${output.lib.dir}/${app.name}doc.jar" />
 		<jar destfile="${output.lib.dir}/${app.name}doc.jar">
 			<fileset dir="${tmp.dir}" excludes="**/${docbook.name}.*, **/*.pdf, **/${docbook.name}-current.html, **/api/**, **/docbook/**" />
+         <manifest>
+				<attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+				<attribute name="Title" value="Together Workflow Editor" />
+				<attribute name="Version" value="${version}-${release}" />
+				<attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
+         </manifest>
 		</jar>
 	</target>
 
