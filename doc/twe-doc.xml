@@ -9919,6 +9919,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para>Updated JAR's MANIFEST information</para>
         </listitem>
+        <listitem>
+          <para>readregistry.exe replaced with the newer version now comming from its own project TRR (Together Read Registry), version 1.0-1</para>
+        </listitem>
       </itemizedlist>
     </section>
 

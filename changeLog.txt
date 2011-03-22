@@ -1,3 +1,6 @@
+2011-03-22 Sasa Bojanic <sasaboy@together.at>
+   # readregistry.exe replaced with the newer version now comming from its own project TRR (Together Read Registry), version 1.0-1
+ 
 2011-03-16 Sasa Bojanic <sasaboy@together.at>
    # Updated JAR's MANIFEST information
 
