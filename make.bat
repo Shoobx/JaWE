@@ -42,7 +42,6 @@ if %~1==buildDoc goto continue
 if %~1==debug goto continue
 if %~1==dependencies goto continue
 if %~1==dependency_tws goto continue
-if %~1==dependency_tas goto continue
 if %~1==install goto continue
 if %~1==clean goto continue
 if %~1==distributions goto continue
@@ -78,9 +77,8 @@ echo make buildAll            - Builds and configures TWE with javadoc and docbo
 echo make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
 echo make buildDoc            - Builds docbook documentation
 echo make debug               - Builds TWE JAR files with included debug information
-echo make dependencies        - Creates TWS and TAS dependencies within distributions folder
+echo make dependencies        - Creates TWS dependencies within distributions folder
 echo make dependency_tws      - Creates TWS dependencies within distributions folder
-echo make dependency_tas      - Creates TAS dependencies within distributions folder
 echo make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
 echo                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
 echo                            It should be called only after make buildAll target is executed!

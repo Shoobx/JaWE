@@ -309,9 +309,8 @@ make buildAll            - Builds and configures TWE with javadoc and docbook do
 make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
 make buildDoc            - Builds docbook documentation
 make debug               - Builds TWE JAR files with included debug information
-make dependencies        - Creates TWS and TAS dependencies within distributions folder
+make dependencies        - Creates TWS dependencies within distributions folder
 make dependency_tws      - Creates TWS dependencies within distributions folder
-make dependency_tas      - Creates TAS dependencies within distributions folder
 make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
                            It should be called only after make buildAll target is executed!
@@ -336,22 +335,22 @@ make distributions       - Builds and configures TWE with all documentations and
       <mkdir dir="${dist.screenshots.dir}" />
    </target>
 
-   <target name="dependencies" depends="clean,dependency_tas,_dependency_tws" unless="${rebranding}"/>
+   <target name="dependencies" depends="dependency_tws" unless="${rebranding}"/>
 
-   <target name="dependency_tws" depends="output, buildAllDoc,_dependency_tws" unless="${rebranding}"/>
+   <target name="dependency_tws" depends="clean,output,_dependency_tws" unless="${rebranding}"/>
    
-   <target name="dependency_tas" depends="output,buildAllDoc,_dependency_tas" unless="${rebranding}"/>
-   
-   <target name="_dependencies" depends="_dependency_tws,_dependency_tas" unless="${rebranding}"/>
+   <target name="_dependencies" depends="_dependency_tws" unless="${rebranding}"/>
 
    <target name="_dependency_tws" unless="${rebranding}">
       <mkdir dir="${dist.dependencies.dir}/tws" />
       <copy todir="${dist.dependencies.dir}/tws" overwrite="true">
          <fileset dir="${build.dir}/lib">
-            <include name="tweactivityicons.jar" />
             <include name="twecore.jar" />
             <include name="twelan.jar" />
             <include name="twepic.jar" />
+         </fileset>
+         <fileset dir="${ext.lib.dir}">
+            <include name="tweactivityicons.jar" />
          </fileset>
       </copy>      
       <copy todir="${dist.bin.dir}">
@@ -372,20 +371,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <delete file="${dist.dependencies.dir}/tws/${app.name}.tar" quiet="true" />
    </target>
    
-   <target name="_dependency_tas" unless="${rebranding}">
-      <mkdir dir="${dist.dependencies.dir}/tas" />
-      <copy todir="${dist.bin.dir}">
-         <fileset dir="${input.dir}/bin" includes="*.in" />
-      </copy>
-      <copy todir="${build.dir}">
-         <fileset dir="${input.dir}" includes="*.bat,*.sh" />
-      </copy>
-      <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
-      <zip destfile="${dist.dependencies.dir}/tas/${app.name}.zip" update="true">
-         <zipfileset dir="${build.dir}" excludes="**/doc/api/**" />
-      </zip>
-   </target>
-
    <target name="distBin">
       <if>
          <equals arg1="${os}" arg2="windows" />

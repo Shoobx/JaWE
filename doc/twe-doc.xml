@@ -672,10 +672,8 @@ make buildNoDoc      - Builds and configures TWE without javadoc and
                        docbook documentation
 make buildDoc        - Builds docbook documentation
 make debug           - Builds TWE JAR files with included debug information
-make dependencies    - Creates TWS and TAS dependencies within 
-                       distributions folder
+make dependencies    - Creates TWS dependencies within distributions folder
 make dependency_tws  - Creates TWS dependencies within distributions folder
-make dependency_tas  - Creates TAS dependencies within distributions folder
 make install         - Installs and configures TWE into directory defined 
                        by parameter install.dir in build.properties file. 
                        This parameter can be set by using command: 
@@ -9921,6 +9919,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
         <listitem>
           <para>readregistry.exe replaced with the newer version now comming from its own project TRR (Together Read Registry), version 1.0-1</para>
+        </listitem>
+        <listitem>
+          <para>Removed dependency to TAS.</para>
         </listitem>
       </itemizedlist>
     </section>
