@@ -16,9 +16,6 @@
 * along with this program. If not, see http://www.gnu.org/licenses
 */
 
-/**
- * Miroslav Popov, Aug 2, 2005
- */
 package org.enhydra.jawe.components.simplenavigator.actions;
 
 import java.awt.event.ActionEvent;
@@ -34,10 +31,14 @@ import org.enhydra.jawe.components.simplenavigator.SimpleNavigator;
 import org.enhydra.jawe.components.simplenavigator.SimpleNavigatorPanel;
 
 /**
- * @author Miroslav Popov
+ * Action used to graphically expand the tree component.
  */
 public class ExpandAll extends ActionBase {
 
+   /**
+    * Creates an action for the given {@link JaWEComponent}.
+    * @param jawecomponent
+    */
    public ExpandAll(JaWEComponent jawecomponent) {
       super(jawecomponent);
    }

@@ -53,7 +53,6 @@ public abstract class NewActionBase extends ActionBase {
    }
 
    /**
-    * 
     * @param jawecomponent {@link JaWEComponent} for this action.
     * @param name The action name.
     * @param xpdlTypeClass The class for XPDL element.
@@ -70,7 +69,6 @@ public abstract class NewActionBase extends ActionBase {
    }
 
    /**
-    * 
     * @return The class for the XPDL element.
     */
    public Class getXPDLTypeClass() {
@@ -78,7 +76,6 @@ public abstract class NewActionBase extends ActionBase {
    }
 
    /**
-    * 
     * @return The class of XPDL element's parent element.
     */
    public Class getXPDLTypeClassParentForEA() {

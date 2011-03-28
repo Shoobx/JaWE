@@ -9923,6 +9923,18 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para>Removed dependency to TAS.</para>
         </listitem>
+        <listitem>
+          <para>Added support for "Script" Activity type (TaskScript from XPDL).</para>
+        </listitem>
+        <listitem>
+          <para>Improved property panels for DataField and FormalParameter elements.</para>
+        </listitem>
+        <listitem>
+          <para>Changed property panels for ActualParameter/InitialValue/DeadlineDuration/Condition elements</para>
+        </listitem>
+        <listitem>
+          <para>Various improvements.</para>
+        </listitem>
       </itemizedlist>
     </section>
 

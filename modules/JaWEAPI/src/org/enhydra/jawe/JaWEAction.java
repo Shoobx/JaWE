@@ -16,10 +16,6 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-/**
- * Miroslav Popov, Dec 1, 2005
- * miroslav.popov@gmail.com
- */
 package org.enhydra.jawe;
 
 import javax.swing.ImageIcon;
@@ -34,7 +30,7 @@ public class JaWEAction {
    /** The actual action to be done. */
    private ActionBase action;
 
-   /* The language dependent (i18n) name for the action. */
+   /** The language dependent (i18n) name for the action. */
    private String langDepName = null;
 
    /** The action icon. */

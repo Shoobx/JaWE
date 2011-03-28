@@ -56,43 +56,65 @@ import org.enhydra.jxpdl.elements.Lane;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
- * The dialog for showing special FreeTextExpression and CommonExpression participant
- * objects used for the JaWE's graph component.
- * 
- * @author Sasa Bojanic
+ * The dialog for editing information about expression lanes. This information is
+ * propagated to the performer of the activities contained within that lanes.
  */
-public class ExpressionParticipantEditor {
+public class ExpressionLaneEditor {
+   /** Constant for OK status of dialog. */
    public final static int STATUS_OK = 0;
 
+   /** Constant for Cancel status of dialog. */
    public final static int STATUS_CANCEL = 1;
 
+   /** JDialog instance. */
    protected JDialog dialog;
 
+   /** Properties for the editor. */
    protected Properties properties = new Properties();
 
+   /** {@link Lane} element to edit. */
    protected Lane elementToEdit;
 
+   /** Panel for editing lane. */
    protected XMLPanel panelToEdit = new XMLBasicPanel();
 
+   /** OK button. */
    protected JButton buttonOK;
 
+   /** Cancel button. */
    protected JButton buttonCancel;
 
+   /** Dialog title. */
    protected String title = null;
 
+   /** Panel for Id element. */
    protected XMLPanel pIdPanel;
 
+   /** Dialog status. */
    protected int status = STATUS_OK;
 
+   /**
+    * Configures dialog.
+    * @param props Settings for the editor.
+    */
    public void configure(Properties props) {
       this.properties = props;
    }
 
+   /**
+    * Sets property for the editor.
+    * @param key Property key.
+    * @param value Property value.
+    */
    public void setProperty(String key, String value) {
       properties.setProperty(key, value);
    }
 
-   public ExpressionParticipantEditor(Lane el) {
+   /**
+    * Creates new instance of editor.
+    * @param el {@link Lane} element to edit.
+    */
+   public ExpressionLaneEditor(Lane el) {
       elementToEdit = el;
       dialog = new JDialog(JaWEManager.getInstance().getJaWEController().getJaWEFrame(),
                            true);
@@ -101,16 +123,24 @@ public class ExpressionParticipantEditor {
       initDialog();
    }
 
+   /**
+    * Sets editor title.
+    * @param title The title.
+    */
    public void setTitle(String title) {
       if (dialog != null) {
          dialog.setTitle(title);
       }
    }
 
+   /**
+    * Edits {@link Lane} element.
+    */
    public void editXPDLElement() {
-      editXPDLElement(this.getParticipantPanel());
+      editXPDLElement(this.getLanePanel());
    }
 
+   /** Edits panel for the lane element. */
    public void editXPDLElement(XMLPanel panel) {
       Container cp = dialog.getContentPane();
       cp.remove(panelToEdit);
@@ -126,6 +156,9 @@ public class ExpressionParticipantEditor {
 
    }
 
+   /**
+    * @return true if changes can be applied to the model.
+    */
    public boolean canApplyChanges() {
       if (panelToEdit.validateEntry()) {
          return true;
@@ -133,6 +166,9 @@ public class ExpressionParticipantEditor {
       return false;
    }
 
+   /**
+    * Applies changes to the XPDL model.
+    */
    public void applyChanges() {
       GraphController gc = GraphUtilities.getGraphController();
       WorkflowProcess wp = JaWEManager.getInstance()
@@ -180,6 +216,9 @@ public class ExpressionParticipantEditor {
       }
    }
 
+   /**
+    * Sets the panel into the focus.
+    */
    public void requestFocus() {
       try {
          // if (panelToEdit instanceof XMLGroupPanel) {
@@ -194,18 +233,30 @@ public class ExpressionParticipantEditor {
       }
    }
 
+   /**
+    * @return The status of the editor.
+    */
    public int getStatus() {
       return status;
    }
 
+   /**
+    * @return The window of the editor.
+    */
    public Window getWindow() {
       return dialog;
    }
 
+   /**
+    * @return Parent window of the editor.
+    */
    public Window getParentWindow() {
       return JaWEManager.getInstance().getJaWEController().getJaWEFrame();
    }
 
+   /**
+    * Initializes editor's dialog.
+    */
    protected void initDialog() {
       try {
          JPanel buttonPanel = new JPanel();
@@ -259,6 +310,9 @@ public class ExpressionParticipantEditor {
 
    }
 
+   /**
+    * Listener for the window closing event.
+    */
    protected WindowListener wl = new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
          // make configurable?
@@ -267,6 +321,9 @@ public class ExpressionParticipantEditor {
       }
    };
 
+   /**
+    * Listener for the editor's action.
+    */
    protected ActionListener cl = new ActionListener() {
       public void actionPerformed(ActionEvent ae) {
          status = STATUS_CANCEL;
@@ -274,6 +331,7 @@ public class ExpressionParticipantEditor {
       }
    };
 
+   /** Listener for OK button. */
    protected ActionListener okl = new ActionListener() {
       public void actionPerformed(ActionEvent ae) {
          if (elementToEdit == null || panelToEdit.getOwner().isReadOnly()) {
@@ -290,7 +348,11 @@ public class ExpressionParticipantEditor {
       }
    };
 
-   protected XMLGroupPanel getParticipantPanel() {
+   
+   /**
+    * @return The panel for editing lane.
+    */
+   protected XMLGroupPanel getLanePanel() {
       List toShow = new ArrayList();
       if (elementToEdit instanceof Lane) {
          if (elementToEdit.getPerformers().size() > 0) {

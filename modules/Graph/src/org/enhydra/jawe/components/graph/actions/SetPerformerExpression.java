@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 
 import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
-import org.enhydra.jawe.components.graph.ExpressionParticipantEditor;
+import org.enhydra.jawe.components.graph.ExpressionLaneEditor;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.WorkflowElement;
@@ -58,7 +58,7 @@ public class SetPerformerExpression extends ActionBase {
       if (gc.getSelectedGraph() != null) {
          Graph g=gc.getSelectedGraph();
          Lane cep=(Lane)((WorkflowElement)g.getSelectionCell()).getPropertyObject();
-         ExpressionParticipantEditor ed=new ExpressionParticipantEditor(cep);
+         ExpressionLaneEditor ed=new ExpressionLaneEditor(cep);
          ed.editXPDLElement();
       }
    }   

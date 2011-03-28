@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.simplenavigator;
 
@@ -66,164 +66,216 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.elements.WorkflowProcesses;
 
 /**
- *  Used to display Package hierarchy tree.
- *
- *  @author Sasa Bojanic
+ * Used to display Package hierarchy tree for the simple navigator. Contains only
+ * {@link Package}, {@link WorkflowProcess}, {@link ActivitySet} and {@link Activity}
+ * elements.
  */
 public class SimpleNavigatorPanel extends JPanel implements JaWEComponentView {
 
+   /**
+    * The XPDL tree model.
+    */
    protected XPDLTreeModel treeModel;
 
+   /** JTree Swing component. **/
    protected JTree tree;
 
+   /** Toolbar for the component. */
    protected JToolBar toolbar;
+
+   /** Scroll pane for the component. */
    protected JScrollPane scrollPane;
+
+   /** The SimpleNavigator component. */
    protected SimpleNavigator controller;
-   protected int xClick, yClick;
-   
+
+   /** The X position of mouse click. */
+   protected int xClick;
+
+   /** The Y position of mouse click. */
+   protected int yClick;
+
+   /** Mouse listener. */
    protected MouseListener mouseListener;
+
+   /** Tree renderer */
    protected XPDLTreeCellRenderer renderer;
-   
-   public SimpleNavigatorPanel (SimpleNavigator controller) {
-      this.controller=controller;
+
+   /**
+    * Creates new panel.
+    * 
+    * @param controller {@link SimpleNavigator} instance.
+    */
+   public SimpleNavigatorPanel(SimpleNavigator controller) {
+      this.controller = controller;
    }
 
-   public void configure () {
-//      setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+   public void configure() {
+      // setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
       setBorder(BorderFactory.createEtchedBorder());
       setLayout(new BorderLayout());
-      toolbar = BarFactory.createToolbar("defaultToolbar", controller);   
-      toolbar.setFloatable(false); 
+      toolbar = BarFactory.createToolbar("defaultToolbar", controller);
+      toolbar.setFloatable(false);
       if (toolbar.getComponentCount() > 0) {
-         add(toolbar,BorderLayout.NORTH);
+         add(toolbar, BorderLayout.NORTH);
       }
       init();
    }
 
+   // public void printTreeModel() {
+   // printTreeModel(treeModel.getRootNode());
+   // }
+   // public void printTreeModel(XPDLTreeNode n) {
+   // System.err.println("There are "
+   // + n.getChildCount() + " children for " + n.getXPDLElement());
+   // for (int i = 0; i < n.getChildCount(); i++) {
+   // printTreeModel((XPDLTreeNode) n.getChildAt(i));
+   // }
+   // }
 
-   public void printTreeModel () {
-      printTreeModel(treeModel.getRootNode());
-   }
-   public void printTreeModel (XPDLTreeNode n) {
-      System.err.println("There are "+n.getChildCount()+" children for "+n.getXPDLElement());
-      for (int i=0; i<n.getChildCount(); i++) {
-         printTreeModel((XPDLTreeNode)n.getChildAt(i));
-      }
-      
-   }
-   public void init () {      
+   public void init() {
       controller.getSettings().adjustActions();
-      treeModel=new SimpleNavigatorTreeModel(controller);
+      treeModel = new SimpleNavigatorTreeModel(controller);
 
       tree = new JTree(treeModel) {
-         public void scrollRectToVisible(Rectangle aRect){
-            aRect.x=scrollPane.getHorizontalScrollBar().getValue();
+         public void scrollRectToVisible(Rectangle aRect) {
+            aRect.x = scrollPane.getHorizontalScrollBar().getValue();
             super.scrollRectToVisible(aRect);
-         }         
+         }
       };
-      
+
       // setting some tree properties
-      tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+      tree.getSelectionModel()
+         .setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
       tree.setRootVisible(false);
       tree.setShowsRootHandles(true);
-      renderer=new XPDLTreeCellRenderer(controller);
+      renderer = new XPDLTreeCellRenderer(controller);
       Color bckColor = controller.getNavigatorSettings().getBackGroundColor();
 
       renderer.setBackgroundNonSelectionColor(bckColor);
-      renderer.setBackgroundSelectionColor(controller.getNavigatorSettings().getSelectionColor());
+      renderer.setBackgroundSelectionColor(controller.getNavigatorSettings()
+         .getSelectionColor());
       tree.setBackground(bckColor);
       tree.setCellRenderer(renderer);
-      tree.addTreeSelectionListener(controller);      
+      tree.addTreeSelectionListener(controller);
 
       /** MouseListener for JTree */
       mouseListener = new MouseAdapter() {
-         public void mouseClicked( MouseEvent me ) {
+         public void mouseClicked(MouseEvent me) {
             xClick = me.getX();
             yClick = me.getY();
             TreePath path = tree.getPathForLocation(xClick, yClick);
-            
+
             if (path != null) {
                tree.setAnchorSelectionPath(path);
-               
+
                if (SwingUtilities.isRightMouseButton(me)) {
                   if (!tree.isPathSelected(path)) {
                      tree.setSelectionPath(path);
                   }
-                  
+
                   JPopupMenu popup = BarFactory.createPopupMenu("default", controller);
 
                   popup.show(tree, me.getX(), me.getY());
-               } 
-                     
-               XPDLTreeNode node = (XPDLTreeNode) path.getLastPathComponent();
-               
-               if (me.getClickCount() > 1 && !SwingUtilities.isRightMouseButton(me) && tree.getModel().isLeaf(node)) {
-                  JaWEManager.getInstance().getJaWEController().getJaWEActions().getAction(JaWEActions.EDIT_PROPERTIES_ACTION).actionPerformed(null);
                }
-            } else {               
+
+               XPDLTreeNode node = (XPDLTreeNode) path.getLastPathComponent();
+
+               if (me.getClickCount() > 1
+                   && !SwingUtilities.isRightMouseButton(me)
+                   && tree.getModel().isLeaf(node)) {
+                  JaWEManager.getInstance()
+                     .getJaWEController()
+                     .getJaWEActions()
+                     .getAction(JaWEActions.EDIT_PROPERTIES_ACTION)
+                     .actionPerformed(null);
+               }
+            } else {
                TreePath close = tree.getClosestPathForLocation(xClick, yClick);
                Rectangle rect = tree.getPathBounds(close);
-               if (rect==null || ! (rect.y < yClick && rect.y + rect.height > yClick)) {               
-                  JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection((XMLElement) null, false);
+               if (rect == null || !(rect.y < yClick && rect.y + rect.height > yClick)) {
+                  JaWEManager.getInstance()
+                     .getJaWEController()
+                     .getSelectionManager()
+                     .setSelection((XMLElement) null, false);
                   tree.clearSelection();
                }
             }
-            
-            tree.getParent().requestFocus();               
+
+            tree.getParent().requestFocus();
          }
       };
-      
-      tree.addMouseListener( mouseListener );
-      
+
+      tree.addMouseListener(mouseListener);
+
       // creates panel
-      scrollPane=new JScrollPane();
+      scrollPane = new JScrollPane();
       scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
       scrollPane.setViewportView(tree);
       JViewport port = scrollPane.getViewport();
       port.setScrollMode(JViewport.BLIT_SCROLL_MODE);
       scrollPane.setBackground(Color.lightGray);
-      //scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-//      scrollPane.getHorizontalScrollBar().setUnitIncrement(40);
+      // scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+      // scrollPane.getHorizontalScrollBar().setUnitIncrement(40);
 
-      add(scrollPane,BorderLayout.CENTER);
+      add(scrollPane, BorderLayout.CENTER);
    }
-   
+
+   /**
+    * @return The {@link XPDLTreeModel} instance.
+    */
    public TreeModel getTreeModel() {
       return treeModel;
    }
 
+   /**
+    * @return The tree component.
+    */
    public JTree getTree() {
       return tree;
    }
-   
-   public JaWEComponent getJaWEComponent () {
+
+   public JaWEComponent getJaWEComponent() {
       return controller;
    }
-   
-   public JComponent getDisplay () {
+
+   public JComponent getDisplay() {
       return this;
    }
 
-   public Point getMouseClickLocation() {         
+   /**
+    * @return The point where the mouse was last clicked.
+    */
+   public Point getMouseClickLocation() {
       return new Point(xClick, yClick);
    }
-   
+
+   /**
+    * Handles the information about the XPDL model change. The tree is potentially being
+    * updated if the nodes within the tree are affected by the change.
+    * 
+    * @param info {@link XPDLElementChangeInfo} instance describing the change to the XPDL
+    *           model.
+    */
    public void handleXPDLChangeEvent(XPDLElementChangeInfo info) {
       int action = info.getAction();
       XMLElement el = info.getChangedElement();
       List l = info.getChangedSubElements();
-      
+
       tree.removeTreeSelectionListener(controller);
-      
+
       if (action == XPDLElementChangeInfo.SELECTED) {
          tree.clearSelection();
       }
-               
-      if (el instanceof Activity || el instanceof Package || el instanceof WorkflowProcesses || el instanceof WorkflowProcess
-            || el instanceof ActivitySets || el instanceof ActivitySet || el instanceof Activities || (el instanceof Transitions && action==XPDLElementChangeInfo.SELECTED)) {
+
+      if (el instanceof Activity
+          || el instanceof Package || el instanceof WorkflowProcesses
+          || el instanceof WorkflowProcess || el instanceof ActivitySets
+          || el instanceof ActivitySet || el instanceof Activities
+          || (el instanceof Transitions && action == XPDLElementChangeInfo.SELECTED)) {
          if (action == XMLElementChangeInfo.INSERTED) {
-            if (l != null && l.size()>0) {
+            if (l != null && l.size() > 0) {
                Iterator it1 = l.iterator();
                while (it1.hasNext()) {
                   treeModel.insertNode((XMLElement) it1.next());
@@ -237,7 +289,7 @@ public class SimpleNavigatorPanel extends JPanel implements JaWEComponentView {
                controller.getSettings().adjustActions();
             }
          } else if (action == XMLElementChangeInfo.REMOVED) {
-            if (l != null && l.size()>0) {
+            if (l != null && l.size() > 0) {
                Iterator it1 = l.iterator();
                while (it1.hasNext()) {
                   treeModel.removeNode((XMLElement) it1.next());
@@ -245,31 +297,31 @@ public class SimpleNavigatorPanel extends JPanel implements JaWEComponentView {
             } else {
                treeModel.removeNode(el);
             }
-            if (treeModel.getRootNode().getChildCount()==0) {               
+            if (treeModel.getRootNode().getChildCount() == 0) {
                reinitialize();
                return;
             }
          } else if (action == XPDLElementChangeInfo.SELECTED) {
             if (el != null) {
-               List toSelect=new ArrayList();                  
-               if (l!=null) {
+               List toSelect = new ArrayList();
+               if (l != null) {
                   toSelect.addAll(l);
                }
-               if (toSelect.size()==0) {
+               if (toSelect.size() == 0) {
                   toSelect.add(el);
                }
-               for (int i=0; i<toSelect.size(); i++) {
-                  XMLElement toSel=(XMLElement)toSelect.get(i);
+               for (int i = 0; i < toSelect.size(); i++) {
+                  XMLElement toSel = (XMLElement) toSelect.get(i);
                   if (toSelect instanceof Transitions || toSelect instanceof Transition) {
                      continue;
                   }
                   XPDLTreeNode n = treeModel.findNode(toSel);
-                  TreePath tp=null;
+                  TreePath tp = null;
                   if (n != null) {
                      tp = new TreePath(n.getPath());
                      tree.addSelectionPath(tp);
                   }
-                  if (tp!=null) {
+                  if (tp != null) {
                      tree.scrollPathToVisible(tp);
                   }
                }
@@ -284,7 +336,8 @@ public class SimpleNavigatorPanel extends JPanel implements JaWEComponentView {
                }
                for (int j = 0; j < elsToReposition.size(); j++) {
                   XMLElement eltr = (XMLElement) elsToReposition.get(j);
-                  treeModel.repositionNode(eltr, ((Integer) newPositions.get(j)).intValue());
+                  treeModel.repositionNode(eltr,
+                                           ((Integer) newPositions.get(j)).intValue());
                }
             }
          }
@@ -292,9 +345,11 @@ public class SimpleNavigatorPanel extends JPanel implements JaWEComponentView {
 
       tree.addTreeSelectionListener(controller);
    }
-   
-   
-   protected void reinitialize () {
+
+   /**
+    * Re-initializes panel.
+    */
+   protected void reinitialize() {
       remove(scrollPane);
       treeModel.clearTree();
       tree.getSelectionModel().clearSelection();
@@ -303,23 +358,28 @@ public class SimpleNavigatorPanel extends JPanel implements JaWEComponentView {
       tree.setCellRenderer(null);
       init();
    }
-    
+
    // before doing this, listener has to be removed
-   public void setCurrentSelection () {
-      List toSelect=JaWEManager.getInstance().getJaWEController().getSelectionManager().getSelectedElements();
-      for (int i=0; i<toSelect.size(); i++) {
-         XMLElement toSel=(XMLElement)toSelect.get(i);
-         if (toSel instanceof Package 
-               || toSel instanceof WorkflowProcess
-               || toSel instanceof ActivitySet 
-               || toSel instanceof Activity) {
+   /**
+    * Brings the currently selected node into the focus.
+    */
+   public void setCurrentSelection() {
+      List toSelect = JaWEManager.getInstance()
+         .getJaWEController()
+         .getSelectionManager()
+         .getSelectedElements();
+      for (int i = 0; i < toSelect.size(); i++) {
+         XMLElement toSel = (XMLElement) toSelect.get(i);
+         if (toSel instanceof Package
+             || toSel instanceof WorkflowProcess || toSel instanceof ActivitySet
+             || toSel instanceof Activity) {
             XPDLTreeNode n = treeModel.findNode(toSel);
-            TreePath tp=null;
+            TreePath tp = null;
             if (n != null) {
                tp = new TreePath(n.getPath());
                tree.addSelectionPath(tp);
             }
-            if (tp!=null) {
+            if (tp != null) {
                tree.scrollPathToVisible(tp);
             }
          }
