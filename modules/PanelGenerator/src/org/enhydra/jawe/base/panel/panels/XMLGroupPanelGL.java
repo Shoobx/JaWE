@@ -41,19 +41,19 @@ public class XMLGroupPanelGL extends XMLGroupPanel {
 
    }
 
-   protected void initPanel (boolean isVertical,List elements) {
+   protected void initPanel (boolean isVertical, boolean isRightAllignment, List elements) {
       if (isVertical) {
          setLayout(new GridLayout(3,1));
       } else {
          setLayout(new GridLayout(1,3));
       }
-      super.initPanel(isVertical, elements);
+      super.initPanel(isVertical, isRightAllignment, elements);
    }
    
-   protected void initTopLeft (boolean isVertical,boolean rightAllignment) {
+   protected void initTopLeft (boolean isVertical,boolean isRightAllignment) {
    }
    
-   protected void initBottomRight (boolean isVertical,boolean rightAllignment) {
+   protected void initBottomRight (boolean isVertical,boolean isRightAllignment) {
    }
    
 }

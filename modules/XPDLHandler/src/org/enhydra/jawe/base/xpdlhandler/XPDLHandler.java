@@ -33,7 +33,7 @@ import java.util.Set;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jxpdl.XMLInterface;
-import org.enhydra.jxpdl.XMLInterfaceForJDK13;
+import org.enhydra.jxpdl.XMLInterfaceImpl;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.ExternalPackage;
 import org.enhydra.jxpdl.elements.Package;
@@ -45,7 +45,7 @@ import org.enhydra.jxpdl.elements.Package;
  * writting an XML document and for generating the tooltips for
  * for the classes that needs it.
  */
-public class XPDLHandler extends XMLInterfaceForJDK13 {
+public class XPDLHandler extends XMLInterfaceImpl {
 
    protected XPDLHandlerSettings settings;
    
@@ -315,8 +315,9 @@ public class XPDLHandler extends XMLInterfaceForJDK13 {
          // href element is similar to their Ids
          Iterator eps=pkg.getExternalPackages().toElements().iterator();
          while (eps.hasNext()) {
-            String pathToExtPackage=((ExternalPackage)eps.next()).getHref();
-            String extPkgId=null;
+            ExternalPackage ep = (ExternalPackage)eps.next();
+            String pathToExtPackage=ep.getHref();
+            String extPkgId=ep.getId();
             if (handleExternalPackages) {
                // setting working dir to be the one of the current package
                String ptep=XMLUtil.getCanonicalPath(pathToExtPackage,baseDirectory,false);
@@ -331,7 +332,9 @@ public class XPDLHandler extends XMLInterfaceForJDK13 {
                Package extPkg=openPackageRecursively(ptep,handleExternalPackages);
                extPkgId=extPkg.getId();               
             } else {
-               extPkgId=XMLUtil.getExternalPackageId(pathToExtPackage);
+               if (extPkgId!=null) {
+                  extPkgId=XMLUtil.getExternalPackageId(pathToExtPackage);
+               }
             }
             pkg.addExternalPackageMapping(pathToExtPackage, extPkgId);
          }

@@ -93,27 +93,27 @@ public class StandardPanelValidator implements PanelValidator {
 
    public boolean validatePanel(XMLAttribute el, XMLPanel panel) {
       return standardPanelValidation(el, panel);
-   }   
-   
+   }
+
    public boolean validatePanel(XMLEmptyChoiceElement el, XMLPanel panel) {
       return standardPanelValidation(el, panel);
-   }   
+   }
 
    public boolean validatePanel(XMLComplexChoice el, XMLPanel panel) {
       return standardPanelValidation(el, panel);
-   }   
+   }
 
    public boolean validatePanel(XMLCollection el, XMLPanel panel) {
       return standardPanelValidation(el, panel);
-   }   
-   
+   }
+
    public boolean validatePanel(XMLComplexElement el, XMLPanel panel) {
       return standardPanelValidation(el, panel);
-   }   
+   }
 
    public boolean validatePanel(XMLSimpleElement el, XMLPanel panel) {
       return standardPanelValidation(el, panel);
-   }   
+   }
 
    public boolean validatePanel(XMLElement el, XMLPanel panel) {
       try {

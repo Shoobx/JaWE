@@ -184,7 +184,7 @@ public class XPDLObjectFactory {
    public Activity createXPDLObject(Activities acts, String type, boolean addToCollection) {
       Activity act = null;
       if (type == null || type.equals("")) {
-         type = JaWEConstants.ACTIVITY_TYPE_TOOL;
+         type = JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION;
       }
       if (type.equals(JaWEConstants.ACTIVITY_TYPE_BLOCK)
           || type.equals(JaWEConstants.ACTIVITY_TYPE_NO)
@@ -192,7 +192,8 @@ public class XPDLObjectFactory {
           || type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE)
           || type.equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_INCLUSIVE)
           || type.equals(JaWEConstants.ACTIVITY_TYPE_SUBFLOW)
-          || type.equals(JaWEConstants.ACTIVITY_TYPE_TOOL)
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION)
+          || type.equals(JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT)
           || type.equals(JaWEConstants.ACTIVITY_TYPE_START)
           || type.equals(JaWEConstants.ACTIVITY_TYPE_END)) {
          act = createStandardActivity(acts, type);
@@ -224,7 +225,7 @@ public class XPDLObjectFactory {
       } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_SUBFLOW)) {
          act.getActivityTypes().setImplementation();
          act.getActivityTypes().getImplementation().getImplementationTypes().setSubFlow();
-      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_TOOL)) {
+      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION)) {
          act.getActivityTypes().setImplementation();
          act.getActivityTypes().getImplementation().getImplementationTypes().setTask();
          act.getActivityTypes()
@@ -233,6 +234,16 @@ public class XPDLObjectFactory {
             .getTask()
             .getTaskTypes()
             .setTaskApplication();
+         act.setFirstPerformer("");
+      } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT)) {
+         act.getActivityTypes().setImplementation();
+         act.getActivityTypes().getImplementation().getImplementationTypes().setTask();
+         act.getActivityTypes()
+            .getImplementation()
+            .getImplementationTypes()
+            .getTask()
+            .getTaskTypes()
+            .setTaskScript();
          act.setFirstPerformer("");
       } else if (type.equals(JaWEConstants.ACTIVITY_TYPE_NO)) {
          act.getActivityTypes().setImplementation();

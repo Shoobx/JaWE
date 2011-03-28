@@ -628,6 +628,17 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.ActivityType.Id.task_application", id);
 
+      id = JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT;
+      dispName = controller.getSettings()
+         .getLanguageDependentString("TaskScriptKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader()
+         .getResource("org/enhydra/jawe/images/activityscript.gif"));
+      color = new Color(255, 255, 204);
+      jtype = new JaWEType(Activity.class, id, dispName, icon, color);
+      activityTypes.add(jtype);
+      allTypes.put(id, jtype);
+      allTypesMapping.put("JaWETypes.ActivityType.Id.task_script", id);
+
       id = JaWEConstants.ACTIVITY_TYPE_SUBFLOW;
       dispName = controller.getSettings().getLanguageDependentString("SubFlowKey");
       icon = new ImageIcon(JaWETypes.class.getClassLoader()
@@ -1339,7 +1350,7 @@ public class JaWETypes extends JaWEComponentSettings {
                .getTask()
                .getTaskTypes()
                .getTaskApplication();
-            str += "\n\tToolId=" + ts.getId();
+            str += "\n\tApplicationId=" + ts.getId();
             Iterator it = ts.getActualParameters().toElements().iterator();
             int i = 1;
             while (it.hasNext()) {

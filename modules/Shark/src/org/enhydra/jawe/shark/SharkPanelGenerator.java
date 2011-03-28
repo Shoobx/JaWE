@@ -52,6 +52,7 @@ import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.DeadlineDuration;
+import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.Package;
@@ -193,6 +194,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                             "",
                                             false,
                                             false,
+                                            true,
                                             true));
       }
 
@@ -372,8 +374,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(DeadlineDuration el) {
-      ArrayList cl = new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el))
-         .values());
+      List cl = getExpressionChoices(el);
       DataFields dfs = XMLUtil.getWorkflowProcess(el).getDataFields();
       DataField df = new DataField(dfs);
       df.setId(SharkConstants.PROCESS_STARTED_TIME);
@@ -859,7 +860,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(XMLAttribute el) {
-      if (el.getParent() instanceof Script && el.toName().equals("Type")) {
+      if ((el.getParent() instanceof Script && el.toName().equals("Type"))
+          || (el.getParent() instanceof ExpressionType && el.toName()
+             .equals("ScriptType"))) {
          List choices = new ArrayList();
          choices.add(SharkConstants.SCRIPT_VALUE_JAVASCRIPT);
          choices.add(SharkConstants.SCRIPT_VALUE_JAVA);
@@ -899,8 +902,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return l;
    }
 
-   protected List getActualParameterOrConditionChoices(XMLElement el) {
-      List l = super.getActualParameterOrConditionChoices(el);
+   protected List getExpressionChoices(XMLElement el) {
+      List l = super.getExpressionChoices(el);
 
       DataField df = new DataField(null);
       df.setId(SharkConstants.PROCESS_ID);

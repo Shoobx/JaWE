@@ -138,50 +138,67 @@ import org.enhydra.jxpdl.utilities.SequencedHashMap;
 import org.w3c.dom.Document;
 
 /**
- * Used to handle JaWE.
- * 
- * @author Sasa Bojanic
- * @author Miroslav Popov
+ * Used to handle main JaWE functionalities.
  */
 public class JaWEController extends Observable implements
                                               Observer,
                                               JaWEComponent,
                                               ChoiceButtonListener {
 
+   /** The settings for this controller. */
    protected ControllerSettings settings;
 
+   /** Flag that determines if undoable change is in progress. */
    protected boolean undoableChangeInProgress = false;
 
+   /** Flag that determines if update is in progress. */
    protected boolean updateInProgress = false;
 
+   /** Flag that determines if special update is in progress. */
    protected boolean updateSpecialInProgress = false;
 
+   /**
+    * Instance of {@link JaWEEdit} class.
+    */
    protected JaWEEdit edit = new JaWEEdit();
 
+   /** Instance of {@link JaWETypes} class. */
    protected JaWETypes jtypes;
 
+   /** Instance of {@link JaWETypeResolver} class. */
    protected JaWETypeResolver jtypeResolver;
 
+   /** The list of {@link XPDLElementChangeInfo} elements for undo/re-do purposes. */
    protected List xpdlInfoList = new ArrayList();
 
+   /** List of {@link XPDLListenerAndObservable} elements . */
    protected List xpdlListenerObservables = new ArrayList();
 
+   /** Instance of {@link JaWESelectionManager}. */
    protected JaWESelectionManager selectionMng;
 
+   /** Instance of default {@link JaWEActions} element. */
    protected JaWEActions defaultJaWEActions;
 
+   /** Instance of {@link UndoHistoryManager}. */
    protected UndoHistoryManager undoHistoryManager;
 
+   /** Instance of {@link JaWEFrame} */
    protected JaWEFrame frame;
 
+   /** Flag that determines if {@link JaWEFrame} is shown. */
    protected boolean jaweFrameShown = false;
 
+   /** The selection {@link XPDLElementChangeInfo} event for undo operation. */
    protected XPDLElementChangeInfo undoSelectionEvent = null;
 
+   /** Holds information about the current JaWE configuration. */
    protected String currentConfig = null;
 
+   /** Map holding information about configuration's info. */
    protected Map configInfo;
 
+   /** Application title. */
    protected String appTitle;
 
    public JaWEController(ControllerSettings settings) {
@@ -2173,10 +2190,7 @@ public class JaWEController extends Observable implements
             if (parent instanceof Activity
                 || parent instanceof Transition || parent instanceof Split
                 || parent instanceof Join) {
-               XMLCollectionElement wpOrAs = XMLUtil.getActivitySet(parent);
-               if (wpOrAs == null) {
-                  wpOrAs = XMLUtil.getWorkflowProcess(parent);
-               }
+               XMLCollectionElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(parent);
                if (parent instanceof Activity) {
                   updateSpecialInProgress = true;
                   JaWEManager.getInstance()

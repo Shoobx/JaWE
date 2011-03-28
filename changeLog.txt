@@ -1,3 +1,10 @@
+2011-03-28 Sasa Bojanic <sasaboy@together.at>
+   # jxpdl.jar updated to SVN Revision 54
+   # Added support for "Script" Activity type (TaskScript from XPDL).
+   # Improved property panels for DataField and FormalParameter elements
+   # Changed property panels for ActualParameter/InitialValue/DeadlineDuration/Condition elements
+   # Various improvements
+   
 2011-03-23 Sasa Bojanic <sasaboy@together.at>
    # Removed dependency to TAS
    

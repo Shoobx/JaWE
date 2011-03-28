@@ -74,13 +74,13 @@ public class JaWEConstants {
 
    public static final String ACTIVITY_TYPE_SUBFLOW = "ACTIVITY_SUBFLOW";
 
-   public static final String ACTIVITY_TYPE_TOOL = "ACTIVITY_TOOL";
-
    public static final String ACTIVITY_TYPE_START = "ACTIVITY_START";
 
    public static final String ACTIVITY_TYPE_END = "ACTIVITY_END";
 
    public static final String ACTIVITY_TYPE_TASK_APPLICATION = "ACTIVITY_TASK_APPLICATION";
+
+   public static final String ACTIVITY_TYPE_TASK_SCRIPT = "ACTIVITY_TASK_SCRIPT";
 
    // Activity set
    public static final String ACTIVITY_SET_TYPE_DEFAULT = "ACTIVITYSET_DEFAULT";

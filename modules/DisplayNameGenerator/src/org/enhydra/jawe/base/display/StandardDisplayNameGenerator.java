@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.display;
 
@@ -48,6 +48,7 @@ import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.Deadline;
 import org.enhydra.jxpdl.elements.DeclaredType;
 import org.enhydra.jxpdl.elements.EnumerationType;
+import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExternalPackage;
 import org.enhydra.jxpdl.elements.ExternalReference;
 import org.enhydra.jxpdl.elements.FormalParameters;
@@ -71,35 +72,34 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
- *  Used to generate strings for graphical representation of all XPDL entities.
- *
- *  @author Sasa Bojanic
+ * Used to generate strings for graphical representation of all XPDL entities.
+ * 
+ * @author Sasa Bojanic
  */
 public class StandardDisplayNameGenerator implements DisplayNameGenerator {
-  
+
    protected DisplayNameGeneratorSettings settings;
-  
-   public StandardDisplayNameGenerator () {
+
+   public StandardDisplayNameGenerator() {
       settings = new DisplayNameGeneratorSettings();
       settings.init((JaWEComponent) null);
    }
-   
+
    public StandardDisplayNameGenerator(DisplayNameGeneratorSettings settings) {
       this.settings = settings;
       this.settings.init((JaWEComponent) null);
    }
-   
+
    public String getDisplayName(ActualParameter el) {
-      WorkflowProcess wp=XMLUtil.getWorkflowProcess(el);
-      Map vars=XMLUtil.getPossibleVariables(wp);
-      String vId=el.toValue();
+      Map vars = XMLUtil.getPossibleVariables(el);
+      String vId = el.toValue();
       if (!vId.equals("")) {
-         XMLCollectionElement dfOrFp=(XMLCollectionElement)vars.get(vId);
-         if (dfOrFp!=null) {
+         XMLCollectionElement dfOrFp = (XMLCollectionElement) vars.get(vId);
+         if (dfOrFp != null) {
             return getDisplayName(dfOrFp);
          }
       }
-      return vId;      
+      return vId;
    }
 
    public String getDisplayName(BasicType el) {
@@ -115,16 +115,18 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    }
 
    public String getDisplayName(DataTypes el) {
-      //return generateStandardDisplayName(el);
-      XMLBaseForCollectionAndComplex ch=(XMLBaseForCollectionAndComplex)el.getChoosen();
-      LabelGenerator lg=JaWEManager.getInstance().getLabelGenerator();      
-      String disp=lg.getLabel(ch);
+      // return generateStandardDisplayName(el);
+      XMLBaseForCollectionAndComplex ch = (XMLBaseForCollectionAndComplex) el.getChoosen();
+      LabelGenerator lg = JaWEManager.getInstance().getLabelGenerator();
+      String disp = lg.getLabel(ch);
       if (ch instanceof BasicType) {
-         disp+=" -> "+ settings.getLanguageDependentString(((BasicType)ch).getType() + "Key");
+         disp += " -> "
+                 + settings.getLanguageDependentString(((BasicType) ch).getType() + "Key");
       } else if (ch instanceof DeclaredType) {
-         String tdId=((DeclaredType)ch).getId();
-         TypeDeclaration td=XMLUtil.getTypeDeclaration(JaWEManager.getInstance().getXPDLHandler(), XMLUtil.getPackage(el), tdId);
-         disp+=" -> "+getDisplayName(td);
+         String tdId = ((DeclaredType) ch).getId();
+         TypeDeclaration td = XMLUtil.getTypeDeclaration(JaWEManager.getInstance()
+            .getXPDLHandler(), XMLUtil.getPackage(el), tdId);
+         disp += " -> " + getDisplayName(td);
       }
       return disp;
    }
@@ -134,9 +136,9 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    }
 
    public String getDisplayName(DeclaredType el) {
-      LabelGenerator lg=JaWEManager.getInstance().getLabelGenerator();      
+      LabelGenerator lg = JaWEManager.getInstance().getLabelGenerator();
       return lg.getLabel(el);
-      //return generateStandardDisplayName(el);
+      // return generateStandardDisplayName(el);
    }
 
    public String getDisplayName(EnumerationType el) {
@@ -144,7 +146,7 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    }
 
    public String getDisplayName(ExternalPackage el) {
-      //return generateStandardDisplayName(el);
+      // return generateStandardDisplayName(el);
       return el.getHref();
    }
 
@@ -155,12 +157,12 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    public String getDisplayName(FormalParameters el) {
       if (el.getParent() instanceof XMLComplexChoice) {
          return JaWEManager.getInstance().getLabelGenerator().getLabel(el);
-      } 
-      return String.valueOf(el.size());      
+      }
+      return String.valueOf(el.size());
    }
 
    public String getDisplayName(Join el) {
-       return generateStandardDisplayName(el.getTypeAttribute());
+      return generateStandardDisplayName(el.getTypeAttribute());
    }
 
    public String getDisplayName(Member el) {
@@ -176,19 +178,19 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    }
 
    public String getDisplayName(Responsible el) {
-      WorkflowProcess wp=XMLUtil.getWorkflowProcess(el);
-      Package pkg=XMLUtil.getPackage(el);
-      XPDLHandler xpdlh=JaWEManager.getInstance().getXPDLHandler();
-      Map ps=null;
-      if (wp!=null) {
-         ps=XMLUtil.getPossibleParticipants(wp, xpdlh);
-      } else if (pkg!=null) {
-         ps=XMLUtil.getPossibleParticipants(pkg, xpdlh);
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+      Package pkg = XMLUtil.getPackage(el);
+      XPDLHandler xpdlh = JaWEManager.getInstance().getXPDLHandler();
+      Map ps = null;
+      if (wp != null) {
+         ps = XMLUtil.getPossibleParticipants(wp, xpdlh);
+      } else if (pkg != null) {
+         ps = XMLUtil.getPossibleParticipants(pkg, xpdlh);
       }
-      String pId=el.toValue();
-      if (ps!=null && !pId.equals("")) {
-         Participant p=(Participant)ps.get(pId);
-         if (p!=null) {
+      String pId = el.toValue();
+      if (ps != null && !pId.equals("")) {
+         Participant p = (Participant) ps.get(pId);
+         if (p != null) {
             return getDisplayName(p);
          }
       }
@@ -220,50 +222,45 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    }
 
    public String getDisplayName(XMLAttribute el) {
-      if (el.getParent() instanceof Transition && (el.toName().equals("From") || el.toName().equals("To"))) {
-         XMLCollectionElement wpOrAs=XMLUtil.getActivitySet(el);
-         if (wpOrAs==null) {
-            wpOrAs=XMLUtil.getWorkflowProcess(el);
-         }
-         SequencedHashMap pas=getPossibleActivities(wpOrAs);
-         Activity act=(Activity)pas.get(el.toValue());
-         if (act!=null) {
+      if (el.getParent() instanceof Transition
+          && (el.toName().equals("From") || el.toName().equals("To"))) {
+         XMLCollectionElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(el);
+         SequencedHashMap pas = getPossibleActivities(wpOrAs);
+         Activity act = (Activity) pas.get(el.toValue());
+         if (act != null) {
             return generateStandardDisplayName(act);
          }
       } else if (el.getParent() instanceof TransitionRef) {
-         XMLCollectionElement wpOrAs=XMLUtil.getActivitySet(el);
-         if (wpOrAs==null) {
-            wpOrAs=XMLUtil.getWorkflowProcess(el);
-         }
-         Transitions tras=(Transitions)wpOrAs.get("Transitions");
-         Transition tra=tras.getTransition(el.toValue());
-         if (tra!=null) {
-            SequencedHashMap pas=getPossibleActivities(wpOrAs);
-            Activity act=(Activity)pas.get(tra.getTo());
-            if (act!=null) {
+         XMLCollectionElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(el);
+         Transitions tras = (Transitions) wpOrAs.get("Transitions");
+         Transition tra = tras.getTransition(el.toValue());
+         if (tra != null) {
+            SequencedHashMap pas = getPossibleActivities(wpOrAs);
+            Activity act = (Activity) pas.get(tra.getTo());
+            if (act != null) {
                return generateStandardDisplayName(act);
-            }    
+            }
          }
       }
       return generateStandardDisplayName(el);
    }
 
-   public String getDisplayName (XMLEmptyChoiceElement el) {
-      String v=el.toValue();
-//      try {
-//         v=settings.getLanguageDependentString(v+"Key");
-//         System.out.println("LDS for "+el.toValue()+"Key is "+v);
-//         if (v==null) {
-//            v=el.toValue();
-//         }
-//      } catch (Exception ex) {
-//         System.out.println("Failed getting LDS for "+el.toValue()+"Key");
-//         v=el.toValue();
-//      }
+   public String getDisplayName(XMLEmptyChoiceElement el) {
+      String v = el.toValue();
+      // try {
+      // v=settings.getLanguageDependentString(v+"Key");
+      // System.out.println("LDS for "+el.toValue()+"Key is "+v);
+      // if (v==null) {
+      // v=el.toValue();
+      // }
+      // } catch (Exception ex) {
+      // System.out.println("Failed getting LDS for "+el.toValue()+"Key");
+      // v=el.toValue();
+      // }
       return v;
    }
 
-   public String getDisplayName (XMLComplexChoice el) {
+   public String getDisplayName(XMLComplexChoice el) {
       return generateStandardDisplayName(el);
    }
 
@@ -274,7 +271,7 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    public String getDisplayName(XMLCollectionElement el) {
       return generateStandardDisplayName(el);
    }
-   
+
    public String getDisplayName(XMLComplexElement el) {
       return generateStandardDisplayName(el);
    }
@@ -282,93 +279,98 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    public String getDisplayName(XMLSimpleElement el) {
       return generateStandardDisplayName(el);
    }
-   
-   public String getDisplayName (XMLElement el) {
+
+   public String getDisplayName(XMLElement el) {
       try {
-         Class cl = el.getClass();           
+         Class cl = el.getClass();
          Method m = null;
          try {
-            m = this.getClass().getMethod("getDisplayName", new Class[] { cl } );
+            m = this.getClass().getMethod("getDisplayName", new Class[] {
+               cl
+            });
          } catch (Exception ex) {
-            if (!(
-                  cl==XMLSimpleElement.class || 
-                  cl==XMLAttribute.class || 
-                  cl==XMLComplexChoice.class ||
-                  cl==XMLComplexElement.class ||
-                  cl==XMLCollectionElement.class ||
-                  cl==XMLCollection.class)) {
+            if (!(cl == XMLSimpleElement.class
+                  || cl == XMLAttribute.class || cl == XMLComplexChoice.class
+                  || cl == XMLComplexElement.class || cl == XMLCollectionElement.class || cl == XMLCollection.class)) {
                if (XMLComplexChoice.class.isAssignableFrom(cl)) {
-                  cl=XMLComplexChoice.class;
+                  cl = XMLComplexChoice.class;
                } else if (XMLAttribute.class.isAssignableFrom(cl)) {
-                  cl=XMLAttribute.class;
+                  cl = XMLAttribute.class;
                } else if (XMLSimpleElement.class.isAssignableFrom(cl)) {
-                  cl=XMLSimpleElement.class;
+                  cl = XMLSimpleElement.class;
                } else if (XMLComplexElement.class.isAssignableFrom(cl)) {
-                  cl=XMLComplexElement.class;
+                  cl = XMLComplexElement.class;
                } else if (XMLCollection.class.isAssignableFrom(cl)) {
-                  cl=XMLCollection.class;
+                  cl = XMLCollection.class;
                }
-            }             
+            }
          }
-         m = this.getClass().getMethod("getDisplayName", new Class[] { cl } );
-//          System.err.println("calling "+m.toString());
-         return (String) m.invoke(this, new Object[] { el });
+         m = this.getClass().getMethod("getDisplayName", new Class[] {
+            cl
+         });
+         // System.err.println("calling "+m.toString());
+         return (String) m.invoke(this, new Object[] {
+            el
+         });
       } catch (Throwable e) {
-          e.printStackTrace();
+         e.printStackTrace();
       }
-      
+
       return generateStandardDisplayName(el);
    }
-   
-   public String generateStandardDisplayName (XMLElement el) {
-      String disp="";
+
+   public String generateStandardDisplayName(XMLElement el) {
+      String disp = "";
       if (el instanceof XMLCollection) {
-         disp=String.valueOf(((XMLCollection)el).size());
+         disp = String.valueOf(((XMLCollection) el).size());
       } else if (el instanceof XMLComplexElement) {
-         XMLElement nme=((XMLComplexElement)el).get("Name");
-         if (nme!=null) {
-            disp=nme.toValue();
+         XMLElement nme = ((XMLComplexElement) el).get("Name");
+         if (nme != null) {
+            disp = nme.toValue();
          }
          if (disp.equals("")) {
-            XMLElement id=((XMLComplexElement)el).get("Id");
-            if (id!=null) {
-               disp=id.toValue();
+            XMLElement id = ((XMLComplexElement) el).get("Id");
+            if (id != null) {
+               disp = id.toValue();
             }
          }
          if (disp.equals("")) {
-            disp=JaWEManager.getInstance().getLabelGenerator().getLabel(el);
+            if (el instanceof ExpressionType) {
+               disp = el.toValue();
+            } else {
+               disp = JaWEManager.getInstance().getLabelGenerator().getLabel(el);
+            }
          }
       } else if (el instanceof XMLComplexChoice) {
-         disp=getDisplayName(((XMLComplexChoice)el).getChoosen());
-      } else if (el instanceof XMLAttribute && ((XMLAttribute)el).getChoices()!=null){
-         disp= settings.getLanguageDependentString(el.toValue()+"Key");
-         if  (disp==null || disp.equals("")) {
-            disp=el.toValue();
+         disp = getDisplayName(((XMLComplexChoice) el).getChoosen());
+      } else if (el instanceof XMLAttribute && ((XMLAttribute) el).getChoices() != null) {
+         disp = settings.getLanguageDependentString(el.toValue() + "Key");
+         if (disp == null || disp.equals("")) {
+            disp = el.toValue();
          }
       } else {
-         disp=el.toValue();
-      }      
+         disp = el.toValue();
+      }
       return disp;
    }
-   
+
    public DisplayNameGeneratorSettings getSetting() {
       return settings;
    }
-   
-   public Settings getSettings () {
+
+   public Settings getSettings() {
       return settings;
    }
-   
-   public SequencedHashMap getPossibleActivities (XMLCollectionElement wpOrAs) {
-      SequencedHashMap toRet=new SequencedHashMap();
-      List acts=((Activities)wpOrAs.get("Activities")).toElements();
-      Iterator it=acts.iterator();
+
+   public SequencedHashMap getPossibleActivities(XMLCollectionElement wpOrAs) {
+      SequencedHashMap toRet = new SequencedHashMap();
+      List acts = ((Activities) wpOrAs.get("Activities")).toElements();
+      Iterator it = acts.iterator();
       while (it.hasNext()) {
-         Activity act=(Activity)it.next();
-         toRet.put(act.getId(),act);
+         Activity act = (Activity) it.next();
+         toRet.put(act.getId(), act);
       }
       return toRet;
    }
 
-   
 }

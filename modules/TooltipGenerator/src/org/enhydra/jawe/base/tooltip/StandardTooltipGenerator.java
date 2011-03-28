@@ -135,6 +135,26 @@ public class StandardTooltipGenerator implements TooltipGenerator {
             .getId());
          toDisplay.put(label, key);
       }
+      if (type.equals(JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT)) {
+         label = settings.getLanguageDependentString("ScriptTypeKey");
+         key = String.valueOf(el.getActivityTypes()
+            .getImplementation()
+            .getImplementationTypes()
+            .getTask()
+            .getTaskTypes()
+            .getTaskScript()
+            .getScript().getScriptType());
+         toDisplay.put(label, key);
+         label = settings.getLanguageDependentString("ScriptKey");
+         key = String.valueOf(el.getActivityTypes()
+            .getImplementation()
+            .getImplementationTypes()
+            .getTask()
+            .getTaskTypes()
+            .getTaskScript()
+            .getScript().toValue());
+         toDisplay.put(label, key);
+      }
       if (type.equals(JaWEConstants.ACTIVITY_TYPE_SUBFLOW)) {
          label = settings.getLanguageDependentString("ReferencedProcessKey");
          key = el.getActivityTypes()

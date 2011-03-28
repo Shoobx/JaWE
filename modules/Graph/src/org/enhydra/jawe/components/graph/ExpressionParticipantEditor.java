@@ -296,7 +296,7 @@ public class ExpressionParticipantEditor {
          if (elementToEdit.getPerformers().size() > 0) {
             pIdPanel = new XMLMultiLineTextPanel(null,
                                                  elementToEdit.getPerformers().get(0),
-                                                 "Xpression",
+                                                 "Expression",
                                                  false,
                                                  true,
                                                  XMLMultiLineTextPanel.SIZE_MEDIUM,

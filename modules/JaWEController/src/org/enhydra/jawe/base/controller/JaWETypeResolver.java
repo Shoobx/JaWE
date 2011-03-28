@@ -86,6 +86,8 @@ public class JaWETypeResolver {
             jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_NO);
          } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
             jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION);
+         } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) {
+            jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT);
          } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
             jt = jts.getType(JaWEConstants.ACTIVITY_TYPE_BLOCK);
          } else if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE) {

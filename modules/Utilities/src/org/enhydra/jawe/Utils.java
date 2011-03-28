@@ -543,7 +543,10 @@ public class Utils {
             retVal = JaWEConstants.ACTIVITY_TYPE_NO;
             break;
          case XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION:
-            retVal = JaWEConstants.ACTIVITY_TYPE_TOOL;
+            retVal = JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION;
+            break;
+         case XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT:
+            retVal = JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT;
             break;
          case XPDLConstants.ACTIVITY_TYPE_BLOCK:
             retVal = JaWEConstants.ACTIVITY_TYPE_BLOCK;

@@ -44,22 +44,6 @@ public class XMLGroupPanel extends XMLBasicPanel {
 
    public XMLGroupPanel(PanelContainer pc,
                         XMLElement myOwnerL,
-                        Object[] elements,
-                        String title,
-                        boolean isVertical,
-                        boolean hasBorder,
-                        boolean hasEmptyBorder) {
-      this(pc,
-           myOwnerL,
-           Arrays.asList(elements),
-           title,
-           isVertical,
-           hasBorder,
-           hasEmptyBorder);
-   }
-
-   public XMLGroupPanel(PanelContainer pc,
-                        XMLElement myOwnerL,
                         List elements,
                         String title,
                         boolean isVertical,
@@ -68,21 +52,35 @@ public class XMLGroupPanel extends XMLBasicPanel {
 
       super(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder);
 
-      initPanel(isVertical, elements);
-   }
-   
-   protected void initPanel (boolean isVertical,List elements) {
-      boolean rightAllignment = true;
-
+      boolean isRightAllignment = false;
       if (pc != null) {
-         rightAllignment=pc.getSettings().getSettingBoolean("XMLBasicPanel.RightAllignment");
+         isRightAllignment=pc.getSettings().getSettingBoolean("XMLBasicPanel.RightAllignment");
       }
       
-      initTopLeft(isVertical, rightAllignment);
+
+      initPanel(isVertical, isRightAllignment, elements);
+   }
+   
+   public XMLGroupPanel(PanelContainer pc,
+                        XMLElement myOwnerL,
+                        List elements,
+                        String title,
+                        boolean isVertical,
+                        boolean hasBorder,
+                        boolean hasEmptyBorder,
+                        boolean isRightAllignment) {
+
+      super(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder);
+
+      initPanel(isVertical, isRightAllignment, elements);
+   }
+
+   protected void initPanel (boolean isVertical, boolean isRightAllignment, List elements) {
+      initTopLeft(isVertical, isRightAllignment);
 
       initElements(elements,isVertical);
       
-      initBottomRight(isVertical, rightAllignment);
+      initBottomRight(isVertical, isRightAllignment);
    }
    
    protected void initElements (List elements, boolean isVertical) {
@@ -107,24 +105,24 @@ public class XMLGroupPanel extends XMLBasicPanel {
       }
    }
    
-   protected void initTopLeft (boolean isVertical,boolean rightAllignment) {
+   protected void initTopLeft (boolean isVertical,boolean isRightAllignment) {
       if (isVertical) {
          add(Box.createVerticalStrut(5));
          hasDummyStartEl = true;
       } else {
-         if (!rightAllignment) {
+         if (!isRightAllignment) {
             add(Box.createHorizontalGlue());
             hasDummyStartEl = true;
          }
       }      
    }
    
-   protected void initBottomRight (boolean isVertical,boolean rightAllignment) {
+   protected void initBottomRight (boolean isVertical,boolean isRightAllignment) {
       if (isVertical) {
          add(Box.createVerticalGlue());
          hasDummyEndEl = true;
       } else {
-         if (rightAllignment) {
+         if (isRightAllignment) {
             add(Box.createHorizontalGlue());
             hasDummyEndEl = true;
          }

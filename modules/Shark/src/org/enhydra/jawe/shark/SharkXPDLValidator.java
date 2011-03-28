@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.shark;
 
@@ -28,6 +28,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.xpdlvalidator.TogWEXPDLValidator;
 import org.enhydra.jxpdl.StandardPackageValidator;
 import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XMLValidationError;
@@ -39,12 +40,14 @@ import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.EnumerationType;
+import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ListType;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.RecordType;
 import org.enhydra.jxpdl.elements.Script;
+import org.enhydra.jxpdl.elements.TSScript;
 import org.enhydra.jxpdl.elements.UnionType;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
@@ -176,6 +179,12 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       existingErrors.add(verr);
    }
 
+   public void validateElement(ExpressionType el, List existingErrors, boolean fullCheck) {
+      if (!el.getScriptType().equals("")) {
+         validateScript(el, existingErrors, fullCheck);
+      }
+   }
+
    public void validateElement(ListType el, List existingErrors, boolean fullCheck) {
       XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                        XMLValidationError.SUB_TYPE_LOGIC,
@@ -199,7 +208,8 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (fullCheck || existingErrors.size() == 0) {
          // check performer
          Activity act = XMLUtil.getActivity(el);
-         if (act==null) return;
+         if (act == null)
+            return;
          String performer = el.toValue();
          int type = act.getActivityType();
          if (type == XPDLConstants.ACTIVITY_TYPE_NO) {
@@ -242,10 +252,15 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
    }
 
    /** Introduces restrictions on script type. */
-   public void validateScript(Script el, List existingErrors, boolean fullCheck) {
-      String sType = el.getType();
+   public void validateScript(XMLComplexElement el, List existingErrors, boolean fullCheck) {
+      String sType = "";
+      if (el instanceof Script) {
+         sType = ((Script) el).getType();
+      } else {
+         sType = ((ExpressionType) el).getScriptType();
+      }
       if (!(sType.equals(SharkConstants.SCRIPT_VALUE_JAVA)
-            || sType.equals(SharkConstants.SCRIPT_VALUE_JAVASCRIPT) || sType.equals(SharkConstants.SCRIPT_VALUE_PYTHONSCRIPT))) {
+            || sType.equals(SharkConstants.SCRIPT_VALUE_JAVASCRIPT) || (sType.equals(SharkConstants.SCRIPT_VALUE_PYTHONSCRIPT) && !(el instanceof TSScript)))) {
          XMLValidationError verr = null;
          if (!sType.equals("")) {
             verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,

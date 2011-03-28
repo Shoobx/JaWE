@@ -337,7 +337,8 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 	
 	protected boolean hasAdditionalActivities(JaWEType jt) {
 		if (jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_NO)
-			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_TOOL)
+			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION)
+         || jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT)
 			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_BLOCK)
 			|| jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE)
          || jt.getTypeId().equals(JaWEConstants.ACTIVITY_TYPE_ROUTE_PARALLEL)

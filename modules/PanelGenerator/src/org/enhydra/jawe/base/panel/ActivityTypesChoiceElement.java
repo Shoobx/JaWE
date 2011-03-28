@@ -48,6 +48,7 @@ public class ActivityTypesChoiceElement extends XMLComplexChoice {
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_ROUTE),controlled.getRoute());
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_SUBFLOW),controlled.getImplementation().getImplementationTypes().getSubFlow());
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION),controlled.getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskApplication());
+         chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT),controlled.getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskScript());
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_EVENT_START),controlled.getEvent().getEventTypes().getStartEvent());
          chsMap.put(new Integer(XPDLConstants.ACTIVITY_TYPE_EVENT_END),controlled.getEvent().getEventTypes().getEndEvent());
          choosen=(XMLElement)chsMap.get(new Integer(type));

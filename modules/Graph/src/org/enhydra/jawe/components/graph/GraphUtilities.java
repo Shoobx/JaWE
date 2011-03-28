@@ -1808,10 +1808,7 @@ public class GraphUtilities {
       if (perf.equals("")) {
          perf = getParticipantId(act);
       }
-      XMLCollectionElement wpOrAs = XMLUtil.getActivitySet(act);
-      if (wpOrAs == null) {
-         wpOrAs = XMLUtil.getWorkflowProcess(act);
-      }
+      XMLCollectionElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(act);
       Pool p = JaWEManager.getInstance()
          .getXPDLUtils()
          .getPoolForProcessOrActivitySet(wpOrAs);
@@ -3533,10 +3530,7 @@ public class GraphUtilities {
       if (ngi != null) {
          String laneId = ngi.getLaneId();
          if (wpOrAs == null) {
-            wpOrAs = XMLUtil.getActivitySet(actOrArtif);
-            if (wpOrAs == null) {
-               wpOrAs = XMLUtil.getWorkflowProcess(actOrArtif);
-            }
+            wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(actOrArtif);
          }
          Pool p = JaWEManager.getInstance()
             .getXPDLUtils()
@@ -3559,10 +3553,7 @@ public class GraphUtilities {
 
    protected static Lane createLaneForActivity(Activity act, boolean addToCollection) {
       String perf = act.getFirstPerformer();
-      XMLCollectionElement wpOrAs = XMLUtil.getActivitySet(act);
-      if (wpOrAs == null) {
-         wpOrAs = XMLUtil.getWorkflowProcess(act);
-      }
+      XMLCollectionElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(act);
       Pool p = JaWEManager.getInstance()
          .getXPDLUtils()
          .getPoolForProcessOrActivitySet(wpOrAs);

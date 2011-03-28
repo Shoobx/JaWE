@@ -56,10 +56,7 @@ public class PackageNavigatorTreeModel extends XPDLTreeModel {
          } else if (el instanceof ActivitySet) {
             parent = findNode(XMLUtil.getWorkflowProcess(el));
          } else if (el instanceof Activity) {
-            XMLElement wpOrAs = XMLUtil.getActivitySet(el);
-            if (wpOrAs == null) {
-               wpOrAs = XMLUtil.getWorkflowProcess(el);
-            }
+            XMLElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(el);
             parent = findNode(wpOrAs);
          }
          if (parent != null) {
