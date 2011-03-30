@@ -42,21 +42,14 @@ import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.VertexView;
 
 /**
- * Class used to display activity object.
- * 
- * @author Sasa Bojanic
- * @author Miroslav Popov
+ * Class used to render graph activity object.
  */
 public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
                                                                     GraphActivityRendererInterface {
 
+   /** The size of arc. */
    protected static int arc = 15;
 
-   /**
-    * Paints activity. Overrides super class paint to add specific painting. First it
-    * fills inner with color. Then it adds specific drawing for join type. Then it apply
-    * JPanel with name and icon. At the end it draws border
-    */
    public void paint(Graphics g) {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
@@ -213,6 +206,9 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       return ii;
    }
 
+   /**
+    * @return The border color for activity object.
+    */
    public Color getBorderColor() {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
@@ -229,6 +225,9 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       return bc;
    }
 
+   /**
+    * @return The fill color for activity object.
+    */
    public Color getFillColor() {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
@@ -250,6 +249,13 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       return fc;
    }
 
+   /**
+    * Paints the label below the Route type activity "box".
+    * 
+    * @param g Graphics object.
+    * @param label Label text to paint.
+    * @param actH The height of activity "box".
+    */
    protected void paintLabel(Graphics g, String label, int actH) {
       // Rectangle rb = ((GraphArtifactViewInterface)view).getOriginalBounds();
       // view.setBounds(new Rectangle((int)rb.getX()-50, (int)rb.getY(),
@@ -302,6 +308,13 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
 
    }
 
+   /**
+    * The helper method for determining perimeter point of for the Route activity type.
+    * 
+    * @param view The view.
+    * @param p The Point.
+    * @return The perimeter point.
+    */
    public Point2D _getPerimeterPoint(VertexView view, Point2D p) {
       GraphActivityViewInterface v = (GraphActivityViewInterface) view;
       Point2D center = AbstractCellView.getCenterPoint(view);
@@ -338,10 +351,6 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       return i;
    }
 
-   /**
-    * Find the point of intersection of two straight lines (which follow the equation
-    * y=mx+b) one line is an incoming edge and the other is one side of the diamond.
-    */
    private Point2D intersection(VertexView view,
                                 Point2D lineOneStart,
                                 Point2D lineOneEnd,
@@ -361,12 +370,22 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       return intersection;
    }
 
+   /**
+    * Helper method to draw a circle with specified line width.
+    * 
+    * @param g The graphics object.
+    * @param x X-center of the circle.
+    * @param y T-center of the circle.
+    * @param r Circle radius.
+    * @param lineWidth The line width.
+    */
    protected static void drawCircle(Graphics g, int x, int y, int r, int lineWidth) {
       for (int i = 0; i < lineWidth; i++) {
          g.drawOval(x - (r - i), y - (r - i), 2 * (r - i), 2 * (r - i));
       }
    }
 
+   /** Helper method to draw a line with specified width. */
    protected static void drawLine(Graphics g,
                                   int x1,
                                   int y1,

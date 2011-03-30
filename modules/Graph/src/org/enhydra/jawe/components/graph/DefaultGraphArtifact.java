@@ -38,14 +38,17 @@ import org.enhydra.jxpdl.elements.Artifact;
 public class DefaultGraphArtifact extends GraphArtifactInterface {
 
    /**
-    * Creates artifact with given userObject. Also creates default port for holding
-    * artifact's associations.
+    * Creates graph artifact object for the given XPDL object. Also creates default port
+    * for holding artifact's associations.
     */
    public DefaultGraphArtifact(Artifact act) {
       setUserObject(act);
       addAPort();
    }
 
+   /**
+    * Adds a port to an artifact.
+    */
    protected void addAPort() {
       // Create Port
       // Floating Center Port (Child 0 is Default)
@@ -63,9 +66,6 @@ public class DefaultGraphArtifact extends GraphArtifactInterface {
          .getTypeId();
    }
 
-   /**
-    * Gets the port associate with this artifact.
-    */
    public GraphPortInterface getPort() {
       for (Enumeration e = children(); e.hasMoreElements();) {
          Object child = e.nextElement();
@@ -77,14 +77,14 @@ public class DefaultGraphArtifact extends GraphArtifactInterface {
    }
 
    /**
-    * Returns <code>true</code> if Artifact is a valid source for transition.
+    * Always returns <code>true</code>.
     */
    public boolean acceptsSource() {
       return true;
    }
 
    /**
-    * Returns <code>true</code> if Artifact is a valid target for transition.
+    * Always returns <code>true</code>.
     */
    public boolean acceptsTarget() {
       return true;
@@ -97,9 +97,6 @@ public class DefaultGraphArtifact extends GraphArtifactInterface {
       return null;// Harald Meister
    }
 
-   /**
-    * Gets a tooltip text for activity.
-    */
    public String getTooltip() {
       TooltipGenerator ttg = JaWEManager.getInstance().getTooltipGenerator();
       if (userObject != null && ttg != null) {
@@ -108,9 +105,6 @@ public class DefaultGraphArtifact extends GraphArtifactInterface {
       return "";
    }
 
-   /**
-    * Gets an activity "display name" property.
-    */
    public String toString() {
       String name = null;
       if (userObject != null) {
@@ -120,7 +114,7 @@ public class DefaultGraphArtifact extends GraphArtifactInterface {
          } else {
             name = art.getDataObject().getName();
          }
-         if (name==null || "".equals(name)) {
+         if (name == null || "".equals(name)) {
             name = art.getName();
          }
          if (name.equals("")) {
@@ -145,17 +139,14 @@ public class DefaultGraphArtifact extends GraphArtifactInterface {
    }
 
    /**
-    * Create a clone of the ActivityProperties object.
+    * Create a clone of the XPDL Artifact object.
     * 
-    * @return Object a clone of this activity property object.
+    * @return Object a clone of this artifact's XPDL object.
     */
    protected Object cloneUserObject() {
       return ((Artifact) userObject).clone();
    }
 
-   /**
-    * Gets all activities that reference this one.
-    */
    public Set getReferencingActivities() {
       Set referencingActivities = new HashSet();
       for (Iterator i = getPort().edges(); i.hasNext();) {
@@ -168,9 +159,6 @@ public class DefaultGraphArtifact extends GraphArtifactInterface {
       return referencingActivities;
    }
 
-   /**
-    * Gets all activities that this activity references.
-    */
    public Set getReferencedActivities() {
       Set referencedActivities = new HashSet();
       for (Iterator i = getPort().edges(); i.hasNext();) {

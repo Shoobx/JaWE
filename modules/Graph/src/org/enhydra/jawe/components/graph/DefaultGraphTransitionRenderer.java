@@ -30,23 +30,24 @@ import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activity;
-import org.enhydra.jxpdl.elements.Artifact;
 import org.enhydra.jxpdl.elements.Association;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
-import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
 import org.enhydra.jxpdl.elements.Transition;
 import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.EdgeRenderer;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Represents a view for a model's Transition object.
+ * Represents a renderer for a model's Transition object.
  * 
  * @author Sasa Bojanic
  */
 public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
                                                                 GraphTransitionRendererInterface {
 
+   /**
+    * Creates new renderer.
+    */
    public DefaultGraphTransitionRenderer() {
       super();
    }
@@ -189,6 +190,9 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
       return c;
    }
 
+   /**
+    * @return The color used to fill transition object.
+    */
    public Color getFillColor() {
       GraphTransitionInterface tr = (GraphTransitionInterface) view.getCell();
       XMLCollectionElement tOrA = (XMLCollectionElement) tr.getUserObject();

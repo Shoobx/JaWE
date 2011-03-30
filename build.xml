@@ -337,7 +337,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
    <target name="dependencies" depends="dependency_tws" unless="${rebranding}"/>
 
-   <target name="dependency_tws" depends="clean,output,_dependency_tws" unless="${rebranding}"/>
+   <target name="dependency_tws" depends="clean,buildOutput,_dependency_tws" unless="${rebranding}"/>
    
    <target name="_dependencies" depends="_dependency_tws" unless="${rebranding}"/>
 

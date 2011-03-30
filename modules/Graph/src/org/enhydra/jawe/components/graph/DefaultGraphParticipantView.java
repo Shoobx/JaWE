@@ -24,7 +24,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.enhydra.jxpdl.elements.Participant;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellMapper;
 import org.jgraph.graph.CellView;

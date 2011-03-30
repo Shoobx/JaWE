@@ -40,15 +40,18 @@ import org.jgraph.graph.VertexView;
 public class DefaultGraphArtifactView extends VertexView implements
                                                         GraphArtifactViewInterface {
 
+   /** Map of renderers for different types of artifacts. */
    protected static Map renderers = new HashMap();
 
-   protected static String[] mths = new String[] {
+   /**
+    * The list of strings representing "caller method" names. When the caller of
+    * getBounds() method is some of the specified methods, the original "basic" bounds are
+    * returned, the "full" bounds are returned otherwise.
+    */
+   protected static List mthlst = Arrays.asList(new String[] {
          "intersection", "getPerimeterPoint", "getCenterPoint", "paintPort", "getCBounds"
-   };
+   });
 
-   protected static List mthlst = Arrays.asList(mths);
-
-   // protected static List mthlst = Arrays.asList(mths);
    /**
     * Constructs a artifact view for the specified model object.
     * 
@@ -58,9 +61,6 @@ public class DefaultGraphArtifactView extends VertexView implements
       super(cell);
    }
 
-   /**
-    * Returns a renderer for the class.
-    */
    public CellViewRenderer getRenderer() {
       String type = ((GraphArtifactInterface) super.getCell()).getType();
       GraphArtifactRendererInterface garenderer = (GraphArtifactRendererInterface) renderers.get(type);
@@ -71,16 +71,13 @@ public class DefaultGraphArtifactView extends VertexView implements
       return garenderer;
    }
 
-   /**
-    * Returns the bounding rectangle for this view.
-    */
    public Rectangle2D getBounds() {// HM, JGraph3.4.1
       GraphArtifactInterface gact = (GraphArtifactInterface) getCell();
       Artifact art = (Artifact) gact.getUserObject();
       String mn = Utils.getCallerMethodName(0);
       if (art.getArtifactType().equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)
           || mthlst.contains(mn)) {
-//         System.out.println("MN=" + mn + " - b=" + bounds);
+         // System.out.println("MN=" + mn + " - b=" + bounds);
          return bounds;
       }
       Dimension d = ((GraphArtifactRendererInterface) getRenderer()).getLabelDimension(this);
@@ -93,7 +90,7 @@ public class DefaultGraphArtifactView extends VertexView implements
                                        (int) d.getHeight());
       if (rect != null)
          Rectangle2D.union(bounds, rect, rect);
-//      System.out.println("MN=" + mn + " - r=" + rect);
+      // System.out.println("MN=" + mn + " - r=" + rect);
       return rect;
    }
 
@@ -101,19 +98,20 @@ public class DefaultGraphArtifactView extends VertexView implements
       return bounds.getBounds();
    }
 
-   public void setOriginalBounds (Rectangle bounds) {
-      this.bounds = bounds; 
+   public void setOriginalBounds(Rectangle bounds) {
+      this.bounds = bounds;
    }
 
-   public void setBounds(Rectangle2D bounds) {
-      Thread.dumpStack();
-      super.setBounds(bounds);
-   }
-
-   protected GraphArtifactRendererInterface createRenderer(Artifact act) {
+   /**
+    * Creates a renderer object for a given XPDL artifact object.
+    * 
+    * @param art The artifact from XPDL model.
+    * @return Renderer object.
+    */
+   protected GraphArtifactRendererInterface createRenderer(Artifact art) {
       return GraphUtilities.getGraphController()
          .getGraphObjectRendererFactory()
-         .createArtifactRenderer(act);
+         .createArtifactRenderer(art);
    }
 
    public Point2D getPerimeterPoint(EdgeView edge, Point2D source, Point2D p) {

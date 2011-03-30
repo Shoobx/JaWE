@@ -21,19 +21,19 @@ package org.enhydra.jawe.components.graph;
 import java.util.Set;
 
 /**
- * Interface for defining Activity graph object.
- * 
- * @author Sasa Bojanic
+ * Abstract class for defining Activity graph object.
  */
 public abstract class GraphActivityInterface extends GraphCommonInterface {
 
    /**
-    * Gets all artifacts that reference this one.
+    * @return A set of {@link GraphArtifactInterface} instances which have outgoing
+    *         connections to this object.
     */
    public abstract Set getReferencingArtifacts();
 
    /**
-    * Gets all artifacts that this activity references.
+    * @return A set of {@link GraphArtifactInterface} instances which have incoming
+    *         connections from this object.
     */
    public abstract Set getReferencedArtifacts();
 

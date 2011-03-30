@@ -36,20 +36,25 @@ import org.jgraph.graph.VertexView;
 /**
  * Represents a view for a model's Activity object.
  *
- * @author Sasa Bojanic
  */
 public class DefaultGraphActivityView extends VertexView implements GraphActivityViewInterface {
 
+   /** A map of renderers for different activity types. */
    protected static Map renderers = new HashMap();
-   protected static String[] mths = new String[] {
-                                 "intersection",
-                                 "getPerimeterPoint",
-                                 "getCenterPoint",
-                                 "getLocation",
-                                 "paintPort",
-                                 "getCBounds"
-                           };
-   protected static List mthlst = Arrays.asList(mths);
+   
+   /**
+    * The list of strings representing "caller method" names. When the caller of
+    * getBounds() method is some of the specified methods, the original "basic" bounds are
+    * returned, the "full" bounds are returned otherwise.
+    */
+   protected static List mthlst = Arrays.asList(new String[] {
+                                                              "intersection",
+                                                              "getPerimeterPoint",
+                                                              "getCenterPoint",
+                                                              "getLocation",
+                                                              "paintPort",
+                                                              "getCBounds"
+                                                        });
 
    /**
    * Constructs a activity view for the specified model object.
@@ -60,9 +65,6 @@ public class DefaultGraphActivityView extends VertexView implements GraphActivit
       super(cell);
    }
 
-   /**
-   * Returns a renderer for the class.
-   */
    public CellViewRenderer getRenderer() {      
       String type=((GraphActivityInterface)super.getCell()).getType();
       GraphActivityRendererInterface garenderer=(GraphActivityRendererInterface)renderers.get(type);
@@ -73,9 +75,6 @@ public class DefaultGraphActivityView extends VertexView implements GraphActivit
       return garenderer;
    }
 
-   /**
-   * Returns the bounding rectangle for this view.
-   */
    public Rectangle2D getBounds() {//HM, JGraph3.4.1
       String mn = Utils.getCallerMethodName(0);
 //      System.out.println("MN="+mn);
@@ -104,6 +103,12 @@ public class DefaultGraphActivityView extends VertexView implements GraphActivit
       this.bounds = bounds; 
    }
    
+   /**
+    * Creates a renderer object for a given XPDL activity object.
+    * 
+    * @param act The activity from XPDL model.
+    * @return Renderer object.
+    */
    protected GraphActivityRendererInterface createRenderer (Activity act) {
       return GraphUtilities.getGraphController().getGraphObjectRendererFactory().createActivityRenderer(act);
    }

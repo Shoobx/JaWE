@@ -52,10 +52,14 @@ import org.jgraph.graph.GraphContext;
  */
 public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
 
+   /**
+    * Map of renderers for different transition types (keys: type of transitions, values:
+    * renderer instances).
+    */
    protected static Map renderers = new HashMap();
 
    /**
-    * Constructs an edge view for the specified model object.
+    * Constructs a transition view for the specified model object.
     * 
     * @param cell reference to the model object
     */
@@ -84,16 +88,10 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
       super.mergeAttributes();
    }
 
-   /**
-    * Returns a cell handle for the view.
-    */
    public CellHandle getHandle(GraphContext context) {
       return new TransitionHandle(this, context);
    }
 
-   /**
-    * Inserts a "break point" at transition object at the point where popup menu appeared.
-    */
    public void addPoint(Graph graph, Point popupPoint) {
       boolean bendable = graph.isBendable() && GraphConstants.isBendable(getAttributes());
       if (bendable) {
@@ -102,7 +100,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
          // Rectangle rect = (Rectangle)graph.fromScreen(new
          // Rectangle(popupPoint.x-s,popupPoint.y-s,2*s,2*s));
          Rectangle rect = new Rectangle(popupPoint.x - s, popupPoint.y - s, 2 * s, 2 * s);
-//         System.err.println("Rect=" + rect + ", popup=" + popupPoint);
+         // System.err.println("Rect=" + rect + ", popup=" + popupPoint);
          if (intersects(graph, rect)) {
             Point point = new Point(popupPoint); // (Point) graph.snap(new
             // Point(popupPoint));//HM, JGraph3.4.1
@@ -118,9 +116,9 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                // Point p1 = new Point((int) getPoint(i + 1).getX(), (int) getPoint(i +
                // 1).getY());//HM, JGraph3.4.1
                dist = new Line2D.Double(p, p1).ptLineDistSq(point);
-//               System.err.println("P="
-//                                  + p + ", P1=" + p1 + ", popup=" + point + ", dist="
-//                                  + dist + ", min=" + min + ", index=" + index);
+               // System.err.println("P="
+               // + p + ", P1=" + p1 + ", popup=" + point + ", dist="
+               // + dist + ", min=" + min + ", index=" + index);
                if (dist < min) {
                   min = dist;
                   index = i + 1;
@@ -142,9 +140,6 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
       }
    }
 
-   /**
-    * Removes a "break point" from transition at the point where popup menu appeared.
-    */
    public void removePoint(Graph graph, Point popupPoint) {
       boolean bendable = graph.isBendable() && GraphConstants.isBendable(getAttributes());
       if (bendable) {
@@ -153,7 +148,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
          // Rectangle rect = graph.fromScreen(new
          // Rectangle(popupPoint.x-s,popupPoint.y-s,2*s,2*s));
          Rectangle rect = new Rectangle(popupPoint.x - s, popupPoint.y - s, 2 * s, 2 * s);
-//         System.err.println("Rect=" + rect + ", popup=" + popupPoint);
+         // System.err.println("Rect=" + rect + ", popup=" + popupPoint);
          if (intersects(graph, rect)) {
             Point point = new Point(popupPoint);// (Point) graph.snap(new
             // Point(popupPoint));//HM, JGraph3.4.1
@@ -162,9 +157,9 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                Point p = new Point((int) getPoint(i).getX(), (int) getPoint(i).getY());// HM,
                // JGraph3.4.1
                dist = Math.sqrt(((Point2D) point).distanceSq(p));
-//               System.err.println("P="
-//                                  + p + ", popup=" + point + ", dist=" + dist + ", min="
-//                                  + min + ", index=" + index);
+               // System.err.println("P="
+               // + p + ", popup=" + point + ", dist=" + dist + ", min="
+               // + min + ", index=" + index);
 
                if (dist < min) {
                   min = dist;
@@ -187,8 +182,18 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
       }
    }
 
+   /**
+    * Extends JGraph's EdgeHandle to implement interaction with XPDL model and special
+    * check on possible connecting options.
+    */
    public static class TransitionHandle extends EdgeHandle {
 
+      /**
+       * Creates new object.
+       * 
+       * @param edge The view.
+       * @param ctx The context.
+       */
       public TransitionHandle(EdgeView edge, GraphContext ctx) {
          super(edge, ctx);
       }
@@ -316,6 +321,9 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
          }
       }
 
+      /**
+       * Sets the changes to XPDL model.
+       */
       protected void setChanges() {
          JaWEController jc = JaWEManager.getInstance().getJaWEController();
          boolean isucinprogress = jc.isUndoableChangeInProgress();
@@ -347,6 +355,11 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
          }
       }
 
+      /**
+       * Cleans the rendered transition.
+       * 
+       * @param tr Transition to clean.
+       */
       protected void clean(GraphTransitionInterface tr) {
          Graphics g = graph.getGraphics();
          overlay(g);
@@ -357,6 +370,12 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
 
    }
 
+   /**
+    * Creates new renderer for the given {@link Transition} or {@link Association} object.
+    * 
+    * @param tra
+    * @return
+    */
    protected GraphTransitionRendererInterface createRenderer(XMLCollectionElement tra) {
       return GraphUtilities.getGraphController()
          .getGraphObjectRendererFactory()

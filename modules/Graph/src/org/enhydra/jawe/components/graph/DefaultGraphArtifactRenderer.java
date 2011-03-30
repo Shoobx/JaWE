@@ -40,18 +40,14 @@ import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Class used to display artifact object.
+ * Class used to render artifact object.
  */
 public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
                                                                     GraphArtifactRendererInterface {
 
+   /** The size of arc. */
    protected static int arc = 8;
 
-   /**
-    * Paints artifact. Overrides super class paint to add specific painting. First it
-    * fills inner with color. Then it adds specific drawing for join type. Then it apply
-    * JPanel with name and icon. At the end it draws border
-    */
    public void paint(Graphics g) {
       GraphArtifactInterface gact = (GraphArtifactInterface) view.getCell();
       Artifact art = (Artifact) gact.getUserObject();
@@ -135,6 +131,13 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
 
    }
 
+   /**
+    * Paints the label below the artifact "box".
+    * 
+    * @param g Graphics object.
+    * @param label Label text to paint.
+    * @param middle The point of artifact necessary to calculate label position.
+    */
    protected void paintLabel(Graphics g, String label, Point middle) {
       Graphics2D g2 = (Graphics2D) g;
       g2.setStroke(new BasicStroke(1));
@@ -160,7 +163,10 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
    public ImageIcon getIcon() {
       return null;
    }
-   
+
+   /**
+    * @return The border color for artifact object.
+    */
    public Color getBorderColor() {
       GraphArtifactInterface gart = (GraphArtifactInterface) view.getCell();
       Artifact art = (Artifact) gart.getUserObject();
@@ -177,6 +183,9 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
       return bc;
    }
 
+   /**
+    * @return The fill color for artifact object.
+    */
    public Color getFillColor() {
       GraphArtifactInterface gart = (GraphArtifactInterface) view.getCell();
       Artifact art = (Artifact) gart.getUserObject();
@@ -198,5 +207,4 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
       return fc;
    }
 
-   
 }

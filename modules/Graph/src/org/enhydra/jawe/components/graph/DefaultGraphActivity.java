@@ -40,14 +40,14 @@ import org.enhydra.jxpdl.elements.Transition;
 public class DefaultGraphActivity extends GraphActivityInterface {
 
    /**
-    * Creates activity with given userObject. Also creates default port for holding
-    * activity transitions.
+    * Creates activity graph object for the given XPDL activity.
     */
    public DefaultGraphActivity(Activity act) {
       setUserObject(act);
       addAPort();
    }
 
+   /** Adds a port for this object. */
    protected void addAPort() {
       // Create Port
       // Floating Center Port (Child 0 is Default)
@@ -65,9 +65,6 @@ public class DefaultGraphActivity extends GraphActivityInterface {
          .getTypeId();
    }
 
-   /**
-    * Gets the port associate with this activity.
-    */
    public GraphPortInterface getPort() {
       for (Enumeration e = children(); e.hasMoreElements();) {
          Object child = e.nextElement();
@@ -80,8 +77,8 @@ public class DefaultGraphActivity extends GraphActivityInterface {
 
    /**
     * Returns <code>true</code> if Activity is a valid source for transition. This depends
-    * of activitie's type property, it can accept to be a source for transition if it is a
-    * normal or starting.
+    * of activitie's type property, e.g it rejects to be a source for transition if it is
+    * an End event activity.
     */
    public boolean acceptsSource() {
       int actType = ((Activity) userObject).getActivityType();
@@ -98,8 +95,8 @@ public class DefaultGraphActivity extends GraphActivityInterface {
 
    /**
     * Returns <code>true</code> if Activity is a valid target for transition. This depends
-    * of activitie's type property, it can accept to be a target for for transition if it
-    * is a normal or ending.
+    * of activitie's type property, e.g. it rejects to be a target for for transition if
+    * it is a Start event activity.
     */
    public boolean acceptsTarget() {
       int actType = ((Activity) userObject).getActivityType();
@@ -122,9 +119,6 @@ public class DefaultGraphActivity extends GraphActivityInterface {
       return null;// Harald Meister
    }
 
-   /**
-    * Gets a tooltip text for activity.
-    */
    public String getTooltip() {
       TooltipGenerator ttg = JaWEManager.getInstance().getTooltipGenerator();
       if (userObject != null && ttg != null) {
@@ -133,9 +127,6 @@ public class DefaultGraphActivity extends GraphActivityInterface {
       return "";
    }
 
-   /**
-    * Gets an activity "display name" property.
-    */
    public String toString() {
       String name = null;
       if (userObject != null) {
@@ -162,24 +153,21 @@ public class DefaultGraphActivity extends GraphActivityInterface {
    }
 
    /**
-    * Create a clone of the ActivityProperties object.
+    * Create a clone of the Activity XPDL object.
     * 
-    * @return Object a clone of this activity property object.
+    * @return Object a clone of this activity XPDL object.
     */
    protected Object cloneUserObject() {
       return ((Activity) userObject).clone();
    }
 
-   /**
-    * Gets all activities that reference this one.
-    */
    public Set getReferencingActivities() {
       Set referencingActivities = new HashSet();
       for (Iterator i = getPort().edges(); i.hasNext();) {
          Object t = i.next();
          if (t instanceof GraphTransitionInterface) {
             GraphTransitionInterface l = (GraphTransitionInterface) t;
-            GraphActivityInterface target = (GraphActivityInterface) ((GraphPortInterface) l.getTarget()).getActivityOrArtifact();
+            GraphCommonInterface target = ((GraphPortInterface) l.getTarget()).getActivityOrArtifact();
             if (this == target && l.getPropertyObject() instanceof Transition) {
                referencingActivities.add(((GraphPortInterface) l.getSource()).getActivityOrArtifact());
             }
@@ -188,9 +176,6 @@ public class DefaultGraphActivity extends GraphActivityInterface {
       return referencingActivities;
    }
 
-   /**
-    * Gets all activities that this activity references.
-    */
    public Set getReferencedActivities() {
       Set referencedActivities = new HashSet();
       for (Iterator i = getPort().edges(); i.hasNext();) {
@@ -206,9 +191,6 @@ public class DefaultGraphActivity extends GraphActivityInterface {
       return referencedActivities;
    }
 
-   /**
-    * Gets all artifacts that reference this one.
-    */
    public Set getReferencingArtifacts() {
       Set referencingArtifacts = new HashSet();
       for (Iterator i = getPort().edges(); i.hasNext();) {
@@ -224,9 +206,6 @@ public class DefaultGraphActivity extends GraphActivityInterface {
       return referencingArtifacts;
    }
 
-   /**
-    * Gets all artifacts that this activity references.
-    */
    public Set getReferencedArtifacts() {
       Set referencedArtifacts = new HashSet();
       for (Iterator i = getPort().edges(); i.hasNext();) {
