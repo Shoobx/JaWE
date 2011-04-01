@@ -340,7 +340,7 @@ public class JaWEGraphUI extends BasicGraphUI {
             Object[] sc = graph.getSelectionCells();
             if (sc != null) {
                for (int i = 0; i < sc.length; i++) {
-                  if (sc[i] instanceof GraphParticipantInterface) {
+                  if (sc[i] instanceof GraphSwimlaneInterface) {
                      e.consume();
                      return;
                   }
@@ -616,7 +616,7 @@ public class JaWEGraphUI extends BasicGraphUI {
             Iterator it = cells.iterator();
             while (it.hasNext()) {
                Object cell = it.next();
-               if (cell instanceof GraphParticipantInterface || cell instanceof GraphPortInterface) {
+               if (cell instanceof GraphSwimlaneInterface || cell instanceof GraphPortInterface) {
                   it.remove();
                }
             }

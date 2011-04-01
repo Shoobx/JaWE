@@ -55,11 +55,11 @@ public class JaWEParentMap extends ParentMap {
    *       method doesn't check for added participants but only for removed.
    */
    public boolean hasAnyParticipant (Object p) {
-      if ((p==null) || !(p instanceof DefaultGraphParticipant)) {
+      if ((p==null) || !(p instanceof DefaultGraphSwimlane)) {
          return false;
       }
       // getting current state in model
-      Set childParticipants=new HashSet(((DefaultGraphParticipant)p).getChildParticipants());
+      Set childParticipants=new HashSet(((DefaultGraphSwimlane)p).getChildSwimlanes());
       // removing from it all changedNodes - this means (considering a NOTE)
       // that these participants will be deleted after parent map is applied
       childParticipants.removeAll(changedNodes);

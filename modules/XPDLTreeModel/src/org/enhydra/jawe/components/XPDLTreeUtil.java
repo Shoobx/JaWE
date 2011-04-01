@@ -31,7 +31,7 @@ public class XPDLTreeUtil {
    /**
     * Expands/Collapse specified tree to a certain level.
     * 
-    * @param Tree to expand to a certain level.
+    * @param tree to expand to a certain level.
     * @param treePath Tree path to expand/collapse.
     * @param level The level of expansion
     * @param expand true if tree should be expanded.
@@ -51,7 +51,7 @@ public class XPDLTreeUtil {
    /**
     * Expands/Collapse specified tree path to a certain level.
     * 
-    * @param Tree to expand to a certain level.
+    * @param tree to expand to a certain level.
     * @param treePath Tree path to expand/collapse.
     * @param currentLevel The current tree level.
     * @param level the level of expansion

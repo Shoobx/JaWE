@@ -198,7 +198,7 @@ public class GraphManager implements Serializable {
       Iterator it = participantsToInsert.iterator();
       while (it.hasNext()) {
          LaneInfo pi = (LaneInfo) it.next();
-         // GraphParticipantInterface gpar =
+         // GraphSwimlaneInterface gpar =
          // insertParticipantAndArrangeParticipants(pi.getParticipant());
          insertParticipantAndArrangeParticipants(pi.getLane(), null);
          // System.out.println("Participant " + gpar + " inserted for xpdl par " +
@@ -258,10 +258,10 @@ public class GraphManager implements Serializable {
       List dps = new ArrayList();
       List graphParts = JaWEGraphModel.getAllParticipantsInModel(graphModel());
       if (graphParts != null) {
-         GraphParticipantInterface graphPart;
+         GraphSwimlaneInterface graphPart;
          Iterator it = graphParts.iterator();
          while (it.hasNext()) {
-            graphPart = (GraphParticipantInterface) it.next();
+            graphPart = (GraphSwimlaneInterface) it.next();
             Object gp = graphPart.getPropertyObject();
             if (gp instanceof Pool)
                continue;
@@ -284,14 +284,14 @@ public class GraphManager implements Serializable {
    public boolean hasLane() {
       Set rootParticipants = JaWEGraphModel.getRootParticipants(graphModel());
       if (rootParticipants != null && rootParticipants.size() > 0) {
-         GraphParticipantInterface gp = (GraphParticipantInterface) rootParticipants.toArray()[0];
-         return gp.hasAnyParticipant();
+         GraphSwimlaneInterface gp = (GraphSwimlaneInterface) rootParticipants.toArray()[0];
+         return gp.hasAnySwimlane();
       }
       return false;
    }
 
    public String getParticipantId(Point pos) {
-      GraphParticipantInterface gpar = findParentParticipantForLocation(pos, null, null);
+      GraphSwimlaneInterface gpar = findParentParticipantForLocation(pos, null, null);
       if (gpar != null) {
          return gpar.getPropertyObject().get("Id").toValue();
       }
@@ -307,7 +307,7 @@ public class GraphManager implements Serializable {
       // + GraphUtilities.getParticipantId(xpdla));
       Map viewMap = new HashMap();
 
-      GraphParticipantInterface gpar = getGraphParticipant(GraphUtilities.getLaneForActivityOrArtifact(xpdla,
+      GraphSwimlaneInterface gpar = getGraphParticipant(GraphUtilities.getLaneForActivityOrArtifact(xpdla,
                                                                                                        graph.getXPDLObject()));
       if (gpar == null)
          return null;
@@ -374,10 +374,10 @@ public class GraphManager implements Serializable {
       GraphCommonInterface gact = actOrArt instanceof Activity ? getGraphActivity((Activity) actOrArt)
                                                               : getGraphArtifact((Artifact) actOrArt);
       // System.out.println("agact "+gact);
-      GraphParticipantInterface newPar = getGraphParticipant(GraphUtilities.getLaneForActivityOrArtifact(actOrArt,
+      GraphSwimlaneInterface newPar = getGraphParticipant(GraphUtilities.getLaneForActivityOrArtifact(actOrArt,
                                                                                                          getXPDLOwner()));
       // System.out.println("newpar "+newPar);
-      GraphParticipantInterface oldPar = (GraphParticipantInterface) gact.getParent();
+      GraphSwimlaneInterface oldPar = (GraphSwimlaneInterface) gact.getParent();
       // System.out.println("odlpar "+oldPar);
       // if (newPar==null || oldPar==null) return; // can happen when participant Id is
       // updated
@@ -388,8 +388,8 @@ public class GraphManager implements Serializable {
 
       Map propertyMap = new HashMap();
       Point actRealPos = getRealPosition(gact, newPar);
-      // GraphParticipantViewInterface
-      // gpvi=(GraphParticipantViewInterface)getView(newPar);
+      // GraphSwimlaneViewInterface
+      // gpvi=(GraphSwimlaneViewInterface)getView(newPar);
       // Rectangle parBounds=getBounds(newPar, propertyMap);
       // if (actRealPos.x>parBounds.width) {
       // // gpvi.
@@ -681,9 +681,9 @@ public class GraphManager implements Serializable {
     * undo support. <BR>
     * This method is called when inserting new Participant into model.
     */
-   public GraphParticipantInterface insertParticipantAndArrangeParticipants(Object par,
+   public GraphSwimlaneInterface insertParticipantAndArrangeParticipants(Object par,
                                                                             Point whereTo) {
-      GraphParticipantInterface gparentpar = getParticipantForLocation(whereTo);
+      GraphSwimlaneInterface gparentpar = getParticipantForLocation(whereTo);
       if (par instanceof Lane) {
          Lane parentLane = GraphUtilities.getParentLane((Lane) par);
          if (parentLane != null) {
@@ -719,7 +719,7 @@ public class GraphManager implements Serializable {
       } else {
 
          // get the number of existing child participants in parent par.
-         int hmc = gparentpar.howManyChildParticipants();
+         int hmc = gparentpar.howManyChildSwimlanes();
          // get the number of parent participants of ppar
          int hmp = gparentpar.getLevel();
 
@@ -819,7 +819,7 @@ public class GraphManager implements Serializable {
          // b.height);
          // }
       }
-      GraphParticipantInterface gpar = getGraphController().getGraphObjectFactory()
+      GraphSwimlaneInterface gpar = getGraphController().getGraphObjectFactory()
          .createParticipant(bounds, viewMap, par);
 
       if (gparentpar != null) {
@@ -850,18 +850,18 @@ public class GraphManager implements Serializable {
       return gpar;
    }
 
-   public GraphParticipantInterface getParticipantForLocation(Point whereTo) {
-      GraphParticipantInterface gparentpar = null;
+   public GraphSwimlaneInterface getParticipantForLocation(Point whereTo) {
+      GraphSwimlaneInterface gparentpar = null;
       if (whereTo != null) {
          Object fc = graph.getFirstCellForLocation(whereTo.x, whereTo.y);
-         if (fc == null || !(fc instanceof GraphParticipantInterface)) {
+         if (fc == null || !(fc instanceof GraphSwimlaneInterface)) {
             if (isGraphRotated()) {
                gparentpar = getLeafParticipantForXPos(whereTo.x, null, null);
             } else {
                gparentpar = getLeafParticipantForYPos(whereTo.y, null, null);
             }
          } else {
-            gparentpar = (GraphParticipantInterface) fc;
+            gparentpar = (GraphSwimlaneInterface) fc;
          }
       }
       return gparentpar;
@@ -888,8 +888,8 @@ public class GraphManager implements Serializable {
       // begining arrangement of parent of cells that will be deleted
       if (cellsToDelete != null && cellsToDelete.length > 0) {
          for (int i = 0; i < cellsToDelete.length; i++) {
-            if (cellsToDelete[i] instanceof GraphParticipantInterface) {
-               GraphParticipantInterface par = (GraphParticipantInterface) cellsToDelete[i];
+            if (cellsToDelete[i] instanceof GraphSwimlaneInterface) {
+               GraphSwimlaneInterface par = (GraphSwimlaneInterface) cellsToDelete[i];
 
                // getting bounds of rectangle
                Rectangle2D r = getCBounds(par, propertyMap);// HM, JGraph3.4.1
@@ -900,7 +900,7 @@ public class GraphManager implements Serializable {
                // resize all parent participants (reduce their sizes) if needed,
                // and
                // also if needed, translate up all participants under yPos
-               GraphParticipantInterface ppar = (GraphParticipantInterface) par.getParent();
+               GraphSwimlaneInterface ppar = (GraphSwimlaneInterface) par.getParent();
                if (ppar != null) {
                   // resizing and translating is needed only if "first" parent
                   // has other children except one that is beeing removed
@@ -1005,7 +1005,7 @@ public class GraphManager implements Serializable {
             // entry in parentMap -> this will be of use after basic resizing
             // and translating operations
             Object parent = ((DefaultMutableTreeNode) cellsToDelete[i]).getParent();
-            if ((parent != null) && (parent instanceof GraphParticipantInterface)) {
+            if ((parent != null) && (parent instanceof GraphSwimlaneInterface)) {
                if (cellsToDelete[i] instanceof GraphActivityInterface) {
                   participantsToArrange.add(parent);
                }
@@ -1050,7 +1050,7 @@ public class GraphManager implements Serializable {
     */
    public Point getOffset(GraphCommonInterface a, Map propertyMap) {
       if (a != null) {
-         GraphParticipantInterface par = (GraphParticipantInterface) a.getParent();
+         GraphSwimlaneInterface par = (GraphSwimlaneInterface) a.getParent();
          if (par != null) {
             Rectangle2D rpar = getCBounds(par, propertyMap);// HM, JGraph3.4.1
             Rectangle2D ract = getCBounds(a, propertyMap);// HM, JGraph3.4.1
@@ -1066,7 +1066,7 @@ public class GraphManager implements Serializable {
 
    public Point getOffset(Point actPoint) {
       if (actPoint != null) {
-         GraphParticipantInterface par = findParentParticipantForLocation(actPoint,
+         GraphSwimlaneInterface par = findParentParticipantForLocation(actPoint,
                                                                           null,
                                                                           null);
          // System.err.println("Handling relative offset for point "+actPoint+", found par="+par);
@@ -1082,7 +1082,7 @@ public class GraphManager implements Serializable {
       return new Point(0, 0);
    }
 
-   public Point getRealPosition(GraphCommonInterface a, GraphParticipantInterface gpar) {
+   public Point getRealPosition(GraphCommonInterface a, GraphSwimlaneInterface gpar) {
       if (a != null) {
          if (gpar != null) {
             CellView view = getView(gpar);
@@ -1240,14 +1240,14 @@ public class GraphManager implements Serializable {
       // must return old and new participant to the caller method
       Set oldAndNewPar = new HashSet();
       // old and new parent participant of given activity
-      GraphParticipantInterface oldPar = (GraphParticipantInterface) ac.getParent();
+      GraphSwimlaneInterface oldPar = (GraphSwimlaneInterface) ac.getParent();
 
       // adds oldPar to the set to be returned
       if (oldPar != null) {
          oldAndNewPar.add(oldPar);
       }
 
-      GraphParticipantInterface newPar = null;
+      GraphSwimlaneInterface newPar = null;
       // taking position elements of Activity
       // taking bounding rectangle
       Rectangle2D acRect = getCBounds(ac, propertyMap);// HM, JGraph3.4.1
@@ -1282,8 +1282,8 @@ public class GraphManager implements Serializable {
 
    }
 
-   public GraphParticipantInterface findParentParticipantForLocation(Point loc) {
-      GraphParticipantInterface newPar = null;
+   public GraphSwimlaneInterface findParentParticipantForLocation(Point loc) {
+      GraphSwimlaneInterface newPar = null;
       // if user put activity cell somewhere outside visible area, move it back
       if (loc.y <= 0) {
          loc.y = 1;
@@ -1306,10 +1306,10 @@ public class GraphManager implements Serializable {
     * Finds new participant for activity after it's position changes. WARNING: this method
     * changes it's argument loc if not appropriate.
     */
-   public GraphParticipantInterface findParentParticipantForLocation(Point loc,
+   public GraphSwimlaneInterface findParentParticipantForLocation(Point loc,
                                                                      Map propertyMap,
                                                                      ParentMap parentMap) {
-      GraphParticipantInterface newPar = null;
+      GraphSwimlaneInterface newPar = null;
       // if user put activity cell somewhere outside visible area, move it back
       if (loc.y <= 0) {
          loc.y = 1;
@@ -1417,9 +1417,9 @@ public class GraphManager implements Serializable {
       // also it can't be removed
       if (par == null)
          return;
-      if (!(par instanceof GraphParticipantInterface))
+      if (!(par instanceof GraphSwimlaneInterface))
          return;
-      GraphParticipantInterface p = (GraphParticipantInterface) par;
+      GraphSwimlaneInterface p = (GraphSwimlaneInterface) par;
       if (hasAnyParticipant(p, parentMap))
          return;
       ArrayList removedPars = ((JaWEParentMap) parentMap).getRemovedNodes();
@@ -1464,9 +1464,9 @@ public class GraphManager implements Serializable {
       // also it can't be removed
       if (par == null)
          return;
-      if (!(par instanceof GraphParticipantInterface))
+      if (!(par instanceof GraphSwimlaneInterface))
          return;
-      GraphParticipantInterface p = (GraphParticipantInterface) par;
+      GraphSwimlaneInterface p = (GraphSwimlaneInterface) par;
       if (hasAnyParticipant(p, parentMap))
          return;
       ArrayList removedPars = ((JaWEParentMap) parentMap).getRemovedNodes();
@@ -1557,7 +1557,7 @@ public class GraphManager implements Serializable {
 
       Iterator it = participants.iterator();
       while (it.hasNext()) {
-         GraphParticipantInterface par = (GraphParticipantInterface) it.next();
+         GraphSwimlaneInterface par = (GraphSwimlaneInterface) it.next();
          // if participant doesn't have any other participants,
          // it is a leaf participant and should be added to collection
          if (!hasAnyParticipant(par, parentMap)) {
@@ -1571,7 +1571,7 @@ public class GraphManager implements Serializable {
       int maxBottomEdgePosition = 0;
 
       while (it.hasNext()) {
-         GraphParticipantInterface lpar = (GraphParticipantInterface) it.next();
+         GraphSwimlaneInterface lpar = (GraphSwimlaneInterface) it.next();
          int minBEdge;
          int minParBEdge;
          int minChildrenBEdge = 0;
@@ -1637,7 +1637,7 @@ public class GraphManager implements Serializable {
 
       Iterator it = participants.iterator();
       while (it.hasNext()) {
-         GraphParticipantInterface par = (GraphParticipantInterface) it.next();
+         GraphSwimlaneInterface par = (GraphSwimlaneInterface) it.next();
          // if participant doesn't have any other participants,
          // it is a leaf participant and should be added to collection
          if (!hasAnyParticipant(par, parentMap)) {
@@ -1651,7 +1651,7 @@ public class GraphManager implements Serializable {
       int maxRightEdgePosition = 0;
 
       while (it.hasNext()) {
-         GraphParticipantInterface lpar = (GraphParticipantInterface) it.next();
+         GraphSwimlaneInterface lpar = (GraphSwimlaneInterface) it.next();
          int minREdge;
          int minParREdge;
          int minChildrenREdge = 0;
@@ -1691,7 +1691,7 @@ public class GraphManager implements Serializable {
 
    }
 
-   protected int optimalParticipantWidth(GraphParticipantInterface par,
+   protected int optimalParticipantWidth(GraphSwimlaneInterface par,
                                          Map propertyMap,
                                          ParentMap parentMap) {
       // initial value for width
@@ -1743,7 +1743,7 @@ public class GraphManager implements Serializable {
     * during other calculations. If propertyMap and parentMap are null, size is calculated
     * for current state.
     */
-   protected int optimalParticipantHeight(GraphParticipantInterface par,
+   protected int optimalParticipantHeight(GraphSwimlaneInterface par,
                                           Map propertyMap,
                                           ParentMap parentMap) {
       // initial value for height
@@ -1829,7 +1829,7 @@ public class GraphManager implements Serializable {
                                         ParentMap parentMap,
                                         int xPos,
                                         int dv) {
-      GraphParticipantInterface[] pars = getParticipantsForXPos(xPos,
+      GraphSwimlaneInterface[] pars = getParticipantsForXPos(xPos,
                                                                 0,
                                                                 propertyMap,
                                                                 parentMap,
@@ -1848,7 +1848,7 @@ public class GraphManager implements Serializable {
                                       ParentMap parentMap,
                                       int yPos,
                                       int dv) {
-      GraphParticipantInterface[] pars = getParticipantsForYPos(yPos,
+      GraphSwimlaneInterface[] pars = getParticipantsForYPos(yPos,
                                                                 0,
                                                                 propertyMap,
                                                                 parentMap,
@@ -1863,7 +1863,7 @@ public class GraphManager implements Serializable {
     * 
     * @see #translateParticipant
     */
-   protected void translateParticipants(GraphParticipantInterface[] cells,
+   protected void translateParticipants(GraphSwimlaneInterface[] cells,
                                         Map propertyMap,
                                         ParentMap parentMap,
                                         int dx,
@@ -1881,7 +1881,7 @@ public class GraphManager implements Serializable {
     * will be it's after applying parentMap). The translating is done to propertyMap which
     * will later (after all needed operation) be applied.
     */
-   protected void translateParticipant(GraphParticipantInterface par,
+   protected void translateParticipant(GraphSwimlaneInterface par,
                                        Map propertyMap,
                                        ParentMap parentMap,
                                        int dx,
@@ -1908,7 +1908,7 @@ public class GraphManager implements Serializable {
       if (handleChildren) {
          it = getAllChildParticipants(par).iterator();
          while (it.hasNext()) {
-            translateParticipant((GraphParticipantInterface) it.next(),
+            translateParticipant((GraphSwimlaneInterface) it.next(),
                                  propertyMap,
                                  parentMap,
                                  dx,
@@ -1923,7 +1923,7 @@ public class GraphManager implements Serializable {
     * (that will be participants activities after parent map is applied). Bounding
     * rectangle is union of previous mentioned activities.
     */
-   protected Rectangle getBoundsOfParticipantFutureActivitiesAndArtifacts(GraphParticipantInterface par,
+   protected Rectangle getBoundsOfParticipantFutureActivitiesAndArtifacts(GraphSwimlaneInterface par,
                                                                           Map propertyMap,
                                                                           ParentMap parentMap) {
       // simulate future state of children and get it's bounds
@@ -1948,7 +1948,7 @@ public class GraphManager implements Serializable {
     * Gets future children activities of given participant par (that will be par's
     * activities after parent map is applied).
     */
-   protected Set getParticipantFutureActivitiesAndArtifacts(GraphParticipantInterface par,
+   protected Set getParticipantFutureActivitiesAndArtifacts(GraphSwimlaneInterface par,
                                                             ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
       // in it, return current participants activities
@@ -1985,11 +1985,11 @@ public class GraphManager implements Serializable {
       return futureActivities;
    }
 
-   protected GraphParticipantInterface getLeafParticipantForXPos(int xPos,
+   protected GraphSwimlaneInterface getLeafParticipantForXPos(int xPos,
                                                                  Map propertyMap,
                                                                  ParentMap parentMap) {
       // getting all participants that contains yPos
-      GraphParticipantInterface[] pars = getParticipantsForXPos(xPos,
+      GraphSwimlaneInterface[] pars = getParticipantsForXPos(xPos,
                                                                 2,
                                                                 propertyMap,
                                                                 parentMap,
@@ -2042,7 +2042,7 @@ public class GraphManager implements Serializable {
       }
 
       // return found participant
-      return (GraphParticipantInterface) rightPar;
+      return (GraphSwimlaneInterface) rightPar;
    }
 
    /**
@@ -2050,11 +2050,11 @@ public class GraphManager implements Serializable {
     * boundary of two participants, method returns one that is above. The method checks
     * for bounds of cells within propertyMap.
     */
-   protected GraphParticipantInterface getLeafParticipantForYPos(int yPos,
+   protected GraphSwimlaneInterface getLeafParticipantForYPos(int yPos,
                                                                  Map propertyMap,
                                                                  ParentMap parentMap) {
       // getting all participants that contains yPos
-      GraphParticipantInterface[] pars = getParticipantsForYPos(yPos,
+      GraphSwimlaneInterface[] pars = getParticipantsForYPos(yPos,
                                                                 2,
                                                                 propertyMap,
                                                                 parentMap,
@@ -2109,14 +2109,14 @@ public class GraphManager implements Serializable {
       }
 
       // return found participant
-      return (GraphParticipantInterface) rightPar;
+      return (GraphSwimlaneInterface) rightPar;
 
    }
 
-   protected GraphParticipantInterface getLeafestParticipantForPos(Point pos,
+   protected GraphSwimlaneInterface getLeafestParticipantForPos(Point pos,
                                                                    Map propertyMap,
                                                                    ParentMap parentMap) {
-      GraphParticipantInterface[] pars = null;
+      GraphSwimlaneInterface[] pars = null;
       if (isGraphRotated()) {
          pars = getParticipantsForXPos(pos.x, 2, propertyMap, parentMap, true);
 
@@ -2174,10 +2174,10 @@ public class GraphManager implements Serializable {
       }
 
       // return found participant
-      return (GraphParticipantInterface) rightPar;
+      return (GraphSwimlaneInterface) rightPar;
    }
 
-   protected GraphParticipantInterface[] getParticipantsForXPos(int xPos,
+   protected GraphSwimlaneInterface[] getParticipantsForXPos(int xPos,
                                                                 int direction,
                                                                 Map propertyMap,
                                                                 ParentMap parentMap,
@@ -2195,7 +2195,7 @@ public class GraphManager implements Serializable {
       }
 
       // making an array of participants
-      GraphParticipantInterface[] pars = new GraphParticipantInterface[participants.size()];
+      GraphSwimlaneInterface[] pars = new GraphSwimlaneInterface[participants.size()];
       participants.toArray(pars);
 
       // Set of participants that will satisfy needs
@@ -2226,7 +2226,7 @@ public class GraphManager implements Serializable {
       }
 
       if (xPosPars.size() > 0) {
-         pars = new GraphParticipantInterface[xPosPars.size()];
+         pars = new GraphSwimlaneInterface[xPosPars.size()];
          xPosPars.toArray(pars);
          return pars;
       }
@@ -2242,7 +2242,7 @@ public class GraphManager implements Serializable {
     * If some of model's participants is entered in parentMap as removed participant, this
     * method doesn't consider that participant.
     */
-   protected GraphParticipantInterface[] getParticipantsForYPos(int yPos,
+   protected GraphSwimlaneInterface[] getParticipantsForYPos(int yPos,
                                                                 int direction,
                                                                 Map propertyMap,
                                                                 ParentMap parentMap,
@@ -2260,7 +2260,7 @@ public class GraphManager implements Serializable {
       }
 
       // making an array of participants
-      GraphParticipantInterface[] pars = new GraphParticipantInterface[participants.size()];
+      GraphSwimlaneInterface[] pars = new GraphSwimlaneInterface[participants.size()];
       participants.toArray(pars);
 
       // Set of participants that will satisfy needs
@@ -2290,7 +2290,7 @@ public class GraphManager implements Serializable {
       }
 
       if (yPosPars.size() > 0) {
-         pars = new GraphParticipantInterface[yPosPars.size()];
+         pars = new GraphSwimlaneInterface[yPosPars.size()];
          yPosPars.toArray(pars);
          return pars;
       }
@@ -2306,7 +2306,7 @@ public class GraphManager implements Serializable {
          Iterator it = propertyMap.keySet().iterator();
          while (it.hasNext()) {
             Object rootPar = it.next();
-            if ((rootPar instanceof GraphParticipantInterface)
+            if ((rootPar instanceof GraphSwimlaneInterface)
                 && (((DefaultGraphCell) rootPar).getParent() == null)) {
                rootPars.add(rootPar);
             }
@@ -2351,7 +2351,7 @@ public class GraphManager implements Serializable {
          Iterator it = propertyMap.keySet().iterator();
          while (it.hasNext()) {
             Object rootPar = it.next();
-            if ((rootPar instanceof GraphParticipantInterface)
+            if ((rootPar instanceof GraphSwimlaneInterface)
                 && (((DefaultGraphCell) rootPar).getParent() == null)) {
                rootPars.add(rootPar);
             }
@@ -2460,11 +2460,11 @@ public class GraphManager implements Serializable {
     * This method has meaning in previous versions of JaWE, now it always returns
     * <tt>false</tt>.
     */
-   protected boolean hasAnyParticipant(GraphParticipantInterface par, ParentMap parentMap) {
+   protected boolean hasAnyParticipant(GraphSwimlaneInterface par, ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
       // in it, return original participant state
       if (parentMap == null || !parentMap.getChangedNodes().contains(par)) {
-         return par.hasAnyParticipant();
+         return par.hasAnySwimlane();
       }
       // else, check if participant will be empty after applying parent map
       return ((JaWEParentMap) parentMap).hasAnyParticipant(par);
@@ -2476,7 +2476,7 @@ public class GraphManager implements Serializable {
     * elsewhere parentMap is checked-in other words future state of participant activities
     * (state after aplying parentMap) is returned.
     */
-   protected boolean hasAnyActivityOrArtifact(GraphParticipantInterface par,
+   protected boolean hasAnyActivityOrArtifact(GraphSwimlaneInterface par,
                                               ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
       // in it, return original participant state
@@ -2626,7 +2626,7 @@ public class GraphManager implements Serializable {
       if (go == null)
          return null;
       Rectangle2D r = getCBounds(go, null);// HM, JGraph3.4.1
-      if (!(go instanceof GraphParticipantInterface)) {
+      if (!(go instanceof GraphSwimlaneInterface)) {
          return new Point((int) (r.getX() + (int) (r.getWidth() / 2)),
                           (int) (r.getY() + (int) (r.getHeight() / 2)));
       }
@@ -2723,13 +2723,13 @@ public class GraphManager implements Serializable {
     * Returns graph Participant object which represents XPDL participant with given Id
     * attribute.
     */
-   public GraphParticipantInterface getGraphParticipant(String id) {
+   public GraphSwimlaneInterface getGraphParticipant(String id) {
       List allPartic = JaWEGraphModel.getAllParticipantsInModel(graphModel());
       if (allPartic != null) {
          Iterator it = allPartic.iterator();
-         GraphParticipantInterface gpar;
+         GraphSwimlaneInterface gpar;
          while (it.hasNext()) {
-            gpar = (GraphParticipantInterface) it.next();
+            gpar = (GraphSwimlaneInterface) it.next();
             if (gpar.getPropertyObject().get("Id").toValue().equals(id)) {
                return gpar;
             }
@@ -2738,13 +2738,13 @@ public class GraphManager implements Serializable {
       return null;
    }
 
-   public GraphParticipantInterface getGraphParticipant(Object par) {
+   public GraphSwimlaneInterface getGraphParticipant(Object par) {
       List allPartic = JaWEGraphModel.getAllParticipantsInModel(graphModel());
       if (allPartic != null) {
          Iterator it = allPartic.iterator();
-         GraphParticipantInterface gpar;
+         GraphSwimlaneInterface gpar;
          while (it.hasNext()) {
-            gpar = (GraphParticipantInterface) it.next();
+            gpar = (GraphSwimlaneInterface) it.next();
             if (gpar.getUserObject() == par) {
                return gpar;
             }
@@ -2757,14 +2757,14 @@ public class GraphManager implements Serializable {
       List allPartic = JaWEGraphModel.getAllParticipantsInModel(graphModel());
       if (allPartic != null) {
          Iterator it = allPartic.iterator();
-         GraphParticipantInterface gpar;
+         GraphSwimlaneInterface gpar;
          Lane defL = GraphUtilities.getDefaultLane(JaWEManager.getInstance()
             .getXPDLUtils()
             .getPoolForProcessOrActivitySet(getXPDLOwner()));
          if (defL == null)
             return false;
          while (it.hasNext()) {
-            gpar = (GraphParticipantInterface) it.next();
+            gpar = (GraphSwimlaneInterface) it.next();
             if (gpar.getUserObject() == defL) {
                return true;
             }
@@ -2862,7 +2862,7 @@ public class GraphManager implements Serializable {
       return nearestCell;
    }
 
-   public boolean moveParticipant(GraphParticipantInterface parSource,
+   public boolean moveParticipant(GraphSwimlaneInterface parSource,
                                   boolean direction,
                                   Map propertyMap,
                                   ParentMap parentMap) {
@@ -2877,13 +2877,13 @@ public class GraphManager implements Serializable {
 
       int yPos;
       int xPos;
-      GraphParticipantInterface[] parts;
+      GraphSwimlaneInterface[] parts;
       if (direction) {// move up
          yPos = rSource.y - 1;
          xPos = rSource.x - 1;
          if (!isGraphRotated()) {
             parts = getParticipantsForYPos(yPos, 2, propertyMap, parentMap, false);
-            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+            GraphSwimlaneInterface parTarget = getCommonParentParticipant(parts,
                                                                              parSource.getParent());
             if (parTarget != null) {
                Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
@@ -2909,7 +2909,7 @@ public class GraphManager implements Serializable {
             }
          } else {
             parts = getParticipantsForXPos(xPos, 2, propertyMap, parentMap, false);
-            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+            GraphSwimlaneInterface parTarget = getCommonParentParticipant(parts,
                                                                              parSource.getParent());
             if (parTarget != null) {
                Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
@@ -2939,7 +2939,7 @@ public class GraphManager implements Serializable {
          xPos = rSource.x + rSource.width + 1;
          if (!isGraphRotated()) {
             parts = getParticipantsForYPos(yPos, 2, propertyMap, parentMap, false);
-            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+            GraphSwimlaneInterface parTarget = getCommonParentParticipant(parts,
                                                                              parSource.getParent());
             if (parTarget != null) {
                Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
@@ -2965,7 +2965,7 @@ public class GraphManager implements Serializable {
             }
          } else {
             parts = getParticipantsForXPos(xPos, 2, propertyMap, parentMap, false);
-            GraphParticipantInterface parTarget = getCommonParentParticipant(parts,
+            GraphSwimlaneInterface parTarget = getCommonParentParticipant(parts,
                                                                              parSource.getParent());
             if (parTarget != null) {
                Rectangle rTarget = getCBounds(parTarget, propertyMap);// HM,
@@ -3034,7 +3034,7 @@ public class GraphManager implements Serializable {
 
    public boolean isGraphRotated() {
       return GraphUtilities.getGraphOrientation(getXPDLOwner())
-         .equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_VERTICAL);
+         .equals(XPDLConstants.POOL_ORIENTATION_VERTICAL);
    }
 
    // // THE FOLLOWING METHODS ARE MODIFYING XPDL MODEL !!!
@@ -3067,7 +3067,7 @@ public class GraphManager implements Serializable {
          Object cell = cellsToManage[i];
          if (cell instanceof GraphCommonInterface) {
             GraphCommonInterface gact = (GraphCommonInterface) cell;
-            GraphParticipantInterface gpar = (GraphParticipantInterface) gact.getParent();
+            GraphSwimlaneInterface gpar = (GraphSwimlaneInterface) gact.getParent();
             Point offset = getOffset(gact, propertyMap);
             XMLCollectionElement el = (XMLCollectionElement) ((WorkflowElement) gact).getPropertyObject();
             if (!GraphUtilities.getOffsetPoint(el).equals(offset)) {
@@ -3149,7 +3149,7 @@ public class GraphManager implements Serializable {
                activitiesToDelete.add(cell);
             } else if (cell instanceof GraphArtifactInterface) {
                artifactsToDelete.add(cell);
-            } else if (cell instanceof GraphParticipantInterface) {
+            } else if (cell instanceof GraphSwimlaneInterface) {
                participantsToDelete.add(cell);
             }
          }
@@ -3205,7 +3205,7 @@ public class GraphManager implements Serializable {
          .getPoolForProcessOrActivitySet(getXPDLOwner())
          .getLanes();
          while (it.hasNext()) {
-            GraphParticipantInterface gp = (GraphParticipantInterface) it.next();
+            GraphSwimlaneInterface gp = (GraphSwimlaneInterface) it.next();
             Object p = gp.getPropertyObject();
             if (p instanceof Lane) {
                ls.remove((Lane)p);
@@ -3223,12 +3223,12 @@ public class GraphManager implements Serializable {
    // direction=true for up, false for down
    public void moveParticipant(Object cellToMove, boolean direction) {
       GraphParticipantComparator pc = new GraphParticipantComparator(this);
-      GraphParticipantInterface partToMove;
+      GraphSwimlaneInterface partToMove;
       Lane laneToMove;
       System.out.println("MOVING PARTICIPANT1");
-      if (cellToMove instanceof GraphParticipantInterface
-          && ((GraphParticipantInterface) cellToMove).getPropertyObject() instanceof Lane) {
-         partToMove = (GraphParticipantInterface) cellToMove;
+      if (cellToMove instanceof GraphSwimlaneInterface
+          && ((GraphSwimlaneInterface) cellToMove).getPropertyObject() instanceof Lane) {
+         partToMove = (GraphSwimlaneInterface) cellToMove;
          laneToMove = (Lane) partToMove.getPropertyObject();
       } else {
          return;
@@ -3253,7 +3253,7 @@ public class GraphManager implements Serializable {
             Collections.sort(allGraphParticipants, gpc);
          }
          JaWEManager.getInstance().getJaWEController().startUndouableChange();
-         Object parentObj = ((GraphParticipantInterface) partToMove.getParent()).getPropertyObject();
+         Object parentObj = ((GraphSwimlaneInterface) partToMove.getParent()).getPropertyObject();
          if (parentObj instanceof Pool) {
             Lanes lanes = pool.getLanes();
             int pos = lanes.indexOf(laneToMove);
@@ -3445,19 +3445,19 @@ public class GraphManager implements Serializable {
       return p;
    }
 
-   protected static List getAllChildParticipants(GraphParticipantInterface gpar) {
+   protected static List getAllChildParticipants(GraphSwimlaneInterface gpar) {
       List toRet = new ArrayList();
-      Set cpars = gpar.getChildParticipants();
+      Set cpars = gpar.getChildSwimlanes();
       toRet.addAll(cpars);
       Iterator it = cpars.iterator();
       while (it.hasNext()) {
-         GraphParticipantInterface cp = (GraphParticipantInterface) it.next();
-         toRet.addAll(cp.getChildParticipants());
+         GraphSwimlaneInterface cp = (GraphSwimlaneInterface) it.next();
+         toRet.addAll(cp.getChildSwimlanes());
       }
       return toRet;
    }
 
-   protected static GraphParticipantInterface getCommonParentParticipant(GraphParticipantInterface[] parts,
+   protected static GraphSwimlaneInterface getCommonParentParticipant(GraphSwimlaneInterface[] parts,
                                                                          Object parent) {
       if (parts != null) {
          for (int i = 0; i < parts.length; i++) {

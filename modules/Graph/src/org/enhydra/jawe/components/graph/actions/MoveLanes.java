@@ -31,7 +31,7 @@ import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphManager;
 import org.enhydra.jawe.components.graph.GraphParticipantComparator;
-import org.enhydra.jawe.components.graph.GraphParticipantInterface;
+import org.enhydra.jawe.components.graph.GraphSwimlaneInterface;
 import org.enhydra.jawe.components.graph.WorkflowElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
@@ -58,10 +58,10 @@ public class MoveLanes extends ActionBase {
          if (XMLUtil.getPackage(el) == jc.getMainPackage()) {
             Object[] scells=selectedGraph.getSelectionCells();
             if (scells!=null && scells.length==1 && ((WorkflowElement)scells[0]).getPropertyObject() instanceof Lane) {
-               GraphParticipantInterface ltm = (GraphParticipantInterface)scells[0];
+               GraphSwimlaneInterface ltm = (GraphSwimlaneInterface)scells[0];
                Lane l = (Lane)ltm.getPropertyObject();
-               GraphParticipantInterface parentP = (GraphParticipantInterface)ltm.getParent();
-               List children = new ArrayList(parentP.getChildParticipants());
+               GraphSwimlaneInterface parentP = (GraphSwimlaneInterface)ltm.getParent();
+               List children = new ArrayList(parentP.getChildSwimlanes());
                GraphParticipantComparator gpc = new GraphParticipantComparator(selectedGraph.getGraphManager());
                Collections.sort(children, gpc);
                int ind = children.indexOf(ltm);

@@ -28,11 +28,13 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.controller.JaWEType;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Lane;
 import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
 import org.enhydra.jxpdl.elements.Participant;
@@ -41,25 +43,14 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Class used to display participant object. It differs from other renderers because the
- * super class paint method isn't called.
- * 
- * @author Sasa Bojanic
- * @author Miroslav Popov
+ * Class used to render graph swimlane object.
  */
-public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implements
-                                                                       GraphParticipantRendererInterface {
+public class DefaultGraphSwimlaneRenderer extends MultiLinedRenderer implements
+                                                                    GraphSwimlaneRendererInterface {
 
-   /**
-    * Paints participant. Overrides superclass paint to add specific painting. Basically,
-    * it draws a rectangle and vertical line, it draws it twice for selected participants.
-    * Eventually departmetns name is displayed rotated and in color to indicate selection.
-    * 
-    * @param g Graphics to paint to
-    */
    public void paint(Graphics g) {
       boolean rotateParticipant = GraphUtilities.getGraphOrientation(((Graph) graph).getXPDLObject())
-         .equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_VERTICAL);
+         .equals(XPDLConstants.POOL_ORIENTATION_VERTICAL);
 
       int participantNameWidth = GraphUtilities.getGraphController()
          .getGraphSettings()
@@ -72,7 +63,7 @@ public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implemen
 
       Color pc = getFillColor();
       bordercolor = getBorderColor();
-      
+
       g.setColor(bordercolor);
 
       // paint bounds
@@ -182,7 +173,7 @@ public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implemen
    }
 
    public ImageIcon getIcon() {
-      GraphParticipantInterface p = (GraphParticipantInterface) view.getCell();
+      GraphSwimlaneInterface p = (GraphSwimlaneInterface) view.getCell();
       if (p.getPropertyObject() instanceof Pool) {
          return ((JaWEType) JaWEManager.getInstance()
             .getJaWEController()
@@ -208,8 +199,11 @@ public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implemen
       }
    }
 
+   /**
+    * @return The border color for swimlane object.
+    */
    public Color getBorderColor() {
-      GraphParticipantInterface p = (GraphParticipantInterface) view.getCell();
+      GraphSwimlaneInterface p = (GraphSwimlaneInterface) view.getCell();
       NodeGraphicsInfo ngi = JaWEManager.getInstance()
          .getXPDLUtils()
          .getNodeGraphicsInfo((XMLCollectionElement) p.getPropertyObject());
@@ -218,15 +212,16 @@ public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implemen
          bc = Utils.getColor(ngi.getBorderColor());
       }
       if (bc == null) {
-         bc = GraphUtilities.getGraphController()
-         .getGraphSettings()
-         .getLaneBorderColor();
+         bc = GraphUtilities.getGraphController().getGraphSettings().getLaneBorderColor();
       }
       return bc;
    }
 
+   /**
+    * @return The fill color for swimlane object.
+    */
    public Color getFillColor() {
-      GraphParticipantInterface p = (GraphParticipantInterface) view.getCell();
+      GraphSwimlaneInterface p = (GraphSwimlaneInterface) view.getCell();
       NodeGraphicsInfo ngi = JaWEManager.getInstance()
          .getXPDLUtils()
          .getNodeGraphicsInfo((XMLCollectionElement) p.getPropertyObject());
@@ -255,6 +250,14 @@ public class DefaultGraphParticipantRenderer extends MultiLinedRenderer implemen
       return pc;
    }
 
+   /**
+    * Searches for the Participant object represented by the the given Lane/Pool.
+    * 
+    * @param po {@link Pool} or {@link Lane} instance.
+    * @return The {@link Participant} representing given {@link Pool} or {@link Lane}, or
+    *         if lane does not represent any participant object, returns the {@link Lane}
+    *         object itself.
+    */
    protected Object getParticipantType(XMLElement po) {
       Object par = null;
       if (!(po instanceof Participant)) {

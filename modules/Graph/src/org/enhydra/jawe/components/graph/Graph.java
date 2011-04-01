@@ -196,7 +196,7 @@ public class Graph extends JGraph {
    }
 
    public WorkflowElement selectParticipant(Object par) {
-      GraphParticipantInterface gpar = getGraphManager().getGraphParticipant(par);
+      GraphSwimlaneInterface gpar = getGraphManager().getGraphParticipant(par);
       selectElement(gpar, false, false);
       return gpar;
    }
@@ -297,7 +297,7 @@ public class Graph extends JGraph {
          // Iterate through cells and find first Participant at
          // if current is traversed. Cache first cell.
          for (int i = 0; i < cells.length; i++) {
-            if (cells[i] instanceof GraphParticipantViewInterface) {
+            if (cells[i] instanceof GraphSwimlaneViewInterface) {
                boolean intersects = cells[i].getBounds().intersects(r);
                if (intersects) {
                   return cells[i].getCell();
@@ -344,7 +344,7 @@ public class Graph extends JGraph {
                 || mh.isTransitionButtonSelected() || mh.isAssociationButtonSelected()) {
                wholeArea = false;
             }
-            if ((cells[i] instanceof GraphParticipantViewInterface) && wholeArea) {
+            if ((cells[i] instanceof GraphSwimlaneViewInterface) && wholeArea) {
                intersects = cells[i].getBounds().intersects(r);
             } else {
                intersects = cells[i].intersects(this, r);
@@ -400,7 +400,7 @@ public class Graph extends JGraph {
       Iterator it = result.iterator();
       while (it.hasNext()) {
          CellView cv = (CellView) it.next();
-         if (cv.getCell() instanceof GraphParticipantInterface) {
+         if (cv.getCell() instanceof GraphSwimlaneInterface) {
             participants.add(cv);
          } else {
             activitiesAndEdges.add(cv);
@@ -615,7 +615,7 @@ public class Graph extends JGraph {
       // selectionModel=null;
       DefaultGraphActivityView.renderers.clear();
       DefaultGraphArtifactView.renderers.clear();
-      DefaultGraphParticipantView.renderers.clear();
+      DefaultGraphSwimlaneView.renderers.clear();
       DefaultGraphTransitionView.renderers.clear();
       DefaultGraphPortView.renderers.clear();
    }

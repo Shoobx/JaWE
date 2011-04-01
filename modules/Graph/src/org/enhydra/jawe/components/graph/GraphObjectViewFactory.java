@@ -55,8 +55,8 @@ public class GraphObjectViewFactory implements CellViewFactory {
 	 * @return CellView which represent view of cell
 	 */
 	protected CellView createVertexView(Object cell) {
-      if (cell instanceof GraphParticipantInterface) {
-         return new DefaultGraphParticipantView(cell);
+      if (cell instanceof GraphSwimlaneInterface) {
+         return new DefaultGraphSwimlaneView(cell);
       } else if (cell instanceof GraphActivityInterface) {
          return new DefaultGraphActivityView(cell);
       } else if (cell instanceof GraphArtifactInterface){

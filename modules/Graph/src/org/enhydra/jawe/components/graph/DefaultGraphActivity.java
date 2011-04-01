@@ -34,8 +34,6 @@ import org.enhydra.jxpdl.elements.Transition;
 
 /**
  * Used to define Activity object in graph and to modify it's properties.
- * 
- * @author Sasa Bojanic
  */
 public class DefaultGraphActivity extends GraphActivityInterface {
 

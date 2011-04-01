@@ -33,8 +33,8 @@ public class GraphParticipantComparator implements Comparator {
    }
 
    public int compare(Object o1, Object o2) {
-      GraphParticipantInterface p1 = (GraphParticipantInterface) o1;
-      GraphParticipantInterface p2 = (GraphParticipantInterface) o2;
+      GraphSwimlaneInterface p1 = (GraphSwimlaneInterface) o1;
+      GraphSwimlaneInterface p2 = (GraphSwimlaneInterface) o2;
       int pos1;
       int pos2;
       Rectangle b1 = graphManager.getCBounds(p1, null);

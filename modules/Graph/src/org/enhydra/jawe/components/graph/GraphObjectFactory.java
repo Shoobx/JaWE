@@ -226,10 +226,10 @@ public class GraphObjectFactory {
       return map;
    }
 
-   public GraphParticipantInterface createParticipant(Rectangle bounds,
+   public GraphSwimlaneInterface createParticipant(Rectangle bounds,
                                                       Map viewMap,
                                                       Object par) {
-      GraphParticipantInterface gpar = createParticipantCell(par);
+      GraphSwimlaneInterface gpar = createParticipantCell(par);
 
       Map m = initParticipantProperties(bounds, par);
 
@@ -237,11 +237,11 @@ public class GraphObjectFactory {
       return gpar;
    }
 
-   protected GraphParticipantInterface createParticipantCell(Object par) {
+   protected GraphSwimlaneInterface createParticipantCell(Object par) {
       if (par instanceof Pool)
-         return new DefaultGraphParticipant((Pool) par);
+         return new DefaultGraphSwimlane((Pool) par);
       else if (par instanceof Lane)
-         return new DefaultGraphParticipant((Lane) par);
+         return new DefaultGraphSwimlane((Lane) par);
       return null;
    }
 

@@ -38,6 +38,7 @@ import org.enhydra.jawe.components.graph.GraphUtilities;
 import org.enhydra.jawe.components.graph.JaWEGraphModel;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.Artifact;
 import org.enhydra.jxpdl.elements.Association;
@@ -75,16 +76,16 @@ public class RotateProcess extends ActionBase {
       gcon.setUpdateInProgress(true);
       JaWEManager.getInstance().getJaWEController().startUndouableChange();
       if (GraphUtilities.getGraphOrientation(selectedGraph.getXPDLObject())
-         .equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_HORIZONTAL)) {
+         .equals(XPDLConstants.POOL_ORIENTATION_HORIZONTAL)) {
          GraphUtilities.setGraphOrientation(selectedGraph.getXPDLObject(),
-                                            GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_VERTICAL);
+                                            XPDLConstants.POOL_ORIENTATION_VERTICAL);
       } else {
          GraphUtilities.setGraphOrientation(selectedGraph.getXPDLObject(),
-                                            GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_HORIZONTAL);
+                                            XPDLConstants.POOL_ORIENTATION_HORIZONTAL);
       }
 
       GraphUtilities.rotateProcess(selectedGraph);
-      
+
       List toSelect = new ArrayList();
       toSelect.add(selectedGraph.getXPDLObject());
       JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);

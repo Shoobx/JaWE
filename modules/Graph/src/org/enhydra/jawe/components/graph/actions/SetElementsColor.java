@@ -33,7 +33,7 @@ import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphCommonInterface;
 import org.enhydra.jawe.components.graph.GraphController;
-import org.enhydra.jawe.components.graph.GraphParticipantInterface;
+import org.enhydra.jawe.components.graph.GraphSwimlaneInterface;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
 import org.enhydra.jawe.components.graph.WorkflowElement;
 import org.enhydra.jxpdl.XMLCollectionElement;
@@ -78,7 +78,7 @@ public class SetElementsColor extends ActionBase {
          for (int i = 0; i < cell.length; i++) {
             XMLElement fc = null;
             if (cell[i] instanceof GraphCommonInterface
-                || cell[i] instanceof GraphParticipantInterface) {
+                || cell[i] instanceof GraphSwimlaneInterface) {
                NodeGraphicsInfo ngi = JaWEManager.getInstance()
                   .getXPDLUtils()
                   .getNodeGraphicsInfo((XMLCollectionElement) ((WorkflowElement) cell[i]).getPropertyObject());

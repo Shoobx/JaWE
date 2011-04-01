@@ -374,7 +374,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
     * Creates new renderer for the given {@link Transition} or {@link Association} object.
     * 
     * @param tra
-    * @return
+    * @return The renderer.
     */
    protected GraphTransitionRendererInterface createRenderer(XMLCollectionElement tra) {
       return GraphUtilities.getGraphController()

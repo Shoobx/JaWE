@@ -372,7 +372,7 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 		            Object[] scells=controller.getSelectedGraph().getSelectionCells();
 		            if (scells!=null && scells.length>0 && ((WorkflowElement)scells[0]).getPropertyObject() instanceof Lane) {		            
 			            Lane parentL = (Lane) ((WorkflowElement)scells[0]).getPropertyObject();
-			            GraphParticipantInterface gpar = controller.getSelectedGraph()
+			            GraphSwimlaneInterface gpar = controller.getSelectedGraph()
 			               .getGraphManager()
 			               .getGraphParticipant(parentL);
 			            if (gpar!=null && (gpar.howManyChildActivitiesOrArtifacts() > 0 || ((Lane)gpar.getPropertyObject()).getPerformers().size()==0)) {

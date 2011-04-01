@@ -32,8 +32,6 @@ import org.enhydra.jxpdl.elements.Artifact;
 
 /**
  * Used to define Artifact object in graph and to modify it's properties.
- * 
- * @author Sasa Bojanic
  */
 public class DefaultGraphArtifact extends GraphArtifactInterface {
 

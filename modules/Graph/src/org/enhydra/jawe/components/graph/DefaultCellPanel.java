@@ -16,9 +16,6 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-/**
- * Miroslav Popov, Jul 20, 2005
- */
 package org.enhydra.jawe.components.graph;
 
 import java.awt.BorderLayout;
@@ -34,38 +31,54 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 /**
- * Default panel for jawe object such as activity, route etc. It has icon and name.
- * 
- * @author Miroslav Popov
+ * Default panel for graph objects such as activity, artifact, etc. It has icon and name.
  */
 public class DefaultCellPanel extends JPanel {
 
+   /** Constant for specifying that text is the only thing to show in the panel. */
    public static final int TEXT_POSITION_ALL = 0;
 
+   /**
+    * Constant for specifying that text should be rendered in the upper part of the panel.
+    */
    public static final int TEXT_POSITION_UP = 1;
 
+   /**
+    * Constant for specifying that text should be rendered in the lower part of the panel.
+    */
    public static final int TEXT_POSITION_DOWN = 2;
 
+   /** Constant for specifying that text should be rendered in the left part of the panel. */
    public static final int TEXT_POSITION_LEFT = 3;
 
+   /**
+    * Constant for specifying that text should be rendered in the right part of the panel.
+    */
    public static final int TEXT_POSITION_RIGHT = 4;
 
-   // 0 - divLocation = icon space, divLocation - with = name space
+   /** Specifies the position of divider that breaks the panel into two parts. */
    protected int divLocation = 16;
 
+   /** Split element for the panel. */
    protected JSplitPane split;
 
+   /** Holding text information in the panel. */
    protected JTextArea name = new JTextArea();
 
+   /** Holding icon information in the panel. */
    protected JLabel mainIcon = new JLabel();
 
+   /** Specifies the text position within the panel. */
    protected int orientation = 0;
 
+   /**
+    * Creates a new object.
+    */
    protected DefaultCellPanel() {
       name.setText("-");
       name.setOpaque(false);
-//      name.setAlignmentX(Component.CENTER_ALIGNMENT);
-//      name.setAlignmentY(Component.CENTER_ALIGNMENT);
+      // name.setAlignmentX(Component.CENTER_ALIGNMENT);
+      // name.setAlignmentY(Component.CENTER_ALIGNMENT);
       mainIcon.setIcon(null);
       mainIcon.setVerticalAlignment(SwingConstants.TOP);
       mainIcon.setHorizontalAlignment(SwingConstants.CENTER);
@@ -83,22 +96,43 @@ public class DefaultCellPanel extends JPanel {
       add(split);
    }
 
+   /**
+    * Defines if icon will be visible within the panel.
+    * 
+    * @param show If true, icon will be visible.
+    */
    public void showIcon(boolean show) {
       mainIcon.setVisible(show);
    }
 
+   /**
+    * @return The panel icon.
+    */
    public Icon getMainIcon() {
       return mainIcon.getIcon();
    }
 
+   /**
+    * Sets the panel icon.
+    * 
+    * @param mainIcon Icon to set.
+    */
    public void setMainIcon(Icon mainIcon) {
       this.mainIcon.setIcon(mainIcon);
    }
 
+   /**
+    * @return The text displayed in the panel.
+    */
    public String getDisplayName() {
       return name.getText();
    }
 
+   /**
+    * Sets the text to display in the panel.
+    * 
+    * @param name The text to display.
+    */
    public void setDisplayName(String name) {
       this.name.setForeground(GraphUtilities.getGraphController()
          .getGraphSettings()
@@ -106,10 +140,20 @@ public class DefaultCellPanel extends JPanel {
       this.name.setText(name);
    }
 
+   /**
+    * Specifies if the text in the panel will be wrapped.
+    * 
+    * @param wrap If true, text will be wrapped.
+    */
    public void wrapName(boolean wrap) {
       name.setLineWrap(wrap);
    }
 
+   /**
+    * Specifies if the text wrapping will be on words only.
+    * 
+    * @param word If true, text will be wrapped only on words.
+    */
    public void wrapStyle(boolean word) {
       name.setWrapStyleWord(word);
    }
@@ -120,22 +164,26 @@ public class DefaultCellPanel extends JPanel {
    }
 
    /**
-    * Set text and icon on panel depending on parameter place 1 - icon bottom, text up 2 -
-    * icon top, text bottom 3 - icon right, text left default - icon left, text right
+    * Set text and icon on panel depending on parameter place 0 - only text, 1 - icon
+    * down, text up 2 - icon up, text down 3 - icon right, text left default - icon left,
+    * text right
     * 
-    * @param place
+    * @param place The text position.
     */
    public void setTextPosition(int place) {
       orientation = place;
       arrangeSplit();
    }
 
+   /**
+    * Arranges the panel splitting.
+    */
    public void arrangeSplit() {
       remove(split);
-//      if (orientation==0) {
-//         add(name);
-//         return;
-//      }
+      // if (orientation==0) {
+      // add(name);
+      // return;
+      // }
       switch (orientation) {
          case 0:
             split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainIcon, name);
@@ -146,7 +194,7 @@ public class DefaultCellPanel extends JPanel {
             split.setDividerLocation(GraphUtilities.getGraphController()
                .getGraphSettings()
                .getActivityHeight()
-                                     - divLocation-3);
+                                     - divLocation - 3);
             break;
          case 2:
             split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainIcon, name);
@@ -157,7 +205,7 @@ public class DefaultCellPanel extends JPanel {
             split.setDividerLocation(GraphUtilities.getGraphController()
                .getGraphSettings()
                .getActivityWidth()
-                                     - divLocation-5);
+                                     - divLocation - 5);
             break;
          default:
             split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainIcon, name);
@@ -175,7 +223,7 @@ public class DefaultCellPanel extends JPanel {
       if (split != null) {
          int iconSize = 0;
 
-         if (mainIcon.isVisible() && mainIcon.getIcon()!=null) {
+         if (mainIcon.isVisible() && mainIcon.getIcon() != null) {
             iconSize = mainIcon.getIcon().getIconWidth();
          }
          name.setBounds(name.getX(), name.getY(), rect.width, rect.height - iconSize - 3);

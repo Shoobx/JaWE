@@ -203,7 +203,7 @@ public class XPDLTreeModel extends DefaultTreeModel {
     * Searches for the {@link XPDLTreeNode} for the given {@link XMLElement} starting at
     * given start node.
     * 
-    * @param el {@link XPDLTreeNode} instance where the search starts.
+    * @param start {@link XPDLTreeNode} instance where the search starts.
     * @param el {@link XMLElement} instance.
     * @return {@link XPDLTreeNode} representing given {@link XMLElement}.
     */
@@ -270,7 +270,7 @@ public class XPDLTreeModel extends DefaultTreeModel {
     * Searches for the members of the given {@link XMLCollection} that should be hidden
     * within the tree hierarchy.
     * 
-    * @param cel {@link XMLCollection} instance.
+    * @param col {@link XMLCollection} instance.
     * @return A set of {@link XMLElement} instances which are members of given
     *         {@link XMLCollection} that should be hidden in the hierarchy.
     */

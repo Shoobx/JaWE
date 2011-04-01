@@ -293,7 +293,7 @@ public class GraphUtilities {
    }
 
    public static String getGraphParticipantOrientation(WorkflowProcess wp, String asId) {
-      String orientation = GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_HORIZONTAL;
+      String orientation = XPDLConstants.POOL_ORIENTATION_HORIZONTAL;
       ExtendedAttribute ea = GraphUtilities.getGraphParticipantOrientationEA(wp, asId);
       if (ea != null) {
          orientation = ea.getVValue();
@@ -2075,7 +2075,7 @@ public class GraphUtilities {
       if (allGraphParticipants != null) {
          Iterator it = allGraphParticipants.iterator();
          while (it.hasNext()) {
-            GraphParticipantInterface gpar = (GraphParticipantInterface) it.next();
+            GraphSwimlaneInterface gpar = (GraphSwimlaneInterface) it.next();
             if (gpar.getUserObject() instanceof Lane) {
                partsInGraph.add(gpar.getUserObject());
             }
@@ -2092,7 +2092,7 @@ public class GraphUtilities {
       Iterator itp = participantsToRemoveFromGraph.iterator();
       while (itp.hasNext()) {
          Lane p = (Lane) itp.next();
-         GraphParticipantInterface gpar = gmgr.getGraphParticipant(p);
+         GraphSwimlaneInterface gpar = gmgr.getGraphParticipant(p);
          Set chas = gpar.getChildActivitiesAndArtifacts();
          if (chas != null && chas.size() > 0) {
             Iterator ita = chas.iterator();
@@ -2118,7 +2118,7 @@ public class GraphUtilities {
          Map.Entry me = (Map.Entry) itm.next();
          Lane pold = (Lane) me.getKey();
          Lane pnew = (Lane) me.getValue();
-         GraphParticipantInterface gpar = gmgr.getGraphParticipant(pold);
+         GraphSwimlaneInterface gpar = gmgr.getGraphParticipant(pold);
          gpar.setUserObject(pnew);
          participantsToInsertIntoGraph.remove(pnew);
          participantsToRemoveFromGraph.remove(pold);
@@ -2185,7 +2185,7 @@ public class GraphUtilities {
          List gparstorem = new ArrayList();
          it = participantsToRemoveFromGraph.iterator();
          while (it.hasNext()) {
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant((Lane) it.next());
+            GraphSwimlaneInterface gpar = gmgr.getGraphParticipant((Lane) it.next());
             gparstorem.add(gpar);
          }
          gmgr.removeCellsAndArrangeParticipants(gparstorem.toArray());
@@ -2210,11 +2210,11 @@ public class GraphUtilities {
          it = lanes.iterator();
          while (it.hasNext()) {
             Lane l = (Lane) it.next();
-            GraphParticipantInterface gpi = graph.getGraphManager()
+            GraphSwimlaneInterface gpi = graph.getGraphManager()
                .getGraphParticipant(l);
             if (gpi != null) {
-               if (gpi.getParent() instanceof GraphParticipantInterface
-                   && ((GraphParticipantInterface) gpi.getParent()).getPropertyObject() instanceof Pool) {
+               if (gpi.getParent() instanceof GraphSwimlaneInterface
+                   && ((GraphSwimlaneInterface) gpi.getParent()).getPropertyObject() instanceof Pool) {
                   helper.add(gpi);
                }
             } else {
@@ -2224,7 +2224,7 @@ public class GraphUtilities {
          it = nestedlanes.iterator();
          while (it.hasNext()) {
             Lane l = (Lane) it.next();
-            GraphParticipantInterface gpi = graph.getGraphManager()
+            GraphSwimlaneInterface gpi = graph.getGraphManager()
                .getGraphParticipant(l);
             if (gpi != null) {
                helper2.add(gpi);
@@ -2237,7 +2237,7 @@ public class GraphUtilities {
          // List agp = new ArrayList(allGraphParticipants);
          // for (int i = 0; i < agp.size(); i++) {
          // System.out.println("GPARS="+allGraphParticipants);
-         // GraphParticipantInterface gpar = (GraphParticipantInterface)agp.get(i);
+         // GraphSwimlaneInterface gpar = (GraphSwimlaneInterface)agp.get(i);
          // int realInd = currentPars.indexOf(gpar.getPropertyObject());
          // int currentPos = allGraphParticipants.indexOf(gpar);
          // if (realInd != currentPos) {
@@ -2257,7 +2257,7 @@ public class GraphUtilities {
 
          for (int i = 0; i < currentPars.size(); i++) {
             System.out.println("GPARS=" + allGraphParticipants);
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
+            GraphSwimlaneInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
             if (!helper.contains(gpar))
                continue;
             int realInd = i;
@@ -2282,7 +2282,7 @@ public class GraphUtilities {
          }
          for (int i = 0; i < currentPars.size(); i++) {
             System.out.println("GPARS=" + allGraphParticipants);
-            GraphParticipantInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
+            GraphSwimlaneInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
             if (!helper2.contains(gpar))
                continue;
             int realInd = i;
@@ -2472,7 +2472,7 @@ public class GraphUtilities {
       if (allGraphParticipants != null) {
          Iterator it = allGraphParticipants.iterator();
          while (it.hasNext()) {
-            GraphParticipantInterface gpar = (GraphParticipantInterface) it.next();
+            GraphSwimlaneInterface gpar = (GraphSwimlaneInterface) it.next();
             if (gpar.getUserObject() instanceof Lane) {
                partsInGraph.add(gpar.getUserObject());
             }
@@ -2576,7 +2576,7 @@ public class GraphUtilities {
             } else {
                GraphActivityInterface ga = graph.getGraphManager().getGraphActivity(act);
                if (ga != null) {
-                  Lane inGraph = (Lane) ((GraphParticipantInterface) ga.getParent()).getUserObject();
+                  Lane inGraph = (Lane) ((GraphSwimlaneInterface) ga.getParent()).getUserObject();
                   if (inGraph != lfp) {
                      actsToMove.add(act);
                   }
@@ -2791,7 +2791,7 @@ public class GraphUtilities {
       if (pasteTo != null) {
          String pId = JaWEManager.getInstance().getXPDLUtils().getLaneId(actOrArt);
          Point off = GraphUtilities.getOffsetPoint(actOrArt);
-         CopiedActivityInfo ai = new CopiedActivityInfo(pId, off);
+         CopiedActivityOrArtifactInfo ai = new CopiedActivityOrArtifactInfo(pId, off);
          // System.err.println("..........Searching for rectangle for the info "+ai);
          Rectangle r = cci.getActivityBounds(ai);
          // System.err.println("..........Rectangle is "+r);
@@ -2801,7 +2801,7 @@ public class GraphUtilities {
          }
          Point diffPoint = new Point(refPoint.x + pasteTo.x - referencePoint.x,
                                      refPoint.y + pasteTo.y - referencePoint.y);
-         GraphParticipantInterface par = gm.findParentParticipantForLocation(diffPoint,
+         GraphSwimlaneInterface par = gm.findParentParticipantForLocation(diffPoint,
                                                                              null,
                                                                              null);
          String parId = ((Lane) par.getPropertyObject()).getId();
@@ -3485,7 +3485,7 @@ public class GraphUtilities {
       // if (allGraphParticipants != null) {
       // Iterator it = allGraphParticipants.iterator();
       // while (it.hasNext()) {
-      // GraphParticipantInterface gpar = (GraphParticipantInterface) it.next();
+      // GraphSwimlaneInterface gpar = (GraphSwimlaneInterface) it.next();
       // Participant p = (Participant) gpar.getUserObject();
       // if (partsInGraph.contains(p.getId())) {
       // shouldReload = true;

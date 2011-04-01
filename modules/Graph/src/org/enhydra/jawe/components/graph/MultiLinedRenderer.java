@@ -102,7 +102,7 @@ public class MultiLinedRenderer extends DefaultCellPanel implements CellViewRend
                textPos = TEXT_POSITION_ALL;
             }
          } 
-         else if (cell instanceof GraphParticipantInterface) {
+         else if (cell instanceof GraphSwimlaneInterface) {
             textPos = TEXT_POSITION_RIGHT;
          }
          else if (cell instanceof GraphArtifactInterface) {

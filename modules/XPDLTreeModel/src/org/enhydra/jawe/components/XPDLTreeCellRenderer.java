@@ -209,7 +209,7 @@ public class XPDLTreeCellRenderer extends DefaultTreeCellRenderer {
    /**
     * Sets the validation warnings.
     * 
-    * @param errs Set of {@link XMLElement} instances that have validation warnings.
+    * @param wrns Set of {@link XMLElement} instances that have validation warnings.
     */
    public void setWarnings(Set wrns) {
       this.warnings = wrns;

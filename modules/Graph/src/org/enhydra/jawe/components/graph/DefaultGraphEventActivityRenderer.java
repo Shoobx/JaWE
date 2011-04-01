@@ -41,14 +41,11 @@ import org.jgraph.graph.VertexRenderer;
 import org.jgraph.graph.VertexView;
 
 /**
- * Class used to display end object.
+ * Class used to render graph event activity object.
  */
 public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
                                                                      GraphActivityRendererInterface {
 
-   /**
-    * Paints End. Overrides super class paint to add specific painting.
-    */
    public void paint(Graphics g) {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
@@ -66,7 +63,7 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
 
       Color c = getFillColor();
       bordercolor = getBorderColor();
-      
+
       if (selected) {
          c = GraphUtilities.getGraphController()
             .getGraphSettings()
@@ -97,6 +94,9 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       }
    }
 
+   /**
+    * @return The border color for activity object.
+    */
    public Color getBorderColor() {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
@@ -113,6 +113,9 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       return bc;
    }
 
+   /**
+    * @return The fill color for activity object.
+    */
    public Color getFillColor() {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
@@ -127,13 +130,22 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       if (fc == null) {
          fc = GraphUtilities.getGraphController().getGraphSettings().getStartEventColor();
          if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
-            fc = GraphUtilities.getGraphController().getGraphSettings().getEndEventColor();
+            fc = GraphUtilities.getGraphController()
+               .getGraphSettings()
+               .getEndEventColor();
          }
       }
 
       return fc;
    }
-   
+
+   /**
+    * Paints the label below the Event type activity "box".
+    * 
+    * @param g Graphics object.
+    * @param label Label text to paint.
+    * @param actH The height of activity "box".
+    */
    protected void paintLabel(Graphics g, String label, int actH) {
       // Rectangle rb = ((GraphArtifactViewInterface)view).getOriginalBounds();
       // view.setBounds(new Rectangle((int)rb.getX()-50, (int)rb.getY(),
@@ -172,6 +184,13 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       return new Dimension(0, 0);
    }
 
+   /**
+    * The helper method for determining perimeter point of for the Event activity type.
+    * 
+    * @param pView The view.
+    * @param p The Point.
+    * @return The perimeter point.
+    */
    public Point2D getPerimeterPoint(VertexView pView, Point2D p) {
       Rectangle2D r = pView.getBounds();
 
@@ -229,17 +248,18 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       return new Point2D.Double(xout, yout);
    }
 
+   /** Helper method to draw an oval with specified width. */
    protected static void drawOwal(Graphics g, int w, int h, int lineWidth) {
       int x = w / 2;
       int y = h / 2;
       int rx = w / 2;
       int ry = h / 2;
-//      if (2*rx==w) {
-         rx--;
-//      }
-//      if (2*ry==h) {
-         ry--;
-//      }
+      // if (2*rx==w) {
+      rx--;
+      // }
+      // if (2*ry==h) {
+      ry--;
+      // }
 
       for (int i = 0; i < lineWidth; i++) {
          g.drawOval(x - (rx - i), y - (ry - i), 2 * (rx - i), 2 * (ry - i));

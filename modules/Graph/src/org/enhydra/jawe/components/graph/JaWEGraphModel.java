@@ -184,7 +184,7 @@ public class JaWEGraphModel extends DefaultGraphModel implements Serializable {
 
 		// extracting only participants (transitions are also roots)
 		for (int i = 0; i < roots.length; i++) {
-			if (roots[i] instanceof GraphParticipantInterface) {
+			if (roots[i] instanceof GraphSwimlaneInterface) {
 				rootDeps.add(roots[i]);
 			}
 		}
@@ -208,7 +208,7 @@ public class JaWEGraphModel extends DefaultGraphModel implements Serializable {
 		Iterator it = allCellsInModel.iterator();
 		while (it.hasNext()) {
 			Object cell = it.next();
-			if (cell instanceof GraphParticipantInterface) {
+			if (cell instanceof GraphSwimlaneInterface) {
 				participants.add(cell);
 			}
 		}

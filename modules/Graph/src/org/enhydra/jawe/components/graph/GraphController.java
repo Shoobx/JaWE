@@ -208,7 +208,7 @@ public class GraphController extends Observable implements
                   }
 
                   if (ga != null) {
-                     CopiedActivityInfo ai = new CopiedActivityInfo(JaWEManager.getInstance()
+                     CopiedActivityOrArtifactInfo ai = new CopiedActivityOrArtifactInfo(JaWEManager.getInstance()
                                                                        .getXPDLUtils()
                                                                        .getLaneId(a),
                                                                     GraphUtilities.getOffsetPoint(a));
@@ -410,7 +410,7 @@ public class GraphController extends Observable implements
          if (selEl instanceof Participant) {
             Lane parentL = (Lane) GraphUtilities.getLaneForPerformer(pool,
                                                                      ((Participant) selEl).getId());
-            GraphParticipantInterface gpar = getSelectedGraph().getGraphManager()
+            GraphSwimlaneInterface gpar = getSelectedGraph().getGraphManager()
                .getGraphParticipant(parentL);
             if (gpar != null) {
                Rectangle b = getSelectedGraph().getGraphManager()

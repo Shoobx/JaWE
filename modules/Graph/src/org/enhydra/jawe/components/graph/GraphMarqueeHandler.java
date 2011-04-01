@@ -196,7 +196,7 @@ public class GraphMarqueeHandler extends BasicMarqueeHandler {
                .getJaWEType(el)
                .getTypeId();
          }
-         if (cell instanceof GraphParticipantInterface) {
+         if (cell instanceof GraphSwimlaneInterface) {
             type = JaWEConstants.LANE_TYPE;
             // subtype = JaWEManager.getInstance()
             // .getJaWEController()
@@ -244,7 +244,7 @@ public class GraphMarqueeHandler extends BasicMarqueeHandler {
          }
       }
 
-      if (cell instanceof GraphParticipantInterface
+      if (cell instanceof GraphSwimlaneInterface
           && ((WorkflowElement) cell).getPropertyObject() instanceof Lane) {
          // System.err.println("CSPEC FIR CEP");
          Lane l = (Lane) ((WorkflowElement) cell).getPropertyObject();
@@ -565,7 +565,7 @@ public class GraphMarqueeHandler extends BasicMarqueeHandler {
          .getXPDLUtils()
          .getPoolForProcessOrActivitySet(getGraph().getXPDLObject());
       Lane laneToInsert = null;
-      GraphParticipantInterface ppar = getGraph().getGraphManager()
+      GraphSwimlaneInterface ppar = getGraph().getGraphManager()
          .getParticipantForLocation(whereTo);
       if (ppar != null
           && ppar.getPropertyObject() instanceof Lane
@@ -636,7 +636,7 @@ public class GraphMarqueeHandler extends BasicMarqueeHandler {
                                           JOptionPane.WARNING_MESSAGE);
 
          } else {
-            GraphParticipantInterface gpar = getGraphManager().findParentParticipantForLocation(whereTo,
+            GraphSwimlaneInterface gpar = getGraphManager().findParentParticipantForLocation(whereTo,
                                                                                                 null,
                                                                                                 null);
             if (!(gpar.getPropertyObject() instanceof Lane)) {

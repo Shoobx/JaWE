@@ -56,8 +56,8 @@ public class GraphObjectRendererFactory {
       return new DefaultGraphTransitionRenderer();
    }
 
-   public GraphParticipantRendererInterface createParticipantRenderer(Object par) {
-      return new DefaultGraphParticipantRenderer();
+   public GraphSwimlaneRendererInterface createParticipantRenderer(Object par) {
+      return new DefaultGraphSwimlaneRenderer();
    }
 
    public GraphPortRendererInterface createPortRenderer(String type) {

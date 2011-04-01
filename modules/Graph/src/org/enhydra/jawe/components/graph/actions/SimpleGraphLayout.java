@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.graph.actions;
 
@@ -38,6 +38,7 @@ import org.enhydra.jawe.components.graph.GraphUtilities;
 import org.enhydra.jawe.components.graph.JaWEGraphModel;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ActivitySet;
 import org.enhydra.jxpdl.elements.Package;
@@ -121,7 +122,7 @@ public class SimpleGraphLayout extends ActionBase {
 
    public static void layoutGraph(GraphController gcon, Graph selectedGraph) {
       boolean isHorizontal = GraphUtilities.getGraphOrientation(selectedGraph.getXPDLObject())
-         .equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ORIENTATION_VALUE_HORIZONTAL);
+         .equals(XPDLConstants.POOL_ORIENTATION_HORIZONTAL);
 
       Object[] elem = JaWEGraphModel.getAll(selectedGraph.getModel());
       selectedGraph.getModel().remove(elem);
