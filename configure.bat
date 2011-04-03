@@ -56,7 +56,7 @@ goto error
 
 :default
 
-call .\util\make\readregistry.exe
+call .\tools\trr\readregistry.exe
 if errorlevel==1 goto end
 for /F "tokens=1,2* delims==" %%i in (instdir.txt) do SET JDKHOME=%%j
 del instdir.txt>nul
@@ -71,7 +71,7 @@ if "X%JDKHOME%"=="X" goto initjava
 goto initversion
 
 :initjava
-call .\util\make\readregistry.exe
+call .\tools\trr\readregistry.exe
 if errorlevel==1 goto end
 for /F "tokens=1,2* delims==" %%i in (instdir.txt) do SET JDKHOME=%%j
 del instdir.txt>nul

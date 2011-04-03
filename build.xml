@@ -46,8 +46,7 @@
 
    <property name="doc.dir" location="${basedir}/doc" />
    <property name="modules.dir" location="${basedir}/modules" />
-   <property name="util.dir" location="${basedir}/util" />
-   <property name="ext.lib.dir" location="${basedir}/lib" />
+   <property name="tools.dir" location="${basedir}/tools" />
    <property name="input.dir" location="${basedir}/input" />
    <property name="branding.dir" location="${basedir}/branding" />
 
@@ -57,7 +56,7 @@
    <!-- Setting TRY-CATCH task -->
    <taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
       <classpath>
-         <fileset dir="${util.dir}/ant">
+         <fileset dir="${tools.dir}/ant">
             <include name="antcontrib.jar" />
          </fileset>
       </classpath>
@@ -67,7 +66,7 @@
    <!-- Setting for IF task -->
    <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
       <classpath>
-         <fileset dir="${util.dir}/ant">
+         <fileset dir="${tools.dir}/ant">
             <include name="antcontrib.jar" />
          </fileset>
       </classpath>
@@ -173,12 +172,15 @@
 
       <!-- Library directory -->
       <copy todir="${output.lib.dir}">
-         <fileset dir="${ext.lib.dir}" />
-         <fileset dir="${util.dir}/fop/lib" includes="batik.jar" />
-      </copy>
-
-      <copy todir="${output.lib.dir}">
-         <fileset dir="${util.dir}/ant" includes="ant.jar,ant-launcher.jar" />
+         <fileset dir="${tools.dir}/ant" includes="ant.jar,ant-launcher.jar" />
+         <fileset dir="${tools.dir}/fop" includes="batik.jar" />
+         <fileset dir="${tools.dir}/itext" includes="*.jar"/>
+         <fileset dir="${tools.dir}/javahelp" includes="*.jar"/>
+         <fileset dir="${tools.dir}/jeditsyntax" includes="*.jar"/>
+         <fileset dir="${tools.dir}/jgraph" includes="*.jar"/>
+         <fileset dir="${tools.dir}/tweicons" includes="*.jar"/>
+         <fileset dir="${tools.dir}/txm" includes="*.jar"/>
+         <fileset dir="${tools.dir}/xerces" includes="*.jar"/>
       </copy>
 
       <!-- Examples -->
@@ -349,7 +351,7 @@ make distributions       - Builds and configures TWE with all documentations and
             <include name="twelan.jar" />
             <include name="twepic.jar" />
          </fileset>
-         <fileset dir="${ext.lib.dir}">
+         <fileset dir="${tools.dir}/tweicons">
             <include name="tweactivityicons.jar" />
          </fileset>
       </copy>      
@@ -406,7 +408,7 @@ make distributions       - Builds and configures TWE with all documentations and
                            <param name="name.additional" value="tsl-" />
                         </antcall>
                         <copy todir="${output.lib.dir}">
-                           <fileset dir="${ext.lib.dir}" includes="itext.jar"/>
+                           <fileset dir="${tools.dir}/itext" includes="itext.jar"/>
                         </copy>
                         <copy todir="${build.dir}/licenses" overwrite="true">
                            <fileset dir="${basedir}/licenses">

@@ -1,3 +1,6 @@
+2011-04-02 Sasa Bojanic <sasaboy@together.at>
+   # Project restructured, build scripts changed (all libraries now in tools sub-folders)
+
 2011-04-01 Sasa Bojanic <sasaboy@together.at>
    # Some classes changed name (*GraphParticipant* to *GraphSwimlane*).
    # API docu improved

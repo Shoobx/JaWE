@@ -54,9 +54,9 @@ SET TARGET=%~1
 set OLDCLASSPATH=%CLASSPATH%
 set OLDPATH=%PATH%
 set PATH="%JAVA_HOME%\bin"
-set CLASSPATH="%CD%\util\ant\ant.jar"
-set CLASSPATH=%CLASSPATH%;"%CD%\util\ant\ant-launcher.jar"
-set CLASSPATH=%CLASSPATH%;"%CD%\util\ant\antcontrib.jar"
+set CLASSPATH="%CD%\tools\ant\ant.jar"
+set CLASSPATH=%CLASSPATH%;"%CD%\tools\ant\ant-launcher.jar"
+set CLASSPATH=%CLASSPATH%;"%CD%\tools\ant\antcontrib.jar"
 set CLASSPATH=%CLASSPATH%;"%JAVA_HOME%\lib\tools.jar"
 
 java -cp %CLASSPATH% org.apache.tools.ant.Main -DSYSTEMROOT=%SYSTEMROOT% %TARGET%

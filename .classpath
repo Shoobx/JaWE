@@ -39,14 +39,14 @@
 	<classpathentry kind="src" path="modules/Samples/src"/>
 	<classpathentry kind="src" path="modules/development/Debug/src"/>
 	<classpathentry kind="src" path="modules/development/Logger/src"/>
-	<classpathentry kind="lib" path="lib/jh.jar"/>
-	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="tools/javahelp/jh.jar"/>
+	<classpathentry kind="lib" path="tools/xerces/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="tools/xerces/xml-apis.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/jgraph.jar"/>
-	<classpathentry kind="lib" path="lib/jEdit-syntax.jar"/>
-	<classpathentry kind="lib" path="lib/itext.jar"/>
-	<classpathentry kind="lib" path="util/fop/lib/batik.jar"/>
-	<classpathentry kind="lib" path="lib/jxpdl.jar"/>
+	<classpathentry kind="lib" path="tools/jgraph/jgraph.jar"/>
+	<classpathentry kind="lib" path="tools/jeditsyntax/jEdit-syntax.jar"/>
+	<classpathentry kind="lib" path="tools/itext/itext.jar"/>
+	<classpathentry kind="lib" path="tools/fop/batik.jar"/>
+	<classpathentry kind="lib" path="tools/txm/jxpdl.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

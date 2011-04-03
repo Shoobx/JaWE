@@ -56,10 +56,6 @@
          <os family="unix" />
       </condition>
 
-      <!--Set the directories-->
-      <property name="ext.lib.dir" location="${basedir}/../lib" />
-      <property name="batik.lib.dir" location="${basedir}/../util/fop/lib" />
-
       <!-- Set directories -->
       <property name="project.dir" location="${basedir}/.." />
       <property name="output.dir" location="${project.dir}/output" />
@@ -68,38 +64,48 @@
       <property name="output.doc.dir" location="${build.dir}/doc" />
       <property name="doc.dir" location="${basedir}" />
       <property name="tmp.dir" location="${basedir}/tmp" />
-      <property name="util.dir" location="${project.dir}/util" />
       <property name="modules.dir" location="${project.dir}/modules" />
+
+		<property name="docbook.dir" location="${project.dir}/tools/docbook" />
+		<property name="ant.lib.dir" location="${project.dir}/tools/ant" />
+		<property name="fop.lib.dir" location="${project.dir}/tools/fop" />
+		<property name="xalan.lib.dir" location="${project.dir}/tools/xalan" />
+		<property name="xerces.lib.dir" location="${project.dir}/tools/xerces" />
+		<property name="jgraph.lib.dir" location="${project.dir}/tools/jgraph" />
+		<property name="jeditsyntax.lib.dir" location="${project.dir}/tools/jeditsyntax" />
+		<property name="itext.lib.dir" location="${project.dir}/tools/itext" />
+		<property name="javahelp.lib.dir" location="${project.dir}/tools/javahelp" />
+		<property name="txm.lib.dir" location="${project.dir}/tools/txm" />
 
       <!--Classes directory-->
       <property name="sources.dir" location="${modules.dir}/sources" />
 
       <!--Set the main classpath-->
       <path id="classpath">
-         <pathelement location="${ext.lib.dir}/jgraph.jar" />
-         <pathelement location="${ext.lib.dir}/jh.jar" />
-         <pathelement location="${batik.lib.dir}/batik.jar" />
-         <pathelement location="${ext.lib.dir}/xercesImpl.jar" />
-         <pathelement location="${ext.lib.dir}/xml-apis.jar" />
-         <pathelement location="${ext.lib.dir}/jEdit-syntax.jar" />
-         <pathelement location="${ext.lib.dir}/itext.jar" />
-         <pathelement location="${ext.lib.dir}/jxpdl.jar" />
+         <pathelement location="${jgraph.lib.dir}/jgraph.jar" />
+         <pathelement location="${javahelp.lib.dir}/jh.jar" />
+         <pathelement location="${fop.lib.dir}/batik.jar" />
+         <pathelement location="${xerces.lib.dir}/xercesImpl.jar" />
+         <pathelement location="${xerces.lib.dir}/xml-apis.jar" />
+         <pathelement location="${jeditsyntax.lib.dir}/jEdit-syntax.jar" />
+         <pathelement location="${itext.lib.dir}/itext.jar" />
+         <pathelement location="${txm.lib.dir}/jxpdl.jar" />
       </path>
 
       <!--Set the classpath for docbook-->
       <path id="xalan-classpath">
-         <fileset dir="${util.dir}/xalan/lib">
-            <include name="**/*.jar" />
+         <fileset dir="${xalan.lib.dir}">
+            <include name="*.jar" />
          </fileset>
       </path>
 
-      <property name="docbook.fo.xsl" location="${util.dir}/docbook/xsl/fo/docbook.xsl" />
-      <property name="docbook.pdf.classpath" location="${util.dir}/fop/lib/fop.jar${path.separator}${util.dir}/fop/lib/batik.jar${path.separator}${util.dir}/fop/lib/avalon-framework.jar${path.separator}${util.dir}/fop/lib/commons-io.jar${path.separator}${util.dir}/fop/lib/xmlgraphics-commons.jar${path.separator}${util.dir}/fop/lib/commons-logging.jar" />
+      <property name="docbook.fo.xsl" location="${docbook.dir}/xsl/fo/docbook.xsl" />
+      <property name="docbook.pdf.classpath" location="${fop.lib.dir}/fop.jar${path.separator}${fop.lib.dir}/batik.jar${path.separator}${fop.lib.dir}/avalon-framework.jar${path.separator}${fop.lib.dir}/commons-io.jar${path.separator}${fop.lib.dir}/xmlgraphics-commons.jar${path.separator}${fop.lib.dir}/commons-logging.jar" />
 
       <!-- Setting IF task -->
       <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
          <classpath>
-            <fileset dir="${util.dir}/ant">
+            <fileset dir="${ant.lib.dir}">
                <include name="antcontrib.jar" />
             </fileset>
          </classpath>
@@ -107,16 +113,15 @@
       <!-- Setting TRY-CATCH task -->
       <taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
          <classpath>
-            <fileset dir="${util.dir}/ant">
+            <fileset dir="${ant.lib.dir}">
                <include name="antcontrib.jar" />
             </fileset>
          </classpath>
       </taskdef>
       <!-- Setting FOP task -->
-      <property name="fop.home" value="${util.dir}/fop/" />
       <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
          <classpath>
-            <fileset dir="${fop.home}/lib">
+            <fileset dir="${fop.lib.dir}">
                <include name="*.jar" />
             </fileset>
          </classpath>
@@ -179,7 +184,7 @@
             <include name="${docbook.name}-current.html" />
          </fileset>
       </copy>
-      <copy file="${util.dir}/docbook/css/html.css" todir="${output.doc.dir}" />
+      <copy file="${docbook.dir}/css/html.css" todir="${output.doc.dir}" />
    </target>
 
    <target name="rebranding">
@@ -202,7 +207,7 @@
          <trycatch description="try-catch">
             <try>
                <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true">
-                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/javahelp/javahelp.xsl" />
+                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -in ${docbook.name}.xml -xsl ${docbook.dir}/xsl/javahelp/javahelp.xsl" />
                </java>
             </try>
             <catch>
@@ -220,7 +225,7 @@
          <trycatch description="try-catch">
             <try>
                <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out ${docbook.name}-current.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/chunk.xsl" />
+                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out ${docbook.name}-current.html -in ${docbook.name}.xml -xsl ${docbook.dir}/xsl/html/chunk.xsl" />
                </java>
             </try>
             <catch>
@@ -238,7 +243,7 @@
          <trycatch description="try-catch">
             <try>
                <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out ${docbook.name}-current.html -in ${docbook.name}.xml -xsl ${util.dir}/docbook/xsl/html/docbook.xsl" />
+                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out ${docbook.name}-current.html -in ${docbook.name}.xml -xsl ${docbook.dir}/xsl/html/docbook.xsl" />
                </java>
             </try>
             <catch>
@@ -261,7 +266,7 @@
                              -param ulink.footnotes 1 
                              -out ${docbook.name}.fo 
                              -in ${docbook.name}.xml 
-                             -xsl ${util.dir}/docbook/xsl/fo/docbook.xsl" />
+                             -xsl ${docbook.dir}/xsl/fo/docbook.xsl" />
                              <!-- 
                              -param page.margin.inner 0.5in 
                              -param page.margin.outer 0.5in 

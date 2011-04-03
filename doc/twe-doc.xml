@@ -9921,6 +9921,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <para>readregistry.exe replaced with the newer version now comming from its own project TRR (Together Read Registry), version 1.0-1</para>
         </listitem>
         <listitem>
+          <para>Project restructured, build scripts changed (all libraries now in tools sub-folders)</para>
+        </listitem>
+        <listitem>
           <para>Removed dependency to TAS.</para>
         </listitem>
         <listitem>
