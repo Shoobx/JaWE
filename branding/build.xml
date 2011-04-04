@@ -123,16 +123,12 @@
 	<!-- Installation rebranding		                                         -->
 	<!-- ==================================================================== -->
 	<target name="install">
-
 		<mkdir dir="tmp/install" />
 		<copy todir="tmp/install">
-			<fileset dir="${basedir}/../installation/Windows/install" />
-		</copy>
-		<copy todir="tmp/install/Modern UI" overwrite="true">
-			<fileset dir="${basedir}/installation/Modern UI" />
-		</copy>
-		<copy todir="tmp/install/Contrib/Icons" overwrite="true">
-			<fileset dir="${basedir}/installation/Icons" />
+			<fileset dir="${basedir}/../installation/Windows" />
+		</copy>     
+		<copy todir="${basedir}/../installation/Windows" overwrite="true">
+			<fileset dir="${basedir}/installation" />
 		</copy>
 
 		<property name="log.filename" value="log_${app.name}.txt" />
@@ -151,7 +147,7 @@
 		</if>
 
 		<echo message="Creating Rebrended TWE Windows installation, please wait ..." />
-		<exec dir="${basedir}/tmp/install/Modern UI" executable="${basedir}/tmp/install/makensis.exe">
+		<exec dir="${basedir}/../installation/Windows" executable="${basedir}/../tools/nsis/makensis.exe">
 			<arg line="/V4" />
 			<arg line="/O..\..\..\${log.filename}" />
 			<arg line="/DVERSION=${version}" />
@@ -167,6 +163,10 @@
 			<arg line="${nsis.script}" />
 		</exec>
 
+		<copy todir="${basedir}/../installation/Windows" overwrite="true">
+			<fileset dir="${basedir}/tmp/install" />
+		</copy>
+      
 		<delete dir="tmp" />
 		<!--<ant target="copyDocBack"/>-->
 
