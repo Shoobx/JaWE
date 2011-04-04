@@ -872,11 +872,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
             <row>
               <entry><para>installation</para></entry>
 
-              <entry><para>In the icons sub-folder you can put images for the
-              TWE installer to use. </para><para>In the Modern UI sub-folder
-              you put the splash screen image and in its Language files
-              sub-folder you put your modification of installer
-              language/branding file. </para><para>Example shows the names of
+              <entry><para>Here you can put your own images and language files
+              for the TWE installer.</para><para>Example shows the names of
               the images you can replace and modification of Brazilian
               Portuguese language/branding file which refers to the editor as
               to XYZ Editor. </para></entry>
@@ -9894,47 +9891,73 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para>Added "silent" installation possibility</para>
         </listitem>
-        
+
         <listitem>
-          <para>Occurrence of twe@together.at in various source files changed to twe@togetherteam.co.th</para>
+          <para>Occurrence of twe@together.at in various source files changed
+          to twe@togetherteam.co.th</para>
         </listitem>
 
         <listitem>
-          <para>The build.debug property removed from build.properties file, new build target "debug" introduced to build TWE JAR files with DEBUG information in the classes</para>
+          <para>The build.debug property removed from build.properties file,
+          new build target "debug" introduced to build TWE JAR files with
+          DEBUG information in the classes</para>
         </listitem>
+
         <listitem>
-          <para>The project distribution now also contains debug folder with TWE JAR files that include DEBUG information.</para>
+          <para>The project distribution now also contains debug folder with
+          TWE JAR files that include DEBUG information.</para>
         </listitem>
+
         <listitem>
-          <para>Not packaging Java API documentation into distribution zip/tar.gz/exe/rpm files</para>
+          <para>Not packaging Java API documentation into distribution
+          zip/tar.gz/exe/rpm files</para>
         </listitem>
+
         <listitem>
-          <para>Fixed bug with copying processes/activity sets from "transient" packages</para>
+          <para>Fixed bug with copying processes/activity sets from
+          "transient" packages</para>
         </listitem>
+
         <listitem>
-          <para>Fixed: not creating unnecessary NodeGraphicsInfo element for Pools when process/activity set gets copied</para>
+          <para>Fixed: not creating unnecessary NodeGraphicsInfo element for
+          Pools when process/activity set gets copied</para>
         </listitem>
+
         <listitem>
           <para>Updated JAR's MANIFEST information</para>
         </listitem>
+
         <listitem>
-          <para>readregistry.exe replaced with the newer version now comming from its own project TRR (Together Read Registry), version 1.0-1</para>
+          <para>readregistry.exe replaced with the newer version now comming
+          from its own project TRR (Together Read Registry), version
+          1.0-1</para>
         </listitem>
+
         <listitem>
-          <para>Project restructured, build scripts changed (all libraries now in tools sub-folders)</para>
+          <para>Project restructured, build scripts changed (all libraries now
+          in tools sub-folders)</para>
         </listitem>
+
         <listitem>
           <para>Removed dependency to TAS.</para>
         </listitem>
+
         <listitem>
-          <para>Added support for "Script" Activity type (TaskScript from XPDL).</para>
+          <para>Added support for "Script" Activity type (TaskScript from
+          XPDL).</para>
         </listitem>
+
         <listitem>
-          <para>Improved property panels for DataField and FormalParameter elements.</para>
+          <para>Improved property panels for DataField and FormalParameter
+          elements.</para>
         </listitem>
+
         <listitem>
-          <para>Changed property panels for ActualParameter/InitialValue/DeadlineDuration/Condition elements</para>
+          <para>Changed property panels for
+          ActualParameter/InitialValue/DeadlineDuration/Condition
+          elements</para>
         </listitem>
+
         <listitem>
           <para>Various improvements.</para>
         </listitem>
