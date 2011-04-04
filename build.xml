@@ -461,9 +461,9 @@ make distributions       - Builds and configures TWE with all documentations and
          </then>
          <else>
             <echo message="Creating TWE Windows installation, please wait ..." />
-            <exec dir="${basedir}/installation/Windows/install/Modern UI" executable="${basedir}/installation/Windows/install/makensis.exe">
+            <exec dir="${basedir}/installation/Windows" executable="${basedir}/tools/nsis/makensis.exe">
                <arg line="/V4" />
-               <arg line="/O..\..\..\..\log_${app.name}.txt" />
+               <arg line="/O..\..\log_${app.name}.txt" />
                <arg line="/DVERSION=${version}" />
                <arg line="/DRELEASE=${release}" />
                <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
@@ -532,7 +532,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </copy>
       <copy todir="${dist.community.dir}">
          <filterset refid="Filter_input" />
-         <fileset dir="${basedir}/installation/Windows/install/Modern UI" includes="twe-silent.properties" />
+         <fileset dir="${basedir}/installation/Windows" includes="twe-silent.properties" />
       </copy>
       <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
       
