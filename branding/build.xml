@@ -149,7 +149,7 @@
 		<echo message="Creating Rebrended TWE Windows installation, please wait ..." />
 		<exec dir="${basedir}/../installation/Windows" executable="${basedir}/../tools/nsis/makensis.exe">
 			<arg line="/V4" />
-			<arg line="/O..\..\..\${log.filename}" />
+			<arg line="/O..\..\${log.filename}" />
 			<arg line="/DVERSION=${version}" />
 			<arg line="/DRELEASE=${release}" />
          <arg line="/DSIGNTOOL_PATH=&quot;&quot;" />
