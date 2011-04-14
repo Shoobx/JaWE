@@ -197,11 +197,11 @@
          </fileset>
       </copy>
       <copy todir="${build.dir}/licenses">
-         <fileset dir="${basedir}/licenses" includes="*.*" excludes="twe-includes*,License-TOG.txt,nsis.txt,docbook.txt" />
+         <fileset dir="${basedir}/licenses" includes="*.*" excludes="${app.name}-includes*,License-TOG.txt,nsis.txt,docbook.txt" />
       </copy>
       <copy todir="${build.dir}/licenses">
          <fileset dir="${basedir}/licenses" includes="*.*" />
-         <mapper type="regexp" from="twe-includes.xlsx" to="twe-includes-${version}-${release}.xlsx" />
+         <mapper type="regexp" from="${app.name}-includes.xlsx" to="${app.name}-includes-${version}-${release}.xlsx" />
       </copy>
       <mkdir dir="${build.dir}/config/default" />
 
@@ -227,15 +227,8 @@
    <!-- ==================================================================== -->
    <!-- Builds Documentation                                                 -->
    <!-- ==================================================================== -->
-   <target name="buildAllDoc" depends="output">
+   <target name="buildDoc" depends="output">
       <ant dir="${doc.dir}" />
-   </target>
-
-   <!-- ==================================================================== -->
-   <!-- Builds DocBook Documentation                                         -->
-   <!-- ==================================================================== -->
-   <target name="buildDoc">
-      <ant dir="${doc.dir}" target="buildDocBook" />
    </target>
 
    <!-- ==================================================================== -->
@@ -246,7 +239,7 @@
    <!-- ==================================================================== -->
    <!-- Builds all                                                           -->
    <!-- ==================================================================== -->
-   <target name="buildAll" depends="output, buildAllDoc, configure"/>
+   <target name="buildAll" depends="output, buildDoc, configure"/>
 
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
@@ -261,13 +254,11 @@
    <target name="clean">
       <ant dir="${modules.dir}" target="clean" />
       <ant dir="${branding.dir}" target="clean" />
+      <ant dir="${doc.dir}" target="clean" />
       <delete dir="${output.dir}" />
       <delete dir="${basedir}/distribution" />
       <delete quiet="true">
          <fileset dir="${basedir}" includes="log_*.txt" />
-      </delete>
-      <delete quiet="true">
-         <fileset dir="${basedir}/doc" includes="log.txt,twe-doc.xml~" defaultexcludes="false"/>
       </delete>
       <delete dir="${basedir}/doc/tmp" />
       <delete dir="${basedir}/installation/unix/rpm" />
@@ -307,9 +298,9 @@
       <echo>
 make                     - Displays Help screen
 make help                - Displays Help screen
-make buildAll            - Builds and configures TWE with javadoc and docbook documentation
-make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
-make buildDoc            - Builds docbook documentation
+make buildAll            - Builds and configures TWE with documentation
+make buildNoDoc          - Builds and configures TWE without documentation
+make buildDoc            - Builds documentation only
 make debug               - Builds TWE JAR files with included debug information
 make dependencies        - Creates TWS dependencies within distributions folder
 make dependency_tws      - Creates TWS dependencies within distributions folder
@@ -431,7 +422,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Windows binary distribution                                          -->
    <!-- ==================================================================== -->
-   <target name="distBinWindows" depends="output, buildAllDoc, distWebStart, distZIPEXE"/>
+   <target name="distBinWindows" depends="output, buildDoc, distWebStart, distZIPEXE"/>
 
    <target name="distZIPEXE">
       <property name="dist.folder" value="${dist.community.dir}" />
@@ -503,38 +494,38 @@ make distributions       - Builds and configures TWE with all documentations and
 
    <target name="distOther">
       <copy todir="${dist.screenshots.dir}">
-         <fileset dir="${basedir}/screenshots" includes="twe-screen.zip" />
-         <mapper type="regexp" from="twe-screen.zip" to="twe-screens-${version}-${release}.zip" />
+         <fileset dir="${basedir}/screenshots" includes="${app.name}-screen.zip" />
+         <mapper type="regexp" from="${app.name}-screen.zip" to="${app.name}-screens-${version}-${release}.zip" />
       </copy>
       <copy todir="${dist.community.dir}">
-         <fileset dir="${dist.screenshots.dir}" includes="twe-screens-${version}-${release}.zip" />
+         <fileset dir="${dist.screenshots.dir}" includes="${app.name}-screens-${version}-${release}.zip" />
       </copy>
-      <copy file="${build.dir}/doc/twe-doc-current.pdf" tofile="${build.dir}/doc/twe-doc-${version}-${release}.pdf"/>
-      <copy file="${build.dir}/doc/twe-doc-current.html" tofile="${build.dir}/doc/twe-doc-${version}-${release}.html"/>
+      <copy file="${build.dir}/doc/${app.name}-doc-current.pdf" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.pdf"/>
+      <copy file="${build.dir}/doc/${app.name}-doc-current.html" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.html"/>
       <zip destfile="${dist.community.dir}/${app.name}-doc-${version}-${release}.zip" update="true">
-         <zipfileset dir="${build.dir}/doc" excludes="twe-doc-current.*"/>
+         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-doc-current.*"/>
       </zip>
       <copy todir="${dist.community.dir}">
-         <fileset dir="${build.dir}/doc" includes="twe-doc-current.pdf" />
+         <fileset dir="${build.dir}/doc" includes="${app.name}-doc-current.pdf" />
       </copy>      
       <copy todir="${dist.doc.dir}">
-         <fileset dir="${build.dir}/doc" excludes="twe-doc-current.*"/>
+         <fileset dir="${build.dir}/doc" excludes="${app.name}-doc-current.*"/>
       </copy>
       <delete quiet="true">
-         <fileset dir="${build.dir}/doc" includes="twe-doc-${version}-${release}.*" />
+         <fileset dir="${build.dir}/doc" includes="${app.name}-doc-${version}-${release}.*" />
       </delete>      
       <copy todir="${dist.internal.dir}">
-         <fileset dir="${basedir}/licenses" includes="twe-includes.xlsx" />
-         <mapper type="regexp" from="twe-includes.xlsx" to="twe-includes-${version}-${release}.xlsx" />
+         <fileset dir="${basedir}/licenses" includes="${app.name}-includes.xlsx" />
+         <mapper type="regexp" from="${app.name}-includes.xlsx" to="${app.name}-includes-${version}-${release}.xlsx" />
       </copy>
       <copy todir="${dist.internal.dir}">
          <fileset dir="${build.dir}" includes="BuildID.txt" />
       </copy>
       <copy todir="${dist.community.dir}">
          <filterset refid="Filter_input" />
-         <fileset dir="${basedir}/installation/Windows" includes="twe-silent.properties" />
+         <fileset dir="${basedir}/installation/Windows" includes="${app.name}-silent.properties" />
       </copy>
-      <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
+      <move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" />
       
       <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
@@ -545,7 +536,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix binary distribution preparation                                 -->
    <!-- ==================================================================== -->
-   <target name="distBinUnix" depends="output, buildAllDoc, distTARGZ" />
+   <target name="distBinUnix" depends="output, buildDoc, distTARGZ" />
 
    <target name="distTARGZ">
       <property name="dist.folder" value="${dist.community.dir}" />

@@ -666,11 +666,9 @@ configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE</programli
       <para>Possible build targets for the make script are:</para>
 
       <para><programlisting>make help            - Displays Help screen
-make buildAll        - Builds and configures TWE with javadoc and 
-                       docbook documentation
-make buildNoDoc      - Builds and configures TWE without javadoc and 
-                       docbook documentation
-make buildDoc        - Builds docbook documentation
+make buildAll        - Builds and configures TWE with documentation
+make buildNoDoc      - Builds and configures TWE without documentation
+make buildDoc        - Builds documentation only
 make debug           - Builds TWE JAR files with included debug information
 make dependencies    - Creates TWS dependencies within distributions folder
 make dependency_tws  - Creates TWS dependencies within distributions folder

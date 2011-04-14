@@ -1,3 +1,6 @@
+2011-04-14 Sasa Bojanic <sasaboy@together.at>
+   # buildDoc target now also builds JavaDoc API documentation
+
 2011-04-04 Sasa Bojanic <sasaboy@together.at>
    # Project restructured, build scripts changed (nsis moved to tools folder, docbook files moved to tools\docbook folder)
 

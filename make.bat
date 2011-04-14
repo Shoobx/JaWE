@@ -73,9 +73,9 @@ echo Parameters value for using with make.bat :
 echo.
 echo make                     - Displays Help screen
 echo make help                - Displays Help screen
-echo make buildAll            - Builds and configures TWE with javadoc and docbook documentation
-echo make buildNoDoc          - Builds and configures TWE without javadoc and docbook documentation
-echo make buildDoc            - Builds docbook documentation
+echo make buildAll            - Builds and configures TWE with documentation
+echo make buildNoDoc          - Builds and configures TWE without documentation
+echo make buildDoc            - Builds documentation only
 echo make debug               - Builds TWE JAR files with included debug information
 echo make dependencies        - Creates TWS dependencies within distributions folder
 echo make dependency_tws      - Creates TWS dependencies within distributions folder
