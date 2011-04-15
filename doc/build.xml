@@ -347,20 +347,12 @@
    </target>
 
    <!-- ==================================================================== -->
-   <!-- Documentation output                                                 -->
+   <!-- DocBook Documentation output                                         -->
    <!-- ==================================================================== -->
    <target name="buildDoc" depends="init">
       <echo message="Documentation Build" />
-      <ant target="buildDocJar" />
-      <ant target="javadoc" />
-   </target>
-
-   <!-- ==================================================================== -->
-   <!-- DocBook Documentation output                                         -->
-   <!-- ==================================================================== -->
-   <target name="buildDocBook" depends="init">
-      <echo message="Documentation Build" />
       <ant target="docbook" />
+      <ant target="javadoc" />
    </target>
 
    <!-- ==================================================================== -->

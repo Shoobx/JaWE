@@ -227,8 +227,19 @@
    <!-- ==================================================================== -->
    <!-- Builds Documentation                                                 -->
    <!-- ==================================================================== -->
-   <target name="buildDoc" depends="output">
+   <target name="buildDoc">
+      <ant dir="${modules.dir}" target="prepare"/>
       <ant dir="${doc.dir}" />
+   </target>
+
+   <target name="buildDocNoAPI">
+      <ant dir="${doc.dir}" target="buildDocJar" />
+      <ant dir="${doc.dir}" target="docbook" />
+   </target>
+
+   <target name="buildAPIDoc">
+      <ant dir="${modules.dir}" target="prepare"/>
+      <ant dir="${doc.dir}" target="javadoc"/>
    </target>
 
    <!-- ==================================================================== -->
@@ -239,14 +250,12 @@
    <!-- ==================================================================== -->
    <!-- Builds all                                                           -->
    <!-- ==================================================================== -->
-   <target name="buildAll" depends="output, buildDoc, configure"/>
+   <target name="buildAll" depends="buildOutput, buildAPIDoc, configure"/>
 
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
-   <target name="buildOutput" depends="output">
-      <ant dir="${doc.dir}" target="buildDocJar" />
-   </target>
+   <target name="buildOutput" depends="output, buildDocNoAPI"/>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
@@ -422,7 +431,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Windows binary distribution                                          -->
    <!-- ==================================================================== -->
-   <target name="distBinWindows" depends="output, buildDoc, distWebStart, distZIPEXE"/>
+   <target name="distBinWindows" depends="buildOutput, buildAPIDoc, distWebStart, distZIPEXE"/>
 
    <target name="distZIPEXE">
       <property name="dist.folder" value="${dist.community.dir}" />
@@ -536,7 +545,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix binary distribution preparation                                 -->
    <!-- ==================================================================== -->
-   <target name="distBinUnix" depends="output, buildDoc, distTARGZ" />
+   <target name="distBinUnix" depends="buildOutput, distTARGZ" />
 
    <target name="distTARGZ">
       <property name="dist.folder" value="${dist.community.dir}" />
