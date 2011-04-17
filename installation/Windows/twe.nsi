@@ -162,7 +162,7 @@ SetDateSave          on
   ; it is invoked, will just write the uninstaller to some location, and then exit.
   ; Be sure to substitute the name of this script here.
    
-  !system "$\"${NSISDIR}\makensis$\" /DINNER /O..\..\..\..\log_twe_inner.txt /DVERSION=${VERSION} /DRELEASE=${RELEASE} /DTWE_DIR=${TWE_DIR} /DOUT_DIR=${OUT_DIR} /DLICENSE=${LICENSE} /DLANGUAGE=${LANGUAGE} twe.nsi" = 0
+  !system "$\"${NSISDIR}\makensis$\" /DINNER /O..\..\log_twe_inner.txt /DVERSION=${VERSION} /DRELEASE=${RELEASE} /DTWE_DIR=${TWE_DIR} /DOUT_DIR=${OUT_DIR} /DLICENSE=${LICENSE} /DLANGUAGE=${LANGUAGE} twe.nsi" = 0
  
   ; So now run that installer we just created as %TEMP%\tempinstaller.exe.  Since it
   ; calls quit the return value isn't zero.
