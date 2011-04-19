@@ -347,6 +347,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <mkdir dir="${dist.dependencies.dir}/tws" />
       <copy todir="${dist.dependencies.dir}/tws" overwrite="true">
          <fileset dir="${build.dir}/lib">
+            <include name="jxpdl.jar" />
             <include name="twecore.jar" />
             <include name="twelan.jar" />
             <include name="twepic.jar" />

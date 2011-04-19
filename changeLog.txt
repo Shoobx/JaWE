@@ -1,3 +1,6 @@
+2011-04-19 Sasa Bojanic <sasaboy@together.at>
+   # TWE dependency output for TWS now also contains jxpdl.jar
+   
 2011-04-14 Sasa Bojanic <sasaboy@together.at>
    # buildDoc target now also builds JavaDoc API documentation
 
