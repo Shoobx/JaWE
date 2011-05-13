@@ -27,7 +27,7 @@ SET SET_INSTALLDIR=off
 SET SET_REBRANDING=off
 SET SET_LANGUAGE=off
 
-SET VERSION=4.0
+SET VERSION=4.1
 SET RELEASE=1
 SET INSTALLDIR=
 SET REBRANDING=false
@@ -151,7 +151,7 @@ echo.
 echo.
 echo Example:
 echo.
-echo configure -version 3.3 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE
+echo configure -version 4.1 -release 1 -jdkhome C:/jdk1.6 -instdir C:/JaWE
 echo.
 goto end
 
