@@ -9850,75 +9850,80 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <itemizedlist>
         <listitem>
-          <para>Ant libraries upgraded to version 1.8.2 (removed
-          ant-nodeps.jar)</para>
+          <para>Apache Ant libraries updated to version 1.8.2 (ant.jar and
+          ant-launcher.jar)</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Removed nodeps.jar</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
 
         <listitem>
-          <para>Xerces library upgraded to version 2.11.0</para>
+          <para>Xerces library updated to version 2.11.0
+          (xercesImpl.jar).</para>
         </listitem>
 
         <listitem>
-          <para>Commons IO library upgraded to version 2.0.1</para>
+          <para>Apache Common I/O library updated to version 2.0.1
+          (commons-io.jar).</para>
         </listitem>
 
         <listitem>
-          <para>XML Commons library upgraded to version 1.4_01</para>
+          <para>XML Commons library updated to version 1.4_01
+          (xml-apis.jar).</para>
         </listitem>
 
         <listitem>
-          <para>XML Commons Graphics library upgraded to version 1.4</para>
+          <para>Xml Graphics Commons library updated to version 1.4
+          (xmlgraphics-commons.jar).</para>
         </listitem>
 
         <listitem>
-          <para>FOP library upgraded to version 1.0</para>
+          <para>FOP library updated to version 1.0 (fop.jar).</para>
         </listitem>
 
         <listitem>
-          <para>iText library upgraded to version 5.0.6</para>
+          <para>iText library upgraded to version 5.0.6 (itext.jar).</para>
         </listitem>
 
         <listitem>
-          <para>Docbook upgraded to version 1.76.1</para>
+          <para>DocBook-XSL libraries updated to version 1.76.1
+          (docbook-xsl).</para>
         </listitem>
 
         <listitem>
-          <para>Fixed "Save as PDF" action bug</para>
+          <para>Added fix for "Save as PDF" bug.</para>
         </listitem>
 
         <listitem>
-          <para>Added "silent" installation possibility</para>
+          <para>Added support for silent installation.</para>
         </listitem>
 
         <listitem>
-          <para>Occurrence of twe@together.at in various source files changed
-          to twe@togetherteam.co.th</para>
+          <para>Updated contact email to
+          <email>twe@togetherteam.co.th.</email></para>
         </listitem>
 
         <listitem>
-          <para>The build.debug property removed from build.properties file,
-          new build target "debug" introduced to build TWE JAR files with
-          DEBUG information in the classes</para>
+          <para>Updated build script to support building of debug version and
+          added "debug" folder to output.</para>
         </listitem>
 
         <listitem>
-          <para>The project distribution now also contains debug folder with
-          TWE JAR files that include DEBUG information.</para>
+          <para>Removed Java API documentation from distribution zip/ tar.gz/
+          exe/ rpm files.</para>
         </listitem>
 
         <listitem>
-          <para>Not packaging Java API documentation into distribution
-          zip/tar.gz/exe/rpm files</para>
+          <para>Added fix for bug with copying processes/ activity sets from
+          "transient" packages.</para>
         </listitem>
 
         <listitem>
-          <para>Fixed bug with copying processes/activity sets from
-          "transient" packages</para>
-        </listitem>
-
-        <listitem>
-          <para>Fixed: not creating unnecessary NodeGraphicsInfo element for
-          Pools when process/activity set gets copied</para>
+          <para>Added fix: not creating unnecessary NodeGraphicsInfo element
+          for Pools when process/activity set gets copied.</para>
         </listitem>
 
         <listitem>
@@ -9926,18 +9931,30 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
-          <para>readregistry.exe replaced with the newer version now comming
-          from its own project TRR (Together Read Registry), version
+          <para>Added Together Read Registry (TRR) library version
           1.0-1</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Removed readregistry.nsi</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
 
         <listitem>
-          <para>Project restructured, build scripts changed (all libraries now
-          in tools sub-folders)</para>
+          <para>Standardized the project sources:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Updated directory names, filenames and output directory
+              structure.</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
 
         <listitem>
-          <para>Removed dependency to TAS.</para>
+          <para>Removed Together Application Server (TAS) dependency
+          target.</para>
         </listitem>
 
         <listitem>
@@ -9946,18 +9963,18 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
-          <para>Improved property panels for DataField and FormalParameter
-          elements.</para>
+          <para>Updated to improve property panels for DataField and
+          FormalParameter elements.</para>
         </listitem>
 
         <listitem>
-          <para>Changed property panels for
+          <para>Updated property panels for
           ActualParameter/InitialValue/DeadlineDuration/Condition
           elements</para>
         </listitem>
 
         <listitem>
-          <para>Various improvements.</para>
+          <para>Added various improvements.</para>
         </listitem>
       </itemizedlist>
     </section>
