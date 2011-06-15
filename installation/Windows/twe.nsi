@@ -29,6 +29,7 @@
 ;----------------------------------------------------------------------------------
 !include LogicLib.nsh
 !include WinMessages.nsh
+!include "x64.nsh"
 
 ;Version Information
 VIProductVersion "${VERSION}.${RELEASE}.0"
@@ -808,174 +809,287 @@ Function SetJavaPage
   end:
 FunctionEnd
 ;-----------------------------------------------------------------------
+; GetJavaVersion 64/32 bits
 Function GetJavaVersion
+ Push $R0
+ Push $R1
+ Push $R2
+ Push $R9
+ Push $1
+ Push $2
+ Push $3
+ Push $4
+ Push $5
+ ;No value by default
+ StrCpy $1 ""
+ StrCpy $2 ""
+ StrCpy $3 ""
+ StrCpy $4 ""
+ StrCpy $5 ""
 
-  ;No value by default
-  StrCpy $1 ""
-  StrCpy $4 ""
-
-  ClearErrors
-  ; READ JAVA_HOME from all users
-  ReadEnvStr $4 "JAVA_HOME"
-  IfErrors noAllUsersJavaHome
-  ; Set the JAVA_HOME value into the ini file
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
-  
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
-
-  noAllUsersJavaHome:
-    ClearErrors
-    ; READ JAVA_HOME from the user
-    ReadRegStr $4 HKCU "Environment" "JAVA_HOME"
-    IfErrors noUserJavaHome
-    ; Set the JAVA_HOME value into the ini file
-    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
-  
-    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
-    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
-
-  noUserJavaHome:
-    ClearErrors
-    ; Read the Sun JDK value from the registry
-    ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
-    ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
-    
-    StrCmp $1 "" setJDKx64 setJDKx64OK
-    
-    setJDKx64:
-        ClearErrors
-        ; Read the Sun JDK value from the registry 64 bit
-        SetRegView 64
-        ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
-        ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
-        SetRegView 32
-    
-    setJDKx64OK:
-
-    IfErrors noSunJDK
-    StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
-  loop:
-    
-    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9
-    ;StrCmp $R1 "" noSunJDK
+ ClearErrors
+ ;**********************************************************************
+ ;1.)READ JAVA_HOME from all users or Read the registry Environment  "JAVA_HOME"
+ ;**********************************************************************
+    ReadEnvStr $4 "JAVA_HOME"
+    ${if} $4 != ""
+                IfFileExists $4\bin\javaw.exe  FoundAllUserJavaHome   ; found it all user
+                    FoundAllUserJavaHome:
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
+                        StrCpy $5 $4
+    ${else}
+                ClearErrors
+                ReadRegStr $4 HKCU "Environment" "JAVA_HOME"
+                ${if} $4 != ""
+                    IfFileExists $4\bin\javaw.exe  FoundUserJavaHome  NotFoundUserJavaHome
+                    FoundUserJavaHome:
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
+                        StrCpy $5 $4
+                    NotFoundUserJavaHome:
+                ${endif}   
+    ${endif}
+   
+   ClearErrors
+;**********************************************************************
+;2.) Read the Sun JDK value from the registry 32bit and 64 bit
+;**********************************************************************
+;===========================================
+; A.)Read the registry JDK 32bit
+;===========================================
+   ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
+   ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
+    ${if} $1 != ""   ;found jdk 32bit.
+            StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+    ${endif}
+loopJDK32bit:
+    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9    
     ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
-    
-    StrCmp $R2 "" setLoopJDKx64 setLoopJDKx64OK
-    
-    setLoopJDKx64:
-        ClearErrors
-        SetRegView 64
-        EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9
-        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
-        SetRegView 32
-        StrCmp $R2 "" noSunJDK
-    
-    setLoopJDKx64OK:
-
-    ; check if java version >= 1.4.x
-  	StrCpy $1 $R1 1 ; major version
-    StrCpy $2 $R1 1 2 ; minor version
-    IntFmt $3 "%u" $1
-    IntFmt $4 "%u" $2
-    IntCmp $4 4 ok 0 ok
-    goto increment
-    ok:
-
-    ; Read item from combo
-    ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
-    ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
-    ; add or append to existing value ?
-    StrCmp $3 "" setJDK appendJDK
-
-    setJDK:
-      WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
-      WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
-    goto increment
-
-    appendJDK:
-      ; check if path exist
-      Push $4
-      Push $R2
-      Call StrStr
-      Pop $R0
-      StrCmp $R0 -1 0 increment
-      WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
-
-    increment:
-      IntOp $R9 $R9 + 1
-  goto loop
-
-  noSunJDK:
-    ClearErrors
-    ; Read the Sun JRE value from the registry
-    ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
-    ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
-    
-    StrCmp $1 "" setJREx64 setJREx64OK
-    
-    setJREx64:
-        ClearErrors
-        ; Read the Sun JRE value from the registry 64 bit
-        SetRegView 64
-        ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
-        ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
-        SetRegView 32
-
-    setJREx64OK:
-    
-    IfErrors noSunJRE
-    StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Runtime Environment"
-  loopJRE:
-    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
-    ;StrCmp $R1 "" noSunJRE
-    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
-    StrCmp $R1 "" setLoopJREx64 setLoopJREOK
-    
-    setLoopJREx64:
-        ClearErrors
-        SetRegView 64
+    ${if} $R2 != ""
+                ; check if java version >= 1.4.x
+                StrCpy $1 $R1 1 ; major version
+                StrCpy $2 $R1 1 2 ; minor version
+                IntFmt $3 "%u" $1
+                IntFmt $4 "%u" $2
+                IntCmp $4 4 okJDK32bit 0 okJDK32bit
+                goto incrementJDK32bit
+    ${else}
+       goto noSunJDK32bit
+    ${endif}
+   okJDK32bit:
+   ; Read item from combo
+   ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
+   ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
+   ; add or append to existing value ?
+   ${if} $3 == ""
+            ${if} $5 == ""
+                StrCpy $5 $R2
+            ${endif}
+            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
+            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
+            goto incrementJDK32bit
+    ${else}
+        ; check if path exist
+        Push $4
+        Push $R2
+        Call StrStr
+        Pop $R0
+        StrCmp $R0 -1 0 incrementJDK32bit
+        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
+       
+    ${endif}
+    incrementJDK32bit:
+        IntOp $R9 $R9 + 1
+    goto loopJDK32bit
+   
+   noSunJDK32bit:
+            ClearErrors
+;===========================================
+; B.)Read the registry JDK 64bit
+;===========================================
+${if} ${RunningX64}
+            SetRegView 64
+                ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
+                ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
+                ${if} $1 != ""   ;found jdk 64bit.
+                        StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+                ${endif}
+             loopJDK64bit:
+                SetRegView 64
+                EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9    
+                ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
+                ${if} $R2 != ""
+                            ; check if java version >= 1.4.x
+                            StrCpy $1 $R1 1 ; major version
+                            StrCpy $2 $R1 1 2 ; minor version
+                            IntFmt $3 "%u" $1
+                            IntFmt $4 "%u" $2
+                            IntCmp $4 4 okJDK64bit 0 okJDK64bit
+                            goto incrementJDK64bit
+                ${else}
+                   goto noSunJDK64bit
+                ${endif}
+            okJDK64bit:
+                ; Read item from combo
+                ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
+                ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
+                ; add or append to existing value ?
+                ${if} $3 == ""
+                        ${if} $5 == ""
+                            StrCpy $5 $R2
+                        ${endif}
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
+                        goto incrementJDK64bit
+                ${else}
+                    ; check if path exist
+                    Push $4
+                    Push $R2
+                    Call StrStr
+                    Pop $R0
+                    StrCmp $R0 -1 0 incrementJDK64bit
+                    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
+                   
+                ${endif}
+            incrementJDK64bit:
+                     IntOp $R9 $R9 + 1
+                goto loopJDK64bit
+               
+            noSunJDK64bit:
+                        SetRegView 32
+                        ClearErrors
+${endif}
+;**********************************************************************
+;3.) Read the Sun JRE value from the registry 32bit and 64 bit
+;**********************************************************************
+;===========================================
+; A.)Read the registry JRE 32bit
+;===========================================
+   ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+   ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
+   
+    ${if} $1 != ""   ;found JRE 32bit.
+            StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+    ${endif}
+loopJRE32bit:
         EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
-        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"
-        SetRegView 32
-        StrCmp $R1 "" noSunJRE
-
-    setLoopJREOK:
-
-    ; check if java version >= 1.4.x
-  	StrCpy $1 $R1 1 ; major version
-    StrCpy $2 $R1 1 2 ; minor version
-    IntFmt $3 "%u" $1
-    IntFmt $4 "%u" $2
-    IntCmp $4 4 okJRE 0 okJRE
-    goto incrementJRE
-    okJRE:
-
-    ; Read item from combo
-    ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
-    ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
-    ; add or append to existing value ?
-    StrCmp $3 "" setJRE appendJRE
-
-    setJRE:
-      WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
-      WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
-    goto incrementJRE
-
-    appendJRE:
-      ; check if path exist
-      Push $4
-      Push $R2
-      Call StrStr
-      Pop $R0
-      StrCmp $R0 -1 0 incrementJRE
-      WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
-    incrementJRE:
-      IntOp $R9 $R9 + 1
-  goto loopJRE
-
-  noSunJRE:
-      WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" ""
+        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
+    ${if} $R2 != ""
+                ; check if java version >= 1.4.x
+                StrCpy $1 $R1 1 ; major version
+                StrCpy $2 $R1 1 2 ; minor version
+                IntFmt $3 "%u" $1
+                IntFmt $4 "%u" $2
+                IntCmp $4 4 okJRE32bit 0 okJRE32bit
+                goto incrementJRE32bit
+    ${else}
+       goto noSunJRE32bit
+    ${endif}
+   okJRE32bit:
+   ; Read item from combo
+   ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
+   ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
+   ; add or append to existing value ?
+   ${if} $3 == ""
+            ${if} $5 == ""
+                StrCpy $5 $R2
+            ${endif}
+            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
+            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
+            goto incrementJRE32bit
+    ${else}
+        ; check if path exist
+        Push $4
+        Push $R2
+        Call StrStr
+        Pop $R0
+        StrCmp $R0 -1 0 incrementJRE32bit
+        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
+       
+    ${endif}
+    incrementJRE32bit:
+        IntOp $R9 $R9 + 1
+    goto loopJRE32bit
+   
+   noSunJRE32bit:
+            ClearErrors
+;===========================================
+; B.)Read the registry JRE 64bit
+;===========================================
+${if} ${RunningX64}
+            SetRegView 64
+                 ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+                ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
+                ${if} $1 != ""   ;found JRE 64bit.
+                        StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+                ${endif}
+             loopJRE64bit:
+                SetRegView 64
+                    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
+                    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
+                ${if} $R2 != ""
+                            ; check if java version >= 1.4.x
+                            StrCpy $1 $R1 1 ; major version
+                            StrCpy $2 $R1 1 2 ; minor version
+                            IntFmt $3 "%u" $1
+                            IntFmt $4 "%u" $2
+                            IntCmp $4 4 okJRE64bit 0 okJRE64bit
+                            goto incrementJRE64bit
+                ${else}
+                   goto noSunJRE64bit
+                ${endif}
+            okJRE64bit:
+                ; Read item from combo
+                ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
+                ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
+                ; add or append to existing value ?
+                ${if} $3 == ""
+                        ${if} $5 == ""
+                            StrCpy $5 $R2
+                        ${endif}
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
+                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
+                        goto incrementJRE64bit
+                ${else}
+                    ; check if path exist
+                    Push $4
+                    Push $R2
+                    Call StrStr
+                    Pop $R0
+                    StrCmp $R0 -1 0 incrementJRE64bit
+                    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
+                   
+                ${endif}
+            incrementJRE64bit:
+                     IntOp $R9 $R9 + 1
+                goto loopJRE64bit
+               
+            noSunJRE64bit:
+                        SetRegView 32
+                        ClearErrors
+${endif}
+;**********************************************************************
+ Exch  
+ Pop $4
+ Exch
+ Pop $3
+ Exch
+ Pop $2
+ Exch
+ Pop $1
+ Exch
+ Pop $R9
+ Exch
+ Pop $R2
+ Exch
+ Pop $R1
+ Exch
+ Pop $R0
+ Exch $5
+ 
 FunctionEnd
 ;------------------------------------------------------------------------------
 Function SetShortcuts

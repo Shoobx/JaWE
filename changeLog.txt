@@ -1,4 +1,7 @@
 ###### TWE 4.1-1 RELEASED ######
+2011-06-15 Sasa Bojanic <sasaboy@together.at>
+   # improved recognizing of 32/64 bit Java versions when installing through NSIS setup
+
 2011-05-24 Sasa Bojanic <sasaboy@together.at>
    # dependency output for TWS is now in the same folder structure as appears in TWS (tws/Shark/tools/twe)
 
