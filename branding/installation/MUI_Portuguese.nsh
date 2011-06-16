@@ -17,25 +17,25 @@
 
 # Language
 # LANG_ENGLISH
-   !insertmacro MUI_LANGUAGE "English"
+   !insertmacro MUI_LANGUAGE "Portuguese"
    
-   LangString NAME ${LANG_ENGLISH} "Together Workflow Editor ${VERSION}-${RELEASE}" 
-   LangString MID_NAME ${LANG_ENGLISH} "Together Workflow Editor" 
-   LangString ABBREVIATION ${LANG_ENGLISH} "TWE" 
-   !define SHORT_NAME "twe" 
+   LangString NAME ${LANG_ENGLISH} "XYZ Workflow Editor ${VERSION}-${RELEASE}" 
+   LangString MID_NAME ${LANG_ENGLISH} "XYZ Workflow Editor" 
+   LangString ABBREVIATION ${LANG_ENGLISH} "XYZ" 
+   !define SHORT_NAME "xyz" 
 
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${VERSION}-${RELEASE}"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© Together Teamsolutions Co., Ltd. All rights reserved."
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Together Workflow Editor"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Together Workflow Editor"
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© XYZ. All rights reserved."
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "XYZ Workflow Editor"
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "XYZ Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION}-${RELEASE}"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Together Workflow Editor is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Together Teamsolutions Co., Ltd."
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "Together (R) is a registered trademark of Together Teamlösungen GmbH."
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "XYZ Workflow Editor is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502"
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "XYZ Company"
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "XYZ (R) is a registered trademark of XYZ Company."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Current version" "${VERSION}-${RELEASE}"
 
-   LangString home_page_link ${LANG_ENGLISH} "Visit Together Workflow Editor Homepage"
-   LangString home_page_link_location ${LANG_ENGLISH} "http://www.together.at/prod/workflow/twe"
+   LangString home_page_link ${LANG_ENGLISH} "Visit XYZ Workflow Editor Homepage"
+   LangString home_page_link_location ${LANG_ENGLISH} "http://www.google.com"
 
    LangString TEXT_IO_TITLE ${LANG_ENGLISH} "Java Setup"
    LangString TEXT_IO_SUBTITLE ${LANG_ENGLISH} "Choose J2SDK 1.4.1 or more"
@@ -69,16 +69,16 @@
    LangString INSTALL_FAILED_MESSAGE ${LANG_ENGLISH}  "${NAME} installation failed"
    LangString INSTALL_SUCCED_DETAIL ${LANG_ENGLISH}  "${NAME} installation succeded (output: $0)"
 
-   LangString xpdlfile ${LANG_ENGLISH}  "XPDL Together Workflow Editor file"
+   LangString xpdlfile ${LANG_ENGLISH}  "XPDL XYZ Workflow Editor file"
    
    LangString Documentation ${LANG_ENGLISH}  "Documentation"
    LangString Manual ${LANG_ENGLISH} "Manual" 
    LangString Uninstall ${LANG_ENGLISH}  "Uninstall"
 
-   LangString Publisher ${LANG_ENGLISH}  "Together Teamsolutions Co., Ltd."
-   LangString URLInfoAbout ${LANG_ENGLISH}  "http://www.together.at/services"
-   LangString URLUpdateInfo ${LANG_ENGLISH}  "http://www.together.at/prod/workflow/twe"
-   LangString HelpLink ${LANG_ENGLISH}  "http://www.together.at/prod/workflow/twe"
+   LangString Publisher ${LANG_ENGLISH}  "XYZ Company"
+   LangString URLInfoAbout ${LANG_ENGLISH}  "www.google.com"
+   LangString URLUpdateInfo ${LANG_ENGLISH}  "www.google.com"
+   LangString HelpLink ${LANG_ENGLISH}  "www.google.com"
 
    LangString Start ${LANG_ENGLISH}  "Start"
  

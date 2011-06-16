@@ -76,7 +76,7 @@
    LangString Uninstall ${LANG_ENGLISH}  "Uninstall"
 
    LangString Publisher ${LANG_ENGLISH}  "Together Teamsolutions Co., Ltd."
-   LangString URLInfoAbout ${LANG_ENGLISH}  "http://www.together.at"
+   LangString URLInfoAbout ${LANG_ENGLISH}  "http://www.together.at/services"
    LangString URLUpdateInfo ${LANG_ENGLISH}  "http://www.together.at/prod/workflow/twe"
    LangString HelpLink ${LANG_ENGLISH}  "http://www.together.at/prod/workflow/twe"
 
