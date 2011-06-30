@@ -105,11 +105,6 @@
         <xpdl:Application Id="send_mail" Name="Send mail">
             <xpdl:Description>Sends an email to a specific person.</xpdl:Description>
             <xpdl:FormalParameters>
-                <xpdl:FormalParameter Id="from_addresses" IsArray="false" Mode="IN">
-                    <xpdl:DataType>
-                        <xpdl:BasicType Type="STRING"/>
-                    </xpdl:DataType>
-                </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="to_addresses" IsArray="false" Mode="IN">
                     <xpdl:DataType>
                         <xpdl:BasicType Type="STRING"/>
@@ -782,7 +777,6 @@ d;</xpdl:DeadlineDuration>
                         <xpdl:Task>
                             <xpdl:TaskApplication Id="send_mail">
                                 <xpdl:ActualParameters>
-                                    <xpdl:ActualParameter>"tws@togetherteam.co.th"</xpdl:ActualParameter>
                                     <xpdl:ActualParameter>email_address</xpdl:ActualParameter>
                                     <xpdl:ActualParameter>if (approved_by_personnel) { "Your leave request is approved!"} else {"Your leave request is declined!"}</xpdl:ActualParameter>
                                     <xpdl:ActualParameter>msgTxt</xpdl:ActualParameter>
@@ -1040,6 +1034,6 @@ d;</xpdl:DeadlineDuration>
     <xpdl:ExtendedAttributes>
         <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
         <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
-        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.0-1-20110124-0813"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.1-1-20110616-1154"/>
     </xpdl:ExtendedAttributes>
 </xpdl:Package>

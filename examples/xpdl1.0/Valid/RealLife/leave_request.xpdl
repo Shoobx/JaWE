@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
 <xpdl:Package xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="leave_request" Name="Leave request" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
     <xpdl:PackageHeader>
         <xpdl:XPDLVersion>1.0</xpdl:XPDLVersion>
@@ -88,11 +105,6 @@
         <xpdl:Application Id="send_mail" Name="Send mail">
             <xpdl:Description>Sends an email to a specific person.</xpdl:Description>
             <xpdl:FormalParameters>
-                <xpdl:FormalParameter Id="from_addresses" Mode="IN">
-                    <xpdl:DataType>
-                        <xpdl:BasicType Type="STRING"/>
-                    </xpdl:DataType>
-                </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="to_addresses" Mode="IN">
                     <xpdl:DataType>
                         <xpdl:BasicType Type="STRING"/>
@@ -661,7 +673,6 @@ d;</xpdl:DeadlineCondition>
                     <xpdl:Implementation>
                         <xpdl:Tool Id="send_mail" Type="APPLICATION">
                             <xpdl:ActualParameters>
-                                <xpdl:ActualParameter>"tws@togetherteam.co.th"</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>email_address</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>if (approved_by_personnel) { "Your leave request is approved!"} else {"Your leave request is declined!"}</xpdl:ActualParameter>
                                 <xpdl:ActualParameter>msgTxt</xpdl:ActualParameter>
