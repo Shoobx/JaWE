@@ -31,7 +31,7 @@ function help {
    echo "configure -instdir    - Sets the location of the installation dir used when executing make script"
    echo "                        with install target specified."
    echo
-   echo "Multiple parameters can be specified at ones."
+   echo "Multiple parameters can be specified at once."
    echo
    echo
    echo "Example:"

@@ -146,7 +146,7 @@ echo                         Possible values [true/false].
 echo configure -language   - Used by NSIS when creating setup (normally used for rebranding). 
 echo                         Currently possible values [English/Portuguese/PortugueseBR].
 echo.
-echo Multiple parameters can be specified at ones.
+echo Multiple parameters can be specified at once.
 echo.
 echo.
 echo Example:
