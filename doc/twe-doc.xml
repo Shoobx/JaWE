@@ -642,7 +642,7 @@ configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup
                         (normally used for rebranding). 
                         Possible values [English/Portuguese/PortugueseBR].
 
-Multiple parameters can be specified at ones.
+Multiple parameters can be specified at once.
 
 
 Example:
