@@ -1,0 +1,199 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<!-- ======================================================================= -->
+<!-- ANT-Makefile for TWE                                                    -->
+<!-- ======================================================================= -->
+<project name="TWE" default="output" basedir=".">
+
+	<!-- ==================================================================== -->
+	<!-- Output rebranding					                                      -->
+	<!-- ==================================================================== -->
+	<target name="output">
+		<mkdir dir="tmp" />
+
+		<!-- license -->
+		<copy todir="${build.dir}" overwrite="true">
+			<fileset dir="license" />
+		</copy>
+
+		<!-- icons -->
+		<copy todir="${build.dir}/bin" overwrite="true">
+			<fileset dir="registry" />
+		</copy>
+
+		<!-- config -->
+		<copy todir="${build.dir}/config" overwrite="true">
+			<fileset dir="config" />
+		</copy>
+
+		<!-- activityicons -->
+		<fileset dir="${basedir}/activityicons" id="activityicons.files">
+			<include name="*" />
+		</fileset>
+		<pathconvert pathsep="," property="activityiconsFile" refid="activityicons.files" />
+		<if>
+			<equals arg1="${activityiconsFile}" arg2="" />
+			<then />
+			<else>
+				<copy todir="tmp/org/enhydra/jawe/activityicons">
+					<fileset dir="activityicons" />
+				</copy>
+				<jar destfile="${build.dir}/lib/tweactivityicons.jar" update="false">
+					<fileset dir="tmp" />
+				</jar>
+				<delete dir="tmp/org/enhydra/jawe/activityicons" quiet="true" />
+			</else>
+		</if>
+
+		<!-- i18n files -->
+		<copy todir="tmp/org/enhydra/jawe/language">
+			<fileset dir="i18n" />
+		</copy>
+		<jar destfile="${build.dir}/lib/twelan.jar" update="true">
+			<fileset dir="tmp" />
+		</jar>
+		<delete dir="tmp/org/enhydra/jawe/language" quiet="true" />
+
+		<!-- images -->
+		<copy todir="tmp/org/enhydra/jawe/images">
+			<fileset dir="images" />
+		</copy>
+		<jar destfile="${build.dir}/lib/twepic.jar" update="true">
+			<fileset dir="tmp" />
+		</jar>
+		<delete dir="tmp/org/enhydra/jawe/images" quiet="true" />
+
+		<!-- lib -->
+		<copy todir="${build.dir}/lib" overwrite="true">
+			<fileset dir="lib" />
+		</copy>
+
+		<!-- license & aboutbox.properties -->
+		<copy todir="tmp">
+			<fileset dir="license" />
+		</copy>
+		<copy todir="tmp/org/enhydra/jawe">
+			<fileset dir="about" />
+		</copy>
+		<jar destfile="${build.dir}/lib/twecore.jar" update="true">
+			<fileset dir="tmp" />
+		</jar>
+		<delete dir="tmp" includes="License.txt" quiet="true" />
+		<delete dir="tmp/org/enhydra/jawe" quiet="true" />
+
+		<!-- examples -->
+		<fileset dir="${basedir}/examples" id="examples.files">
+			<include name="*" />
+		</fileset>
+		<pathconvert pathsep="," property="examplesFile" refid="examples.files" />
+		<if>
+			<equals arg1="${examplesFile}" arg2="" />
+			<then />
+			<else>
+				<delete dir="${build.dir}/examples">
+				</delete>
+				<copy todir="${build.dir}/examples">
+					<fileset dir="examples" />
+				</copy>
+			</else>
+		</if>
+
+		<delete dir="tmp" />
+
+		<!--<ant target="copyDoc"/>-->
+	</target>
+
+
+	<!-- ==================================================================== -->
+	<!-- Installation rebranding		                                         -->
+	<!-- ==================================================================== -->
+	<target name="install">
+		<mkdir dir="tmp/install" />
+		<copy todir="tmp/install">
+			<fileset dir="${basedir}/../installation/Windows" />
+		</copy>     
+		<copy todir="${basedir}/../installation/Windows" overwrite="true">
+			<fileset dir="${basedir}/installation" />
+		</copy>
+
+		<property name="log.filename" value="log_${app.name}.txt" />
+
+		<available file="${basedir}/license/License.txt" property="license.exists" value="true" />
+		<property name="license.exists" value="false" />
+
+		<if>
+			<istrue value="${license.exists}" />
+			<then>
+				<property name="license.path" value="${basedir}/license/License.txt" />
+			</then>
+			<else>
+				<property name="license.path" value="${basedir}/../licenses/License.txt" />
+			</else>
+		</if>
+
+		<echo message="Creating Rebrended TWE Windows installation, please wait ..." />
+		<exec dir="${basedir}/../installation/Windows" executable="${basedir}/../tools/nsis/makensis.exe">
+			<arg line="/V4" />
+			<arg line="/O..\..\${log.filename}" />
+			<arg line="/DVERSION=${version}" />
+			<arg line="/DRELEASE=${release}" />
+         <arg line="/DSIGNTOOL_PATH=&quot;&quot;" />
+         <arg line="/DKEY_PATH=&quot;&quot;" />
+         <arg line="/DPASSWORD=&quot;&quot;" />
+         <arg line="/DFULL_NAME=&quot;${project.name} ${version}-${release}&quot;" />
+			<arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
+			<arg line="/DOUT_DIR=&quot;${dist.community.dir}&quot;" />
+			<arg line="/DLICENSE=&quot;${license.path}&quot;" />
+			<arg line="/DLANGUAGE=${language}" />
+			<arg line="${nsis.script}" />
+		</exec>
+
+		<copy todir="${basedir}/../installation/Windows" overwrite="true">
+			<fileset dir="${basedir}/tmp/install" />
+		</copy>
+      
+		<delete dir="tmp" />
+		<!--<ant target="copyDocBack"/>-->
+
+	</target>
+
+
+	<!-- ==================================================================== -->
+	<!-- Clean target                                                         -->
+	<!-- ==================================================================== -->
+	<target name="clean">
+
+		<delete>
+			<fileset dir="${basedir}">
+				<include name="log_*.txt" />
+			</fileset>
+		</delete>
+
+	</target>
+
+
+	<!-- ==================================================================== -->
+	<!-- Replace original documentation with  branded one                     -->
+	<!-- ==================================================================== -->
+	<target name="copyDoc">
+		<copy todir="${basedir}/../doc/tmp" overwrite="true">
+			<fileset dir="${basedir}/doc" />
+		</copy>
+	</target>
+
+</project>
