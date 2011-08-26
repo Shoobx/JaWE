@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2008/XPDL2.1" xmlns="http://www.wfmc.org/2008/XPDL2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="Participant_Repository" Name="Participant Repository" xsi:schemaLocation="http://www.wfmc.org/2008/XPDL2.1 http://www.wfmc.org/standards/docs/bpmnxpdl_31.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>2.1</xpdl:XPDLVersion>
+        <xpdl:Vendor>(c) Together Teamsolutions Co., Ltd.</xpdl:Vendor>
+        <xpdl:Created>13-03-2003</xpdl:Created>
+        <xpdl:Description>Participant repository for modified WfMC example of business process</xpdl:Description>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader PublicationStatus="RELEASED"/>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:Script Type="text/javascript"/>
+    <xpdl:Participants>
+        <xpdl:Participant Id="Participant_Repository_Par1" Name="France Baroque">
+            <xpdl:ParticipantType Type="HUMAN"/>
+            <xpdl:Description>President's secretary</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par3" Name="Tim White">
+            <xpdl:ParticipantType Type="HUMAN"/>
+            <xpdl:Description>Mail Room Clerk</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par4" Name="President's Secretary">
+            <xpdl:ParticipantType Type="ROLE"/>
+            <xpdl:Description>handles presidents mail</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par5" Name="Mail-Room Clerk">
+            <xpdl:ParticipantType Type="ROLE"/>
+            <xpdl:Description>handles incoming mail</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par6" Name="VP Sales">
+            <xpdl:ParticipantType Type="ROLE"/>
+            <xpdl:Description>Vice president; handles sales leads</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par7" Name="Sales department">
+            <xpdl:ParticipantType Type="ORGANIZATIONAL_UNIT"/>
+            <xpdl:Description>is involved in handling sales orders</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par8" Name="Manufacturing Department">
+            <xpdl:ParticipantType Type="ORGANIZATIONAL_UNIT"/>
+            <xpdl:Description>is involved in handling sales orders</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par9" Name="Finance Department">
+            <xpdl:ParticipantType Type="ORGANIZATIONAL_UNIT"/>
+            <xpdl:Description>is involved in handling sales orders, invoices for payments and payments</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par10" Name="Customer Support">
+            <xpdl:ParticipantType Type="ORGANIZATIONAL_UNIT"/>
+            <xpdl:Description>handles product inquiries</xpdl:Description>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par11" Name="Sale manager">
+            <xpdl:ParticipantType Type="ROLE"/>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="MySuperior" Value="Participant_Repository_Par7"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par12" Name="Production planner">
+            <xpdl:ParticipantType Type="ROLE"/>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="MySuperior" Value="Participant_Repository_Par7"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Participant_Repository_Par13" Name="Driver">
+            <xpdl:ParticipantType Type="ROLE"/>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="MySuperior" Value="Participant_Repository_Par7"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.0-1-20110124-0813"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

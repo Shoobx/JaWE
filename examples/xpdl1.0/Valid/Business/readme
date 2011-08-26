@@ -1,0 +1,43 @@
+# Together Workflow Editor 
+# Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses
+#
+#######################################################################
+
+   This is the modification of example given in WfMC document WfMC TC-1016-X -
+"Interface 1: Process Definition Interchange Q&A and Examples".
+
+   The example is modified to show the most of JaWE possibilities (using of
+entities from referenced external packages, putting set of activities into block
+activity, using extended attributes, defining data types and using it to define
+some workflow relevant data, defining formal parameters of processes and passing
+actual parameters from SubFlow activities that reference these processes ...).
+
+   To see all of this, you have to open the document Business_Example.xpdl. The
+package contained within this document contains 3 processes. Activities from
+these processes use participants from externally referenced package contained
+within Participant_Repository.xpdl, applications from externally referenced
+package contained within Application_Repository.xpdl and processes from
+externally referenced package contained within Process_Repository.xpdl.
+
+   The main process from this package is Sales Order Processing, and SubFlow
+activities from this process references other processes from this package and
+from package defined within Process_Repository.xpdl
+
+   It is interesting to notice that you can remove external packages
+Participant_Repository and Application_Repository, because package
+Process_Repository also references these packages, so the main package
+gets the references to these packages (which applications and participants main
+package uses) through the Process_Repository package. 

@@ -1,0 +1,39 @@
+# Together Workflow Editor 
+# Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses
+#
+#######################################################################
+
+   These examples show a cases with various use of conformance classes -
+NOT_BLOCKED, LOOP_BLOCKED, FULL_BLOCKED. According to this, there are
+three examples. Some of processes in the xpdl's are valid, and some invalid.
+The overall documents are invalid (regarding to the specified package
+conformance class)
+
+   "NotBlocked.xpdl" represents example with no Graph Conformance restrictions
+(which means that "Not Blocked" graph conformance class is set).
+
+   "LoopBlocked.xpdl" shows a processes with LOOP_BLOCKED Graph Conformance.
+There are two processes where one has activities which form a cyclic graph
+(which is not allowed on that conformance level) and second is valid acyclic
+graph.
+
+   "FullBlocked.xpdl" has a various processes for demonstration of FULL_BLOCKED
+graph conformance level. Processes demonstrate the various cases (Simple process
+which does and which doesn't satisfy a FULL_BLOCKED conformance level, processes
+where one or more splits don't have corresponding join because of type mismatch,
+process in which some 'And' splits haven't conditional outgoing transitions and
+in which 'Xor' splits have conditional outgoing transitions but with otherwise
+outgoing transitions

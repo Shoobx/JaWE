@@ -1,0 +1,366 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<!-- ======================================================================= -->
+<!-- ANT-Makefile for TWE                                                    -->
+<!-- ======================================================================= -->
+<project name="TogWE-doc" default="buildDoc" basedir=".">
+
+   <!-- ==================================================================== -->
+   <!-- Init target                                                          -->
+   <!-- ==================================================================== -->
+   <target name="init">
+
+      <!--Set the global variables-->
+      <property name="docbook.name" value="twe-doc" />
+      <property name="doc.title" value="Together Workflow Editor" />
+      <property name="version" value="4.0" />
+      <property name="release" value="1" />
+
+      <property name="project.name" value="TWE" />
+      <property name="app.name" value="twe" />
+
+      <!-- Operating system  -->
+      <condition property="os" value="windows">
+         <os family="windows" />
+      </condition>
+      <condition property="os" value="unix">
+         <os family="unix" />
+      </condition>
+
+      <condition property="path.separator" value=";">
+         <os family="windows" />
+      </condition>
+      <condition property="path.separator" value=":">
+         <os family="unix" />
+      </condition>
+
+      <condition property="executable.extension" value=".exe">
+         <os family="windows" />
+      </condition>
+      <condition property="executable.extension" value="">
+         <os family="unix" />
+      </condition>
+
+      <!-- Set directories -->
+      <property name="project.dir" location="${basedir}/.." />
+      <property name="doc.dir" location="${basedir}" />
+      <property name="tmp.dir" location="${basedir}/tmp" />
+      <property name="modules.dir" location="${project.dir}/modules" />
+
+		<property name="docbook.dir" location="${project.dir}/tools/docbook" />
+		<property name="ant.lib.dir" location="${project.dir}/tools/ant" />
+		<property name="fop.lib.dir" location="${project.dir}/tools/fop" />
+		<property name="xalan.lib.dir" location="${project.dir}/tools/xalan" />
+		<property name="xerces.lib.dir" location="${project.dir}/tools/xerces" />
+		<property name="jgraph.lib.dir" location="${project.dir}/tools/jgraph" />
+		<property name="jeditsyntax.lib.dir" location="${project.dir}/tools/jeditsyntax" />
+		<property name="itext.lib.dir" location="${project.dir}/tools/itext" />
+		<property name="javahelp.lib.dir" location="${project.dir}/tools/javahelp" />
+		<property name="txm.lib.dir" location="${project.dir}/tools/txm" />
+
+      <!--Classes directory-->
+      <property name="sources.dir" location="${modules.dir}/sources" />
+
+      <!--Set the main classpath-->
+      <path id="classpath">
+         <pathelement location="${jgraph.lib.dir}/jgraph.jar" />
+         <pathelement location="${javahelp.lib.dir}/jh.jar" />
+         <pathelement location="${fop.lib.dir}/batik.jar" />
+         <pathelement location="${xerces.lib.dir}/xercesImpl.jar" />
+         <pathelement location="${xerces.lib.dir}/xml-apis.jar" />
+         <pathelement location="${jeditsyntax.lib.dir}/jEdit-syntax.jar" />
+         <pathelement location="${itext.lib.dir}/itext.jar" />
+         <pathelement location="${txm.lib.dir}/jxpdl.jar" />
+      </path>
+
+      <!--Set the classpath for docbook-->
+      <path id="xalan-classpath">
+         <fileset dir="${xalan.lib.dir}">
+            <include name="*.jar" />
+         </fileset>
+      </path>
+
+      <property name="docbook.fo.xsl" location="${docbook.dir}/xsl/fo/docbook.xsl" />
+      <property name="docbook.pdf.classpath" location="${fop.lib.dir}/fop.jar${path.separator}${fop.lib.dir}/batik.jar${path.separator}${fop.lib.dir}/avalon-framework.jar${path.separator}${fop.lib.dir}/commons-io.jar${path.separator}${fop.lib.dir}/xmlgraphics-commons.jar${path.separator}${fop.lib.dir}/commons-logging.jar" />
+
+      <!-- Setting IF task -->
+      <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
+         <classpath>
+            <fileset dir="${ant.lib.dir}">
+               <include name="antcontrib.jar" />
+            </fileset>
+         </classpath>
+      </taskdef>
+      <!-- Setting TRY-CATCH task -->
+      <taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
+         <classpath>
+            <fileset dir="${ant.lib.dir}">
+               <include name="antcontrib.jar" />
+            </fileset>
+         </classpath>
+      </taskdef>
+      <!-- Setting FOP task -->
+      <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+         <classpath>
+            <fileset dir="${fop.lib.dir}">
+               <include name="*.jar" />
+            </fileset>
+         </classpath>
+      </taskdef>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Prepare output                                                       -->
+   <!-- ==================================================================== -->
+   <target name="prepare" depends="init">
+      <mkdir dir="${output.doc.dir}" />
+      <mkdir dir="${tmp.dir}" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Content output                                                       -->
+   <!-- ==================================================================== -->
+   <target name="content" depends="prepare">
+      <copy todir="${tmp.dir}/Images">
+         <fileset dir="${doc.dir}/Images" />
+      </copy>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Create java API - javadoc                                            -->
+   <!-- ==================================================================== -->
+   <target name="javadoc" depends="prepare">
+      <mkdir dir="${output.doc.dir}/api" />
+      <!--Create Javadoc-->
+      <property name="doctitle" value="${project.name} - Together Workflow Editor ${version}-${release} API" />
+      <property name="header" value="${project.name} ${version}-${release} API" />
+      <javadoc 
+         sourcepath="${sources.dir}"
+         destdir="${output.doc.dir}/api" 
+         classpathref="classpath" 
+         packagenames="org.enhydra.jawe.*" 
+         doctitle="${doctitle}" 
+         windowtitle="${doctitle}" 
+         header="${header}" 
+         splitindex="yes" 
+         access="private" 
+         encoding="ISO-8859-1" 
+         additionalparam="-J-Xmx128m -breakiterator -quiet"/>
+   </target>
+
+   <target name="docbook.check">
+      <uptodate property="docbook.notRequired" targetfile="${tmp.dir}/${docbook.name}-current.pdf">
+         <srcfiles dir="${doc.dir}" includes="${docbook.name}.xml" />
+      </uptodate>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- DocBook Documentation                                                -->
+   <!-- ==================================================================== -->
+   <target name="docbook" depends="prepareDocbook">
+      <copy todir="${output.doc.dir}">
+         <fileset dir="${tmp.dir}">
+            <include name="**/Images/**" />
+            <include name="*.pdf" />
+            <include name="${docbook.name}-current.html" />
+         </fileset>
+      </copy>
+      <copy file="${docbook.dir}/css/html.css" todir="${output.doc.dir}" />
+   </target>
+
+   <target name="rebranding">
+      <copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
+      <copy todir="${tmp.dir}/docbook">
+         <fileset dir="${docbook.dir}/dtd"/>
+      </copy>
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true" />
+            <touch file="${doc.dir}/${docbook.name}.xml" />
+         </then>
+      </if>
+   </target>
+
+   <target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
+    <echo message="compile docbook with javahelp.xsl" />
+      <retry retrycount="10">
+         <trycatch description="try-catch">
+            <try>
+               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true">
+                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/javahelp/javahelp.xsl'" />
+               </java>
+            </try>
+            <catch>
+               <echo message="just retry ..." />
+               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+                  <http url="www.oasis-open.org" />
+               </waitfor>
+               <fail>Error generate docbook</fail>
+            </catch>
+         </trycatch>
+      </retry>
+      <replace file="${tmp.dir}/jhelptoc.xml" token="text=&quot;&quot;" value="text=&quot;${doc.title}&quot;" />
+      <echo message="compile docbook with chunk.xsl" />
+      <retry retrycount="10">
+         <trycatch description="try-catch">
+            <try>
+               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/html/chunk.xsl'" />
+               </java>
+            </try>
+            <catch>
+               <echo message="just retry ..." />
+               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+                  <http url="www.oasis-open.org" />
+               </waitfor>
+               <fail>Error generate docbook</fail>
+            </catch>
+         </trycatch>
+      </retry>
+
+      <echo message="compile docbook with docbook.xsl" />
+      <retry retrycount="10">
+         <trycatch description="try-catch">
+            <try>
+               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/html/docbook.xsl'" />
+               </java>
+            </try>
+            <catch>
+               <echo message="just retry ..." />
+               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+                  <http url="www.oasis-open.org" />
+               </waitfor>
+               <fail>Error generate docbook</fail>
+            </catch>
+         </trycatch>
+      </retry>
+
+      <echo message="docbook to ${docbook.name}.fo" />
+      <retry retrycount="10">
+         <trycatch description="try-catch">
+            <try>
+               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+                  <arg line="-param html.stylesheet html.css 
+                             -param body.start.indent 0pt 
+                             -param ulink.footnotes 1 
+                             -out '${docbook.name}.fo' 
+                             -in '${docbook.name}.xml' 
+                             -xsl '${docbook.dir}/xsl/fo/docbook.xsl'" />
+                             <!-- 
+                             -param page.margin.inner 0.5in 
+                             -param page.margin.outer 0.5in 
+                             -param page.margin.top 0.1in 
+                             -param region.before.extent 0.1in 
+                             -param body.margin.top 0.2in 
+                             -param region.after.extent 0.1in 
+                             -param page.margin.bottom 0.1in 
+                             -param body.margin.bottom 0.2in 
+                             -->
+               </java>
+            </try>
+            <catch>
+               <echo message="just retry ..." />
+               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+                  <http url="www.oasis-open.org" />
+               </waitfor>
+               <fail>Error generate docbook</fail>
+            </catch>
+         </trycatch>
+      </retry>
+
+      <echo message="docbook to PDF  ${tmp.dir}/${docbook.name}.xml" />
+      <retry retrycount="10">
+         <trycatch description="try-catch">
+            <try>
+               <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+                  <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${docbook.name}-current.pdf'" />
+               </exec>
+            </try>
+            <catch>
+               <echo message="just retry ..." />
+               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
+                  <http url="www.oasis-open.org" />
+               </waitfor>
+               <fail>Error generate docbook</fail>
+            </catch>
+         </trycatch>
+      </retry>
+
+      <!--antcall target="generate-pdf" inheritall="true" inheritrefs="true" /-->
+
+      <delete file="${tmp.dir}/${docbook.name}.fo" quiet="true" />
+      <delete file="${tmp.dir}/${docbook.name}.xml" quiet="true" />
+
+   </target>
+
+   <target name="generate-pdf" description="Generates a single PDF file">
+      <fop format="application/pdf" fofile="${tmp.dir}/${docbook.name}.fo" outfile="${tmp.dir}/${docbook.name}-current.pdf" logfiles="log.txt" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Create doc jar archive                                               -->
+   <!-- ==================================================================== -->
+
+   <target name="buildDocJar" depends="docbook">
+      <delete file="${output.lib.dir}/${app.name}doc.jar" />
+      <if>
+         <equals arg1="${build.debug}" arg2="on" />
+         <then>
+            <property name="build.type" value="debug"/>
+         </then>
+         <else>
+            <property name="build.type" value="release"/>         
+         </else>
+      </if>      
+      <jar destfile="${output.lib.dir}/${app.name}doc.jar">
+         <fileset dir="${tmp.dir}" excludes="**/${docbook.name}.*, **/*.pdf, **/${docbook.name}-current.html, **/api/**, **/docbook/**" />
+         <manifest>
+            <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Version" value="${version}-${release}" />
+            <attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Build-Type" value="${build.type}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
+         </manifest>
+      </jar>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- DocBook Documentation output                                         -->
+   <!-- ==================================================================== -->
+   <target name="buildDoc" depends="init">
+      <echo message="Documentation Build" />
+      <ant target="docbook" />
+      <ant target="javadoc" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Cleans everything                                                    -->
+   <!-- ==================================================================== -->
+   <target name="clean" depends="init">
+      <delete dir="${output.doc.dir}" />
+      <delete>
+         <fileset dir="${basedir}" includes="log.txt,${docbook.name}.xml~" defaultexcludes="false"/>
+      </delete>
+      <delete dir="${basedir}/tmp" />      
+   </target>
+
+</project>
+
