@@ -106,14 +106,6 @@
             </fileset>
          </classpath>
       </taskdef>
-      <!-- Setting TRY-CATCH task -->
-      <taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
-         <classpath>
-            <fileset dir="${ant.lib.dir}">
-               <include name="antcontrib.jar" />
-            </fileset>
-         </classpath>
-      </taskdef>
       <!-- Setting FOP task -->
       <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
          <classpath>
@@ -198,111 +190,45 @@
    </target>
 
    <target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
-    <echo message="compile docbook with javahelp.xsl" />
-      <retry retrycount="10">
-         <trycatch description="try-catch">
-            <try>
-               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true">
-                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/javahelp/javahelp.xsl'" />
-               </java>
-            </try>
-            <catch>
-               <echo message="just retry ..." />
-               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
-                  <http url="www.oasis-open.org" />
-               </waitfor>
-               <fail>Error generate docbook</fail>
-            </catch>
-         </trycatch>
-      </retry>
+      <echo message="compile docbook with javahelp.xsl" />
+      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true">
+         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/javahelp/javahelp.xsl'" />
+      </java>
       <replace file="${tmp.dir}/jhelptoc.xml" token="text=&quot;&quot;" value="text=&quot;${doc.title}&quot;" />
       <echo message="compile docbook with chunk.xsl" />
-      <retry retrycount="10">
-         <trycatch description="try-catch">
-            <try>
-               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/html/chunk.xsl'" />
-               </java>
-            </try>
-            <catch>
-               <echo message="just retry ..." />
-               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
-                  <http url="www.oasis-open.org" />
-               </waitfor>
-               <fail>Error generate docbook</fail>
-            </catch>
-         </trycatch>
-      </retry>
+      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/html/chunk.xsl'" />
+      </java>
 
       <echo message="compile docbook with docbook.xsl" />
-      <retry retrycount="10">
-         <trycatch description="try-catch">
-            <try>
-               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-                  <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/html/docbook.xsl'" />
-               </java>
-            </try>
-            <catch>
-               <echo message="just retry ..." />
-               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
-                  <http url="www.oasis-open.org" />
-               </waitfor>
-               <fail>Error generate docbook</fail>
-            </catch>
-         </trycatch>
-      </retry>
+      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.dir}/xsl/html/docbook.xsl'" />
+      </java>
 
       <echo message="docbook to ${docbook.name}.fo" />
-      <retry retrycount="10">
-         <trycatch description="try-catch">
-            <try>
-               <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-                  <arg line="-param html.stylesheet html.css 
-                             -param body.start.indent 0pt 
-                             -param ulink.footnotes 1 
-                             -out '${docbook.name}.fo' 
-                             -in '${docbook.name}.xml' 
-                             -xsl '${docbook.dir}/xsl/fo/docbook.xsl'" />
-                             <!-- 
-                             -param page.margin.inner 0.5in 
-                             -param page.margin.outer 0.5in 
-                             -param page.margin.top 0.1in 
-                             -param region.before.extent 0.1in 
-                             -param body.margin.top 0.2in 
-                             -param region.after.extent 0.1in 
-                             -param page.margin.bottom 0.1in 
-                             -param body.margin.bottom 0.2in 
-                             -->
-               </java>
-            </try>
-            <catch>
-               <echo message="just retry ..." />
-               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
-                  <http url="www.oasis-open.org" />
-               </waitfor>
-               <fail>Error generate docbook</fail>
-            </catch>
-         </trycatch>
-      </retry>
+      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+         <arg line="-param html.stylesheet html.css 
+                    -param body.start.indent 0pt 
+                    -param ulink.footnotes 1 
+                    -out '${docbook.name}.fo' 
+                    -in '${docbook.name}.xml' 
+                    -xsl '${docbook.dir}/xsl/fo/docbook.xsl'" />
+                    <!-- 
+                    -param page.margin.inner 0.5in 
+                    -param page.margin.outer 0.5in 
+                    -param page.margin.top 0.1in 
+                    -param region.before.extent 0.1in 
+                    -param body.margin.top 0.2in 
+                    -param region.after.extent 0.1in 
+                    -param page.margin.bottom 0.1in 
+                    -param body.margin.bottom 0.2in 
+                    -->
+      </java>
 
       <echo message="docbook to PDF  ${tmp.dir}/${docbook.name}.xml" />
-      <retry retrycount="10">
-         <trycatch description="try-catch">
-            <try>
-               <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
-                  <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${docbook.name}-current.pdf'" />
-               </exec>
-            </try>
-            <catch>
-               <echo message="just retry ..." />
-               <waitfor maxwait="1" maxwaitunit="minute" checkevery="1000">
-                  <http url="www.oasis-open.org" />
-               </waitfor>
-               <fail>Error generate docbook</fail>
-            </catch>
-         </trycatch>
-      </retry>
-
+      <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+         <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${docbook.name}-current.pdf'" />
+      </exec>
       <!--antcall target="generate-pdf" inheritall="true" inheritrefs="true" /-->
 
       <delete file="${tmp.dir}/${docbook.name}.fo" quiet="true" />
