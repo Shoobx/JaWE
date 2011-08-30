@@ -53,16 +53,6 @@
    <!-- Build directory -->
    <property name="output.dir" location="${basedir}/output" />
 
-   <!-- Setting TRY-CATCH task -->
-   <taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask">
-      <classpath>
-         <fileset dir="${tools.dir}/ant">
-            <include name="antcontrib.jar" />
-         </fileset>
-      </classpath>
-   </taskdef>
-
-   
    <!-- Setting for IF task -->
    <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
       <classpath>
@@ -692,18 +682,11 @@ make distributions       - Builds and configures TWE with all documentations and
       <if>
          <equals arg1="${sign.alias}" arg2="" />
          <then>
-            <trycatch description="try-catch">
-               <try>
-                  <signjar alias="Together" keystore="${input.dir}/ws/key/${app.name}key" storepass="together" keypass="together">
-                     <path>
-                        <fileset dir="${dist.community.webstart.dir}/lib" includes="**/*.jar" />
-                     </path>
-                  </signjar>
-               </try>
-               <catch>
-                  <echo message="Failed to sign JAR files..." />
-               </catch>
-            </trycatch>
+            <signjar alias="Together" keystore="${input.dir}/ws/key/${app.name}key" storepass="together" keypass="together">
+               <path>
+                  <fileset dir="${dist.community.webstart.dir}/lib" includes="**/*.jar" />
+               </path>
+            </signjar>
          </then>
          <else>
             <antcall target="signem" />
@@ -717,44 +700,30 @@ make distributions       - Builds and configures TWE with all documentations and
    </target>
 
    <target name="signexe" unless="${rebranding}">
-      <trycatch description="try-catch">
-         <try>
-            <exec executable="${sign.tool}">
-                <arg value="sign"/>
-                <arg value="/f"/>
-                <arg value="${sign.privatekey}"/>
-                <arg value="/p"/>
-                <arg value="${sign.pwd}"/>
-                <arg value="/t"/>
-                <arg value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
-                <arg value="/d"/>
-                <arg value="${project.name} ${version}-${release}"/>
-                <arg value="/du"/>
-                <arg value="http://www.together.at"/>
-                <arg value="${exe.dir}/${exe.name}"/>
-            </exec>         
-         </try>
-         <catch>
-            <echo message="Failed to sign exe file..." />
-         </catch>
-      </trycatch>
+      <exec executable="${sign.tool}">
+          <arg value="sign"/>
+          <arg value="/f"/>
+          <arg value="${sign.privatekey}"/>
+          <arg value="/p"/>
+          <arg value="${sign.pwd}"/>
+          <arg value="/t"/>
+          <arg value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
+          <arg value="/d"/>
+          <arg value="${project.name} ${version}-${release}"/>
+          <arg value="/du"/>
+          <arg value="http://www.together.at"/>
+          <arg value="${exe.dir}/${exe.name}"/>
+      </exec>         
    </target>
 
    <target name="signem">
       <echo message="Signing with Together certificate" />
-      <trycatch description="try-catch">
-         <try>        
-            <signjar alias="${sign.alias}"
-                       storepass="${sign.pwd}"
-                       keystore="${sign.privatekey}"
-                       storetype="pkcs12">
-                  <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
-            </signjar>
-         </try>
-         <catch>
-            <echo message="Failed to sign JAR files..." />
-         </catch>
-      </trycatch>
+      <signjar alias="${sign.alias}"
+                 storepass="${sign.pwd}"
+                 keystore="${sign.privatekey}"
+                 storetype="pkcs12">
+            <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
+      </signjar>
     </target>   
    
 </project>

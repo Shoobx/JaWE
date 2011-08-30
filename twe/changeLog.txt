@@ -1,4 +1,7 @@
 ###### TWE 4.2-1 RELEASED ######
+2011-08-30 Sasa Bojanic <sasaboy@together.at>
+   # try/catch blocks removed from build.xml files
+
 2011-08-19 Sasa Bojanic <sasaboy@together.at>
    # build scripts corrected so the sources can be built if they are in the folder which contains spaces in the path
 
