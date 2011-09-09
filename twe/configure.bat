@@ -80,12 +80,12 @@ for /F "tokens=1,2* delims==" %%i in (instdir.txt) do SET JDKHOME=%%j
 del instdir.txt>nul
 
 :initversion
-find "version=" < build.properties > version.txt
+find "version=" < version.properties > version.txt
 for /F "tokens=1,2* delims==" %%i in (version.txt) do SET VERSION=%%j
 del version.txt>nul
 
 :initrelease
-find "release=" < build.properties > release.txt
+find "release=" < version.properties > release.txt
 for /F "tokens=1,2* delims==" %%i in (release.txt) do SET RELEASE=%%j
 del release.txt>nul
 
@@ -116,13 +116,14 @@ rem *  Edit parameters (build.properties)
 rem *********************************************************
 :make
 if exist build.properties del build.properties
-echo version=^%VERSION%>build.properties
-echo release=^%RELEASE%>>build.properties
 echo buildid=%BUILDID%>>build.properties
 echo jdk.dir=^%JDKHOME%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
 echo language=%LANGUAGE%>>build.properties
+if exist version.properties del version.properties
+echo version=^%VERSION%>version.properties
+echo release=^%RELEASE%>>version.properties
 goto end
 
 

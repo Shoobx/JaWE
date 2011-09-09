@@ -33,6 +33,7 @@
 
    <replace dir="${basedir}" includes="build.properties" token="\" value="/" />
    <property file="${basedir}/build.properties" />
+   <property file="${basedir}/version.properties" />
    <property file="${basedir}/sign.properties" />
    <property name="sign.tool" value="" />
    <property name="sign.alias" value="" />
@@ -376,7 +377,8 @@ make distributions       - Builds and configures TWE with all documentations and
                <param name="dist.folder" value="${dist.community.dir}" />
                <param name="name.additional" value="" />
             </antcall>
-            <antcall target="_dependencies"/>            
+            <antcall target="create.components"/>
+            <antcall target="_dependencies"/>
             <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
             <if>
                <equals arg1="${tog.lic.exists}" arg2="true" />
@@ -699,6 +701,41 @@ make distributions       - Builds and configures TWE with all documentations and
 
    </target>
 
+   <target name="create.components">
+      <property name="dist.component.dir" location="${dist.dir}/components"/>
+      <property name="component.dir" location="${basedir}/components"/>
+      <mkdir dir="${dist.component.dir}"/>
+      <copy todir="${dist.component.dir}/${app.name}">
+         <fileset dir="${build.dir}/lib">
+            <include name="jxpdl.jar" />
+            <include name="twecore.jar" />
+            <include name="twelan.jar" />
+            <include name="twepic.jar" />
+         </fileset>
+         <fileset dir="${tools.dir}/tweicons">
+            <include name="tweactivityicons.jar" />
+         </fileset>
+      </copy>
+      <copy todir="${dist.bin.dir}">
+         <fileset dir="${input.dir}/bin" includes="*.in" />
+      </copy>
+      <copy todir="${build.dir}">
+         <fileset dir="${input.dir}" includes="*.bat,*.sh" />
+      </copy>
+      <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
+      <zip destfile="${dist.component.dir}/${app.name}/${app.name}.zip" update="true">
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**" />
+      </zip>
+      <copy todir="${dist.component.dir}/${app.name}">
+         <fileset dir="${component.dir}" includes="Component.properties" />  
+      </copy>
+      <replace file="${dist.component.dir}/${app.name}/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-(${project.name})" />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
+   </target>
+   
    <target name="signexe" unless="${rebranding}">
       <exec executable="${sign.tool}">
           <arg value="sign"/>
