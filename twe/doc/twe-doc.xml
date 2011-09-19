@@ -9847,6 +9847,51 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <title>Release Notes</title>
 
     <section>
+      <title>Release 4.2-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Code modified to support WfXML access through HTTPS</para>
+        </listitem>
+
+        <listitem>
+          <para>Now only producing twe.zip for TWS dependency</para>
+        </listitem>
+
+        <listitem>
+          <para>Build process changed (preparations for new TAB based
+          release):</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>now possible to manualy specify "buildid" configuration
+              parameter (e.g. configure -buildid 20110721-0808)</para>
+            </listitem>
+
+            <listitem>
+              <para>build scripts corrected so the sources can be built if
+              they are in the folder which contains spaces in the path</para>
+            </listitem>
+
+            <listitem>
+              <para>try/catch blocks removed from documentation build.xml
+              file</para>
+            </listitem>
+
+            <listitem>
+              <para>components folder in the distribution output/components
+              files in the sources (TAB support)</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>TXM library updated to version 1.2-1</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 4.1-1</title>
 
       <itemizedlist>

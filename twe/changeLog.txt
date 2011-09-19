@@ -1,4 +1,8 @@
 ###### TWE 4.2-1 RELEASED ######
+2011-09-19 Sasa Bojanic <sasaboy@together.at>
+   # Code modified to support WfXML access through HTTPS
+   # TXM updated to version 1.2-1
+   
 2011-08-30 Sasa Bojanic <sasaboy@together.at>
    # try/catch blocks removed from build.xml files
 

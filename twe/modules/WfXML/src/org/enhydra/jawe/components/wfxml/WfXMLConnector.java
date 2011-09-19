@@ -84,6 +84,16 @@ public class WfXMLConnector {
                                                 + "</as:Request>"
                                                 + "</soapenv:Header>";
 
+   static {
+      // for localhost testing only
+      javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(new javax.net.ssl.HostnameVerifier() {
+
+         public boolean verify(String hostname, javax.net.ssl.SSLSession sslSession) {
+               return true;
+         }
+      });
+   }
+   
    public static void main(String[] args) {
       try {
          URL url = new URL("http://grunf:8080/axis/services/wfxmlRegistryBinding");
