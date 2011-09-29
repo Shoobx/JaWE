@@ -9849,6 +9849,16 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <title>Release Notes</title>
 
     <section>
+      <title>Release 4.3-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>LDAPPageSize option added to the configuration - now searches will not return partial results because of LDAP server's size limit</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 4.2-1</title>
 
       <itemizedlist>
