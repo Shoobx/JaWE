@@ -55,6 +55,8 @@ public class LDAPSettings extends JaWEComponentSettings {
                             new Integer(properties.getProperty("LDAPCountLimit", "0")));
       componentSettings.put("LDAPTimeLimit",
                             new Integer(properties.getProperty("LDAPTimeLimit", "0")));
+      componentSettings.put("LDAPPageSize",
+                            new Integer(properties.getProperty("LDAPPageSize", "1000")));
       componentSettings.put("LDAPHost", properties.getProperty("LDAPHost", "localhost"));
       componentSettings.put("LDAPPort", properties.getProperty("LDAPPort", "389"));
       componentSettings.put("LDAPBaseDN", properties.getProperty("LDAPBaseDN", ""));
@@ -173,6 +175,10 @@ public class LDAPSettings extends JaWEComponentSettings {
 
    public String getLDAPTimeLimit() {
       return getSettingString("LDAPTimeLimit");
+   }
+
+   public String getLDAPPageSize() {
+      return getSettingString("LDAPPageSize");
    }
 
    public String getLDAPHost() {

@@ -3821,6 +3821,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <para><emphasis>#LDAPTimeLimit = 0 </emphasis></para>
 
+      <para><emphasis>#LDAPPageSize = 1000 </emphasis></para>
+
       <para><emphasis>#LDAPHost=localhost </emphasis></para>
 
       <para><emphasis>#LDAPPort=389 </emphasis></para>

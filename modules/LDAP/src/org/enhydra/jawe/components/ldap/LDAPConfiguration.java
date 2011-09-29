@@ -68,6 +68,7 @@ public class LDAPConfiguration extends XMLComplexElement {
                                                        0);
       XMLAttribute countLimit = new XMLAttribute(this, "LDAPCountLimit", true);
       XMLAttribute timeLimit = new XMLAttribute(this, "LDAPTimeLimit", true);
+      XMLAttribute pageSize = new XMLAttribute(this, "LDAPPageSize", true);
 
       super.add(host);
       super.add(port);
@@ -84,6 +85,7 @@ public class LDAPConfiguration extends XMLComplexElement {
       super.add(referralHandling);
       super.add(countLimit);
       super.add(timeLimit);
+      super.add(pageSize);
 
       super.add(new LDAPSecurity(this));
    }
@@ -105,7 +107,8 @@ public class LDAPConfiguration extends XMLComplexElement {
           settings.getLDAPDistinguishedNameAttributeName());
       set("LDAPReferralHandling", settings.getLDAPReferralHandling());
       set("LDAPCountLimit", settings.getLDAPCountLimit());
-      set("LDAPTimeLimit", settings.getLDAPTimeLimit());
+      set("LDAPTimeLimit", settings.getLDAPTimeLimit());      
+      set("LDAPPageSize", settings.getLDAPPageSize());
 
       LDAPSecurity security = (LDAPSecurity) get("LDAPSecurity");
       security.set("Level", settings.getLDAPSecurityLevel());
