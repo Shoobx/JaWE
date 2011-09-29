@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.ldap;
 
@@ -27,10 +27,13 @@ import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.ReferralException;
 import javax.naming.directory.Attributes;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.naming.ldap.Control;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.PagedResultsControl;
+import javax.naming.ldap.PagedResultsResponseControl;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
@@ -141,9 +144,17 @@ public class LDAPUtils {
          tl = Integer.parseInt(ldc.get("LDAPTimeLimit").toValue());
       } catch (Exception ex) {
       }
+      int ps = 1000;
+      try {
+         ps = Integer.parseInt(ldc.get("LDAPPageSize").toValue());
+         if (ps <= 0) {
+            ps = Integer.MAX_VALUE;
+         }
+      } catch (Exception ex) {
+      }
 
       /* Create the initial directory context. */
-      DirContext ctx = new InitialDirContext(env);
+      LdapContext ctx = new InitialLdapContext(env, null);
       try {
 
          SearchControls constraints = new SearchControls();
@@ -152,30 +163,55 @@ public class LDAPUtils {
          constraints.setTimeLimit(tl);
 
          for (boolean moreReferrals = true; moreReferrals;) {
-            try {
-               NamingEnumeration result = ctx.search(searchBase,
-                                                     searchFilter,
-                                                     constraints);
+            byte[] cookie = null;
+            ctx.setRequestControls(new Control[] {
+               new PagedResultsControl(ps, Control.CRITICAL)
+            });
 
-               while (result.hasMore()) {
-                  SearchResult sr = (SearchResult) result.next();
-                  LDAPEntryInfo li=convertLDAPEntryToInfoObject(sr, ldc);
-                  if (li!=null) {
-                     entries.add(li);
+            do {
+               try {
+                  NamingEnumeration result = ctx.search(searchBase,
+                                                        searchFilter,
+                                                        constraints);
+
+                  while (result.hasMore()) {
+                     SearchResult sr = (SearchResult) result.next();
+                     LDAPEntryInfo li = convertLDAPEntryToInfoObject(sr, ldc);
+                     if (li != null) {
+                        entries.add(li);
+                     }
                   }
+
+                  // Examine the paged results control response
+                  Control[] controls = ctx.getResponseControls();
+                  if (controls != null) {
+                     for (int i = 0; i < controls.length; i++) {
+                        if (controls[i] instanceof PagedResultsResponseControl) {
+                           PagedResultsResponseControl prrc = (PagedResultsResponseControl) controls[i];
+                           cookie = prrc.getCookie();
+                        }
+                     }
+                  }
+                  // Re-activate paged results
+                  ctx.setRequestControls(new Control[] {
+                     new PagedResultsControl(ps, cookie, Control.CRITICAL)
+                  });
+
+                  // The search completes with no more referrals
+                  moreReferrals = false;
+
+               } catch (ReferralException e) {
+
+                  moreReferrals = e.skipReferral();
+
+                  // Point to the new context
+                  if (moreReferrals) {
+                     ctx = (LdapContext) e.getReferralContext();
+                  }
+                  break;
                }
-               // The search completes with no more referrals
-               moreReferrals = false;
+            } while (cookie != null);
 
-            } catch (ReferralException e) {
-
-               moreReferrals = e.skipReferral();
-
-               // Point to the new context
-               if (moreReferrals) {
-                  ctx = (DirContext) e.getReferralContext();
-               }
-            }
          }
       } finally {
          ctx.close();
@@ -214,14 +250,16 @@ public class LDAPUtils {
          String description = "";
 
          if (di.getType().equals(XPDLConstants.PARTICIPANT_TYPE_HUMAN)) {
-            id = (String) attributes.get(ldc.get("LDAPUserUniqueAttributeName")
-               .toValue()).get();
+            id = (String) attributes.get(ldc.get("LDAPUserUniqueAttributeName").toValue())
+               .get();
          } else {
             id = (String) attributes.get(ldc.get("LDAPGroupUniqueAttributeName")
                .toValue()).get();
          }
          di.setId(id);
-         JaWEManager.getInstance().getLoggingManager().debug("LDAPUtils -> Handling entry with Id " + id);
+         JaWEManager.getInstance()
+            .getLoggingManager()
+            .debug("LDAPUtils -> Handling entry with Id " + id);
          try {
             if (di.getType().equals(XPDLConstants.PARTICIPANT_TYPE_HUMAN)) {
                name = (String) attributes.get(ldc.get("LDAPUserNameAttributeName")
@@ -316,8 +354,8 @@ public class LDAPUtils {
          }
       }
       jc.startUndouableChange();
-      for (int i=0; i<toAdd.size(); i++) {
-         ps.add((XMLElement)toAdd.get(i));
+      for (int i = 0; i < toAdd.size(); i++) {
+         ps.add((XMLElement) toAdd.get(i));
       }
       List toSelect = new ArrayList();
       toSelect.add(ps);

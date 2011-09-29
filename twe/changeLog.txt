@@ -1,3 +1,8 @@
+###### TWE 4.3-1 RELEASED ######
+2011-09-29 Sasa Bojanic <sasaboy@together.at>   
+   # LDAPPageSize option added to the configuration - now searches will not return partial results 
+     because of LDAP server's size limit
+
 ###### TWE 4.2-1 RELEASED ######
 2011-09-19 Sasa Bojanic <sasaboy@together.at>
    # Code modified to support WfXML access through HTTPS
