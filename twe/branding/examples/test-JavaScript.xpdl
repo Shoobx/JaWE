@@ -188,7 +188,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
-                <xpdl:ExtendedAttribute Name="AppName" Value="org.enhydra.shark.toolagent.DefaultMailMessageHandler"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="org.enhydra.shark.utilities.DefaultMailMessageHandler"/>
                 <xpdl:ExtendedAttribute Name="AppMode" Value="1"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
@@ -265,7 +265,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
-                <xpdl:ExtendedAttribute Name="AppName" Value="org.enhydra.shark.toolagent.DefaultMailMessageHandler"/>
+                <xpdl:ExtendedAttribute Name="AppName" Value="org.enhydra.shark.utilities.DefaultMailMessageHandler"/>
                 <xpdl:ExtendedAttribute Name="AppMode" Value="0"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
