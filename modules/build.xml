@@ -48,20 +48,20 @@
 
    <!--Set the main classpath-->
    <path id="classpath">
-      <pathelement location="${tools.dir}/fop/batik.jar" />
-      <pathelement location="${tools.dir}/itext/itext.jar" />
-      <pathelement location="${tools.dir}/javahelp/jh.jar" />
+      <pathelement location="${tools.dir}/batik/batik.jar" />
+      <pathelement location="${tools.dir}/itext5/itext.jar" />
+      <pathelement location="${tools.dir}/javahelp/jhall.jar" />
       <pathelement location="${tools.dir}/jeditsyntax/jEdit-syntax.jar" />
       <pathelement location="${tools.dir}/jgraph/jgraph.jar" />
       <pathelement location="${tools.dir}/txm/jxpdl.jar" />
       <pathelement location="${tools.dir}/xerces/xercesImpl.jar" />
-      <pathelement location="${tools.dir}/xerces//xml-apis.jar" />
+      <pathelement location="${tools.dir}/xml-commons//xml-apis.jar" />
    </path>
 
    <!-- Setting for SWITCH task -->
    <taskdef name="switch" classname="net.sf.antcontrib.logic.Switch">
       <classpath>
-         <fileset dir="${tools.dir}/ant">
+         <fileset dir="${tools.dir}/antcontrib">
             <include name="antcontrib.jar" />
          </fileset>
       </classpath>
@@ -310,6 +310,9 @@
          <param name="jar2create" value="${app.name}samples.jar"/>
          <param name="includepath" value="**/jawe/samples/**"/>
       </antcall>
+      <antcall target="updateJAR">
+         <param name="jar2update" value="${app.name}activityicons.jar"/>
+      </antcall>
 
    </target>
    <target name="makeJAR">
@@ -317,6 +320,18 @@
          <fileset dir="${classes.dir}">
             <include name="${includepath}"/>
          </fileset>
+         <manifest>
+            <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Version" value="${version}-${release}" />
+            <attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Build-Type" value="${build.type}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
+         </manifest>
+      </jar>
+   </target>
+   <target name="updateJAR">
+      <jar destfile="${output.lib.dir}/${jar2update}" update="true">
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
             <attribute name="Title" value="Together Workflow Editor" />

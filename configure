@@ -152,7 +152,7 @@ PREFIX=$prefix
 CLASSPATH=\
 $PWD/tools/ant/ant.jar:\
 $PWD/tools/ant/ant-launcher.jar:\
-$PWD/tools/ant/antcontrib.jar:\
+$PWD/tools/antcontrib/antcontrib.jar:\
 $jdk_DOT_dir/lib/tools.jar
 
 JAVA_HOME=$jdk_DOT_dir
