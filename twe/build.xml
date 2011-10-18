@@ -709,7 +709,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <mkdir dir="${dist.component.dir}"/>
       <copy todir="${dist.component.dir}/${app.name}">
          <fileset dir="${build.dir}/lib">
-            <include name="jxpdl.jar" />
             <include name="twecore.jar" />
             <include name="twelan.jar" />
             <include name="twepic.jar" />
@@ -740,6 +739,7 @@ make distributions       - Builds and configures TWE with all documentations and
             <include name="batik/**" />
             <include name="jeditsyntax/**" />
             <include name="jgraph/**" />
+            <include name="txm/**" />
             <include name="xerces/**" />
             <include name="xml-commons/**" />
          </fileset>
