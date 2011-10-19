@@ -1,3 +1,8 @@
+###### TWE 4.4-1 RELEASED ######
+
+2011-10-18 Sasa Bojanic <sasaboy@together.at>
+   # Project re-structured and build procedure updated to conform to the "components" standard
+
 ###### TWE 4.3-1 RELEASED ######
 2011-09-29 Sasa Bojanic <sasaboy@together.at>   
    # LDAPPageSize option added to the configuration - now searches will not return partial results 
