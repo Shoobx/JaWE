@@ -9,7 +9,7 @@ tec,commons-logging
 tec,docbook-dtd
 tec,docbook-xsl
 tec,fop
-tec,itext
+tec,itext5
 tec,javahelp
 tec,jeditsyntax
 tec,jgraph
