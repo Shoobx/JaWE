@@ -341,7 +341,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
    <target name="dependencies" depends="dependency_tws" unless="${rebranding}"/>
 
-   <target name="dependency_tws" depends="clean,buildOutput,_dependency_tws" unless="${rebranding}"/>
+   <target name="dependency_tws" depends="clean,buildOutput,create.components,_dependency_tws" unless="${rebranding}"/>
    
    <target name="_dependencies" depends="_dependency_tws" unless="${rebranding}"/>
 
@@ -350,25 +350,13 @@ make distributions       - Builds and configures TWE with all documentations and
       <property name="dist.dir" location="${basedir}/distribution/${app.name}-${version}-${release}_${build.timestamp}" />
       <property name="dist.dependencies.dir" location="${dist.dir}/dependencies" />
       <mkdir dir="${dist.dependencies.dir}/tws" />
-      <copy todir="${dist.dependencies.dir}/tws/Shark/tools/twe" overwrite="true">
-         <fileset dir="${build.dir}/lib">
-            <include name="jxpdl.jar" />
-            <include name="twecore.jar" />
-            <include name="twelan.jar" />
-            <include name="twepic.jar" />
-            <include name="tweactivityicons.jar" />
+      <copy todir="${dist.dependencies.dir}/tws/Shark/tools" overwrite="true">
+         <fileset dir="${dist.dir}/components">
+            <include name="twe-core/**" />
+            <include name="twe-zip/**" />
+            <include name="txm/**" />
          </fileset>
       </copy>      
-      <copy todir="${dist.bin.dir}">
-         <fileset dir="${input.dir}/bin" includes="*.in" />
-      </copy>
-      <copy todir="${build.dir}">
-         <fileset dir="${input.dir}" includes="*.bat,*.sh" />
-      </copy>
-      <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
-      <zip destfile="${dist.dependencies.dir}/tws/Shark/tools/twe/${app.name}.zip" update="true">
-         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**" />
-      </zip>
    </target>
    
    <target name="distBin">
@@ -407,7 +395,7 @@ make distributions       - Builds and configures TWE with all documentations and
                            <param name="name.additional" value="tsl-" />
                         </antcall>
                         <copy todir="${output.lib.dir}">
-                           <fileset dir="${tools.dir}/itext" includes="itext.jar"/>
+                           <fileset dir="${tools.dir}/itext5" includes="itext.jar"/>
                         </copy>
                         <copy todir="${build.dir}/licenses" overwrite="true">
                            <fileset dir="${basedir}/licenses">
@@ -707,14 +695,21 @@ make distributions       - Builds and configures TWE with all documentations and
       <property name="dist.component.dir" location="${dist.dir}/components"/>
       <property name="component.dir" location="${basedir}/components"/>
       <mkdir dir="${dist.component.dir}"/>
-      <copy todir="${dist.component.dir}/${app.name}">
+      <copy todir="${dist.component.dir}/${app.name}-core">
          <fileset dir="${build.dir}/lib">
             <include name="twecore.jar" />
             <include name="twelan.jar" />
             <include name="twepic.jar" />
             <include name="tweactivityicons.jar" />
          </fileset>
+         <fileset dir="${component.dir}" includes="Component.properties" />  
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
       </copy>
+      <replace file="${dist.component.dir}/${app.name}-core/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-(${project.name})" />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
       <copy todir="${dist.bin.dir}">
          <fileset dir="${input.dir}/bin" includes="*.in" />
       </copy>
@@ -725,15 +720,10 @@ make distributions       - Builds and configures TWE with all documentations and
       <zip destfile="${dist.component.dir}/${app.name}/${app.name}.zip" update="true">
          <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**" />
       </zip>
-      <copy todir="${dist.component.dir}/${app.name}">
-         <fileset dir="${component.dir}" includes="Component.properties" />  
+      <copy todir="${dist.component.dir}/${app.name}-zip">
+         <fileset dir="${dist.component.dir}/${app.name}-core" includes="Component.properties" />  
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
       </copy>
-      <replace file="${dist.component.dir}/${app.name}/Component.properties" value="">
-         <replacefilter token="@COMPONENTNAME@" value="${app.name}-(${project.name})" />
-         <replacefilter token="@VERSION@" value="${version}-${release}" />
-         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
-      </replace>
       <copy todir="${dist.component.dir}">
          <fileset dir="${tools.dir}">
             <include name="batik/**" />
