@@ -706,7 +706,7 @@ make distributions       - Builds and configures TWE with all documentations and
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
       </copy>
       <replace file="${dist.component.dir}/${app.name}-core/Component.properties" value="">
-         <replacefilter token="@COMPONENTNAME@" value="${app.name}-(${project.name})" />
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-core" />
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
@@ -721,9 +721,14 @@ make distributions       - Builds and configures TWE with all documentations and
          <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**" />
       </zip>
       <copy todir="${dist.component.dir}/${app.name}-zip">
-         <fileset dir="${dist.component.dir}/${app.name}-core" includes="Component.properties" />  
+         <fileset dir="${component.dir}" includes="Component.properties" />  
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
       </copy>
+      <replace file="${dist.component.dir}/${app.name}-zip/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-zip" />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
       <copy todir="${dist.component.dir}">
          <fileset dir="${tools.dir}">
             <include name="batik/**" />
