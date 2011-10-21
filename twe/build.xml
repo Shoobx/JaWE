@@ -717,7 +717,7 @@ make distributions       - Builds and configures TWE with all documentations and
          <fileset dir="${input.dir}" includes="*.bat,*.sh" />
       </copy>
       <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
-      <zip destfile="${dist.component.dir}/${app.name}/${app.name}.zip" update="true">
+      <zip destfile="${dist.component.dir}/${app.name}-zip/${app.name}.zip" update="true">
          <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**" />
       </zip>
       <copy todir="${dist.component.dir}/${app.name}-zip">
