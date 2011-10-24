@@ -42,7 +42,7 @@ Name "$(NAME)" ;Define your own software name here
 
 !include "MUI.nsh"
 !include "FileFunc.nsh"
-!include "AddRemove.nsh"
+;!include "AddRemove.nsh"
 !include Sections.nsh
 
 RequestExecutionLevel admin
