@@ -66,10 +66,11 @@
       or for damages resulting from the use of the information contained in
       this book.</para>
 
-      <para>Java and all Java-based trademarks or logos are trademarks or
-      registered trademarks of Sun Microsystems, Inc., in the United States
-      States and other countries. Together Teamlösungen EDV-Dienstleistungen
-      GmbH. is independent of Sun Microsystems.</para>
+      <para>The Together logos are registered trademarks of GrECo
+      International Holding AG in Austria / Europe. Java and all Java-based
+      trademarks or logos are trademarks or registered trademarks of Oracle
+      Corporation, in the United States States and other countries. Together
+      Teamsolutions Co., Ltd. is independent of Oracle Corporation.</para>
 
       <para>In this document parts of the original XPDL 2.1 specification -
       <ulink
@@ -671,8 +672,6 @@ make buildAll        - Builds and configures TWE with documentation
 make buildNoDoc      - Builds and configures TWE without documentation
 make buildDoc        - Builds documentation only
 make debug           - Builds TWE JAR files with included debug information
-make dependencies    - Creates TWS dependencies within distributions folder
-make dependency_tws  - Creates TWS dependencies within distributions folder
 make install         - Installs and configures TWE into directory defined 
                        by parameter install.dir in build.properties file. 
                        This parameter can be set by using command: 
@@ -9847,6 +9846,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
   <chapter>
     <title>Release Notes</title>
+
+    <section>
+      <title>Release 4.4-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Project structure changed according to the new standard (no
+          dependency output anymore, components output instead).</para>
+        </listitem>
+      </itemizedlist>
+    </section>
 
     <section>
       <title>Release 4.3-1</title>

@@ -1,6 +1,6 @@
 @echo off
 rem #    Together Workflow Editor
-rem #    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+rem #    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
 rem #
 rem #    This program is free software: you can redistribute it and/or modify
 rem #    it under the terms of the GNU General Public License as published by
@@ -40,8 +40,6 @@ if %~1==buildAll goto continue
 if %~1==buildNoDoc goto continue
 if %~1==buildDoc goto continue
 if %~1==debug goto continue
-if %~1==dependencies goto continue
-if %~1==dependency_tws goto continue
 if %~1==install goto continue
 if %~1==clean goto continue
 if %~1==distributions goto continue
@@ -77,8 +75,6 @@ echo make buildAll            - Builds and configures TWE with documentation
 echo make buildNoDoc          - Builds and configures TWE without documentation
 echo make buildDoc            - Builds documentation only
 echo make debug               - Builds TWE JAR files with included debug information
-echo make dependencies        - Creates TWS dependencies within distributions folder
-echo make dependency_tws      - Creates TWS dependencies within distributions folder
 echo make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
 echo                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
 echo                            It should be called only after make buildAll target is executed!

@@ -1,6 +1,6 @@
 /**
  * Together Workflow Editor
- * Copyright (C) 2010 Together Teamsolutions Co., Ltd. 
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
  * 
  * This program is free software: you can redistribute it and/or modify 
  * it under the terms of the GNU General Public License as published by 
