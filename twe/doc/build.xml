@@ -1,6 +1,6 @@
 <!--
     Together Workflow Editor
-    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -159,7 +159,7 @@
    </target>
 
    <target name="docbook.check">
-      <uptodate property="docbook.notRequired" targetfile="${tmp.dir}/${docbook.name}-current.pdf">
+      <uptodate property="docbook.notRequired" targetfile="${tmp.dir}/${app.name}-current.doc.pdf">
          <srcfiles dir="${doc.dir}" includes="${docbook.name}.xml" />
       </uptodate>
    </target>
@@ -172,7 +172,7 @@
          <fileset dir="${tmp.dir}">
             <include name="**/Images/**" />
             <include name="*.pdf" />
-            <include name="${docbook.name}-current.html" />
+            <include name="${app.name}-current.doc.html" />
          </fileset>
       </copy>
       <copy file="${docbook.xsl.dir}/css/html.css" todir="${output.doc.dir}" />
@@ -200,12 +200,12 @@
       <replace file="${tmp.dir}/jhelptoc.xml" token="text=&quot;&quot;" value="text=&quot;${doc.title}&quot;" />
       <echo message="compile docbook with chunk.xsl" />
       <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.xsl.dir}/xsl/html/chunk.xsl'" />
+         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${app.name}-current.doc.html' -in '${docbook.name}.xml' -xsl '${docbook.xsl.dir}/xsl/html/chunk.xsl'" />
       </java>
 
       <echo message="compile docbook with docbook.xsl" />
       <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${docbook.name}-current.html' -in '${docbook.name}.xml' -xsl '${docbook.xsl.dir}/xsl/html/docbook.xsl'" />
+         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${app.name}-current.doc.html' -in '${docbook.name}.xml' -xsl '${docbook.xsl.dir}/xsl/html/docbook.xsl'" />
       </java>
 
       <echo message="docbook to ${docbook.name}.fo" />
@@ -230,7 +230,7 @@
 
       <echo message="docbook to PDF  ${tmp.dir}/${docbook.name}.xml" />
       <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
-         <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${docbook.name}-current.pdf'" />
+         <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${app.name}-current.doc.pdf'" />
       </exec>
       <!--antcall target="generate-pdf" inheritall="true" inheritrefs="true" /-->
 
@@ -240,7 +240,7 @@
    </target>
 
    <target name="generate-pdf" description="Generates a single PDF file">
-      <fop format="application/pdf" fofile="${tmp.dir}/${docbook.name}.fo" outfile="${tmp.dir}/${docbook.name}-current.pdf" logfiles="log.txt" />
+      <fop format="application/pdf" fofile="${tmp.dir}/${docbook.name}.fo" outfile="${tmp.dir}/${app.name}-current.doc.pdf" logfiles="log.txt" />
    </target>
 
    <!-- ==================================================================== -->
@@ -259,7 +259,7 @@
          </else>
       </if>      
       <jar destfile="${output.lib.dir}/${app.name}doc.jar">
-         <fileset dir="${tmp.dir}" excludes="**/${docbook.name}.*, **/*.pdf, **/${docbook.name}-current.html, **/api/**, **/docbook/**" />
+         <fileset dir="${tmp.dir}" excludes="**/${docbook.name}.*, **/*.pdf, **/${app.name}-current.doc.html, **/api/**, **/docbook/**" />
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
             <attribute name="Title" value="Together Workflow Editor" />

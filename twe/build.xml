@@ -1,6 +1,6 @@
 <!--
     Together Workflow Editor
-    Copyright (C) 2010 Together Teamsolutions Co., Ltd.
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -190,7 +190,7 @@
       </copy>
       <copy todir="${build.dir}/licenses">
          <fileset dir="${basedir}/licenses" includes="*.*" />
-         <mapper type="regexp" from="${app.name}-includes.xlsx" to="${app.name}-includes-${version}-${release}.xlsx" />
+         <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-includes-${version}-${release}.csv" />
       </copy>
       <mkdir dir="${build.dir}/config/default" />
 
@@ -300,8 +300,6 @@ make buildAll            - Builds and configures TWE with documentation
 make buildNoDoc          - Builds and configures TWE without documentation
 make buildDoc            - Builds documentation only
 make debug               - Builds TWE JAR files with included debug information
-make dependencies        - Creates TWS dependencies within distributions folder
-make dependency_tws      - Creates TWS dependencies within distributions folder
 make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
                            It should be called only after make buildAll target is executed!
@@ -324,7 +322,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <property name="dist.community.dir" location="${dist.dir}/community" />
       <property name="dist.customers.dir" location="${dist.dir}/customers" />
       <property name="dist.debug.dir" location="${dist.dir}/debug" />
-      <property name="dist.dependencies.dir" location="${dist.dir}/dependencies" />
       <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
       <property name="dist.internal.dir" location="${dist.dir}/internal" />
       <property name="dist.doc.dir" location="${dist.dir}/documentation" />
@@ -339,26 +336,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <mkdir dir="${dist.screenshots.dir}" />
    </target>
 
-   <target name="dependencies" depends="dependency_tws" unless="${rebranding}"/>
-
-   <target name="dependency_tws" depends="clean,buildOutput,create.components,_dependency_tws" unless="${rebranding}"/>
-   
-   <target name="_dependencies" depends="_dependency_tws" unless="${rebranding}"/>
-
-   <target name="_dependency_tws" unless="${rebranding}">
-      <!-- Distribution directories -->
-      <property name="dist.dir" location="${basedir}/distribution/${app.name}-${version}-${release}_${build.timestamp}" />
-      <property name="dist.dependencies.dir" location="${dist.dir}/dependencies" />
-      <mkdir dir="${dist.dependencies.dir}/tws" />
-      <copy todir="${dist.dependencies.dir}/tws/Shark/tools" overwrite="true">
-         <fileset dir="${dist.dir}/components">
-            <include name="twe-core/**" />
-            <include name="twe-zip/**" />
-            <include name="txm/**" />
-         </fileset>
-      </copy>      
-   </target>
-   
    <target name="distBin">
       <if>
          <equals arg1="${os}" arg2="windows" />
@@ -368,7 +345,6 @@ make distributions       - Builds and configures TWE with all documentations and
                <param name="name.additional" value="" />
             </antcall>
             <antcall target="create.components"/>
-            <antcall target="_dependencies"/>
             <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
             <if>
                <equals arg1="${tog.lic.exists}" arg2="true" />
@@ -491,28 +467,28 @@ make distributions       - Builds and configures TWE with all documentations and
    <target name="distOther">
       <copy todir="${dist.screenshots.dir}">
          <fileset dir="${basedir}/screenshots" includes="${app.name}-screen.zip" />
-         <mapper type="regexp" from="${app.name}-screen.zip" to="${app.name}-screens-${version}-${release}.zip" />
+         <mapper type="regexp" from="${app.name}-screen.zip" to="${app.name}-${version}-${release}.screens.zip" />
       </copy>
       <copy todir="${dist.community.dir}">
-         <fileset dir="${dist.screenshots.dir}" includes="${app.name}-screens-${version}-${release}.zip" />
+         <fileset dir="${dist.screenshots.dir}" includes="${app.name}-${version}-${release}.screens.zip" />
       </copy>
-      <copy file="${build.dir}/doc/${app.name}-doc-current.pdf" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.pdf"/>
-      <copy file="${build.dir}/doc/${app.name}-doc-current.html" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.html"/>
-      <zip destfile="${dist.community.dir}/${app.name}-doc-${version}-${release}.zip" update="true">
-         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-doc-current.*"/>
+      <copy file="${build.dir}/doc/${app.name}-current.doc.pdf" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.pdf"/>
+      <copy file="${build.dir}/doc/${app.name}-current.doc.html" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.html"/>
+      <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.doc.zip" update="true">
+         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*"/>
       </zip>
       <copy todir="${dist.community.dir}">
-         <fileset dir="${build.dir}/doc" includes="${app.name}-doc-current.pdf" />
+         <fileset dir="${build.dir}/doc" includes="${app.name}-current.doc.pdf" />
       </copy>      
       <copy todir="${dist.doc.dir}">
-         <fileset dir="${build.dir}/doc" excludes="${app.name}-doc-current.*"/>
+         <fileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*"/>
       </copy>
       <delete quiet="true">
          <fileset dir="${build.dir}/doc" includes="${app.name}-doc-${version}-${release}.*" />
       </delete>      
       <copy todir="${dist.internal.dir}">
-         <fileset dir="${basedir}/licenses" includes="${app.name}-includes.xlsx" />
-         <mapper type="regexp" from="${app.name}-includes.xlsx" to="${app.name}-includes-${version}-${release}.xlsx" />
+         <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
+         <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-includes-${version}-${release}.csv" />
       </copy>
       <copy todir="${dist.internal.dir}">
          <fileset dir="${build.dir}" includes="BuildID.txt" />
@@ -691,7 +667,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
    </target>
 
-   <target name="create.components">
+   <target name="create.components" unless="${rebranding}">
       <property name="dist.component.dir" location="${dist.dir}/components"/>
       <property name="component.dir" location="${basedir}/components"/>
       <mkdir dir="${dist.component.dir}"/>
