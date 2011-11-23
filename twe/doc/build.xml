@@ -95,7 +95,7 @@
          </fileset>
       </path>
 
-      <property name="docbook.fo.xsl" location="${docbook.xsl.dir}/xsl/fo/docbook.xsl" />
+      <property name="docbook.fo.xsl" location="${tools.dir}/docbook-xsl-fo/docbookx.xsl" />
       <property name="docbook.pdf.classpath" location="${fop.lib.dir}/fop.jar${path.separator}${tools.dir}/batik/batik.jar${path.separator}${tools.dir}/avalon-framework/avalon-framework.jar${path.separator}${tools.dir}/commons-io/commons-io.jar${path.separator}${tools.dir}/xmlgraphics-commons/xmlgraphics-commons.jar${path.separator}${tools.dir}/commons-logging/commons-logging.jar" />
 
       <!-- Setting IF task -->
@@ -215,7 +215,7 @@
                     -param ulink.footnotes 1 
                     -out '${docbook.name}.fo' 
                     -in '${docbook.name}.xml' 
-                    -xsl '${docbook.xsl.dir}/xsl/fo/docbook.xsl'" />
+                    -xsl '${docbook.fo.xsl}'" />
                     <!-- 
                     -param page.margin.inner 0.5in 
                     -param page.margin.outer 0.5in 
@@ -227,6 +227,11 @@
                     -param body.margin.bottom 0.2in 
                     -->
       </java>
+	  
+	<!--ADD-->
+	  <replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />   
+	  <replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@buildid@"  value="V.${version}-${release} - ${build.timestamp}" />
+	<!--/ADD-->		  
 
       <echo message="docbook to PDF  ${tmp.dir}/${docbook.name}.xml" />
       <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
