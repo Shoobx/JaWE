@@ -1,24 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-"docbook/docbookx.dtd">
-<book id="tweug" lang="en" revision="0" status="work in progress">
-  <title><inlinemediaobject>
-      <imageobject>
-        <imagedata contentdepth="100%" fileref="Images/cover8.jpg"
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN" "docbook/docbook.dtd">
+
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+
+<book xml:id="tweug" xml:lang="en" version="5.0" status="work in progress">
+	<title>
+		<inlinemediaobject>
+			<imageobject>
+			<imagedata contentdepth="100%" fileref="Images/cover8.jpg"
                    scalefit="1" valign="middle" width="100%" />
-      </imageobject>
-    </inlinemediaobject></title>
+			</imageobject>
+		</inlinemediaobject>
+		<replaceable><?coverdetail?></replaceable>
+	</title>
+	<titleabbrev>Together Workflow Editor</titleabbrev>
 
-  <titleabbrev></titleabbrev>
+	<info>
+		<title>Together Workflow Editor</title>
+		<subtitle>User Manual</subtitle>
 
-  <bookinfo>
-    <title>Together Workflow Editor</title>
-
-    <subtitle>User Manual</subtitle>
-
-    <authorgroup>
-      <corpauthor>Together Teamsolutions Co., Ltd.</corpauthor>
-    </authorgroup>
+		<authorgroup>
+			<author><personname>Together Teamsolutions Co., Ltd. in Thailand.</personname></author>
+		</authorgroup>
 
     <!--    
     <publisher>
@@ -38,56 +57,53 @@
     <pubdate>2007-xx-xx</pubdate>
 -->
 
-    <copyright>
-      <year>2010</year>
+		<copyright>
+			<year>2011</year>
+			<holder>Together Teamsolutions Co., Ltd. in Thailand. Permission is
+			granted to copy, distribute and/or modify this document under the terms
+			of the GNU Free Documentation License, Version 1.3 or any later version
+			published by the Free Software Foundation; with the Invariant Sections
+			being <remark>"Introduction", "Build Guide", "Installation Guide", "User
+			Interface", "Dialogs and Property Panels", "XPDL Elements","XPDL from 
+			Scratch", "Configuration", "Customization", "Extended Attribute 
+			Reference", "Release Notes", and with the Front-Cover
+			Texts. A copy of the license is included in the section 
+			entitled "GNU Free Documentation License"</remark>.</holder>
+		</copyright>
 
-      <holder>Together Teamsolutions Co., Ltd. Permission is granted to copy,
-      distribute and/or modify this document under the terms of the GNU Free
-      Documentation License, Version 1.3 or any later version published by the
-      Free Software Foundation; with the Invariant Sections being
-      <emphasis>"Introduction","Build Guide,"Installation Guide","User
-      Interface","Dialogs and Property Panels","XPDL Elements","XPDL from
-      Scratch","Configuration","Customization","Extended Attribute
-      Reference","Release Notes"</emphasis>", with the Front-Cover Texts being
-      <emphasis>Preface</emphasis>, and with no Back-Cover Texts. A copy of
-      the license is included in the section entitled "GNU Free Documentation
-      License".</holder>
-    </copyright>
+		<legalnotice>
+			<para>Together Teamsolutions Co., Ltd DISCLAIMS ALL WARRANTIES, EXPRESS
+			OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF
+			THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
+			WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</para>
 
-    <legalnotice>
-      <para>Together Teamsolutions Co., Ltd DISCLAIMS ALL WARRANTIES, EXPRESS
-      OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF
-      THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
-      WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR
-      PURPOSE.</para>
+			<para>While every precaution has been taken in the preparation of this
+			book, the publisher assumes no responsibility for errors or omissions,
+			or for damages resulting from the use of the information contained in
+			this book.</para>
 
-      <para>While every precaution has been taken in the preparation of this
-      book, the publisher assumes no responsibility for errors or omissions,
-      or for damages resulting from the use of the information contained in
-      this book.</para>
+			<para>The Together logos are registered trademarks of GrECo
+			International Holding AG in Austria / Europe. Java and all Java-based
+			trademarks or logos are trademarks or registered trademarks of Oracle
+			Corporation, in the United States States and other countries. Together
+			Teamsolutions Co., Ltd. is independent of Oracle Corporation.</para>
 
-      <para>The Together logos are registered trademarks of GrECo
-      International Holding AG in Austria / Europe. Java and all Java-based
-      trademarks or logos are trademarks or registered trademarks of Oracle
-      Corporation, in the United States States and other countries. Together
-      Teamsolutions Co., Ltd. is independent of Oracle Corporation.</para>
+			<para>In this document parts of the original XPDL 2.1 specification -
+			<link
+			xlink:href="http://www.wfmc.org/Download-document/WFMC-TC-1025-Oct-10-08-A-Final-XPDL-2.1-Specification.html">WfMC
+			XPDL 2.1 Specification</link> are used. The Workflow Management
+			Coalition and its members are the owners of the copyright of this
+			specification.</para>
+		</legalnotice>
+	</info>
 
-      <para>In this document parts of the original XPDL 2.1 specification -
-      <ulink
-      url="http://www.wfmc.org/Download-document/WFMC-TC-1025-Oct-10-08-A-Final-XPDL-2.1-Specification.html">WfMC
-      XPDL 2.1 Specification</ulink> are used. The Workflow Management
-      Coalition and its members are the owners of the copyright of this
-      specification.</para>
-    </legalnotice>
-  </bookinfo>
-
-  <toc></toc>
+	<toc></toc>
 
   <preface>
     <title>Preface</title>
 
-    <para><ulink url="http://www.together.at/prod/workflow/twe">Together
-    Workflow Editor</ulink> is a visual tool for creating, managing and
+    <para><link xlink:href="http://www.together.at/prod/workflow/twe">Together
+    Workflow Editor</link> is a visual tool for creating, managing and
     reviewing process definitions stored in WfMC XPDL syntax, using BPMN
     graphical notation.</para>
 
@@ -101,8 +117,8 @@
     <sect1>
       <title>About Workflow</title>
 
-      <para>From the <ulink url="http://www.wfmc.org">Workflow Management
-      Coalition website</ulink>:</para>
+      <para>From the <link xlink:href="http://www.wfmc.org">Workflow Management
+      Coalition website</link>:</para>
 
       <sect2>
         <title>Why Should a Business Use Workflow ?</title>
@@ -159,28 +175,28 @@
       Enhydra JaWE (Java Workflow Editor) project under the GPL V3
       license.</para>
 
-      <para><ulink url="http://sourceforge.net/projects/jawe">Enhydra
-      JaWE</ulink> is an <ulink url="http://www.opensource.org">open
-      source</ulink> project hosted by <ulink
-      url="http://sourceforge.net">SourceForge</ulink> , with the goal to
+      <para><link xlink:href="http://sourceforge.net/projects/jawe">Enhydra
+      JaWE</link> is an <link xlink:href="http://www.opensource.org">open
+      source</link> project hosted by <link
+      xlink:href="http://sourceforge.net">SourceForge</link> , with the goal to
       deliver a production quality tool for graphical creation and viewing of
       WfMC XPDL process definitions. It results from real world projects in
       which the painful task of writing XML with general purpose XML editors
       had to be done again and again. This project is developed mainly by
-      employees of <ulink url="http://www.together.at">Together Teamsolutions
-      Co., Ltd</ulink> but also contains lots of input and improvements from
+      employees of <link xlink:href="http://www.together.at">Together Teamsolutions
+      Co., Ltd</link> but also contains lots of input and improvements from
       the many users worldwide. Enhydra JaWE has a rapidly growing community
-      and is also integrated in other open source projects like <ulink
-      url="http://www.together.at/prod/server/tas">Enhydra Server</ulink> - a
-      professional Java and J2EE application server and <ulink
-      url="http://sourceforge.net/projects/sharkwf">Enhydra Shark</ulink> -
+      and is also integrated in other open source projects like <link
+      xlink:href="http://www.together.at/prod/server/tas">Enhydra Server</link> - a
+      professional Java and J2EE application server and <link
+      xlink:href="http://sourceforge.net/projects/sharkwf">Enhydra Shark</link> -
       the most flexible Open Source WfMC XPDL workflow engine available. Its
-      use is <ulink url="http://www.gnu.org/philosophy/philosophy.html">"Free
-      as in Freedom"</ulink> and licensed under the <ulink
-      url="http://www.gnu.org">GNU </ulink><ulink
-      url="http://www.gnu.org/copyleft/gpl.html">GPL V3 license</ulink>
-      defined by the <ulink url="http://www.gnu.org/fsf/fsf.html">Free
-      Software Foundation FSF</ulink>.</para>
+      use is <link xlink:href="http://www.gnu.org/philosophy/philosophy.html">"Free
+      as in Freedom"</link> and licensed under the <link
+      xlink:href="http://www.gnu.org">GNU </link><link
+      xlink:href="http://www.gnu.org/copyleft/gpl.html">GPL V3 license</link>
+      defined by the <link xlink:href="http://www.gnu.org/fsf/fsf.html">Free
+      Software Foundation FSF</link>.</para>
     </sect1>
 
     <sect1>
@@ -189,9 +205,9 @@
       <para>Commercial support for Together Workflow Editor including
       development of project specific extensions or integration into other
       environments and projects is offered by Together Teamsolutions Co., Ltd
-      located in Pattaya/Thailand/Asia (<ulink
-      url="mailto: office@together.at">mailto:
-      office@together.at</ulink>).</para>
+      located in Pattaya/Thailand/Asia (<link
+      xlink:href="mailto: office@together.at">mailto:
+      office@together.at</link>).</para>
     </sect1>
 
     <sect1>
@@ -325,15 +341,15 @@
       <para>Please help us to improve future editions of this book by
       reporting any errors, inaccuracies, bugs, misleading or confusing
       statements, and plain old typos that you find. Email your findings to
-      <ulink url="mailto:twe@together.at">twe@togetherteam.co.th</ulink>.
+      <link xlink:href="mailto:twe@together.at">twe@togetherteam.co.th</link>.
       Thanks.</para>
     </sect1>
 
     <sect1>
       <title>Acknowledgements</title>
 
-      <para>Many thanks go to the Swiss company <ulink
-      url="http://www.abacus.ch">ABACUS</ulink> for sponsoring major parts of
+      <para>Many thanks go to the Swiss company <link
+      xlink:href="http://www.abacus.ch">ABACUS</link> for sponsoring major parts of
       the Together Workflow Editor Version 2.0 development.</para>
     </sect1>
 
@@ -414,7 +430,7 @@
     <sect1>
       <title>JGraph</title>
 
-      <para><ulink url="http://www.jgraph.com">JGraph</ulink> is a powerful,
+      <para><link xlink:href="http://www.jgraph.com">JGraph</link> is a powerful,
       easy-to-use, feature-rich and standards-compliant open source graph
       component available for Java. This library is used in Together Workflow
       Editor for graphical representation of process layouts (graph
@@ -424,10 +440,10 @@
     <sect1>
       <title>Docbook</title>
 
-      <para>This book was written using <ulink
-      url="http://www.docbook.org">DocBook</ulink> and the <ulink
-      url="http://www.xmlmind.com/xmleditor">XML Mind XML
-      Editor</ulink>.</para>
+      <para>This book was written using <link
+      xlink:href="http://www.docbook.org">DocBook</link> and the <link
+      xlink:href="http://www.xmlmind.com/xmleditor">XML Mind XML
+      Editor</link>.</para>
     </sect1>
   </preface>
 
@@ -518,25 +534,25 @@
     </sect1>
 
     <sect1>
-      <title pagenum="next">Useful links</title>
+      <title>Useful links</title>
 
-      <para><ulink url="http://www.wfmc.org">The WfMC Workflow Management
-      Coalition</ulink> promotes the advancement of process management
+      <para><link xlink:href="http://www.wfmc.org">The WfMC Workflow Management
+      Coalition</link> promotes the advancement of process management
       technology standards and their use by the industry.</para>
 
-      <para>The Java 2 SDK or Java 2 JRE can be downloaded from <ulink
-      url="http://www.oracle.com/technetwork/java">http://www.oracle.com/technetwork/java</ulink>
+      <para>The Java 2 SDK or Java 2 JRE can be downloaded from <link
+      xlink:href="http://www.oracle.com/technetwork/java">http://www.oracle.com/technetwork/java</link>
       .</para>
 
-      <para>The Together Workflow Editor home page is located at <ulink
-      url="http://www.together.at/prod/workflow/twe">http://www.together.at/prod/workflow/twe</ulink>.</para>
+      <para>The Together Workflow Editor home page is located at <link
+      xlink:href="http://www.together.at/prod/workflow/twe">http://www.together.at/prod/workflow/twe</link>.</para>
 
-      <para><ulink url="http://www.jgraph.com">JGraph</ulink> is an
+      <para><link xlink:href="http://www.jgraph.com">JGraph</link> is an
       open-source swing graph component used in Together Workflow
       Editor.</para>
 
-      <para><ulink url="http://sourceforge.net/projects/sharkwf">Enhydra
-      Shark</ulink> - the most flexible Open Source WfMC XPDL workflow engine
+      <para><link xlink:href="http://sourceforge.net/projects/sharkwf">Enhydra
+      Shark</link> - the most flexible Open Source WfMC XPDL workflow engine
       available</para>
     </sect1>
   </chapter>
@@ -553,11 +569,11 @@
       <title>Getting the source code</title>
 
       <para>The source code of the project can be obtained either via SVN
-      (please read instructions how to check out sources at <ulink
-      url="http://sourceforge.net/projects/jawe/develop">SourceForge</ulink>)
+      (please read instructions how to check out sources at <link
+      xlink:href="http://sourceforge.net/projects/jawe/develop">SourceForge</link>)
       or by downloading the latest twe-x.y-z.src.zip/twe-x.y-z.src.tar.gz
-      package from <ulink
-      url="http://sourceforge.net/projects/jawe/files">SourceForge</ulink>.</para>
+      package from <link
+      xlink:href="http://sourceforge.net/projects/jawe/files">SourceForge</link>.</para>
     </sect1>
 
     <sect1>
@@ -940,8 +956,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <title>Getting the binaries</title>
 
       <para>The latest binary packages of Together Workflow Editor can be
-      downloaded from <ulink
-      url="http://sourceforge.net/projects/jawe/files">SourceForge</ulink></para>
+      downloaded from <link
+      xlink:href="http://sourceforge.net/projects/jawe/files">SourceForge</link></para>
     </sect1>
 
     <sect1>
@@ -1751,7 +1767,7 @@ create.desktop.icon=on
       <para>Main tool bar shortcuts are organized similar to the actions in
       the main menu. All actions are explained in the previous section.</para>
 
-      <figure id="mainToolbarOrganization">
+      <figure xml:id="mainToolbarOrganization">
         <title>Main tool bar shortcut groups</title>
 
         <mediaobject>
@@ -1787,22 +1803,25 @@ create.desktop.icon=on
 
       <itemizedlist>
         <listitem>
-          <para>a click on the <inlinegraphic
-          fileref="Images/packageselect.gif" /> package icon offers a pop-up
+          <para>a click on the <inlinemediaobject><imageobject><imagedata
+          fileref="Images/packageselect.gif" />
+		  </imageobject></inlinemediaobject> package icon offers a pop-up
           list of all packages (the main package you are editing and all the
           packages it references directly or indirectly).</para>
         </listitem>
 
         <listitem>
-          <para>a click on the <inlinegraphic
-          fileref="Images/processselect.gif" /> process icon offers a pop-up
+          <para>a click on the <inlinemediaobject><imageobject><imagedata
+          fileref="Images/processselect.gif" />
+		  </imageobject></inlinemediaobject> process icon offers a pop-up
           list of all processes (within the currently selected
           package).</para>
         </listitem>
 
         <listitem>
-          <para>a click on the <inlinegraphic
-          fileref="Images/fileselect.gif" /> file icon offers a pop-up list of
+          <para>a click on the <inlinemediaobject><imageobject><imagedata
+          fileref="Images/fileselect.gif" />
+		  </imageobject></inlinemediaobject> file icon offers a pop-up list of
           recently opened files.</para>
         </listitem>
       </itemizedlist>
@@ -1820,10 +1839,10 @@ create.desktop.icon=on
         <tgroup cols="2">
           <tbody valign="middle">
             <row>
-              <entry align="center" colsep="none" valign="middle"><graphic
+              <entry align="center" colsep="0" valign="middle"><mediaobject><imageobject><imagedata
               align="center" contentdepth="100%"
               fileref="Images/graphOverview.gif" scalefit="1" valign="middle"
-              width="100%" /></entry>
+              width="100%" /></imageobject></mediaobject></entry>
 
               <entry align="justify" valign="top"><para>This overview also
               provides an easy way to select elements by clicking on the
@@ -1860,10 +1879,10 @@ create.desktop.icon=on
         <tgroup cols="2">
           <tbody valign="middle">
             <row>
-              <entry align="center" colsep="none" valign="middle"><graphic
+              <entry align="center" colsep="0" valign="middle"><mediaobject><imageobject><imagedata
               align="center" contentdepth="100%"
               fileref="Images/extPackageRelations.gif" valign="middle"
-              width="100%" /></entry>
+              width="100%" /></imageobject></mediaobject></entry>
 
               <entry align="justify" valign="middle"><para>The picture on the
               left hand side shows a package (called "Business Example") that
@@ -1915,10 +1934,10 @@ create.desktop.icon=on
         <tgroup cols="2">
           <tbody valign="middle">
             <row>
-              <entry align="center" colsep="none" valign="middle"><graphic
+              <entry align="center" colsep="0" valign="middle"><mediaobject><imageobject><imagedata
               align="center" contentdepth="100%"
               fileref="Images/transPkgPool.gif" valign="middle"
-              width="100%" /></entry>
+              width="100%" /></imageobject></mediaobject></entry>
 
               <entry align="left" valign="middle"><para>The Transient Package
               Pool displays all the transiently opened packages.
@@ -1959,7 +1978,7 @@ create.desktop.icon=on
       content of the toolbar and the order of the toolbar buttons.</para>
     </sect1>
 
-    <sect1 id="graphcomponent">
+    <sect1 xml:id="graphcomponent">
       <title>Graph</title>
 
       <para>The Graph is the main component of Together Workflow Editor. It
@@ -2614,17 +2633,20 @@ create.desktop.icon=on
 
       <para>The available types of lanes are:<itemizedlist>
           <listitem>
-            <para><inlinegraphic fileref="Images/lane.gif" /> Lane
+            <para><inlinemediaobject><imageobject><imagedata fileref="Images/lane.gif" />
+			</imageobject></inlinemediaobject> Lane
             representing participant</para>
           </listitem>
 
           <listitem>
-            <para><inlinegraphic fileref="Images/freetextlane.png" /> Free
+            <para><inlinemediaobject><imageobject><imagedata fileref="Images/freetextlane.png" />
+			</imageobject></inlinemediaobject> Free
             text expression lane</para>
           </listitem>
 
           <listitem>
-            <para><inlinegraphic fileref="Images/commonexplane.png" /> Common
+            <para><inlinemediaobject><imageobject><imagedata fileref="Images/commonexplane.png" />
+			</imageobject></inlinemediaobject> Common
             expression lane</para>
           </listitem>
         </itemizedlist></para>
@@ -2633,70 +2655,75 @@ create.desktop.icon=on
 
       <itemizedlist>
         <listitem>
-          <para><inlinegraphic fileref="Images/start.gif" /> Start event
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/start.gif" />
+		  </imageobject></inlinemediaobject> Start event
           activity (explicitly specifies process start)</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/end.gif" /> End event activity
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/end.gif" />
+		  </imageobject></inlinemediaobject> End event activity
           (explicitly specifies process end)</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/genericactivity.gif" /> Normal
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/genericactivity.gif" />
+		  </imageobject></inlinemediaobject> Normal
           activity (manual activity without implementation)</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/activitytool.gif" />
-          Task-application activity</para>
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/activitytool.gif" /></imageobject></inlinemediaobject>
+           Task-application activity</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/subflowactivity.gif" />
-          Sub-flow activity</para>
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/subflowactivity.gif" /></imageobject></inlinemediaobject>
+           Sub-flow activity</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/blockactivity.gif" /> Block
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/blockactivity.gif" />
+		  </imageobject></inlinemediaobject> Block
           activity</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/gatewayexclusive.gif" />
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/gatewayexclusive.gif" /></imageobject></inlinemediaobject>
           Exclusive gateway route activity</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/gatewayparallel.gif" />
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/gatewayparallel.gif" /></imageobject></inlinemediaobject>
           Parallel gateway route activity</para>
         </listitem>
       </itemizedlist>
 
       <para>The available types of transitions are:<itemizedlist>
           <listitem>
-            <para><inlinegraphic fileref="Images/transition.gif" />
+            <para><inlinemediaobject><imageobject><imagedata fileref="Images/transition.gif" /></imageobject></inlinemediaobject>
             Conditional transition</para>
           </listitem>
 
           <listitem>
-            <para><inlinegraphic fileref="Images/unconditional.gif" />
+            <para><inlinemediaobject><imageobject><imagedata fileref="Images/unconditional.gif" /></imageobject></inlinemediaobject>
             Unconditional (uncontrolled flow) transition</para>
           </listitem>
 
           <listitem>
-            <para><inlinegraphic fileref="Images/transitionotherwise.gif" />
+            <para><inlinemediaobject><imageobject><imagedata fileref="Images/transitionotherwise.gif" /></imageobject></inlinemediaobject>
             Otherwise (default flow) transition</para>
           </listitem>
 
           <listitem>
-            <para><inlinegraphic fileref="Images/transitionexception.gif" />
+            <para><inlinemediaobject><imageobject><imagedata fileref="Images/transitionexception.gif" /></imageobject></inlinemediaobject>
             Exception transition</para>
           </listitem>
 
           <listitem>
-            <para><inlinegraphic
-            fileref="Images/transitiondefaultexception.gif" /> Default
+            <para><inlinemediaobject><imageobject><imagedata
+            fileref="Images/transitiondefaultexception.gif" />
+			</imageobject></inlinemediaobject> Default
             exception transition</para>
           </listitem>
         </itemizedlist></para>
@@ -2705,17 +2732,18 @@ create.desktop.icon=on
 
       <itemizedlist>
         <listitem>
-          <para><inlinegraphic fileref="Images/association.gif" /> directional
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/association.gif" />
+		  </imageobject></inlinemediaobject> directional
           association</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/association_nodirection.gif" />
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/association_nodirection.gif" /></imageobject></inlinemediaobject>
           non-directional association</para>
         </listitem>
 
         <listitem>
-          <para><inlinegraphic fileref="Images/association_bidirection.gif" />
+          <para><inlinemediaobject><imageobject><imagedata fileref="Images/association_bidirection.gif" /></imageobject></inlinemediaobject>
           bi-directional association</para>
         </listitem>
       </itemizedlist>
@@ -2726,8 +2754,9 @@ create.desktop.icon=on
       title to get its property panel.</para>
 
       <para>The lanes for already existing participant can be inserted by
-      using the choice button <inlinegraphic
-      fileref="Images/lanesselect.gif" /> from the top of the graph component.
+      using the choice button <inlinemediaobject><imageobject><imagedata
+      fileref="Images/lanesselect.gif" />
+	  </imageobject></inlinemediaobject> from the top of the graph component.
       The lane will be inserted at the bottom of the Pool (or at the bottom of
       the already selected lane - this will be nested lane in that
       case).</para>
@@ -2752,10 +2781,13 @@ create.desktop.icon=on
       represent organizational structure. To nest one lane into another,
       select the parent lane and then create new lane either by selecting the
       participant it will represent using the lane choice button
-      <inlinegraphic fileref="Images/lanesselect.gif" />, or by selecting one
-      of the lanes buttons (<inlinegraphic fileref="Images/lane.gif" />,
-      <inlinegraphic fileref="Images/freetextlane.png" />, <inlinegraphic
-      fileref="Images/commonexplane.png" /> ) and pressing on the wanted
+      <inlinemediaobject><imageobject><imagedata fileref="Images/lanesselect.gif" />
+	  </imageobject></inlinemediaobject>, or by selecting one
+      of the lanes buttons (<inlinemediaobject><imageobject><imagedata fileref="Images/lane.gif" />
+	  </imageobject></inlinemediaobject>,
+      <inlinemediaobject><imageobject><imagedata fileref="Images/freetextlane.png" />
+	  </imageobject></inlinemediaobject>, <inlinemediaobject><imageobject><imagedata
+      fileref="Images/commonexplane.png" /></imageobject></inlinemediaobject> ) and pressing on the wanted
       parent lane. Here is a sample of the process with a Pool that contains
       nested lanes:</para>
 
@@ -2798,32 +2830,43 @@ create.desktop.icon=on
       type, it will have a different color or additional graphical
       descriptions according to BPMN specification. The toolbar offers several
       kinds of transitions: the one describing uncontrolled flow
-      <inlinegraphic fileref="Images/unconditional.gif" />, the one describing
-      conditional flow <inlinegraphic fileref="Images/transition.gif" />(a
+      <inlinemediaobject><imageobject><imagedata fileref="Images/unconditional.gif" />
+	  </imageobject></inlinemediaobject>, the one describing
+      conditional flow <inlinemediaobject><imageobject><imagedata fileref="Images/transition.gif" />
+	  </imageobject></inlinemediaobject>(a
       circle on the left will be drawn according to BPMN spec only in the case
       the source of the transition is not a gateway), the one describing
-      default flow <inlinegraphic fileref="Images/transitionotherwise.gif" />
+      default flow <inlinemediaobject><imageobject><imagedata fileref="Images/transitionotherwise.gif" />
+	  </imageobject></inlinemediaobject>
       (otherwise transition) and two kinds of exception transitions
-      <inlinegraphic fileref="Images/transitionexception.gif" /> and
-      <inlinegraphic
-      fileref="Images/transitiondefaultexception.gif" />(default exception).
+      <inlinemediaobject><imageobject><imagedata fileref="Images/transitionexception.gif" />
+	  </imageobject></inlinemediaobject> and
+      <inlinemediaobject><imageobject><imagedata
+      fileref="Images/transitiondefaultexception.gif" />
+	  </imageobject></inlinemediaobject>(default exception).
       The type of a transition can be changed through its property
       panel.</para>
 
       <para>There are two types of <emphasis role="bold">artifacts</emphasis>
-      that can be inserted into the graph, data object artifact <inlinegraphic
-      fileref="Images/dataobject.gif" /> and text annotation <inlinegraphic
-      fileref="Images/annotation.gif" />. Artifacts describe e.g. document
+      that can be inserted into the graph, data object artifact <inlinemediaobject><imageobject><imagedata
+      fileref="Images/dataobject.gif" />
+	  </imageobject></inlinemediaobject> and text annotation <inlinemediaobject><imageobject><imagedata
+      fileref="Images/annotation.gif" />
+	  </imageobject></inlinemediaobject>. Artifacts describe e.g. document
       flow through the process, or make some comment that should be visible in
       the graph. The artifacts has to be connected to the activities using
       <emphasis role="bold">associations</emphasis>.</para>
 
       <para><emphasis role="bold">Associations</emphasis> are connecting an
       artifact with an activity. There are three types of associations offered
-      by the TWE, directional <inlinegraphic
-      fileref="Images/association.gif" />, non-directional <inlinegraphic
-      fileref="Images/association_nodirection.gif" /> and bi-directional
-      <inlinegraphic fileref="Images/association_bidirection.gif" />. The type
+      by the TWE, directional <inlinemediaobject><imageobject>
+      <imagedata fileref="Images/association.gif" /></imageobject>
+      </inlinemediaobject>, non-directional <inlinemediaobject>
+      <imageobject><imagedata fileref="Images/association_nodirection.gif" />
+      </imageobject></inlinemediaobject> and bi-directional
+      <inlinemediaobject><imageobject>
+      <imagedata fileref="Images/association_bidirection.gif" />
+      </imageobject></inlinemediaobject>. The type
       of association can be changed through its property panel.</para>
 
       <para>The Graph configuration is done through the<emphasis>
@@ -3153,18 +3196,24 @@ create.desktop.icon=on
         <tgroup cols="2">
           <tbody valign="middle">
             <row>
-              <entry align="center" colsep="none" valign="middle"><graphic
+              <entry align="center" colsep="0" valign="middle">
+              <mediaobject><imageobject><imagedata
               align="center" contentdepth="100%"
               fileref="Images/navigator.gif" valign="middle"
-              width="100%" /></entry>
+              width="100%" /></imageobject>
+              </mediaobject></entry>
 
               <entry align="left" valign="middle">The Navigator displays a
               hierarchical view of the XPDL model. It shows packages,
               processes, activity sets and activities. It is also very useful
               for finding XPDL elements which are not valid according to the
               XPDL specification. These elements will be marked with error
-              (<inlinegraphic fileref="Images/error_icon.gif" />) or warning
-              (<inlinegraphic fileref="Images/warrning_icon.gif" />)
+              (<inlinemediaobject><imageobject>
+              <imagedata fileref="Images/error_icon.gif" />
+              </imageobject></inlinemediaobject>) or warning
+              (<inlinemediaobject><imageobject>
+              <imagedata fileref="Images/warrning_icon.gif" />
+              </imageobject></inlinemediaobject>)
               icons.<para>The Navigator makes navigation through the XPDL
               model easier and offers a good way of element selection. It can
               also ease editing of XPDL by opening property dialogs directly
@@ -3224,9 +3273,9 @@ create.desktop.icon=on
         <tgroup cols="2">
           <tbody valign="middle">
             <row>
-              <entry align="left" colsep="none" valign="middle"><graphic
+              <entry align="left" colsep="0" valign="middle"><mediaobject><imageobject><imagedata
               contentdepth="100%" fileref="Images/packageTree.gif"
-              width="100%" /></entry>
+              width="100%" /></imageobject></mediaobject></entry>
 
               <entry align="left" valign="middle"><para>The Package tree makes
               navigation through the XPDL elements easierIt can also ease
@@ -3880,7 +3929,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Save or discard changes dialog</title>
 
         <informaltable frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry><mediaobject>
@@ -3907,7 +3956,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>File open dialog</title>
 
         <informaltable frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="justify" valign="middle">This dialog offers file
@@ -3915,9 +3964,10 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 when you want to open a new XPDL file for editing in TWE, when
                 adding new external package reference, ...</entry>
 
-                <entry><graphic align="center" contentdepth="100%"
+                <entry><mediaobject><imageobject>
+                <imagedata align="center" contentdepth="100%"
                 fileref="Images/fileOpenDialog.gif" scalefit="1"
-                valign="middle" width="100%" /></entry>
+                valign="middle" width="100%" /></imageobject></mediaobject></entry>
               </row>
             </tbody>
           </tgroup>
@@ -3928,12 +3978,13 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Save As dialog</title>
 
         <informaltable frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry><graphic contentdepth="100%"
+                <entry><mediaobject><imageobject>
+                <imagedata contentdepth="100%"
                 fileref="Images/saveAsDialog.gif" scalefit="1"
-                width="100%" /></entry>
+                width="100%" /></imageobject></mediaobject></entry>
 
                 <entry align="justify" valign="middle">This dialog offers file
                 system browsing and choosing the location where you want to
@@ -3950,7 +4001,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <title>Dialogs for editing XPDL element properties</title>
 
       <para><informaltable frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="justify" valign="middle">The most of the dialogs
@@ -3959,9 +4010,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 applying/reverting the changes in the currently displayed
                 property panel.</entry>
 
-                <entry valign="middle"><graphic align="center"
+                <entry valign="middle"><mediaobject><imageobject>
+                <imagedata align="center"
                 contentdepth="100%" fileref="Images/navigationOperations.gif"
-                scalefit="1" valign="middle" width="100%" /></entry>
+                scalefit="1" valign="middle" width="100%" />
+                </imageobject></mediaobject></entry>
               </row>
             </tbody>
           </tgroup>
@@ -4056,7 +4109,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       panel such as a group panel.</para>
 
       <informaltable frame="none">
-        <tgroup cols="2" colsep="none">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry align="justify" valign="middle">Property panels that
@@ -4067,9 +4120,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               namespaces, workflow variables, type declarations, formal
               parameters, etc.</entry>
 
-              <entry valign="middle"><graphic align="center"
+              <entry valign="middle"><mediaobject>
+              <imageobject><imagedata align="center"
               contentdepth="100%" fileref="Images/operationsOnElements.gif"
-              scalefit="1" valign="middle" width="100%" /></entry>
+              scalefit="1" valign="middle" width="100%" />
+              </imageobject></mediaobject></entry>
             </row>
           </tbody>
         </tgroup>
@@ -4173,8 +4228,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <title>XPDL Elements</title>
 
     <para>This chapter describes how TWE works, corresponding to WfMC
-    (Workflow Management Coalition) specifications (<ulink
-    url="http://www.wfmc.org">www.wfmc.org</ulink>). WfMC provides an
+    (Workflow Management Coalition) specifications (<link
+    xlink:href="http://www.wfmc.org">www.wfmc.org</link>). WfMC provides an
     interface for workflow process definition. The interface defines a common
     meta-model for describing the process definition and XML schema for
     interchange of process definitions - <acronym>XPDL</acronym> (XML Process
@@ -4218,7 +4273,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     panel properties.</para>
 
     <informaltable frame="none">
-      <tgroup cols="2" colsep="none">
+      <tgroup cols="2" colsep="0">
         <tbody>
           <row>
             <entry align="justify" valign="middle">The workflow process
@@ -4236,9 +4291,10 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             also used for internal representation of process definitions. The
             whole concept is shown on the picture:</entry>
 
-            <entry valign="middle"><graphic align="center" contentdepth="100%"
-            fileref="Images/Concept.jpg" scalefit="1" valign="middle"
-            width="100%" /></entry>
+            <entry valign="middle"><mediaobject><imageobject>
+            <imagedata align="center" contentdepth="100%" fileref="Images/Concept.jpg" scalefit="1" valign="middle" width="100%"/>
+            </imageobject></mediaobject>
+            </entry>
           </row>
         </tbody>
       </tgroup>
@@ -4259,7 +4315,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     XPDL attributes (<emphasis>XML representation</emphasis>) that are defined
     in it.</para>
 
-    <sect1 id="Meta_Model">
+    <sect1 xml:id="Meta_Model">
       <title>Meta-Model</title>
 
       <para>The meta-model identifies the basic set of entities and attributes
@@ -4325,7 +4381,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       process definition.</para>
     </sect1>
 
-    <sect1 id="Package">
+    <sect1 xml:id="Package">
       <title>Package</title>
 
       <para>It is possible to define several processes within one package,
@@ -4386,7 +4442,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       this is not possible for the external packages. Those external packages
       are read-only, and you can only read their properties.</para>
 
-      <sect2 id="Package_Attributes">
+      <sect2 xml:id="Package_Attributes">
         <title>Package attributes</title>
 
         <table frame="all">
@@ -4757,8 +4813,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>General tab - displays general package data</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry align="center" valign="middle"><mediaobject>
@@ -4769,7 +4825,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry align="justify" colsep="none"
+                  <entry align="justify" colsep="0"
                   valign="middle"><para>Tab has tree parts. First part
                   contains package's id, name and graph conformance. As
                   already mentioned, TWE supports and validates XPDL depending
@@ -4787,11 +4843,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Package header tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry align="justify" colsep="none"
+                  <entry align="justify" colsep="0"
                   valign="middle"><para>Default value for field <emphasis>XPDL
                   version</emphasis> is 2.1, and for field
                   <emphasis>vendor</emphasis> is (c) Together Teamsolutions
@@ -4799,8 +4855,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   contains creation time and date, and field
                   <emphasis>Description</emphasis> contains short package's
                   description.</para><para><emphasis>Documentation</emphasis>
-                  field binds external file with package. <inlinegraphic
-                  fileref="Images/treeDotsButton.gif" /> button opens a choose
+                  field binds external file with package. <inlinemediaobject><imageobject>
+                  <imagedata fileref="Images/treeDotsButton.gif"/></imageobject>
+                  </inlinemediaobject> button opens a choose
                   file dialog for finding appropriate one.</para></entry>
 
                   <entry align="center" valign="middle"><mediaobject>
@@ -4819,8 +4876,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Redefinable header tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry align="center" valign="middle"><mediaobject>
@@ -4831,7 +4888,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry align="justify" colsep="none"
+                  <entry align="justify" colsep="0"
                   valign="middle"><para>Tab has two parts. First part contains
                   the following fields: <emphasis>Publication
                   status</emphasis> (can have one of the following values:
@@ -4877,11 +4934,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>External packages tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry align="justify" colsep="none"
+                  <entry align="justify" colsep="0"
                   valign="middle"><para>It contains a list of all external
                   packages for the package and toolbar buttons for managing
                   the listed external package elements.</para></entry>
@@ -4902,8 +4959,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Type declarations tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry align="center" valign="middle"><mediaobject>
@@ -4914,7 +4971,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all type declarations in a form of a table
                   and operations for their managing. Each table row (type
                   declaration) is described with <emphasis>id</emphasis>,
@@ -4931,11 +4988,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Participants tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all package's participants. Each table row
                   (participant) is described with <emphasis>id</emphasis>,
                   <emphasis>name</emphasis> (optional value) and
@@ -4959,8 +5016,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Applications tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry><mediaobject>
@@ -4971,7 +5028,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all package's applications. Each table row
                   (application) is described with <emphasis>id</emphasis> and
                   <emphasis>name</emphasis> (optional value). It contains
@@ -4986,11 +5043,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Workflow variables tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all package's workflow variables. Each
                   table row (workflow variable) is described with
                   <emphasis>id</emphasis>, <emphasis>name</emphasis> (optional
@@ -5014,11 +5071,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Associations tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all associations between Artifacts and
                   Activities defined in the Package. Each table row is
                   described with <emphasis>id</emphasis>,
@@ -5043,11 +5100,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Artifacts tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all artifacts defined in the package. Each
                   table row is described with <emphasis>id</emphasis>,
                   <emphasis>name</emphasis> (optional value), artifact type
@@ -5071,8 +5128,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Pools tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry><mediaobject>
@@ -5083,7 +5140,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all the package's pools for workflow
                   processes. Each table row (pool) is described with
                   <emphasis>id</emphasis>, <emphasis>name</emphasis> (optional
@@ -5103,8 +5160,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Workflow processes tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry><mediaobject>
@@ -5115,7 +5172,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all package's workflow processes. Each
                   table row (workflow process) is described with
                   <emphasis>id</emphasis>, <emphasis>name</emphasis> (optional
@@ -5134,11 +5191,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Namespaces tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>This property
+                  <entry colsep="0" valign="middle"><para>This property
                   panel shows all namespaces defined within the XPDL document.
                   User can add additional namespaces. Usually, additional
                   namespaces are needed to insure document validity when user
@@ -5164,7 +5221,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </sect2>
     </sect1>
 
-    <sect1 id="Process_ProcessDefinition">
+    <sect1 xml:id="Process_ProcessDefinition">
       <title>Workflow Process</title>
 
       <para>The Process Definition entity provides contextual information that
@@ -5521,8 +5578,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>General tab - displays general process data</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry><mediaobject>
@@ -5533,7 +5590,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>Tab has two
+                  <entry colsep="0" valign="middle"><para>Tab has two
                   parts. First part contains process <emphasis>id</emphasis>,
                   <emphasis>name</emphasis> (this name will appear in window's
                   title bar) and <emphasis>access level</emphasis> (can be
@@ -5549,11 +5606,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Process header tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>This dialog
+                  <entry colsep="0" valign="middle"><para>This dialog
                   defines elements and attributes of XPDL's
                   <emphasis>ProcessHeader</emphasis> element.
                   </para><para>Field <emphasis>Duration unit </emphasis> can
@@ -5579,8 +5636,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Redefinable header tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry valign="middle"><mediaobject>
@@ -5591,7 +5648,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>Tab has two
+                  <entry colsep="0" valign="middle"><para>Tab has two
                   parts. First part contains the following fields:
                   <emphasis>Publication status</emphasis> (can have one of the
                   following values: under revision, under test, or released),
@@ -5611,11 +5668,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Participants tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all participants of the workflow process.
                   Each table row (participant) is described with
                   <emphasis>id</emphasis>, <emphasis>name</emphasis> (optional
@@ -5639,8 +5696,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Applications tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry valign="middle"><mediaobject>
@@ -5651,7 +5708,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all applications of the workflow process.
                   Each table row (application) is described with
                   <emphasis>id</emphasis> and <emphasis>name</emphasis>
@@ -5666,11 +5723,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Workflow variables tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all workflow process's workflow variables.
                   Each table row (workflow variable) is described with
                   <emphasis>id</emphasis>, <emphasis>name</emphasis> (optional
@@ -5694,8 +5751,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Formal parameters tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry valign="middle"><mediaobject>
@@ -5706,7 +5763,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all workflow process's formal parameters.
                   Each table row (formal parameter) is described with
                   <emphasis>id</emphasis>, <emphasis>mode</emphasis> and
@@ -5722,11 +5779,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Activities tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all activities of the workflow process.
                   Each table row (activity) is described with
                   <emphasis>id</emphasis>, <emphasis>name</emphasis> (optional
@@ -5750,8 +5807,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Transitions tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry><mediaobject>
@@ -5762,7 +5819,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all workflow process's transitions. Each
                   table row (transition) is described with
                   <emphasis>id</emphasis>, from (source), to (target) and
@@ -5778,11 +5835,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Activity sets tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all activity sets of the workflow process.
                   Each table row (activity set) is described with
                   <emphasis>id</emphasis>, <emphasis>activities</emphasis> and
@@ -5815,11 +5872,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       a collection of non-overlapping rectangles called Pools. Each Pool may
       be further subdivided into a number of Lanes.</para>
 
-      <informaltable frame="none" rowsep="none">
-        <tgroup cols="2" colsep="none">
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
-              <entry colsep="none" valign="middle"><mediaobject>
+              <entry colsep="0" valign="middle"><mediaobject>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/pool_horizontal.jpg"
@@ -5842,8 +5899,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <sect2>
         <title>Pools</title>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry><mediaobject>
@@ -5854,7 +5911,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     </imageobject>
                   </mediaobject></entry>
 
-                <entry colsep="none" valign="middle"><para>A Pool acts as the
+                <entry colsep="0" valign="middle"><para>A Pool acts as the
                 container for flow objects (activities and artifacts) and
                 Sequence Flow (transitions and associations) between them.
                 </para><para>Together Workflow Editor does not allow users to
@@ -5880,8 +5937,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         inherit these role names as "Participant assignment/Performer
         expressions".</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry><mediaobject>
@@ -5892,7 +5949,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     </imageobject>
                   </mediaobject></entry>
 
-                <entry colsep="none" valign="middle"><para>Together Workflow
+                <entry colsep="0" valign="middle"><para>Together Workflow
                 Editor does not allow users to create lanes using properties
                 dialogs. The only way to create or delete a lane is by using
                 TWE's Graph component. Lane is always being created as a
@@ -5946,7 +6003,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Adding External Packages</title>
 
         <informaltable frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="justify" valign="middle"><para>This dialog
@@ -5995,7 +6052,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         be asked for the confirmation.</para>
 
         <informaltable frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="center" valign="middle"><mediaobject>
@@ -6032,7 +6089,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Packages menu).</para>
 
         <informaltable condition="demo-emptytext" frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="justify" valign="middle"><para>This dialog shows
@@ -6068,7 +6125,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Packages menu).</para>
 
         <informaltable condition="demo-emptytext" frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="justify" valign="middle"><para>This dialog shows
@@ -6102,7 +6159,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Packages menu).</para>
 
         <informaltable condition="demo-emptytext" frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="justify" valign="middle"><para>This dialog shows
@@ -6137,7 +6194,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Packages menu).</para>
 
         <informaltable condition="demo-emptytext" frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry align="justify" valign="middle"><para>This dialog shows
@@ -6236,7 +6293,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </table>
 
       <informaltable condition="demo-emptytext" frame="none">
-        <tgroup cols="2" colsep="none">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry><mediaobject>
@@ -6365,7 +6422,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <filename>location = "com.abc.purchases.PO"</filename>).</para>
     </sect1>
 
-    <sect1 id="Package_Participants">
+    <sect1 xml:id="Package_Participants">
       <title>Workflow Participant</title>
 
       <para condition="demo-details">WfMC Meta-Model specification defines a
@@ -6534,7 +6591,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       new participant.</para>
 
       <informaltable condition="demo-emptytext" frame="none">
-        <tgroup cols="2" colsep="none">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry><mediaobject>
@@ -6586,7 +6643,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </informaltable>
     </sect1>
 
-    <sect1 id="Package_Application">
+    <sect1 xml:id="Package_Application">
       <title>Workflow Application</title>
 
       <para condition="demo-details">These are some of the attributes for
@@ -6657,7 +6714,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </table>
 
       <informaltable condition="demo-emptytext" frame="none">
-        <tgroup cols="2" colsep="none">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry align="justify" valign="middle"><para>There is more than
@@ -6713,11 +6770,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
       </itemizedlist>
 
-      <sect2 id="Formal_Parameters">
+      <sect2 xml:id="Formal_Parameters">
         <title>Formal Parameters</title>
 
         <informaltable condition="demo-details" frame="none">
-          <tgroup cols="2" colsep="none">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
                 <entry valign="middle"><mediaobject>
@@ -6841,7 +6898,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </table>
       </sect2>
 
-      <sect2 id="External_Reference">
+      <sect2 xml:id="External_Reference">
         <title>External Reference</title>
 
         <para condition="demo-details">An External Reference can be used
@@ -6906,7 +6963,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </sect2>
     </sect1>
 
-    <sect1 id="Package_RelevanData">
+    <sect1 xml:id="Package_RelevanData">
       <title>Workflow Relevant Data</title>
 
       <para condition="demo-details">Workflow Relevant Data (or, in XPDL, Data
@@ -7043,7 +7100,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       selected Package/WorkflowProcess.</para>
 
       <informaltable condition="demo-details" frame="none">
-        <tgroup cols="2" colsep="none">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry valign="middle"><mediaobject>
@@ -7087,7 +7144,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <title>Formal Parameters</title>
 
       <informaltable condition="demo-details" frame="none">
-        <tgroup cols="2" colsep="none">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry valign="middle"><mediaobject>
@@ -7122,7 +7179,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </informaltable>
     </sect1>
 
-    <sect1 id="Package_ExtendedAttributes">
+    <sect1 xml:id="Package_ExtendedAttributes">
       <title>Extended Attributes</title>
 
       <para>XPDL contains most of the entities, which are likely to be
@@ -7133,7 +7190,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       any additional entity characteristics.</para>
 
       <informaltable condition="demo-details" frame="none">
-        <tgroup cols="2" colsep="none">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry valign="middle"><mediaobject>
@@ -7177,11 +7234,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       out of the set. Activity sets can be executed by block
       activities.</para>
 
-      <informaltable condition="demo-emptytext" frame="none" rowsep="none">
-        <tgroup cols="2" colsep="none">
+      <informaltable condition="demo-emptytext" frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
-              <entry colsep="none" valign="middle"><para>Typically, you will
+              <entry colsep="0" valign="middle"><para>Typically, you will
               create a new activity set in the WorkflowProcess using Graph
               component's toolbar icon <inlinemediaobject>
                   <imageobject>
@@ -7214,7 +7271,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </informaltable>
     </sect1>
 
-    <sect1 id="Process_Activity">
+    <sect1 xml:id="Process_Activity">
       <title>Activity</title>
 
       <para>Generally, any process comprises a number of steps, which lead
@@ -7368,7 +7425,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <para>Activities and other activity-like objects are inserted using
       buttons on graph's "Toolbox" toolbar.</para>
 
-      <sect2 id="Activity_Atomic">
+      <sect2 xml:id="Activity_Atomic">
         <title>Activities and Graph component</title>
 
         <para>Although it is possible to create a new activity through the
@@ -7545,7 +7602,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         default one.</para>
       </sect2>
 
-      <sect2 id="Activity_Subflow">
+      <sect2 xml:id="Activity_Subflow">
         <title>Activity property panel</title>
 
         <para>In this section are explained various property panels concerning
@@ -7557,8 +7614,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>General tab - displays general activity data</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry valign="middle"><mediaobject>
@@ -7569,7 +7626,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>Tab has tree
+                  <entry colsep="0" valign="middle"><para>Tab has tree
                   parts. First part contains activity <emphasis>id</emphasis>,
                   <emphasis>name</emphasis>, <emphasis>performer</emphasis>
                   (can be a reference to a participant or an expression),
@@ -7608,11 +7665,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             </inlinemediaobject> this tab doesn't contain any specific
           data.</para>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>Block activity
+                  <entry colsep="0" valign="middle"><para>Block activity
                   type property panel contains information about
                   <emphasis>activity set id</emphasis>, which is a reference
                   to defined ActivitySet (re-usable block of activities and
@@ -7643,8 +7700,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             </tgroup>
           </informaltable>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry valign="middle"><mediaobject>
@@ -7655,7 +7712,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>Task-application
+                  <entry colsep="0" valign="middle"><para>Task-application
                   activity property panel enables to define a reference to the
                   application required for enactment engine to run, in order
                   to perform the activity. </para><para>Basically, this tab
@@ -7669,11 +7726,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             </tgroup>
           </informaltable>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>Subflow
+                  <entry colsep="0" valign="middle"><para>Subflow
                   <inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/subflowactivity.gif" />
@@ -7718,7 +7775,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>When gateway
+                  <entry colsep="0" valign="middle"><para>When gateway
                   (routing) activity is selected, type tab allows to change
                   the gateway type from parallel to exclusive or vice-versa.
                   In the case of exclusive gateways with more than one
@@ -7739,11 +7796,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Simulation Information tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
-                  <entry colsep="none" valign="middle"><para>Here are defined
+                  <entry colsep="0" valign="middle"><para>Here are defined
                   various information about simulation: whether the activity
                   is instantiated once or multiple times, cost, waiting and
                   working times and duration.</para></entry>
@@ -7764,8 +7821,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <sect3>
           <title>Extended Attributes tab</title>
 
-          <informaltable frame="none" rowsep="none">
-            <tgroup cols="2" colsep="none">
+          <informaltable frame="none" rowsep="0">
+            <tgroup cols="2" colsep="0">
               <tbody>
                 <row>
                   <entry valign="middle"><mediaobject>
@@ -7776,7 +7833,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       </imageobject>
                     </mediaobject></entry>
 
-                  <entry colsep="none" valign="middle"><para>It contains
+                  <entry colsep="0" valign="middle"><para>It contains
                   information about all extended attributes of the selected
                   activity in form a of a table and operations for their
                   managing. Every table row (extended attribute) is described
@@ -7790,7 +7847,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </sect2>
     </sect1>
 
-    <sect1 id="artifacts">
+    <sect1 xml:id="artifacts">
       <title>Artifacts</title>
 
       <para>To satisfy additional modeling concepts that are not part of the
@@ -7942,11 +7999,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </tgroup>
       </informaltable>
 
-      <informaltable frame="none" rowsep="none">
-        <tgroup cols="2" colsep="none">
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
-              <entry colsep="none" valign="middle"><para>Icons for inserting
+              <entry colsep="0" valign="middle"><para>Icons for inserting
               different types of artifacts from the graph toolbox are
               <inlinemediaobject>
                   <imageobject>
@@ -7974,7 +8031,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </informaltable>
     </sect1>
 
-    <sect1 id="Process_Transitions">
+    <sect1 xml:id="Process_Transitions">
       <title>Transitions</title>
 
       <para condition="demo-details">Link between two activities is
@@ -8101,8 +8158,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </tgroup>
       </table>
 
-      <informaltable frame="none" rowsep="none">
-        <tgroup cols="2" colsep="none">
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
               <entry valign="middle"><mediaobject>
@@ -8113,7 +8170,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   </imageobject>
                 </mediaobject></entry>
 
-              <entry colsep="none" valign="middle"><para>The picture on the
+              <entry colsep="0" valign="middle"><para>The picture on the
               left shows a dialog for editing Transition attributes.
               </para><para>TWE helps you when you are composing Transition
               condition - by clicking the arrow right to the text box for
@@ -8128,7 +8185,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       </informaltable>
     </sect1>
 
-    <sect1 id="Associations">
+    <sect1 xml:id="Associations">
       <title>Associations</title>
 
       <para condition="demo-details">Link between activity and artifact is
@@ -8231,11 +8288,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </tgroup>
       </table>
 
-      <informaltable frame="none" rowsep="none">
-        <tgroup cols="2" colsep="none">
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
           <tbody>
             <row>
-              <entry colsep="none" valign="middle"><para
+              <entry colsep="0" valign="middle"><para
               condition="demo-emptytext">Picture on the right shows a dialog
               for editing Association attributes.</para><para>You can change
               association source/target attributes by chosing another from the
@@ -8282,11 +8339,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Package-&gt;Package properties to get the property panel for editing
         properties of newly created Package:</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>Here you can edit
+                <entry colsep="0" valign="middle"><para>Here you can edit
                 some of the package attributes, like Id, Name, the Type of the
                 scripting language used when writing expressions, ...</para>
                 <para>Click on the icon <inlinemediaobject>
@@ -8322,11 +8379,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Package-&gt;Save or Package-&gt;Save As... to save new Package into
         XPDL file:</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>Browse the file
+                <entry colsep="0" valign="middle"><para>Browse the file
                 system and choose the folder where will you save
                 Package</para> <para>Enter the name of the file (the default
                 is the Id of the Package)</para> <para>Select the extension
@@ -8360,11 +8417,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           </inlinemediaobject> on the property panel to define new
         Participant:</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>Here you can edit
+                <entry colsep="0" valign="middle"><para>Here you can edit
                 some attributes like Id, Name, Type, Description, ....</para>
                 <para>Click on the icon <inlinemediaobject>
                     <imageobject>
@@ -8413,11 +8470,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           </inlinemediaobject> on the property panel to define new
         Application:</para>
 
-        <informaltable condition="demo-emptytext" frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable condition="demo-emptytext" frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>Edit some
+                <entry colsep="0" valign="middle"><para>Edit some
                 attributes like Id, Name, Description.</para> <para>Click on
                 the icon <inlinemediaobject>
                     <imageobject>
@@ -8490,11 +8547,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Process-&gt;Process properties to get the property panel for editing
         properties of newly created Workflow Process:</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>Here you can edit
+                <entry colsep="0" valign="middle"><para>Here you can edit
                 some of the process attributes, like Id, Name, Access level
                 ...</para> <para>Click on the icon <inlinemediaobject>
                     <imageobject>
@@ -8531,11 +8588,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           </inlinemediaobject> on the property panel to define new Workflow
         variable:</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>Here you can edit
+                <entry colsep="0" valign="middle"><para>Here you can edit
                 some attributes like Id, Name, Type, Sub-Type, Initial value,
                 Description, ...</para> <para>Click on the icon
                 <inlinemediaobject>
@@ -8653,11 +8710,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         transitions in the case of "gateway" (route) activity, you'll get
         different property panels (different Type tabs).</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><mediaobject>
+                <entry colsep="0" valign="middle"><mediaobject>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_actno.jpg" scalefit="1"
@@ -8675,7 +8732,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               </row>
 
               <row>
-                <entry colsep="none" valign="middle"><mediaobject>
+                <entry colsep="0" valign="middle"><mediaobject>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_actroute.jpg"
@@ -8713,11 +8770,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         property panel for editing transition properties (you can also simply
         double-click on the transition object in the graph):</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>If necessary,
+                <entry colsep="0" valign="middle"><para>If necessary,
                 change transition condition's type.</para> <para>If necessary,
                 define condition expression by the help of the icon next to
                 the text area for defining expression (it'll offer you the
@@ -8776,11 +8833,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>Enter meaningful names for data object artifacts, and text
         annotation for the annotation type artifacts.</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><mediaobject>
+                <entry colsep="0" valign="middle"><mediaobject>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_artdataobject.jpg"
@@ -8815,11 +8872,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         (you can also simply double-click on the association object in the
         graph):</para>
 
-        <informaltable frame="none" rowsep="none">
-          <tgroup cols="2" colsep="none">
+        <informaltable frame="none" rowsep="0">
+          <tgroup cols="2" colsep="0">
             <tbody>
               <row>
-                <entry colsep="none" valign="middle"><para>If necessary,
+                <entry colsep="0" valign="middle"><para>If necessary,
                 change association's Id, Name or Direction.</para> <para>Click
                 on the icon <inlinemediaobject>
                     <imageobject>
@@ -8990,7 +9047,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     default settings will be used. In order to change settings, remove # and
     change settings value</para>
 
-    <sect1 condition="demo-emptytext" id="togwebasic.properties">
+    <sect1 condition="demo-emptytext" xml:id="togwebasic.properties">
       <title>Property file <emphasis>togwebasic.properties</emphasis></title>
 
       <para>This property file contains some basic TWE settings like:</para>
@@ -9176,7 +9233,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
       </itemizedlist>
 
-      <para id="frameSettings">The following parameters are defining initial
+      <para xml:id="frameSettings">The following parameters are defining initial
       TWE frame settings:</para>
 
       <itemizedlist>
@@ -9851,6 +9908,14 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <title>Release 4.4-1</title>
 
       <itemizedlist>
+		<listitem>
+			<para>Updated DOCBOOK DTD to version 5.0</para>
+        </listitem>
+		
+		<listitem>
+			<para>Updated 3-line titlepage of documentation (PDF)</para>
+		</listitem>
+		
         <listitem>
           <para>Project structure changed according to the new standard (no
           dependency output anymore, components output instead).</para>
