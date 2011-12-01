@@ -23,8 +23,9 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.enhydra.jawe.ActionBase;
@@ -33,9 +34,6 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphController;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class SaveAsJPG extends ActionBase {
 
@@ -83,11 +81,8 @@ public class SaveAsJPG extends ActionBase {
          graph.paint(graphics);
       }
 
-      FileOutputStream fos = new FileOutputStream(file);
-      JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(fos);
-      encoder.encode(img);
-      fos.flush();
-      fos.close();
+      File f = new File(file);
+      ImageIO.write(img, "JPEG", f);
    }
 
 }

@@ -79,11 +79,11 @@ public class GraphOverviewPanel extends JPanel implements GraphOverview, JaWECom
       return this;
    }
 
-   public String getType() {
+   public String getComponentType() {
       return type;
    }   
 
-   public void setType(String type) {
+   public void setComponentType(String type) {
       this.type = type; 
    }
    

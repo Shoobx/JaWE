@@ -117,11 +117,11 @@ public class InfoBarController implements JaWEComponent, Observer, ChoiceButtonL
       return panel;
    }
 
-   public String getType() {
+   public String getComponentType() {
       return type;
    }   
 
-   public void setType(String type) {
+   public void setComponentType(String type) {
       this.type = type; 
    }
    

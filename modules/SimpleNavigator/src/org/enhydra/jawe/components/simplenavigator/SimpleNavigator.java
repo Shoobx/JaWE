@@ -239,11 +239,11 @@ public class SimpleNavigator implements JaWEComponent, Observer, TreeSelectionLi
       return panel.getDisplay();
    }
 
-   public String getType() {
+   public String getComponentType() {
       return type;
    }
 
-   public void setType(String type) {
+   public void setComponentType(String type) {
       this.type = type;
    }
 

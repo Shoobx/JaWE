@@ -321,11 +321,11 @@ public class StandardXPDLElementEditor extends JDialog implements XPDLElementEdi
       return inlinePanel.getDisplay();
    }
 
-   public String getType() {
+   public String getComponentType() {
       return type;
    }   
 
-   public void setType(String type) {
+   public void setComponentType(String type) {
       this.type = type; 
    }
    

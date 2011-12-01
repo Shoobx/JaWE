@@ -210,11 +210,11 @@ public class SearchNavigator implements Observer, TreeSelectionListener, JaWECom
        return panel.getDisplay();
     }
 
-    public String getType() {
+    public String getComponentType() {
        return type;
     }   
 
-    public void setType(String type) {
+    public void setComponentType(String type) {
        this.type = type; 
     }
     

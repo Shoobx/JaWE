@@ -97,11 +97,11 @@ public class TogWEStandardXPDLElementEditor extends JDialog implements JaWECompo
       return inlinePanel;
    }
 
-   public String getType() {
+   public String getComponentType() {
       return type;
    }   
 
-   public void setType(String type) {
+   public void setComponentType(String type) {
       this.type = type; 
    }
    

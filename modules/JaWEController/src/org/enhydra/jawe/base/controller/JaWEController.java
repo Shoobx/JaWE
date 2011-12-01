@@ -352,11 +352,11 @@ public class JaWEController extends Observable implements
       return "TogWE";
    }
 
-   public String getType() {
+   public String getComponentType() {
       return JaWEComponent.MAIN_COMPONENT;
    }
 
-   public void setType(String type) {
+   public void setComponentType(String type) {
    }
 
    public boolean adjustXPDL(Package pkg) {
@@ -729,7 +729,7 @@ public class JaWEController extends Observable implements
       if (getJaWEFrame() != null) {
          JComponent display = jaweComponent.getView().getDisplay();
          String name = jaweComponent.getName();
-         String type = jaweComponent.getType();
+         String type = jaweComponent.getComponentType();
          if (type.equals(JaWEComponent.MAIN_COMPONENT)) {
             getJaWEFrame().addMainComponent(name, display);
          } else if (type.equals(JaWEComponent.SPECIAL_COMPONENT)) {
@@ -748,7 +748,7 @@ public class JaWEController extends Observable implements
 
    public void removeJaWEComonent(JaWEComponent comp) {
       if (getJaWEFrame() != null) {
-         String type = comp.getType();
+         String type = comp.getComponentType();
          JComponent display = comp.getView().getDisplay();
          if (type.equals(JaWEComponent.MAIN_COMPONENT)) {
             getJaWEFrame().removeMainComponent(display);
@@ -769,7 +769,7 @@ public class JaWEController extends Observable implements
    public void changeJaWEComponentType(JaWEComponent comp, String newType) {
       if (getJaWEFrame() != null) {
          removeJaWEComonent(comp);
-         comp.setType(newType);
+         comp.setComponentType(newType);
          registerJaWEComponent(comp);
       }
    }
