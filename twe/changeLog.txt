@@ -1,5 +1,11 @@
 ###### TWE 4.4-1 RELEASED ######
 
+2011-12-01 Sasa Bojanic <sasaboy@together.at>
+   # Java7 compatibility:
+      - refactored getType/setType methods of JaWEComponent interface to getComponentType/setComponentType
+      - replaced propriatary SUN classes for JPEG handling (from com.sun.image.codec.jpeg package) with
+        ImageIO API (SaveAsJPG.java)
+
 2011-11-30 Sasa Bojanic <sasaboy@together.at>
    # Updated commons-io library to version 2.1
    # Updated itext5 to version 5.13

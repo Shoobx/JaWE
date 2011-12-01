@@ -55,11 +55,11 @@ public class ReconfiguratorManager implements JaWEComponent {
       return menu;
    }
 
-   public String getType() {
+   public String getComponentType() {
       return type;
    }   
 
-   public void setType(String type) {
+   public void setComponentType(String type) {
       this.type = type; 
    }
    

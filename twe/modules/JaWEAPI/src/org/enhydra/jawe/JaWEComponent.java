@@ -68,14 +68,14 @@ public interface JaWEComponent {
    /**
     * @return Component type.
     */
-   String getType();
+   String getComponentType();
 
    /**
     * Sets the component type.
     * 
     * @param type Component type.
     */
-   public void setType(String type);
+   public void setComponentType(String type);
 
    /**
     * Adjusts XPDL Java model according to JaWE specifics.

@@ -73,8 +73,8 @@ public class JaWETabbedPane extends JTabbedPane implements MouseListener, Action
          List l = JaWEManager.getInstance().getComponentManager().getComponents();
          for (int i = 0; i < l.size(); i++) {
             JaWEComponent c = (JaWEComponent)l.get(i);
-            if (c.getType() != JaWEComponent.UPPER_STATUS_COMPONENT
-                  && c.getType() != JaWEComponent.LOWER_STATUS_COMPONENT) {
+            if (c.getComponentType() != JaWEComponent.UPPER_STATUS_COMPONENT
+                  && c.getComponentType() != JaWEComponent.LOWER_STATUS_COMPONENT) {
                JMenuItem t = new JMenuItem();
                t.setText(JaWEManager.getInstance().getJaWEController().getSettings().getLanguageDependentString("AddKey") + " "
                      + JaWEManager.getInstance().getJaWEController().getSettings().getLanguageDependentString(

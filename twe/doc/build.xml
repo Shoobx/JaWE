@@ -81,7 +81,7 @@
          <pathelement location="${jgraph.lib.dir}/jgraph.jar" />
          <pathelement location="${javahelp.lib.dir}/jhall.jar" />
          <pathelement location="${tools.dir}/batik/batik.jar" />
-         <pathelement location="${xerces.lib.dir}/xercesImpl.jar" />
+         <pathelement location="${tools.dir}/xerces/xercesImpl.jar" />
          <pathelement location="${tools.dir}/xml-commons/xml-apis.jar" />
          <pathelement location="${jeditsyntax.lib.dir}/jEdit-syntax.jar" />
          <pathelement location="${itext.lib.dir}/itext.jar" />

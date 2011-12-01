@@ -119,7 +119,7 @@ public class ComponentManager {
                     Constructor c = Class.forName(component).getConstructor(
                             new Class[] { JaWEComponentSettings.class });
                     JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                    jc.setType(JaWEComponent.MAIN_COMPONENT);
+                    jc.setComponentType(JaWEComponent.MAIN_COMPONENT);
                     registerComponents(jc);
                     JaWEManager.getInstance().getLoggingManager().debug(
                             "ComponentManager -> component " + jc.getName() + " added to JaWE");
@@ -148,7 +148,7 @@ public class ComponentManager {
                     Constructor c = Class.forName(component).getConstructor(
                             new Class[] { JaWEComponentSettings.class });
                     JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                    jc.setType(JaWEComponent.SPECIAL_COMPONENT);
+                    jc.setComponentType(JaWEComponent.SPECIAL_COMPONENT);
                     registerComponents(jc);
                     JaWEManager.getInstance().getLoggingManager().debug(
                             "ComponentManager -> component " + jc.getName() + " added to JaWE");
@@ -177,7 +177,7 @@ public class ComponentManager {
                     Constructor c = Class.forName(component).getConstructor(
                             new Class[] { JaWEComponentSettings.class });
                     JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                    jc.setType(JaWEComponent.TREE_COMPONENT);
+                    jc.setComponentType(JaWEComponent.TREE_COMPONENT);
                     registerComponents(jc);
                     JaWEManager.getInstance().getLoggingManager().debug(
                             "ComponentManager -> component " + jc.getName() + " added to JaWE");
@@ -206,7 +206,7 @@ public class ComponentManager {
                     Constructor c = Class.forName(component).getConstructor(
                             new Class[] { JaWEComponentSettings.class });
                     JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                    jc.setType(JaWEComponent.OTHER_COMPONENT);
+                    jc.setComponentType(JaWEComponent.OTHER_COMPONENT);
                     registerComponents(jc);
                     JaWEManager.getInstance().getLoggingManager().debug(
                             "ComponentManager -> component " + jc.getName() + " added to JaWE");
@@ -249,7 +249,7 @@ public class ComponentManager {
                 Constructor c = Class.forName(upperComponent).getConstructor(
                         new Class[] { JaWEComponentSettings.class });
                 JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                jc.setType(JaWEComponent.UPPER_STATUS_COMPONENT);
+                jc.setComponentType(JaWEComponent.UPPER_STATUS_COMPONENT);
                 registerComponents(jc);
                 JaWEManager.getInstance().getLoggingManager().debug(
                         "ComponentManager -> component " + jc.getName() + " added to JaWE");
@@ -270,7 +270,7 @@ public class ComponentManager {
                 Constructor c = Class.forName(lowerComponent).getConstructor(
                         new Class[] { JaWEComponentSettings.class });
                 JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                jc.setType(JaWEComponent.LOWER_STATUS_COMPONENT);
+                jc.setComponentType(JaWEComponent.LOWER_STATUS_COMPONENT);
                 registerComponents(jc);
                 JaWEManager.getInstance().getLoggingManager().debug(
                         "ComponentManager -> component " + jc.getName() + " added to JaWE");
