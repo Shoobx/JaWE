@@ -1,6 +1,7 @@
 ###### TWE 4.4-1 RELEASED ######
 
 2011-12-02 Sasa Bojanic <sasaboy@together.at>
+   # Linux builds improvement
    # NSIS and exe installation improvement
 
 2011-12-01 Sasa Bojanic <sasaboy@together.at>
