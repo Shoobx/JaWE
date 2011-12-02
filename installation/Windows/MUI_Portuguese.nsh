@@ -25,13 +25,13 @@
    !define SHORT_NAME "twe" 
 
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${VERSION}-${RELEASE}"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© Together Teamsolutions Co., Ltd. All rights reserved."
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© 2011 Together Teamsolutions Co., Ltd. in Thailand All rights reserved."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "Together Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "Together Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION}-${RELEASE}"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Together Workflow Editor is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Together Teamsolutions Co., Ltd."
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "Together (R) is a registered trademark of Together Teamlösungen GmbH."
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "Together (R) is a registered trademark of GrECo International Holding AG in Austria/Europe"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Current version" "${VERSION}-${RELEASE}"
 
    LangString home_page_link ${LANG_ENGLISH} "Visit Together Workflow Editor Homepage"
