@@ -974,7 +974,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       systems that can be used to install TWE.</para>
 
       <para>If TWE is installed on Windows using <emphasis
-      role="bold">twe-x.y-z.x86.exe</emphasis> package, just follow the setup
+      role="bold">twe-x.y-z.exe</emphasis> package, just follow the setup
       procedure. The similar is with <emphasis
       role="bold">twe-x.y-z.noarch.rpm</emphasis> package on Linux.</para>
 
@@ -997,11 +997,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <title>Silent Installation</title>
 
       <para>TWE has possibility to silently install via <emphasis
-      role="bold">twe-x.y-z.x86.exe </emphasis>file. To do that, rename the
+      role="bold">twe-x.y-z.exe </emphasis>file. To do that, rename the
       <emphasis role="bold">twe-x.y-z.silent.properties.txt</emphasis> file
       comming with TWE distribution into <emphasis
       role="bold">twe-x.y-z.silent.properties</emphasis>, put it into the same
-      folder with the <emphasis role="bold">twe-x.y-z.x86.exe</emphasis>, and
+      folder with the <emphasis role="bold">twe-x.y-z.exe</emphasis>, and
       normally start the installation. During the installation, there will be
       no dialogs asking you to chose Java, place to install, etc. This
       information is taken from <emphasis

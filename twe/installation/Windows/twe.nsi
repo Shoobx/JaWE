@@ -27,9 +27,17 @@
 ;!define LICENSE ".\..\..\licenses\License.txt"
 ;!define LANGUAGE "English"
 ;----------------------------------------------------------------------------------
-!include LogicLib.nsh
-!include WinMessages.nsh
+!include "LogicLib.nsh"
+!include "WinMessages.nsh"
+!include "FileFunc.nsh"   ; for ${GetSize} for EstimatedSize registry entry
+!include "MUI.nsh"
+!include "Sections.nsh"
+!include "InstallOptions.nsh"
 !include "x64.nsh"
+!include "togSetJava.nsh"
+!include "togDirectory.nsh"
+!include "togStartOption.nsh"
+!include "EnvVarUpdate.nsh"
 
 ;Version Information
 VIProductVersion "${VERSION}.${RELEASE}.0"
@@ -39,11 +47,6 @@ Name "$(NAME)" ;Define your own software name here
 
 !define MUI_ICON "${SRCDIR}\twe-install.ico"
 !define MUI_UNICON "${SRCDIR}\twe-uninstall.ico"
-
-!include "MUI.nsh"
-!include "FileFunc.nsh"
-;!include "AddRemove.nsh"
-!include Sections.nsh
 
 RequestExecutionLevel admin
 
@@ -82,8 +85,8 @@ SetDateSave          on
 
   !define MUI_WELCOMEFINISHPAGE_BITMAP "${SRCDIR}\twe-wizard.bmp"
   !define MUI_LICENSEPAGE
-  !define MUI_DIRECTORYPAGE
-  !define MUI_STARTMENUPAGE
+;  !define MUI_DIRECTORYPAGE
+;  !define MUI_STARTMENUPAGE
   !define MUI_FINISHPAGE
 
 ; smaller fonts
@@ -112,20 +115,19 @@ SetDateSave          on
 ;--------------------------------
 ;Variables
 
-  Var SILENT
   Var STARTMENU_FOLDER
   Var MUI_TEMP
-  Var TEMP1
   Var JAVAHOME
   Var DEFAULT_BROWSER
   Var ADD_STARTMENU
   Var ADD_QUICKLAUNCH
   Var ADD_DESKTOP
 
-;----------------------------------------------------------------------------------
-;--------------------------------
-;Pages Define our own pages
-
+  Var SILENT
+  Var CREATE_STARTUP_MENU
+  Var CREATE_QUICK_LAUNCH_ICON
+  Var CREATE_DESKTOP_ICON
+  Var DefaultDir
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "$(license_text)"
 
@@ -134,21 +136,10 @@ SetDateSave          on
   !include "${SRCDIR}\MUI_${LANGUAGE}.nsh"
 # LANG_SERBIANLATIN
 #  !include "${SRCDIR}\MUI_Serbian.nsh"
+  
 
-;---------------------------------
-# License page
-   LicenseLangString license_text ${LANG_ENGLISH} "${LICENSE}"
-   LicenseForceSelection checkbox
-
-
-  Page custom SetJavaPage
-  !insertmacro MUI_PAGE_DIRECTORY
-  Page custom SetShortcuts CheckShortcuts
-  !insertmacro MUI_PAGE_INSTFILES
-  !insertmacro MUI_PAGE_FINISH
-
-;--------------------------------
-
+;  This constant specifies Windows uninstall key for your application.
+!define REG_UNINSTALL "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)"
 
 ;==========================================================================
 
@@ -172,40 +163,55 @@ SetDateSave          on
  
   ; That will have written an uninstaller binary for us.  Now we sign it with your
   ; favourite code signing tool.
- !if "${SIGNTOOL_PATH}" != ""
-	!system "$\"${SIGNTOOL_PATH}$\" sign /f $\"${KEY_PATH}$\" /p ${PASSWORD} /d $\"${FULL_NAME}$\" /du $\"http://www.together.at$\" /t $\"http://timestamp.verisign.com/scripts/timestamp.dll$\" $\"$%TEMP%\uninstall.exe$\""
+ !if "${SERVER_TIMEOUT}" == "true"
+    ;time out and not found signtool_path  can't sign ->error
+      !if "${SIGNTOOL_PATH}" != ""
+             !error
+     !endif
+  !else
+   ;normal mode[return success/fail]
+   !if "${SIGNTOOL_PATH}" != ""
+       !echo "Return Value"
+	!system "$\"${SIGNTOOL_PATH}$\" sign /f $\"${KEY_PATH}$\" /p ${PASSWORD} /d $\"${FULL_NAME}$\" /du $\"http://www.together.at$\" /t $\"http://timestamp.verisign.com/scripts/timestamp.dll$\" $\"$%TEMP%\uninstall.exe$\"" = 0
+     !endif
  !endif
 
 ;  !system "SIGNCODE <signing options> $%TEMP%\uninstaller.exe" = 0
  
   ; Good.  Now we can carry on writing the real installer.
  
-  OutFile "${OUT_DIR}\${SHORT_NAME}-${VERSION}-${RELEASE}.x86.exe"	; The file to write
- ; SetCompressor /SOLID lzma
+  OutFile "${OUT_DIR}\${SHORT_NAME}-${VERSION}-${RELEASE}.exe"	; The file to write
 !endif
 
 ;==========================================================================  
+;----------------------------------------------------------------------------------
+# License page
+   LicenseLangString license_text ${LANG_ENGLISH} "${LICENSE}"
+   LicenseForceSelection checkbox
+;--------------------------------
+;Pages Define our own pages
 
-;OutFile "${OUT_DIR}\${SHORT_NAME}-${VERSION}-${RELEASE}.x86.exe"	; The file to write
+  !insertmacro TOG_CUSTOMPAGE_SETJAVA "$(NAME)" $JAVAHOME ;
+  !insertmacro TOG_CUSTOMPAGE_DIRECTORY "$(NAME)" $DefaultDir  ;
+  !insertmacro TOG_CUSTOMPAGE_STARTOPTION "$(NAME)" $ADD_STARTMENU $STARTMENU_FOLDER $ADD_DESKTOP $ADD_QUICKLAUNCH ;
+  !insertmacro MUI_PAGE_INSTFILES
+  !insertmacro MUI_PAGE_FINISH
 
-; Folder-selection page
-InstallDir "$PROGRAMFILES\${SHORT_NAME}-${VERSION}-${RELEASE}"
-  
 ;--------------------------------
 
-# Things that need to be extracted on startup (keep these lines before any File command!)
-# Only useful for BZIP2 compression
-# Use ReserveFile for your own Install Options ini files too!
-  !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
-  ReserveFile "javapage.ini"
-  ReserveFile "set-shortcuts.ini"
 ;---------------------------------------------------------------------------------------
 ;Modern UI System
 ;---------------------------------------------------------------------------------------
 ;Installer Sections
 ;---------------------------------------------------------------------------------------
-Section Install
-  SetShellVarContext all
+Section "Install" Install
+	
+   SectionIn 1 2 3 
+   SetOverwrite try
+   SetShellVarContext all
+
+   Push $R0
+
   SetOutPath "$INSTDIR"
   ;File /r ".\..\..\..\prepare\*.*"
   File "${TWE_DIR}\*.*"
@@ -250,6 +256,9 @@ Section Install
 	success1:
 	DetailPrint $(INSTALL_SUCCED_DETAIL)
 
+  ${If} ${RunningX64}
+     SetRegView 64
+  ${EndIf}
   ; Write the installation path into the registry
   WriteRegStr HKLM "SOFTWARE\$(Name)" "Install_Dir" "$INSTDIR"
 
@@ -264,11 +273,18 @@ Section Install
   ; Write the installation path into the registry
   WriteRegStr HKLM "Software\$(Name)" "InstDir" "$INSTDIR"
 
-  ;Create shortcuts
-  
+  StrCpy $8 $STARTMENU_FOLDER
+  Push $8
+  Call TrimNewlines
+  Pop $8
+  StrCpy $STARTMENU_FOLDER $8
+
  ${If} $ADD_STARTMENU != '0'
+ ${AndIf} $STARTMENU_FOLDER != ''
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
 
+  ;Create shortcuts
+  
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
                  "$JAVAHOME\bin\javaw.exe" \
                  "-Xmx128M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \
@@ -294,7 +310,7 @@ Section Install
   								"$INSTDIR\uninstall.exe"
   ${endif}
   ${If} $ADD_QUICKLAUNCH != '0'
-  CreateShortcut "$QUICKLAUNCH\$(Name).lnk" \
+  CreateShortCut "$QUICKLAUNCH\$(Name).lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
                   "-Xmx128M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0  
@@ -306,6 +322,17 @@ Section Install
                  "$INSTDIR\bin\TWE.ico" 0
   ${endif}
 
+  ; get cumulative size of all files in and under install dir
+  ; report the total in KB (decimal)
+  ; place the answer into $0  ($1 and $2 get other info we don't care about)
+  ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
+  ; Convert the decimal KB value in $0 to DWORD
+  ; put it right back into $0
+  IntFmt $0 "0x%08X" $0
+
+  ; Create/Write the reg key with the dword value
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \   
+                           "EstimatedSize" "$0"
   ; Write the uninstall keys for Windows
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
                     "DisplayName" "$(Name)"
@@ -327,18 +354,12 @@ Section Install
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
   									"StartMenuFolder" "$STARTMENU_FOLDER"									
 
-
-  ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
-  ; Convert the decimal KB value in $0 to DWORD
-  ; put it right back into $0
-  IntFmt $0 "0x%08X" $0
-
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \   
-                           "EstimatedSize" "$0"
   
-;  WriteUninstaller "uninstall.exe"
+  ; add: Pathext = .Lnk & Path = $INSTDIR\bin in register (20110912)
+  ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR\bin"
 
-	end:
+  ;WriteUninstaller "$%TEMP%\uninstall.exe" ;<<----- Enabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
+end:  
 
 SectionEnd
 ;---------------------------------------------------------------------------------------
@@ -351,23 +372,16 @@ Function .onInit
   ; the installer.  This is better than processing a command line option as it means
   ; this entire code path is not present in the final (real) installer.
  
-  WriteUninstaller "$%TEMP%\uninstall.exe"
+  WriteUninstaller "$%TEMP%\uninstall.exe" ;;<<----- Disabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
   Quit  ; just bail out quickly when running the "inner" installer
 !endif
 
-   Push $1
-   Push $8
-   Push $9
-   Push $R0
-   Push $R1
-
-  SetShellVarContext all
-
-  ReadEnvStr $JAVAHOME "JAVA_HOME"
-  ${if} $STARTMENU_FOLDER == ""
-      StrCpy $STARTMENU_FOLDER "$(Name)"
-      StrCpy $MUI_TEMP "$(Name)"
-  ${endif}
+    ${If} ${RunningX64}
+          StrCpy $INSTDIR "$PROGRAMFILES64\${SHORT_NAME}-${VERSION}-${RELEASE}"
+    ${else}
+          StrCpy $INSTDIR "$PROGRAMFILES\${SHORT_NAME}-${VERSION}-${RELEASE}"
+    ${EndIf}
+	StrCpy $DefaultDir $INSTDIR
  
 ; Read default browser path
   ReadRegStr $R9 HKCR "HTTP\shell\open\command" ""
@@ -383,7 +397,7 @@ Function .onInit
  
 
  #------- seting silent installation -----------------#
-  IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties silent normal
+  IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties silent normal
   
   silent:
   SetSilent silent
@@ -396,73 +410,93 @@ Function .onInit
   Goto start_initialization
   
   start_silent_initialization:
-  IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties "" end_splash_screen
-  FileOpen $9 $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties r
-  
+    IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties "" continue
+    ClearErrors
+    FileOpen $9 $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties r
+
   loop:
-    FileRead $9 $8 
-    IfErrors loopend
+    FileRead $9 $8
+    IfErrors error_handle
     Push $8
     Call TrimNewlines
     Push "="
     Call GetFirstPartRest
-    Pop $R0 ;1st part 
-    Pop $R1 ;rest 
+    Pop $R0 ;1st part
+    Pop $R1 ;rest
     StrCmp $R1 "" loop
     StrCmp $R0 "jdk.dir" setjdkdir
     StrCmp $R0 "inst.dir" setinstdir
-    StrCmp $R0 "startup.menu.name" setsmn
-    StrCmp $R0 "create.quick.launch.icon" setqli
-    StrCmp $R0 "create.start.menu.entry" setsmentry
-    StrCmp $R0 "create.desktop.icon" setdicon
+    StrCmp $R0 "startup.menu.name" setstartupmenuname
+    StrCmp $R0 "create.startup.menu" setstartupmenu
+    StrCmp $R0 "create.quick.launch.icon" setquicklaunchicon
+    StrCmp $R0 "create.desktop.icon" setdesktopicon
 
-    Goto loop
-  setinstdir:
-    StrCpy $INSTDIR $R1
-    Goto loop
-  setjdkdir:
-    IfFileExists $R1\bin\javaw.exe followJDK recallJava
-      recallJava:
-        call GetJavaVersion
-        Goto loop
-      followJDK:
-        StrCpy $JAVAHOME $R1
-        Goto loop
-  setsmn:
-    StrCpy $STARTMENU_FOLDER $R1
-    StrCpy $MUI_TEMP $R1
-    Goto loop
-  setqli:
-    Push $R1
-    Call ConvertOptionToDigit
-    Pop $R1
-    StrCpy $ADD_QUICKLAUNCH $R1
-    Goto loop
-  setsmentry:
-    Push $R1
-    Call ConvertOptionToDigit
-    Pop $R1
-    StrCpy $ADD_STARTMENU $R1
-    Goto loop
+  Goto loop
 
-  setdicon:
-    Push $R1
-    Call ConvertOptionToDigit
-    Pop $R1
-    StrCpy $ADD_DESKTOP $R1
-    Goto loop
+    setjdkdir:
+        IfFileExists $R1\bin\javaw.exe followJDK recallJava
+        recallJava:
+            call GetJavaVersion
+            Goto finalJDK
+        followJDK:
+            StrCpy $JAVAHOME $R1
+            Goto finalJDK
+        finalJDK:    
+            Goto loop
+    setinstdir:
+        StrCpy $INSTDIR $R1
+        Goto loop
+    setstartupmenuname:
+        StrCpy $STARTMENU_FOLDER $R1
+        StrCpy $MUI_TEMP $R1
+        Goto loop
+    setstartupmenu:
+        StrCpy $CREATE_STARTUP_MENU $R1 ;yes or no
+        StrCmp $CREATE_STARTUP_MENU "on" doSetAddMenu1 doSetAddMenu0
+        doSetAddMenu1:
+              StrCpy $ADD_STARTMENU "1"
+              Goto endAddMenu
+        doSetAddMenu0:
+              StrCpy $ADD_STARTMENU "0"
+        endAddMenu:
+        Goto loop
+    setquicklaunchicon:
+        StrCpy $CREATE_QUICK_LAUNCH_ICON $R1
+        StrCmp $CREATE_QUICK_LAUNCH_ICON "on" doAddQLI1 doAddQLI0
+        
+        doAddQLI0:
+               StrCpy $ADD_QUICKLAUNCH '0'
+               Goto loop
+        doAddQLI1:
+               StrCpy $ADD_QUICKLAUNCH '1'
+        Goto loop
+    setdesktopicon:
+        StrCpy $CREATE_DESKTOP_ICON $R1
+        StrCmp $CREATE_DESKTOP_ICON "on" doAddDTI1 doAddDTI0
+
+        doAddDTI0:
+               StrCpy $ADD_DESKTOP '0'
+               Goto loop
+        doAddDTI1:
+               StrCpy $ADD_DESKTOP '1'
+        Goto loop
+
   error_handle:
-    Goto loopend
+      Goto loopend
 
   loopend:
     FileClose $9
     
-  end:
   
   #------- seting silent installation -----------------#
 
   start_initialization:
+        ReadRegStr $R0 HKLM "${REG_UNINSTALL}" "InstDir"
+        StrCmp $R0 "" start
+        StrCpy $INSTDIR $R0
 
+  start:
+  ;Reads components status for registry
   IfSilent end_splash_screen
  
 # start splash screen
@@ -477,17 +511,10 @@ Function .onInit
 # end splash screen
 
   end_splash_screen:
-
-  ;Extract Install Options INI Files
-  !insertmacro MUI_INSTALLOPTIONS_EXTRACT "javapage.ini"
-  !insertmacro MUI_INSTALLOPTIONS_EXTRACT "set-shortcuts.ini"
-
-   Pop $R1
-   Pop $R0
-   Pop $9
-   Pop $8
-   Pop $1
   
+  continue:
+
+
 FunctionEnd
 ;---------------------------------------------------------------------------------------
 ;Descriptions
@@ -504,6 +531,9 @@ Section "Uninstall"
   ; remove registry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)"
   DeleteRegKey HKLM "SOFTWARE\$(Name)"
+
+  ; Remove: Pathext = .Lnk & Path = $INSTDIR\bin from register (20110912)
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$INSTDIR\bin"
 
 	DeleteRegKey HKCR ".xpdl"
 	DeleteRegKey HKCR "xpdlfile\DefaultIcon"
@@ -552,30 +582,30 @@ SectionEnd
 ;Uninstaller Functions
 ;---------------------------------------------------------------------------------------
 Function un.onInit
-  Push $2
-  Push $R0
 
-  StrCpy $SILENT "NO"
-  Call un.GetParameters ;get the command line parameters
-  Pop $R0
+   Push $2
+   Push $R0
    
-  Push "SILENT"
-  Push "NO"
-  Call un.GetParameterValue
-  Pop $2
-  StrCpy $SILENT $2
+   Push "SILENT"
+   Push "NO"
+   Call un.GetParameterValue
+   Pop $2
+   StrCpy $SILENT $2
+
+   StrCmp $SILENT "NO" init_cmd_normal
+   SetSilent silent
+
+   init_cmd_normal:
    
-  StrCmp $SILENT "NO" continue
-  SetSilent silent
-   
-  continue:
+  ${If} ${RunningX64}
+    SetRegView 64
+  ${EndIf}
   ;Get language from registry
   ReadRegStr $LANGUAGE HKCU "Software\$(NAME)" "Installer Language"
   ReadRegStr $STARTMENU_FOLDER HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" "StartMenuFolder"
-   
-  Pop $R0
-  Pop $2
   
+   Pop $R0
+   Pop $2
 FunctionEnd
 ;------------------------------------------------------------------------------
 ; Call on installation failed
@@ -648,7 +678,7 @@ FunctionEnd
 ;   Pop $R0
 ;  ($R0 at this point is "Start C:\j2sdk1.4.0\bin\java.exe")
 ;-------------------------------------------------------------------------------
-function StrReplace
+Function StrReplace
   Exch $0 ;this will replace wrong characters
   Exch
   Exch $1 ;needs to be replaced
@@ -754,430 +784,6 @@ Function ReplaceChar
     Exch $0 ; put $0 on top of stack, restore $0 to original value
 FunctionEnd
 ;-----------------------------------------------------------------------
-Function SetJavaPage
-
-  start:
-  call GetJavaVersion
-
-  !insertmacro MUI_HEADER_TEXT "$(TEXT_IO_JAVATITLE)" "$(TEXT_IO_JAVASUBTITLE)"
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 1" "Text" "$(TEXT_IO_JVM)"
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 2" "Text" "$(TEXT_IO_JAVA_HOME)"
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 3" "Text" "$(TEXT_IO_PATH)"
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 5" "Text" "$(TEXT_IO_JAVA_HOME_DIR)"
-  WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 7" "Text" "$(TEXT_IO_JAVA_FOLDER)"
-  !insertmacro MUI_INSTALLOPTIONS_DISPLAY_RETURN "javapage.ini"
-	Pop $R0
-
-  StrCmp $R0 "cancel" end
-  StrCmp $R0 "back" end
-  StrCmp $R0 "success" "" error
-
-  ; check Browse for folder
-  !insertmacro MUI_INSTALLOPTIONS_READ $TEMP1 "javapage.ini" "Field 8" "State"
-  StrCmp $TEMP1 "" checkdir
-  Goto check
-
-	checkdir:
-  ; check JAVA_HOME environment variable & choose the directory which will be set as JAVA HOME directory
-  !insertmacro MUI_INSTALLOPTIONS_READ $TEMP1 "javapage.ini" "Field 6" "State" ; read choosed java
-  StrCmp $TEMP1 "" "" check
-  !insertmacro MUI_INSTALLOPTIONS_READ $TEMP1 "javapage.ini" "Field 4" "State" ; read JAVA_HOME enviroment variable
-  StrCmp $TEMP1 "Not Defined" "" check
-	MessageBox MB_OK $(javadir_text)
-  Goto start
-
-  check:
-	IfFileExists $TEMP1\bin\java.exe continue	; check if java.exe exist
-	MessageBox MB_OK $(javac_not_exist)
-	Goto start
-	continue:
-	IfFileExists '$TEMP1\jre\lib\*.*' continue1	checkJDK ; check if JDK 1.4.x
-	continue1:
-	IfFileExists '$TEMP1\jre\lib\jsse.jar' javaFound	; check if JDK 1.4.x
-	MessageBox MB_OK $(jsse_jre_not_exist)
-	Goto start
-	checkJDK:
-	IfFileExists '$TEMP1\lib\jsse.jar' javaFound	; check if JDK 1.4.x
-	MessageBox MB_OK $(jsse_not_exist)
-	Goto start
-  error:
-  MessageBox MB_OK|MB_ICONSTOP $(inst_opt_error)
-  Goto end
-
-  javaFound:
-  StrCpy $JAVAHOME $TEMP1
-  end:
-FunctionEnd
-;-----------------------------------------------------------------------
-; GetJavaVersion 64/32 bits
-Function GetJavaVersion
- Push $R0
- Push $R1
- Push $R2
- Push $R9
- Push $1
- Push $2
- Push $3
- Push $4
- Push $5
- ;No value by default
- StrCpy $1 ""
- StrCpy $2 ""
- StrCpy $3 ""
- StrCpy $4 ""
- StrCpy $5 ""
-
- ClearErrors
- ;**********************************************************************
- ;1.)READ JAVA_HOME from all users or Read the registry Environment  "JAVA_HOME"
- ;**********************************************************************
-    ReadEnvStr $4 "JAVA_HOME"
-    ${if} $4 != ""
-                IfFileExists $4\bin\javaw.exe  FoundAllUserJavaHome   ; found it all user
-                    FoundAllUserJavaHome:
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
-                        StrCpy $5 $4
-    ${else}
-                ClearErrors
-                ReadRegStr $4 HKCU "Environment" "JAVA_HOME"
-                ${if} $4 != ""
-                    IfFileExists $4\bin\javaw.exe  FoundUserJavaHome  NotFoundUserJavaHome
-                    FoundUserJavaHome:
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 4" "State" $4
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $4
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4
-                        StrCpy $5 $4
-                    NotFoundUserJavaHome:
-                ${endif}   
-    ${endif}
-   
-   ClearErrors
-;**********************************************************************
-;2.) Read the Sun JDK value from the registry 32bit and 64 bit
-;**********************************************************************
-;===========================================
-; A.)Read the registry JDK 32bit
-;===========================================
-   ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
-   ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
-    ${if} $1 != ""   ;found jdk 32bit.
-            StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
-    ${endif}
-loopJDK32bit:
-    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9    
-    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
-    ${if} $R2 != ""
-                ; check if java version >= 1.4.x
-                StrCpy $1 $R1 1 ; major version
-                StrCpy $2 $R1 1 2 ; minor version
-                IntFmt $3 "%u" $1
-                IntFmt $4 "%u" $2
-                IntCmp $4 4 okJDK32bit 0 okJDK32bit
-                goto incrementJDK32bit
-    ${else}
-       goto noSunJDK32bit
-    ${endif}
-   okJDK32bit:
-   ; Read item from combo
-   ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
-   ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
-   ; add or append to existing value ?
-   ${if} $3 == ""
-            ${if} $5 == ""
-                StrCpy $5 $R2
-            ${endif}
-            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
-            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
-            goto incrementJDK32bit
-    ${else}
-        ; check if path exist
-        Push $4
-        Push $R2
-        Call StrStr
-        Pop $R0
-        StrCmp $R0 -1 0 incrementJDK32bit
-        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
-       
-    ${endif}
-    incrementJDK32bit:
-        IntOp $R9 $R9 + 1
-    goto loopJDK32bit
-   
-   noSunJDK32bit:
-            ClearErrors
-;===========================================
-; B.)Read the registry JDK 64bit
-;===========================================
-${if} ${RunningX64}
-            SetRegView 64
-                ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
-                ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
-                ${if} $1 != ""   ;found jdk 64bit.
-                        StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
-                ${endif}
-             loopJDK64bit:
-                SetRegView 64
-                EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9    
-                ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
-                ${if} $R2 != ""
-                            ; check if java version >= 1.4.x
-                            StrCpy $1 $R1 1 ; major version
-                            StrCpy $2 $R1 1 2 ; minor version
-                            IntFmt $3 "%u" $1
-                            IntFmt $4 "%u" $2
-                            IntCmp $4 4 okJDK64bit 0 okJDK64bit
-                            goto incrementJDK64bit
-                ${else}
-                   goto noSunJDK64bit
-                ${endif}
-            okJDK64bit:
-                ; Read item from combo
-                ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
-                ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
-                ; add or append to existing value ?
-                ${if} $3 == ""
-                        ${if} $5 == ""
-                            StrCpy $5 $R2
-                        ${endif}
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
-                        goto incrementJDK64bit
-                ${else}
-                    ; check if path exist
-                    Push $4
-                    Push $R2
-                    Call StrStr
-                    Pop $R0
-                    StrCmp $R0 -1 0 incrementJDK64bit
-                    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
-                   
-                ${endif}
-            incrementJDK64bit:
-                     IntOp $R9 $R9 + 1
-                goto loopJDK64bit
-               
-            noSunJDK64bit:
-                        SetRegView 32
-                        ClearErrors
-${endif}
-;**********************************************************************
-;3.) Read the Sun JRE value from the registry 32bit and 64 bit
-;**********************************************************************
-;===========================================
-; A.)Read the registry JRE 32bit
-;===========================================
-   ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
-   ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
-   
-    ${if} $1 != ""   ;found JRE 32bit.
-            StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
-    ${endif}
-loopJRE32bit:
-        EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
-        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
-    ${if} $R2 != ""
-                ; check if java version >= 1.4.x
-                StrCpy $1 $R1 1 ; major version
-                StrCpy $2 $R1 1 2 ; minor version
-                IntFmt $3 "%u" $1
-                IntFmt $4 "%u" $2
-                IntCmp $4 4 okJRE32bit 0 okJRE32bit
-                goto incrementJRE32bit
-    ${else}
-       goto noSunJRE32bit
-    ${endif}
-   okJRE32bit:
-   ; Read item from combo
-   ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
-   ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
-   ; add or append to existing value ?
-   ${if} $3 == ""
-            ${if} $5 == ""
-                StrCpy $5 $R2
-            ${endif}
-            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
-            WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
-            goto incrementJRE32bit
-    ${else}
-        ; check if path exist
-        Push $4
-        Push $R2
-        Call StrStr
-        Pop $R0
-        StrCmp $R0 -1 0 incrementJRE32bit
-        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
-       
-    ${endif}
-    incrementJRE32bit:
-        IntOp $R9 $R9 + 1
-    goto loopJRE32bit
-   
-   noSunJRE32bit:
-            ClearErrors
-;===========================================
-; B.)Read the registry JRE 64bit
-;===========================================
-${if} ${RunningX64}
-            SetRegView 64
-                 ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
-                ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
-                ${if} $1 != ""   ;found JRE 64bit.
-                        StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
-                ${endif}
-             loopJRE64bit:
-                SetRegView 64
-                    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
-                    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
-                ${if} $R2 != ""
-                            ; check if java version >= 1.4.x
-                            StrCpy $1 $R1 1 ; major version
-                            StrCpy $2 $R1 1 2 ; minor version
-                            IntFmt $3 "%u" $1
-                            IntFmt $4 "%u" $2
-                            IntCmp $4 4 okJRE64bit 0 okJRE64bit
-                            goto incrementJRE64bit
-                ${else}
-                   goto noSunJRE64bit
-                ${endif}
-            okJRE64bit:
-                ; Read item from combo
-                ReadINIStr $3 "$PLUGINSDIR\javapage.ini" "Field 6" "State"
-                ReadINIStr $4 "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems"
-                ; add or append to existing value ?
-                ${if} $3 == ""
-                        ${if} $5 == ""
-                            StrCpy $5 $R2
-                        ${endif}
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "State" $R2
-                        WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $R2
-                        goto incrementJRE64bit
-                ${else}
-                    ; check if path exist
-                    Push $4
-                    Push $R2
-                    Call StrStr
-                    Pop $R0
-                    StrCmp $R0 -1 0 incrementJRE64bit
-                    WriteINIStr "$PLUGINSDIR\javapage.ini" "Field 6" "ListItems" $4|$R2
-                   
-                ${endif}
-            incrementJRE64bit:
-                     IntOp $R9 $R9 + 1
-                goto loopJRE64bit
-               
-            noSunJRE64bit:
-                        SetRegView 32
-                        ClearErrors
-${endif}
-;**********************************************************************
- Exch  
- Pop $4
- Exch
- Pop $3
- Exch
- Pop $2
- Exch
- Pop $1
- Exch
- Pop $R9
- Exch
- Pop $R2
- Exch
- Pop $R1
- Exch
- Pop $R0
- Exch $5
- 
-FunctionEnd
-;------------------------------------------------------------------------------
-Function SetShortcuts
-
-  Push $R0
-  !insertmacro MUI_HEADER_TEXT "$(TEXT_IO_SHORTCUTSTITLE)" "$(TEXT_IO_SHORTCUTSSUBTITLE)"
-
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "set-shortcuts.ini" "Field 1" "State" "$(Name)"
-  
-  !insertmacro MUI_INSTALLOPTIONS_DISPLAY_RETURN "set-shortcuts.ini"
-	Pop $R0
-  StrCmp $R0 "cancel" end
-  StrCmp $R0 "back" end
-  StrCmp $R0 "success" "" error
-  Goto end
-
-  error:
-  MessageBox MB_OK|MB_ICONSTOP "Shortcuts Error: $R0$\r$\n"
-  Goto end
-
-  end:
-  Pop $R0
-  !insertmacro MUI_INSTALLOPTIONS_WRITE "ioSpecial.ini" "Settings" "BackEnabled" "0"
-FunctionEnd
-;------------------------------------------------------------------------------
-Function CheckShortcuts
-  Push $R0
-  Push $R1
-  
-  !insertmacro MUI_INSTALLOPTIONS_READ $STARTMENU_FOLDER "set-shortcuts.ini" "Field 1" "State"
-  SetOutPath $INSTDIR\bin
-
-  !insertmacro MUI_INSTALLOPTIONS_READ $R0 "set-shortcuts.ini" "Field 2" "State"
-   StrCpy $ADD_STARTMENU $R0		 
-  
-  !insertmacro MUI_INSTALLOPTIONS_READ $R0 "set-shortcuts.ini" "Field 3" "State"  
-  StrCpy $ADD_QUICKLAUNCH $R0
-  
-  !insertmacro MUI_INSTALLOPTIONS_READ $R0 "set-shortcuts.ini" "Field 4" "State"
-  StrCpy $ADD_DESKTOP $R0
-
-  endsection:
-  Pop $R1
-  Pop $R0
-FunctionEnd
-;====================================================
-; StrStr - Finds a given string in another given string.
-;               Returns -1 if not found and the pos if found.
-;          Input: head of the stack - string to find
-;                      second in the stack - string to find in
-;          Output: head of the stack
-;====================================================
-Function StrStr
-  Push $0
-  Exch
-  Pop $0 ; $0 now have the string to find
-  Push $1
-  Exch 2
-  Pop $1 ; $1 now have the string to find in
-  Exch
-  Push $2
-  Push $3
-  Push $4
-  Push $5
-
-  StrCpy $2 -1
-  StrLen $3 $0
-  StrLen $4 $1
-  IntOp $4 $4 - $3
-
-  unStrStr_loop:
-    IntOp $2 $2 + 1
-    IntCmp $2 $4 0 0 unStrStrReturn_notFound
-    StrCpy $5 $1 $3 $2
-    StrCmp $5 $0 unStrStr_done unStrStr_loop
-
-  unStrStrReturn_notFound:
-    StrCpy $2 -1
-
-  unStrStr_done:
-    Pop $5
-    Pop $4
-    Pop $3
-    Exch $2
-    Exch 2
-    Pop $0
-    Pop $1
-FunctionEnd
 ;----------------------------------------------      
 ; input:
 ; Push "HelloAll I am Afrow UK, and I love NSIS" ; Input string 
@@ -1319,8 +925,49 @@ Function un.GetParameters
    Pop $R2
    Pop $R1
    Exch $R0
- 
 FunctionEnd
+;------------------------------------------------------------------
+; StrStr
+; input, top of stack = string to search for
+;        top of stack-1 = string to search in
+; output, top of stack (replaces with the portion of the string remaining)
+; modifies no other variables.
+;
+; Usage:
+;   Push "this is a long ass string"
+;   Push "ass"
+;   Call StrStr
+;   Pop $R0
+;  ($R0 at this point is "ass string")
+;------------------------------------------------------------------
+Function un.customStrStr
+ Exch $R1 ; st=haystack,old$R1, $R1=needle
+   Exch    ; st=old$R1,haystack
+   Exch $R2 ; st=old$R1,old$R2, $R2=haystack
+   Push $R3
+   Push $R4
+   Push $R5
+   StrLen $R3 $R1
+   StrCpy $R4 0
+   ; $R1=needle
+   ; $R2=haystack
+   ; $R3=len(needle)
+   ; $R4=cnt
+   ; $R5=tmp
+   loop:
+     StrCpy $R5 $R2 $R3 $R4
+     StrCmp $R5 $R1 done
+     StrCmp $R5 "" done
+     IntOp $R4 $R4 + 1
+     Goto loop
+ done:
+   StrCpy $R1 $R2 "" $R4
+   Pop $R5
+   Pop $R4
+   Pop $R3
+   Pop $R2
+   Exch $R1
+ FunctionEnd
 ;---------------------------------------------------------------------------------
 ; GetParameterValue
 ; Chris Morgan 5/10/2004
@@ -1362,7 +1009,7 @@ Function un.GetParameterValue
   StrCpy $R5 '"'     ; later on we want to search for a open quote
   Push $R3           ; push the 'search in' string onto the stack
   Push '"/$R1='      ; push the 'search for'
-  Call un.StrStr
+  Call un.customStrStr
   Pop $R4
   StrCpy $R4 $R4 "" 1 # skip quote
   StrCmp $R4 "" 0 next
@@ -1370,7 +1017,7 @@ Function un.GetParameterValue
   StrCpy $R5 ' '     ; later on we want to search for a space
   Push $R3           ; push the command line back on the stack for searching
   Push '/$R1='       ; search for the non-quoted search string
-  Call un.StrStr
+  Call un.customStrStr
   Pop $R4
 next:
   StrCmp $R4 "" done       ; if we didn't find anything then we are done
@@ -1378,8 +1025,8 @@ next:
   StrCpy $R0 $R4 "" $R2  ; copy commandline text beyond parameter into $R0
   # search for the next parameter so we can trim this extra text off
   Push $R0
-  Push $R5         
-  Call un.StrStr         ; search for the next parameter
+  Push $R5
+  Call un.customStrStr         ; search for the next parameter
   Pop $R4
   StrCmp $R4 "" done
   StrLen $R4 $R4
@@ -1393,80 +1040,190 @@ done:
   Pop $R1
   Exch $R0 ; put the value in $R0 at the top of the stack
 FunctionEnd
-;------------------------------------------------------------------
-; StrStr
-; input, top of stack = string to search for
-;        top of stack-1 = string to search in
-; output, top of stack (replaces with the portion of the string remaining)
-; modifies no other variables.
-;
-; Usage:
-;   Push "this is a long ass string"
-;   Push "ass"
-;   Call StrStr
-;   Pop $R0
-;  ($R0 at this point is "ass string")
-;------------------------------------------------------------------
- Function un.StrStr
- Exch $R1 ; st=haystack,old$R1, $R1=needle
-   Exch    ; st=old$R1,haystack
-   Exch $R2 ; st=old$R1,old$R2, $R2=haystack
-   Push $R3
-   Push $R4
-   Push $R5
-   StrLen $R3 $R1
-   StrCpy $R4 0
-   ; $R1=needle
-   ; $R2=haystack
-   ; $R3=len(needle)
-   ; $R4=cnt
-   ; $R5=tmp
-   loop:
-     StrCpy $R5 $R2 $R3 $R4
-     StrCmp $R5 $R1 done
-     StrCmp $R5 "" done
-     IntOp $R4 $R4 + 1
-     Goto loop
- done:
-   StrCpy $R1 $R2 "" $R4
-   Pop $R5
-   Pop $R4
-   Pop $R3
-   Pop $R2
-   Exch $R1
- FunctionEnd
+;------------------------------------------------------------------------------
+Function WriteToFile
+ Exch $0 ;file to write to
+ Exch
+ Exch $1 ;text to write
  
+  FileOpen $0 $0 a #open file
+   FileSeek $0 0 END #go to end
+   FileWrite $0 $1 #write to file
+  FileClose $0
+ 
+ Pop $1
+ Pop $0
+FunctionEnd
 ;-----------------------------------------------------------------------
 
-; ConvertOptionToDigit
+Function GetJavaVersion
+  Push $R0
+  Push $R1
+  Push $R2
+  Push $R9
+  Push $1
+  Push $2
+  Push $3
+  Push $4
+  Push $5
+  ;No value by default
+  StrCpy $1 ""
+  StrCpy $2 ""
+  StrCpy $3 ""
+  StrCpy $4 ""
+  StrCpy $5 ""
 
-; input, top of stack  (e.g. whatever$\r$\n)
-
-; output, top of stack (replaces, with e.g. whatever)
-
-; modifies "on" to 1 and "off" to 2.
-
-Function ConvertOptionToDigit
-
- ClearErrors ; Stack: <value>
-
- Exch $0                     ; Stack: $0 ;$0=value
-
- StrCmp $0 "on" setOne setZero
-
- setOne:
-
- StrCpy $0 '1'
-
- Goto endset
-
- setZero:
-
- StrCpy $0 '0'
-
- endset:
-
- Exch $0
-
+  ClearErrors
+  ;**********************************************************************
+  ;1.)READ JAVA_HOME from all users or Read the registry Environment  "JAVA_HOME"
+  ;**********************************************************************
+  ReadEnvStr $4 "JAVA_HOME"
+  ${if} $4 == ""
+    ClearErrors
+    ReadRegStr $4 HKCU "Environment" "JAVA_HOME"  
+  ${endif}
+    
+  ClearErrors
+  ;**********************************************************************
+  ;2.) Read the Sun JDK value from the registry 32bit and 64 bit
+  ;**********************************************************************
+  ;===========================================
+  ; A.)Read the registry JDK 32bit 
+  ;===========================================
+  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" 	  "CurrentVersion"
+  ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2"  "JavaHome"
+  ${if} $1 != ""   ;found jdk 32bit.
+    StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+  ${endif}
+  
+  loopJDK32bit:
+    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9    
+    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
+    ${if} $R2 != ""
+        ; check if java version >= 1.4.x
+        goto incrementJDK32bit
+    ${else}
+        goto noSunJDK32bit
+    ${endif}
+    
+  incrementJDK32bit:
+    IntOp $R9 $R9 + 1
+    goto loopJDK32bit
+    
+  noSunJDK32bit:
+  
+  ClearErrors
+  ;===========================================
+  ; B.)Read the registry JDK 64bit 
+  ;===========================================
+  ${if} ${RunningX64}
+    SetRegView 64
+    ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"
+    ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2" "JavaHome"
+    ${if} $1 != ""   ;found jdk 64bit.
+        StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+    ${endif}
+    
+    loopJDK64bit:
+        SetRegView 64
+        EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Development Kit" $R9    
+        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R1" "JavaHome"
+        ${if} $R2 != ""
+            ; check if java version >= 1.4.x
+            goto incrementJDK64bit
+        ${else}
+            goto noSunJDK64bit
+        ${endif}
+            
+    incrementJDK64bit:
+        IntOp $R9 $R9 + 1
+        goto loopJDK64bit
+                
+    noSunJDK64bit:
+        SetRegView 32
+    
+    ClearErrors
+  ${endif}
+  ;**********************************************************************
+  ;3.) Read the Sun JRE value from the registry 32bit and 64 bit
+  ;**********************************************************************
+  ;===========================================
+  ; A.)Read the registry JRE 32bit 
+  ;===========================================
+  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+  ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
+    
+  ${if} $1 != ""   ;found JRE 32bit.
+    StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+  ${endif}
+ 
+  loopJRE32bit:
+    EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
+    ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
+    ${if} $R2 != ""
+        ; check if java version >= 1.4.x
+        goto incrementJRE32bit
+    ${else}
+       goto noSunJRE32bit
+    ${endif}
+	
+  incrementJRE32bit:
+    IntOp $R9 $R9 + 1
+    goto loopJRE32bit
+    
+  noSunJRE32bit:
+  
+  ClearErrors
+  ;===========================================
+  ; B.)Read the registry JRE 64bit 
+  ;===========================================
+  ${if} ${RunningX64}
+    SetRegView 64
+    ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+    ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$2" "JavaHome"
+    ${if} $1 != ""   ;found JRE 64bit.
+        StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
+    ${endif}
+    
+    loopJRE64bit:
+        SetRegView 64
+        EnumRegKey $R1 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" $R9
+        ReadRegStr $R2 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R1" "JavaHome"    
+        ${if} $R2 != ""
+            ; check if java version >= 1.4.x
+            goto incrementJRE64bit
+        ${else}
+            goto noSunJRE64bit
+        ${endif}
+    
+    incrementJRE64bit:
+        IntOp $R9 $R9 + 1
+        goto loopJRE64bit
+                
+    noSunJRE64bit:
+        SetRegView 32
+		
+    ClearErrors
+  ${endif}
+  ;**********************************************************************
+      
+  Exch  
+  Pop $4
+  Exch
+  Pop $3
+  Exch
+  Pop $2
+  Exch
+  Pop $1
+  Exch
+  Pop $R9
+  Exch
+  Pop $R2
+  Exch
+  Pop $R1
+  Exch
+  Pop $R0
+  Exch $5
+  
 FunctionEnd
  

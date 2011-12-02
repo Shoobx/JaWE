@@ -22,11 +22,13 @@ MWD=$(dirname $0)
 version=$1
 release=$2
 buildtype=$3
-nameadditional=$4
+buildid=$4
+nameadditional=$5
 version=${version:=2.0}
 release=${release:=beta1}
 buildtype=${buildtype:=community}
 nameadditional=${nameadditional:=}
+buildid=${buildid:=date +%Y%m%d-%H%M}
 
 name=twe
 prefix=/usr/local
@@ -211,7 +213,7 @@ rm -fr tmp
 
 if [ $buildtype = 'community' ]; then
 	if [ -f licenses/License-TOG.txt ]; then
-		$0 $1 $2 customers -tsl
+		$0 $1 $2 customers $buildid -tsl
 		rm -f ${HOME}/.rpmmacros
 		test -f ${RPM_ROOT}/.rpmmacros && mv ${RPM_ROOT}/.rpmmacros ${HOME}
 	fi
@@ -219,3 +221,5 @@ else
 	mv licenses/License.txt licenses/License-TOG.txt
 	mv licenses/License.tmp licenses/License.txt
 fi
+echo $PWD
+mv distribution/${name}-${version}-${release} distribution/${name}-${version}-${release}_$buildid

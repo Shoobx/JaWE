@@ -186,7 +186,7 @@ buildOutput: FORCE
   
 distributions: clean
 	@chmod +x installation/unix/dist.sh
-	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release community
+	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release community $buildid
 
 FORCE:
 
