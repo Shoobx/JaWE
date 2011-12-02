@@ -69,6 +69,19 @@ else
         touch ./build.properties
 fi
 
+if
+	[[ -r ./version.properties ]]
+then
+	fname=/tmp/.version.properties$$.tmp
+	grep -v "^[ 	]*#" ./version.properties |
+		grep -v ^$ |
+		sed -e 's/\./_DOT_/g' >$fname
+	. $fname
+	rm  $fname
+else
+        touch ./version.properties
+fi
+
 for n in $*             
 do
 	#if  the previous option needs an argument, assign it
@@ -198,40 +211,24 @@ Try \`$0 --help' for more information." >&2
 	{ (exit 1); exit 1; };
     }
 fi
-fnameOld=/tmp/$$build.properties.old
-fname=/tmp/$$build.properties
-cp -p ./build.properties $fnameOld
-sed "
-/^[ 	]*version=/c\\
-version=$version
-/^[ 	]*release=/c\\
-release=$release
-/^[ 	]*buildid=/c\\
-buildid=$buildid
-/^[ 	]*jdk.dir=/c\\
-jdk.dir=$jdk_DOT_dir
-/^[ 	]*install.dir=/c\\
-install.dir=$install_DOT_dir
 
-" $fnameOld >$fname
+rm -f ./build.properties
 
-rm build.properties
-
-sed  -e 's|_DOT_|\.|g' $fname >>build.properties
+echo "# Configured on "`uname -n`" at "`date` >build.properties
 (
-	for pName in jdk.dir version release buildid install.dir
-	do
-		value=$(echo $pName | sed "s/\./_DOT_/g")
-		if
-			 ! grep "^[      ]*$pName=" $fname >/dev/null
-		then
-			if
-				eval [[ -n \$$value ]]
-			then
-				eval echo "$pName=\$$value"
-			fi
-		fi
-	done
-)|sed -e 's|_DOT_|\.|g'>>build.properties
-chmod a+r build.properties
-rm $fname $fnameOld
+    echo ""
+    echo "### ----------        Build Id    --------- ###"
+    echo "buildid=$buildid"
+    echo "### ----------   jdk dir                ---------- ###"
+    echo "jdk.dir=$jdk_DOT_dir"
+    echo "### ----------      Install directory   --------- ###"
+    echo "install.dir=$install_DOT_dir"
+    echo ""
+)|sed -e 's|_DOT_|\.|g'>>build.properties 
+
+rm -f ./version.properties
+
+(
+    echo "version=$version"
+    echo "release=$release"
+)|sed -e 's|_DOT_|\.|g'>>version.properties 

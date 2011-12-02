@@ -28,7 +28,7 @@ version=${version:=2.0}
 release=${release:=beta1}
 buildtype=${buildtype:=community}
 nameadditional=${nameadditional:=}
-buildid=${buildid:=date +%Y%m%d-%H%M}
+buildid=${buildid:=20111202-1152}
 
 name=twe
 prefix=/usr/local
@@ -182,7 +182,7 @@ EOF
 #
 #	Changed by Stefanovic Nenad 09.09.2003.
 #
-mkdir -p distribution/${name}-${version}-${release}/$buildtype
+mkdir -p distribution/${name}-${version}-${release}_${buildid}/$buildtype
 EXC='--exclude **/jped'
 EXC2='--exclude lib/itext.jar'
 if [ $buildtype = 'customers' ]; then
@@ -196,9 +196,9 @@ cp input/bin/TWE.xpm ${RPM_ROOT}/SOURCES
 tar czf ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz --exclude CVS --exclude .svn --exclude build.properties --exclude Makefile --exclude doc/log.txt --exclude licenses/License-TOG.txt --exclude licenses/License.tmp --exclude distribution --exclude .settings --exclude classes --exclude '*~' $EXC $EXC2 --exclude 'installation/unix/rpm' .
 echo $JAVA_HOME|rpmbuild -ba --target noarch $RPM_ROOT/SPECS/twe.spec
 
-cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/${name}-${version}-${release}/$buildtype || exit 1
-cp ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz distribution/${name}-${version}-${release}/$buildtype
-cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}/$buildtype
+cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/${name}-${version}-${release}_${buildid}/$buildtype || exit 1
+cp ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz distribution/${name}-${version}-${release}_${buildid}/$buildtype
+cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}_${buildid}/$buildtype
 
 mkdir -p tmp
 cd tmp
@@ -207,7 +207,7 @@ rpm2cpio ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.no
 find . -type f -a -exec chmod a+r {} \;
 find . -type d -a -exec chmod a+r {} \;
 cd usr/local
-tar czf ../../../distribution/${name}-${version}-${release}/$buildtype/$name${nameadditional}-${version}-${release}.tar.gz .
+tar czf ../../../distribution/${name}-${version}-${release}_${buildid}/$buildtype/$name${nameadditional}-${version}-${release}.tar.gz .
 cd ../../..
 rm -fr tmp
 
@@ -221,5 +221,3 @@ else
 	mv licenses/License.txt licenses/License-TOG.txt
 	mv licenses/License.tmp licenses/License.txt
 fi
-echo $PWD
-mv distribution/${name}-${version}-${release} distribution/${name}-${version}-${release}_$buildid
