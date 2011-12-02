@@ -1,5 +1,8 @@
 ###### TWE 4.4-1 RELEASED ######
 
+2011-12-02 Sasa Bojanic <sasaboy@together.at>
+   # NSIS and exe installation improvement
+
 2011-12-01 Sasa Bojanic <sasaboy@together.at>
    # Java7 compatibility:
       - refactored getType/setType methods of JaWEComponent interface to getComponentType/setComponentType

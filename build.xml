@@ -441,8 +441,30 @@ make distributions       - Builds and configures TWE with all documentations and
             <ant dir="branding" target="install" inheritAll="true" inheritRefs="true" />
          </then>
          <else>
+            <if>
+               <not>
+                  <available type="file" file="${sign.tool}" />
+               </not>
+               <then>
+                  <echo message="UnInstall.exe file will not be signed" />
+                  <property name="sign.tool" value="" />
+               </then>
+               <else>
+                  <antcall target="get-current-time" />
+                   <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
+                     <socket server="timestamp.verisign.com" port="80" />
+                  </waitfor>
+                  <if>
+                     <istrue value="${server.timeout}" />
+                     <then>
+                        <echo message="server.timeout = ${server.timeout}" />
+                     </then>
+                  </if>
+                  <antcall target="get-current-time" />
+               </else>
+            </if>
             <echo message="Creating TWE Windows installation, please wait ..." />
-            <exec dir="${basedir}/installation/Windows" executable="${basedir}/tools/nsis/makensis.exe">
+            <exec dir="${basedir}/installation/Windows" executable="${basedir}/tools/nsis/makensis.exe" resultproperty="exe.return.code1" failonerror="false">
                <arg line="/V4" />
                <arg line="/O..\..\log_${app.name}.txt" />
                <arg line="/DVERSION=${version}" />
@@ -455,8 +477,18 @@ make distributions       - Builds and configures TWE with all documentations and
                <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
                <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
                <arg line="/DLANGUAGE=${language}" />
+               <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
                <arg line="${nsis.script}" />
             </exec>
+            <if>
+               <not>
+                  <equals arg1="${exe.return.code1}" arg2="0" trim="true" />
+               </not>
+               <then>
+                  <fail message="${basedir}/tools/nsis/makensis.exe} return code ${exe.return.code1}" />
+               </then>
+            </if>
+
          </else>
       </if>
 
@@ -468,7 +500,7 @@ make distributions       - Builds and configures TWE with all documentations and
          <else>
             <antcall target="signexe" >
                <param name="exe.dir" value="${dist.folder}"/>
-               <param name="exe.name" value="${app.name}-${version}-${release}.x86.exe" />
+               <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
             </antcall>
          </else>
       </if>      
@@ -477,7 +509,7 @@ make distributions       - Builds and configures TWE with all documentations and
          <then>
          </then>
          <else>
-            <move file="${dist.folder}/${app.name}-${version}-${release}.x86.exe" tofile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.x86.exe" overwrite="true" />         
+            <move file="${dist.folder}/${app.name}-${version}-${release}.exe" tofile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.exe" overwrite="true" />         
          </else>
       </if>      
    </target>
@@ -750,11 +782,26 @@ make distributions       - Builds and configures TWE with all documentations and
             <include name="xerces/**" />
             <include name="xml-commons/**" />
          </fileset>
-      </copy>	
+      </copy>   
    </target>
    
    <target name="signexe" unless="${rebranding}">
-      <exec executable="${sign.tool}">
+      <antcall target="get-current-time" />
+
+      <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
+         <socket server="timestamp.verisign.com" port="80" />
+      </waitfor>
+
+      <if>
+         <istrue value="${server.timeout}" />
+         <then>
+            <echo message="server.timeout = ${server.timeout}" />
+         </then>
+      </if>
+
+      <antcall target="get-current-time" />
+
+      <exec executable="${sign.tool}" resultproperty="exe.return.code" failonerror="false">
           <arg value="sign"/>
           <arg value="/f"/>
           <arg value="${sign.privatekey}"/>
@@ -768,6 +815,15 @@ make distributions       - Builds and configures TWE with all documentations and
           <arg value="http://www.together.at"/>
           <arg value="${exe.dir}/${exe.name}"/>
       </exec>         
+
+      <if>
+         <not>
+            <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+         </not>
+         <then>
+            <fail message="${sign.tool} return code ${exe.return.code}" />
+         </then>
+      </if>
    </target>
 
    <target name="signem">
@@ -778,8 +834,15 @@ make distributions       - Builds and configures TWE with all documentations and
                  storetype="pkcs12">
             <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
       </signjar>
-    </target>   
-   
+   </target>   
+
+   <target name="get-current-time">
+      <tstamp>
+         <format property="current.time" pattern="HH:mm:ss" locale="en,UK" />
+      </tstamp>
+      <echo message="time : ${current.time}" />
+   </target>
+    
 </project>
 
 

@@ -17,7 +17,7 @@ rem #    along with this program. If not, see http://www.gnu.org/licenses
 rem #-----------------------------------------------------------------------
 cls
 
-SET VERSION=3.3
+SET VERSION=4.4
 SET TARGET=buildAll
 SET OLD_JAVA_HOME=%JAVA_HOME%
 SET JAVA_HOME=
