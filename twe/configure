@@ -231,4 +231,5 @@ rm -f ./version.properties
 (
     echo "version=$version"
     echo "release=$release"
+    echo ""
 )|sed -e 's|_DOT_|\.|g'>>version.properties 
