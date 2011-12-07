@@ -28,8 +28,6 @@ SET SET_INSTALLDIR=off
 SET SET_REBRANDING=off
 SET SET_LANGUAGE=off
 
-SET VERSION=4.4
-SET RELEASE=1
 SET BUILDID=
 SET INSTALLDIR=
 SET REBRANDING=false
@@ -40,6 +38,17 @@ if %~1.==. goto skiphelp
 if %~1==-help goto help
 
 :skiphelp
+
+rem ***** init version from version.properties file
+find "version=" < version.properties > version.txt
+for /F "tokens=1,2* delims==" %%i in (version.txt) do SET VERSION=%%j
+del version.txt>nul
+
+rem ***** init release from version.properties file
+find "release=" < version.properties > release.txt
+for /F "tokens=1,2* delims==" %%i in (release.txt) do SET RELEASE=%%j
+del release.txt>nul
+
 if exist build.properties goto init
 goto default
 
@@ -71,23 +80,13 @@ find "jdk.dir=" < build.properties > javadir.txt
 for /F "tokens=1,2* delims==" %%i in (javadir.txt) do SET JDKHOME=%%j
 del javadir.txt>nul
 if "X%JDKHOME%"=="X" goto initjava
-goto initversion
+goto initbuildid
 
 :initjava
 call .\tools\trr\readregistry.exe
 if errorlevel==1 goto end
 for /F "tokens=1,2* delims==" %%i in (instdir.txt) do SET JDKHOME=%%j
 del instdir.txt>nul
-
-:initversion
-find "version=" < version.properties > version.txt
-for /F "tokens=1,2* delims==" %%i in (version.txt) do SET VERSION=%%j
-del version.txt>nul
-
-:initrelease
-find "release=" < version.properties > release.txt
-for /F "tokens=1,2* delims==" %%i in (release.txt) do SET RELEASE=%%j
-del release.txt>nul
 
 :initbuildid
 find "buildid=" < build.properties > buildid.txt
