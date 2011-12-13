@@ -49,8 +49,6 @@ do
 	esac            
 done                    
                         
-version=4.4
-release=1
 buildid=
 install_DOT_dir=
 
