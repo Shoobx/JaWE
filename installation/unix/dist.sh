@@ -28,10 +28,10 @@ version=${version:=2.0}
 release=${release:=beta1}
 buildtype=${buildtype:=community}
 nameadditional=${nameadditional:=}
-buildid=${buildid:=20111202-1152}
-
+buildid=${buildid:=$(date +%Y%m%d-%H%M)}
 name=twe
 prefix=/usr/local
+
 
 # prepare RPM build environment
 if [ ! -x $JAVA_HOME/bin/javac ]; then
