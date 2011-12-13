@@ -355,9 +355,6 @@ Section "Install" Install
   									"StartMenuFolder" "$STARTMENU_FOLDER"									
 
   
-  ; add: Pathext = .Lnk & Path = $INSTDIR\bin in register (20110912)
-  ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR\bin"
-
   ;WriteUninstaller "$%TEMP%\uninstall.exe" ;<<----- Enabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
 end:  
 
@@ -531,9 +528,6 @@ Section "Uninstall"
   ; remove registry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)"
   DeleteRegKey HKLM "SOFTWARE\$(Name)"
-
-  ; Remove: Pathext = .Lnk & Path = $INSTDIR\bin from register (20110912)
-  ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$INSTDIR\bin"
 
 	DeleteRegKey HKCR ".xpdl"
 	DeleteRegKey HKCR "xpdlfile\DefaultIcon"

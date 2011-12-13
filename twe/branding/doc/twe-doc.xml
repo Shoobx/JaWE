@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-"docbook/docbookx.dtd">
-<book id="tweug" lang="en" revision="0" status="work in progress">
-  <title><inlinemediaobject>
-      <imageobject>
-        <imagedata contentdepth="100%" fileref="Images/cover8.jpg"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN" "docbook/docbook.dtd">
+
+<book xml:id="tweug" xml:lang="en" version="5.0" status="work in progress">
+	<title>
+		<inlinemediaobject>
+			<imageobject>
+			<imagedata contentdepth="100%" fileref="Images/cover8.jpg"
                    scalefit="1" valign="middle" width="100%" />
-      </imageobject>
-    </inlinemediaobject></title>
+			</imageobject>
+		</inlinemediaobject>
+		<replaceable><?coverdetail?></replaceable>
+	</title>
+	<titleabbrev>XYZ Workflow Editor</titleabbrev>
 
-  <titleabbrev></titleabbrev>
-
-  <bookinfo>
+  <info>
     <title>XYZ Workflow Editor</title>
 
     <subtitle>User Manual</subtitle>
 
-    <authorgroup>
-      <corpauthor>XYZ company</corpauthor>
-    </authorgroup>
+	<authorgroup>
+		<author><personname>XYZ company</personname></author>
+	</authorgroup>
 
     <!--    
     <publisher>
@@ -39,7 +41,7 @@
 -->
 
     <copyright>
-      <year>2007</year>
+			<year>2011</year>
 
       <holder>XYZ company. Permission is
       granted to copy, distribute and/or modify this document under the terms
@@ -68,7 +70,7 @@
       independent of Sun Microsystems.</para>
 
     </legalnotice>
-  </bookinfo>
+	</info>
 
   <toc></toc>
 
