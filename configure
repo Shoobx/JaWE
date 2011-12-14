@@ -227,7 +227,8 @@ echo "# Configured on "`uname -n`" at "`date` >build.properties
 rm -f ./version.properties
 
 (
+    echo "#####################"
     echo "version=$version"
     echo "release=$release"
-    echo ""
+    echo "#####################"
 )|sed -e 's|_DOT_|\.|g'>>version.properties 
