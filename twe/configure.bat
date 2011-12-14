@@ -121,8 +121,10 @@ echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
 echo language=%LANGUAGE%>>build.properties
 if exist version.properties del version.properties
-echo version=^%VERSION%>version.properties
+echo #####################>>version.properties
+echo version=^%VERSION%>>version.properties
 echo release=^%RELEASE%>>version.properties
+echo #####################>>version.properties
 goto end
 
 
