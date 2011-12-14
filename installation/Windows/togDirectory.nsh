@@ -42,6 +42,8 @@ Var tog.Space.Available
 Var tog.Space.Mega
 ; Drive Check
 Var tog.Drive.Found
+; Check for FirstOpened
+Var tog.FirstOpened
 
 ; Define standard directory page; we use its title and subtitle
 !define MUI_DIRECTORYPAGE
@@ -52,6 +54,9 @@ Var tog.Drive.Found
 Page custom create_page_directory leave_page_directory
 
 Function create_page_directory
+	# set FirstOpened
+	StrCpy $tog.FirstOpened 0
+	
     # Insert pre-custom function
     !insertmacro TOG_CUSTOMPAGE_FUNCTION_CUSTOM PRE
     Push $0
@@ -241,24 +246,23 @@ Function CheckSpace
 	System::Int64Op $tog.Space.Required  / $tog.Space.Mega
 	Pop $tog.Space.Required
     ${If} $tog.Space.Available < $tog.Space.Required
-        MessageBox MB_ICONEXCLAMATION "Space is not enough for installation!"
+		${If} $tog.FirstOpened == 1
+			MessageBox MB_ICONEXCLAMATION "Space is not enough for installation!"
+		${EndIf}
         EnableWindow $tog.DirectoryCustomPage.Button.Next 0
     ${EndIf}
+	# Change status of FirstOpened
+	StrCpy $tog.FirstOpened 1
 FunctionEnd
 
 Function GetInstalledSize
-    Push $0
-    Push $1
     StrCpy $tog.Space.Required 0
-    ${ForEach} $1 0 10 + 1
-        ${If} ${SectionIsSelected} $1
-            SectionGetSize $1 $0
-            IntOp $tog.Space.Required $tog.Space.Required + $0
-        ${Endif}
-    ${Next}
-    Pop $1
-    Pop $0
-    IntOp $tog.Space.Required $tog.Space.Required * 1024
+	; SectionGetSize returns the size of each section in kilobyte.
+	SectionGetSize ${INSTALL_SECTION} $tog.Space.Required
+	IntFmt $tog.Space.Required "0x%08X" $tog.Space.Required
+	System::Int64Op $tog.Space.Required * 1024 ; Because of kilobytes
+	Pop $tog.Space.Required
+	Push $tog.Space.Required
 FunctionEnd
 
 Function UpdateInstallSpace

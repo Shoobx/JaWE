@@ -329,6 +329,8 @@ Section "Install" Install
   ; Convert the decimal KB value in $0 to DWORD
   ; put it right back into $0
   IntFmt $0 "0x%08X" $0
+  System::Int64Op $0 * 1024
+  Pop $0
 
   ; Create/Write the reg key with the dword value
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \   
