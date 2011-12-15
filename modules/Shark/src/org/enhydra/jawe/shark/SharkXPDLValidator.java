@@ -317,10 +317,6 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       return true;
    }
 
-   public boolean isIdValid(String id) {
-      return super.isIdValid(id) && id.length() <= 90;
-   }
-
    protected StandardPackageValidator createValidatorInstance() {
       return new SharkXPDLValidator();
    }
