@@ -252,7 +252,7 @@
    <!-- Create doc jar archive                                               -->
    <!-- ==================================================================== -->
 
-   <target name="buildDocJar" depends="docbook">
+   <target name="buildDocJar" depends="docbook, replace_jhelpsetDot_hs">
       <delete file="${output.lib.dir}/${app.name}doc.jar" />
       <if>
          <equals arg1="${build.debug}" arg2="on" />
@@ -296,5 +296,28 @@
       <delete dir="${basedir}/tmp" />      
    </target>
 
+	<!-- Support tog Icon for javahelp -->
+	<target name="replace_jhelpsetDot_hs" depends="init">
+      <replace file="${tmp.dir}/jhelpmap.jhm">
+         <replacetoken><![CDATA[</map>]]></replacetoken>
+         <!-- Key for search -->
+         <replacevalue>
+            <!-- Value for replace -->
+            <![CDATA[<mapID target="jaweicon" url="Images/jawe.gif" />
+         </map>]]>
+         </replacevalue>
+      </replace>
+      <replace file="${tmp.dir}/jhelpset.hs">
+         <replacetoken><![CDATA[</maps>]]></replacetoken>
+         <replacevalue>
+            <![CDATA[</maps>
+            <presentation default="true">
+               <name>mainwindow</name>
+               <image>jaweicon</image>
+            </presentation>]]>
+            </replacevalue>
+      </replace>
+   </target>
+   
 </project>
 

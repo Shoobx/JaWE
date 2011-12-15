@@ -25,7 +25,9 @@ import javax.help.HelpBroker;
 import javax.help.HelpSet;
 
 import org.enhydra.jawe.ActionBase;
+import org.enhydra.jawe.BuildInfo;
 import org.enhydra.jawe.JaWEComponent;
+import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.misc.PFLocale;
 
@@ -65,6 +67,8 @@ public class HelpManual extends ActionBase {
          }
          if (url != null) {
             hs = new HelpSet(loader, url);
+            hs.setTitle(JaWEManager.getInstance().getName()
+                        + " " + BuildInfo.getVersion() + "-" + BuildInfo.getRelease());
          }
       } catch (Exception ex) {
          ex.printStackTrace();
