@@ -39,7 +39,6 @@ import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
-import org.enhydra.jxpdl.elements.Description;
 import org.enhydra.jxpdl.elements.EnumerationType;
 import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExpressionType;
@@ -182,6 +181,18 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       existingErrors.add(verr);
    }
 
+   public void validateElement(ExceptionName el, List existingErrors, boolean fullCheck) {
+      super.validateElement(el, existingErrors, fullCheck);
+      if (!isElementLengthOK(el)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          XPDLValidationErrorIds.ERROR_UNALLOWED_LENGTH,
+                                                          el.toName(),
+                                                          el);
+         existingErrors.add(verr);         
+      }      
+   }
+   
    public void validateElement(ExpressionType el, List existingErrors, boolean fullCheck) {
       if (!el.getScriptType().equals("")) {
          validateScript(el, existingErrors, fullCheck);
@@ -302,6 +313,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
            return false;
         }
 
+      System.out.println("ELINSTOF = "+el.getClass().getName());
       if (el instanceof ExceptionName && el.toValue().length()>100) {
          return false;
       }
