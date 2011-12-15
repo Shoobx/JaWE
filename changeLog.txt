@@ -1,9 +1,11 @@
 ###### TWE 4.4-1 RELEASED ######
 2011-12-15 Sasa Bojanic <sasaboy@together.at>
+  # jxpdl.jar updated
+  # Shark mode: Reporting an error if Name fields of WorkflowProcess/Activity, Id fields of WorkflowProcess/Activity
+    or ExceptionName field length is inappropriate
   # TSL licensed version now goes to distributions's twe folder
   # silent setup now also available for TSL licensed version
   # Allowing saving of XPDLs with validation warnings in "Released" XPDL Publication Status
-  # Shark mode: Reporting an error if description field is more than 255 character long
   # WfXML: URL sample displayed
   # Icon and Title now appears in Help->Manual dialog
 

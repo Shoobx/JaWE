@@ -41,8 +41,10 @@ import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.Description;
 import org.enhydra.jxpdl.elements.EnumerationType;
+import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.ListType;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.Performer;
@@ -171,20 +173,6 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       existingErrors.add(verr);
    }
 
-   public void validateElement(Description el, List existingErrors, boolean fullCheck) {
-      if (!fullCheck && existingErrors.size() > 0) {
-         return;
-      }
-      if (el.toValue().length()>255) {
-         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                          XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_DESCRIPTION_TOO_LONG,
-                                                          el.toName(),
-                                                          el);
-         existingErrors.add(verr);
-      }
-   }
-
    public void validateElement(EnumerationType el, List existingErrors, boolean fullCheck) {
       XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                        XMLValidationError.SUB_TYPE_LOGIC,
@@ -223,11 +211,8 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (fullCheck || existingErrors.size() == 0) {
          // check performer
          Activity act = XMLUtil.getActivity(el);
-         if (act == null)
-            return;
-         String performer = el.toValue();
-         int type = act.getActivityType();
-         if (type == XPDLConstants.ACTIVITY_TYPE_NO) {
+         if (act!=null && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO) {
+            String performer = el.toValue();
             Participant p = null;
             WorkflowProcess wp = XMLUtil.getWorkflowProcess(act);
             p = XMLUtil.findParticipant(xmlInterface, wp, performer);
@@ -295,6 +280,34 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
 
    }
 
+   public boolean isElementLengthOK(XMLElement el) {
+      if (el instanceof XMLAttribute
+          && el.toName().equals("Name")
+          && ((el.getParent() instanceof WorkflowProcess && el.toValue().length() > 90) || (el.getParent() instanceof Activity && el.toValue()
+             .length() > 254))) {
+         return false;
+      }
+      if (el instanceof XMLAttribute
+          && el.toName().equals("Id")
+          && el.toValue().length() > 90
+          && (el.getParent() instanceof org.enhydra.jxpdl.elements.Package
+              || el.getParent() instanceof WorkflowProcess || el.getParent() instanceof Activity)) {
+         return false;
+      }
+      if (el instanceof XMLAttribute
+            && el.toName().equals("Id")
+            && el.toValue().length() > 100
+            && (el.getParent() instanceof DataField
+                || el.getParent() instanceof FormalParameter)) {
+           return false;
+        }
+
+      if (el instanceof ExceptionName && el.toValue().length()>100) {
+         return false;
+      }
+      return super.isElementLengthOK(el);
+   }
+   
    protected boolean isRemoteSubflowIdOK(String subflowID) {
       try {
          new URL(subflowID);
