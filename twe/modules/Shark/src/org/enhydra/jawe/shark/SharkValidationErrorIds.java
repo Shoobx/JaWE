@@ -35,6 +35,4 @@ public final class SharkValidationErrorIds {
 
    public static final String WARNING_TOOL_AGENT_CLASS_NOT_DEFINED = "WARNING_TOOL_AGENT_CLASS_NOT_DEFINED";
 
-   public static final String ERROR_DESCRIPTION_TOO_LONG = "ERROR_DESCRIPTION_TOO_LONG";
-
 }
