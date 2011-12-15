@@ -19,6 +19,8 @@
 package org.enhydra.jawe.base.controller.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -27,7 +29,9 @@ import org.enhydra.jawe.BarFactory;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
+import org.enhydra.jawe.base.xpdlvalidator.ValidationError;
 import org.enhydra.jxpdl.StandardPackageValidator;
+import org.enhydra.jxpdl.XMLValidationError;
 import org.enhydra.jxpdl.elements.Package;
 
 /**
@@ -66,7 +70,15 @@ public class Save extends ActionBase {
                jc.getControllerSettings().getEncoding(),
                JaWEManager.getInstance().getStartingLocale());
 
-         isModelOK = jc.checkValidity(jc.getMainPackage(), false).size()==0;
+         List problems = jc.checkValidity(jc.getMainPackage(), true);
+         isModelOK = true;
+         for (int i = 0; i < problems.size(); i++) {
+            ValidationError verr = (ValidationError)problems.get(i);
+            if (verr.getType().equals(XMLValidationError.TYPE_ERROR)) {
+               isModelOK = false;
+               break;
+            }
+         }
          if (!isModelOK) {
             String msg=jc.getSettings().getLanguageDependentString("ErrorCannotSaveIncorrectPackage");
             jc.message(msg,JOptionPane.ERROR_MESSAGE);

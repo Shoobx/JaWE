@@ -39,6 +39,7 @@ import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.Description;
 import org.enhydra.jxpdl.elements.EnumerationType;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
@@ -168,6 +169,20 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                        el.toName(),
                                                        el);
       existingErrors.add(verr);
+   }
+
+   public void validateElement(Description el, List existingErrors, boolean fullCheck) {
+      if (!fullCheck && existingErrors.size() > 0) {
+         return;
+      }
+      if (el.toValue().length()>255) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_DESCRIPTION_TOO_LONG,
+                                                          el.toName(),
+                                                          el);
+         existingErrors.add(verr);
+      }
    }
 
    public void validateElement(EnumerationType el, List existingErrors, boolean fullCheck) {
