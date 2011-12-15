@@ -338,7 +338,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
       <!-- Set the directories -->
       <property name="dist.community.dir" location="${dist.dir}/community" />
-      <property name="dist.customers.dir" location="${dist.dir}/customers" />
+      <property name="dist.twe.dir" location="${dist.dir}/twe" />
       <property name="dist.debug.dir" location="${dist.dir}/debug" />
       <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
       <property name="dist.internal.dir" location="${dist.dir}/internal" />
@@ -346,7 +346,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <property name="dist.screenshots.dir" location="${dist.dir}/screenshots" />
 
       <mkdir dir="${dist.community.dir}" />
-      <mkdir dir="${dist.customers.dir}" />
+      <mkdir dir="${dist.twe.dir}" />
       <mkdir dir="${dist.debug.dir}" />
       <mkdir dir="${dist.community.webstart.dir}" />
       <mkdir dir="${dist.internal.dir}" />
@@ -385,7 +385,7 @@ make distributions       - Builds and configures TWE with all documentations and
                            <fileset dir="${build.dir}/licenses" includes="License.txt" />
                         </jar>
                         <antcall target="distZIPEXE">
-                           <param name="dist.folder" value="${dist.customers.dir}" />
+                           <param name="dist.folder" value="${dist.twe.dir}" />
                            <param name="name.additional" value="tsl-" />
                         </antcall>
                         <copy todir="${output.lib.dir}">
@@ -566,6 +566,11 @@ make distributions       - Builds and configures TWE with all documentations and
          <fileset dir="${basedir}/installation/Windows" includes="${app.name}-silent.properties" />
       </copy>
       <move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" />
+      <copy todir="${dist.twe.dir}">
+         <filterset refid="Filter_input" />
+         <fileset dir="${basedir}/installation/Windows" includes="${app.name}-silent.properties" />
+      </copy>
+      <move file="${dist.twe.dir}/${app.name}-silent.properties" tofile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.silent.properties.txt" overwrite="true" />
       
       <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
@@ -642,7 +647,7 @@ make distributions       - Builds and configures TWE with all documentations and
                <else>
                   <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
                   <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-                  <zip destfile="${dist.customers.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
+                  <zip destfile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
                      <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**,lib/itext.jar" prefix="${app.name}-${version}-${release}.src" />
                   </zip>
                   <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
