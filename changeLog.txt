@@ -1,4 +1,7 @@
 ###### TWE 4.4-1 RELEASED ######
+2011-12-26 Sasa Bojanic <sasaboy@together.at>
+  # Linux builds improved
+
 2011-12-15 Sasa Bojanic <sasaboy@together.at>
   # jxpdl.jar updated
   # Shark mode: Reporting an error if Name fields of WorkflowProcess/Activity, Id fields of WorkflowProcess/Activity

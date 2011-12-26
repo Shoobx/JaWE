@@ -32,6 +32,12 @@ buildid=${buildid:=$(date +%Y%m%d-%H%M)}
 name=twe
 prefix=/usr/local
 
+BID=
+if test -n "$buildid"; then
+   BID=$buildid
+else
+   BID=$(date +%Y%m%d-%H%M)
+fi
 
 # prepare RPM build environment
 if [ ! -x $JAVA_HOME/bin/javac ]; then
@@ -73,7 +79,7 @@ License: GPL 3
 Group: Development/Tools
 Icon: TWE.xpm
 AutoReqProv: no
-BuildRoot: /tmp/%name-%version.build_root
+BuildRoot: /tmp/%name%nameadditional-%version-%release.build_root
 
 # Relocatable version:
 Prefix: $prefix
@@ -84,9 +90,9 @@ Together Workflow Editor (TWE) is a graphical application for Process Definition
 It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502.
 
 %prep
-%setup -q -c -n TogWE
+%setup -q -n $name$nameadditional-$version-$release.src
 
-cp $PWD/build.properties $RPM_ROOT/BUILD/TogWE
+cp $PWD/build.properties $RPM_ROOT/BUILD/$name$nameadditional-$version-$release
 
 %build
     while
@@ -110,6 +116,8 @@ cp $PWD/build.properties $RPM_ROOT/BUILD/TogWE
     cp -pr output/* \$RPM_BUILD_ROOT/%prefix
     [ "x" != "${nameadditional}x" ] && mv \$RPM_BUILD_ROOT/%prefix/${name}-%{version}-%{release} \$RPM_BUILD_ROOT/%prefix/%{name}-%{version}-%{release}
     cp -pr installation/unix/usr/* \$RPM_BUILD_ROOT/usr
+    sed -e 's/@na@/$nameadditional/g' -e 's/@v@/$version/g' -e 's/@r@/$release/g' \$RPM_BUILD_ROOT/usr/share/applications/togwe.desktop > \$RPM_BUILD_ROOT/usr/share/applications/togwe2.desktop
+    mv -f \$RPM_BUILD_ROOT/usr/share/applications/togwe2.desktop \$RPM_BUILD_ROOT/usr/share/applications/togwe.desktop
 
 %clean
 rm -rf \$RPM_BUILD_ROOT
@@ -151,7 +159,7 @@ $prefix/%{name}-%{version}-%{release}
     JAVA_HOME=\$(cd \$JAVA_HOME; echo \$PWD)
     export JAVA_HOME
 
-    cd \$RPM_INSTALL_PREFIX/%{name}-%{version}-%{release}
+    cd \$RPM_INSTALL_PREFIX/%{name}${nameadditional}-%{version}-%{release}
     chmod +x ./configure.sh
     ./configure.sh --jdkhome=\$JAVA_HOME
 cat >/usr/share/applications/togwe.desktop <<DESKTOP
@@ -172,9 +180,9 @@ Comment=Compose, edit, and view XPDL 1.0 documents
 DESKTOP
 %postun
 if
-	[[ \$PWD !=  %prefix/%name-%version-%release ]]
+	[[ \$PWD !=  %prefix/%name%nameadditional-%version-%release ]]
 then
-	rm -rf  %prefix/%name-%version-%release
+	rm -rf  %prefix/%name%nameadditional-%version-%release
 fi
 
 EOF
@@ -182,23 +190,17 @@ EOF
 #
 #	Changed by Stefanovic Nenad 09.09.2003.
 #
-mkdir -p distribution/${name}-${version}-${release}_${buildid}/$buildtype
-EXC='--exclude **/jped'
-EXC2='--exclude lib/itext.jar'
-if [ $buildtype = 'customers' ]; then
-	mv licenses/License.txt licenses/License.tmp
-	mv licenses/License-TOG.txt licenses/License.txt
-else
-	EXC=
-   EXC2=
-fi
+mkdir -p distribution/${name}-${version}-${release}_${BID}/$buildtype
+
+mv ./distribution/${name}${nameadditional}-${version}-${release}.src.tar.gz ./distribution/${name}-${version}-${release}_${BID}/${buildtype}/${name}${nameadditional}-${version}-${release}.src.tar.gz || exit 1
+cp ./distribution/${name}-${version}-${release}_${BID}/${buildtype}/${name}${nameadditional}-${version}-${release}.src.tar.gz ${RPM_ROOT}/SOURCES/${name}${nameadditional}-${version}-${release}.src.tar.gz || exit 1
+
 cp input/bin/TWE.xpm ${RPM_ROOT}/SOURCES
-tar czf ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz --exclude CVS --exclude .svn --exclude build.properties --exclude Makefile --exclude doc/log.txt --exclude licenses/License-TOG.txt --exclude licenses/License.tmp --exclude distribution --exclude .settings --exclude classes --exclude '*~' $EXC $EXC2 --exclude 'installation/unix/rpm' .
+
 echo $JAVA_HOME|rpmbuild -ba --target noarch $RPM_ROOT/SPECS/twe.spec
 
-cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/${name}-${version}-${release}_${buildid}/$buildtype || exit 1
-cp ${RPM_ROOT}/SOURCES/$name${nameadditional}-$version-$release.src.tar.gz distribution/${name}-${version}-${release}_${buildid}/$buildtype
-cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}_${buildid}/$buildtype
+cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/${name}-${version}-${release}_${BID}/$buildtype || exit 1
+cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}_${BID}/$buildtype
 
 mkdir -p tmp
 cd tmp
@@ -207,17 +209,15 @@ rpm2cpio ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.no
 find . -type f -a -exec chmod a+r {} \;
 find . -type d -a -exec chmod a+r {} \;
 cd usr/local
-tar czf ../../../distribution/${name}-${version}-${release}_${buildid}/$buildtype/$name${nameadditional}-${version}-${release}.tar.gz .
+tar czf ../../../distribution/${name}-${version}-${release}_${BID}/$buildtype/$name${nameadditional}-${version}-${release}.tar.gz .
 cd ../../..
 rm -fr tmp
 
 if [ $buildtype = 'community' ]; then
 	if [ -f licenses/License-TOG.txt ]; then
-		$0 $1 $2 customers $buildid -tsl
+		rm -fr installation/Unix/rpm
+		$0 $1 $2 twe $BID -tsl
 		rm -f ${HOME}/.rpmmacros
 		test -f ${RPM_ROOT}/.rpmmacros && mv ${RPM_ROOT}/.rpmmacros ${HOME}
-	fi
-else
-	mv licenses/License.txt licenses/License-TOG.txt
-	mv licenses/License.tmp licenses/License.txt
+	fi 
 fi

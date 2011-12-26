@@ -1,6 +1,6 @@
 
 [Desktop Entry]
-Exec=/usr/local/twe-3.0-2/bin/run.sh
+Exec=/usr/local/twe@na@-@v@-@r@/bin/run.sh
 Icon=togwe_48
 Terminal=false
 Type=Application

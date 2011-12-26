@@ -54,30 +54,20 @@ install_DOT_dir=
 
 cd $(dirname $0)        
                         
-if
-	[[ -r ./build.properties ]]
-then
-	fname=/tmp/.build.properties$$.tmp
-	grep -v "^[ 	]*#" ./build.properties |
-		grep -v ^$ |
-		sed -e 's/\./_DOT_/g' >$fname
-	. $fname
-	rm  $fname
-else
-        touch ./build.properties
+if test -r ./build.properties ; then
+    grep -v ^# ./build.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmp.properties
+#    cp build.properties tmp.properties
+    dos2unix -n tmp.properties tmp.properties
+    . ./tmp.properties
+    rm ./tmp.properties
 fi
 
-if
-	[[ -r ./version.properties ]]
-then
-	fname=/tmp/.version.properties$$.tmp
-	grep -v "^[ 	]*#" ./version.properties |
-		grep -v ^$ |
-		sed -e 's/\./_DOT_/g' >$fname
-	. $fname
-	rm  $fname
-else
-        touch ./version.properties
+if test -r ./version.properties ; then
+    grep -v ^# ./version.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmpv.properties
+#    cp version.properties tmpv.properties
+    dos2unix -n tmpv.properties tmpv.properties
+    . ./tmpv.properties
+    rm ./tmpv.properties
 fi
 
 for n in $*             
@@ -195,7 +185,9 @@ clean: FORCE
 buildOutput: FORCE
 	@\$(JAVA) -cp \$(CLASSPATH) org.apache.tools.ant.Main \$@
   
-distributions: clean
+distributions:
+	@rm -fr installation/Unix/rpm
+	@java -Xmx512M -XX:MaxPermSize=192M -jar tools/ant/ant-launcher.jar distSourceUnix
 	@chmod +x installation/unix/dist.sh
 	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release community $buildid
 
@@ -221,7 +213,7 @@ echo "# Configured on "`uname -n`" at "`date` >build.properties
     echo "jdk.dir=$jdk_DOT_dir"
     echo "### ----------      Install directory   --------- ###"
     echo "install.dir=$install_DOT_dir"
-    echo ""
+    echo "#####################"
 )|sed -e 's|_DOT_|\.|g'>>build.properties 
 
 rm -f ./version.properties
