@@ -163,7 +163,7 @@
       <copy todir="${output.lib.dir}">
          <fileset dir="${tools.dir}/ant" includes="*.jar" />
          <fileset dir="${tools.dir}/batik" includes="batik.jar" />
-         <fileset dir="${tools.dir}/itext5" includes="*.jar"/>
+	 <fileset dir="${tools.dir}" includes="**/itext.jar"/>
          <fileset dir="${tools.dir}/javahelp" includes="*.jar"/>
          <fileset dir="${tools.dir}/jeditsyntax" includes="*.jar"/>
          <fileset dir="${tools.dir}/jgraph" includes="*.jar"/>
@@ -262,7 +262,7 @@
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
-   <target name="buildOutput" depends="output, buildDocNoAPI"/>
+   <target name="buildOutput" depends="output"/>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
@@ -582,17 +582,6 @@ make distributions       - Builds and configures TWE with all documentations and
    <target name="distBinUnix" depends="buildOutput, distTARGZ" />
 
    <target name="distTARGZ">
-      <property name="dist.folder" value="${dist.community.dir}" />
-      <!-- Set the directories -->
-      <delete quiet="true">
-         <fileset dir="${basedir}" includes="**/*.bak" />
-      </delete>
-      <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
-      <tar destfile="${dist.folder}/${app.name}-${version}-${release}.src.tar">
-         <tarfileset dir="${basedir}" prefix="${app.name}-${version}" excludes="**/doc/api/**"/>
-      </tar>
-      <gzip zipfile="${dist.folder}/${app.name}-${version}-${release}.src.tar.gz" src="${dist.folder}/${app.name}-${version}-${release}.src.tar" />
-      <delete file="${dist.folder}/${app.name}-${version}-${release}.src.tar" quiet="true" />
    </target>
 
    <!-- ==================================================================== -->
@@ -624,7 +613,7 @@ make distributions       - Builds and configures TWE with all documentations and
          <istrue value="${rebranding}" />
          <then>
             <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**,lib/itext.jar" prefix="${app.name}-${version}-${release}.src" />
+               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**,tools/itext5/**" prefix="${app.name}-${version}-${release}.src" />
             </zip>
          </then>
          <else>
@@ -660,36 +649,37 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix source distribution                                             -->
    <!-- ==================================================================== -->
-   <target name="distSourceUnix">
+   <target name="distSourceUnix" depends="clean">
       <!-- delete binary build preparations -->
       <delete quiet="true">
          <fileset dir="${basedir}" includes="**/*.bak" />
       </delete>
 
       <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
-      <mkdir dir="${dist.community.dir}/tmp" />
-
-      <copy todir="${dist.community.dir}/tmp">
-         <fileset dir="${basedir}" includes="licenses/License.txt" />
-      </copy>
-
-      <tar destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar">
-         <tarfileset dir="${basedir}/doc" prefix="${app.name}-${version}-${release}.src/doc" includes="licenses/License.txt"/>
-         <tarfileset dir="${modules.dir}/core" excludes=".settings/**, doc/tmp/**, distribution/**, **/language/JaWE_it.properties
-                              , **/language/JaWE_pl.properties
-                                , **/language/JaWE_zh_CN.properties" prefix="${app.name}-${version}-${release}.src/modules" />
-         <tarfileset dir="${modules.dir}" includes="build.xml" prefix="${app.name}-${version}-${release}.src/modules" />
-         <tarfileset dir="${basedir}/examples" prefix="${app.name}-${version}-${release}.src/examples" />
-         <tarfileset dir="${basedir}/input" prefix="${app.name}-${version}-${release}.src/input"
-        includes="bin/**,config/defaultconfig,config/default,configure.*,build.xml" />
-         <tarfileset dir="${basedir}/lib" excludes="tweactivityicons.jar" prefix="${app.name}-${version}-${release}.src/lib" />
-         <tarfileset dir="${dist.community.dir}/tmp" includes="licenses/License.txt" prefix="${app.name}-${version}-${release}.src" />
-         <tarfileset dir="${basedir}" includes="build.xml,configure,configure.bat,make.bat" prefix="${app.name}-${version}-${release}.src" />
-         <tarfileset dir="${basedir}/util" includes="ant/*,make/*" prefix="${app.name}-${version}-${release}.src/util" />
+      <tar destfile="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
+         <tarfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**" prefix="${app.name}-${version}-${release}.src"/>
       </tar>
-      <gzip zipfile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" src="${dist.community.dir}/${app.name}-${version}-${release}.src.tar" />
-      <delete file="${dist.community.dir}/${app.name}-${version}-${release}.src.tar" quiet="true" />
-      <delete dir="${dist.community.dir}/tmp" />
+
+      <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
+      <if>
+         <equals arg1="${tog.lic.exists}" arg2="true" />
+         <then>
+            <if>
+               <istrue value="${rebranding}" />
+               <then>
+               </then>
+               <else>
+                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
+                  <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
+                  <tar destfile="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
+                     <tarfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**,tools/itext5/**" prefix="${app.name}-tsl-${version}-${release}.src" />
+                  </tar>
+                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
+                  <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
+               </else>
+            </if>                  
+         </then>
+      </if>
    </target>
 
    <!-- ==================================================================== -->
