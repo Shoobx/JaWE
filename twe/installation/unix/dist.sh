@@ -159,7 +159,7 @@ $prefix/%{name}-%{version}-%{release}
     JAVA_HOME=\$(cd \$JAVA_HOME; echo \$PWD)
     export JAVA_HOME
 
-    cd \$RPM_INSTALL_PREFIX/%{name}${nameadditional}-%{version}-%{release}
+    cd \$RPM_INSTALL_PREFIX/%{name}-%{version}-%{release}
     chmod +x ./configure.sh
     ./configure.sh --jdkhome=\$JAVA_HOME
 cat >/usr/share/applications/togwe.desktop <<DESKTOP
