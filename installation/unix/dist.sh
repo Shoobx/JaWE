@@ -57,11 +57,6 @@ if [ ! -w  ${RPM_ROOT:=$PWD/$MWD/rpm}/SOURCES ]; then
 	    ${RPM_ROOT}/SPECS \
 	    ${RPM_ROOT}/SRPMS \
 	    ${RPM_ROOT}/tmp
-	test -f ${HOME}/.rpmmacros && mv ${HOME}/.rpmmacros ${RPM_ROOT}
-	cat > ${HOME}/.rpmmacros <<EOF
-%_topdir        %(echo ${RPM_ROOT})
-%_tmppath       %{_topdir}/tmp
-EOF
     else
 	echo Failed to write $RPM_ROOT/SOURCES and ${RPM_ROOT}/..
 	exit 1
