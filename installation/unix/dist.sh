@@ -197,8 +197,7 @@ cp ./distribution/${name}-${version}-${release}_${BID}/${buildtype}/${name}${nam
 
 cp input/bin/TWE.xpm ${RPM_ROOT}/SOURCES
 
-echo $JAVA_HOME|rpmbuild -ba --target noarch $RPM_ROOT/SPECS/twe.spec
-
+echo $JAVA_HOME|rpmbuild -ba --define "_topdir ${RPM_ROOT}" --define "_tmppath ${RPM_ROOT}/tmp" --verbose --target noarch $RPM_ROOT/SPECS/twe.spec
 cp ${RPM_ROOT}/RPMS/noarch/$name${nameadditional}-${version}-${release}.noarch.rpm distribution/${name}-${version}-${release}_${BID}/$buildtype || exit 1
 cp ${RPM_ROOT}/SRPMS/$name${nameadditional}-${version}-${release}.src.rpm distribution/${name}-${version}-${release}_${BID}/$buildtype
 
@@ -217,7 +216,6 @@ if [ $buildtype = 'community' ]; then
 	if [ -f licenses/License-TOG.txt ]; then
 		rm -fr installation/Unix/rpm
 		$0 $1 $2 twe $BID -tsl
-		rm -f ${HOME}/.rpmmacros
-		test -f ${RPM_ROOT}/.rpmmacros && mv ${RPM_ROOT}/.rpmmacros ${HOME}
+
 	fi 
 fi
