@@ -523,8 +523,8 @@ make distributions       - Builds and configures TWE with all documentations and
       <copy todir="${dist.community.dir}">
          <fileset dir="${dist.screenshots.dir}" includes="${app.name}-${version}-${release}.screens.zip" />
       </copy>
-      <copy file="${build.dir}/doc/${app.name}-current.doc.pdf" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.pdf"/>
-      <copy file="${build.dir}/doc/${app.name}-current.doc.html" tofile="${build.dir}/doc/${app.name}-doc-${version}-${release}.html"/>
+      <copy file="${build.dir}/doc/${app.name}-current.doc.pdf" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.pdf"/>
+      <copy file="${build.dir}/doc/${app.name}-current.doc.html" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.html"/>
       <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.doc.zip" update="true">
          <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*"/>
       </zip>
@@ -535,7 +535,7 @@ make distributions       - Builds and configures TWE with all documentations and
          <fileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*"/>
       </copy>
       <delete quiet="true">
-         <fileset dir="${build.dir}/doc" includes="${app.name}-doc-${version}-${release}.*" />
+         <fileset dir="${build.dir}/doc" includes="${app.name}-${version}-${release}.doc.*" />
       </delete>      
       <copy todir="${dist.internal.dir}">
          <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
