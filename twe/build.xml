@@ -567,9 +567,17 @@ make distributions       - Builds and configures TWE with all documentations and
          <fileset dir="${basedir}/installation/Windows" includes="${app.name}-silent.properties" />
       </copy>
       <move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" />
-      <copy todir="${dist.twe.dir}">
-         <fileset dir="${dist.community.dir}" includes="*silent.properties.txt" />
-      </copy>
+
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+         </then>
+         <else>
+            <copy todir="${dist.twe.dir}">
+               <fileset dir="${dist.community.dir}" includes="*silent.properties.txt, *.screens.zip, *.doc.pdf" />
+            </copy>
+         </else>
+      </if>
       
       <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
