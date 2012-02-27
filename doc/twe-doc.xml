@@ -23,7 +23,7 @@
   <title><inlinemediaobject>
       <imageobject>
         <imagedata contentdepth="100%" fileref="Images/cover8.jpg"
-                   scalefit="1" valign="middle" width="100%"></imagedata>
+                   scalefit="1" valign="middle" width="100%"/>
       </imageobject>
     </inlinemediaobject> <replaceable><?coverdetail ?></replaceable></title>
 
@@ -100,7 +100,7 @@
     </legalnotice>
   </info>
 
-  <toc></toc>
+  <toc/>
 
   <preface>
     <title>Preface</title>
@@ -609,7 +609,7 @@
 
           <itemizedlist>
             <listitem>
-              <para>Java Development Kit (JDK) version 6 or later</para>
+              <para>Java Development Kit (JDK) version 7 or later</para>
             </listitem>
           </itemizedlist>
         </listitem>
@@ -689,7 +689,7 @@ Multiple parameters can be specified at once.
 
 Example:
 
-configure -version 3.3 -release 1 -buildid 20110721-0808 -jdkhome C:/jdk1.6 -instdir C:/JaWE</programlisting>
+configure -version 4.5 -release 1 -buildid 20120301-0808 -jdkhome C:/jdk1.7 -instdir C:/JaWE</programlisting>
 
       <para>The configure script will create/change the build.properties file
       based on the parameters provided. This file can also be manually changed
@@ -989,7 +989,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <title>Prerequisites</title>
 
       <para>The only prerequisite to be able to run TWE on Windows or Linux
-      system is Java JRE 1.6 installed on the machine.</para>
+      system is Java JRE 1.7 installed on the machine.</para>
     </sect1>
 
     <sect1>
@@ -1012,7 +1012,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       without parameters, otherwise it should be called with a parameter
       specifying JAVA_HOME value, e.g:</para>
 
-      <para><emphasis>configure -jdkhome c:\jdk1.6.0_20</emphasis></para>
+      <para><emphasis>configure -jdkhome c:\jdk1.7.0_03</emphasis></para>
 
       <para>This will create proper <emphasis role="bold">run</emphasis>
       script in bin directory that should be used to run TWE.</para>
@@ -1035,13 +1035,13 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       your installation:</para>
 
       <programlisting># Where to install Together Workflow Editor (default value is C:\Program Files\twe-x.y-z)
-inst.dir=C:\Program Files\twe-4.1-1
+inst.dir=C:\Program Files\twe-4.5-1
 
 # Path to local java installation (obligated - has no default value)
-jdk.dir=C:\Program Files\Java\jdk1.6.0_24
+jdk.dir=C:\Program Files\Java\jdk1.7.0_03
 
 # Startup menu name. (default value - Together Workflow Editor x.y-z)
-startup.menu.name=Together Workflow Editor 4.1-1
+startup.menu.name=Together Workflow Editor 4.5-1
 
 # Create quick launch icon (on/off)
 create.quick.launch.icon=on
@@ -1080,7 +1080,7 @@ create.desktop.icon=on
         <imageobject>
           <imagedata contentdepth="100%"
                      fileref="Images/editorTogWEComments.gif" scalefit="1"
-                     width="100%"></imagedata>
+                     width="100%"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -1103,7 +1103,7 @@ create.desktop.icon=on
     <para>(NOTE: by right-clicking on the tab you are able to close some
     component's view or to move it from one area to another)</para>
 
-    <para>See <xref linkend="frameSettings" /> for details about the
+    <para>See <xref linkend="frameSettings"/> for details about the
     configuration of the main frame.</para>
 
     <para>The rest of this chapter explains all these editor parts in
@@ -1129,7 +1129,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/new.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/new.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> New</entry>
 
@@ -1141,7 +1141,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata align="center" fileref="Images/open.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Open</entry>
 
@@ -1153,7 +1153,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/reopen.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/reopen.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Reopen</entry>
 
@@ -1164,7 +1164,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/close.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/close.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Close</entry>
 
@@ -1175,7 +1175,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/save.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/save.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Save</entry>
 
@@ -1189,7 +1189,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/saveas.gif" format="GIF"
-                                   valign="middle"></imagedata>
+                                   valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Save As...</entry>
 
@@ -1209,7 +1209,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/exit.gif" format="GIF"
-                                   valign="middle"></imagedata>
+                                   valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Exit</entry>
 
@@ -1232,7 +1232,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/nav_left_blue.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Undo</entry>
 
@@ -1248,7 +1248,7 @@ create.desktop.icon=on
                       <imageobject>
                         <imagedata align="center"
                                    fileref="Images/nav_right_blue.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Redo</entry>
 
@@ -1259,7 +1259,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/cut.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/cut.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Cut</entry>
 
@@ -1275,7 +1275,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/copy.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/copy.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Copy</entry>
 
@@ -1291,7 +1291,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/paste.gif" format="GIF"
-                                   valign="middle"></imagedata>
+                                   valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Paste</entry>
 
@@ -1305,7 +1305,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/delete.gif" format="GIF"
-                                   valign="middle"></imagedata>
+                                   valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Delete</entry>
 
@@ -1317,7 +1317,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/properties.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Properties</entry>
 
@@ -1338,7 +1338,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/search.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/search.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Search</entry>
 
@@ -1350,7 +1350,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/references.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> References</entry>
 
@@ -1373,7 +1373,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/packagecheck.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Check validity</entry>
 
@@ -1388,7 +1388,7 @@ create.desktop.icon=on
                       <imageobject>
                         <imagedata align="center"
                                    fileref="Images/processnew.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Insert new process</entry>
 
@@ -1400,7 +1400,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/namespaces.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Namespaces</entry>
 
@@ -1412,7 +1412,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/packageproperties.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject>Package properties</entry>
 
@@ -1424,7 +1424,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/processes.gif" format="GIF"
-                                   valign="middle"></imagedata>
+                                   valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Processes</entry>
 
@@ -1437,7 +1437,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/externalpackages.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> External packages</entry>
 
@@ -1449,7 +1449,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/externalpackagesadd.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Add external package</entry>
 
@@ -1461,7 +1461,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/externalpackagesremove.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Remove external package</entry>
 
@@ -1473,7 +1473,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/typedeclarations.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Type declarations</entry>
 
@@ -1485,7 +1485,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/packageparticipants.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Participants</entry>
 
@@ -1497,7 +1497,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/packageapplications.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Applications</entry>
 
@@ -1509,7 +1509,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/packageworkflowrelevantdata.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Workflow variables</entry>
 
@@ -1521,7 +1521,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/referred_document.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Open referred document</entry>
 
@@ -1545,7 +1545,7 @@ create.desktop.icon=on
                       <imageobject>
                         <imagedata align="center"
                                    fileref="Images/processproperties.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Process properties</entry>
 
@@ -1557,7 +1557,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/processparticipants.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Participants</entry>
 
@@ -1569,7 +1569,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/processapplications.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Applications</entry>
 
@@ -1581,7 +1581,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/processworkflowrelevantdata.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Workflow variables</entry>
 
@@ -1593,7 +1593,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/processformalparameters.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Formal parameters</entry>
 
@@ -1605,7 +1605,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/activitysets.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Activity sets</entry>
 
@@ -1617,7 +1617,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/activities.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Activities</entry>
 
@@ -1629,7 +1629,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/transitions.gif"
-                                   format="GIF" valign="middle"></imagedata>
+                                   format="GIF" valign="middle"/>
                       </imageobject>
                     </inlinemediaobject> Transitions</entry>
 
@@ -1651,7 +1651,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/externalparticipants.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> External participants</entry>
 
@@ -1665,7 +1665,7 @@ create.desktop.icon=on
                       <imageobject>
                         <imagedata align="center"
                                    fileref="Images/externalprocesses.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> External processes</entry>
 
@@ -1677,7 +1677,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/externalapplications.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> External applications</entry>
 
@@ -1689,7 +1689,7 @@ create.desktop.icon=on
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata fileref="Images/externaltypedeclarations.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> External type declarations</entry>
 
@@ -1745,7 +1745,7 @@ create.desktop.icon=on
                   valign="middle"><inlinemediaobject>
                       <imageobject>
                         <imagedata align="center" fileref="Images/manual.gif"
-                                   format="GIF"></imagedata>
+                                   format="GIF"/>
                       </imageobject>
                     </inlinemediaobject> Manual</entry>
 
@@ -1756,7 +1756,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/jawe.gif" format="GIF"></imagedata>
+                        <imagedata fileref="Images/jawe.gif" format="GIF"/>
                       </imageobject>
                     </inlinemediaobject>About</entry>
 
@@ -1784,7 +1784,7 @@ create.desktop.icon=on
         <mediaobject>
           <imageobject>
             <imagedata contentdepth="100%" fileref="Images/mainToolbar.jpg"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -1799,7 +1799,7 @@ create.desktop.icon=on
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/mainToolbarComments.jpg" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -1818,7 +1818,7 @@ create.desktop.icon=on
         <mediaobject>
           <imageobject>
             <imagedata contentdepth="100%" fileref="Images/infoBar.gif"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -1830,7 +1830,7 @@ create.desktop.icon=on
         <listitem>
           <para>a click on the <inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/packageselect.gif"></imagedata>
+                <imagedata fileref="Images/packageselect.gif"/>
               </imageobject>
             </inlinemediaobject> package icon offers a pop-up list of all
           packages (the main package you are editing and all the packages it
@@ -1840,7 +1840,7 @@ create.desktop.icon=on
         <listitem>
           <para>a click on the <inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/processselect.gif"></imagedata>
+                <imagedata fileref="Images/processselect.gif"/>
               </imageobject>
             </inlinemediaobject> process icon offers a pop-up list of all
           processes (within the currently selected package).</para>
@@ -1849,7 +1849,7 @@ create.desktop.icon=on
         <listitem>
           <para>a click on the <inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/fileselect.gif"></imagedata>
+                <imagedata fileref="Images/fileselect.gif"/>
               </imageobject>
             </inlinemediaobject> file icon offers a pop-up list of recently
           opened files.</para>
@@ -1873,7 +1873,7 @@ create.desktop.icon=on
                   <imageobject>
                     <imagedata align="center" contentdepth="100%"
                                fileref="Images/graphOverview.gif" scalefit="1"
-                               valign="middle" width="100%"></imagedata>
+                               valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -1916,7 +1916,7 @@ create.desktop.icon=on
                   <imageobject>
                     <imagedata align="center" contentdepth="100%"
                                fileref="Images/extPackageRelations.gif"
-                               valign="middle" width="100%"></imagedata>
+                               valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -1974,7 +1974,7 @@ create.desktop.icon=on
                   <imageobject>
                     <imagedata align="center" contentdepth="100%"
                                fileref="Images/transPkgPool.gif"
-                               valign="middle" width="100%"></imagedata>
+                               valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -1995,7 +1995,7 @@ create.desktop.icon=on
 
       <para>You are able to pre-configure Together Workflow Editor to load
       certain XPDL packages in transient mode (see <xref
-      linkend="togwebasic.properties" />) at startup to have access to most
+      linkend="togwebasic.properties"/>) at startup to have access to most
       commonly needed XPDL elements for copying them into the XPDL package you
       are editing. This feature is typically used for copying certain workflow
       design patterns from a pattern pool into processes. Predefined common
@@ -2032,7 +2032,7 @@ create.desktop.icon=on
         <mediaobject>
           <imageobject>
             <imagedata contentdepth="100%" fileref="Images/graphPanel.gif"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -2050,7 +2050,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/saveasjpg.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/saveasjpg.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2061,7 +2061,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" char="" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/saveassvg.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/saveassvg.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2073,7 +2073,7 @@ create.desktop.icon=on
               <entry align="left" char="" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata align="center" fileref="Images/saveaspdf.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2085,7 +2085,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/zoomin.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/zoomin.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2095,7 +2095,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/actualsize.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/actualsize.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2106,7 +2106,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/zoomout.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/zoomout.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2117,7 +2117,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/participantupleft.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2130,7 +2130,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/participantdownright.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2142,7 +2142,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/nav_left_red.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/nav_left_red.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2153,7 +2153,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/nav_right_red.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/nav_right_red.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2164,7 +2164,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/startend.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/startend.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2176,7 +2176,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/startend_remove.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2188,7 +2188,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/showtransitioncondition.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2200,7 +2200,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/hidetransitioncondition.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2211,7 +2211,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/showartifacts.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/showartifacts.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2222,7 +2222,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/hideartifacts.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/hideartifacts.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2234,7 +2234,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/process_rotate.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2246,7 +2246,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/graph_layout.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/graph_layout.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2258,7 +2258,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata align="left" fileref="Images/activityset.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2269,7 +2269,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/lanesselect.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/lanesselect.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2281,7 +2281,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/activitysetselect.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2301,7 +2301,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/select.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/select.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2312,7 +2312,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/lane.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/lane.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2324,7 +2324,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/freetextlane.png" format="GIF"></imagedata>
+                    <imagedata fileref="Images/freetextlane.png" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2335,7 +2335,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/commonexplane.png" format="GIF"></imagedata>
+                    <imagedata fileref="Images/commonexplane.png" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2346,7 +2346,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/dataobject.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/dataobject.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2357,7 +2357,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/annotation.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/annotation.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2368,7 +2368,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/start.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/start.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2379,7 +2379,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/end.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/end.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2391,7 +2391,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/genericactivity.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2403,7 +2403,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/activitytool.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/activitytool.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2415,7 +2415,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/subflowactivity.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2426,7 +2426,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/blockactivity.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/blockactivity.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2438,7 +2438,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/gatewayexclusive.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2450,7 +2450,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/gatewayparallel.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2461,7 +2461,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/transition.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/transition.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2472,7 +2472,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/unconditional.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/unconditional.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2484,7 +2484,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/transitionotherwise.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2496,7 +2496,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/transitionexception.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2508,7 +2508,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/transitiondefaultexception.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2519,7 +2519,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/association.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/association.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2531,7 +2531,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/association_nodirection.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2543,7 +2543,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/association_bidirection.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -2607,7 +2607,7 @@ create.desktop.icon=on
         <mediaobject>
           <imageobject>
             <imagedata contentdepth="100%" fileref="Images/graphPopup.jpg"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -2674,7 +2674,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/lane.gif"></imagedata>
+                  <imagedata fileref="Images/lane.gif"/>
                 </imageobject>
               </inlinemediaobject> Lane representing participant</para>
           </listitem>
@@ -2682,7 +2682,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/freetextlane.png"></imagedata>
+                  <imagedata fileref="Images/freetextlane.png"/>
                 </imageobject>
               </inlinemediaobject> Free text expression lane</para>
           </listitem>
@@ -2690,7 +2690,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/commonexplane.png"></imagedata>
+                  <imagedata fileref="Images/commonexplane.png"/>
                 </imageobject>
               </inlinemediaobject> Common expression lane</para>
           </listitem>
@@ -2702,7 +2702,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/start.gif"></imagedata>
+                <imagedata fileref="Images/start.gif"/>
               </imageobject>
             </inlinemediaobject> Start event activity (explicitly specifies
           process start)</para>
@@ -2711,7 +2711,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/end.gif"></imagedata>
+                <imagedata fileref="Images/end.gif"/>
               </imageobject>
             </inlinemediaobject> End event activity (explicitly specifies
           process end)</para>
@@ -2720,7 +2720,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/genericactivity.gif"></imagedata>
+                <imagedata fileref="Images/genericactivity.gif"/>
               </imageobject>
             </inlinemediaobject> Normal activity (manual activity without
           implementation)</para>
@@ -2729,7 +2729,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/activitytool.gif"></imagedata>
+                <imagedata fileref="Images/activitytool.gif"/>
               </imageobject>
             </inlinemediaobject> Task-application activity</para>
         </listitem>
@@ -2737,7 +2737,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/subflowactivity.gif"></imagedata>
+                <imagedata fileref="Images/subflowactivity.gif"/>
               </imageobject>
             </inlinemediaobject> Sub-flow activity</para>
         </listitem>
@@ -2745,7 +2745,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/blockactivity.gif"></imagedata>
+                <imagedata fileref="Images/blockactivity.gif"/>
               </imageobject>
             </inlinemediaobject> Block activity</para>
         </listitem>
@@ -2753,7 +2753,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/gatewayexclusive.gif"></imagedata>
+                <imagedata fileref="Images/gatewayexclusive.gif"/>
               </imageobject>
             </inlinemediaobject> Exclusive gateway route activity</para>
         </listitem>
@@ -2761,7 +2761,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/gatewayparallel.gif"></imagedata>
+                <imagedata fileref="Images/gatewayparallel.gif"/>
               </imageobject>
             </inlinemediaobject> Parallel gateway route activity</para>
         </listitem>
@@ -2771,7 +2771,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/transition.gif"></imagedata>
+                  <imagedata fileref="Images/transition.gif"/>
                 </imageobject>
               </inlinemediaobject> Conditional transition</para>
           </listitem>
@@ -2779,7 +2779,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/unconditional.gif"></imagedata>
+                  <imagedata fileref="Images/unconditional.gif"/>
                 </imageobject>
               </inlinemediaobject> Unconditional (uncontrolled flow)
             transition</para>
@@ -2788,7 +2788,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/transitionotherwise.gif"></imagedata>
+                  <imagedata fileref="Images/transitionotherwise.gif"/>
                 </imageobject>
               </inlinemediaobject> Otherwise (default flow) transition</para>
           </listitem>
@@ -2796,7 +2796,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/transitionexception.gif"></imagedata>
+                  <imagedata fileref="Images/transitionexception.gif"/>
                 </imageobject>
               </inlinemediaobject> Exception transition</para>
           </listitem>
@@ -2804,7 +2804,7 @@ create.desktop.icon=on
           <listitem>
             <para><inlinemediaobject>
                 <imageobject>
-                  <imagedata fileref="Images/transitiondefaultexception.gif"></imagedata>
+                  <imagedata fileref="Images/transitiondefaultexception.gif"/>
                 </imageobject>
               </inlinemediaobject> Default exception transition</para>
           </listitem>
@@ -2816,7 +2816,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/association.gif"></imagedata>
+                <imagedata fileref="Images/association.gif"/>
               </imageobject>
             </inlinemediaobject> directional association</para>
         </listitem>
@@ -2824,7 +2824,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/association_nodirection.gif"></imagedata>
+                <imagedata fileref="Images/association_nodirection.gif"/>
               </imageobject>
             </inlinemediaobject> non-directional association</para>
         </listitem>
@@ -2832,7 +2832,7 @@ create.desktop.icon=on
         <listitem>
           <para><inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/association_bidirection.gif"></imagedata>
+                <imagedata fileref="Images/association_bidirection.gif"/>
               </imageobject>
             </inlinemediaobject> bi-directional association</para>
         </listitem>
@@ -2846,7 +2846,7 @@ create.desktop.icon=on
       <para>The lanes for already existing participant can be inserted by
       using the choice button <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/lanesselect.gif"></imagedata>
+            <imagedata fileref="Images/lanesselect.gif"/>
           </imageobject>
         </inlinemediaobject> from the top of the graph component. The lane
       will be inserted at the bottom of the Pool (or at the bottom of the
@@ -2874,20 +2874,20 @@ create.desktop.icon=on
       participant it will represent using the lane choice button
       <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/lanesselect.gif"></imagedata>
+            <imagedata fileref="Images/lanesselect.gif"/>
           </imageobject>
         </inlinemediaobject>, or by selecting one of the lanes buttons
       (<inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/lane.gif"></imagedata>
+            <imagedata fileref="Images/lane.gif"/>
           </imageobject>
         </inlinemediaobject>, <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/freetextlane.png"></imagedata>
+            <imagedata fileref="Images/freetextlane.png"/>
           </imageobject>
         </inlinemediaobject>, <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/commonexplane.png"></imagedata>
+            <imagedata fileref="Images/commonexplane.png"/>
           </imageobject>
         </inlinemediaobject> ) and pressing on the wanted parent lane. Here is
       a sample of the process with a Pool that contains nested lanes:</para>
@@ -2898,7 +2898,7 @@ create.desktop.icon=on
         <mediaobject>
           <imageobject>
             <imagedata contentdepth="100%" fileref="Images/nested_lanes.jpg"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -2933,27 +2933,27 @@ create.desktop.icon=on
       kinds of transitions: the one describing uncontrolled flow
       <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/unconditional.gif"></imagedata>
+            <imagedata fileref="Images/unconditional.gif"/>
           </imageobject>
         </inlinemediaobject>, the one describing conditional flow
       <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transition.gif"></imagedata>
+            <imagedata fileref="Images/transition.gif"/>
           </imageobject>
         </inlinemediaobject>(a circle on the left will be drawn according to
       BPMN spec only in the case the source of the transition is not a
       gateway), the one describing default flow <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transitionotherwise.gif"></imagedata>
+            <imagedata fileref="Images/transitionotherwise.gif"/>
           </imageobject>
         </inlinemediaobject> (otherwise transition) and two kinds of exception
       transitions <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transitionexception.gif"></imagedata>
+            <imagedata fileref="Images/transitionexception.gif"/>
           </imageobject>
         </inlinemediaobject> and <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transitiondefaultexception.gif"></imagedata>
+            <imagedata fileref="Images/transitiondefaultexception.gif"/>
           </imageobject>
         </inlinemediaobject>(default exception). The type of a transition can
       be changed through its property panel.</para>
@@ -2962,11 +2962,11 @@ create.desktop.icon=on
       that can be inserted into the graph, data object artifact
       <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/dataobject.gif"></imagedata>
+            <imagedata fileref="Images/dataobject.gif"/>
           </imageobject>
         </inlinemediaobject> and text annotation <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/annotation.gif"></imagedata>
+            <imagedata fileref="Images/annotation.gif"/>
           </imageobject>
         </inlinemediaobject>. Artifacts describe e.g. document flow through
       the process, or make some comment that should be visible in the graph.
@@ -2977,15 +2977,15 @@ create.desktop.icon=on
       artifact with an activity. There are three types of associations offered
       by the TWE, directional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/association.gif"></imagedata>
+            <imagedata fileref="Images/association.gif"/>
           </imageobject>
         </inlinemediaobject>, non-directional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/association_nodirection.gif"></imagedata>
+            <imagedata fileref="Images/association_nodirection.gif"/>
           </imageobject>
         </inlinemediaobject> and bi-directional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/association_bidirection.gif"></imagedata>
+            <imagedata fileref="Images/association_bidirection.gif"/>
           </imageobject>
         </inlinemediaobject>. The type of association can be changed through
       its property panel.</para>
@@ -3277,7 +3277,7 @@ create.desktop.icon=on
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/xpdlViewPackage.gif" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3289,7 +3289,7 @@ create.desktop.icon=on
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/xpdlViewProcess.gif" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3301,7 +3301,7 @@ create.desktop.icon=on
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/xpdlViewActivity.gif" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3321,7 +3321,7 @@ create.desktop.icon=on
                   <imageobject>
                     <imagedata align="center" contentdepth="100%"
                                fileref="Images/navigator.gif" valign="middle"
-                               width="100%"></imagedata>
+                               width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -3332,11 +3332,11 @@ create.desktop.icon=on
               XPDL specification. These elements will be marked with error
               (<inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/error_icon.gif"></imagedata>
+                    <imagedata fileref="Images/error_icon.gif"/>
                   </imageobject>
                 </inlinemediaobject>) or warning (<inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/warrning_icon.gif"></imagedata>
+                    <imagedata fileref="Images/warrning_icon.gif"/>
                   </imageobject>
                 </inlinemediaobject>) icons.<para>The Navigator makes
               navigation through the XPDL model easier and offers a good way
@@ -3400,7 +3400,7 @@ create.desktop.icon=on
               <entry align="left" colsep="0" valign="middle"><mediaobject>
                   <imageobject>
                     <imagedata contentdepth="100%"
-                               fileref="Images/packageTree.gif" width="100%"></imagedata>
+                               fileref="Images/packageTree.gif" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -3485,7 +3485,7 @@ create.desktop.icon=on
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/propertiesComponent.gif" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3502,7 +3502,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/nav_left_red.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/nav_left_red.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3513,7 +3513,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/nav_right_red.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/nav_right_red.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3526,7 +3526,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata align="left" fileref="Images/revert.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3537,7 +3537,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/check.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/check.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3547,7 +3547,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/properties.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/properties.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3559,7 +3559,7 @@ create.desktop.icon=on
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/parentelementpanel.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3670,7 +3670,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/searchComponent.gif" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3684,7 +3684,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/expandall.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/expandall.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3694,7 +3694,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/collapseall.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/collapseall.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3704,7 +3704,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/cleanpage.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/cleanpage.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3741,7 +3741,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/problemsComponent.jpg" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3820,7 +3820,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <mediaobject>
           <imageobject>
             <imagedata contentdepth="100%" fileref="Images/wfxmlComponent.gif"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3835,7 +3835,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/downloadxpdl.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/downloadxpdl.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3845,7 +3845,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/uploadxpdl.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/uploadxpdl.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3856,7 +3856,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata align="left" fileref="Images/updatexpdl.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3866,7 +3866,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/cleanpage.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/cleanpage.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3895,7 +3895,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <mediaobject>
           <imageobject>
             <imagedata contentdepth="100%" fileref="Images/ldapcomponent.gif"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3913,7 +3913,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/ldapconfigurationdialog.gif"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -3928,7 +3928,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/config.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/config.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3940,7 +3940,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/searchldap.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/searchldap.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3954,7 +3954,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata align="left"
                                fileref="Images/importselected.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -3966,7 +3966,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/importexternalparticipants.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4063,7 +4063,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata align="center" contentdepth="100%"
                                  fileref="Images/saveChanges.gif" scalefit="1"
-                                 valign="middle" width="100%"></imagedata>
+                                 valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -4095,7 +4095,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata align="center" contentdepth="100%"
                                  fileref="Images/fileOpenDialog.gif"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -4115,7 +4115,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/saveAsDialog.gif"
-                                 scalefit="1" width="100%"></imagedata>
+                                 scalefit="1" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -4147,7 +4147,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata align="center" contentdepth="100%"
                                  fileref="Images/navigationOperations.gif"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -4163,7 +4163,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/nav_left_red.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/nav_left_red.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4173,7 +4173,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/nav_right_red.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/nav_right_red.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4184,7 +4184,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata align="left" fileref="Images/revert.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4195,7 +4195,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/check.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/check.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4206,7 +4206,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/applyandclose.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/applyandclose.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4218,7 +4218,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/parentelementpanel.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4259,7 +4259,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata align="center" contentdepth="100%"
                                fileref="Images/operationsOnElements.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -4276,7 +4276,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/new_small.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/new_small.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4286,7 +4286,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/edit_small.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/edit_small.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4297,7 +4297,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata align="left" fileref="Images/delete_small.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4308,7 +4308,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/duplicate_small.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4319,7 +4319,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="Images/references_small.gif"
-                               format="GIF"></imagedata>
+                               format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4331,7 +4331,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/convert_small.gif" format="GIF"></imagedata>
+                    <imagedata fileref="Images/convert_small.gif" format="GIF"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -4433,7 +4433,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 <imageobject>
                   <imagedata align="center" contentdepth="100%"
                              fileref="Images/Concept.jpg" scalefit="1"
-                             valign="middle" width="100%"></imagedata>
+                             valign="middle" width="100%"/>
                 </imageobject>
               </mediaobject></entry>
           </row>
@@ -4469,7 +4469,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/Package_Meta_Model.gif" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -4560,14 +4560,14 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </itemizedlist></para>
 
       <para>TWE provides a way to manage above listed entities (within one
-      package). On <xref linkend="mainToolbarOrganization" />, you can see
+      package). On <xref linkend="mainToolbarOrganization"/>, you can see
       where is the toolbar part for handling the properties of the selected
       Package.</para>
 
       <para>To create a new Package in TWE, you simply select File-&gt;New, or
       click appropriate button in the toolbar <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/new.gif"></imagedata>
+            <imagedata fileref="Images/new.gif"/>
           </imageobject>
         </inlinemediaobject> (the first button on the left). If you are
       currently editing some other XPDL file and there are some unsaved
@@ -4590,7 +4590,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>General attributes</title>
 
           <tgroup align="left" cols="3" colsep="1" rowsep="1">
-            <colspec align="center" colnum="2" colwidth="1.00*" />
+            <colspec align="center" colnum="2" colwidth="1.00*"/>
 
             <thead>
               <row>
@@ -4630,7 +4630,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>Package Header</title>
 
           <tgroup align="left" cols="3" colsep="1" rowsep="1">
-            <colspec align="center" colnum="2" />
+            <colspec align="center" colnum="2"/>
 
             <thead>
               <row>
@@ -4721,7 +4721,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>Redefinable Header</title>
 
           <tgroup align="left" cols="3" colsep="1" rowsep="1">
-            <colspec align="center" colnum="2" />
+            <colspec align="center" colnum="2"/>
 
             <thead>
               <row>
@@ -4818,7 +4818,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>Conformance Class</title>
 
           <tgroup align="left" cols="3" colsep="1" rowsep="1">
-            <colspec align="center" colnum="2" />
+            <colspec align="center" colnum="2"/>
 
             <thead>
               <row>
@@ -4871,7 +4871,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>Script element</title>
 
           <tgroup align="left" cols="3" colsep="1" rowsep="1">
-            <colspec align="left" colnum="2" colwidth="1.00*" />
+            <colspec align="left" colnum="2" colwidth="1.00*"/>
 
             <thead>
               <row>
@@ -4931,7 +4931,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
         <para>In TWE, the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/packageproperties.gif" format="GIF"></imagedata>
+              <imagedata fileref="Images/packageproperties.gif" format="GIF"/>
             </imageobject>
           </inlinemediaobject> from package toolbar (or package menu) is used
         for defining above mentioned properties, as well as all other package
@@ -4962,7 +4962,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesGeneralDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -4998,7 +4998,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   description.</para><para><emphasis>Documentation</emphasis>
                   field binds external file with package. <inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/treeDotsButton.gif"></imagedata>
+                        <imagedata fileref="Images/treeDotsButton.gif"/>
                       </imageobject>
                     </inlinemediaobject> button opens a choose file dialog for
                   finding appropriate one.</para></entry>
@@ -5007,7 +5007,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesHeaderDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5027,7 +5027,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesRedefinableDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5089,7 +5089,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesExtPackDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5109,7 +5109,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesTypeDeclDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5146,7 +5146,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesParticipantsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5166,7 +5166,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesApplicationsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5201,7 +5201,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesVariablesDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5230,7 +5230,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesAssociationsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5258,7 +5258,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesArtifactsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5278,7 +5278,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesPoolsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5310,7 +5310,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesProcessesDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5352,7 +5352,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/packagePropertiesNamespacesDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5383,7 +5383,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/Process_Meta_Model.gif" scalefit="1"
-                       width="100%"></imagedata>
+                       width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -5398,9 +5398,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       may be defined as attributes of the process.</para>
 
       <para condition="demo-emptytext">TWE provides a way to manage process
-      definition entities. On <xref linkend="mainToolbarOrganization" />, you
+      definition entities. On <xref linkend="mainToolbarOrganization"/>, you
       can see where is the toolbar part for handling the propertiesOn <xref
-      linkend="mainToolbarOrganization" /> you can see the organization of the
+      linkend="mainToolbarOrganization"/> you can see the organization of the
       selected WorkflowProcess.</para>
 
       <para condition="demo-emptytext">If you create (override) some process
@@ -5411,7 +5411,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <para condition="demo-emptytext">Typically, you will create a new
       process by pressing the button <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/processnew.gif"></imagedata>
+            <imagedata fileref="Images/processnew.gif"/>
           </imageobject>
         </inlinemediaobject> from the main toolbox or selecting appropriate
       item from Package menu.</para>
@@ -5426,7 +5426,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>General Attributes</title>
 
           <tgroup cols="3" colsep="1" rowsep="1">
-            <colspec align="center" colnum="2" />
+            <colspec align="center" colnum="2"/>
 
             <thead>
               <row>
@@ -5475,7 +5475,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>Process Header</title>
 
           <tgroup cols="3" colsep="1" rowsep="1">
-            <colspec align="center" colnum="2" />
+            <colspec align="center" colnum="2"/>
 
             <thead>
               <row>
@@ -5613,7 +5613,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>Redefinable Header</title>
 
           <tgroup cols="3" colsep="1" rowsep="1">
-            <colspec align="center" colnum="2" />
+            <colspec align="center" colnum="2"/>
 
             <thead>
               <row>
@@ -5703,7 +5703,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>In TWE, you can get the property panel to edit all workflow
         process attributes by clicking on a toolbar icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/processproperties.gif"></imagedata>
+              <imagedata fileref="Images/processproperties.gif"/>
             </imageobject>
           </inlinemediaobject>, or selecting the appropriate menu item.</para>
 
@@ -5728,7 +5728,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesGeneralDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5766,7 +5766,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesHeaderDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5786,7 +5786,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesRedefinableDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5826,7 +5826,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesParticipantsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5846,7 +5846,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesApplicationsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5881,7 +5881,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesVariablesDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5901,7 +5901,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesFormParamDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5937,7 +5937,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesActivitiesDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -5957,7 +5957,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesTransitionsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -5993,7 +5993,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/processPropertiesActivitySetsDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -6022,7 +6022,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/pool_horizontal.jpg"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -6030,7 +6030,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/pool_vertical.jpg" scalefit="1"
-                               valign="middle" width="100%"></imagedata>
+                               valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -6049,7 +6049,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/poolPropertiesDialog.gif"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -6087,7 +6087,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/lanePropertiesDialog.gif"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -6101,17 +6101,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 activity is put into the lane (using graph component), the
                 activity's performer becomes the participant which is a
                 representation for that particular lane.</para><para>As
-                described in <xref linkend="graphcomponent" /> , TWE also
-                alows nesting of lanes.</para><para>The property dialog of the
-                lane shows lane properties Id, Name, Performers and Nested
-                Lanes. The Id and the name are editable fields. The performer
-                of the lane is also editable. You can change the performer of
-                the lane to link it with an another participant, or you can
-                write your own expression for the performer. which are
-                editable (including a performer of the lane), but you can not
-                add or the remove the performer of the lane. The Nested Lanes
-                can't be added or removed as well (it is possible only through
-                the Graph component).</para></entry>
+                described in <xref linkend="graphcomponent"/> , TWE also alows
+                nesting of lanes.</para><para>The property dialog of the lane
+                shows lane properties Id, Name, Performers and Nested Lanes.
+                The Id and the name are editable fields. The performer of the
+                lane is also editable. You can change the performer of the
+                lane to link it with an another participant, or you can write
+                your own expression for the performer. which are editable
+                (including a performer of the lane), but you can not add or
+                the remove the performer of the lane. The Nested Lanes can't
+                be added or removed as well (it is possible only through the
+                Graph component).</para></entry>
               </row>
             </tbody>
           </tgroup>
@@ -6152,7 +6152,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 appears when you press the package toolbar button, or Package
                 menu item for adding external packages <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/externalpackagesadd.gif"></imagedata>
+                      <imagedata fileref="Images/externalpackagesadd.gif"/>
                     </imageobject>
                   </inlinemediaobject>. It enables you to select the XPDL file
                 from your disk, and to reference it as an external package for
@@ -6167,7 +6167,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/extPackageAddDialog.gif"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -6182,7 +6182,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>Action <emphasis>Remove external packages</emphasis>
         <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/externalpackagesremove.gif"></imagedata>
+              <imagedata fileref="Images/externalpackagesremove.gif"/>
             </imageobject>
           </inlinemediaobject> from the toolbox, or External packages menu
         removes external package from the current package.</para>
@@ -6201,7 +6201,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/ExtPackDeleteWarning.gif"
-                                 scalefit="1" width="100%"></imagedata>
+                                 scalefit="1" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -6225,7 +6225,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para condition="demo-details">To get the following dialog, click
         button <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/externalparticipants.gif"></imagedata>
+              <imagedata fileref="Images/externalparticipants.gif"/>
             </imageobject>
           </inlinemediaobject> (or appropriate menu item from External
         Packages menu).</para>
@@ -6246,7 +6246,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/participantsExternalDialog.gif"
-                                 scalefit="1" width="100%"></imagedata>
+                                 scalefit="1" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -6261,7 +6261,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para condition="demo-details">To get the following dialog, click
         button <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/externalprocesses.gif"></imagedata>
+              <imagedata fileref="Images/externalprocesses.gif"/>
             </imageobject>
           </inlinemediaobject> (or appropriate menu item from External
         Packages menu).</para>
@@ -6280,7 +6280,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/processesExternalDialog.gif"
-                                 width="100%"></imagedata>
+                                 width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -6295,7 +6295,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para condition="demo-details">To get the following dialog, click
         button <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/externalapplications.gif"></imagedata>
+              <imagedata fileref="Images/externalapplications.gif"/>
             </imageobject>
           </inlinemediaobject> (or appropriate menu item from External
         Packages menu).</para>
@@ -6315,7 +6315,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/applicationsExternalDialog.gif"
-                                 scalefit="1" width="100%"></imagedata>
+                                 scalefit="1" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -6330,7 +6330,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para condition="demo-details">To get the following dialog, click
         button <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/externaltypedeclarations.gif"></imagedata>
+              <imagedata fileref="Images/externaltypedeclarations.gif"/>
             </imageobject>
           </inlinemediaobject> (or appropriate menu item from External
         Packages menu).</para>
@@ -6350,7 +6350,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/typedeclarationsExternalDialog.jpg"
-                                 scalefit="1" width="100%"></imagedata>
+                                 scalefit="1" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -6380,11 +6380,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Type Declaration</title>
 
         <tgroup cols="3" colsep="1" rowsep="1">
-          <colspec align="center" colname="col0" colnum="1" />
+          <colspec align="center" colname="col0" colnum="1"/>
 
-          <colspec colname="col02" colnum="2" colwidth="2.00*" />
+          <colspec colname="col02" colnum="2" colwidth="2.00*"/>
 
-          <colspec colname="col2" colnum="3" colwidth="1*" />
+          <colspec colname="col2" colnum="3" colwidth="1*"/>
 
           <thead>
             <row>
@@ -6442,7 +6442,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata align="left" contentdepth="100%"
                                fileref="Images/TypeDeclarationDialog.jpg"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -6452,7 +6452,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               Package tree, and asking for its properties. To create a new
               TypeDeclaration, you can press button <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/typedeclarations.gif"></imagedata>
+                    <imagedata fileref="Images/typedeclarations.gif"/>
                   </imageobject>
                 </inlinemediaobject> which will bring you the property panel
               with all defined Type declarations for the package. There in,
@@ -6473,7 +6473,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Basic Data Type</title>
 
         <tgroup cols="3" colsep="1" rowsep="1">
-          <colspec align="center" colnum="2" />
+          <colspec align="center" colnum="2"/>
 
           <thead>
             <row>
@@ -6664,9 +6664,9 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Participant Types</title>
 
         <tgroup cols="2">
-          <colspec colname="col1" colnum="1" colwidth="1.00*" />
+          <colspec colname="col1" colnum="1" colwidth="1.00*"/>
 
-          <colspec colname="col2" colnum="2" colwidth="1.68*" />
+          <colspec colname="col2" colnum="2" colwidth="1.68*"/>
 
           <thead>
             <row>
@@ -6740,7 +6740,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata align="left" contentdepth="100%"
                                fileref="Images/participantNewDialog.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -6748,7 +6748,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               insert the lanes representing all the defined participants into
               a TWE graph using the following choice button <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/lanesselect.gif"></imagedata>
+                    <imagedata fileref="Images/lanesselect.gif"/>
                   </imageobject>
                 </inlinemediaobject> from graph's toolbar , and it'll be
               represented as a new swim-lane in a graph. Then, you can put the
@@ -6759,11 +6759,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               used to define activity's performer as an expression (can be
               created by toolbar buttons <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/freetextlane.png"></imagedata>
+                    <imagedata fileref="Images/freetextlane.png"/>
                   </imageobject>
                 </inlinemediaobject> and <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/commonexplane.png"></imagedata>
+                    <imagedata fileref="Images/commonexplane.png"/>
                   </imageobject>
                 </inlinemediaobject>). </para><para>All the activities which
               performer is not a reference to an existing Participant will be
@@ -6772,7 +6772,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               level Participants, and this is by using a Graph's toolbox
               button. Pressing this button <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/lane.gif"></imagedata>
+                    <imagedata fileref="Images/lane.gif"/>
                   </imageobject>
                 </inlinemediaobject>, and than clicking in the graph will
               automatically add another participant represented as a new
@@ -6795,7 +6795,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>General attributes</title>
 
         <tgroup align="left" cols="3" colsep="1" rowsep="1">
-          <colspec align="center" colnum="2" colwidth="1.00*" />
+          <colspec align="center" colnum="2" colwidth="1.00*"/>
 
           <thead>
             <row>
@@ -6864,7 +6864,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               Declaration</emphasis> settings. One way would be choosing an
               icon <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/packageapplications.gif"></imagedata>
+                    <imagedata fileref="Images/packageapplications.gif"/>
                   </imageobject>
                 </inlinemediaobject> at main toolbar. Another way would be
               selecting Package's <emphasis>Applications</emphasis> in a
@@ -6891,7 +6891,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/applicationNewDialog.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -6923,7 +6923,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata align="left" contentdepth="100%"
                                  fileref="Images/formalParametersDialog.gif"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7138,11 +7138,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Relevant Data</title>
 
         <tgroup cols="3">
-          <colspec colname="col01" colnum="1" colwidth="2.00*" />
+          <colspec colname="col01" colnum="1" colwidth="2.00*"/>
 
-          <colspec colname="col1" colnum="2" colwidth="1*" />
+          <colspec colname="col1" colnum="2" colwidth="1*"/>
 
-          <colspec colname="col03" colnum="3" colwidth="2.00*" />
+          <colspec colname="col03" colnum="3" colwidth="2.00*"/>
 
           <thead>
             <row>
@@ -7230,12 +7230,12 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <para>There is an icon <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/packageworkflowrelevantdata.gif"></imagedata>
+            <imagedata fileref="Images/packageworkflowrelevantdata.gif"/>
           </imageobject>
         </inlinemediaobject> in Package's part of the Toolbar and icon
       <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/processworkflowrelevantdata.gif"></imagedata>
+            <imagedata fileref="Images/processworkflowrelevantdata.gif"/>
           </imageobject>
         </inlinemediaobject> in process's part of the toolbar, and also on
       appropriate menus, for displaying all workflow relevant data for the
@@ -7249,7 +7249,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata align="left" contentdepth="100%"
                                fileref="Images/wfVariableNewDialog.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -7293,7 +7293,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata align="left" contentdepth="100%"
                                fileref="Images/FormalParameterDialog.jpg"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -7307,7 +7307,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               add new FormalParameter for the process, you can click on the
               button <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/processformalparameters.gif"></imagedata>
+                    <imagedata fileref="Images/processformalparameters.gif"/>
                   </imageobject>
                 </inlinemediaobject> (the right-most button in the toolbar).
               This will bring you a table property panel with a list of all
@@ -7339,7 +7339,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata align="left" contentdepth="100%"
                                fileref="Images/extendedAttributeDialog.jpg"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -7384,7 +7384,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               create a new activity set in the WorkflowProcess using Graph
               component's toolbar icon <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/activityset.gif"></imagedata>
+                    <imagedata fileref="Images/activityset.gif"/>
                   </imageobject>
                 </inlinemediaobject> for doing that. Previously you must
               insure that the graph for the WorkflowProcess where you want to
@@ -7404,7 +7404,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/activitySetDialog.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -7425,11 +7425,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Activity attributes</title>
 
         <tgroup cols="3" colsep="1" rowsep="1">
-          <colspec align="center" colname="col0" colnum="1" colwidth="2.33*" />
+          <colspec align="center" colname="col0" colnum="1" colwidth="2.33*"/>
 
-          <colspec colname="col02" colnum="2" colwidth="1.00*" />
+          <colspec colname="col02" colnum="2" colwidth="1.00*"/>
 
-          <colspec colname="col2" colnum="3" colwidth="6.04*" />
+          <colspec colname="col2" colnum="3" colwidth="6.04*"/>
 
           <thead>
             <row>
@@ -7559,7 +7559,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/Process_Activity_Structures.gif"
-                       scalefit="1" width="100%"></imagedata>
+                       scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -7584,7 +7584,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry align="center" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/act_start.jpg"></imagedata>
+                      <imagedata fileref="Images/act_start.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7595,7 +7595,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry align="center" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/act_end.jpg"></imagedata>
+                      <imagedata fileref="Images/act_end.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7606,7 +7606,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry align="center" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/act_no.jpg"></imagedata>
+                      <imagedata fileref="Images/act_no.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7619,7 +7619,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row>
                 <entry align="center" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/act_tool.jpg"></imagedata>
+                      <imagedata fileref="Images/act_tool.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7631,7 +7631,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 <entry align="center" valign="middle"><mediaobject
                     condition="demo-emptytext">
                     <imageobject>
-                      <imagedata fileref="Images/act_subflow.jpg"></imagedata>
+                      <imagedata fileref="Images/act_subflow.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7648,7 +7648,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row condition="demo-emptytext">
                 <entry align="center" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/act_block.jpg"></imagedata>
+                      <imagedata fileref="Images/act_block.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7663,7 +7663,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row condition="demo-emptytext">
                 <entry align="center" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/act_route-gatewayexclusive.jpg"></imagedata>
+                      <imagedata fileref="Images/act_route-gatewayexclusive.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7676,7 +7676,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <row condition="demo-emptytext">
                 <entry align="center" valign="middle"><mediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/act_route-gatewayparallel.jpg"></imagedata>
+                      <imagedata fileref="Images/act_route-gatewayparallel.jpg"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -7693,38 +7693,38 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         picture of the activities in the graph. Graph's toolbox icon for
         inserting Start event activity into the graph is <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/start.gif"></imagedata>
+              <imagedata fileref="Images/start.gif"/>
             </imageobject>
           </inlinemediaobject> and for inserting End event activity into is
         <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/end.gif"></imagedata>
+              <imagedata fileref="Images/end.gif"/>
             </imageobject>
           </inlinemediaobject>. For the manual activity, there is a toolbox
         icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/genericactivity.gif"></imagedata>
+              <imagedata fileref="Images/genericactivity.gif"/>
             </imageobject>
           </inlinemediaobject>, for Tool activities <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/activitytool.gif"></imagedata>
+              <imagedata fileref="Images/activitytool.gif"/>
             </imageobject>
           </inlinemediaobject>, for subflow activities<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/subflowactivity.gif"></imagedata>
+              <imagedata fileref="Images/subflowactivity.gif"/>
             </imageobject>
           </inlinemediaobject>, for block activities <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/blockactivity.gif"></imagedata>
+              <imagedata fileref="Images/blockactivity.gif"/>
             </imageobject>
           </inlinemediaobject> and for route activities <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/gatewayexclusive.gif"></imagedata>
+              <imagedata fileref="Images/gatewayexclusive.gif"/>
             </imageobject>
           </inlinemediaobject> (for exclusive gateway route activity) and
         <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/gatewayparallel.gif"></imagedata>
+              <imagedata fileref="Images/gatewayparallel.gif"/>
             </imageobject>
           </inlinemediaobject> (for parallel gateway route activity). Once
         selected, mouse cursor will show what type of object you'll insert.
@@ -7764,7 +7764,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/activityPropertiesGeneralDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -7802,7 +7802,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           type of an activity. For activities without implementation (manual)
           <inlinemediaobject>
               <imageobject>
-                <imagedata fileref="Images/genericactivity.gif"></imagedata>
+                <imagedata fileref="Images/genericactivity.gif"/>
               </imageobject>
             </inlinemediaobject> this tab doesn't contain any specific
           data.</para>
@@ -7818,7 +7818,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   which shares the context of the workflow process where
                   defined).</para><para>A block activity <inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/blockactivity.gif"></imagedata>
+                        <imagedata fileref="Images/blockactivity.gif"/>
                       </imageobject>
                     </inlinemediaobject> executes referenced ActivitySet or
                   self-contained activities/transitions map. When block
@@ -7833,7 +7833,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/activityPropertiesBlockActDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -7849,7 +7849,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/activityPropertiesToolActDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -7874,7 +7874,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <entry colsep="0" valign="middle"><para>Subflow
                   <inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/subflowactivity.gif"></imagedata>
+                        <imagedata fileref="Images/subflowactivity.gif"/>
                       </imageobject>
                     </inlinemediaobject> is type of activity whose
                   implementation is another workflow
@@ -7902,7 +7902,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/activityPropertiesSubflowActDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -7912,7 +7912,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/activityPropertiesRestrictionDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -7950,7 +7950,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/activityPropertiesSimulationDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
                 </row>
@@ -7970,7 +7970,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                       <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="Images/activityPropertiesExtAttDialog.gif"
-                                   scalefit="1" valign="middle" width="100%"></imagedata>
+                                   scalefit="1" valign="middle" width="100%"/>
                       </imageobject>
                     </mediaobject></entry>
 
@@ -8017,7 +8017,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata align="center" contentdepth="100%"
                        fileref="Images/artifacts_bpmn_notation.jpg"
-                       scalefit="1" valign="middle" width="100%"></imagedata>
+                       scalefit="1" valign="middle" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -8026,11 +8026,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Artifact attributes</title>
 
         <tgroup cols="3" colsep="1" rowsep="1">
-          <colspec align="center" colname="col0" colnum="1" colwidth="2.33*" />
+          <colspec align="center" colname="col0" colnum="1" colwidth="2.33*"/>
 
-          <colspec colname="col02" colnum="2" colwidth="1.00*" />
+          <colspec colname="col02" colnum="2" colwidth="1.00*"/>
 
-          <colspec colname="col2" colnum="3" colwidth="6.04*" />
+          <colspec colname="col2" colnum="3" colwidth="6.04*"/>
 
           <thead>
             <row>
@@ -8106,7 +8106,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata align="center" contentdepth="100%"
                        fileref="Images/artifact_dataobject_sample.jpg"
-                       scalefit="1" valign="middle" width="100%"></imagedata>
+                       scalefit="1" valign="middle" width="100%"/>
           </imageobject>
         </mediaobject>
       </figure>
@@ -8120,7 +8120,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry><mediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/artifact_dataobject.jpg"></imagedata>
+                    <imagedata fileref="Images/artifact_dataobject.jpg"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -8130,7 +8130,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             <row>
               <entry><mediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/artifact_annotation.jpg"></imagedata>
+                    <imagedata fileref="Images/artifact_annotation.jpg"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -8148,12 +8148,12 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               different types of artifacts from the graph toolbox are
               <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/dataobject.gif"></imagedata>
+                    <imagedata fileref="Images/dataobject.gif"/>
                   </imageobject>
                 </inlinemediaobject> for dataobject artifact, and
               <inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/annotation.gif"></imagedata>
+                    <imagedata fileref="Images/annotation.gif"/>
                   </imageobject>
                 </inlinemediaobject>for text annotation
               artifact.</para><para>The picture on the right shows property
@@ -8163,7 +8163,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/artifactPropertiesDialog.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -8188,23 +8188,23 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <para condition="demo-emptytext">Graph component allows you to chose
       between conditional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transition.gif"></imagedata>
+            <imagedata fileref="Images/transition.gif"/>
           </imageobject>
         </inlinemediaobject>, unconditional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/unconditional.gif"></imagedata>
+            <imagedata fileref="Images/unconditional.gif"/>
           </imageobject>
         </inlinemediaobject>, otherwise <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transitionotherwise.gif"></imagedata>
+            <imagedata fileref="Images/transitionotherwise.gif"/>
           </imageobject>
         </inlinemediaobject>, exception <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transitionexception.gif"></imagedata>
+            <imagedata fileref="Images/transitionexception.gif"/>
           </imageobject>
         </inlinemediaobject> and default exception <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/transitiondefaultexception.gif"></imagedata>
+            <imagedata fileref="Images/transitiondefaultexception.gif"/>
           </imageobject>
         </inlinemediaobject> transition for the insertion. If you want to
       insert a circular transition (a transition from activity to itself), you
@@ -8223,7 +8223,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Transition</title>
 
         <tgroup cols="3" colsep="1" rowsep="1">
-          <colspec align="center" colnum="2" />
+          <colspec align="center" colnum="2"/>
 
           <thead>
             <row>
@@ -8307,7 +8307,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/transitionDialog.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
 
@@ -8345,15 +8345,15 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <para condition="demo-emptytext">Graph component allows you to chose
       between directional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/association.gif"></imagedata>
+            <imagedata fileref="Images/association.gif"/>
           </imageobject>
         </inlinemediaobject>, non-directional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/association_nodirection.gif"></imagedata>
+            <imagedata fileref="Images/association_nodirection.gif"/>
           </imageobject>
         </inlinemediaobject> and bi-directional <inlinemediaobject>
           <imageobject>
-            <imagedata fileref="Images/association_bidirection.gif"></imagedata>
+            <imagedata fileref="Images/association_bidirection.gif"/>
           </imageobject>
         </inlinemediaobject> association for the insertion.</para>
 
@@ -8370,7 +8370,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <title>Association</title>
 
         <tgroup cols="3" colsep="1" rowsep="1">
-          <colspec align="center" colnum="2" />
+          <colspec align="center" colnum="2"/>
 
           <thead>
             <row>
@@ -8444,7 +8444,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                   <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="Images/associationPropertyDialog.gif"
-                               scalefit="1" valign="middle" width="100%"></imagedata>
+                               scalefit="1" valign="middle" width="100%"/>
                   </imageobject>
                 </mediaobject></entry>
             </row>
@@ -8464,7 +8464,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem>
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/new.gif"></imagedata>
+              <imagedata fileref="Images/new.gif"/>
             </imageobject>
           </inlinemediaobject> from the main toolbar (the left-most icon in
         the toolbar), or select menuitem File-&gt;New to create a new
@@ -8474,7 +8474,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem>
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/packageproperties.gif"></imagedata>
+              <imagedata fileref="Images/packageproperties.gif"/>
             </imageobject>
           </inlinemediaobject> from the main toolbar or select menuitem
         Package-&gt;Package properties to get the property panel for editing
@@ -8489,7 +8489,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 scripting language used when writing expressions, ...</para>
                 <para>Click on the icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/applyandclose.gif"></imagedata>
+                      <imagedata fileref="Images/applyandclose.gif"/>
                     </imageobject>
                   </inlinemediaobject> from the dialog's toolbar to apply the
                 changes, and to close the dialog</para></entry>
@@ -8498,7 +8498,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_pkgproperties.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8510,11 +8510,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem>
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/save.gif"></imagedata>
+              <imagedata fileref="Images/save.gif"/>
             </imageobject>
           </inlinemediaobject> or <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/saveas.gif"></imagedata>
+              <imagedata fileref="Images/saveas.gif"/>
             </imageobject>
           </inlinemediaobject> from the main toolbar or select menuitem
         Package-&gt;Save or Package-&gt;Save As... to save new Package into
@@ -8535,7 +8535,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_savepkg.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8547,13 +8547,13 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem>
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/packageparticipants.gif"></imagedata>
+              <imagedata fileref="Images/packageparticipants.gif"/>
             </imageobject>
           </inlinemediaobject> or select menuitem Package-&gt;Participants to
         get property panel with information about Participants defined on
         Package level, and then click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/new_small.gif"></imagedata>
+              <imagedata fileref="Images/new_small.gif"/>
             </imageobject>
           </inlinemediaobject> on the property panel to define new
         Participant:</para>
@@ -8566,17 +8566,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 attributes like Id, Name, Type, Description, ....</para>
                 <para>Click on the icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/check.gif"></imagedata>
+                      <imagedata fileref="Images/check.gif"/>
                     </imageobject>
                   </inlinemediaobject> from the dialog's toolbar in order to
                 apply the changes.</para> <para>Click on the icon
                 <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/nav_left_red.gif"></imagedata>
+                      <imagedata fileref="Images/nav_left_red.gif"/>
                     </imageobject>
                   </inlinemediaobject> or <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/parentelementpanel.gif"></imagedata>
+                      <imagedata fileref="Images/parentelementpanel.gif"/>
                     </imageobject>
                   </inlinemediaobject> in order to go back to the previous
                 property panel</para></entry>
@@ -8585,7 +8585,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_newparticipant.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8600,13 +8600,13 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem>
         <para condition="demo-details">Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/packageapplications.gif"></imagedata>
+              <imagedata fileref="Images/packageapplications.gif"/>
             </imageobject>
           </inlinemediaobject> or select menuitem Package-&gt;Applications to
         get property panel with information about Applications defined on
         Package level, and then click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/new_small.gif"></imagedata>
+              <imagedata fileref="Images/new_small.gif"/>
             </imageobject>
           </inlinemediaobject> on the property panel to define new
         Application:</para>
@@ -8619,13 +8619,13 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 like Id, Name, Description.</para> <para>Click on the icon
                 <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/check.gif"></imagedata>
+                      <imagedata fileref="Images/check.gif"/>
                     </imageobject>
                   </inlinemediaobject> from the dialog's toolbar in order to
                 apply the changes.</para> <para>Add necessary Formal
                 parameters by clicking the icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/new_small.gif"></imagedata>
+                      <imagedata fileref="Images/new_small.gif"/>
                     </imageobject>
                   </inlinemediaobject> on the Formal parameters section (this
                 will show another property panel for editing newly created
@@ -8634,7 +8634,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 <para>If necessary, add Extended attributes for the
                 application by clicking the icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/new_small.gif"></imagedata>
+                      <imagedata fileref="Images/new_small.gif"/>
                     </imageobject>
                   </inlinemediaobject> on the Extended attributes section
                 (this will show another property panel for editing newly
@@ -8642,11 +8642,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 panel, and repeat the step until you define all of
                 them)</para> <para>Click on the icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/nav_left_red.gif"></imagedata>
+                      <imagedata fileref="Images/nav_left_red.gif"/>
                     </imageobject>
                   </inlinemediaobject> or <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/parentelementpanel.gif"></imagedata>
+                      <imagedata fileref="Images/parentelementpanel.gif"/>
                     </imageobject>
                   </inlinemediaobject> in order to go back to the previous
                 property panel</para></entry>
@@ -8655,7 +8655,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_newapplication.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8673,7 +8673,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem condition="demo-emptytext">
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/processnew.gif"></imagedata>
+              <imagedata fileref="Images/processnew.gif"/>
             </imageobject>
           </inlinemediaobject> from the main toolbar, or select menuitem
         Package-&gt;Insert new process to create a new WorkflowProcess.</para>
@@ -8682,7 +8682,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem condition="demo-emptytext">
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/processproperties.gif"></imagedata>
+              <imagedata fileref="Images/processproperties.gif"/>
             </imageobject>
           </inlinemediaobject> from the main toolbar or select menuitem
         Process-&gt;Process properties to get the property panel for editing
@@ -8696,7 +8696,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 of the process attributes, like Id, Name, Access level
                 ...</para> <para>Click on the icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/applyandclose.gif"></imagedata>
+                      <imagedata fileref="Images/applyandclose.gif"/>
                     </imageobject>
                   </inlinemediaobject> from the dialog's toolbar to apply the
                 changes, and to close the dialog</para></entry>
@@ -8705,7 +8705,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_processproperties.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8717,14 +8717,14 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem condition="demo-emptytext">
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/processworkflowrelevantdata.gif"></imagedata>
+              <imagedata fileref="Images/processworkflowrelevantdata.gif"/>
             </imageobject>
           </inlinemediaobject> or select menuitem Process-&gt;Workflow
         variables to get property panel with information about Workflow
         variables defined for the Process, and then click on the icon
         <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/new_small.gif"></imagedata>
+              <imagedata fileref="Images/new_small.gif"/>
             </imageobject>
           </inlinemediaobject> on the property panel to define new Workflow
         variable:</para>
@@ -8738,17 +8738,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 Description, ...</para> <para>Click on the icon
                 <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/check.gif"></imagedata>
+                      <imagedata fileref="Images/check.gif"/>
                     </imageobject>
                   </inlinemediaobject> from the dialog's toolbar in order to
                 apply the changes.</para> <para>Click on the icon
                 <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/nav_left_red.gif"></imagedata>
+                      <imagedata fileref="Images/nav_left_red.gif"/>
                     </imageobject>
                   </inlinemediaobject> or <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/parentelementpanel.gif"></imagedata>
+                      <imagedata fileref="Images/parentelementpanel.gif"/>
                     </imageobject>
                   </inlinemediaobject> in order to go back to the previous
                 property panel</para></entry>
@@ -8757,7 +8757,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_newwfvariable.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8772,7 +8772,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem condition="demo-emptytext">
         <para>Click on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/lanesselect.gif"></imagedata>
+              <imagedata fileref="Images/lanesselect.gif"/>
             </imageobject>
           </inlinemediaobject> from the graph toolbar. You'll get the list of
         all Participants you've defined, plus so called Free text expression
@@ -8787,55 +8787,55 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem condition="demo-emptytext">
         <para>Use the icons from the Graph's toolbox (<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/start.gif"></imagedata>
+              <imagedata fileref="Images/start.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/end.gif"></imagedata>
+              <imagedata fileref="Images/end.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/genericactivity.gif"></imagedata>
+              <imagedata fileref="Images/genericactivity.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/activitytool.gif"></imagedata>
+              <imagedata fileref="Images/activitytool.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/subflowactivity.gif"></imagedata>
+              <imagedata fileref="Images/subflowactivity.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/blockactivity.gif"></imagedata>
+              <imagedata fileref="Images/blockactivity.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/gatewayexclusive.gif"></imagedata>
+              <imagedata fileref="Images/gatewayexclusive.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/gatewayparallel.gif"></imagedata>
+              <imagedata fileref="Images/gatewayparallel.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/transition.gif"></imagedata>
+              <imagedata fileref="Images/transition.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/unconditional.gif"></imagedata>
+              <imagedata fileref="Images/unconditional.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/transitionotherwise.gif"></imagedata>
+              <imagedata fileref="Images/transitionotherwise.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/transitionexception.gif"></imagedata>
+              <imagedata fileref="Images/transitionexception.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/transitiondefaultexception.gif"></imagedata>
+              <imagedata fileref="Images/transitiondefaultexception.gif"/>
             </imageobject>
           </inlinemediaobject>) in order to insert different kinds of
         activities into the graph, and to connect them.</para>
@@ -8859,7 +8859,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_actno.jpg" scalefit="1"
-                                 width="100%"></imagedata>
+                                 width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -8867,7 +8867,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_acttool.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8877,7 +8877,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_actroute.jpg"
-                                 scalefit="1" width="100%"></imagedata>
+                                 scalefit="1" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -8885,7 +8885,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_actstartevent.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8900,7 +8900,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>Be sure you applied all the changes by clicking the icon
         <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/check.gif"></imagedata>
+              <imagedata fileref="Images/check.gif"/>
             </imageobject>
           </inlinemediaobject> from the dialog's toolbar.</para>
       </listitem>
@@ -8922,7 +8922,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 variables you can use for the conditions).</para> <para>Click
                 on the icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/check.gif"></imagedata>
+                      <imagedata fileref="Images/check.gif"/>
                     </imageobject>
                   </inlinemediaobject> from the dialog's toolbar in order to
                 apply the changes.</para></entry>
@@ -8931,7 +8931,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_trans.jpg" scalefit="1"
-                                 valign="middle" width="100%"></imagedata>
+                                 valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -8943,23 +8943,23 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <listitem condition="demo-emptytext">
         <para>Use the icons from the Graph's toolbox (<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/dataobject.gif"></imagedata>
+              <imagedata fileref="Images/dataobject.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/annotation.gif"></imagedata>
+              <imagedata fileref="Images/annotation.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/association.gif"></imagedata>
+              <imagedata fileref="Images/association.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/association_nodirection.gif"></imagedata>
+              <imagedata fileref="Images/association_nodirection.gif"/>
             </imageobject>
           </inlinemediaobject>,<inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/association_bidirection.gif"></imagedata>
+              <imagedata fileref="Images/association_bidirection.gif"/>
             </imageobject>
           </inlinemediaobject>) in order to insert different kinds of
         artifacts into the graph, and to connect them.</para>
@@ -8982,7 +8982,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_artdataobject.jpg"
-                                 scalefit="1" width="100%"></imagedata>
+                                 scalefit="1" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
 
@@ -8990,7 +8990,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_artannotation.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -9001,7 +9001,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>Be sure you applied all the changes by clicking the icon
         <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/check.gif"></imagedata>
+              <imagedata fileref="Images/check.gif"/>
             </imageobject>
           </inlinemediaobject> from the dialog's toolbar.</para>
       </listitem>
@@ -9021,7 +9021,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                 association's Id, Name or Direction.</para> <para>Click on the
                 icon <inlinemediaobject>
                     <imageobject>
-                      <imagedata fileref="Images/check.gif"></imagedata>
+                      <imagedata fileref="Images/check.gif"/>
                     </imageobject>
                   </inlinemediaobject> from the dialog's toolbar in order to
                 apply the changes.</para></entry>
@@ -9030,7 +9030,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                     <imageobject>
                       <imagedata contentdepth="100%"
                                  fileref="Images/exmpl_association.jpg"
-                                 scalefit="1" valign="middle" width="100%"></imagedata>
+                                 scalefit="1" valign="middle" width="100%"/>
                     </imageobject>
                   </mediaobject></entry>
               </row>
@@ -9043,7 +9043,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>After you finished with editing, you should check the Package
         for validity by clicking on the icon <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/packagecheck.gif"></imagedata>
+              <imagedata fileref="Images/packagecheck.gif"/>
             </imageobject>
           </inlinemediaobject> from the main toolbar, or by selecting menuitem
         Package-&gt;Check validity.</para>
@@ -9057,7 +9057,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>Do not forget to save the changes you've made: click on the icon
         <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="Images/save.gif"></imagedata>
+              <imagedata fileref="Images/save.gif"/>
             </imageobject>
           </inlinemediaobject> from the main toolbar or select menuitem
         Package-&gt;Save. The changes will be saved in already defined XPDL
@@ -9075,7 +9075,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <imageobject>
           <imagedata align="center" contentdepth="100%"
                      fileref="Images/leave_request_process.jpg" scalefit="1"
-                     valign="middle" width="100%"></imagedata>
+                     valign="middle" width="100%"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -9713,7 +9713,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <imageobject>
                 <imagedata contentdepth="100%"
                            fileref="Images/allow_undefined_start.gif"
-                           scalefit="1" width="100%"></imagedata>
+                           scalefit="1" width="100%"/>
               </imageobject>
             </mediaobject>
           </figure>
@@ -9735,7 +9735,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
               <imageobject>
                 <imagedata contentdepth="100%"
                            fileref="Images/allow_undefined_end.gif"
-                           scalefit="1" width="100%"></imagedata>
+                           scalefit="1" width="100%"/>
               </imageobject>
             </mediaobject>
           </figure>
@@ -10047,6 +10047,16 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
     <section>
       <title>Release 4.5-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Updated TXM to version 1.4-1</para>
+        </listitem>
+
+        <listitem>
+          <para>Java 7 is now prerequisite</para>
+        </listitem>
+      </itemizedlist>
     </section>
 
     <section>
