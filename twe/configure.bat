@@ -163,7 +163,7 @@ echo.
 echo.
 echo Example:
 echo.
-echo configure -version 4.1 -release 1 -buildid 20110721-0808 -jdkhome C:/jdk1.6 -instdir C:/JaWE
+echo configure -version 4.5 -release 1 -buildid 20120801-0808 -jdkhome C:/jdk1.7 -instdir C:/JaWE
 echo.
 goto end
 
