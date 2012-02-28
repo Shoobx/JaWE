@@ -1103,7 +1103,7 @@ create.desktop.icon=on
     <para>(NOTE: by right-clicking on the tab you are able to close some
     component's view or to move it from one area to another)</para>
 
-    <para>See <xref linkend="frameSettings"/> for details about the
+    <para>See <xref linkend="togwecontroller.properties"/> for details about the
     configuration of the main frame.</para>
 
     <para>The rest of this chapter explains all these editor parts in
@@ -9290,7 +9290,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       areas contain only one component.</para>
     </sect1>
 
-    <sect1 condition="demo-emptytext">
+    <sect1 condition="demo-emptytext" xml:id="togwecontroller.properties" >
       <title>Property file
       <emphasis>togwecontroller.properties</emphasis></title>
 
@@ -9374,7 +9374,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
       </itemizedlist>
 
-      <para xml:id="frameSettings">The following parameters are defining
+      <para>The following parameters are defining
       initial TWE frame settings:</para>
 
       <itemizedlist>
