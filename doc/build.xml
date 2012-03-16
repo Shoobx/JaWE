@@ -214,6 +214,7 @@
          <arg line="-param html.stylesheet html.css 
                     -param body.start.indent 0pt 
                     -param ulink.footnotes 1 
+                    -param paper.type A4
                     -out '${docbook.name}.fo' 
                     -in '${docbook.name}.xml' 
                     -xsl '${docbook.fo.xsl}'" />
