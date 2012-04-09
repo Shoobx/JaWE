@@ -130,6 +130,7 @@
    <!-- ==================================================================== -->
    <target name="_debug" depends="cleanClasses, setDebug">
       <ant dir="${modules.dir}" />
+      <antcall target="signJars"/>
    </target>
 
    <target name="debug" depends="clean, _debug"/>
@@ -263,7 +264,7 @@
    <!-- ==================================================================== -->
    <!-- Builds all output                                                    -->
    <!-- ==================================================================== -->
-   <target name="buildOutput" depends="output, buildDocNoAPI"/>
+   <target name="buildOutput" depends="buildDocNoAPI,output"/>
 
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
@@ -413,7 +414,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Windows binary distribution                                          -->
    <!-- ==================================================================== -->
-   <target name="distBinWindows" depends="buildOutput, buildAPIDoc, distWebStart, distZIPEXE"/>
+   <target name="distBinWindows" depends="buildOutput, buildAPIDoc, signJars, distWebStart, distZIPEXE"/>
 
    <target name="distZIPEXE">
       <property name="dist.folder" value="${dist.community.dir}" />
@@ -831,7 +832,32 @@ make distributions       - Builds and configures TWE with all documentations and
       </tstamp>
       <echo message="time : ${current.time}" />
    </target>
-    
+
+   <target name="signJars">
+      <if>
+         <not>
+            <equals arg1="${os}" arg2="unix" />
+         </not>
+         <then>
+            <if>
+               <not>
+                  <equals arg1="${sign.alias}" arg2="" />
+               </not>
+               <then>
+                  <echo message="Signing with Together certificate" />
+                  <signjar alias="${sign.alias}"
+                     storepass="${sign.pwd}"
+                     keystore="${sign.privatekey}"
+                     storetype="pkcs12">
+                     <fileset dir="${output.lib.dir}" includes="${app.name}*.jar" />
+                  </signjar>
+               </then>
+            </if>      
+         </then>
+      </if>   
+   </target>
+   
+   
 </project>
 
 
