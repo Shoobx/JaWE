@@ -158,7 +158,7 @@
    <!-- ==================================================================== -->
    <!-- Create jar archives                                                  -->
    <!-- ==================================================================== -->
-   <target name="buildJars" depends="buildPicJar, buildLanJar, buildJar">
+   <target name="buildJars" depends="buildPicJar, buildLanJar, buildJar, signJars">
    </target>
 
    <!-- ==================================================================== -->
@@ -342,6 +342,35 @@
          </manifest>
       </jar>
    </target>
+   
+   <target name="signJars">
+      <if>
+         <not>
+            <equals arg1="${os}" arg2="unix" />
+         </not>
+         <then>
+            <if>
+               <not>
+                  <equals arg1="${sign.alias}" arg2="" />
+               </not>
+               <then>
+                  <antcall target="signjarfiles" />
+               </then>
+            </if>      
+         </then>
+      </if>   
+   </target>
+   
+   <target name="signjarfiles">
+      <echo message="Signing with Together certificate" />
+      <signjar alias="${sign.alias}"
+         storepass="${sign.pwd}"
+         keystore="${sign.privatekey}"
+         storetype="pkcs12">
+         <fileset dir="${output.lib.dir}" includes="${app.name}*.jar" />
+      </signjar>
+   </target>  
+   
    <!-- ==================================================================== -->
    <!-- Cleans everything                                                    -->
    <!-- ==================================================================== -->
