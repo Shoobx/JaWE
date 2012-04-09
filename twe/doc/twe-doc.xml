@@ -738,8 +738,9 @@ make distributions   - Builds and configures TWE with all documentations
       folder will be created in the root directory of the project source
       containing the appropriate OS specific binary distributions.</para>
 
-      <para>On Windows, to have the resulting ‘.exe’ file automatically
-      signed, the file called ‘sign.properties’ should be placed in the root
+      <para>On Windows, to have the resulting JAR files and ".exe" file
+      automatically signed, the file called <emphasis
+      role="bold">sign.properties</emphasis> should be placed in the root
       directory of the projects source with the following properties:</para>
 
       <para><programlisting>sign.tool       - absolute path to the sign tool executable file
