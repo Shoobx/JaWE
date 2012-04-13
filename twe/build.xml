@@ -623,12 +623,12 @@ make distributions       - Builds and configures TWE with all documentations and
          <istrue value="${rebranding}" />
          <then>
             <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**, tools/itext5/**" prefix="${app.name}-${version}-${release}.src" />
+               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**" prefix="${app.name}-${version}-${release}.src" />
             </zip>
          </then>
          <else>
             <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**" prefix="${app.name}-${version}-${release}.src" />
+               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**" prefix="${app.name}-${version}-${release}.src" />
             </zip>
          </else>
       </if>
@@ -645,7 +645,7 @@ make distributions       - Builds and configures TWE with all documentations and
                   <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
                   <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
                   <zip destfile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
-                     <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**, tools/itext5/**" prefix="${app.name}-tsl-${version}-${release}.src" />
+                     <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**" prefix="${app.name}-tsl-${version}-${release}.src" />
                   </zip>
                   <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
                   <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
@@ -667,7 +667,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
       <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
       <tar destfile="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
-         <tarfileset dir="${basedir}" excludes="Makefile sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, distribution/**, classes/**" prefix="${app.name}-${version}-${release}.src"/>
+         <tarfileset dir="${basedir}" excludes="Makefile sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**" prefix="${app.name}-${version}-${release}.src"/>
       </tar>
 
       <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
@@ -682,7 +682,7 @@ make distributions       - Builds and configures TWE with all documentations and
                   <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
                   <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
                   <tar destfile="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
-                     <tarfileset dir="${basedir}" excludes="Makefile sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, distribution/**, classes/**, **/jped/**,tools/itext5/**" prefix="${app.name}-tsl-${version}-${release}.src" />
+                     <tarfileset dir="${basedir}" excludes="Makefile sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**,tools/itext5/**" prefix="${app.name}-tsl-${version}-${release}.src" />
                   </tar>
                   <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
                   <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
