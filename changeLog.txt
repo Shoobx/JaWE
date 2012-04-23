@@ -1,4 +1,7 @@
 ###### TWE 4.5-1 RELEASED ######
+2012-04-23 Sasa Bojanic <sasaboy@together.at>
+   # Documentation folder removed from distribution
+
 2012-04-09 Sasa Bojanic <sasaboy@together.at>
    # signing JAR files with Together certificate
 
