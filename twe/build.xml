@@ -344,7 +344,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <property name="dist.debug.dir" location="${dist.dir}/debug" />
       <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
       <property name="dist.internal.dir" location="${dist.dir}/internal" />
-      <property name="dist.doc.dir" location="${dist.dir}/documentation" />
       <property name="dist.screenshots.dir" location="${dist.dir}/screenshots" />
 
       <mkdir dir="${dist.community.dir}" />
@@ -352,7 +351,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <mkdir dir="${dist.debug.dir}" />
       <mkdir dir="${dist.community.webstart.dir}" />
       <mkdir dir="${dist.internal.dir}" />
-      <mkdir dir="${dist.doc.dir}" />
       <mkdir dir="${dist.screenshots.dir}" />
    </target>
 
@@ -532,9 +530,6 @@ make distributions       - Builds and configures TWE with all documentations and
       <copy todir="${dist.community.dir}">
          <fileset dir="${build.dir}/doc" includes="${app.name}-current.doc.pdf" />
       </copy>      
-      <copy todir="${dist.doc.dir}">
-         <fileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*"/>
-      </copy>
       <delete quiet="true">
          <fileset dir="${build.dir}/doc" includes="${app.name}-${version}-${release}.doc.*" />
       </delete>      
