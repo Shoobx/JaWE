@@ -722,6 +722,10 @@ make distributions       - Builds and configures TWE with all documentations and
                </path>
             </signjar>
          </then>
+         <else>
+            <antcall target="signem" />
+         </else>
+         
       </if>      
       <zip destfile="${dist.folder}/${app.name}-${version}-${release}.webstart.zip" update="true">
          <zipfileset dir="${dist.community.webstart.dir}" prefix="${app.name}-${version}-${release}.webstart" />
@@ -821,6 +825,17 @@ make distributions       - Builds and configures TWE with all documentations and
       </if>
    </target>
 
+   
+   <target name="signem">
+      <echo message="Signing with Together certificate" />
+      <signjar alias="${sign.alias}"
+                 storepass="${sign.pwd}"
+                 keystore="${sign.privatekey}"
+                 storetype="pkcs12">
+            <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
+      </signjar>
+   </target>   
+
    <target name="get-current-time">
       <tstamp>
          <format property="current.time" pattern="HH:mm:ss" locale="en,UK" />
@@ -829,6 +844,7 @@ make distributions       - Builds and configures TWE with all documentations and
    </target>
 
    <target name="signJars">
+<!--      
       <if>
          <not>
             <equals arg1="${os}" arg2="unix" />
@@ -850,8 +866,8 @@ make distributions       - Builds and configures TWE with all documentations and
             </if>      
          </then>
       </if>   
+-->      
    </target>
-   
    
 </project>
 
