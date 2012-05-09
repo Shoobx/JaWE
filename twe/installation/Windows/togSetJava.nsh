@@ -22,6 +22,7 @@
 !include WinMessages.nsh
 !include LogicLib.nsh
 !include x64.nsh
+!include StrFunc.nsh
 
 !define TOG_CUSTOMPAGE_SETJAVA_TITLE "Choose Java Virtual Machine"
 !define TOG_CUSTOMPAGE_SETJAVA_SUBTITLE "Choose which path of the Java virtual machine to install ${APP_NAME}."
@@ -54,11 +55,18 @@ Var TOG_ExistJRE
 Var TOG_JavaBrowse
 Var TOG_ExistJavaCount
 Var TOG_Index
-
+Var TOG_JavaFullVersionSupport ; minimum version of java that our program support 03222012/Kot
+Var TOG_UserJavaHomeVersion    ; user set their java_home to which version 03222012/Kot
+Var TOG_UserHasRightJavaVersion    ; user set their java_home to which version 03222012/Kot
+	
 !macro TOG_CUSTOMPAGE_SETJAVA APP_NAME JAVA_PATH
 Page custom create_page_setjava leave_page_setjava
 
 Function create_page_setjava
+
+	# Define minimum version of java that our application support. 03222012/Kot
+	StrCpy $TOG_JavaFullVersionSupport "1.7"
+	
     # Insert pre-custom function
     !insertmacro TOG_CUSTOMPAGE_FUNCTION_CUSTOM PRE
     Push $0
@@ -66,7 +74,7 @@ Function create_page_setjava
 	Push $R0
 	Push $R1
 	Push $R9
-
+	
     ;(0) Create header title & header subtitle and Get Java virtual machine info from %JAVA_HOME%, JDK and JRE
     !insertmacro MUI_HEADER_TEXT_PAGE "${TOG_CUSTOMPAGE_SETJAVA_TITLE}" "${TOG_CUSTOMPAGE_SETJAVA_SUBTITLE}"
 	StrCpy $TOG_ExistJavaCount 0
@@ -298,27 +306,117 @@ end_update_next_button:
 FunctionEnd
 
 Function GetJavaInfo
-    ;(1) Check whether %JAVA_HOME% exists
+    ;(0) check if user has lover version of java than the minimum requirement; quit the installation 03222012/Kot
+	Call Check_JavaVersionNumber
+	
+	;(1) Check whether %JAVA_HOME% exists
     Call Check_JavaHome
-
+	
     ;(2) Check whether other exisiting JVMs exists, e.g. JDK, JRE
     Call Check_JDK
     Call Check_JRE
 FunctionEnd
 
+Function Check_JavaVersionNumber
+	;check if user has lover version of java than the minimum requirement; quit the installation 03222012/Kot
+	Push $0 
+	${if} ${RunningX64}
+        SetRegView 64
+    ${Else}
+        SetRegView 32
+    ${Endif}
+	# get current version of java
+    ReadRegStr $0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+ 
+check_java_version_number:	
+    ${If} $0 S< $TOG_JavaFullVersionSupport
+         ;requirement not met.
+		 # show warning to user befor quit install.
+		MessageBox MB_OK "${APP_NAME} is support for java $TOG_JavaFullVersionSupport or higher version. $\nPlease install Java $TOG_JavaFullVersionSupport or higher version before install ${APP_NAME}." IDOK quit_instaillation
+    ${EndIf}
+	
+	Pop $0
+	goto finish
+
+quit_instaillation:
+	Pop $0
+	Quit
+
+finish:
+FunctionEnd
+
 Function Check_JavaHome
-    ReadEnvStr $TOG_JavaHome "JAVA_HOME"
+	ReadEnvStr $TOG_JavaHome "JAVA_HOME"
+
+	Call GetUserJavaVersionByJavaHome
+	
     ${If} $TOG_JavaHome != ""
+		${If} $TOG_UserHasRightJavaVersion != "Yes"
+			Goto javahome_donot_exist
+		${Else}
         IfFileExists $TOG_JavaHome\bin\javaw.exe 0 +2
-            goto javahome_alive
-        StrCpy $TOG_JavaHome "" ;<< %JAVA_HOME% does not exist
+            Goto javahome_alive
+        goto javahome_donot_exist
+		${EndIf}
     ${Else}
         ReadRegStr $TOG_JavaHome HKCU "Environment" "JAVA_HOME"
+		ClearErrors
         IfFileExists $TOG_JavaHome\bin\javaw.exe 0 +2
-            goto javahome_alive
-        StrCpy $TOG_JavaHome "" ;<< %JAVA_HOME% does not exist
+            Goto javahome_alive
+        Goto javahome_donot_exist
     ${EndIf}
+javahome_donot_exist:
+	StrCpy $TOG_JavaHome "" ;<< %JAVA_HOME% does not exist
 javahome_alive:                 ;<< %JAVA_HOME% exists
+FunctionEnd
+
+Function GetUserJavaVersionByJavaHome
+; add check for JRE version.
+Push $R0
+Push $R1
+Push $R2
+Push $R3
+Push $R4
+Push $R5
+Push $R6
+ 
+ ReadEnvStr $R3 "JAVA_HOME"
+ StrCpy $R1 "."
+ StrCpy $R0 -1
+ IntOp $R0 $R0 + 1
+  StrCpy $R2 $R3 1 $R0
+  StrCmp $R2 "" +2
+  StrCmp $R2 $R1 +2 -3
+ 
+ StrCpy $R0 -1
+ IntOp $R0 $R0 - 1							;adjust position
+ StrCpy $TOG_UserJavaHomeVersion $R3 3 $R0	;get java major and minor version(x.y) from user java_home 03222012/Kot
+ StrLen $R4 $TOG_UserJavaHomeVersion
+ ${If} $R4 > 2
+	${If} $TOG_UserJavaHomeVersion S< $TOG_JavaFullVersionSupport
+		StrCpy $TOG_UserHasRightJavaVersion "No"
+	${Else}
+		StrCpy $TOG_UserHasRightJavaVersion "Yes"
+	${EndIf}
+ ${ElseIf} $R4 = 2
+	StrCpy $R5 $TOG_UserJavaHomeVersion 1 1				; minor version fron java_home 03222012/Kot
+	StrCpy $R6 $TOG_JavaFullVersionSupport 1 2			; minor version fron minimum support 03222012/Kot
+	${If} $R5 S< $R6
+		StrCpy $TOG_UserHasRightJavaVersion "No"
+	${Else}
+		StrCpy $TOG_UserHasRightJavaVersion "Yes"
+	${EndIf}
+ ${Else}
+	StrCpy $TOG_UserHasRightJavaVersion "No"
+ ${EndIf}
+ 
+Pop $R6
+Pop $R5
+Pop $R4
+Pop $R3
+Pop $R2
+Pop $R1
+Pop $R0
 FunctionEnd
 
 !insertmacro Check_JavaVersion "JDK"
@@ -326,12 +424,16 @@ FunctionEnd
 
 !macroend
 
+
+ 
 !macro Check_JavaVersion Version
 Function Check_${Version}
     Var /GLOBAL Description_${Version}
     Push $1
     Push $2
 	Push $3
+    Push $4		; java major version 03222012/Kot
+	Push $5		; java minor version 03222012/Kot
     Push $R1
     Push $R2
     Push $R9
@@ -362,10 +464,16 @@ start_check_${Version}:
         StrCpy $1 $R1 1     ; As major version e.g. (1).6
         StrCpy $2 $R1 1 2   ; As minor version e.g. 1.(6)
 		StrCpy $3 $R1 1 4   ; As zero number before revision number 1.6.(0)_27
+		StrCpy $4 $TOG_JavaFullVersionSupport 1		;get major version of java 03222012/Kot
+		StrCpy $5 $TOG_JavaFullVersionSupport 1 2	;get minor version of java 03222012/Kot
+	
+		;skip if minor version of java lower than minimum requirement 03222012/Kot
+		IntCmp $1 $4 0 increase_index_${Version} +1
 		
 		StrCmp $3 "" increase_index_${Version} +1
-		;Check java version >= 1.4.x
-		IntCmp $2 4 0 increase_index_${Version} 0	
+	
+		;get JavaHome if minor version of java is eq or gt then minimun requirenet.
+		IntCmp $2 $5 0 increase_index_${Version} 0	
 		    StrCpy $TOG_Exist${Version} $R2
 			IntOp $TOG_ExistJavaCount $TOG_ExistJavaCount + 1
 			nsArray::Set Array_JavaVersion /key=$TOG_ExistJavaCount $TOG_Exist${Version} /end
@@ -378,6 +486,8 @@ end_check_${Version}:
     Pop $R9
     Pop $R2
     Pop $R1
+	Pop $5
+    Pop $4
 	Pop $3
     Pop $2
     Pop $1
