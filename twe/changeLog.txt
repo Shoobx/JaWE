@@ -1,3 +1,7 @@
+###### TWE 4.6-1 RELEASED ######
+2012-05-24 Sasa Bojanic <sasaboy@together.at>
+   # Changed package names for HistoryMgr and UndoHistoryMgr so all the JAR files are using different package names
+
 ###### TWE 4.5-1 RELEASED ######
 2012-05-09 Sasa Bojanic <sasaboy@together.at>
    # distribution component output is now zipped into the txm-x.y-z.comp.zip

@@ -16,12 +16,15 @@
 * along with this program. If not, see http://www.gnu.org/licenses
 */
 
-package org.enhydra.jawe;
+package org.enhydra.jawe.undohistorymgr;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.enhydra.jawe.JaWEManager;
+import org.enhydra.jawe.UndoHistoryManager;
+import org.enhydra.jawe.XPDLElementChangeInfo;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLComplexChoice;

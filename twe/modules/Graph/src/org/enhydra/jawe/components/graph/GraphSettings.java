@@ -192,7 +192,7 @@ public class GraphSettings extends JaWEComponentSettings {
 
       componentSettings.put("Graph.HistoryManager.Class",
                             properties.getProperty("Graph.HistoryManager.Class",
-                                                   "org.enhydra.jawe.HistoryMgr"));
+                                                   "org.enhydra.jawe.historymgr.HistoryMgr"));
       componentSettings.put("Graph.HistorySize",
                             new Integer(properties.getProperty("Graph.HistorySize", "15")));
 

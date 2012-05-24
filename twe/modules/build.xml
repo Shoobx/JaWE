@@ -219,8 +219,8 @@
             <exclude name="**/components/debug/**" />
             <exclude name="**/components/detailedpackagenavigator/**" />
             <exclude name="**/components/extpkgrelations/**" />
-            <exclude name="**/jawe/HistoryMgr.class" />
-            <exclude name="**/jawe/UndoHistoryMgr.class" />
+            <exclude name="**/jawe/historymgr/**" />
+            <exclude name="**/jawe/undohistorymgr/**" />
             <exclude name="**/components/infobar/**" />
             <exclude name="**/components/languageswitcher/**" />
             <exclude name="**/components/ldap/**" />
@@ -248,11 +248,11 @@
       </antcall>
       <antcall target="makeJAR">
          <param name="jar2create" value="${app.name}historymgr.jar"/>
-         <param name="includepath" value="**/jawe/HistoryMgr.class"/>
+         <param name="includepath" value="**/jawe/historymgr/**"/>
       </antcall>
       <antcall target="makeJAR">
          <param name="jar2create" value="${app.name}undomgr.jar"/>
-         <param name="includepath" value="**/jawe/UndoHistoryMgr.class"/>
+         <param name="includepath" value="**/jawe/undohistorymgr/**"/>
       </antcall>
       <antcall target="makeJAR">
          <param name="jar2create" value="${app.name}detailedpackagenavigator.jar"/>

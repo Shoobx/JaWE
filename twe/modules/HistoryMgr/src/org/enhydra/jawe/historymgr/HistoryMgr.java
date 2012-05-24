@@ -16,13 +16,14 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-package org.enhydra.jawe;
+package org.enhydra.jawe.historymgr;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
+import org.enhydra.jawe.HistoryManager;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 

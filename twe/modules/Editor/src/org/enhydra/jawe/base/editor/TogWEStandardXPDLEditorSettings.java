@@ -79,7 +79,7 @@ public class TogWEStandardXPDLEditorSettings extends PanelSettings {
 
         componentSettings.put("XMLComboPanel.DisableCombo", properties.getProperty("XMLComboPanel.DisableCombo",""));
 
-        componentSettings.put("HistoryManager.Class", properties.getProperty("HistoryManager.Class","org.enhydra.jawe.HistoryMgr"));
+        componentSettings.put("HistoryManager.Class", properties.getProperty("HistoryManager.Class","org.enhydra.jawe.historymgr.HistoryMgr"));
         componentSettings.put("HistorySize", new Integer(properties.getProperty("HistorySize","15")));
 
         Color color=null;

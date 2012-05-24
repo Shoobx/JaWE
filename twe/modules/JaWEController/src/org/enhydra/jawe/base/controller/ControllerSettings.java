@@ -112,7 +112,7 @@ public class ControllerSettings extends JaWEComponentSettings {
                                .equals("true")));
       componentSettings.put("UndoHistoryManager.Class",
                             properties.getProperty("UndoHistoryManager.Class",
-                                                   "org.enhydra.jawe.UndoHistoryMgr"));
+                                                   "org.enhydra.jawe.undohistorymgr.UndoHistoryMgr"));
       componentSettings.put("UndoHistorySize",
                             new Integer(properties.getProperty("UndoHistorySize", "-1")));
 
