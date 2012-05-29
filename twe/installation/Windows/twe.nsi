@@ -358,7 +358,10 @@ Section "Install" Install
 
   
   ;WriteUninstaller "$%TEMP%\uninstall.exe" ;<<----- Enabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
-end:  
+
+   nsExec::ExecToLog 'cacls.exe "$INSTDIR\config" /T /E /C /G Everyone:F'
+
+end: 
 
 SectionEnd
 ;---------------------------------------------------------------------------------------
