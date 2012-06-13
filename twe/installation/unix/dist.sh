@@ -90,6 +90,8 @@ It is compatible with WfMC specification - XPDL (XML Process Definition Language
 cp $PWD/build.properties $RPM_ROOT/BUILD/$name$nameadditional-$version-$release
 
 %build
+	if [[ ! -f "$RPM_ROOT/../../../shared/$name$nameadditional-$version-$release.zip" ]];
+		then
     while
         echo -e "\n\nPlease enter path to your "\
             "Java Development Kit - JDK directory [/usr/java/jdk1.6.0_21] \n\n"
@@ -104,11 +106,29 @@ cp $PWD/build.properties $RPM_ROOT/BUILD/$name$nameadditional-$version-$release
     chmod +x ./configure
     ./configure --jdkhome=\$JAVA_HOME
     make buildOutput
+		else
+			rm -rf "$RPM_ROOT/../../../output"
+			mkdir "$RPM_ROOT/../../../output"
+			unzip "$RPM_ROOT/../../../shared/$name$nameadditional-$version-$release.zip" -d "$RPM_ROOT/../../../output"
+			[ "x" != "${nameadditional}x" ] && mv $RPM_ROOT/../../../output/%{name}-%{version}-%{release} $RPM_ROOT/../../../output/${name}-%{version}-%{release}
+			rm -f $RPM_ROOT/../../../output/${name}-%{version}-%{release}/configure.bat
+			rm -f $RPM_ROOT/../../../output/${name}-%{version}-%{release}/dist/bin/run.bat.in
+			cp -f $RPM_ROOT/../../../input/configure.sh $RPM_ROOT/../../../output/${name}-%{version}-%{release}/configure.sh
+			cp -f $RPM_ROOT/../../../input/bin/run.sh.in $RPM_ROOT/../../../output/${name}-%{version}-%{release}/dist/bin/run.sh.in
+			chmod a=rx $RPM_ROOT/../../../output/${name}-%{version}-%{release}/configure.sh
+	fi
 
 %install
     rm -rf \$RPM_BUILD_ROOT
     mkdir -p \$RPM_BUILD_ROOT/%prefix \$RPM_BUILD_ROOT/usr
-    cp -pr output/* \$RPM_BUILD_ROOT/%prefix
+	echo $PWD
+	if [[ ! -f "$RPM_ROOT/../../../shared/$name$nameadditional-$version-$release.zip" ]];
+		then
+			cp -pr output/* \$RPM_BUILD_ROOT/%prefix
+		else
+			cp -pr $RPM_ROOT/../../../output/* \$RPM_BUILD_ROOT/%prefix
+	fi
+    
     [ "x" != "${nameadditional}x" ] && mv \$RPM_BUILD_ROOT/%prefix/${name}-%{version}-%{release} \$RPM_BUILD_ROOT/%prefix/%{name}-%{version}-%{release}
     cp -pr installation/unix/usr/* \$RPM_BUILD_ROOT/usr
     sed -e 's/@na@/$nameadditional/g' -e 's/@v@/$version/g' -e 's/@r@/$release/g' \$RPM_BUILD_ROOT/usr/share/applications/togwe.desktop > \$RPM_BUILD_ROOT/usr/share/applications/togwe2.desktop

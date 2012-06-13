@@ -1,7 +1,10 @@
 ###### TWE 4.6-1 RELEASED ######
+2012-06-13 Sasa Bojanic <sasaboy@together.at>
+   # changes related to linux builds with TAB
+
 2012-05-29 Sasa Bojanic <sasaboy@together.at>
    # Modified NSIS script to use windows' "cacls.exe" to change access controls to allow everyone to writte into installation's config folder
-    (TWE installation had a problem when User Access Controls (UAC) were set to the "higher level" likie "Always notify" - couldn't switch configuration)
+    (TWE installation had a problem when User Access Controls (UAC) were set to the "higher level" like "Always notify" - couldn't switch configuration)
 
 2012-05-24 Sasa Bojanic <sasaboy@together.at>
    # Changed package names for HistoryMgr and UndoHistoryMgr so all the JAR files are using different package names
