@@ -288,7 +288,6 @@
       <ant dir="${doc.dir}" target="clean" />
       <delete dir="${output.dir}" />
       <delete dir="${basedir}/distribution" />
-      <delete dir="${basedir}/shared" />
       <delete quiet="true">
          <fileset dir="${basedir}" includes="log_*.txt" />
       </delete>
