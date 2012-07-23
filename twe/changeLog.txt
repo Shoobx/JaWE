@@ -1,4 +1,7 @@
 ###### TWE 4.6-1 RELEASED ######
+2012-07-23 Sasa Bojanic <sasaboy@together.at>
+   # Documentation: chapter Build Guide put at the end (before Release Notes)
+
 2012-06-13 Sasa Bojanic <sasaboy@together.at>
    # changes related to linux builds with TAB
 
