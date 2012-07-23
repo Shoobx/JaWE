@@ -1,6 +1,10 @@
 ###### TWE 4.6-1 RELEASED ######
 2012-07-23 Sasa Bojanic <sasaboy@together.at>
    # Documentation: chapter Build Guide put at the end (before Release Notes)
+   # Windows Installation:
+      - Fixed: Size information in Control Panel
+      - Added: Pin to taskbar option
+      - Changed: Build ID information in Control Panel
 
 2012-06-13 Sasa Bojanic <sasaboy@together.at>
    # changes related to linux builds with TAB

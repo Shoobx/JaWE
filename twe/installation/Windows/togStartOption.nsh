@@ -37,8 +37,9 @@ Var tog.StartOptionCustomPage.Check.StartMenu
 Var tog.StartOptionCustomPage.Edit.StartMenu
 Var tog.StartOptionCustomPage.Check.Shortcut
 Var tog.StartOptionCustomPage.Check.QuickLaunch
+Var tog.StartOptionCustomPage.Check.PintoTaskbar
 
-!macro TOG_CUSTOMPAGE_STARTOPTION APP_NAME CHECK_STARTMENU EDIT_STARTMENU CHECK_SHORTCUT CHECK_QUICKLAUNCH
+!macro TOG_CUSTOMPAGE_STARTOPTION APP_NAME CHECK_STARTMENU EDIT_STARTMENU ENABLE_SHORTCUT CHECK_SHORTCUT ENABLE_QUICKLAUNCH CHECK_QUICKLAUNCH ENABLE_PINTOTASKBAR CHECK_PINTOTASKBAR
 Page custom create_page_startoption leave_page_startoption
 
 Function create_page_startoption
@@ -49,11 +50,9 @@ Function create_page_startoption
 
     ;(0) Create header title & header subtitle and Set name of Start menu as ${APP_NAME} and Set every CheckBox state as ${BST_CHECKED}, except QUICKLAUNCH
     !insertmacro MUI_HEADER_TEXT_PAGE "${TOG_CUSTOMPAGE_STARTOPTION_TITLE}" "${TOG_CUSTOMPAGE_STARTOPTION_SUBTITLE}"
+
     ${If} ${EDIT_STARTMENU} == ""
         StrCpy ${EDIT_STARTMENU} "${APP_NAME}"
-        StrCpy ${CHECK_STARTMENU} "${BST_CHECKED}"
-        StrCpy ${CHECK_SHORTCUT} "${BST_CHECKED}"
-        StrCpy ${CHECK_QUICKLAUNCH} "${BST_UNCHECKED}"
     ${EndIf}
 
     ;(1) Create a Together startoption dialog page
@@ -87,15 +86,36 @@ Function create_page_startoption
     ;(5) Create a checkbox control for "Create Shortcut on Desktop"
     ${NSD_CreateCheckBox} 0u 54u 100u 12u "Create Shortcut on Desktop"
     Pop $tog.StartOptionCustomPage.Check.Shortcut
-    ${NSD_SetState} $tog.StartOptionCustomPage.Check.Shortcut ${CHECK_SHORTCUT}
-    ${NSD_OnClick} $tog.StartOptionCustomPage.Check.Shortcut OnClickCheckBox_Shortcut
+	${If} ${ENABLE_SHORTCUT} == "on"
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.Shortcut ${CHECK_SHORTCUT}
+		${NSD_OnClick}  $tog.StartOptionCustomPage.Check.Shortcut OnClickCheckBox_Shortcut
+	${Else}
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.Shortcut 0
+		EnableWindow 	$tog.StartOptionCustomPage.Check.Shortcut 0
+	${EndIf}
 
     ;(6) Create a checkbox control for "Create Quick Launch"
     ${NSD_CreateCheckBox} 0u 68u 100u 12u "Create Quick Launch"
     Pop $tog.StartOptionCustomPage.Check.QuickLaunch
-    ${NSD_SetState} $tog.StartOptionCustomPage.Check.QuickLaunch ${CHECK_QUICKLAUNCH}
-    ${NSD_OnClick} $tog.StartOptionCustomPage.Check.QuickLaunch OnClickCheckBox_QuickLaunch
-
+	${If} ${ENABLE_QUICKLAUNCH} == "on"
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.QuickLaunch ${CHECK_QUICKLAUNCH}
+		${NSD_OnClick}  $tog.StartOptionCustomPage.Check.QuickLaunch OnClickCheckBox_QuickLaunch
+	${Else}
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.QuickLaunch 0
+		EnableWindow 	$tog.StartOptionCustomPage.Check.QuickLaunch 0
+	${EndIf}
+	
+    ;(7) Create a checkbox control for "Create Pin to taskbar"
+    ${NSD_CreateCheckBox} 0u 82u 100u 12u "Create Pin to Taskbar"
+    Pop $tog.StartOptionCustomPage.Check.PintoTaskbar
+	${If} ${ENABLE_PINTOTASKBAR} == "on"
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.PintoTaskbar ${CHECK_PINTOTASKBAR}
+		${NSD_OnClick}  $tog.StartOptionCustomPage.Check.PintoTaskbar OnClickCheckBox_PintoTaskbar
+	${Else}
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.PintoTaskbar 0
+		EnableWindow 	$tog.StartOptionCustomPage.Check.PintoTaskbar 0
+	${EndIf}
+	
     Call UpdateEdit_StartMenu
 
     # Insert show-custom function
@@ -134,6 +154,7 @@ FunctionEnd
 !insertmacro OnClickCheckBoxOnStartOptionPage "STARTMENU"
 !insertmacro OnClickCheckBoxOnStartOptionPage "SHORTCUT"
 !insertmacro OnClickCheckBoxOnStartOptionPage "QUICKLAUNCH"
+!insertmacro OnClickCheckBoxOnStartOptionPage "PINTOTASKBAR"
 !macroend
 
 !macro OnClickCheckBoxOnStartOptionPage Option

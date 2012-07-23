@@ -26,6 +26,7 @@
 ;!define OUT_DIR ".\..\..\distribution\twe-${VERSION}-${RELEASE}\community"
 ;!define LICENSE ".\..\..\licenses\License.txt"
 ;!define LANGUAGE "English"
+;!define BUILDID "99999999-9999"
 ;----------------------------------------------------------------------------------
 !include "LogicLib.nsh"
 !include "WinMessages.nsh"
@@ -120,13 +121,18 @@ SetDateSave          on
   Var JAVAHOME
   Var DEFAULT_BROWSER
   Var ADD_STARTMENU
+  Var ADD_PINTOTASKBAR
   Var ADD_QUICKLAUNCH
   Var ADD_DESKTOP
+  Var ENABLE_DESKTOP
+  Var ENABLE_QUICKLAUNCH
+  Var ENABLE_PINTOTASKBAR
 
   Var SILENT
   Var CREATE_STARTUP_MENU
   Var CREATE_QUICK_LAUNCH_ICON
   Var CREATE_DESKTOP_ICON
+  Var CREATE_PINTOTASKBAR  
   Var DefaultDir
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "$(license_text)"
@@ -154,7 +160,7 @@ SetDateSave          on
   ; it is invoked, will just write the uninstaller to some location, and then exit.
   ; Be sure to substitute the name of this script here.
    
-  !system "$\"${NSISDIR}\makensis$\" /DINNER /O..\..\log_twe_inner.txt /DVERSION=${VERSION} /DRELEASE=${RELEASE} /DTWE_DIR=$\"${TWE_DIR}$\" /DOUT_DIR=$\"${OUT_DIR}$\" /DLICENSE=$\"${LICENSE}$\" /DLANGUAGE=${LANGUAGE} twe.nsi" = 0
+  !system "$\"${NSISDIR}\makensis$\" /DINNER /O..\..\log_twe_inner.txt /DVERSION=${VERSION} /DRELEASE=${RELEASE} /DTWE_DIR=$\"${TWE_DIR}$\" /DOUT_DIR=$\"${OUT_DIR}$\" /DLICENSE=$\"${LICENSE}$\" /DLANGUAGE=${LANGUAGE} /DBUILDID=${BUILDID} twe.nsi" = 0
  
   ; So now run that installer we just created as %TEMP%\tempinstaller.exe.  Since it
   ; calls quit the return value isn't zero.
@@ -193,7 +199,7 @@ SetDateSave          on
 
   !insertmacro TOG_CUSTOMPAGE_SETJAVA "$(NAME)" $JAVAHOME ;
   !insertmacro TOG_CUSTOMPAGE_DIRECTORY "$(NAME)" $DefaultDir  ;
-  !insertmacro TOG_CUSTOMPAGE_STARTOPTION "$(NAME)" $ADD_STARTMENU $STARTMENU_FOLDER $ADD_DESKTOP $ADD_QUICKLAUNCH ;
+  !insertmacro TOG_CUSTOMPAGE_STARTOPTION "$(NAME)" $ADD_STARTMENU $STARTMENU_FOLDER $ENABLE_DESKTOP $ADD_DESKTOP $ENABLE_QUICKLAUNCH $ADD_QUICKLAUNCH $ENABLE_PINTOTASKBAR $ADD_PINTOTASKBAR
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_PAGE_FINISH
 
@@ -204,6 +210,33 @@ SetDateSave          on
 ;---------------------------------------------------------------------------------------
 ;Installer Sections
 ;---------------------------------------------------------------------------------------
+Function PinToTaskbar
+	IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" StartPinToTaskbar Empty
+		StartPinToTaskbar:
+;			MessageBox MB_OK|MB_ICONSTOP "$INSTDIR"
+			SetOutPath "$INSTDIR"
+			StrCpy $0 "pin.vbs"
+			File /oname=$0 'pin.vbs'
+;			MessageBox MB_OK|MB_ICONSTOP "$0"
+			nsExec::ExecToStack '"$SYSDIR\CScript.exe"  $0 //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+			Delete 'pin.vbs'
+		Empty:
+FunctionEnd
+
+Function un.PinFromTaskbar
+	IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" StartUnPinToTaskbar Empty
+		StartUnPinToTaskbar:
+			IfFileExists "$INSTDIR\unpin.vbs" StartUnPin Empty
+				StartUnPin:
+					SetOutPath "$INSTDIR"
+;					MessageBox MB_OK|MB_ICONSTOP "$INSTDIR"
+					StrCpy $0 "unpin.vbs"
+					File /oname=$0 'unpin.vbs'
+;					MessageBox MB_OK|MB_ICONSTOP  "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
+				nsExec::ExecToStack '"$SYSDIR\CScript.exe" $0 //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+		Empty:
+FunctionEnd
+
 Section "Install" Install
 	
    SectionIn 1 2 3 
@@ -212,6 +245,31 @@ Section "Install" Install
 
    Push $R0
 
+#----------------- setting for silent installation --
+	${if} $SILENT == "YES"
+		${if} $CREATE_STARTUP_MENU == "on"
+			StrCpy $ADD_STARTMENU "1"
+		${else}
+			StrCpy $ADD_STARTMENU "0"
+		${endif}
+		${if} $CREATE_QUICK_LAUNCH_ICON == "on"
+			StrCpy $ADD_QUICKLAUNCH "1"
+		${else}
+			StrCpy $ADD_QUICKLAUNCH "0"
+		${endif}
+		${if} $CREATE_DESKTOP_ICON == "on"
+			StrCpy $ADD_DESKTOP "1"
+		${else}
+			StrCpy $ADD_DESKTOP "0"
+		${endif}
+		${if} $CREATE_PINTOTASKBAR == "on"
+			StrCpy $ADD_PINTOTASKBAR "1"
+		${else}
+			StrCpy $ADD_PINTOTASKBAR "0"
+		${endif}
+	${endif}
+#----------------------------------------------------
+   
   SetOutPath "$INSTDIR"
   ;File /r ".\..\..\..\prepare\*.*"
   File "${TWE_DIR}\*.*"
@@ -222,6 +280,8 @@ Section "Install" Install
   File /r "${TWE_DIR}\examples"
   File /r "${TWE_DIR}\lib"
   File /r "${TWE_DIR}\licenses"
+  File pin.vbs
+  File unpin.vbs
   
   
   !ifndef INNER
@@ -322,6 +382,10 @@ Section "Install" Install
                  "$INSTDIR\bin\TWE.ico" 0
   ${endif}
 
+  ${If} $ADD_PINTOTASKBAR != '0'
+    Call PinToTaskbar
+  ${endif}
+
   ; get cumulative size of all files in and under install dir
   ; report the total in KB (decimal)
   ; place the answer into $0  ($1 and $2 get other info we don't care about)
@@ -329,15 +393,13 @@ Section "Install" Install
   ; Convert the decimal KB value in $0 to DWORD
   ; put it right back into $0
   IntFmt $0 "0x%08X" $0
-  System::Int64Op $0 * 1024
-  Pop $0
 
   ; Create/Write the reg key with the dword value
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \   
                            "EstimatedSize" "$0"
   ; Write the uninstall keys for Windows
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-                    "DisplayName" "$(Name)"
+                    "DisplayName" "$(MID_NAME)"
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
   									"UninstallString" "$INSTDIR\uninstall.exe /SILENT=$SILENT"
 
@@ -346,7 +408,7 @@ Section "Install" Install
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
   									"Publisher" $(Publisher)
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"DisplayVersion" "${VERSION}-${RELEASE}"
+  									"DisplayVersion" "${VERSION}-${RELEASE}-${BUILDID}"
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
   									"URLInfoAbout" $(URLInfoAbout)
   WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
@@ -432,6 +494,7 @@ Function .onInit
     StrCmp $R0 "create.startup.menu" setstartupmenu
     StrCmp $R0 "create.quick.launch.icon" setquicklaunchicon
     StrCmp $R0 "create.desktop.icon" setdesktopicon
+    StrCmp $R0 "create.pin.to.taskbar" setpintotaskbar
 
   Goto loop
 
@@ -482,6 +545,9 @@ Function .onInit
         doAddDTI1:
                StrCpy $ADD_DESKTOP '1'
         Goto loop
+    setpintotaskbar:
+         StrCpy $CREATE_PINTOTASKBAR $R1
+         Goto loop
 
   error_handle:
       Goto loopend
@@ -493,6 +559,15 @@ Function .onInit
   #------- seting silent installation -----------------#
 
   start_initialization:
+  normal_default:
+		StrCpy $ADD_STARTMENU 		'1'
+		StrCpy $ENABLE_DESKTOP 		'on'
+		StrCpy $ADD_DESKTOP 		'1'
+		StrCpy $ENABLE_QUICKLAUNCH 	'on'
+		StrCpy $ADD_QUICKLAUNCH 	'0'
+		StrCpy $ENABLE_PINTOTASKBAR	'on'
+		StrCpy $ADD_PINTOTASKBAR 	'1'
+
         ReadRegStr $R0 HKLM "${REG_UNINSTALL}" "InstDir"
         StrCmp $R0 "" start
         StrCpy $INSTDIR $R0
@@ -539,6 +614,9 @@ Section "Uninstall"
 	DeleteRegKey HKCR "xpdlfile\Shell"
 	DeleteRegKey HKCR "xpdlfile"
 
+  ; Unpin from Taskbar
+  Call un.PinFromTaskbar
+  
   ; MUST REMOVE UNINSTALLER, too
   Delete $INSTDIR\uninstall.exe
 

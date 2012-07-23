@@ -491,7 +491,8 @@ make distributions       - Builds and configures TWE with all documentations and
                <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
                <arg line="/DLANGUAGE=${language}" />
                <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
-               <arg line="${nsis.script}" />
+               <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+		         <arg line="${nsis.script}" />
             </exec>
             <if>
                <not>
