@@ -228,7 +228,6 @@ Function un.PinFromTaskbar
 		StartUnPinToTaskbar:
 			IfFileExists "$INSTDIR\unpin.vbs" StartUnPin Empty
 				StartUnPin:
-					SetOutPath "$INSTDIR"
 ;					MessageBox MB_OK|MB_ICONSTOP "$INSTDIR"
 					StrCpy $0 "unpin.vbs"
 					File /oname=$0 'unpin.vbs'
