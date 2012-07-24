@@ -218,7 +218,7 @@ Function PinToTaskbar
 			StrCpy $0 "pin.vbs"
 			File /oname=$0 'pin.vbs'
 ;			MessageBox MB_OK|MB_ICONSTOP "$0"
-			nsExec::ExecToStack '"$SYSDIR\CScript.exe"  $0 //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+			nsExec::Exec '"$SYSDIR\CScript.exe"  "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
 			Delete 'pin.vbs'
 		Empty:
 FunctionEnd
@@ -229,10 +229,9 @@ Function un.PinFromTaskbar
 			IfFileExists "$INSTDIR\unpin.vbs" StartUnPin Empty
 				StartUnPin:
 ;					MessageBox MB_OK|MB_ICONSTOP "$INSTDIR"
-					StrCpy $0 "unpin.vbs"
-					File /oname=$0 'unpin.vbs'
+               StrCpy $0 "$INSTDIR\unpin.vbs"
 ;					MessageBox MB_OK|MB_ICONSTOP  "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
-				nsExec::ExecToStack '"$SYSDIR\CScript.exe" $0 //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+				nsExec::Exec '"$SYSDIR\CScript.exe" "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
 		Empty:
 FunctionEnd
 
