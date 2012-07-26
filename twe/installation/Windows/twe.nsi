@@ -325,7 +325,7 @@ Section "Install" Install
   WriteRegStr HKCR "xpdlfile" "" $(xpdlfile)
   WriteRegStr HKCR "xpdlfile\DefaultIcon" "" "$INSTDIR\bin\XPDL.ico"
 
-  WriteRegStr HKCR "xpdlfile\Shell\open\command" "" "$\"$JAVAHOME\bin\javaw.exe$\" -Xmx128M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE  $\"%1$\""
+  WriteRegStr HKCR "xpdlfile\Shell\open\command" "" "$\"$JAVAHOME\bin\javaw.exe$\" -Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE  $\"%1$\""
 
   ; Write the uninstall keys for Windows
   ; Write the installation path into the registry
@@ -345,7 +345,7 @@ Section "Install" Install
   
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
                  "$JAVAHOME\bin\javaw.exe" \
-                 "-Xmx128M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \
+                 "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \
                  "$INSTDIR\bin\TWE.ico"
 				 				 
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
@@ -370,13 +370,13 @@ Section "Install" Install
   ${If} $ADD_QUICKLAUNCH != '0'
   CreateShortCut "$QUICKLAUNCH\$(Name).lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
-                  "-Xmx128M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
+                  "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0  
   ${endif}
   ${If} $ADD_DESKTOP != '0'
   CreateShortCut "$DESKTOP\$(Name).lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
-                  "-Xmx128M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
+                  "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0
   ${endif}
 
@@ -935,7 +935,7 @@ FunctionEnd
 ;------------------------------------------------------------------------------
 Function StartJaWE
   
-  Exec "$\"$JAVAHOME\bin\javaw.exe$\" -Xmx128M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE"
+  Exec "$\"$JAVAHOME\bin\javaw.exe$\" -Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE"
   
 FunctionEnd  
 
