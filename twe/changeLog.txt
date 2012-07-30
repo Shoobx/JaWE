@@ -1,4 +1,7 @@
 ###### TWE 4.6-1 RELEASED ######
+2012-07-30 Sasa Bojanic <sasaboy@together.at>
+   # TWE Desktop icon now has short name
+
 2012-07-26 Sasa Bojanic <sasaboy@together.at>
    # Max JVM memory in run scripts/shortcuts increased from 128M to 512M
    

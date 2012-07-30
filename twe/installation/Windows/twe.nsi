@@ -368,13 +368,13 @@ Section "Install" Install
   								"$INSTDIR\uninstall.exe"
   ${endif}
   ${If} $ADD_QUICKLAUNCH != '0'
-  CreateShortCut "$QUICKLAUNCH\$(Name).lnk" \
+  CreateShortCut "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
                   "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0  
   ${endif}
   ${If} $ADD_DESKTOP != '0'
-  CreateShortCut "$DESKTOP\$(Name).lnk" \
+  CreateShortCut "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
                   "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0
@@ -628,8 +628,8 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(Uninstall).lnk"
   
-  Delete "$DESKTOP\$(Name).lnk"
-  Delete "$QUICKLAUNCH\$(Name).lnk"
+  Delete "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
+  Delete "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
 
   RMDir "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
   RMDir "$SMPROGRAMS\$STARTMENU_FOLDER"
@@ -714,8 +714,8 @@ Function Cleanup
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(Uninstall).lnk"
   
-  Delete "$DESKTOP\$(Name).lnk"
-  Delete "$QUICKLAUNCH\$(Name).lnk"
+  Delete "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
+  Delete "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
 
   RMDir "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
   RMDir "$SMPROGRAMS\$STARTMENU_FOLDER"
