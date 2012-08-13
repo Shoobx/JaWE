@@ -39,6 +39,8 @@
 !include "togDirectory.nsh"
 !include "togStartOption.nsh"
 !include "EnvVarUpdate.nsh"
+!define SHCNE_ASSOCCHANGED 0x08000000
+!define SHCNF_IDLIST 0
 
 ;Version Information
 VIProductVersion "${VERSION}.${RELEASE}.0"
@@ -418,6 +420,7 @@ Section "Install" Install
 
   
   ;WriteUninstaller "$%TEMP%\uninstall.exe" ;<<----- Enabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
+  Call RefreshShellIcons
 
    nsExec::ExecToLog 'cacls.exe "$INSTDIR\config" /T /E /C /G Everyone:F'
 
@@ -1301,4 +1304,9 @@ Function GetJavaVersion
   Exch $5
   
 FunctionEnd
- 
+
+Function RefreshShellIcons
+  ; By jerome tremblay - april 2003
+  System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v \
+  (${SHCNE_ASSOCCHANGED}, ${SHCNF_IDLIST}, 0, 0)'
+FunctionEnd
