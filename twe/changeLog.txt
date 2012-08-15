@@ -1,4 +1,7 @@
 ###### TWE 4.6-1 RELEASED ######
+2012-08-15 Sasa Bojanic <sasaboy@together.at>
+   # Start menu/desktop/taskbar icons improved
+
 2012-07-30 Sasa Bojanic <sasaboy@together.at>
    # TWE Desktop icon now has short name
 

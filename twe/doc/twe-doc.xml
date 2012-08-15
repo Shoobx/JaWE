@@ -10063,6 +10063,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           ("Default", "Loop activity sample", "Shark") no matter how User
           Access Controls (UAC) are configured on Windows machine</para>
         </listitem>
+
+        <listitem>
+          <para>Start menu/desktop/taskbar icons improved</para>
+        </listitem>
       </itemizedlist>
     </section>
 
