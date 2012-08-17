@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2008/XPDL2.1" xmlns="http://www.wfmc.org/2008/XPDL2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="document_approval" Name="Document approval" xsi:schemaLocation="http://www.wfmc.org/2008/XPDL2.1 http://www.wfmc.org/standards/docs/bpmnxpdl_31.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>2.1</xpdl:XPDLVersion>
+        <xpdl:Vendor>(c) Together Teamsolutions Co., Ltd.</xpdl:Vendor>
+        <xpdl:Created>2010-09-13 08:52:23</xpdl:Created>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader>
+        <xpdl:Author>Sasa Bojanic</xpdl:Author>
+    </xpdl:RedefinableHeader>
+    <xpdl:ConformanceClass GraphConformance="NON_BLOCKED"/>
+    <xpdl:Script Type="text/javascript"/>
+    <xpdl:Participants>
+        <xpdl:Participant Id="author" Name="Author">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="reviewer" Name="Reviewer">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="publisher" Name="Publisher">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="engine" Name="Engine">
+            <xpdl:ParticipantType Type="SYSTEM"/>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:Applications>
+        <xpdl:Application Id="updateProcessVariable">
+            <xpdl:Description>Sets a process instance variable value.</xpdl:Description>
+            <xpdl:FormalParameters>
+                <xpdl:FormalParameter Id="var2assign" IsArray="false" Mode="OUT">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The process instance variable.</xpdl:Description>
+                </xpdl:FormalParameter>
+                <xpdl:FormalParameter Id="varValue" IsArray="false" Mode="IN">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>The value to assign to variable.</xpdl:Description>
+                </xpdl:FormalParameter>
+            </xpdl:FormalParameters>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.JavaScriptToolAgent"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="var2assign=varValue;"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:Application>
+    </xpdl:Applications>
+    <xpdl:Pools>
+        <xpdl:Pool BoundaryVisible="true" Id="document_approval_pool1" MainPool="true" Name="Document approval" Orientation="HORIZONTAL" Process="document_approval">
+            <xpdl:Lanes>
+                <xpdl:Lane Id="document_approval_pool1_lan1" Name="Author">
+                    <xpdl:Performers>
+                        <xpdl:Performer>author</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+                <xpdl:Lane Id="document_approval_pool1_lan2" Name="Reviewer">
+                    <xpdl:Performers>
+                        <xpdl:Performer>reviewer</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+                <xpdl:Lane Id="document_approval_pool1_lan3" Name="Publisher">
+                    <xpdl:Performers>
+                        <xpdl:Performer>publisher</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+                <xpdl:Lane Id="document_approval_pool1_lan4" Name="Engine">
+                    <xpdl:Performers>
+                        <xpdl:Performer>engine</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+            </xpdl:Lanes>
+        </xpdl:Pool>
+    </xpdl:Pools>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="document_approval" Name="Document approval">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2010-09-13 08:55:22</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="RELEASED">
+                <xpdl:Author>Rich Robinson</xpdl:Author>
+            </xpdl:RedefinableHeader>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="approvedByReviewer" IsArray="false" Name="Approved by reviewer">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Whether or not the reviewer approved the document.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="approvedByPublisher" IsArray="false" Name="Approved by publisher">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="BOOLEAN"/>
+                    </xpdl:DataType>
+                    <xpdl:Description>Whether or not the publisher approved the document.</xpdl:Description>
+                </xpdl:DataField>
+                <xpdl:DataField Id="reviewerComment" IsArray="false" Name="Reviewer comment">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="TRANSIENT" Value="false"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:DataField>
+                <xpdl:DataField Id="publisherComment" IsArray="false" Name="Publisher comment">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="TRANSIENT" Value="false"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Activities>
+                <xpdl:Activity Id="create_document" Name="Create Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>author</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="document_approval_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="159" YCoordinate="40"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="submit_document" Name="SubmitDocument">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>author</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Exclusive"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="AssignToPerformerOfActivity" Value="create_document"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="document_approval_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="359" YCoordinate="40"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="final_review_document" Name="Review document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>publisher</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Exclusive"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approvedByReviewer"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="reviewerComment"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="approvedByPublisher"/>
+                        <xpdl:ExtendedAttribute Name="ReassignToOriginalPerformer"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="publisherComment"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="document_approval_pool1_lan3" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="360" YCoordinate="40"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="publish_document" Name="Publish Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>publisher</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="AssignToPerformerOfActivity" Value="review_document"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="document_approval_pool1_lan3" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="590" YCoordinate="40"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_document" Name="Update Document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>author</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Exclusive"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="AssignToPerformerOfActivity" Value="submit_document"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="document_approval_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="585" YCoordinate="40"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="review_document" Name="Review document">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>reviewer</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:Deadline Execution="SYNCHR">
+                        <xpdl:DeadlineDuration>var d=new java.util.Date();
+d.setTime(ACTIVITY_ACTIVATED_TIME.getTime()+60000);
+d;</xpdl:DeadlineDuration>
+                        <xpdl:ExceptionName>timeout</xpdl:ExceptionName>
+                    </xpdl:Deadline>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Parallel">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="peer-tmo"/>
+                                    <xpdl:TransitionRef Id="document_approval_tra2"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="approvedByReviewer"/>
+                        <xpdl:ExtendedAttribute Name="ReassignToOriginalPerformer"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="reviewerComment"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="187,247,190" Height="60" IsVisible="true" LaneId="document_approval_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="360" YCoordinate="30"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="update_reviewer_comment" Name="Update reviewer comment">
+                    <xpdl:Implementation>
+                        <xpdl:Task>
+                            <xpdl:TaskApplication Id="updateProcessVariable">
+                                <xpdl:ActualParameters>
+                                    <xpdl:ActualParameter>reviewerComment</xpdl:ActualParameter>
+                                    <xpdl:ActualParameter>"Reviewer task timed out"</xpdl:ActualParameter>
+                                </xpdl:ActualParameters>
+                            </xpdl:TaskApplication>
+                        </xpdl:Task>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>engine</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,204,204" Height="60" IsVisible="true" LaneId="document_approval_pool1_lan4" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="150" YCoordinate="44"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="final_review_document1">
+                    <xpdl:Route GatewayType="Exclusive"/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Exclusive">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra7"/>
+                                    <xpdl:TransitionRef Id="publish_doc_tra2"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="approvedByReviewer"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="reviewerComment"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="approvedByPublisher"/>
+                        <xpdl:ExtendedAttribute Name="ReassignToOriginalPerformer"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="publisherComment"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,229,124" Height="43" IsVisible="true" LaneId="document_approval_pool1_lan3" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="496" YCoordinate="48"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="review_document1">
+                    <xpdl:Route GatewayType="Exclusive"/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Exclusive">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="publish_doc_Tra55"/>
+                                    <xpdl:TransitionRef Id="publish_doc_tra1"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="approvedByReviewer"/>
+                        <xpdl:ExtendedAttribute Name="ReassignToOriginalPerformer"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="reviewerComment"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="255,229,124" Height="43" IsVisible="true" LaneId="document_approval_pool1_lan2" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="385" YCoordinate="111"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="document_approval_act1">
+                    <xpdl:Event>
+                        <xpdl:StartEvent Trigger="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="102,204,51" Height="31" IsVisible="true" LaneId="document_approval_pool1_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="80" YCoordinate="50"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="document_approval_act2">
+                    <xpdl:Event>
+                        <xpdl:EndEvent Result="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo FillColor="236,120,98" Height="31" IsVisible="true" LaneId="document_approval_pool1_lan3" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="710" YCoordinate="50"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="create_document" Id="publish_doc_Tra2" Name="Transition" To="submit_document">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="final_review_document1" Id="publish_doc_Tra7" Name="Transition" To="publish_document">
+                    <xpdl:Condition Type="CONDITION">approvedByPublisher</xpdl:Condition>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_document" Id="publish_doc_Tra12" Name="Transition" To="submit_document">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="submit_document" Id="publish_doc_Tra25" Name="Transition" To="review_document">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="review_document1" Id="publish_doc_Tra55" Name="Transition" To="final_review_document">
+                    <xpdl:Condition Type="CONDITION">approvedByReviewer</xpdl:Condition>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="review_document1" Id="publish_doc_tra1" To="update_document">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="617" YCoordinate="166"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="final_review_document1" Id="publish_doc_tra2" To="update_document">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="660" YCoordinate="300"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="review_document" Id="peer-tmo" Name="Peer Review Timed Out" To="update_reviewer_comment">
+                    <xpdl:Condition Type="EXCEPTION">timeout</xpdl:Condition>
+                    <xpdl:Description>This transition is fired when the 60sec deadline expires.</xpdl:Description>
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="260" YCoordinate="340"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="update_reviewer_comment" Id="publish_doc_tra3" To="final_review_document">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="320" YCoordinate="350"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="final_review_document" Id="document_approval_tra1" To="final_review_document1">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="review_document" Id="document_approval_tra2" To="review_document1">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="document_approval_act1" Id="document_approval_tra3" To="create_document">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="publish_document" Id="document_approval_tra4" To="document_approval_act2">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="ASSIGNMENT_MANAGER_PLUGIN" Value="org.enhydra.shark.assignment.HistoryRelatedAssignmentManager"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.0-1-20110124-0813"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>

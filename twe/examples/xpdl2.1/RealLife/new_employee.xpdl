@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2008/XPDL2.1" xmlns="http://www.wfmc.org/2008/XPDL2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="new_employee" Name="New Employee" xsi:schemaLocation="http://www.wfmc.org/2008/XPDL2.1 http://www.wfmc.org/standards/docs/bpmnxpdl_31.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>2.1</xpdl:XPDLVersion>
+        <xpdl:Vendor>(c) Together Teamsolutions Co., Ltd.</xpdl:Vendor>
+        <xpdl:Created>2010-09-12 09:33:33</xpdl:Created>
+    </xpdl:PackageHeader>
+    <xpdl:Script Type="text/javascript"/>
+    <xpdl:Participants>
+        <xpdl:Participant Id="IT">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Engine">
+            <xpdl:ParticipantType Type="SYSTEM"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="HR" Name="Human Resource">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="FM" Name="Facility Management">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+        <xpdl:Participant Id="Finance" Name="Financial Department">
+            <xpdl:ParticipantType Type="ROLE"/>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:Pools>
+        <xpdl:Pool BoundaryVisible="true" Id="new_employee_pool1" MainPool="true" Name="New Employee" Orientation="VERTICAL" Process="new_employee">
+            <xpdl:Lanes>
+                <xpdl:Lane Id="new_employee_pool1_lan1" Name="Human Resource">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="220,220,220" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>HR</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+                <xpdl:Lane Id="new_employee_pool1_lan2" Name="IT">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="220,220,220" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>IT</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+                <xpdl:Lane Id="new_employee_pool1_lan3" Name="Facility Management">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="220,220,220" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>FM</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+                <xpdl:Lane Id="new_employee_pool1_lan4" Name="Financial Department">
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="220,220,220" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:NodeGraphicsInfos>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Finance</xpdl:Performer>
+                    </xpdl:Performers>
+                </xpdl:Lane>
+            </xpdl:Lanes>
+            <xpdl:NodeGraphicsInfos>
+                <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="255,255,215" IsVisible="true" ToolId="JaWE"/>
+            </xpdl:NodeGraphicsInfos>
+        </xpdl:Pool>
+    </xpdl:Pools>
+    <xpdl:Associations>
+        <xpdl:Association AssociationDirection="From" Id="new_employee_ass1" Source="new_employee" Target="new_employee_art1">
+            <xpdl:Object Id="0" Name=""/>
+            <xpdl:ConnectorGraphicsInfos>
+                <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+            </xpdl:ConnectorGraphicsInfos>
+        </xpdl:Association>
+        <xpdl:Association AssociationDirection="To" Id="new_employee_ass2" Source="new_employee_art1" Target="create_user_account">
+            <xpdl:Object Id="0" Name=""/>
+            <xpdl:ConnectorGraphicsInfos>
+                <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+            </xpdl:ConnectorGraphicsInfos>
+        </xpdl:Association>
+        <xpdl:Association AssociationDirection="To" Id="new_employee_ass3" Source="new_employee_art1" Target="prepare_user_environment">
+            <xpdl:Object Id="0" Name=""/>
+            <xpdl:ConnectorGraphicsInfos>
+                <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+            </xpdl:ConnectorGraphicsInfos>
+        </xpdl:Association>
+        <xpdl:Association AssociationDirection="To" Id="new_employee_ass4" Source="new_employee_art1" Target="enter_salary_details">
+            <xpdl:Object Id="0" Name=""/>
+            <xpdl:ConnectorGraphicsInfos>
+                <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+            </xpdl:ConnectorGraphicsInfos>
+        </xpdl:Association>
+    </xpdl:Associations>
+    <xpdl:Artifacts>
+        <xpdl:Artifact ArtifactType="DataObject" Id="new_employee_art1">
+            <xpdl:DataObject Id="employee_data" Name="Employee data"/>
+            <xpdl:NodeGraphicsInfos>
+                <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="255,200,0" Height="40" IsVisible="true" LaneId="new_employee_pool1_lan3" ToolId="JaWE" Width="30">
+                    <xpdl:Coordinates XCoordinate="67" YCoordinate="63"/>
+                </xpdl:NodeGraphicsInfo>
+            </xpdl:NodeGraphicsInfos>
+        </xpdl:Artifact>
+    </xpdl:Artifacts>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="new_employee" Name="New Employee">
+            <xpdl:ProcessHeader>
+                <xpdl:Created>2010-09-12 09:35:43</xpdl:Created>
+            </xpdl:ProcessHeader>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="employee_firstname" IsArray="false" Name="Employee's first name">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="employee_lastname" IsArray="false" Name="Employee's last name">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="employee_title" IsArray="false" Name="Employee's title">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="starting_date" IsArray="false" Name="Starting date">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="DATETIME"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="job_title" IsArray="false" Name="Job title">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+                <xpdl:DataField Id="department" IsArray="false" Name="Department">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="STRING"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Activities>
+                <xpdl:Activity Id="new_employee" Name="New employee">
+                    <xpdl:Description>Provide information about new employee.</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>HR</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="Parallel">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="starter_employee_tra1"/>
+                                    <xpdl:TransitionRef Id="new_employee_tra1"/>
+                                    <xpdl:TransitionRef Id="new_employee_tra2"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="employee_firstname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="employee_lastname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="employee_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="starting_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="job_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_UPDATE" Value="department"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="187,247,190" Height="60" IsVisible="true" LaneId="new_employee_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="20" YCoordinate="120"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="create_user_account" Name="Create user account">
+                    <xpdl:Description>Create email account for new employee, enter new user into the system.</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>IT</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_firstname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_lastname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="starting_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="job_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="department"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="187,247,190" Height="60" IsVisible="true" LaneId="new_employee_pool1_lan2" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="40" YCoordinate="250"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="finish_preparations" Name="Finish preparations">
+                    <xpdl:Description>User account has been created, users' environment prepared and financial details entered.</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>HR</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_firstname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_lastname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="starting_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="job_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="department"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="187,247,190" Height="60" IsVisible="true" LaneId="new_employee_pool1_lan1" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="10" YCoordinate="370"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="prepare_user_environment" Name="Prepare user's environment">
+                    <xpdl:Description>Prepare environment for new employee (chip, ID card, telephone, furniture, flowers, etc.).</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>FM</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_firstname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_lastname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="starting_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="job_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="department"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="187,247,190" Height="60" IsVisible="true" LaneId="new_employee_pool1_lan3" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="40" YCoordinate="250"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="enter_salary_details" Name="Enter salary details">
+                    <xpdl:Description>Enter the new employee's salary into the system.</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performers>
+                        <xpdl:Performer>Finance</xpdl:Performer>
+                    </xpdl:Performers>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_firstname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_lastname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="starting_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="job_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="department"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="187,247,190" Height="60" IsVisible="true" LaneId="new_employee_pool1_lan4" ToolId="JaWE" Width="90">
+                            <xpdl:Coordinates XCoordinate="40" YCoordinate="250"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="finish_preparations1">
+                    <xpdl:Description>User account has been created, users' environment prepared and financial details entered.</xpdl:Description>
+                    <xpdl:Route GatewayType="Parallel"/>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="Parallel"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_firstname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_lastname"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="employee_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="starting_date"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="job_title"/>
+                        <xpdl:ExtendedAttribute Name="VariableToProcess_VIEW" Value="department"/>
+                    </xpdl:ExtendedAttributes>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="255,229,124" Height="43" IsVisible="true" LaneId="new_employee_pool1_lan1" ToolId="JaWE" Width="43">
+                            <xpdl:Coordinates XCoordinate="129" YCoordinate="376"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="new_employee_act1">
+                    <xpdl:Event>
+                        <xpdl:StartEvent Trigger="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="102,204,51" Height="31" IsVisible="true" LaneId="new_employee_pool1_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="47" YCoordinate="62"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+                <xpdl:Activity Id="new_employee_act2">
+                    <xpdl:Event>
+                        <xpdl:EndEvent Result="None"/>
+                    </xpdl:Event>
+                    <xpdl:NodeGraphicsInfos>
+                        <xpdl:NodeGraphicsInfo BorderColor="0,0,0" FillColor="236,120,98" Height="31" IsVisible="true" LaneId="new_employee_pool1_lan1" ToolId="JaWE" Width="31">
+                            <xpdl:Coordinates XCoordinate="40" YCoordinate="462"/>
+                        </xpdl:NodeGraphicsInfo>
+                    </xpdl:NodeGraphicsInfos>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="new_employee" Id="starter_employee_tra1" To="create_user_account">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="prepare_user_environment" Id="starter_employee_tra5" To="finish_preparations1">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="273" YCoordinate="393"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="new_employee" Id="new_employee_tra1" To="prepare_user_environment">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="290" YCoordinate="247"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="new_employee" Id="new_employee_tra2" To="enter_salary_details">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="304" YCoordinate="196"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="create_user_account" Id="new_employee_tra3" To="finish_preparations1">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="enter_salary_details" Id="new_employee_tra4" To="finish_preparations1">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_SPLINE" ToolId="JaWE">
+                            <xpdl:Coordinates XCoordinate="340" YCoordinate="415"/>
+                        </xpdl:ConnectorGraphicsInfo>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="finish_preparations1" Id="new_employee_tra5" To="finish_preparations">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="new_employee_act1" Id="new_employee_tra6" To="new_employee">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+                <xpdl:Transition From="finish_preparations" Id="new_employee_tra7" To="new_employee_act2">
+                    <xpdl:ConnectorGraphicsInfos>
+                        <xpdl:ConnectorGraphicsInfo FillColor="0,0,0" IsVisible="true" Style="NO_ROUTING_ORTHOGONAL" ToolId="JaWE"/>
+                    </xpdl:ConnectorGraphicsInfos>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION" Value="VERTICAL"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.0-1-20110124-0813"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>
