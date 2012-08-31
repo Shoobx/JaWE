@@ -276,7 +276,7 @@
       Microsoft Windows or Linux, although there is nothing about Together
       Workflow Editor that makes it unsuitable for the Mac or any other
       environment of your choice, as long as the defined software
-      prerequisites (basically a JRE - Java Runtime Environment 1.4) are
+      prerequisites (basically a JRE - Java Runtime Environment 1.7) are
       met.</para>
     </sect1>
 
@@ -9704,7 +9704,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             </listitem>
 
             <listitem>
-              <para>Java Development Kit (JDK) version 6 or later</para>
+              <para>Java Development Kit (JDK) version 7 or later</para>
             </listitem>
           </itemizedlist>
         </listitem>

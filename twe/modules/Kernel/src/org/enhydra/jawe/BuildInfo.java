@@ -46,7 +46,6 @@ public class BuildInfo {
       } catch (Exception e) {
          e.printStackTrace();
       }
-      // System.err.println("version:"+version);
    }
 
    /**
