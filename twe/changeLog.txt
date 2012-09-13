@@ -1,4 +1,5 @@
 ###### TWE 4.7-1 RELEASED ######
+   # Improved XPDL icon
 
 ###### TWE 4.6-1 RELEASED ######
 2012-08-15 Sasa Bojanic <sasaboy@together.at>
