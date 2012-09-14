@@ -1,13 +1,11 @@
 <?xml version='1.0'?>
-<xsl:stylesheet exclude-result-prefixes="d"
-                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:d="http://docbook.org/ns/docbook"
-xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: fop1.xsl 8913 2010-10-01 04:44:57Z bobstayton $
+     $Id: fop1.xsl 9293 2012-04-19 18:42:11Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -29,11 +27,11 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
   <xsl:apply-templates select="*" mode="fop1.outline"/>
 </xsl:template>
 
-<xsl:template match="d:set|d:book|d:part|d:reference|
-                     d:preface|d:chapter|d:appendix|d:article
-                     |d:glossary|d:bibliography|d:index|d:setindex
-                     |d:refentry
-                     |d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section"
+<xsl:template match="set|book|part|reference|
+                     preface|chapter|appendix|article|topic
+                     |glossary|bibliography|index|setindex
+                     |refentry
+                     |sect1|sect2|sect3|sect4|sect5|section"
               mode="fop1.outline">
 
   <xsl:variable name="id">
@@ -47,14 +45,14 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
   <!-- If the object is a set or book, generate a bookmark for the toc -->
 
   <xsl:choose>
-    <xsl:when test="self::d:index and $generate.index = 0"/>	
+    <xsl:when test="self::index and $generate.index = 0"/>	
     <xsl:when test="parent::*">
       <fo:bookmark internal-destination="{$id}">
 	<xsl:attribute name="starting-state">
 	  <xsl:value-of select="$bookmarks.state"/>
 	</xsl:attribute>
         <fo:bookmark-title>
-          <xsl:value-of select="normalize-space(translate($bookmark-label, $a-dia, $a-asc))"/>
+          <xsl:value-of select="normalize-space($bookmark-label)"/>
         </fo:bookmark-title>
         <xsl:apply-templates select="*" mode="fop1.outline"/>
       </fo:bookmark>
@@ -65,7 +63,7 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
 	  <xsl:value-of select="$bookmarks.state"/>
 	</xsl:attribute>
         <fo:bookmark-title>
-          <xsl:value-of select="normalize-space(translate($bookmark-label, $a-dia, $a-asc))"/>
+          <xsl:value-of select="normalize-space($bookmark-label)"/>
         </fo:bookmark-title>
       </fo:bookmark>
 
@@ -76,10 +74,10 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
       </xsl:variable>
 
       <xsl:if test="contains($toc.params, 'toc')
-                    and (d:book|d:part|d:reference|d:preface|d:chapter|d:appendix|d:article
-                         |d:glossary|d:bibliography|d:index|d:setindex
-                         |d:refentry
-                         |d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section)">
+                    and (book|part|reference|preface|chapter|appendix|article|topic
+                         |glossary|bibliography|index|setindex
+                         |refentry
+                         |sect1|sect2|sect3|sect4|sect5|section)">
         <fo:bookmark internal-destination="toc...{$id}">
           <fo:bookmark-title>
             <xsl:call-template name="gentext">
@@ -100,11 +98,11 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
   <xsl:apply-templates select="*" mode="fop1.foxdest"/>
 </xsl:template>
 
-<xsl:template match="d:set|d:book|d:part|d:reference|
-                     d:preface|d:chapter|d:appendix|d:article
-                     |d:glossary|d:bibliography|d:index|d:setindex
-                     |d:refentry
-                     |d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section"
+<xsl:template match="set|book|part|reference|
+                     preface|chapter|appendix|article|topic
+                     |glossary|bibliography|index|setindex
+                     |refentry
+                     |sect1|sect2|sect3|sect4|sect5|section"
               mode="fop1.foxdest">
   <xsl:variable name="id">
     <xsl:call-template name="object.id"/>
@@ -120,7 +118,7 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
   <!-- If the object is a set or book, generate a bookmark for the toc -->
 
   <xsl:choose>
-    <xsl:when test="self::d:index and $generate.index = 0"/>	
+    <xsl:when test="self::index and $generate.index = 0"/>	
     <xsl:when test="parent::*">
       <fox:destination internal-destination="{$id}"/>
         <xsl:apply-templates select="*" mode="fop1.foxdest"/>
@@ -133,13 +131,15 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
 </xsl:template>
 <!-- Metadata support ("Document Properties" in Adobe Reader) -->
 <xsl:template name="fop1-document-information">
-  <xsl:variable name="authors" select="(//d:author|//d:editor|//d:corpauthor|//d:authorgroup)[1]"/>
+  <xsl:variable name="authors" select="(//author|//editor|//corpauthor|//authorgroup)[1]"/>
 
   <xsl:variable name="title">
     <xsl:apply-templates select="/*[1]" mode="label.markup"/>
     <xsl:apply-templates select="/*[1]" mode="title.markup"/>
     <xsl:variable name="subtitle">
-      <xsl:apply-templates select="/*[1]" mode="subtitle.markup"/>
+      <xsl:apply-templates select="/*[1]" mode="subtitle.markup">
+        <xsl:with-param name="verbose" select="0"/>
+      </xsl:apply-templates>
     </xsl:variable>
     <xsl:if test="$subtitle !=''">
       <xsl:text> - </xsl:text>
@@ -160,15 +160,18 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
 	  <xsl:if test="$authors">
 	    <xsl:variable name="author">
 	      <xsl:choose>
-		<xsl:when test="$authors[self::d:authorgroup]">
+		<xsl:when test="$authors[self::authorgroup]">
                   <xsl:call-template name="person.name.list">
                     <xsl:with-param name="person.list" 
-                       select="$authors/*[self::d:author|self::d:corpauthor|
-                                     self::d:othercredit|self::d:editor]"/>
+                       select="$authors/*[self::author|self::corpauthor|
+                                     self::othercredit|self::editor]"/>
                   </xsl:call-template>
                 </xsl:when>
-                <xsl:when test="$authors[self::d:corpauthor]">
+                <xsl:when test="$authors[self::corpauthor]">
                   <xsl:value-of select="$authors"/>
+                </xsl:when>
+                <xsl:when test="$authors[orgname]">
+                  <xsl:value-of select="$authors/orgname"/>
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:call-template name="person.name">
@@ -182,9 +185,9 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
           </xsl:if>
 
           <!-- Subject -->
-          <xsl:if test="//d:subjectterm">
+          <xsl:if test="//subjectterm">
             <dc:description>
-              <xsl:for-each select="//d:subjectterm">
+              <xsl:for-each select="//subjectterm">
                 <xsl:value-of select="normalize-space(.)"/>
                 <xsl:if test="position() != last()">
                   <xsl:text>, </xsl:text>
@@ -198,9 +201,9 @@ xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
           <!-- PDF properties go here -->
 
           <!-- Keywords -->
-          <xsl:if test="//d:keyword">
+          <xsl:if test="//keyword">
             <pdf:Keywords>
-              <xsl:for-each select="//d:keyword">
+              <xsl:for-each select="//keyword">
                 <xsl:value-of select="normalize-space(.)"/>
                 <xsl:if test="position() != last()">
                   <xsl:text>, </xsl:text>

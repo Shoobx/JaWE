@@ -1,11 +1,10 @@
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:d="http://docbook.org/ns/docbook"
-xmlns:ng="http://docbook.org/docbook-ng"
+                xmlns:ng="http://docbook.org/docbook-ng"
                 xmlns:db="http://docbook.org/ns/docbook"
                 xmlns:exsl="http://exslt.org/common"
                 xmlns:exslt="http://exslt.org/common"
-                exclude-result-prefixes="db ng exsl exslt d"
+                exclude-result-prefixes="db ng exsl exslt"
                 version='1.0'>
 
 <xsl:output method="html"
@@ -13,7 +12,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
             indent="no"/>
 
 <!-- ********************************************************************
-     $Id: docbook.xsl 8783 2010-07-28 10:59:39Z mzjn $
+     $Id: docbook.xsl 9396 2012-06-02 21:56:19Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -24,7 +23,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
 
 <!-- ==================================================================== -->
 
-<xsl:include href="../VERSION"/>
+<xsl:include href="../VERSION.xsl"/>
 <xsl:include href="param.xsl"/>
 <xsl:include href="../lib/lib.xsl"/>
 <xsl:include href="../common/l10n.xsl"/>
@@ -74,7 +73,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
 <xsl:include href="chunker.xsl"/>
 <xsl:include href="html-rtf.xsl"/>
 <xsl:include href="annotations.xsl"/>
-<xsl:include href="../common/addns.xsl"/>
+<xsl:include href="../common/stripns.xsl"/>
 
 <xsl:param name="stylesheet.result.type" select="'html'"/>
 <xsl:param name="htmlhelp.output" select="0"/>
@@ -149,6 +148,12 @@ xmlns:ng="http://docbook.org/docbook-ng"
     </xsl:call-template>
   </xsl:if>
 
+  <xsl:if test="$html.script != ''">
+    <xsl:call-template name="output.html.scripts">
+      <xsl:with-param name="scripts" select="normalize-space($html.script)"/>
+    </xsl:call-template>
+  </xsl:if>
+
   <xsl:if test="$link.mailto.url != ''">
     <link rev="made"
           href="{$link.mailto.url}"/>
@@ -157,26 +162,26 @@ xmlns:ng="http://docbook.org/docbook-ng"
   <meta name="generator" content="DocBook {$DistroTitle} V{$VERSION}"/>
 
   <xsl:if test="$generate.meta.abstract != 0">
-    <xsl:variable name="info" select="(d:articleinfo
-                                      |d:bookinfo
-                                      |d:prefaceinfo
-                                      |d:chapterinfo
-                                      |d:appendixinfo
-                                      |d:sectioninfo
-                                      |d:sect1info
-                                      |d:sect2info
-                                      |d:sect3info
-                                      |d:sect4info
-                                      |d:sect5info
-                                      |d:referenceinfo
-                                      |d:refentryinfo
-                                      |d:partinfo
-                                      |d:info
-                                      |d:docinfo)[1]"/>
-    <xsl:if test="$info and $info/d:abstract">
+    <xsl:variable name="info" select="(articleinfo
+                                      |bookinfo
+                                      |prefaceinfo
+                                      |chapterinfo
+                                      |appendixinfo
+                                      |sectioninfo
+                                      |sect1info
+                                      |sect2info
+                                      |sect3info
+                                      |sect4info
+                                      |sect5info
+                                      |referenceinfo
+                                      |refentryinfo
+                                      |partinfo
+                                      |info
+                                      |docinfo)[1]"/>
+    <xsl:if test="$info and $info/abstract">
       <meta name="description">
         <xsl:attribute name="content">
-          <xsl:for-each select="$info/d:abstract[1]/*">
+          <xsl:for-each select="$info/abstract[1]/*">
             <xsl:value-of select="normalize-space(.)"/>
             <xsl:if test="position() &lt; last()">
               <xsl:text> </xsl:text>
@@ -229,33 +234,56 @@ body { background-image: url('</xsl:text>
   </xsl:choose>
 </xsl:template>
 
+<xsl:template name="output.html.scripts">
+  <xsl:param name="scripts" select="''"/>
+
+  <xsl:choose>
+    <xsl:when test="contains($scripts, ' ')">
+      <xsl:variable name="script.filename" select="substring-before($scripts, ' ')"/>
+
+      <xsl:call-template name="make.script.link">
+        <xsl:with-param name="script.filename" select="$script.filename"/>
+      </xsl:call-template>
+
+      <xsl:call-template name="output.html.scripts">
+        <xsl:with-param name="scripts" select="substring-after($scripts, ' ')"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="$scripts != ''">
+      <xsl:call-template name="make.script.link">
+        <xsl:with-param name="script.filename" select="$scripts"/>
+      </xsl:call-template>
+    </xsl:when>
+  </xsl:choose>
+</xsl:template>
+
 <!-- ============================================================ -->
 
 <xsl:template match="*" mode="head.keywords.content">
-  <xsl:apply-templates select="d:chapterinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:appendixinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:prefaceinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:bookinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:setinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:articleinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:artheader/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:sect1info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:sect2info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:sect3info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:sect4info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:sect5info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:sectioninfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:refsect1info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:refsect2info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:refsect3info/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:bibliographyinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:glossaryinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:indexinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:refentryinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:partinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:referenceinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:docinfo/d:keywordset" mode="html.header"/>
-  <xsl:apply-templates select="d:info/d:keywordset" mode="html.header"/>
+  <xsl:apply-templates select="chapterinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="appendixinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="prefaceinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="bookinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="setinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="articleinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="artheader/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="sect1info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="sect2info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="sect3info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="sect4info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="sect5info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="sectioninfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="refsect1info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="refsect2info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="refsect3info/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="bibliographyinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="glossaryinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="indexinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="refentryinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="partinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="referenceinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="docinfo/keywordset" mode="html.header"/>
+  <xsl:apply-templates select="info/keywordset" mode="html.header"/>
 
   <xsl:if test="$inherit.keywords != 0
                 and parent::*">
@@ -272,11 +300,11 @@ body { background-image: url('</xsl:text>
               in this chunk should be referenced. I don't think it
               does any harm to reference them all, but it adds
               unnecessary bloat to each chunk. -->
-  <xsl:if test="$annotation.support != 0 and //d:annotation">
+  <xsl:if test="$annotation.support != 0 and //annotation">
     <xsl:call-template name="add.annotation.links"/>
     <script type="text/javascript">
       <xsl:text>&#10;// Create PopupWindow objects</xsl:text>
-      <xsl:for-each select="//d:annotation">
+      <xsl:for-each select="//annotation">
         <xsl:text>&#10;var popup_</xsl:text>
         <xsl:value-of select="generate-id(.)"/>
         <xsl:text> = new PopupWindow("popup-</xsl:text>
@@ -315,6 +343,9 @@ body { background-image: url('</xsl:text>
 
 <xsl:template name="user.header.navigation">
   <xsl:param name="node" select="."/>
+  <xsl:param name="prev" select="/foo"/>
+  <xsl:param name="next" select="/foo"/>
+  <xsl:param name="nav.context"/>
 </xsl:template>
 
 <xsl:template name="user.header.content">
@@ -327,7 +358,20 @@ body { background-image: url('</xsl:text>
 
 <xsl:template name="user.footer.navigation">
   <xsl:param name="node" select="."/>
+  <xsl:param name="prev" select="/foo"/>
+  <xsl:param name="next" select="/foo"/>
+  <xsl:param name="nav.context"/>
 </xsl:template>
+
+<!-- To use the same stripped nodeset everywhere, it should
+be created as a global variable here.
+Used by docbook.xsl, chunk-code.xsl and chunkfast.xsl -->
+<xsl:variable name="no.namespace">
+  <xsl:if test="$exsl.node.set.available != 0
+                    and (*/self::ng:* or */self::db:*)">
+    <xsl:apply-templates select="/*" mode="stripNS"/>
+  </xsl:if>
+</xsl:variable>
 
 <xsl:template match="/">
   <!-- * Get a title for current doc so that we let the user -->
@@ -336,41 +380,51 @@ body { background-image: url('</xsl:text>
     <xsl:call-template name="get.doc.title"/>
   </xsl:variable>
   <xsl:choose>
-    
+    <!-- Hack! If someone hands us a DocBook V5.x or DocBook NG document,
+         toss the namespace and continue.  Use the docbook5 namespaced
+         stylesheets for DocBook5 if you don't want to use this feature.-->
     <!-- include extra test for Xalan quirk -->
-    <xsl:when test="namespace-uri(*[1]) != 'http://docbook.org/ns/docbook'">
- <xsl:call-template name="log.message">
- <xsl:with-param name="level">Note</xsl:with-param>
- <xsl:with-param name="source" select="$doc.title"/>
- <xsl:with-param name="context-desc">
- <xsl:text>namesp. add</xsl:text>
- </xsl:with-param>
- <xsl:with-param name="message">
- <xsl:text>added namespace before processing</xsl:text>
- </xsl:with-param>
- </xsl:call-template>
- <xsl:variable name="addns">
-    <xsl:apply-templates mode="addNS"/>
-  </xsl:variable>
-  <xsl:apply-templates select="exsl:node-set($addns)"/>
-</xsl:when>
+    <xsl:when test="$exsl.node.set.available != 0
+                    and (*/self::ng:* or */self::db:*)">
+      <xsl:call-template name="log.message">
+        <xsl:with-param name="level">Note</xsl:with-param>
+        <xsl:with-param name="source" select="$doc.title"/>
+        <xsl:with-param name="context-desc">
+          <xsl:text>namesp. cut</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="message">
+          <xsl:text>stripped namespace before processing</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+      <!-- DEBUG: to save stripped document.
+      <xsl:message>Saving stripped document.</xsl:message>
+      <xsl:call-template name="write.chunk">
+        <xsl:with-param name="filename" select="'/tmp/stripped.xml'"/>
+        <xsl:with-param name="method" select="'xml'"/>
+        <xsl:with-param name="content">
+          <xsl:copy-of select="exsl:node-set($no.namespace)"/>
+        </xsl:with-param>
+      </xsl:call-template>
+      -->
+      <xsl:call-template name="log.message">
+        <xsl:with-param name="level">Note</xsl:with-param>
+        <xsl:with-param name="source" select="$doc.title"/>
+        <xsl:with-param name="context-desc">
+          <xsl:text>namesp. cut</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="message">
+          <xsl:text>processing stripped document</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+      <xsl:apply-templates select="exsl:node-set($no.namespace)"/>
+    </xsl:when>
     <!-- Can't process unless namespace removed -->
-    <xsl:when test="namespace-uri(*[1]) != 'http://docbook.org/ns/docbook'">
- <xsl:call-template name="log.message">
- <xsl:with-param name="level">Note</xsl:with-param>
- <xsl:with-param name="source" select="$doc.title"/>
- <xsl:with-param name="context-desc">
- <xsl:text>namesp. add</xsl:text>
- </xsl:with-param>
- <xsl:with-param name="message">
- <xsl:text>added namespace before processing</xsl:text>
- </xsl:with-param>
- </xsl:call-template>
- <xsl:variable name="addns">
-    <xsl:apply-templates mode="addNS"/>
-  </xsl:variable>
-  <xsl:apply-templates select="exsl:node-set($addns)"/>
-</xsl:when>
+    <xsl:when test="*/self::ng:* or */self::db:*">
+      <xsl:message terminate="yes">
+        <xsl:text>Unable to strip the namespace from DB5 document,</xsl:text>
+        <xsl:text> cannot proceed.</xsl:text>
+      </xsl:message>
+    </xsl:when>
     <xsl:otherwise>
       <xsl:choose>
         <xsl:when test="$rootid != ''">
@@ -423,6 +477,7 @@ body { background-image: url('</xsl:text>
   <xsl:call-template name="root.messages"/>
 
   <html>
+    <xsl:call-template name="root.attributes"/>
     <head>
       <xsl:call-template name="system.head.content">
         <xsl:with-param name="node" select="$doc"/>
@@ -449,6 +504,10 @@ body { background-image: url('</xsl:text>
   
   <!-- Generate any css files only once, not once per chunk -->
   <xsl:call-template name="generate.css.files"/>
+</xsl:template>
+
+<xsl:template name="root.attributes">
+  <!-- customize to add attributes to <html> element  -->
 </xsl:template>
 
 <xsl:template name="root.messages">

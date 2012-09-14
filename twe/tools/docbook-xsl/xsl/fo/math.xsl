@@ -1,13 +1,12 @@
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:d="http://docbook.org/ns/docbook"
-xmlns:fo="http://www.w3.org/1999/XSL/Format"
+                xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:mml="http://www.w3.org/1998/Math/MathML"
-                exclude-result-prefixes="mml d"
+                exclude-result-prefixes="mml"
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: math.xsl 7503 2007-10-08 01:57:30Z xmldoc $
+     $Id: math.xsl 9375 2012-05-24 16:33:32Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -16,10 +15,10 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
      ******************************************************************** -->
 
-<xsl:template match="d:inlineequation">
+<xsl:template match="inlineequation">
   <xsl:choose>
     <xsl:when test="$passivetex.extensions != 0 and $tex.math.in.alt != ''">
-      <xsl:apply-templates select="d:alt[@role='tex'] | d:inlinemediaobject/d:textobject[@role='tex']">
+      <xsl:apply-templates select="alt[@role='tex'] | inlinemediaobject/textobject[@role='tex']">
         <xsl:with-param name="output.delims">
           <xsl:call-template name="tex.math.output.delims"/>
         </xsl:with-param>
@@ -31,10 +30,10 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="d:alt">
+<xsl:template match="alt">
 </xsl:template>
 
-<xsl:template match="d:mathphrase">
+<xsl:template match="mathphrase">
   <fo:inline>
     <xsl:apply-templates/>
   </fo:inline>
@@ -70,16 +69,16 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:copy>
 </xsl:template>
 
-<xsl:template match="d:equation/d:graphic | d:informalequation/d:graphic">
-  <xsl:if test="$passivetex.extensions = 0 or $tex.math.in.alt = ''">
+<xsl:template match="equation/graphic | informalequation/graphic">
+  <xsl:if test="$tex.math.in.alt = ''">
     <fo:block>
       <xsl:call-template name="process.image"/>
     </fo:block>
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:inlineequation/d:alt[@role='tex'] | 
-                     d:inlineequation/d:inlinemediaobject/d:textobject[@role='tex']" priority="1">
+<xsl:template match="inlineequation/alt[@role='tex'] | 
+                     inlineequation/inlinemediaobject/textobject[@role='tex']" priority="1">
   <xsl:param name="output.delims" select="1"/>
   <xsl:if test="$passivetex.extensions != 0 and $tex.math.in.alt != ''">
     <xsl:processing-instruction name="xmltex">
@@ -94,9 +93,9 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:equation/d:alt[@role='tex'] | d:informalequation/d:alt[@role='tex'] |
-                     d:equation/d:mediaobject/d:textobject[@role='tex'] |
-                     d:informalequation/d:mediaobject/d:textobject[@role='tex']" priority="1">
+<xsl:template match="equation/alt[@role='tex'] | informalequation/alt[@role='tex'] |
+                     equation/mediaobject/textobject[@role='tex'] |
+                     informalequation/mediaobject/textobject[@role='tex']" priority="1">
   <xsl:variable name="output.delims">
     <xsl:call-template name="tex.math.output.delims"/>
   </xsl:variable>
@@ -113,7 +112,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:alt[@role='tex']">
+<xsl:template match="alt[@role='tex']">
   <xsl:if test="$passivetex.extensions != 0 and $tex.math.in.alt != ''">
     <xsl:message>
       Your equation is misplaced. It should be in inlineequation, equation or informalequation.

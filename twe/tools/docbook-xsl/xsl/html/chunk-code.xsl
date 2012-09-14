@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:d="http://docbook.org/ns/docbook"
-xmlns:exsl="http://exslt.org/common"
+                xmlns:exsl="http://exslt.org/common"
                 xmlns:cf="http://docbook.sourceforge.net/xmlns/chunkfast/1.0"
                 xmlns:ng="http://docbook.org/docbook-ng"
                 xmlns:db="http://docbook.org/ns/docbook"
-                exclude-result-prefixes="exsl cf ng db d"
+                exclude-result-prefixes="exsl cf ng db"
                 version="1.0">
 
 <!-- ********************************************************************
-     $Id: chunk-code.xsl 8596 2010-03-20 04:36:45Z bobstayton $
+     $Id: chunk-code.xsl 9328 2012-05-03 16:28:23Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -55,6 +54,8 @@ xmlns:exsl="http://exslt.org/common"
     <xsl:call-template name="dbhtml-dir"/>
   </xsl:if>
 
+  <xsl:value-of select="$chunked.filename.prefix"/>
+
   <xsl:value-of select="$fn"/>
   <!-- You can't add the html.ext here because dbhtml filename= may already -->
   <!-- have added it. It really does have to be handled in the recursive template -->
@@ -83,7 +84,7 @@ xmlns:exsl="http://exslt.org/common"
         <xsl:value-of select="$html.ext"/>
       </xsl:when>
       <!-- Special case -->
-      <xsl:when test="self::d:legalnotice and not($generate.legalnotice.link = 0)">
+      <xsl:when test="self::legalnotice and not($generate.legalnotice.link = 0)">
         <xsl:choose>
           <xsl:when test="(@id or @xml:id) and not($use.id.as.filename = 0)">
             <!-- * if this legalnotice has an ID, then go ahead and use -->
@@ -133,14 +134,14 @@ xmlns:exsl="http://exslt.org/common"
       <xsl:value-of select="$filename"/>
     </xsl:when>
 
-    <xsl:when test="self::d:set">
+    <xsl:when test="self::set">
       <xsl:value-of select="$root.filename"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:book">
+    <xsl:when test="self::book">
       <xsl:text>bk</xsl:text>
       <xsl:number level="any" format="01"/>
       <xsl:if test="not($recursive)">
@@ -148,8 +149,8 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:article">
-      <xsl:if test="/d:set">
+    <xsl:when test="self::article">
+      <xsl:if test="/set">
         <!-- in a set, make sure we inherit the right book info... -->
         <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
           <xsl:with-param name="recursive" select="true()"/>
@@ -157,14 +158,14 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:if>
 
       <xsl:text>ar</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:preface">
-      <xsl:if test="/d:set">
+    <xsl:when test="self::preface">
+      <xsl:if test="/set">
         <!-- in a set, make sure we inherit the right book info... -->
         <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
           <xsl:with-param name="recursive" select="true()"/>
@@ -172,14 +173,14 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:if>
 
       <xsl:text>pr</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:chapter">
-      <xsl:if test="/d:set">
+    <xsl:when test="self::chapter">
+      <xsl:if test="/set">
         <!-- in a set, make sure we inherit the right book info... -->
         <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
           <xsl:with-param name="recursive" select="true()"/>
@@ -187,14 +188,14 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:if>
 
       <xsl:text>ch</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:appendix">
-      <xsl:if test="/d:set">
+    <xsl:when test="self::appendix">
+      <xsl:if test="/set">
         <!-- in a set, make sure we inherit the right book info... -->
         <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
           <xsl:with-param name="recursive" select="true()"/>
@@ -202,15 +203,15 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:if>
 
       <xsl:text>ap</xsl:text>
-      <xsl:number level="any" format="a" from="d:book"/>
+      <xsl:number level="any" format="a" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:part">
+    <xsl:when test="self::part">
       <xsl:choose>
-        <xsl:when test="/d:set">
+        <xsl:when test="/set">
           <!-- in a set, make sure we inherit the right book info... -->
           <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
             <xsl:with-param name="recursive" select="true()"/>
@@ -221,15 +222,15 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:choose>
 
       <xsl:text>pt</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:reference">
+    <xsl:when test="self::reference">
       <xsl:choose>
-        <xsl:when test="/d:set">
+        <xsl:when test="/set">
           <!-- in a set, make sure we inherit the right book info... -->
           <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
             <xsl:with-param name="recursive" select="true()"/>
@@ -240,21 +241,21 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:choose>
 
       <xsl:text>rn</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:refentry">
+    <xsl:when test="self::refentry">
       <xsl:choose>
-        <xsl:when test="parent::d:reference">
+        <xsl:when test="parent::reference">
           <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
             <xsl:with-param name="recursive" select="true()"/>
           </xsl:apply-templates>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:if test="/d:set">
+          <xsl:if test="/set">
             <!-- in a set, make sure we inherit the right book info... -->
             <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
               <xsl:with-param name="recursive" select="true()"/>
@@ -264,15 +265,15 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:choose>
 
       <xsl:text>re</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:colophon">
+    <xsl:when test="self::colophon">
       <xsl:choose>
-        <xsl:when test="/d:set">
+        <xsl:when test="/set">
           <!-- in a set, make sure we inherit the right book info... -->
           <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
             <xsl:with-param name="recursive" select="true()"/>
@@ -283,18 +284,18 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:choose>
 
       <xsl:text>co</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:sect1
-                    or self::d:sect2
-                    or self::d:sect3
-                    or self::d:sect4
-                    or self::d:sect5
-                    or self::d:section">
+    <xsl:when test="self::sect1
+                    or self::sect2
+                    or self::sect3
+                    or self::sect4
+                    or self::sect5
+                    or self::section">
       <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
         <xsl:with-param name="recursive" select="true()"/>
       </xsl:apply-templates>
@@ -305,9 +306,9 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:bibliography">
+    <xsl:when test="self::bibliography">
       <xsl:choose>
-        <xsl:when test="/d:set">
+        <xsl:when test="/set">
           <!-- in a set, make sure we inherit the right book info... -->
           <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
             <xsl:with-param name="recursive" select="true()"/>
@@ -318,15 +319,15 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:choose>
 
       <xsl:text>bi</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:glossary">
+    <xsl:when test="self::glossary">
       <xsl:choose>
-        <xsl:when test="/d:set">
+        <xsl:when test="/set">
           <!-- in a set, make sure we inherit the right book info... -->
           <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
             <xsl:with-param name="recursive" select="true()"/>
@@ -337,15 +338,15 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:choose>
 
       <xsl:text>go</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:index">
+    <xsl:when test="self::index">
       <xsl:choose>
-        <xsl:when test="/d:set">
+        <xsl:when test="/set">
           <!-- in a set, make sure we inherit the right book info... -->
           <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
             <xsl:with-param name="recursive" select="true()"/>
@@ -356,15 +357,34 @@ xmlns:exsl="http://exslt.org/common"
       </xsl:choose>
 
       <xsl:text>ix</xsl:text>
-      <xsl:number level="any" format="01" from="d:book"/>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
     </xsl:when>
 
-    <xsl:when test="self::d:setindex">
+    <xsl:when test="self::setindex">
       <xsl:text>si</xsl:text>
-      <xsl:number level="any" format="01" from="d:set"/>
+      <xsl:number level="any" format="01" from="set"/>
+      <xsl:if test="not($recursive)">
+        <xsl:value-of select="$html.ext"/>
+      </xsl:if>
+    </xsl:when>
+
+    <xsl:when test="self::topic">
+      <xsl:choose>
+        <xsl:when test="/set">
+          <!-- in a set, make sure we inherit the right book info... -->
+          <xsl:apply-templates mode="recursive-chunk-filename" select="parent::*">
+            <xsl:with-param name="recursive" select="true()"/>
+          </xsl:apply-templates>
+        </xsl:when>
+        <xsl:otherwise>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:text>to</xsl:text>
+      <xsl:number level="any" format="01" from="book"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
@@ -373,7 +393,7 @@ xmlns:exsl="http://exslt.org/common"
     <xsl:otherwise>
       <xsl:text>chunk-filename-error-</xsl:text>
       <xsl:value-of select="name(.)"/>
-      <xsl:number level="any" format="01" from="d:set"/>
+      <xsl:number level="any" format="01" from="set"/>
       <xsl:if test="not($recursive)">
         <xsl:value-of select="$html.ext"/>
       </xsl:if>
@@ -410,6 +430,9 @@ xmlns:exsl="http://exslt.org/common"
   </xsl:choose>
 </xsl:template>
 
+<!-- Leave legalnotice chunk out of the list for Next and Prev -->
+<xsl:template match="legalnotice" mode="find.chunks"/>
+
 <xsl:template match="/">
   <!-- * Get a title for current doc so that we let the user -->
   <!-- * know what document we are processing at this point. -->
@@ -417,40 +440,32 @@ xmlns:exsl="http://exslt.org/common"
     <xsl:call-template name="get.doc.title"/>
   </xsl:variable>
   <xsl:choose>
-    
-    <xsl:when test="namespace-uri(*[1]) != 'http://docbook.org/ns/docbook'">
- <xsl:call-template name="log.message">
- <xsl:with-param name="level">Note</xsl:with-param>
- <xsl:with-param name="source" select="$doc.title"/>
- <xsl:with-param name="context-desc">
- <xsl:text>namesp. add</xsl:text>
- </xsl:with-param>
- <xsl:with-param name="message">
- <xsl:text>added namespace before processing</xsl:text>
- </xsl:with-param>
- </xsl:call-template>
- <xsl:variable name="addns">
-    <xsl:apply-templates mode="addNS"/>
-  </xsl:variable>
-  <xsl:apply-templates select="exsl:node-set($addns)"/>
-</xsl:when>
+    <!-- Hack! If someone hands us a DocBook V5.x or DocBook NG document,
+         toss the namespace and continue.  Use the docbook5 namespaced
+	 stylesheets for DocBook5 if you don't want to use this feature.-->
+    <xsl:when test="$exsl.node.set.available != 0 
+                    and (*/self::ng:* or */self::db:*)">
+
+      <xsl:call-template name="log.message">
+        <xsl:with-param name="level">Note</xsl:with-param>
+        <xsl:with-param name="source" select="$doc.title"/>
+        <xsl:with-param name="context-desc">
+          <xsl:text>namesp. cut</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="message">
+          <xsl:text>processing stripped document</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+
+      <xsl:apply-templates select="exsl:node-set($no.namespace)"/>
+    </xsl:when>
     <!-- Can't process unless namespace removed -->
-    <xsl:when test="namespace-uri(*[1]) != 'http://docbook.org/ns/docbook'">
- <xsl:call-template name="log.message">
- <xsl:with-param name="level">Note</xsl:with-param>
- <xsl:with-param name="source" select="$doc.title"/>
- <xsl:with-param name="context-desc">
- <xsl:text>namesp. add</xsl:text>
- </xsl:with-param>
- <xsl:with-param name="message">
- <xsl:text>added namespace before processing</xsl:text>
- </xsl:with-param>
- </xsl:call-template>
- <xsl:variable name="addns">
-    <xsl:apply-templates mode="addNS"/>
-  </xsl:variable>
-  <xsl:apply-templates select="exsl:node-set($addns)"/>
-</xsl:when>
+    <xsl:when test="*/self::ng:* or */self::db:*">
+      <xsl:message terminate="yes">
+        <xsl:text>Unable to strip the namespace from DB5 document,</xsl:text>
+        <xsl:text> cannot proceed.</xsl:text>
+      </xsl:message>
+    </xsl:when>
     <xsl:otherwise>
       <xsl:choose>
         <xsl:when test="$rootid != ''">
@@ -508,17 +523,18 @@ xmlns:exsl="http://exslt.org/common"
 
 <xsl:template match="*" mode="process.root">
   <xsl:apply-templates select="."/>
-  <xsl:call-template name="generate.css"/>
+  <xsl:call-template name="generate.css.files"/>
 </xsl:template>
 
 <!-- ====================================================================== -->
 
-<xsl:template match="d:set|d:book|d:part|d:preface|d:chapter|d:appendix
-                     |d:article
-                     |d:reference|d:refentry
-                     |d:book/d:glossary|d:article/d:glossary|d:part/d:glossary
-                     |d:book/d:bibliography|d:article/d:bibliography|d:part/d:bibliography
-                     |d:colophon">
+<xsl:template match="set|book|part|preface|chapter|appendix
+                     |article
+                     |topic
+                     |reference|refentry
+                     |book/glossary|article/glossary|part/glossary
+                     |book/bibliography|article/bibliography|part/bibliography
+                     |colophon">
   <xsl:choose>
     <xsl:when test="$onechunk != 0 and parent::*">
       <xsl:apply-imports/>
@@ -529,7 +545,7 @@ xmlns:exsl="http://exslt.org/common"
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section">
+<xsl:template match="sect1|sect2|sect3|sect4|sect5|section">
   <xsl:variable name="ischunk">
     <xsl:call-template name="chunk"/>
   </xsl:variable>
@@ -547,10 +563,10 @@ xmlns:exsl="http://exslt.org/common"
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="d:setindex
-                     |d:book/d:index
-                     |d:article/d:index
-                     |d:part/d:index">
+<xsl:template match="setindex
+                     |book/index
+                     |article/index
+                     |part/index">
   <!-- some implementations use completely empty index tags to indicate -->
   <!-- where an automatically generated index should be inserted. so -->
   <!-- if the index is completely empty, skip it. -->
@@ -585,21 +601,22 @@ xmlns:exsl="http://exslt.org/common"
 </xsl:template>
 
 <!-- ==================================================================== -->
-<xsl:template match="d:set|d:book|d:part|d:preface|d:chapter|d:appendix
-                     |d:article
-                     |d:reference|d:refentry
-                     |d:sect1|d:sect2|d:sect3|d:sect4|d:sect5
-                     |d:section
-                     |d:book/d:glossary|d:article/d:glossary|d:part/d:glossary
-                     |d:book/d:bibliography|d:article/d:bibliography|d:part/d:bibliography
-                     |d:colophon"
+<xsl:template match="set|book|part|preface|chapter|appendix
+                     |article
+                     |topic
+                     |reference|refentry
+                     |sect1|sect2|sect3|sect4|sect5
+                     |section
+                     |book/glossary|article/glossary|part/glossary
+                     |book/bibliography|article/bibliography|part/bibliography
+                     |colophon"
               mode="enumerate-files">
   <xsl:variable name="ischunk"><xsl:call-template name="chunk"/></xsl:variable>
   <xsl:if test="$ischunk='1'">
     <xsl:call-template name="make-relative-filename">
       <xsl:with-param name="base.dir">
         <xsl:if test="$manifest.in.base.dir = 0">
-          <xsl:value-of select="$base.dir"/>
+          <xsl:value-of select="$chunk.base.dir"/>
         </xsl:if>
       </xsl:with-param>
       <xsl:with-param name="base.name">
@@ -611,7 +628,7 @@ xmlns:exsl="http://exslt.org/common"
   <xsl:apply-templates select="*" mode="enumerate-files"/>
 </xsl:template>
 
-<xsl:template match="d:book/d:index|d:article/d:index|d:part/d:index"
+<xsl:template match="book/index|article/index|part/index"
               mode="enumerate-files">
   <xsl:if test="$htmlhelp.output != 1">
     <xsl:variable name="ischunk"><xsl:call-template name="chunk"/></xsl:variable>
@@ -619,7 +636,7 @@ xmlns:exsl="http://exslt.org/common"
       <xsl:call-template name="make-relative-filename">
         <xsl:with-param name="base.dir">
           <xsl:if test="$manifest.in.base.dir = 0">
-            <xsl:value-of select="$base.dir"/>
+            <xsl:value-of select="$chunk.base.dir"/>
           </xsl:if>
         </xsl:with-param>
         <xsl:with-param name="base.name">
@@ -632,13 +649,13 @@ xmlns:exsl="http://exslt.org/common"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:legalnotice" mode="enumerate-files">
+<xsl:template match="legalnotice" mode="enumerate-files">
   <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
   <xsl:if test="$generate.legalnotice.link != 0">
     <xsl:call-template name="make-relative-filename">
       <xsl:with-param name="base.dir">
         <xsl:if test="$manifest.in.base.dir = 0">
-          <xsl:value-of select="$base.dir"/>
+          <xsl:value-of select="$chunk.base.dir"/>
         </xsl:if>
       </xsl:with-param>
       <xsl:with-param name="base.name">
@@ -649,7 +666,7 @@ xmlns:exsl="http://exslt.org/common"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:mediaobject[d:imageobject] | d:inlinemediaobject[d:imageobject]" mode="enumerate-files">
+<xsl:template match="mediaobject[imageobject] | inlinemediaobject[imageobject]" mode="enumerate-files">
   <xsl:variable name="longdesc.uri">
     <xsl:call-template name="longdesc.uri">
       <xsl:with-param name="mediaobject"
@@ -658,7 +675,7 @@ xmlns:exsl="http://exslt.org/common"
   </xsl:variable>
   <xsl:variable name="mediaobject" select="."/>
 
-  <xsl:if test="$html.longdesc != 0 and $mediaobject/d:textobject[not(d:phrase)]">
+  <xsl:if test="$html.longdesc != 0 and $mediaobject/textobject[not(phrase)]">
     <xsl:call-template name="longdesc.uri">
       <xsl:with-param name="mediaobject" select="$mediaobject"/>
     </xsl:call-template>

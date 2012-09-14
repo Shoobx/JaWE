@@ -1,15 +1,14 @@
 <?xml version='1.0'?>
 <xsl:stylesheet
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:d="http://docbook.org/ns/docbook"
-xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
+  xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
   xmlns:xlink="http://www.w3.org/1999/xlink"
-  exclude-result-prefixes="doc xlink d"
+  exclude-result-prefixes="doc xlink"
   version='1.0'>
 
 <!-- ********************************************************************
-     $Id: pi.xsl 8487 2009-07-14 21:43:36Z bobstayton $
+     $Id: pi.xsl 9267 2012-04-03 20:23:45Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -20,7 +19,7 @@ xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
 
 <doc:reference xmlns=""><info><title>FO Processing Instruction Reference</title>
     <releaseinfo role="meta">
-      $Id: pi.xsl 8487 2009-07-14 21:43:36Z bobstayton $
+      $Id: pi.xsl 9267 2012-04-03 20:23:45Z bobstayton $
     </releaseinfo>
   </info>
 
@@ -972,61 +971,63 @@ xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
       <!-- Doesn't work in fop -->
     </xsl:when>
     <xsl:when test="$pi-before != '' and
-      not(following-sibling::d:listitem) and
-      not(following-sibling::d:step)">
+      not(following-sibling::listitem) and
+      not(following-sibling::step)">
       <fo:block space-after="0pt" space-before="{$pi-before}">
         <xsl:copy-of select="$spacer"/>
       </fo:block>
     </xsl:when>
-    <xsl:when test="following-sibling::d:para">
+    <xsl:when test="following-sibling::para">
       <fo:block space-after="0pt" 
         xsl:use-attribute-sets="normal.para.spacing">
         <xsl:copy-of select="$spacer"/>
       </fo:block>
     </xsl:when>
-    <xsl:when test="following-sibling::d:table or
-      following-sibling::d:figure or
-      following-sibling::d:example or
-      following-sibling::d:equation">
+    <xsl:when test="following-sibling::table or
+      following-sibling::figure or
+      following-sibling::example or
+      following-sibling::equation">
       <fo:block space-after="0pt" 
         xsl:use-attribute-sets="formal.object.properties">
         <xsl:copy-of select="$spacer"/>
       </fo:block>
     </xsl:when>
-    <xsl:when test="following-sibling::d:informaltable or
-      following-sibling::d:informalfigure or
-      following-sibling::d:informalexample or
-      following-sibling::d:informalequation">
+    <xsl:when test="following-sibling::informaltable or
+      following-sibling::informalfigure or
+      following-sibling::informalexample or
+      following-sibling::informalequation">
       <fo:block space-after="0pt" 
         xsl:use-attribute-sets="informal.object.properties">
         <xsl:copy-of select="$spacer"/>
       </fo:block>
     </xsl:when>
-    <xsl:when test="following-sibling::d:itemizedlist or
-      following-sibling::d:orderedlist or
-      following-sibling::d:variablelist or
-      following-sibling::d:simplelist">
+    <xsl:when test="following-sibling::itemizedlist or
+      following-sibling::orderedlist or
+      following-sibling::variablelist or
+      following-sibling::simplelist">
       <fo:block space-after="0pt" 
         xsl:use-attribute-sets="informal.object.properties">
         <xsl:copy-of select="$spacer"/>
       </fo:block>
     </xsl:when>
-    <xsl:when test="following-sibling::d:listitem or
-      following-sibling::d:step">
+    <xsl:when test="following-sibling::listitem or
+      following-sibling::step">
       <fo:list-item space-after="0pt" 
         xsl:use-attribute-sets="informal.object.properties">
-        <fo:list-item-label/>
+        <fo:list-item-label>
+          <fo:block line-height="0pt"/>
+        </fo:list-item-label>
         <fo:list-item-body start-indent="0pt" end-indent="0pt">
           <xsl:copy-of select="$spacer"/>
         </fo:list-item-body>
       </fo:list-item>
     </xsl:when>
-    <xsl:when test="following-sibling::d:sect1 or
-      following-sibling::d:sect2 or
-      following-sibling::d:sect3 or
-      following-sibling::d:sect4 or
-      following-sibling::d:sect5 or
-      following-sibling::d:section">
+    <xsl:when test="following-sibling::sect1 or
+      following-sibling::sect2 or
+      following-sibling::sect3 or
+      following-sibling::sect4 or
+      following-sibling::sect5 or
+      following-sibling::section">
       <fo:block space-after="0pt" 
         xsl:use-attribute-sets="section.title.properties">
         <xsl:copy-of select="$spacer"/>
@@ -1046,14 +1047,18 @@ xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
     <xsl:when test="$fop.extensions != 0">
       <!-- Doesn't work in fop -->
     </xsl:when>
-    <xsl:when test="following-sibling::d:listitem or
-      following-sibling::d:step">
+    <xsl:when test="following-sibling::listitem or
+      following-sibling::step">
       <fo:list-item space-before.precedence="force"
         space-before="-{$height}"
         space-after="0pt"
         space-after.precedence="force">
-        <fo:list-item-label/>
-        <fo:list-item-body start-indent="0pt" end-indent="0pt"/>
+        <fo:list-item-label>
+          <fo:block line-height="0pt"/>
+        </fo:list-item-label>
+        <fo:list-item-body start-indent="0pt" end-indent="0pt">
+          <fo:block line-height="0pt"/>
+        </fo:list-item-body>
       </fo:list-item>
     </xsl:when>
     <xsl:otherwise>

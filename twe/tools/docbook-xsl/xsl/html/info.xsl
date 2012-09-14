@@ -1,11 +1,9 @@
 <?xml version='1.0'?>
-<xsl:stylesheet exclude-result-prefixes="d"
-                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:d="http://docbook.org/ns/docbook"
-version='1.0'>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version='1.0'>
 
 <!-- ********************************************************************
-     $Id: info.xsl 8421 2009-05-04 07:49:49Z bobstayton $
+     $Id: info.xsl 9297 2012-04-22 03:56:16Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -24,18 +22,20 @@ version='1.0'>
 <!-- ==================================================================== -->
 <!-- called from named templates in a given mode -->
 
-<xsl:template match="d:corpauthor">
+<xsl:template match="corpauthor">
   <span>
     <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:call-template name="id.attribute"/>
     <xsl:apply-templates/>
   </span>
 </xsl:template>
 
 <!-- ==================================================================== -->
 
-<xsl:template match="d:jobtitle">
+<xsl:template match="jobtitle">
   <span>
     <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:call-template name="id.attribute"/>
     <xsl:apply-templates/>
   </span>
 </xsl:template>

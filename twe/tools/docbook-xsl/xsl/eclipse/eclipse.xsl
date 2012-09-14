@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:d="http://docbook.org/ns/docbook"
-xmlns:ng="http://docbook.org/docbook-ng"
+  xmlns:ng="http://docbook.org/docbook-ng"
   xmlns:db="http://docbook.org/ns/docbook"
   xmlns:exsl="http://exslt.org/common"
   version="1.0"
-  exclude-result-prefixes="exsl db ng d">
+  exclude-result-prefixes="exsl db ng">
   
 <xsl:import href="../html/chunk.xsl"/>
 
 <!-- ********************************************************************
-     $Id: eclipse.xsl 8400 2009-04-08 07:44:54Z bobstayton $
+     $Id: eclipse.xsl 9149 2011-11-12 00:12:07Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -26,24 +25,37 @@ xmlns:ng="http://docbook.org/docbook-ng"
     <xsl:call-template name="get.doc.title"/>
   </xsl:variable>
   <xsl:choose>
-    
+    <!-- Hack! If someone hands us a DocBook V5.x or DocBook NG document,
+         toss the namespace and continue.  Use the docbook5 namespaced
+         stylesheets for DocBook5 if you don't want to use this feature.-->
     <!-- include extra test for Xalan quirk -->
-    <xsl:when test="namespace-uri(*[1]) != 'http://docbook.org/ns/docbook'">
- <xsl:call-template name="log.message">
- <xsl:with-param name="level">Note</xsl:with-param>
- <xsl:with-param name="source" select="$doc.title"/>
- <xsl:with-param name="context-desc">
- <xsl:text>namesp. add</xsl:text>
- </xsl:with-param>
- <xsl:with-param name="message">
- <xsl:text>added namespace before processing</xsl:text>
- </xsl:with-param>
- </xsl:call-template>
- <xsl:variable name="addns">
-    <xsl:apply-templates mode="addNS"/>
-  </xsl:variable>
-  <xsl:apply-templates select="exsl:node-set($addns)"/>
-</xsl:when>
+    <xsl:when test="$exsl.node.set.available != 0
+                    and (*/self::ng:* or */self::db:*)">
+      <xsl:call-template name="log.message">
+        <xsl:with-param name="level">Note</xsl:with-param>
+        <xsl:with-param name="source" select="$doc.title"/>
+        <xsl:with-param name="context-desc">
+          <xsl:text>namesp. cut</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="message">
+          <xsl:text>stripped namespace before processing</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+      <xsl:variable name="nons">
+        <xsl:apply-templates mode="stripNS"/>
+      </xsl:variable>
+      <xsl:call-template name="log.message">
+        <xsl:with-param name="level">Note</xsl:with-param>
+        <xsl:with-param name="source" select="$doc.title"/>
+        <xsl:with-param name="context-desc">
+          <xsl:text>namesp. cut</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="message">
+          <xsl:text>processing stripped document</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+      <xsl:apply-templates select="exsl:node-set($nons)"/>
+    </xsl:when>
     <xsl:otherwise>
   <xsl:choose>
     <xsl:when test="$rootid != ''">
@@ -94,7 +106,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
   <xsl:call-template name="write.chunk">
     <xsl:with-param name="filename">
       <xsl:if test="$manifest.in.base.dir != 0">
-        <xsl:value-of select="$base.dir"/>
+        <xsl:value-of select="$chunk.base.dir"/>
       </xsl:if>
       <xsl:value-of select="'toc.xml'"/>
     </xsl:with-param>
@@ -156,7 +168,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
   </xsl:call-template>
 </xsl:template>
 
-<xsl:template match="d:book|d:part|d:reference|d:preface|d:chapter|d:bibliography|d:appendix|d:article|d:glossary|d:section|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:refentry|d:colophon|d:bibliodiv|d:index" mode="etoc">
+<xsl:template match="book|part|reference|preface|chapter|bibliography|appendix|article|glossary|section|sect1|sect2|sect3|sect4|sect5|refentry|colophon|bibliodiv|index" mode="etoc">
   <xsl:variable name="title">
     <xsl:if test="$eclipse.autolabel=1">
       <xsl:variable name="label.markup">
@@ -176,7 +188,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
   </xsl:variable>
 
   <topic label="{normalize-space($title)}" href="{$href}">
-    <xsl:apply-templates select="d:part|d:reference|d:preface|d:chapter|d:bibliography|d:appendix|d:article|d:glossary|d:section|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:refentry|d:colophon|d:bibliodiv|d:index" mode="etoc"/>
+    <xsl:apply-templates select="part|reference|preface|chapter|bibliography|appendix|article|glossary|section|sect1|sect2|sect3|sect4|sect5|refentry|colophon|bibliodiv|index" mode="etoc"/>
   </topic>
 
 </xsl:template>
@@ -187,7 +199,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
   <xsl:call-template name="write.chunk">
     <xsl:with-param name="filename">
       <xsl:if test="$manifest.in.base.dir != 0">
-        <xsl:value-of select="$base.dir"/>
+        <xsl:value-of select="$chunk.base.dir"/>
       </xsl:if>
       <xsl:value-of select="'plugin.xml'"/>
     </xsl:with-param>
@@ -217,7 +229,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
 
 <xsl:template name="helpidx">
   <xsl:call-template name="write.chunk.with.doctype">
-    <xsl:with-param name="filename" select="concat($base.dir, 'index.xml')"/>
+    <xsl:with-param name="filename" select="concat($chunk.base.dir, 'index.xml')"/>
     <xsl:with-param name="method" select="'xml'"/>
     <xsl:with-param name="indent" select="'yes'"/>
     <xsl:with-param name="doctype-public" select="''"/>
@@ -234,26 +246,26 @@ xmlns:ng="http://docbook.org/docbook-ng"
 	<index>
 	  <xsl:choose>
 		<xsl:when test="$rootid != ''">
-		  <xsl:apply-templates select="key('id',$rootid)//d:indexterm" mode="idx">
-			<xsl:sort select="normalize-space(concat(d:primary/@sortas, d:primary[not(@sortas) or @sortas = '']))"/>
-			<xsl:sort select="normalize-space(concat(d:secondary/@sortas, d:secondary[not(@sortas) or @sortas = '']))"/>
-			<xsl:sort select="normalize-space(concat(d:tertiary/@sortas, d:tertiary[not(@sortas) or @sortas = '']))"/>
+		  <xsl:apply-templates select="key('id',$rootid)//indexterm" mode="idx">
+			<xsl:sort select="normalize-space(concat(primary/@sortas, primary[not(@sortas) or @sortas = '']))"/>
+			<xsl:sort select="normalize-space(concat(secondary/@sortas, secondary[not(@sortas) or @sortas = '']))"/>
+			<xsl:sort select="normalize-space(concat(tertiary/@sortas, tertiary[not(@sortas) or @sortas = '']))"/>
 		  </xsl:apply-templates>
 		</xsl:when>
 		<xsl:otherwise>
-		  <xsl:apply-templates select="//d:indexterm" mode="idx">
-			<xsl:sort select="normalize-space(concat(d:primary/@sortas, d:primary[not(@sortas) or @sortas = '']))"/>
-			<xsl:sort select="normalize-space(concat(d:secondary/@sortas, d:secondary[not(@sortas) or @sortas = '']))"/>
-			<xsl:sort select="normalize-space(concat(d:tertiary/@sortas, d:tertiary[not(@sortas) or @sortas = '']))"/>
+		  <xsl:apply-templates select="//indexterm" mode="idx">
+			<xsl:sort select="normalize-space(concat(primary/@sortas, primary[not(@sortas) or @sortas = '']))"/>
+			<xsl:sort select="normalize-space(concat(secondary/@sortas, secondary[not(@sortas) or @sortas = '']))"/>
+			<xsl:sort select="normalize-space(concat(tertiary/@sortas, tertiary[not(@sortas) or @sortas = '']))"/>
 		  </xsl:apply-templates>
 		</xsl:otherwise>
 	  </xsl:choose>
 	</index>
   </xsl:template>
   
-  <xsl:template match="d:indexterm[@class='endofrange']" mode="idx"/>
+  <xsl:template match="indexterm[@class='endofrange']" mode="idx"/>
   
-  <xsl:template match="d:indexterm|d:primary|d:secondary|d:tertiary" mode="idx">
+  <xsl:template match="indexterm|primary|secondary|tertiary" mode="idx">
 
 	<xsl:variable name="href">
 	  <xsl:call-template name="href.target.with.base.dir">
@@ -263,27 +275,27 @@ xmlns:ng="http://docbook.org/docbook-ng"
 
 	<xsl:variable name="text">
 	  <xsl:value-of select="normalize-space(.)"/>
-	  <xsl:if test="following-sibling::*[1][self::d:see]">
+	  <xsl:if test="following-sibling::*[1][self::see]">
 		<xsl:text> (</xsl:text><xsl:call-template name="gentext">
 		  <xsl:with-param name="key" select="'see'"/>
 		</xsl:call-template><xsl:text> </xsl:text>
-		<xsl:value-of select="following-sibling::*[1][self::d:see]"/>)</xsl:if>
+		<xsl:value-of select="following-sibling::*[1][self::see]"/>)</xsl:if>
 	</xsl:variable>
 	
 	<xsl:choose>
-	  <xsl:when test="self::d:indexterm">
-		<xsl:apply-templates select="d:primary" mode="idx"/>
+	  <xsl:when test="self::indexterm">
+		<xsl:apply-templates select="primary" mode="idx"/>
 	  </xsl:when>
-	  <xsl:when test="self::d:primary">
+	  <xsl:when test="self::primary">
 		<entry keyword="{$text}">
 		  <topic href="{$href}"/>
-		  <xsl:apply-templates select="following-sibling::d:secondary"  mode="idx"/>
+		  <xsl:apply-templates select="following-sibling::secondary"  mode="idx"/>
 		</entry>
 	  </xsl:when>
 	  <xsl:otherwise>
 		<entry keyword="{$text}">
 		  <topic href="{$href}"/>
-		  <xsl:apply-templates select="following-sibling::d:tertiary"  mode="idx"/>
+		  <xsl:apply-templates select="following-sibling::tertiary"  mode="idx"/>
 		</entry>
 	  </xsl:otherwise>
 	</xsl:choose>

@@ -10050,6 +10050,21 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <title>Release 4.7-1</title>
 
       <itemizedlist>
+       <listitem>
+          <para>Ant library updated to version 1.8.4</para>
+        </listitem>
+       <listitem>
+          <para>Common I/O library updated to version 2.4</para>
+        </listitem>
+       <listitem>
+          <para>docbook-xsl library updated to version 1.77.1</para>
+        </listitem>
+       <listitem>
+          <para>iText5 library updated to version 5.3.2</para>
+        </listitem>
+       <listitem>
+          <para>jgraph library updated to version 5.14.0.0</para>
+        </listitem>
         <listitem>
           <para>Improved XPDL icon</para>
         </listitem>

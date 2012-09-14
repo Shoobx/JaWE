@@ -1,13 +1,11 @@
 <?xml version='1.0'?>
-<xsl:stylesheet exclude-result-prefixes="d"
-                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:d="http://docbook.org/ns/docbook"
-xmlns:fo="http://www.w3.org/1999/XSL/Format"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: autotoc.xsl 8286 2009-03-06 22:53:04Z bobstayton $
+     $Id: autotoc.xsl 9293 2012-04-19 18:42:11Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -32,7 +30,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     </xsl:call-template>
   </xsl:variable>
 
-  <xsl:variable name="nodes" select="d:book|d:set|d:setindex"/>
+  <xsl:variable name="nodes" select="book|set|setindex"/>
 
   <xsl:if test="$nodes">
     <fo:block id="toc...{$id}"
@@ -65,15 +63,16 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:variable>
 
   <xsl:variable name="nodes"
-                select="$toc-context/d:part
-                        |$toc-context/d:reference
-                        |$toc-context/d:preface
-                        |$toc-context/d:chapter
-                        |$toc-context/d:appendix
-                        |$toc-context/d:article
-                        |$toc-context/d:bibliography
-                        |$toc-context/d:glossary
-                        |$toc-context/d:index"/>
+                select="$toc-context/part
+                        |$toc-context/reference
+                        |$toc-context/preface
+                        |$toc-context/chapter
+                        |$toc-context/appendix
+                        |$toc-context/article
+                        |$toc-context/topic
+                        |$toc-context/bibliography
+                        |$toc-context/glossary
+                        |$toc-context/index"/>
 
   <xsl:if test="$nodes">
     <fo:block id="toc...{$cid}"
@@ -111,10 +110,10 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     </xsl:call-template>
   </xsl:variable>
 
-  <xsl:variable name="nodes" select="d:section|d:sect1|d:refentry
-                                     |d:article|d:bibliography|d:glossary
-                                     |d:qandaset[$qanda.in.toc != 0]
-                                     |d:appendix|d:index"/>
+  <xsl:variable name="nodes" select="section|sect1|refentry
+                                     |article|topic|bibliography|glossary
+                                     |qandaset[$qanda.in.toc != 0]
+                                     |appendix|index"/>
   <xsl:if test="$nodes">
     <fo:block id="toc...{$id}"
               xsl:use-attribute-sets="toc.margin.properties">
@@ -148,9 +147,9 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:variable>
 
   <xsl:variable name="nodes"
-                select="d:section|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:refentry
-                        |d:qandaset[$qanda.in.toc != 0]
-                        |d:bridgehead[$bridgehead.in.toc != 0]"/>
+                select="section|sect1|sect2|sect3|sect4|sect5|refentry
+                        |qandaset[$qanda.in.toc != 0]
+                        |bridgehead[$bridgehead.in.toc != 0]"/>
 
   <xsl:variable name="level">
     <xsl:call-template name="section.level"/>
@@ -236,7 +235,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     </xsl:call-template>
   </xsl:variable>
 
-  <xsl:variable name="nodes" select="d:qandadiv|d:qandaentry"/>
+  <xsl:variable name="nodes" select="qandadiv|qandaentry"/>
 
   <xsl:if test="$nodes">
     <fo:block id="toc...{$id}"
@@ -256,7 +255,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
        qandaset.toc and first output -->
 </xsl:template>
 
-<xsl:template match="d:qandadiv" mode="toc">
+<xsl:template match="qandadiv" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -273,7 +272,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     <xsl:with-param name="toc-context" select="$toc-context"/>
   </xsl:call-template>
 
-  <xsl:variable name="nodes" select="d:qandadiv|d:qandaentry"/>
+  <xsl:variable name="nodes" select="qandadiv|qandaentry"/>
 
   <xsl:if test="$nodes">
     <fo:block id="toc.{$cid}.{$id}">
@@ -288,31 +287,31 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:qandaentry" mode="toc">
-  <xsl:apply-templates select="d:question" mode="toc"/>
+<xsl:template match="qandaentry" mode="toc">
+  <xsl:apply-templates select="question" mode="toc"/>
 </xsl:template>
 
-<xsl:template match="d:question" mode="toc">
+<xsl:template match="question" mode="toc">
   <xsl:variable name="firstchunk">
     <!-- Use a titleabbrev or title if available -->
     <xsl:choose>
-      <xsl:when test="../d:blockinfo/d:titleabbrev">
-        <xsl:apply-templates select="../d:blockinfo/d:titleabbrev[1]/node()"/>
+      <xsl:when test="../blockinfo/titleabbrev">
+        <xsl:apply-templates select="../blockinfo/titleabbrev[1]/node()"/>
       </xsl:when>
-      <xsl:when test="../d:blockinfo/d:title">
-        <xsl:apply-templates select="../d:blockinfo/d:title[1]/node()"/>
+      <xsl:when test="../blockinfo/title">
+        <xsl:apply-templates select="../blockinfo/title[1]/node()"/>
       </xsl:when>
-      <xsl:when test="../d:info/d:titleabbrev">
-        <xsl:apply-templates select="../d:info/d:titleabbrev[1]/node()"/>
+      <xsl:when test="../info/titleabbrev">
+        <xsl:apply-templates select="../info/titleabbrev[1]/node()"/>
       </xsl:when>
-      <xsl:when test="../d:titleabbrev">
-        <xsl:apply-templates select="../d:titleabbrev[1]/node()"/>
+      <xsl:when test="../titleabbrev">
+        <xsl:apply-templates select="../titleabbrev[1]/node()"/>
       </xsl:when>
-      <xsl:when test="../d:info/d:title">
-        <xsl:apply-templates select="../d:info/d:title[1]/node()"/>
+      <xsl:when test="../info/title">
+        <xsl:apply-templates select="../info/title[1]/node()"/>
       </xsl:when>
-      <xsl:when test="../d:title">
-        <xsl:apply-templates select="../d:title[1]/node()"/>
+      <xsl:when test="../title">
+        <xsl:apply-templates select="../title[1]/node()"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:apply-templates select="(*[local-name(.)!='label'])[1]/node()"/>
@@ -349,7 +348,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
       <fo:basic-link internal-destination="{$id}">
         <xsl:if test="$label != ''">
           <xsl:copy-of select="$label"/>
-          <xsl:if test="$deflabel = 'number' and not(d:label)">
+          <xsl:if test="$deflabel = 'number' and not(label)">
             <xsl:value-of select="$autotoc.label.separator"/>
           </xsl:if>
 	  <xsl:text> </xsl:text>
@@ -374,7 +373,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
 <!-- ==================================================================== -->
 
-<xsl:template match="d:book|d:setindex" mode="toc">
+<xsl:template match="book|setindex" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -391,13 +390,12 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     <xsl:with-param name="toc-context" select="$toc-context"/>
   </xsl:call-template>
 
-  <xsl:variable name="nodes" select="d:glossary|d:bibliography|d:preface|d:chapter
-                                     |d:reference|d:part|d:article|d:appendix|d:index"/>
+  <xsl:variable name="nodes" select="glossary|bibliography|preface|chapter
+                                     |reference|part|article|topic|appendix|index"/>
 
   <xsl:variable name="depth.from.context" select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
 
-  <xsl:if test="$toc.section.depth > 0 
-                and $toc.max.depth > $depth.from.context
+  <xsl:if test="$toc.max.depth > $depth.from.context
                 and $nodes">
     <fo:block id="toc.{$cid}.{$id}">
       <xsl:attribute name="margin-{$direction.align.start}">
@@ -411,7 +409,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:set" mode="toc">
+<xsl:template match="set" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -428,50 +426,11 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     <xsl:with-param name="toc-context" select="$toc-context"/>
   </xsl:call-template>
 
-  <xsl:variable name="nodes" select="d:set|d:book|d:setindex"/>
+  <xsl:variable name="nodes" select="set|book|setindex"/>
 
   <xsl:variable name="depth.from.context" select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
 
-  <xsl:if test="$toc.section.depth > 0 
-                and $toc.max.depth > $depth.from.context
-                and $nodes">
-    <fo:block id="toc.{$cid}.{$id}">
-      <xsl:attribute name="margin-{$direction.align.start}">
-        <xsl:call-template name="set.toc.indent"/>
-      </xsl:attribute>
-      
-      <xsl:apply-templates select="$nodes" mode="toc">
-        <xsl:with-param name="toc-context" select="$toc-context"/>
-      </xsl:apply-templates>
-    </fo:block>
-  </xsl:if>
-</xsl:template>
-
-<xsl:template match="d:part" mode="toc">
-  <xsl:param name="toc-context" select="."/>
-
-  <xsl:variable name="id">
-    <xsl:call-template name="object.id"/>
-  </xsl:variable>
-
-  <xsl:variable name="cid">
-    <xsl:call-template name="object.id">
-      <xsl:with-param name="object" select="$toc-context"/>
-    </xsl:call-template>
-  </xsl:variable>
-
-  <xsl:call-template name="toc.line">
-    <xsl:with-param name="toc-context" select="$toc-context"/>
-  </xsl:call-template>
-
-  <xsl:variable name="nodes" select="d:chapter|d:appendix|d:preface|d:reference|
-                                     d:refentry|d:article|d:index|d:glossary|
-                                     d:bibliography"/>
-
-  <xsl:variable name="depth.from.context" select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
-
-  <xsl:if test="$toc.section.depth > 0 
-                and $toc.max.depth > $depth.from.context
+  <xsl:if test="$toc.max.depth > $depth.from.context
                 and $nodes">
     <fo:block id="toc.{$cid}.{$id}">
       <xsl:attribute name="margin-{$direction.align.start}">
@@ -485,7 +444,44 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:reference" mode="toc">
+<xsl:template match="part" mode="toc">
+  <xsl:param name="toc-context" select="."/>
+
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <xsl:variable name="cid">
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="object" select="$toc-context"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:call-template name="toc.line">
+    <xsl:with-param name="toc-context" select="$toc-context"/>
+  </xsl:call-template>
+
+  <xsl:variable name="nodes" select="chapter|appendix|preface|reference|
+                                     refentry|article|topic|index|glossary|
+                                     bibliography"/>
+
+  <xsl:variable name="depth.from.context" select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
+
+  <xsl:if test="$toc.max.depth > $depth.from.context
+                and $nodes">
+    <fo:block id="toc.{$cid}.{$id}">
+      <xsl:attribute name="margin-{$direction.align.start}">
+        <xsl:call-template name="set.toc.indent"/>
+      </xsl:attribute>
+      
+      <xsl:apply-templates select="$nodes" mode="toc">
+        <xsl:with-param name="toc-context" select="$toc-context"/>
+      </xsl:apply-templates>
+    </fo:block>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="reference" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -506,20 +502,20 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
   <xsl:if test="$toc.section.depth > 0
                 and $toc.max.depth > $depth.from.context
-                and d:refentry">
+                and refentry">
     <fo:block id="toc.{$cid}.{$id}">
       <xsl:attribute name="margin-{$direction.align.start}">
         <xsl:call-template name="set.toc.indent"/>
       </xsl:attribute>
               
-      <xsl:apply-templates select="d:refentry" mode="toc">
+      <xsl:apply-templates select="refentry" mode="toc">
         <xsl:with-param name="toc-context" select="$toc-context"/>
       </xsl:apply-templates>
     </fo:block>
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:refentry" mode="toc">
+<xsl:template match="refentry" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:call-template name="toc.line">
@@ -527,7 +523,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:call-template>
 </xsl:template>
 
-<xsl:template match="d:preface|d:chapter|d:appendix|d:article"
+<xsl:template match="preface|chapter|appendix|article"
               mode="toc">
   <xsl:param name="toc-context" select="."/>
 
@@ -545,10 +541,11 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     <xsl:with-param name="toc-context" select="$toc-context"/>
   </xsl:call-template>
 
-  <xsl:variable name="nodes" select="d:section|d:sect1
-                                     |d:qandaset[$qanda.in.toc != 0]
-                                     |d:simplesect[$simplesect.in.toc != 0]
-                                     |d:refentry|d:appendix"/>
+  <xsl:variable name="nodes" select="section|sect1
+                                     |qandaset[$qanda.in.toc != 0]
+                                     |simplesect[$simplesect.in.toc != 0]
+                                     |topic
+                                     |refentry|appendix"/>
 
   <xsl:variable name="depth.from.context" select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
 
@@ -567,7 +564,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:sect1" mode="toc">
+<xsl:template match="sect1" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -588,13 +585,13 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
   <xsl:if test="$toc.section.depth > 1 
                 and $toc.max.depth > $depth.from.context
-                and d:sect2">
+                and sect2">
     <fo:block id="toc.{$cid}.{$id}">
       <xsl:attribute name="margin-{$direction.align.start}">
         <xsl:call-template name="set.toc.indent"/>
       </xsl:attribute>
               
-      <xsl:apply-templates select="d:sect2|d:qandaset[$qanda.in.toc != 0]" 
+      <xsl:apply-templates select="sect2|qandaset[$qanda.in.toc != 0]" 
                            mode="toc">
         <xsl:with-param name="toc-context" select="$toc-context"/>
       </xsl:apply-templates>
@@ -602,7 +599,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:sect2" mode="toc">
+<xsl:template match="sect2" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -626,7 +623,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
   <xsl:if test="$toc.section.depth > 2 
                 and $toc.max.depth > $depth.from.context
-                and d:sect3">
+                and sect3">
     <fo:block id="toc.{$cid}.{$id}">
       <xsl:attribute name="margin-{$direction.align.start}">
         <xsl:call-template name="set.toc.indent">
@@ -634,7 +631,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
         </xsl:call-template>
       </xsl:attribute>
               
-      <xsl:apply-templates select="d:sect3|d:qandaset[$qanda.in.toc != 0]" 
+      <xsl:apply-templates select="sect3|qandaset[$qanda.in.toc != 0]" 
                            mode="toc">
         <xsl:with-param name="toc-context" select="$toc-context"/>
       </xsl:apply-templates>
@@ -642,7 +639,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:sect3" mode="toc">
+<xsl:template match="sect3" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -666,7 +663,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
   <xsl:if test="$toc.section.depth > 3 
                 and $toc.max.depth > $depth.from.context
-                and d:sect4">
+                and sect4">
     <fo:block id="toc.{$cid}.{$id}">
       <xsl:attribute name="margin-{$direction.align.start}">
         <xsl:call-template name="set.toc.indent">
@@ -674,7 +671,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
         </xsl:call-template>
       </xsl:attribute>
               
-      <xsl:apply-templates select="d:sect4|d:qandaset[$qanda.in.toc != 0]" 
+      <xsl:apply-templates select="sect4|qandaset[$qanda.in.toc != 0]" 
                            mode="toc">
         <xsl:with-param name="toc-context" select="$toc-context"/>
       </xsl:apply-templates>
@@ -682,7 +679,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:sect4" mode="toc">
+<xsl:template match="sect4" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -706,7 +703,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
   <xsl:if test="$toc.section.depth > 4 
                 and $toc.max.depth > $depth.from.context
-                and d:sect5">
+                and sect5">
     <fo:block id="toc.{$cid}.{$id}">
       <xsl:attribute name="margin-{$direction.align.start}">
         <xsl:call-template name="set.toc.indent">
@@ -714,7 +711,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
         </xsl:call-template>
       </xsl:attribute>
               
-      <xsl:apply-templates select="d:sect5|d:qandaset[$qanda.in.toc != 0]" 
+      <xsl:apply-templates select="sect5|qandaset[$qanda.in.toc != 0]" 
                            mode="toc">
         <xsl:with-param name="toc-context" select="$toc-context"/>
       </xsl:apply-templates>
@@ -722,7 +719,15 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:sect5|d:simplesect" mode="toc">
+<xsl:template match="sect5|simplesect" mode="toc">
+  <xsl:param name="toc-context" select="."/>
+
+  <xsl:call-template name="toc.line">
+    <xsl:with-param name="toc-context" select="$toc-context"/>
+  </xsl:call-template>
+</xsl:template>
+
+<xsl:template match="topic" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:call-template name="toc.line">
@@ -755,7 +760,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 </xsl:template>
 
 
-<xsl:template match="d:section" mode="toc">
+<xsl:template match="section" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -768,7 +773,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     </xsl:call-template>
   </xsl:variable>
 
-  <xsl:variable name="depth" select="count(ancestor::d:section) + 1"/>
+  <xsl:variable name="depth" select="count(ancestor::section) + 1"/>
   <xsl:variable name="reldepth"
                 select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
 
@@ -781,7 +786,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
     <xsl:if test="$toc.section.depth > $depth 
                   and $toc.max.depth > $depth.from.context
-                  and d:section">
+                  and section">
       <fo:block id="toc.{$cid}.{$id}">
         <xsl:attribute name="margin-{$direction.align.start}">
           <xsl:call-template name="set.toc.indent">
@@ -789,7 +794,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
           </xsl:call-template>
         </xsl:attribute>
                 
-        <xsl:apply-templates select="d:section|d:qandaset[$qanda.in.toc != 0]" 
+        <xsl:apply-templates select="section|qandaset[$qanda.in.toc != 0]" 
                            mode="toc">
           <xsl:with-param name="toc-context" select="$toc-context"/>
         </xsl:apply-templates>
@@ -798,7 +803,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:bibliography|d:glossary"
+<xsl:template match="bibliography|glossary"
               mode="toc">
   <xsl:param name="toc-context" select="."/>
 
@@ -807,7 +812,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:call-template>
 </xsl:template>
 
-<xsl:template match="d:index" mode="toc">
+<xsl:template match="index" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:if test="* or $generate.index != 0">
@@ -817,7 +822,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:title" mode="toc">
+<xsl:template match="title" mode="toc">
   <xsl:apply-templates/>
 </xsl:template>
 
@@ -825,7 +830,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
 <xsl:template name="list.of.titles">
   <xsl:param name="titles" select="'table'"/>
-  <xsl:param name="nodes" select=".//d:table"/>
+  <xsl:param name="nodes" select=".//table"/>
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -861,7 +866,45 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="d:figure|d:table|d:example|d:equation|d:procedure" mode="toc">
+<xsl:template name="component.list.of.titles">
+  <xsl:param name="titles" select="'table'"/>
+  <xsl:param name="nodes" select=".//table"/>
+  <xsl:param name="toc-context" select="."/>
+
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id"/>
+  </xsl:variable>
+
+  <xsl:if test="$nodes">
+    <fo:block id="lot...{$titles}...{$id}">
+      <xsl:choose>
+        <xsl:when test="$titles='table'">
+          <xsl:call-template name="component.list.of.tables.titlepage"/>
+        </xsl:when>
+        <xsl:when test="$titles='figure'">
+          <xsl:call-template name="component.list.of.figures.titlepage"/>
+        </xsl:when>
+        <xsl:when test="$titles='equation'">
+          <xsl:call-template name="component.list.of.equations.titlepage"/>
+        </xsl:when>
+        <xsl:when test="$titles='example'">
+          <xsl:call-template name="component.list.of.examples.titlepage"/>
+        </xsl:when>
+        <xsl:when test="$titles='procedure'">
+          <xsl:call-template name="component.list.of.procedures.titlepage"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="component.list.of.unknowns.titlepage"/>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:apply-templates select="$nodes" mode="toc">
+        <xsl:with-param name="toc-context" select="$toc-context"/>
+      </xsl:apply-templates>
+    </fo:block>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="figure|table|example|equation|procedure" mode="toc">
   <xsl:param name="toc-context" select="."/>
   <xsl:call-template name="toc.line">
     <xsl:with-param name="toc-context" select="$toc-context"/>
@@ -871,7 +914,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 <!-- ==================================================================== -->
 
 <!-- qandaset handled like a section when qanda.in.toc is set -->
-<xsl:template match="d:qandaset" mode="toc">
+<xsl:template match="qandaset" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
   <xsl:variable name="id">
@@ -884,7 +927,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
     </xsl:call-template>
   </xsl:variable>
 
-  <xsl:variable name="depth" select="count(ancestor::d:section) + 1"/>
+  <xsl:variable name="depth" select="count(ancestor::section) + 1"/>
   <xsl:variable name="reldepth"
                 select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
 
@@ -897,7 +940,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
 
     <xsl:if test="$toc.section.depth > $depth 
                   and $toc.max.depth > $depth.from.context
-                  and (child::d:qandadiv or child::d:qandaentry)">
+                  and (child::qandadiv or child::qandaentry)">
       <fo:block id="toc.{$cid}.{$id}">
         <xsl:attribute name="margin-{$direction.align.start}">
           <xsl:call-template name="set.toc.indent">
@@ -905,7 +948,7 @@ xmlns:fo="http://www.w3.org/1999/XSL/Format"
           </xsl:call-template>
         </xsl:attribute>
                 
-        <xsl:apply-templates select="d:qandadiv|d:qandaentry" mode="toc">
+        <xsl:apply-templates select="qandadiv|qandaentry" mode="toc">
           <xsl:with-param name="toc-context" select="$toc-context"/>
         </xsl:apply-templates>
       </fo:block>

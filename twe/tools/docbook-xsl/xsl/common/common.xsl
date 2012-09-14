@@ -1,14 +1,17 @@
 <?xml version='1.0'?>
+<!DOCTYPE xsl:stylesheet [
+<!ENTITY lowercase "'abcdefghijklmnopqrstuvwxyz'">
+<!ENTITY uppercase "'ABCDEFGHIJKLMNOPQRSTUVWXYZ'">
+ ]>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:d="http://docbook.org/ns/docbook"
-xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
+                xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
                 xmlns:dyn="http://exslt.org/dynamic"
                 xmlns:saxon="http://icl.com/saxon"
-                exclude-result-prefixes="doc dyn saxon d"
+                exclude-result-prefixes="doc dyn saxon"
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: common.xsl 8784 2010-07-28 12:32:54Z mzjn $
+     $Id: common.xsl 9347 2012-05-11 03:49:49Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -21,7 +24,7 @@ xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
   <info>
     <title>Common » Base Template Reference</title>
     <releaseinfo role="meta">
-      $Id: common.xsl 8784 2010-07-28 12:32:54Z mzjn $
+      $Id: common.xsl 9347 2012-05-11 03:49:49Z bobstayton $
     </releaseinfo>
   </info>
   <!-- * yes, partintro is a valid child of a reference... -->
@@ -41,44 +44,44 @@ xmlns:doc="http://nwalsh.com/xsl/documentation/1.0"
 <xsl:preserve-space elements="*"/>
 
 <xsl:strip-space elements="
-d:abstract d:affiliation d:anchor d:answer d:appendix d:area d:areaset d:areaspec
-d:artheader d:article d:audiodata d:audioobject d:author d:authorblurb d:authorgroup
-d:beginpage d:bibliodiv d:biblioentry d:bibliography d:biblioset d:blockquote d:book
-d:bookbiblio d:bookinfo d:callout d:calloutlist d:caption d:caution d:chapter
-d:citerefentry d:cmdsynopsis d:co d:collab d:colophon d:colspec d:confgroup
-d:copyright d:dedication d:docinfo d:editor d:entrytbl d:epigraph d:equation
-d:example d:figure d:footnote d:footnoteref d:formalpara d:funcprototype
-d:funcsynopsis d:glossary d:glossdef d:glossdiv d:glossentry d:glosslist d:graphicco
-d:group d:highlights d:imagedata d:imageobject d:imageobjectco d:important d:index
-d:indexdiv d:indexentry d:indexterm d:info d:informalequation d:informalexample
-d:informalfigure d:informaltable d:inlineequation d:inlinemediaobject
-d:itemizedlist d:itermset d:keycombo d:keywordset d:legalnotice d:listitem d:lot
-d:mediaobject d:mediaobjectco d:menuchoice d:msg d:msgentry d:msgexplan d:msginfo
-d:msgmain d:msgrel d:msgset d:msgsub d:msgtext d:note d:objectinfo
-d:orderedlist d:othercredit d:part d:partintro d:preface d:printhistory d:procedure
-d:programlistingco d:publisher d:qandadiv d:qandaentry d:qandaset d:question
-d:refentry d:reference d:refmeta d:refnamediv d:refsection d:refsect1 d:refsect1info d:refsect2
-d:refsect2info d:refsect3 d:refsect3info d:refsynopsisdiv d:refsynopsisdivinfo
-d:revhistory d:revision d:row d:sbr d:screenco d:screenshot d:sect1 d:sect1info d:sect2
-d:sect2info d:sect3 d:sect3info d:sect4 d:sect4info d:sect5 d:sect5info d:section
-d:sectioninfo d:seglistitem d:segmentedlist d:seriesinfo d:set d:setindex d:setinfo
-d:shortcut d:sidebar d:simplelist d:simplesect d:spanspec d:step d:subject
-d:subjectset d:substeps d:synopfragment d:table d:tbody d:textobject d:tfoot d:tgroup
-d:thead d:tip d:toc d:tocchap d:toclevel1 d:toclevel2 d:toclevel3 d:toclevel4
-d:toclevel5 d:tocpart d:varargs d:variablelist d:varlistentry d:videodata
-d:videoobject d:void d:warning d:subjectset
+abstract affiliation anchor answer appendix area areaset areaspec
+artheader article audiodata audioobject author authorblurb authorgroup
+beginpage bibliodiv biblioentry bibliography biblioset blockquote book
+bookinfo callout calloutlist caption caution chapter
+citerefentry cmdsynopsis co collab colophon colspec confgroup
+copyright dedication docinfo editor entrytbl epigraph equation
+example figure footnote footnoteref formalpara funcprototype
+funcsynopsis glossary glossdef glossdiv glossentry glosslist graphicco
+group highlights imagedata imageobject imageobjectco important index
+indexdiv indexentry indexterm info informalequation informalexample
+informalfigure informaltable inlineequation inlinemediaobject
+itemizedlist itermset keycombo keywordset legalnotice listitem lot
+mediaobject mediaobjectco menuchoice msg msgentry msgexplan msginfo
+msgmain msgrel msgset msgsub msgtext note objectinfo
+orderedlist othercredit part partintro preface printhistory procedure
+programlistingco publisher qandadiv qandaentry qandaset question
+refentry reference refmeta refnamediv refsection refsect1 refsect1info refsect2
+refsect2info refsect3 refsect3info refsynopsisdiv refsynopsisdivinfo
+revhistory revision row sbr screenco screenshot sect1 sect1info sect2
+sect2info sect3 sect3info sect4 sect4info sect5 sect5info section
+sectioninfo seglistitem segmentedlist seriesinfo set setindex setinfo
+shortcut sidebar simplelist simplesect spanspec step subject
+subjectset substeps synopfragment table tbody textobject tfoot tgroup
+thead tip toc tocchap toclevel1 toclevel2 toclevel3 toclevel4
+toclevel5 tocpart topic varargs variablelist varlistentry videodata
+videoobject void warning subjectset
 
-d:classsynopsis
-d:constructorsynopsis
-d:destructorsynopsis
-d:fieldsynopsis
-d:methodparam
-d:methodsynopsis
-d:ooclass
-d:ooexception
-d:oointerface
-d:simplemsgentry
-d:manvolnum
+classsynopsis
+constructorsynopsis
+destructorsynopsis
+fieldsynopsis
+methodparam
+methodsynopsis
+ooclass
+ooexception
+oointerface
+simplemsgentry
+manvolnum
 "/>
 <!-- ====================================================================== -->
 
@@ -203,11 +206,11 @@ Defaults to the context node.</para>
     <xsl:when test="local-name($node)='sect5'">5</xsl:when>
     <xsl:when test="local-name($node)='section'">
       <xsl:choose>
-        <xsl:when test="$node/../../../../../../d:section">6</xsl:when>
-        <xsl:when test="$node/../../../../../d:section">5</xsl:when>
-        <xsl:when test="$node/../../../../d:section">4</xsl:when>
-        <xsl:when test="$node/../../../d:section">3</xsl:when>
-        <xsl:when test="$node/../../d:section">2</xsl:when>
+        <xsl:when test="$node/../../../../../../section">6</xsl:when>
+        <xsl:when test="$node/../../../../../section">5</xsl:when>
+        <xsl:when test="$node/../../../../section">4</xsl:when>
+        <xsl:when test="$node/../../../section">3</xsl:when>
+        <xsl:when test="$node/../../section">2</xsl:when>
         <xsl:otherwise>1</xsl:otherwise>
       </xsl:choose>
     </xsl:when>
@@ -222,16 +225,16 @@ Defaults to the context node.</para>
     </xsl:when>
     <xsl:when test="local-name($node)='simplesect'">
       <xsl:choose>
-        <xsl:when test="$node/../../d:sect1">2</xsl:when>
-        <xsl:when test="$node/../../d:sect2">3</xsl:when>
-        <xsl:when test="$node/../../d:sect3">4</xsl:when>
-        <xsl:when test="$node/../../d:sect4">5</xsl:when>
-        <xsl:when test="$node/../../d:sect5">5</xsl:when>
-        <xsl:when test="$node/../../d:section">
+        <xsl:when test="$node/../../sect1">2</xsl:when>
+        <xsl:when test="$node/../../sect2">3</xsl:when>
+        <xsl:when test="$node/../../sect3">4</xsl:when>
+        <xsl:when test="$node/../../sect4">5</xsl:when>
+        <xsl:when test="$node/../../sect5">5</xsl:when>
+        <xsl:when test="$node/../../section">
           <xsl:choose>
-            <xsl:when test="$node/../../../../../d:section">5</xsl:when>
-            <xsl:when test="$node/../../../../d:section">4</xsl:when>
-            <xsl:when test="$node/../../../d:section">3</xsl:when>
+            <xsl:when test="$node/../../../../../section">5</xsl:when>
+            <xsl:when test="$node/../../../../section">4</xsl:when>
+            <xsl:when test="$node/../../../section">3</xsl:when>
             <xsl:otherwise>2</xsl:otherwise>
           </xsl:choose>
         </xsl:when>
@@ -258,16 +261,16 @@ Defaults to the context node.</para>
 
 <xsl:template name="qanda.section.level">
   <xsl:variable name="section"
-                select="(ancestor::d:section
-                         |ancestor::d:simplesect
-                         |ancestor::d:sect5
-                         |ancestor::d:sect4
-                         |ancestor::d:sect3
-                         |ancestor::d:sect2
-                         |ancestor::d:sect1
-                         |ancestor::d:refsect3
-                         |ancestor::d:refsect2
-                         |ancestor::d:refsect1)[last()]"/>
+                select="(ancestor::section
+                         |ancestor::simplesect
+                         |ancestor::sect5
+                         |ancestor::sect4
+                         |ancestor::sect3
+                         |ancestor::sect2
+                         |ancestor::sect1
+                         |ancestor::refsect3
+                         |ancestor::refsect2
+                         |ancestor::refsect1)[last()]"/>
 
   <xsl:choose>
     <xsl:when test="count($section) = '0'">1</xsl:when>
@@ -288,7 +291,7 @@ Defaults to the context node.</para>
 
   <xsl:variable name="RElevel">
     <xsl:call-template name="refentry.level">
-      <xsl:with-param name="node" select="$node/ancestor::d:refentry[1]"/>
+      <xsl:with-param name="node" select="$node/ancestor::refentry[1]"/>
     </xsl:call-template>
   </xsl:variable>
 
@@ -300,10 +303,10 @@ Defaults to the context node.</para>
       <xsl:when test="local-name($node)='refsect3'">3</xsl:when>
       <xsl:when test="local-name($node)='refsection'">
         <xsl:choose>
-          <xsl:when test="$node/../../../../../d:refsection">5</xsl:when>
-          <xsl:when test="$node/../../../../d:refsection">4</xsl:when>
-          <xsl:when test="$node/../../../d:refsection">3</xsl:when>
-          <xsl:when test="$node/../../d:refsection">2</xsl:when>
+          <xsl:when test="$node/../../../../../refsection">5</xsl:when>
+          <xsl:when test="$node/../../../../refsection">4</xsl:when>
+          <xsl:when test="$node/../../../refsection">3</xsl:when>
+          <xsl:when test="$node/../../refsection">2</xsl:when>
           <xsl:otherwise>1</xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -317,12 +320,12 @@ Defaults to the context node.</para>
 <xsl:template name="refentry.level">
   <xsl:param name="node" select="."/>
   <xsl:variable name="container"
-                select="($node/ancestor::d:section |
-                        $node/ancestor::d:sect1 |
-                        $node/ancestor::d:sect2 |
-                        $node/ancestor::d:sect3 |
-                        $node/ancestor::d:sect4 |
-                        $node/ancestor::d:sect5)[last()]"/>
+                select="($node/ancestor::section |
+                        $node/ancestor::sect1 |
+                        $node/ancestor::sect2 |
+                        $node/ancestor::sect3 |
+                        $node/ancestor::sect4 |
+                        $node/ancestor::sect5)[last()]"/>
 
   <xsl:choose>
     <xsl:when test="$container">
@@ -341,7 +344,7 @@ Defaults to the context node.</para>
   <xsl:variable name="section.level">
     <xsl:call-template name="qanda.section.level"/>
   </xsl:variable>
-  <xsl:variable name="anc.divs" select="ancestor::d:qandadiv"/>
+  <xsl:variable name="anc.divs" select="ancestor::qandadiv"/>
 
   <xsl:value-of select="count($anc.divs) + number($section.level)"/>
 </xsl:template>
@@ -408,17 +411,17 @@ Defaults to the context node.</para>
     </xsl:when>
     <xsl:when test="$deflabel = 'number'
                     and local-name(.) = 'question'">
-      <xsl:apply-templates select="ancestor::d:qandaset[1]"
+      <xsl:apply-templates select="ancestor::qandaset[1]"
                            mode="number"/>
       <xsl:choose>
-        <xsl:when test="ancestor::d:qandadiv">
-          <xsl:apply-templates select="ancestor::d:qandadiv[1]"
+        <xsl:when test="ancestor::qandadiv">
+          <xsl:apply-templates select="ancestor::qandadiv[1]"
                                mode="number"/>
-          <xsl:apply-templates select="ancestor::d:qandaentry"
+          <xsl:apply-templates select="ancestor::qandaentry"
                                mode="number"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:apply-templates select="ancestor::d:qandaentry"
+          <xsl:apply-templates select="ancestor::qandaentry"
                                mode="number"/>
         </xsl:otherwise>
       </xsl:choose>
@@ -429,21 +432,21 @@ Defaults to the context node.</para>
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="d:qandaset" mode="number">
+<xsl:template match="qandaset" mode="number">
   <!-- FIXME: -->
 </xsl:template>
 
-<xsl:template match="d:qandadiv" mode="number">
-  <xsl:number level="multiple" from="d:qandaset" format="1."/>
+<xsl:template match="qandadiv" mode="number">
+  <xsl:number level="multiple" from="qandaset" format="1."/>
 </xsl:template>
 
-<xsl:template match="d:qandaentry" mode="number">
+<xsl:template match="qandaentry" mode="number">
   <xsl:choose>
-    <xsl:when test="ancestor::d:qandadiv">
-      <xsl:number level="single" from="d:qandadiv" format="1."/>
+    <xsl:when test="ancestor::qandadiv">
+      <xsl:number level="single" from="qandadiv" format="1."/>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:number level="single" from="d:qandaset" format="1."/>
+      <xsl:number level="single" from="qandaset" format="1."/>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -458,6 +461,13 @@ Defaults to the context node.</para>
     </xsl:when>
     <xsl:when test="$object/@xml:id">
       <xsl:value-of select="$object/@xml:id"/>
+    </xsl:when>
+    <xsl:when test="$generate.consistent.ids != 0">
+      <!-- Make $object the current node -->
+      <xsl:for-each select="$object">
+        <xsl:text>id-</xsl:text>
+        <xsl:number level="multiple" count="*"/>
+      </xsl:for-each>
     </xsl:when>
     <xsl:otherwise>
       <xsl:value-of select="generate-id($object)"/>
@@ -485,9 +495,9 @@ Defaults to the context node.</para>
 
   <xsl:choose>
     <!-- the personname element is a specialcase -->
-    <xsl:when test="$node/d:personname">
+    <xsl:when test="$node/personname">
       <xsl:call-template name="person.name">
-        <xsl:with-param name="node" select="$node/d:personname"/>
+        <xsl:with-param name="node" select="$node/personname"/>
       </xsl:call-template>
     </xsl:when>
 
@@ -502,7 +512,7 @@ Defaults to the context node.</para>
     <xsl:otherwise>
       <xsl:choose>
         <!-- Handle case when personname contains only general markup (DocBook 5.0) -->
-        <xsl:when test="$node/self::d:personname and not($node/d:firstname or $node/d:honorific or $node/d:lineage or $node/d:othername or $node/d:surname)">
+        <xsl:when test="$node/self::personname and not($node/firstname or $node/honorific or $node/lineage or $node/othername or $node/surname)">
           <xsl:apply-templates select="$node/node()"/>
         </xsl:when>
         <xsl:when test="$style = 'family-given'">
@@ -530,13 +540,13 @@ Defaults to the context node.</para>
 
   <!-- The family-given style applies a convention for identifying given -->
   <!-- and family names in locales where it may be ambiguous -->
-  <xsl:apply-templates select="$node//d:surname[1]"/>
+  <xsl:apply-templates select="$node//surname[1]"/>
 
-  <xsl:if test="$node//d:surname and $node//d:firstname">
+  <xsl:if test="$node//surname and $node//firstname">
     <xsl:text> </xsl:text>
   </xsl:if>
 
-  <xsl:apply-templates select="$node//d:firstname[1]"/>
+  <xsl:apply-templates select="$node//firstname[1]"/>
 
   <xsl:text> [FAMILY Given]</xsl:text>
 </xsl:template>
@@ -544,48 +554,48 @@ Defaults to the context node.</para>
 <xsl:template name="person.name.last-first">
   <xsl:param name="node" select="."/>
 
-  <xsl:apply-templates select="$node//d:surname[1]"/>
+  <xsl:apply-templates select="$node//surname[1]"/>
 
-  <xsl:if test="$node//d:surname and $node//d:firstname">
+  <xsl:if test="$node//surname and $node//firstname">
     <xsl:text>, </xsl:text>
   </xsl:if>
 
-  <xsl:apply-templates select="$node//d:firstname[1]"/>
+  <xsl:apply-templates select="$node//firstname[1]"/>
 </xsl:template>
 
 <xsl:template name="person.name.first-last">
   <xsl:param name="node" select="."/>
 
-  <xsl:if test="$node//d:honorific">
-    <xsl:apply-templates select="$node//d:honorific[1]"/>
+  <xsl:if test="$node//honorific">
+    <xsl:apply-templates select="$node//honorific[1]"/>
     <xsl:value-of select="$punct.honorific"/>
   </xsl:if>
 
-  <xsl:if test="$node//d:firstname">
-    <xsl:if test="$node//d:honorific">
+  <xsl:if test="$node//firstname">
+    <xsl:if test="$node//honorific">
       <xsl:text> </xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="$node//d:firstname[1]"/>
+    <xsl:apply-templates select="$node//firstname[1]"/>
   </xsl:if>
 
-  <xsl:if test="$node//d:othername and $author.othername.in.middle != 0">
-    <xsl:if test="$node//d:honorific or $node//d:firstname">
+  <xsl:if test="$node//othername and $author.othername.in.middle != 0">
+    <xsl:if test="$node//honorific or $node//firstname">
       <xsl:text> </xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="$node//d:othername[1]"/>
+    <xsl:apply-templates select="$node//othername[1]"/>
   </xsl:if>
 
-  <xsl:if test="$node//d:surname">
-    <xsl:if test="$node//d:honorific or $node//d:firstname
-                  or ($node//d:othername and $author.othername.in.middle != 0)">
+  <xsl:if test="$node//surname">
+    <xsl:if test="$node//honorific or $node//firstname
+                  or ($node//othername and $author.othername.in.middle != 0)">
       <xsl:text> </xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="$node//d:surname[1]"/>
+    <xsl:apply-templates select="$node//surname[1]"/>
   </xsl:if>
 
-  <xsl:if test="$node//d:lineage">
+  <xsl:if test="$node//lineage">
     <xsl:text>, </xsl:text>
-    <xsl:apply-templates select="$node//d:lineage[1]"/>
+    <xsl:apply-templates select="$node//lineage[1]"/>
   </xsl:if>
 </xsl:template>
 
@@ -601,7 +611,7 @@ Defaults to the context node.</para>
        John Doe, Jane Doe, and A. Nonymous
   -->
   <xsl:param name="person.list"
-             select="d:author|d:corpauthor|d:othercredit|d:editor"/>
+             select="author|corpauthor|othercredit|editor"/>
   <xsl:param name="person.count" select="count($person.list)"/>
   <xsl:param name="count" select="1"/>
 
@@ -647,19 +657,19 @@ Defaults to the context node.</para>
      documentation for DocBook V3.0
 -->
 
-<xsl:variable name="arg.choice.opt.open.str">[</xsl:variable>
-<xsl:variable name="arg.choice.opt.close.str">]</xsl:variable>
-<xsl:variable name="arg.choice.req.open.str">{</xsl:variable>
-<xsl:variable name="arg.choice.req.close.str">}</xsl:variable>
-<xsl:variable name="arg.choice.plain.open.str"><xsl:text> </xsl:text></xsl:variable>
-<xsl:variable name="arg.choice.plain.close.str"><xsl:text> </xsl:text></xsl:variable>
-<xsl:variable name="arg.choice.def.open.str">[</xsl:variable>
-<xsl:variable name="arg.choice.def.close.str">]</xsl:variable>
-<xsl:variable name="arg.rep.repeat.str">...</xsl:variable>
-<xsl:variable name="arg.rep.norepeat.str"></xsl:variable>
-<xsl:variable name="arg.rep.def.str"></xsl:variable>
-<xsl:variable name="arg.or.sep"> | </xsl:variable>
-<xsl:variable name="cmdsynopsis.hanging.indent">4pi</xsl:variable>
+<xsl:param name="arg.choice.opt.open.str">[</xsl:param>
+<xsl:param name="arg.choice.opt.close.str">]</xsl:param>
+<xsl:param name="arg.choice.req.open.str">{</xsl:param>
+<xsl:param name="arg.choice.req.close.str">}</xsl:param>
+<xsl:param name="arg.choice.plain.open.str"><xsl:text> </xsl:text></xsl:param>
+<xsl:param name="arg.choice.plain.close.str"><xsl:text> </xsl:text></xsl:param>
+<xsl:param name="arg.choice.def.open.str">[</xsl:param>
+<xsl:param name="arg.choice.def.close.str">]</xsl:param>
+<xsl:param name="arg.rep.repeat.str">...</xsl:param>
+<xsl:param name="arg.rep.norepeat.str"></xsl:param>
+<xsl:param name="arg.rep.def.str"></xsl:param>
+<xsl:param name="arg.or.sep"> | </xsl:param>
+<xsl:param name="cmdsynopsis.hanging.indent">4pi</xsl:param>
 
 <!-- ====================================================================== -->
 
@@ -846,8 +856,8 @@ in the list is appropriate.</para>
 
 <xsl:template name="select.mediaobject">
   <xsl:param name="olist"
-             select="d:imageobject|d:imageobjectco
-                     |d:videoobject|d:audioobject|d:textobject"/>
+             select="imageobject|imageobjectco
+                     |videoobject|audioobject|textobject"/>
   
   <xsl:variable name="mediaobject.index">
     <xsl:call-template name="select.mediaobject.index">
@@ -909,8 +919,8 @@ recursive process.</para>
 
 <xsl:template name="select.mediaobject.index">
   <xsl:param name="olist"
-             select="d:imageobject|d:imageobjectco
-                     |d:videoobject|d:audioobject|d:textobject"/>
+             select="imageobject|imageobjectco
+                     |videoobject|audioobject|textobject"/>
   <xsl:param name="count">1</xsl:param>
 
   <xsl:choose>
@@ -963,18 +973,32 @@ recursive process.</para>
     
         <xsl:variable name="useobject">
           <xsl:choose>
+            <!-- select videoobject or audioobject before textobject -->
+            <xsl:when test="local-name($object) = 'videoobject'">
+              <xsl:text>1</xsl:text> 
+            </xsl:when>
+            <xsl:when test="local-name($object) = 'audioobject'">
+              <xsl:text>1</xsl:text> 
+            </xsl:when>
+            <!-- skip textobject if also video, audio, or image out of order -->
+            <xsl:when test="local-name($object) = 'textobject' and
+                            ../imageobject or
+                            ../audioobject or
+                            ../videoobject">
+              <xsl:text>0</xsl:text> 
+            </xsl:when>
             <!-- The phrase is used only when contains TeX Math and output is FO -->
-            <xsl:when test="local-name($object)='textobject' and $object/d:phrase
+            <xsl:when test="local-name($object)='textobject' and $object/phrase
                             and $object/@role='tex' and $stylesheet.result.type = 'fo'
                             and $tex.math.in.alt != ''">
               <xsl:text>1</xsl:text> 
             </xsl:when>
             <!-- The phrase is never used -->
-            <xsl:when test="local-name($object)='textobject' and $object/d:phrase">
+            <xsl:when test="local-name($object)='textobject' and $object/phrase">
               <xsl:text>0</xsl:text>
             </xsl:when>
             <xsl:when test="local-name($object)='textobject'
-                            and $object/ancestor::d:equation ">
+                            and $object/ancestor::equation ">
             <!-- The first textobject is not a reasonable fallback
                  for equation image -->
               <xsl:text>0</xsl:text>
@@ -986,8 +1010,8 @@ recursive process.</para>
             </xsl:when>
             <!-- don't use graphic when output is FO, TeX Math is used 
                  and there is math in alt element -->
-            <xsl:when test="$object/ancestor::d:equation and 
-                            $object/ancestor::d:equation/d:alt[@role='tex']
+            <xsl:when test="$object/ancestor::equation and 
+                            $object/ancestor::equation/alt[@role='tex']
                             and $stylesheet.result.type = 'fo'
                             and $tex.math.in.alt != ''">
               <xsl:text>0</xsl:text>
@@ -1002,7 +1026,7 @@ recursive process.</para>
                 <!-- peek inside imageobjectco to simplify the test -->
                 <xsl:when test="local-name($object) = 'imageobjectco'">
                   <xsl:call-template name="is.acceptable.mediaobject">
-                    <xsl:with-param name="object" select="$object/d:imageobject"/>
+                    <xsl:with-param name="object" select="$object/imageobject"/>
                   </xsl:call-template>
                 </xsl:when>
                 <xsl:otherwise>
@@ -1070,9 +1094,9 @@ object is recognized as a graphic.</para>
   </xsl:variable>
 
   <!-- there will only be one -->
-  <xsl:variable name="data" select="$object/d:videodata
-                                    |$object/d:imagedata
-                                    |$object/d:audiodata"/>
+  <xsl:variable name="data" select="$object/videodata
+                                    |$object/imagedata
+                                    |$object/audiodata"/>
 
   <xsl:variable name="format" select="$data/@format"/>
 
@@ -1105,9 +1129,9 @@ object is recognized as a graphic.</para>
 <xsl:template name="mediaobject.filename">
   <xsl:param name="object"></xsl:param>
 
-  <xsl:variable name="data" select="$object/d:videodata
-                                    |$object/d:imagedata
-                                    |$object/d:audiodata
+  <xsl:variable name="data" select="$object/videodata
+                                    |$object/imagedata
+                                    |$object/audiodata
                                     |$object"/>
 
   <xsl:variable name="filename">
@@ -1262,7 +1286,7 @@ pointed to by the link is one of the elements listed in
   <xsl:choose>
     <xsl:when test="local-name($context) = 'substeps'">
       <xsl:variable name="ssdepth"
-                    select="count($context/ancestor::d:substeps)"/>
+                    select="count($context/ancestor::substeps)"/>
       <xsl:variable name="sstype" select="($ssdepth mod $format.length)+2"/>
       <xsl:choose>
         <xsl:when test="$sstype &gt; $format.length">
@@ -1275,7 +1299,7 @@ pointed to by the link is one of the elements listed in
     </xsl:when>
     <xsl:when test="local-name($context) = 'step'">
       <xsl:variable name="sdepth"
-                    select="count($context/ancestor::d:substeps)"/>
+                    select="count($context/ancestor::substeps)"/>
       <xsl:variable name="stype" select="($sdepth mod $format.length)+1"/>
       <xsl:value-of select="substring($procedure.step.numeration.formats,$stype,1)"/>
     </xsl:when>
@@ -1288,18 +1312,18 @@ pointed to by the link is one of the elements listed in
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="d:step" mode="number">
+<xsl:template match="step" mode="number">
   <xsl:param name="rest" select="''"/>
   <xsl:param name="recursive" select="1"/>
   <xsl:variable name="format">
     <xsl:call-template name="procedure.step.numeration"/>
   </xsl:variable>
   <xsl:variable name="num">
-    <xsl:number count="d:step" format="{$format}"/>
+    <xsl:number count="step" format="{$format}"/>
   </xsl:variable>
   <xsl:choose>
-    <xsl:when test="$recursive != 0 and ancestor::d:step">
-      <xsl:apply-templates select="ancestor::d:step[1]" mode="number">
+    <xsl:when test="$recursive != 0 and ancestor::step">
+      <xsl:apply-templates select="ancestor::step[1]" mode="number">
         <xsl:with-param name="rest" select="concat('.', $num, $rest)"/>
       </xsl:apply-templates>
     </xsl:when>
@@ -1327,12 +1351,14 @@ pointed to by the link is one of the elements listed in
       </xsl:choose>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:variable name="prevlist"
-        select="$list/preceding::d:orderedlist[1]"/>
+      <!-- match on previous list at same nesting level -->
+      <xsl:variable name="prevlist" 
+       select="$list/preceding::orderedlist
+                [count($list/ancestor::orderedlist) = count(ancestor::orderedlist)][1]"/>
       <xsl:choose>
         <xsl:when test="count($prevlist) = 0">2</xsl:when>
         <xsl:otherwise>
-          <xsl:variable name="prevlength" select="count($prevlist/d:listitem)"/>
+          <xsl:variable name="prevlength" select="count($prevlist/listitem)"/>
           <xsl:variable name="prevstart">
             <xsl:call-template name="orderedlist-starting-number">
               <xsl:with-param name="list" select="$prevlist"/>
@@ -1352,10 +1378,10 @@ pointed to by the link is one of the elements listed in
     <xsl:when test="$node/@override">
       <xsl:value-of select="$node/@override"/>
     </xsl:when>
-    <xsl:when test="$node/preceding-sibling::d:listitem">
+    <xsl:when test="$node/preceding-sibling::listitem">
       <xsl:variable name="pnum">
         <xsl:call-template name="orderedlist-item-number">
-          <xsl:with-param name="node" select="$node/preceding-sibling::d:listitem[1]"/>
+          <xsl:with-param name="node" select="$node/preceding-sibling::listitem[1]"/>
         </xsl:call-template>
       </xsl:variable>
       <xsl:value-of select="$pnum + 1"/>
@@ -1390,11 +1416,11 @@ pointed to by the link is one of the elements listed in
     </xsl:when>
     <xsl:otherwise>
       <xsl:choose>
-        <xsl:when test="$node/ancestor::d:orderedlist">
+        <xsl:when test="$node/ancestor::orderedlist">
           <xsl:call-template name="next.numeration">
             <xsl:with-param name="numeration">
               <xsl:call-template name="list.numeration">
-                <xsl:with-param name="node" select="$node/ancestor::d:orderedlist[1]"/>
+                <xsl:with-param name="node" select="$node/ancestor::orderedlist[1]"/>
               </xsl:call-template>
             </xsl:with-param>
           </xsl:call-template>
@@ -1407,10 +1433,10 @@ pointed to by the link is one of the elements listed in
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="d:orderedlist/d:listitem" mode="item-number">
+<xsl:template match="orderedlist/listitem" mode="item-number">
   <xsl:variable name="numeration">
     <xsl:call-template name="list.numeration">
-      <xsl:with-param name="node" select="parent::d:orderedlist"/>
+      <xsl:with-param name="node" select="parent::orderedlist"/>
     </xsl:call-template>
   </xsl:variable>
 
@@ -1436,9 +1462,9 @@ pointed to by the link is one of the elements listed in
     <xsl:call-template name="orderedlist-item-number"/>
   </xsl:variable>
 
-  <xsl:if test="parent::d:orderedlist/@inheritnum='inherit'
-                and ancestor::d:listitem[parent::d:orderedlist]">
-    <xsl:apply-templates select="ancestor::d:listitem[parent::d:orderedlist][1]"
+  <xsl:if test="parent::orderedlist/@inheritnum='inherit'
+                and ancestor::listitem[parent::orderedlist]">
+    <xsl:apply-templates select="ancestor::listitem[parent::orderedlist][1]"
                          mode="item-number"/>
   </xsl:if>
 
@@ -1470,11 +1496,11 @@ pointed to by the link is one of the elements listed in
     </xsl:when>
     <xsl:otherwise>
       <xsl:choose>
-        <xsl:when test="$node/ancestor::d:itemizedlist">
+        <xsl:when test="$node/ancestor::itemizedlist">
           <xsl:call-template name="next.itemsymbol">
             <xsl:with-param name="itemsymbol">
               <xsl:call-template name="list.itemsymbol">
-                <xsl:with-param name="node" select="$node/ancestor::d:itemizedlist[1]"/>
+                <xsl:with-param name="node" select="$node/ancestor::itemizedlist[1]"/>
               </xsl:call-template>
             </xsl:with-param>
           </xsl:call-template>
@@ -2037,4 +2063,48 @@ engine does not support it.
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+
+<doc:template name="graphic.format.content-type" xmlns="">
+  <refpurpose>Returns mimetype for media format</refpurpose>
+  <refdescription id="graphic.format.content-type-desc">
+    <para>This takes as input a 'format' param and returns
+    a mimetype string.  It uses an xsl:choose after first
+    converting the input to all uppercase.</para>
+  </refdescription>
+</doc:template>
+<xsl:template name="graphic.format.content-type">
+  <xsl:param name="format"/>
+  <xsl:variable name="upperformat" select="translate($format,&lowercase;,&uppercase;)"/>
+  <xsl:choose>
+    <xsl:when test="$upperformat = ''"></xsl:when>
+    <xsl:when test="$upperformat = 'linespecific'"></xsl:when>
+    <xsl:when test="$upperformat = 'PS'">application/postscript</xsl:when>
+    <xsl:when test="$upperformat = 'PDF'">application/pdf</xsl:when>
+    <xsl:when test="$upperformat = 'PNG'">image/png</xsl:when>
+    <xsl:when test="$upperformat = 'SVG'">image/svg+xml</xsl:when>
+    <xsl:when test="$upperformat = 'JPG'">image/jpeg</xsl:when>
+    <xsl:when test="$upperformat = 'JPEG'">image/jpeg</xsl:when>
+    <xsl:when test="$upperformat = 'GIF'">image/gif</xsl:when>
+    <xsl:when test="$upperformat = 'GIF87A'">image/gif</xsl:when>
+    <xsl:when test="$upperformat = 'GIF89A'">image/gif</xsl:when>
+    <xsl:when test="$upperformat = 'ACC'">audio/acc</xsl:when>
+    <xsl:when test="$upperformat = 'MPG'">audio/mpeg</xsl:when>
+    <xsl:when test="$upperformat = 'MP1'">audio/mpeg</xsl:when>
+    <xsl:when test="$upperformat = 'MP2'">audio/mpeg</xsl:when>
+    <xsl:when test="$upperformat = 'MP3'">audio/mpeg</xsl:when>
+    <xsl:when test="$upperformat = 'M4A'">audio/mp4</xsl:when>
+    <xsl:when test="$upperformat = 'MPEG'">audio/mpeg</xsl:when>
+    <xsl:when test="$upperformat = 'WAV'">audio/wav</xsl:when>
+    <xsl:when test="$upperformat = 'MP4'">video/mp4</xsl:when>
+    <xsl:when test="$upperformat = 'M4V'">video/mp4</xsl:when>
+    <xsl:when test="$upperformat = 'OGV'">video/ogg</xsl:when>
+    <xsl:when test="$upperformat = 'OGG'">video/ogg</xsl:when>
+    <xsl:when test="$upperformat = 'WEBM'">video/webm</xsl:when>
+    <xsl:otherwise>
+        <xsl:value-of select="concat('image/', $upperformat)"/> 
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 </xsl:stylesheet>

@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-		xmlns:d="http://docbook.org/ns/docbook"
-xmlns:ng="http://docbook.org/docbook-ng" 
+		xmlns:ng="http://docbook.org/docbook-ng" 
 		xmlns:db="http://docbook.org/ns/docbook"
 		xmlns:exsl="http://exslt.org/common" version="1.0"
-		exclude-result-prefixes="exsl db ng d">
+		exclude-result-prefixes="exsl db ng">
 
 <!-- 
 ********************************************************************************
-     $Id: eclipse3.xsl 8798 2010-08-07 19:12:48Z mzjn $
+     $Id: eclipse3.xsl 9149 2011-11-12 00:12:07Z bobstayton $
 
      This file is part of the XSL DocBook Stylesheet distribution.
      See ../README or http://docbook.sf.net/release/xsl/current/ for
@@ -36,7 +35,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
       <xsl:call-template name="write.chunk">
 	<xsl:with-param name="filename">
 	  <xsl:if test="$manifest.in.base.dir != 0">
-	    <xsl:value-of select="$base.dir" />
+	    <xsl:value-of select="$chunk.base.dir" />
 	  </xsl:if>
 	  <xsl:value-of select="'plugin.xml'" />
 	</xsl:with-param>
@@ -61,7 +60,7 @@ xmlns:ng="http://docbook.org/docbook-ng"
 	      <xsl:call-template name="write.chunk">
 		<xsl:with-param name="filename">
 		  <xsl:if test="$manifest.in.base.dir != 0">
-		    <xsl:value-of select="$base.dir" />
+		    <xsl:value-of select="$chunk.base.dir" />
 		  </xsl:if>
 		  <xsl:value-of select="'META-INF/'" />
 		  <xsl:value-of select="'MANIFEST.MF'" />
