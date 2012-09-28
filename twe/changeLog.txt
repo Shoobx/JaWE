@@ -1,4 +1,8 @@
 ###### TWE 4.7-1 RELEASED ######
+2012-09-28 Sasa Bojanic <sasaboy@together.at>
+   # Shark configuration: now graph component is not showing grid and not showing transition conditions by default
+
+2012-09-15 Sasa Bojanic <sasaboy@together.at>
    # Improved XPDL icon
 
 ###### TWE 4.6-1 RELEASED ######
