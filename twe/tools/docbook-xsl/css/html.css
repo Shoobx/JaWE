@@ -1,0 +1,286 @@
+﻿body {
+	background: #FFFFFF;
+	padding-right: 100px;
+	padding-left: 100px;
+}
+
+h1, h2, h3, h4, h5 { 
+    color: #800000; 
+    font-family: sans-serif; 
+}
+
+span.term { 
+    font-weight: bold; 
+}
+
+div.sidebar { 
+    background: #F0F0F0; 
+    border: 1px solid gray; 
+    padding: 5px; 
+    margin: 20px; 
+}
+
+pre.programlisting { 
+    background: #F0F0F0; 
+    border: 1px solid gray; 
+    padding: 2px; 
+    font-size: 10pt;
+    white-space: pre;
+}
+
+A           { color: #800000; }
+A:link      {
+	color: #4A4AFF;
+}
+A:hover {
+	color: #ff6600;
+	text-decoration: underline;
+}
+
+A:active    {
+	color: #9999FF;
+}
+A:visited   {
+	color: #CC0000;
+}
+
+.toc {
+	padding-left: 40px;
+    color: #800000; 
+    font-family: sans-serif; 
+}
+
+
+
+.book {
+	background: #FDFBFD;
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 800px;
+	position: relative;
+}
+.titlepage {
+}
+.title {
+	color: #000000;
+	text-align: center;
+}
+.subtitle {
+	color: #6F6F6F;
+	text-align: center;
+	font-size: x-large;
+}
+
+
+
+
+
+p.title {
+	color: #000000;
+}
+
+
+
+
+
+
+.author {
+	color: #D33330;
+	text-align: center;
+}
+
+.firstname {
+	color: #D33330;
+	text-align: left;
+	
+}
+
+.affiliation {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+.orgname {
+	color: #6F6F6F;
+	text-align: left;
+
+}
+
+.address {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+.street {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.postcode {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.city {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.country {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.phone {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.fax {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.email {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.otheraddr {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.copyright {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.legalnotice {
+	color: #6F6F6F;
+	text-align: left;
+	
+}
+
+
+.chapter {
+	
+}
+
+
+.sect1 {
+
+}
+
+
+.sect2 {
+	
+}
+
+
+.emphasis {
+	font-weight: bold;
+}
+
+
+.list-of-figures {
+	
+}
+
+
+.list-of-tables {
+	
+}
+
+.informaltable {
+
+}
+
+.informaltable table {
+	border-width: 2px;
+	padding: 2px;
+	border-color: #000000;
+	background-color: #6F6F6F;
+	color: #FFFFFF;
+}
+
+
+.mediaobject {
+}
+
+
+.itemizedlist {
+	
+}
+
+
+.figure {
+	
+}
+
+
+.figure-contents {
+	
+}
+
+
+.figure-break {
+	
+}
+
+
+.orderedlist {
+	
+}
+
+
+.inlinemediaobject {
+
+}
+
+
+.bold {
+	
+}
+
+
+.table {
+	
+}
+
+
+.table-contents {
+	
+}
+
+
+.table-break {
+	
+}
+
+
+li {
+	color: #6F6F6F;
+	font-weight: bold;
+}
+

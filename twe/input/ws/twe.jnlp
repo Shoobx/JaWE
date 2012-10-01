@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+"	codebase="http://www.together.at/prod/workflow/twe" href="twe.jnlp">
+<information>
+	<title>Together Workflow Editor @VERSION@-@RELEASE@ Web Start</title>
+	<vendor>Together Teamsolutions Co., Ltd.</vendor>
+	<homepage href="http://www.together.at/prod/workflow/twe"/>
+	<description kind="short">Together Workflow Editor @VERSION@-@RELEASE@ Web Start</description>
+	<icon href="images/TWE_32.gif"/>
+	<offline-allowed/>
+</information>
+<security>
+		<all-permissions/>
+</security>
+<resources>
+	<j2se version="1.4+"/>
+	<jar href="lib/twecore.jar"/>
+	<jar href="lib/tweactivityicons.jar" />
+	<jar href="lib/twedetailedpackagenavigator.jar" />
+	<jar href="lib/twedoc.jar" />
+	<jar href="lib/tweextpkgrelations.jar" />
+	<jar href="lib/twehistorymgr.jar" />
+	<jar href="lib/tweinfobar.jar" />
+	<jar href="lib/twejped.jar" />
+	<jar href="lib/twelan.jar"/>
+	<jar href="lib/twelanguageswitcher.jar" />
+	<jar href="lib/tweldap.jar" />
+	<jar href="lib/twepackagenavigator.jar" />
+	<jar href="lib/twepic.jar"/>
+	<jar href="lib/tweproblemsnavigator.jar" />
+	<jar href="lib/twepropertiespanel.jar" />
+	<jar href="lib/twereconfiguration.jar" />
+	<jar href="lib/twesamples.jar" />
+	<jar href="lib/twesearchnavigator.jar" />
+	<jar href="lib/tweshark.jar" />
+	<jar href="lib/twetranspkgpool.jar" />
+	<jar href="lib/tweundomgr.jar" />
+	<jar href="lib/twewfxml.jar" />
+	<jar href="lib/jxpdl.jar" />
+	<jar href="lib/jEdit-syntax.jar"/>
+	<jar href="lib/jgraph.jar"/>
+	<jar href="lib/xercesImpl.jar"/>
+	<jar href="lib/xml-apis.jar"/>
+	<jar href="lib/batik.jar"/>
+	<jar href="lib/itext.jar" />
+	<jar href="lib/jh.jar" />
+</resources>
+<application-desc main-class="org.enhydra.jawe.JaWE"/>
+</jnlp>
