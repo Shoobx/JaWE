@@ -30,6 +30,10 @@ public class SharkConstants  {
 
    public static final String PROCESS_ID = "PROCESS_ID";
    public static final String ACTIVITY_ID = "ACTIVITY_ID";   
+   public static final String SESSION_HANDLE = "SESSION_HANDLE";   
+   public static final String SHARK_VERSION = "SHARK_VERSION";
+   public static final String SHARK_RELEASE = "SHARK_RELEASE";
+   public static final String SHARK_BUILDID = "SHARK_BUILDID";
    
    public static final String SCRIPT_VALUE_JAVASCRIPT="text/javascript";
    public static final String SCRIPT_VALUE_JAVA="text/java";
@@ -43,6 +47,7 @@ public class SharkConstants  {
    public static final String EA_ALLOW_UNDEFINED_VARIABLES = "ALLOW_UNDEFINED_VARIABLES";
    public static final String EA_USE_PROCESS_CONTEXT_ONLY = "USE_PROCESS_CONTEXT_ONLY";
    public static final String EA_CREATE_ASSIGNMENTS = "CREATE_ASSIGNMENTS";
+   public static final String EA_DYNAMICSCRIPT = "DYNAMICSCRIPT";
    public static final String EA_TRANSIENT = "TRANSIENT";
    public static final String EA_DELETE_FINISHED = "DELETE_FINISHED";
    public static final String EA_DYNAMIC_VARIABLE_HANDLING="DYNAMIC_VARIABLE_HANDLING";

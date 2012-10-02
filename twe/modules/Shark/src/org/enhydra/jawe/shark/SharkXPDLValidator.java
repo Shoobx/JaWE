@@ -313,7 +313,6 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
            return false;
         }
 
-      System.out.println("ELINSTOF = "+el.getClass().getName());
       if (el instanceof ExceptionName && el.toValue().length()>100) {
          return false;
       }
@@ -348,25 +347,37 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
       map.put(SharkConstants.ACTIVITY_ID, df);
 
+      df = new DataField(null);
+      df.setId(SharkConstants.SESSION_HANDLE);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.SESSION_HANDLE, df);
+
+      df = new DataField(null);
+      df.setId(SharkConstants.SHARK_RELEASE);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.SHARK_RELEASE, df);
+
+      df = new DataField(null);
+      df.setId(SharkConstants.SHARK_VERSION);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.SHARK_VERSION, df);
+
+      df = new DataField(null);
+      df.setId(SharkConstants.SHARK_BUILDID);
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      map.put(SharkConstants.SHARK_BUILDID, df);
+
       return map;
    }
 
    protected Map getDeadlineConditionChoices(XMLElement el) {
-      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
+      Map map = getActualParameterOrConditionChoices(el);
 
       DataField df = new DataField(null);
-      df.setId(SharkConstants.PROCESS_ID);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.PROCESS_ID, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.ACTIVITY_ID);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.ACTIVITY_ID, df);
-
-      df = new DataField(null);
       df.setId(SharkConstants.PROCESS_STARTED_TIME);
       df.getDataType().getDataTypes().setBasicType();
       df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
@@ -388,19 +399,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
    }
 
    protected Map getPerformerChoices(XMLElement el) {
-      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
-
-      DataField df = new DataField(null);
-      df.setId(SharkConstants.PROCESS_ID);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.PROCESS_ID, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.ACTIVITY_ID);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.ACTIVITY_ID, df);
+      Map map = getActualParameterOrConditionChoices(el);
 
       Map parts = XMLUtil.getPossibleParticipants(XMLUtil.getWorkflowProcess(el),
                                                   JaWEManager.getInstance()
@@ -410,7 +409,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          Map.Entry me = (Map.Entry) it.next();
          if (map.containsKey(me.getKey()))
             continue;
-         df = new DataField(null);
+         DataField df = new DataField(null);
          df.setId(me.getKey().toString());
          df.getDataType().getDataTypes().setBasicType();
          df.getDataType().getDataTypes().getBasicType().setTypeSTRING();

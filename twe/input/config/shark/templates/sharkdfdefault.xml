@@ -18,5 +18,6 @@
 <DataField>
    <ExtendedAttributes>
       <ExtendedAttribute Name="TRANSIENT" Value="false"/>
+      <ExtendedAttribute Name="DYNAMICSCRIPT" Value="false"/>
    </ExtendedAttributes>
 </DataField>

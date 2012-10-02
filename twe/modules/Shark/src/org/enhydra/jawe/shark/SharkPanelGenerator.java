@@ -349,6 +349,25 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
       }
 
+      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMICSCRIPT);
+      if (ea != null) {
+         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
+         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                     ea.get("Value"),
+                                                     n,
+                                                     false,
+                                                     JaWEManager.getInstance()
+                                                        .getJaWEController()
+                                                        .canModifyElement(ea.get("Value")),
+                                                     false);
+         int insertAt = gp.getPanelPositionForElement(el.get("Length"));
+         if (insertAt >= 0 && gp.getComponentCount() >= (insertAt += 2)) {
+            gp.addToGroup(cbp, insertAt);
+         } else {
+            gp.addToGroup(cbp);
+         }
+      }
+
       return gp;
    }
 
@@ -910,6 +929,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       l.add(df);
       df = new DataField(null);
       df.setId(SharkConstants.ACTIVITY_ID);
+      l.add(df);
+      df = new DataField(null);
+      df.setId(SharkConstants.SESSION_HANDLE);
+      l.add(df);
+      df = new DataField(null);
+      df.setId(SharkConstants.SHARK_VERSION);
+      l.add(df);
+      df = new DataField(null);
+      df.setId(SharkConstants.SHARK_RELEASE);
+      l.add(df);
+      df = new DataField(null);
+      df.setId(SharkConstants.SHARK_BUILDID);
       l.add(df);
 
       return l;

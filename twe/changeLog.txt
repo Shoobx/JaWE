@@ -1,4 +1,7 @@
 ###### TWE 4.8-1 RELEASED ######
+2012-10-02 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Support for SESSION_HANDLE, SHARK_VERSION, SHARK_RELEASE, SHARK_BUILDID variables
+   # Shark mode: Support for DYNAMICSCRIPT attribute for variables
 
 ###### TWE 4.7-1 RELEASED ######
 2012-09-28 Sasa Bojanic <sasaboy@together.at>

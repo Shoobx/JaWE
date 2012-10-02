@@ -10051,7 +10051,13 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para>-</para>
+          <para>Shark mode: Support for SESSION_HANDLE, SHARK_VERSION,
+          SHARK_RELEASE, SHARK_BUILDID variables</para>
+        </listitem>
+
+        <listitem>
+          <para>Shark mode: Support for DYNAMICSCRIPT attribute for
+          variables</para>
         </listitem>
       </itemizedlist>
     </section>

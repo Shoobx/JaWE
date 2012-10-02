@@ -230,6 +230,7 @@ public class SharkXPDLUtils extends XPDLUtils {
          }
          if (pp instanceof DataField
              && (eaName.equals(SharkConstants.EA_TRANSIENT)
+                 || eaName.equals(SharkConstants.EA_DYNAMICSCRIPT)
                  || eaName.equals(SharkConstants.EA_MIN_LENGTH) || eaName.equals(SharkConstants.EA_IS_MANDATORY))) {
             continue;
          }
