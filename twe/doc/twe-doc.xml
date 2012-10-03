@@ -990,6 +990,34 @@ create.desktop.icon=on
                 </row>
 
                 <row>
+                  <entry align="left" valign="middle"><inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="Images/designtimevalidation-start.gif"
+                                   format="GIF"/>
+                      </imageobject>
+                    </inlinemediaobject> Turn-on design time
+                  validation</entry>
+
+                  <entry><para>This action turns-on a design time XPDL
+                  validation (XPDL model is then checked for validity after
+                  any insert/update action)</para></entry>
+                </row>
+
+                <row>
+                  <entry align="left" valign="middle"><inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="Images/designtimevalidation-stop.gif"
+                                   format="GIF"/>
+                      </imageobject>
+                    </inlinemediaobject> Turn-off design time
+                  validation</entry>
+
+                  <entry><para>This action turns-off a design time XPDL
+                  validation (XPDL model is checked for validity only when
+                  user presses "Check validity" button)</para></entry>
+                </row>
+
+                <row>
                   <entry align="left" char=""
                   valign="middle"><inlinemediaobject>
                       <imageobject>
