@@ -68,6 +68,8 @@ import org.enhydra.jawe.base.controller.actions.ProcessWorkflowRelevantData;
 import org.enhydra.jawe.base.controller.actions.Reopen;
 import org.enhydra.jawe.base.controller.actions.Save;
 import org.enhydra.jawe.base.controller.actions.SaveAs;
+import org.enhydra.jawe.base.controller.actions.StartDesignTimeValidation;
+import org.enhydra.jawe.base.controller.actions.StopDesignTimeValidation;
 
 /**
  * @author Miroslav Popov
@@ -277,7 +279,7 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("SearchMenu", "Search jaweAction_References");
       componentSettings.put("SearchLangName", "search");
       componentSettings.put("PackageMenu",
-                            "PackageCheckValidity - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData PackageReferredDocument");
+                            "PackageCheckValidity StartDesignTimeValidation StopDesignTimeValidation - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData PackageReferredDocument");
       componentSettings.put("PackageLangName", "package");
       componentSettings.put("ProcessMenu",
                             "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters - ProcessActivitySetsOverview ProcessActivitiesOverview ProcessTransitionsOverview");
@@ -297,7 +299,7 @@ public class ControllerSettings extends JaWEComponentSettings {
                             "NewPackage Open Reopen Close - Save SaveAs - Exit");
       componentSettings.put("searchtoolbarToolbar", "Search jaweAction_References");
       componentSettings.put("packagetoolbarToolbar",
-                            "PackageCheckValidity - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData");
+                            "PackageCheckValidity StartDesignTimeValidation StopDesignTimeValidation - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData");
       componentSettings.put("processtoolbarToolbar",
                             "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters");
       componentSettings.put("externaltoolbarToolbar",
@@ -447,6 +449,22 @@ public class ControllerSettings extends JaWEComponentSettings {
       langDepName = "PackageCheckValidity";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageCheckValidity", ja);
+
+      // StartDesignTimeValidation
+      action = new StartDesignTimeValidation(comp);
+      icon = new ImageIcon(ResourceManager.class.getClassLoader()
+         .getResource("org/enhydra/jawe/images/designtimevalidation-start.gif"));
+      langDepName = "StartDesignTimeValidation";
+      ja = new JaWEAction(action, icon, langDepName);
+      componentAction.put("StartDesignTimeValidation", ja);
+
+      // StopDesignTimeValidation
+      action = new StopDesignTimeValidation(comp);
+      icon = new ImageIcon(ResourceManager.class.getClassLoader()
+         .getResource("org/enhydra/jawe/images/designtimevalidation-stop.gif"));
+      langDepName = "StopDesignTimeValidation";
+      ja = new JaWEAction(action, icon, langDepName);
+      componentAction.put("StopDesignTimeValidation", ja);
 
       // PackageExternalPackages
       action = new PackageExternalPackages(comp);

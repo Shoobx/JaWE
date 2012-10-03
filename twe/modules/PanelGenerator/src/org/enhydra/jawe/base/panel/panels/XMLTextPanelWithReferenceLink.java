@@ -64,7 +64,7 @@ public class XMLTextPanelWithReferenceLink extends XMLBasicPanel {
       super(pc, myOwnerL, "", isVertical, false, true);
 
       boolean rightAllignment = false;
-      Dimension textDim = new Dimension(225, 20);
+      Dimension textDim = new Dimension(375, 20);
 
       Color bkgCol = new Color(245, 245, 245);
 

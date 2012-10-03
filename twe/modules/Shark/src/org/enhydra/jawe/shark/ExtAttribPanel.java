@@ -40,6 +40,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.panels.PanelUtilities;
+import org.enhydra.jawe.base.panel.panels.TooltipComboRenderer;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLElementView;
@@ -60,7 +61,7 @@ public class ExtAttribPanel extends XMLBasicPanel {
 
    protected JCheckBox jchkb;
 
-   Dimension textDim = new Dimension(250, 20);
+   Dimension textDim = new Dimension(400, 20);
 
    protected JComboBox jcb;
 
@@ -75,7 +76,6 @@ public class ExtAttribPanel extends XMLBasicPanel {
                          boolean isChoiceEnabled) {
 
       super(pc, myOwner, pc.getLanguageDependentString("VariableKey"), isVertical, false, hasEmptyBorder);
-
       boolean rightAllignment = false;
       if (pc != null) {
 
@@ -100,12 +100,13 @@ public class ExtAttribPanel extends XMLBasicPanel {
          chs = PanelUtilities.toXMLElementViewList(pc, choices, true);
 
          jcb = new JComboBox(XMLComboPanel.sortComboEntries(chs));
-
+         jcb.setRenderer(new TooltipComboRenderer());
+         
          if (choosen != null) {
             chsn = new XMLElementView(pc, choosen, XMLElementView.TONAME);
             jcb.setSelectedItem(chsn);
          }
-         toSet = getComboDimension(chs);
+         toSet = getComboDimension(chs, true);
          jcb.setEditable(false);
 
          jcb.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -255,9 +256,9 @@ public class ExtAttribPanel extends XMLBasicPanel {
    public void cleanup() {
    }
 
-   public Dimension getComboDimension(List choices) {
+   public Dimension getComboDimension(List choices, boolean useDefaultDimension) {
       double w = 0;
-      if (choices != null) {
+      if (!useDefaultDimension && choices != null) {
          double longest = 0;
          for (int i = 0; i < choices.size(); i++) {
             try {
@@ -273,7 +274,6 @@ public class ExtAttribPanel extends XMLBasicPanel {
       if (w < textDim.width)
          w = textDim.width;
       return new Dimension((int) w, textDim.height);
-
    }
 
    public static Vector sortComboEntries(List ces) {

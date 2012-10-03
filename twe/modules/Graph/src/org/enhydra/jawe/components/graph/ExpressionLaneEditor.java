@@ -45,7 +45,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jxpdl.XMLUtil;
@@ -95,6 +95,7 @@ public class ExpressionLaneEditor {
 
    /**
     * Configures dialog.
+    * 
     * @param props Settings for the editor.
     */
    public void configure(Properties props) {
@@ -103,6 +104,7 @@ public class ExpressionLaneEditor {
 
    /**
     * Sets property for the editor.
+    * 
     * @param key Property key.
     * @param value Property value.
     */
@@ -112,6 +114,7 @@ public class ExpressionLaneEditor {
 
    /**
     * Creates new instance of editor.
+    * 
     * @param el {@link Lane} element to edit.
     */
    public ExpressionLaneEditor(Lane el) {
@@ -125,6 +128,7 @@ public class ExpressionLaneEditor {
 
    /**
     * Sets editor title.
+    * 
     * @param title The title.
     */
    public void setTitle(String title) {
@@ -177,7 +181,7 @@ public class ExpressionLaneEditor {
       String oldId = GraphUtilities.getLanesFirstPerformer(elementToEdit);
       String newId = null;
       if (oldId != null) {
-         newId = ((XMLMultiLineTextPanel) pIdPanel).getText();
+         newId = ((XMLMultiLineTextPanelWithOptionalChoiceButtons) pIdPanel).getText();
          if (!newId.equals(oldId)) {
             List acts = wp.getActivities().toElements();
             List ass = wp.getActivitySets().toElements();
@@ -348,7 +352,6 @@ public class ExpressionLaneEditor {
       }
    };
 
-   
    /**
     * @return The panel for editing lane.
     */
@@ -356,14 +359,16 @@ public class ExpressionLaneEditor {
       List toShow = new ArrayList();
       if (elementToEdit instanceof Lane) {
          if (elementToEdit.getPerformers().size() > 0) {
-            pIdPanel = new XMLMultiLineTextPanel(null,
-                                                 elementToEdit.getPerformers().get(0),
-                                                 "Expression",
-                                                 false,
-                                                 true,
-                                                 XMLMultiLineTextPanel.SIZE_MEDIUM,
-                                                 false,
-                                                 !elementToEdit.isReadOnly());
+            pIdPanel = new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
+                                                                          elementToEdit.getPerformers()
+                                                                             .get(0),
+                                                                          "Expression",
+                                                                          false,
+                                                                          true,
+                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
+                                                                          false,
+                                                                          null,
+                                                                          !elementToEdit.isReadOnly());
          } else {
             pIdPanel = new XMLTextPanel(null,
                                         elementToEdit.get("Name"),

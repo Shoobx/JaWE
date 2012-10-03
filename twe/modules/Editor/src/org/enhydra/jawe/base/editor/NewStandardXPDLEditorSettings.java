@@ -87,13 +87,13 @@ public class NewStandardXPDLEditorSettings extends PanelSettings {
                                                                "3")));
       componentSettings.put("SimplePanelTextWidth",
                             new Integer(properties.getProperty("XMLBasicPanel.SimplePanelTextWidth",
-                                                               "250")));
+                                                               "400")));
       componentSettings.put("SimplePanelTextHeight",
                             new Integer(properties.getProperty("XMLBasicPanel.SimplePanelTextHeight",
                                                                "20")));
       componentSettings.put("XMLDataTypesPanel.Dimension.WIDTH",
                             new Integer(properties.getProperty("XMLDataTypesPanel.Dimension.WIDTH",
-                                                               "400")));
+                                                               "500")));
       componentSettings.put("XMLDataTypesPanel.Dimension.HEIGHT",
                             new Integer(properties.getProperty("XMLDataTypesPanel.Dimension.HEIGHT",
                                                                "125")));

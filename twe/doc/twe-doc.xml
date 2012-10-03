@@ -10059,6 +10059,25 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>Shark mode: Support for DYNAMICSCRIPT attribute for
           variables</para>
         </listitem>
+
+        <listitem>
+          <para>Shark mode: Email configuration section for each manual
+          activity (used with SMTPEventAuditManager). Nice GUI and XPDL
+          validation.</para>
+        </listitem>
+
+        <listitem>
+          <para>Added new actions to start and stop design time XPDL
+          validation (useful to stop it when dealing with big XPDLs)</para>
+        </listitem>
+
+        <listitem>
+          <para>Enhanced GUI</para>
+        </listitem>
+
+        <listitem>
+          <para>Improved ProblemsNavigator</para>
+        </listitem>
       </itemizedlist>
     </section>
 

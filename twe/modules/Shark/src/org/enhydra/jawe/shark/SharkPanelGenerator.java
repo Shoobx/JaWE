@@ -36,8 +36,8 @@ import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithChoiceButton;
+import org.enhydra.jawe.base.panel.panels.XMLListPanel;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jxpdl.XMLAttribute;
@@ -66,7 +66,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
 
-   Properties appDefChoices = new Properties();
+   public static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
+
+   protected Properties appDefChoices = new Properties();
+
+   protected List commonInfoChoices = new ArrayList();
+
+   protected List configStringChoices = new ArrayList();
 
    public SharkPanelGenerator() throws Exception {
       super();
@@ -74,8 +80,183 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
          Utils.manageProperties(appDefChoices, cch, APP_DEF_CHOICES_FILE);
       } catch (Exception ex) {
-
       }
+      try {
+         Properties csc = new Properties();
+         String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+         Utils.manageProperties(csc, cch, CONFIG_STRING_CHOICES_FILE);
+         configStringChoices.addAll(csc.keySet());
+      } catch (Exception ex) {
+      }
+
+      commonInfoChoices.add("shark_version");
+      commonInfoChoices.add("shark_release");
+      commonInfoChoices.add("shark_buildid");
+      commonInfoChoices.add("user");
+      commonInfoChoices.add("time");
+      commonInfoChoices.add("xpdl_id");
+      commonInfoChoices.add("xpdl_version");
+      commonInfoChoices.add("xpdl_timestamp");
+      commonInfoChoices.add("process_definition_id");
+      commonInfoChoices.add("process_definition_name");
+      commonInfoChoices.add("process_id");
+      commonInfoChoices.add("process_name");
+      commonInfoChoices.add("process_description");
+      commonInfoChoices.add("process_priority");
+      commonInfoChoices.add("process_limit");
+      commonInfoChoices.add("activity_definition_id");
+      commonInfoChoices.add("activity_definition_name");
+      commonInfoChoices.add("activity_id");
+      commonInfoChoices.add("activity_name");
+      commonInfoChoices.add("activity_description");
+      commonInfoChoices.add("activity_priority");
+      commonInfoChoices.add("activity_limit");
+   }
+
+   protected XMLPanel getPanel(EmailConfigurationElement el) {
+      boolean enableEditing = JaWEManager.getInstance()
+         .getJaWEController()
+         .canModifyElement(el);
+
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+      List choices = new ArrayList(XMLUtil.getPossibleVariables(wp).values());
+      // DataField df = new DataField(wp.getDataFields());
+      // df.setId(" ");
+      // choices.add(0, df);
+      XMLPanel mode = new XMLCheckboxPanel(getPanelContainer(),
+                                           el.getModeAttribute(),
+                                           null,
+                                           false,
+                                           enableEditing,
+                                           false);
+      XMLPanel executionMode = new XMLCheckboxPanel(getPanelContainer(),
+                                                    el.getExecutionModeAttribute(),
+                                                    null,
+                                                    false,
+                                                    enableEditing,
+                                                    false);
+      XMLPanel groupEmailOnly = new XMLCheckboxPanel(getPanelContainer(),
+                                                     el.getGroupEmailOnlyAttribute(),
+                                                     null,
+                                                     false,
+                                                     enableEditing,
+                                                     false);
+      List cbp = new ArrayList();
+      cbp.add(mode);
+      cbp.add(executionMode);
+      cbp.add(groupEmailOnly);
+      XMLGroupPanel cbPanel = new XMLGroupPanel(getPanelContainer(),
+                                                el,
+                                                cbp,
+                                                getPanelContainer().getLanguageDependentString("SMTPEntries"),
+                                                false,
+                                                false,
+                                                false);
+
+      List variableChoices = getSMTPExpressionChoices(XMLUtil.getWorkflowProcess(el));
+      List againVc = getSMTPExpressionChoices(XMLUtil.getWorkflowProcess(el));
+      List moreVc = new ArrayList(commonInfoChoices);
+      List<List> mc = new ArrayList<List>();
+      mc.add(configStringChoices);
+      mc.add(commonInfoChoices);
+      mc.add(variableChoices);
+      XMLPanel subject = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
+                                                             el.getSubjectAttribute(),
+                                                             true,
+                                                             XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                             false,
+                                                             enableEditing,
+                                                             mc);
+      XMLPanel content = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
+                                                             el.getContentAttribute(),
+                                                             true,
+                                                             XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                             false,
+                                                             enableEditing,
+                                                             mc);
+      XMLPanel attachments = new XMLListPanel((InlinePanel) getPanelContainer(),
+                                              el.getAttachmentsElement(),
+                                              el.getAttachmentsElement().toElements(),
+                                              getPanelContainer().getLanguageDependentString(el.getAttachmentsElement()
+                                                 .toName()
+                                                                                             + "Key"),
+                                              true,
+                                              false,
+                                              enableEditing,
+                                              true,
+                                              true,
+                                              true);
+
+      XMLPanel attachmentNames = new XMLListPanel((InlinePanel) getPanelContainer(),
+                                                  el.getAttachmentNamesElement(),
+                                                  el.getAttachmentNamesElement()
+                                                     .toElements(),
+                                                  getPanelContainer().getLanguageDependentString(el.getAttachmentNamesElement()
+                                                     .toName()
+                                                                                                 + "Key"),
+                                                  true,
+                                                  false,
+                                                  enableEditing,
+                                                  true,
+                                                  true,
+                                                  true);
+      List alp = new ArrayList();
+      alp.add(attachments);
+      alp.add(attachmentNames);
+      XMLGroupPanel attachPanel = new XMLGroupPanel(getPanelContainer(),
+                                                    el,
+                                                    alp,
+                                                    getPanelContainer().getLanguageDependentString("SMTPEntries"),
+                                                    false,
+                                                    false,
+                                                    false);
+
+      XMLPanel dmAttachments = new XMLListPanel((InlinePanel) getPanelContainer(),
+                                                el.getDMAttachmentsElement(),
+                                                el.getDMAttachmentsElement().toElements(),
+                                                getPanelContainer().getLanguageDependentString(el.getDMAttachmentsElement()
+                                                   .toName()
+                                                                                               + "Key"),
+                                                true,
+                                                false,
+                                                enableEditing,
+                                                true,
+                                                true,
+                                                true);
+
+      List tgp = new ArrayList();
+
+      // tgp.add(mode);
+      // tgp.add(executionMode);
+      tgp.add(cbPanel);
+      // tgp.add(groupEmailOnly);
+      tgp.add(subject);
+      tgp.add(content);
+      // tgp.add(attachments);
+      // tgp.add(attachmentNames);
+      tgp.add(attachPanel);
+      tgp.add(dmAttachments);
+
+      XMLGroupPanel ltPanel = new SharkModeGroupPanel(getPanelContainer(),
+                                                      el,
+                                                      tgp,
+                                                      getPanelContainer().getLanguageDependentString("SMTPEntries"),
+                                                      true,
+                                                      false,
+                                                      false);
+      return ltPanel;
+   }
+
+   public XMLPanel getPanel(WfVariable el) {
+      SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(),
+                                                       el,
+                                                       el.toElements(),
+                                                       getPanelContainer().getLanguageDependentString(el.toName()
+                                                                                                      + "Key"),
+                                                       true,
+                                                       false,
+                                                       true);
+      return gp;
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
@@ -165,7 +346,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                              true,
                                              true,
                                              true);
-
+            break;
+         case 6:
+            try {
+               p = getPanel(new EmailConfigurationElement(eas));
+            } catch (Exception ex) {
+               ex.printStackTrace();
+            }
             break;
          default:
             if (no < 5) {
@@ -405,32 +592,35 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       df.setId(SharkConstants.ACTIVITY_ACCEPTED_TIME);
       cl.add(df);
 
-      return new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
-                                                       el,
-                                                       el.toName(),
-                                                       false,
-                                                       true,
-                                                       XMLMultiLineTextPanel.SIZE_LARGE,
-                                                       false,
-                                                       cl,
-                                                       JaWEManager.getInstance()
-                                                          .getJaWEController()
-                                                          .canModifyElement(el));
+      List<List> mc = new ArrayList<List>();
+      mc.add(cl);
+
+      return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                el,
+                                                                el.toName(),
+                                                                false,
+                                                                true,
+                                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                false,
+                                                                mc,
+                                                                JaWEManager.getInstance()
+                                                                   .getJaWEController()
+                                                                   .canModifyElement(el));
    }
 
    public XMLPanel getPanel(ExtendedAttribute el) {
       if (el.getParent().getParent() instanceof Activity
           && (el.getName().equals(SharkConstants.VTP_UPDATE) || el.getName()
              .equals(SharkConstants.VTP_VIEW))) {
-         boolean roVar = false;
-         String vVal = el.getVValue();
+//         boolean roVar = false;
+//         String vVal = el.getVValue();
          Map vars = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
          List chs = null;
-         if (vars.containsKey(vVal)) {
-            roVar = true;
-         } else {
+//         if (vars.containsKey(vVal)) {
+//            roVar = true;
+//         } else {
             chs = getPossibleVariableChoices(vars, (ExtendedAttributes) el.getParent());
-         }
+//         }
          return new ExtAttribPanel(getPanelContainer(),
                                    el,
                                    chs,
@@ -439,7 +629,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                    JaWEManager.getInstance()
                                       .getJaWEController()
                                       .canModifyElement(el),
-                                   !roVar);
+                                   true);
       }
       return super.getPanel(el);
    }
@@ -902,6 +1092,43 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                      .getJaWEController()
                                      .canModifyElement(el));
 
+      } else if (el.getParent() instanceof WfVariable) {
+         WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+         Map chm = XMLUtil.getPossibleVariables(wp);
+         List varIds = new ArrayList();
+         WfVariable var = (WfVariable) el.getParent();
+         List l = ((WfVariables) var.getParent()).toElements();
+         for (int i = 0; i < l.size(); i++) {
+            varIds.add(((WfVariable) l.get(i)).getId());
+         }
+         List choices = SharkUtils.getPossibleVariableChoices(SharkUtils.getPossibleVariableChoices(chm,
+                                                                                                    varIds,
+                                                                                                    el.toValue()),
+                                                              var.getFilter(),
+                                                              2,
+                                                              false);
+
+         boolean editable = var.getParent()
+            .toName()
+            .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES);
+         if (editable) {
+            if (!chm.containsKey(el.toValue())) {
+               choices.add(0, el.toValue());
+            }
+         }
+         return new XMLComboPanel(getPanelContainer(),
+                                  el,
+                                  getPanelContainer().getLanguageDependentString("VariableKey"),
+                                  choices,
+                                  false,
+                                  true,
+                                  false,
+                                  editable,
+                                  true,
+                                  true,
+                                  JaWEManager.getInstance()
+                                     .getJaWEController()
+                                     .canModifyElement(el));
       }
       return super.getPanel(el);
    }
@@ -946,4 +1173,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return l;
    }
 
+   protected List getSMTPExpressionChoices(XMLElement el) {
+      List l = super.getExpressionChoices(el);
+      return l;
+   }
 }

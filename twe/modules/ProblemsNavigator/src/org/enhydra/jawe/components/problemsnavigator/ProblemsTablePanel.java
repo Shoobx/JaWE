@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.problemsnavigator;
 
@@ -78,10 +78,10 @@ public class ProblemsTablePanel extends JPanel {
 
    protected ValidationErrorComparator vec = new ValidationErrorComparator();
 
-   protected String veId="-1";
-      
-   protected boolean scInProgress=false;
-   
+   protected String veId = "-1";
+
+   protected boolean scInProgress = false;
+
    public ProblemsTablePanel(ProblemsNavigator pn) {
       controller = pn;
       setLayout(new BorderLayout());
@@ -116,9 +116,11 @@ public class ProblemsTablePanel extends JPanel {
       try {
          int rc = allItems.getRowCount();
          if (rc > 0) {
+            if (scInProgress)
+               return true;
             for (int i = 0; i < rc; i++) {
                if (verrId.equals(allItems.getValueAt(i, 7))) {
-                  scInProgress=true;
+                  scInProgress = true;
                   allItems.setRowSelectionInterval(i, i);
 
                   // focus the row
@@ -136,18 +138,18 @@ public class ProblemsTablePanel extends JPanel {
                   // Scroll the area into view
                   viewport.scrollRectToVisible(rect);
                   scrollRectToVisible(rect);
-                  veId=verrId;
-//                  System.err.println("SSL veid="+veId);                  
-                  scInProgress=false;
+                  veId = verrId;
+                  // System.err.println("SSL veid="+veId);
+                  scInProgress = false;
                   return true;
                }
             }
          }
       } catch (Exception ex) {
       }
-      scInProgress=true;
+      scInProgress = true;
       allItems.clearSelection();
-      scInProgress=false;      
+      scInProgress = false;
       return false;
    }
 
@@ -164,7 +166,7 @@ public class ProblemsTablePanel extends JPanel {
    }
 
    protected JTable createTable() {
-      JTable t=new JTable(new Vector(), columnNames) {
+      JTable t = new JTable(new Vector(), columnNames) {
          public boolean isCellEditable(int row, int col) {
             return false;
          }
@@ -189,13 +191,13 @@ public class ProblemsTablePanel extends JPanel {
          }
 
       };
-      
-      Color bkgCol=new Color(245,245,245);
+
+      Color bkgCol = new Color(245, 245, 245);
       if (controller.getSettings() instanceof ProblemsNavigatorSettings) {
-         bkgCol=((ProblemsNavigatorSettings)controller.getSettings()).getBackgroundColor();
+         bkgCol = ((ProblemsNavigatorSettings) controller.getSettings()).getBackgroundColor();
       }
       t.setBackground(bkgCol);
-      
+
       return t;
    }
 
@@ -270,25 +272,35 @@ public class ProblemsTablePanel extends JPanel {
             // Ignore extra messages.
             if (e.getValueIsAdjusting())
                return;
-
+            if (scInProgress)
+               return;
             ListSelectionModel ls = (ListSelectionModel) e.getSource();
             if (ls.isSelectionEmpty()) {
-               veId="-1";
-//               System.err.println("LSL1 veid="+veId);               
+               veId = "-1";
+               // System.err.println("LSL1 veid="+veId);
             } else {
                int selectedRow = ls.getMinSelectionIndex();
                int col = allItems.getSelectedColumn();
                XMLElement el = null;
-               ValidationError verr=(ValidationError)allItems.getValueAt(selectedRow, 0);
+               ValidationError verr = (ValidationError) allItems.getValueAt(selectedRow,
+                                                                            0);
                if (col == 4) {
                   el = verr.getElement();
                } else {
                   el = (XMLElement) allItems.getValueAt(selectedRow, 6);
                }
-               veId=getErrorCode(verr);
+               veId = getErrorCode(verr);
 //               System.err.println("LSL veid="+veId);
-               if (!scInProgress) {
-                  JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection(el, true);
+               if (JaWEManager.getInstance()
+                  .getJaWEController()
+                  .getSelectionManager()
+                  .getSelectedElement() != el) {
+                  controller.setUpdateInProgress(true);
+                  JaWEManager.getInstance()
+                     .getJaWEController()
+                     .getSelectionManager()
+                     .setSelection(el, true);
+                  controller.setUpdateInProgress(false);
                }
             }
          }
@@ -321,8 +333,10 @@ public class ProblemsTablePanel extends JPanel {
          public void mouseClicked(MouseEvent me) {
             changeSelection();
             if (me.getClickCount() > 1) {
-               ActionBase a = JaWEManager.getInstance().getJaWEController().getJaWEActions().getAction(
-                     JaWEActions.EDIT_PROPERTIES_ACTION);
+               ActionBase a = JaWEManager.getInstance()
+                  .getJaWEController()
+                  .getJaWEActions()
+                  .getAction(JaWEActions.EDIT_PROPERTIES_ACTION);
                if (a.isEnabled()) {
                   a.actionPerformed(null);
                }
@@ -346,7 +360,9 @@ public class ProblemsTablePanel extends JPanel {
       });
    }
 
-   protected void changeSelection () {
+   protected void changeSelection() {
+      if (scInProgress)
+         return;
       int row = allItems.getSelectedRow();
       int col = allItems.getSelectedColumn();
       XMLElement el = null;
@@ -356,13 +372,21 @@ public class ProblemsTablePanel extends JPanel {
          } else {
             el = (XMLElement) allItems.getValueAt(row, 6);
          }
-         if (!scInProgress) {
-            JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection(el, true);
+         if (JaWEManager.getInstance()
+            .getJaWEController()
+            .getSelectionManager()
+            .getSelectedElement() != el) {
+            controller.setUpdateInProgress(true);
+            JaWEManager.getInstance()
+               .getJaWEController()
+               .getSelectionManager()
+               .setSelection(el, true);
+            controller.setUpdateInProgress(false);
          }
       } catch (Exception ex) {
-      }      
+      }
    }
-   
+
    protected Vector getColumnNames(ProblemsNavigator pn) {
       // creating a table which do not allow cell editing
       Vector cnames = new Vector();
@@ -412,11 +436,12 @@ public class ProblemsTablePanel extends JPanel {
          v.add(((ProblemsNavigatorSettings) controller.getSettings()).getErrorIcon());
       } else {
          v.add(((ProblemsNavigatorSettings) controller.getSettings()).getWarningIcon());
-      }  
+      }
 
-      v.add(controller.getSettings().getLanguageDependentString(verr.getSubType()+"TypeKey"));
+      v.add(controller.getSettings().getLanguageDependentString(verr.getSubType()
+                                                                + "TypeKey"));
       String err = verr.getId();
-      if (err==null) {
+      if (err == null) {
          err = "";
       }
       if (err.length() > 0) {
@@ -426,17 +451,35 @@ public class ProblemsTablePanel extends JPanel {
          }
       }
       if (verr.getDescription().length() > 0) {
-         String desc=verr.getDescription();
+         String desc = verr.getDescription();
          if (verr.getSubType().equals(XMLValidationError.SUB_TYPE_SCHEMA)) {
-            if (desc.indexOf(ParsingErrors.ERROR)==0) {
-               String ld=controller.getSettings().getLanguageDependentString(ParsingErrors.ERROR+"Key")+" "+controller.getSettings().getLanguageDependentString("AtLineNumberKey")+" ";
-               desc=ld+desc.substring(ParsingErrors.ERROR.length()+ParsingErrors.AT_LINE_NO_STRING.length());
-            } else if (desc.indexOf(ParsingErrors.WARNING)==0) {
-               String ld=controller.getSettings().getLanguageDependentString(ParsingErrors.WARNING+"Key")+" "+controller.getSettings().getLanguageDependentString("AtLineNumberKey")+" ";
-               desc=ld+desc.substring(ParsingErrors.WARNING.length()+ParsingErrors.AT_LINE_NO_STRING.length());
-            } else if (desc.indexOf(ParsingErrors.FATAL_ERROR)==0) {
-               String ld=controller.getSettings().getLanguageDependentString(ParsingErrors.FATAL_ERROR+"Key")+" "+controller.getSettings().getLanguageDependentString("AtLineNumberKey")+" ";
-               desc=ld+desc.substring(ParsingErrors.FATAL_ERROR.length()+ParsingErrors.AT_LINE_NO_STRING.length());
+            if (desc.indexOf(ParsingErrors.ERROR) == 0) {
+               String ld = controller.getSettings()
+                  .getLanguageDependentString(ParsingErrors.ERROR + "Key")
+                           + " "
+                           + controller.getSettings()
+                              .getLanguageDependentString("AtLineNumberKey") + " ";
+               desc = ld
+                      + desc.substring(ParsingErrors.ERROR.length()
+                                       + ParsingErrors.AT_LINE_NO_STRING.length());
+            } else if (desc.indexOf(ParsingErrors.WARNING) == 0) {
+               String ld = controller.getSettings()
+                  .getLanguageDependentString(ParsingErrors.WARNING + "Key")
+                           + " "
+                           + controller.getSettings()
+                              .getLanguageDependentString("AtLineNumberKey") + " ";
+               desc = ld
+                      + desc.substring(ParsingErrors.WARNING.length()
+                                       + ParsingErrors.AT_LINE_NO_STRING.length());
+            } else if (desc.indexOf(ParsingErrors.FATAL_ERROR) == 0) {
+               String ld = controller.getSettings()
+                  .getLanguageDependentString(ParsingErrors.FATAL_ERROR + "Key")
+                           + " "
+                           + controller.getSettings()
+                              .getLanguageDependentString("AtLineNumberKey") + " ";
+               desc = ld
+                      + desc.substring(ParsingErrors.FATAL_ERROR.length()
+                                       + ParsingErrors.AT_LINE_NO_STRING.length());
             }
          } else {
             err += ": ";
@@ -444,7 +487,8 @@ public class ProblemsTablePanel extends JPanel {
          err += desc;
       }
       v.add(err);
-      v.add(JaWEManager.getInstance().getLabelGenerator().getLabel(el) + " - "
+      v.add(JaWEManager.getInstance().getLabelGenerator().getLabel(el)
+            + " - "
             + JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(el));
 
       XMLElement location = Utils.getLocation(el);
@@ -453,20 +497,29 @@ public class ProblemsTablePanel extends JPanel {
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       Package pkg = XMLUtil.getPackage(el);
 
-      String loc = controller.getSettings().getLanguageDependentString("PackageKey") + " '" + pkg.getId() + "'";
+      String loc = controller.getSettings().getLanguageDependentString("PackageKey")
+                   + " '" + pkg.getId() + "'";
       if (wp != null) {
-         loc += ", " + controller.getSettings().getLanguageDependentString("WorkflowProcessKey") + " '" + wp.getId()
-               + "'";
+         loc += ", "
+                + controller.getSettings()
+                   .getLanguageDependentString("WorkflowProcessKey") + " '" + wp.getId()
+                + "'";
       }
       if (as != null) {
-         loc += ", " + controller.getSettings().getLanguageDependentString("ActivitySetKey") + " '" + as.getId() + "'";
+         loc += ", "
+                + controller.getSettings().getLanguageDependentString("ActivitySetKey")
+                + " '" + as.getId() + "'";
       }
       if (location != as && location != wp && location != pkg) {
-         loc += ", " + controller.getSettings().getLanguageDependentString(location.toName() + "Key") + " '"
-               + ((XMLComplexElement) location).get("Id").toValue()+"'";
+         loc += ", "
+                + controller.getSettings().getLanguageDependentString(location.toName()
+                                                                      + "Key") + " '"
+                + ((XMLComplexElement) location).get("Id").toValue() + "'";
       }
       if (el != location && el != as && el != wp && el != pkg) {
-         loc += " -> " + controller.getSettings().getLanguageDependentString(el.toName() + "Key");
+         loc += " -> "
+                + controller.getSettings()
+                   .getLanguageDependentString(el.toName() + "Key");
       }
 
       v.add(loc);
@@ -475,10 +528,11 @@ public class ProblemsTablePanel extends JPanel {
       return v;
    }
 
-   protected String getErrorCode (ValidationError verr) {
-      return String.valueOf(verr.getElement().hashCode())+"-"+verr.getType()+"-"+verr.getSubType()+"-"+verr.getId();      
+   protected String getErrorCode(ValidationError verr) {
+      return String.valueOf(verr.getElement().hashCode())
+             + "-" + verr.getType() + "-" + verr.getSubType() + "-" + verr.getId()+"-"+verr.getDescription();
    }
-   
+
    protected JScrollPane createScrollPane() {
       // creates panel
       JScrollPane allItemsPane = new JScrollPane();
@@ -494,7 +548,7 @@ public class ProblemsTablePanel extends JPanel {
       int row = -1;
       for (int i = 0; i < allItems.getRowCount(); i++) {
          XMLElement toCompare = ((ValidationError) allItems.getValueAt(i, 0)).getElement();
-         if (el==toCompare) {
+         if (el == toCompare) {
             row = i;
             break;
          }
@@ -507,20 +561,20 @@ public class ProblemsTablePanel extends JPanel {
       for (int i = dtm.getRowCount() - 1; i >= 0; i--) {
          dtm.removeRow(i);
       }
-      veId="-1";
-//      System.err.println("CLN veid="+veId);
+      veId = "-1";
+      // System.err.println("CLN veid="+veId);
    }
 
    protected void performSorting(int index) {
       DefaultTableModel dtm = (DefaultTableModel) allItems.getModel();
       List l = new ArrayList(dtm.getDataVector());
-      String serr=veId;
+      String serr = veId;
 
       cleanup();
       vec.setIndex(index);
       sortTableContent(l);
       if (!serr.equals("-1")) {
-//         System.err.println("PSRTOLD veid="+serr);
+         // System.err.println("PSRTOLD veid="+serr);
          setSelectedElement(serr);
       }
    }

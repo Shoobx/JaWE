@@ -37,7 +37,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import javax.tools.Tool;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
@@ -55,8 +54,7 @@ import org.enhydra.jawe.base.panel.panels.XMLHighlightPanelWithReferenceLink;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLLocationPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithChoiceButton;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLRadioPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTabbedPanel;
@@ -377,7 +375,7 @@ public class StandardPanelGenerator implements PanelGenerator {
    public XMLPanel getPanel(Description el) {
       return generateStandardMultiLineTextPanel(el,
                                                 true,
-                                                XMLMultiLineTextPanel.SIZE_SMALL,
+                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                 true);
    }
 
@@ -405,17 +403,19 @@ public class StandardPanelGenerator implements PanelGenerator {
             }
          }
       }
-      return new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
-                                                       el,
-                                                       el.toName(),
-                                                       false,
-                                                       true,
-                                                       XMLMultiLineTextPanel.SIZE_SMALL,
-                                                       false,
-                                                       choices,
-                                                       JaWEManager.getInstance()
-                                                          .getJaWEController()
-                                                          .canModifyElement(el));
+      List<List> mc = new ArrayList<List>();
+      mc.add(choices);
+      return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                el,
+                                                                el.toName(),
+                                                                false,
+                                                                true,
+                                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                                false,
+                                                                mc,
+                                                                JaWEManager.getInstance()
+                                                                   .getJaWEController()
+                                                                   .canModifyElement(el));
    }
 
    public XMLPanel getPanel(ExtendedAttribute el) {
@@ -1203,28 +1203,31 @@ public class StandardPanelGenerator implements PanelGenerator {
             .getChoosen() instanceof FormalParameters)
              || (XMLUtil.getWorkflowProcess(holder) != null && (holder instanceof Activity
                                                                 || holder instanceof Transition || holder instanceof WorkflowProcess))) {
-            return new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
-                                                             el,
-                                                             "Value",
-                                                             false,
-                                                             true,
-                                                             XMLMultiLineTextPanel.SIZE_LARGE,
-                                                             false,
-                                                             getExpressionChoices(holder),
-                                                             JaWEManager.getInstance()
-                                                                .getJaWEController()
-                                                                .canModifyElement(el));
+            List<List> mc = new ArrayList<List>();
+            mc.add(getExpressionChoices(holder));
+            return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                      el,
+                                                                      "Value",
+                                                                      false,
+                                                                      true,
+                                                                      XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                      false,
+                                                                      mc,
+                                                                      JaWEManager.getInstance()
+                                                                         .getJaWEController()
+                                                                         .canModifyElement(el));
          } else {
-            return new XMLMultiLineTextPanel(getPanelContainer(),
-                                             el,
-                                             "Value",
-                                             false,
-                                             true,
-                                             XMLMultiLineTextPanel.SIZE_LARGE,
-                                             false,
-                                             JaWEManager.getInstance()
-                                                .getJaWEController()
-                                                .canModifyElement(el));
+            return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                      el,
+                                                                      "Value",
+                                                                      false,
+                                                                      true,
+                                                                      XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                      false,
+                                                                      null,
+                                                                      JaWEManager.getInstance()
+                                                                         .getJaWEController()
+                                                                         .canModifyElement(el));
          }
       }
       if (el.getParent() instanceof BlockActivity) {
@@ -1533,17 +1536,19 @@ public class StandardPanelGenerator implements PanelGenerator {
       return panel;
    }
 
-   protected XMLMultiLineTextPanel generateStandardMultiLineTextPanel(
-
-   XMLElement el, boolean isVertical, int size, boolean wrapLines) {
-      return new XMLMultiLineTextPanel(getPanelContainer(),
-                                       el,
-                                       isVertical,
-                                       size,
-                                       wrapLines,
-                                       JaWEManager.getInstance()
-                                          .getJaWEController()
-                                          .canModifyElement(el));
+   protected XMLMultiLineTextPanelWithOptionalChoiceButtons generateStandardMultiLineTextPanel(XMLElement el,
+                                                                                               boolean isVertical,
+                                                                                               int size,
+                                                                                               boolean wrapLines) {
+      return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                el,
+                                                                isVertical,
+                                                                size,
+                                                                wrapLines,
+                                                                JaWEManager.getInstance()
+                                                                   .getJaWEController()
+                                                                   .canModifyElement(el),
+                                                                null);
    }
 
    protected XMLTextPanel generateStandardTextPanel(XMLElement el, boolean isVertical) {
@@ -1638,31 +1643,35 @@ public class StandardPanelGenerator implements PanelGenerator {
       Set hidden = getHiddenElements("XMLGroupPanel", cel);
       List toShow = new ArrayList(cel.toElements());
       toShow.removeAll(hidden);
-      if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))|| cel instanceof Condition) {
+      if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
+          || cel instanceof Condition) {
          hasTitle = true;
          if (!(cel instanceof InitialValue)) {
+            List<List> mc = new ArrayList<List>();
+            mc.add(getExpressionChoices(cel));
             toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                       cel,
                                                                       "Expression",
                                                                       false,
                                                                       true,
-                                                                      XMLMultiLineTextPanel.SIZE_LARGE,
+                                                                      XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                       false,
-                                                                      getExpressionChoices(cel),
+                                                                      mc,
                                                                       JaWEManager.getInstance()
                                                                          .getJaWEController()
                                                                          .canModifyElement(cel)));
          } else {
-            toShow.add(new XMLMultiLineTextPanel(getPanelContainer(),
-                                                 cel,
-                                                 "Expression",
-                                                 false,
-                                                 true,
-                                                 XMLMultiLineTextPanel.SIZE_LARGE,
-                                                 false,
-                                                 JaWEManager.getInstance()
-                                                    .getJaWEController()
-                                                    .canModifyElement(cel)));
+            toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                          cel,
+                                                                          "Expression",
+                                                                          false,
+                                                                          true,
+                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                          false,
+                                                                          null,
+                                                                          JaWEManager.getInstance()
+                                                                             .getJaWEController()
+                                                                             .canModifyElement(cel)));
          }
       } else if (cel instanceof ExtendedAttribute) {
          XMLElement holder = cel.getParent().getParent();
@@ -1670,41 +1679,45 @@ public class StandardPanelGenerator implements PanelGenerator {
             .getChoosen() instanceof FormalParameters)
              || (XMLUtil.getWorkflowProcess(holder) != null && (holder instanceof Activity
                                                                 || holder instanceof Transition || holder instanceof WorkflowProcess))) {
-            toShow.add(new XMLMultiLineTextPanelWithChoiceButton(getPanelContainer(),
-                                                                 cel,
-                                                                 "ComplexContent",
-                                                                 false,
-                                                                 true,
-                                                                 XMLMultiLineTextPanel.SIZE_LARGE,
-                                                                 false,
-                                                                 getExpressionChoices(holder),
-                                                                 JaWEManager.getInstance()
-                                                                    .getJaWEController()
-                                                                    .canModifyElement(cel)));
+            List<List> mc = new ArrayList<List>();
+            mc.add(getExpressionChoices(holder));
+            toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                          cel,
+                                                                          "ComplexContent",
+                                                                          false,
+                                                                          true,
+                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                          false,
+                                                                          mc,
+                                                                          JaWEManager.getInstance()
+                                                                             .getJaWEController()
+                                                                             .canModifyElement(cel)));
 
          } else {
-            toShow.add(new XMLMultiLineTextPanel(getPanelContainer(),
-                                                 cel,
-                                                 "ComplexContent",
-                                                 false,
-                                                 true,
-                                                 XMLMultiLineTextPanel.SIZE_LARGE,
-                                                 false,
-                                                 JaWEManager.getInstance()
-                                                    .getJaWEController()
-                                                    .canModifyElement(cel)));
+            toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                          cel,
+                                                                          "ComplexContent",
+                                                                          false,
+                                                                          true,
+                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                          false,
+                                                                          null,
+                                                                          JaWEManager.getInstance()
+                                                                             .getJaWEController()
+                                                                             .canModifyElement(cel)));
          }
       } else if (cel instanceof SchemaType) {
-         toShow.add(new XMLMultiLineTextPanel(getPanelContainer(),
-                                              cel,
-                                              "ComplexContent",
-                                              false,
-                                              true,
-                                              XMLMultiLineTextPanel.SIZE_LARGE,
-                                              false,
-                                              JaWEManager.getInstance()
-                                                 .getJaWEController()
-                                                 .canModifyElement(cel)));
+         toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                       cel,
+                                                                       "ComplexContent",
+                                                                       false,
+                                                                       true,
+                                                                       XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                       false,
+                                                                       null,
+                                                                       JaWEManager.getInstance()
+                                                                          .getJaWEController()
+                                                                          .canModifyElement(cel)));
       }
       return new XMLGroupPanel(getPanelContainer(),
                                cel,

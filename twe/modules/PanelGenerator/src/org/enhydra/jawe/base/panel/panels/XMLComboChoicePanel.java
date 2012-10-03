@@ -69,7 +69,7 @@ public class XMLComboChoicePanel extends XMLBasicPanel{
          jsp=new JScrollPane();
          jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
          jsp.setAlignmentY(Component.TOP_ALIGNMENT);
-         jsp.setMinimumSize(new Dimension(250,200));
+         jsp.setMinimumSize(new Dimension(400,200));
          
          add(jsp);
 

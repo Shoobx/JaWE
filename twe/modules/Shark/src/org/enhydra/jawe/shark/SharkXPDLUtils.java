@@ -29,6 +29,7 @@ import java.util.Set;
 import org.enhydra.jawe.JaWEEAHandler;
 import org.enhydra.jawe.XPDLUtils;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
+import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
@@ -157,6 +158,27 @@ public class SharkXPDLUtils extends XPDLUtils {
                   if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {
                      references.add(ea.get("Value"));
                   }
+               } else if (ea.getName()
+                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                          || ea.getName()
+                             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                          || ea.getName()
+                             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)) {
+                  WfVariables vars = new WfVariables(act, ea.getName(), null, ",", false);
+                  vars.createStructure(ea.getVValue());
+                  if (vars.getCollectionElement(dfOrFpId) != null) {
+                     references.add(ea.get("Value"));
+                  }
+               } else if (ea.getName()
+                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                          || ea.getName()
+                             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+                  if (XMLUtil.getUsingPositions(ea.getVValue(),
+                                                "{process_variable:" + dfOrFpId + "}",
+                                                allVars,
+                                                false).size() > 0) {
+                     references.add(ea.get("Value"));
+                  }
                }
             }
          }
@@ -221,7 +243,15 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.EA_MAX_ASSIGNMENTS)
                  || eaName.equals(SharkConstants.EA_WORKLOAD_FACTOR)
                  || eaName.equals(SharkConstants.VTP_UPDATE)
-                 || eaName.equals(SharkConstants.VTP_VIEW) || eaName.equals(SharkConstants.EA_XFORMS_FILE))) {
+                 || eaName.equals(SharkConstants.VTP_VIEW)
+                 || eaName.equals(SharkConstants.EA_XFORMS_FILE)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE) || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT))) {
             continue;
          }
          if (pp instanceof Transition
@@ -240,4 +270,47 @@ public class SharkXPDLUtils extends XPDLUtils {
 
    }
 
+   public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlConds,
+                                        String oldDfOrFpId,
+                                        String newDfOrFpId) {
+      Iterator it = refAPsOrPerfsOrCondsOrDlConds.iterator();
+      while (it.hasNext()) {
+         XMLElement easmtpv = (XMLElement) it.next();
+         if (easmtpv instanceof XMLAttribute) {
+            XMLAttribute a = (XMLAttribute) easmtpv;
+            if (a.toName().equals("Value")) {
+               if (a.getParent() instanceof ExtendedAttribute) {
+                  if (((ExtendedAttribute) a.getParent()).getName()
+                     .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                      || ((ExtendedAttribute) a.getParent()).getName()
+                         .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+                     String expr = easmtpv.toValue();
+                     String searchValue = "{process_variable:" + oldDfOrFpId + "}";
+                     String replaceValue = "{process_variable:" + newDfOrFpId + "}";
+                     int varLengthDiff = replaceValue.length() - searchValue.length();
+
+                     List positions = XMLUtil.getUsingPositions(expr,
+                                                                searchValue,
+                                                                XMLUtil.getWorkflowProcess(easmtpv)
+                                                                   .getAllVariables(),
+                                                                false);
+                     for (int i = 0; i < positions.size(); i++) {
+                        int pos = ((Integer) positions.get(i)).intValue();
+                        int realPos = pos + varLengthDiff * i;
+                        String pref = expr.substring(0, realPos);
+                        String suff = expr.substring(realPos + searchValue.length());
+                        expr = pref + replaceValue + suff;
+                        // System.out.println("Pref="+pref+", suff="+suff+", expr="+expr);
+                     }
+                     easmtpv.setValue(expr);
+                     it.remove();
+                  }
+               }
+            }
+         }
+      }
+      super.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds,
+                                     oldDfOrFpId,
+                                     newDfOrFpId);
+   }
 }

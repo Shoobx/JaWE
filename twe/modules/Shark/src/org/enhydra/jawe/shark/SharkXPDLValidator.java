@@ -19,6 +19,7 @@
 package org.enhydra.jawe.shark;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -85,21 +86,68 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             existingErrors.add(verr);
          }
       }
-      if (el.toName().equals("Name")
-          && parent instanceof ExtendedAttribute
+      if (parent instanceof ExtendedAttribute
           && parent.getParent().getParent() instanceof Activity) {
-         if (el.toValue().equals(SharkConstants.VTP_UPDATE)
-             || el.toValue().equals(SharkConstants.VTP_VIEW)) {
-            ExtendedAttribute ea = (ExtendedAttribute) parent;
-            WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
-            Map m = wp.getAllVariables();
-            if (m.get(ea.getVValue()) == null) {
-               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                                XMLValidationError.SUB_TYPE_LOGIC,
-                                                                XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
-                                                                ea.getVValue(),
-                                                                ea.get("Value"));
-               existingErrors.add(verr);
+         if (el.toName().equals("Name")) {
+            if (el.toValue().equals(SharkConstants.VTP_UPDATE)
+                || el.toValue().equals(SharkConstants.VTP_VIEW)
+                || el.toValue()
+                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                || el.toValue()
+                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                || el.toValue()
+                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
+                || el.toValue()
+                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                || el.toValue()
+                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+               ExtendedAttribute ea = (ExtendedAttribute) parent;
+               WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
+               Map m = wp.getAllVariables();
+               String val = ea.getVValue();
+               List vals = new ArrayList();
+               if (ea.getName()
+                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                   || ea.getName()
+                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                   || ea.getName()
+                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)) {
+                  WfVariables vars = new WfVariables(parent.getParent().getParent(),
+                                                     ea.getName(),
+                                                     null,
+                                                     ",",
+                                                     false);
+                  vars.createStructure(ea.getVValue());
+                  List els = vars.toElements();
+                  for (int i = 0; i < els.size(); i++) {
+                     WfVariable v = (WfVariable) els.get(i);
+                     vals.add(v.getId());
+                  }
+               } else if (ea.getName()
+                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                          || ea.getName()
+                             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+                  vals = SharkUtils.getPossibleVariablesWithinMailSubjectOrContent(ea.getVValue());
+               } else {
+                  vals.add(ea.getVValue());
+               }
+               for (int i = 0; i < vals.size(); i++) {
+                  String v = (String) vals.get(i);
+                  if (m.get(v) == null
+                      && !(ea.getName()
+                         .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                           && v.startsWith("\"") && v.startsWith("\""))) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
+                                                                      v,
+                                                                      ea.get("Value"));
+                     existingErrors.add(verr);
+                     if (!fullCheck) {
+                        return;
+                     }
+                  }
+               }
             }
          }
       }
@@ -189,10 +237,10 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                           XPDLValidationErrorIds.ERROR_UNALLOWED_LENGTH,
                                                           el.toName(),
                                                           el);
-         existingErrors.add(verr);         
-      }      
+         existingErrors.add(verr);
+      }
    }
-   
+
    public void validateElement(ExpressionType el, List existingErrors, boolean fullCheck) {
       if (!el.getScriptType().equals("")) {
          validateScript(el, existingErrors, fullCheck);
@@ -222,7 +270,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (fullCheck || existingErrors.size() == 0) {
          // check performer
          Activity act = XMLUtil.getActivity(el);
-         if (act!=null && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO) {
+         if (act != null && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO) {
             String performer = el.toValue();
             Participant p = null;
             WorkflowProcess wp = XMLUtil.getWorkflowProcess(act);
@@ -306,19 +354,18 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          return false;
       }
       if (el instanceof XMLAttribute
-            && el.toName().equals("Id")
-            && el.toValue().length() > 100
-            && (el.getParent() instanceof DataField
-                || el.getParent() instanceof FormalParameter)) {
-           return false;
-        }
+          && el.toName().equals("Id")
+          && el.toValue().length() > 100
+          && (el.getParent() instanceof DataField || el.getParent() instanceof FormalParameter)) {
+         return false;
+      }
 
-      if (el instanceof ExceptionName && el.toValue().length()>100) {
+      if (el instanceof ExceptionName && el.toValue().length() > 100) {
          return false;
       }
       return super.isElementLengthOK(el);
    }
-   
+
    protected boolean isRemoteSubflowIdOK(String subflowID) {
       try {
          new URL(subflowID);

@@ -66,7 +66,7 @@ public class XMLTextPanel extends XMLBasicPanel {
       super(pc,myOwnerL,"",isVertical,false,true);
 
       boolean rightAllignment=false;
-      Dimension textDim=new Dimension(250, 20);
+      Dimension textDim=new Dimension(400, 20);
       
       Color bkgCol=new Color(245,245,245);
       

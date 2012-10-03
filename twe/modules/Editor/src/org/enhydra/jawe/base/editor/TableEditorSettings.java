@@ -62,7 +62,7 @@ public class TableEditorSettings extends PanelSettings {
       componentSettings.put("EmptyBorder.RIGHT", new Integer(properties.getProperty("XMLBasicPanel.EmptyBorder.RIGHT",
             "3")));
       componentSettings.put("SimplePanelTextWidth", new Integer(properties.getProperty(
-            "XMLBasicPanel.SimplePanelTextWidth", "250")));
+            "XMLBasicPanel.SimplePanelTextWidth", "400")));
       componentSettings.put("SimplePanelTextHeight", new Integer(properties.getProperty(
             "XMLBasicPanel.SimplePanelTextHeight", "20")));
 

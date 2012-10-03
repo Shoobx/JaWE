@@ -77,7 +77,7 @@ public class XMLListPanel extends XMLBasicPanel implements
                                                FocusListener,
                                                ChoiceButtonListener {
 
-   protected static Dimension minimalDimension = new Dimension(250, 60);
+   protected static Dimension minimalDimension = new Dimension(450, 60);
 
    protected static Dimension listDimension = new Dimension(450, 150);
 

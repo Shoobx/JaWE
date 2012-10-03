@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.ldap;
 
@@ -43,7 +43,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanel;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 
@@ -117,7 +117,7 @@ public class LDAPEntryInfoEditor extends JDialog {
       setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
       setResizable(true);
       Utils.center(this, 100, 100);
-//      setLocationRelativeTo(JaWEManager.getInstance().getJaWEController().getJaWEFrame());
+      // setLocationRelativeTo(JaWEManager.getInstance().getJaWEController().getJaWEFrame());
       buttonOK.setDefaultCapable(true);
       getRootPane().setDefaultButton(buttonOK);
       pack();
@@ -140,24 +140,29 @@ public class LDAPEntryInfoEditor extends JDialog {
       List lst = new ArrayList();
       lst.add(new XMLTextPanel(null, di.get("Id"), false, false, false));
       lst.add(new XMLTextPanel(null, di.get("Name"), false, false, false));
-      lst.add(new XMLMultiLineTextPanel(null,
-                                        di.get("Description"),
-                                        true,
-                                        XMLMultiLineTextPanel.SIZE_MEDIUM,
-                                        true,
-                                        false));
-      lst.add(new XMLMultiLineTextPanel(null, di.get("DN"), true,
-                                        XMLMultiLineTextPanel.SIZE_SMALL,
-                                        true,
-                                        false));
-      lst.add(new XMLMultiLineTextPanel(null,
-                                        di.get("Details"),
-                                        true,
-                                        XMLMultiLineTextPanel.SIZE_LARGE,
-                                        true,
-                                        true)  {
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
+                                                                 di.get("Description"),
+                                                                 true,
+                                                                 XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
+                                                                 true,
+                                                                 false,
+                                                                 null));
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
+                                                                 di.get("DN"),
+                                                                 true,
+                                                                 XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                                 true,
+                                                                 false,
+                                                                 null));
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
+                                                                 di.get("Details"),
+                                                                 true,
+                                                                 XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                 true,
+                                                                 true,
+                                                                 null) {
          public void setValue(String v) {
-         }         
+         }
       });
       XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true);
       return gp;

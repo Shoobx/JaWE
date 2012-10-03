@@ -201,9 +201,15 @@ public class JaWEController extends Observable implements
    /** Application title. */
    protected String appTitle;
 
+   /** Design time validation flag */
+   protected boolean isDesignTimeValidation = true;
+
    public JaWEController(ControllerSettings settings) {
       this.settings = settings;
       this.settings.init(this);
+      
+      this.isDesignTimeValidation = this.settings.isDesingTimeValidationEnabled();
+      
       // application title
       appTitle = getSettings().getLanguageDependentString("DialogTitle");
 
@@ -325,7 +331,7 @@ public class JaWEController extends Observable implements
       adjustActions();
       updateInProgress = false;
 
-      if (settings.isDesingTimeValidationEnabled()) {
+      if (isDesignTimeValidation()) {
          if (getMainPackage() != null
              && (action == XMLElementChangeInfo.INSERTED
                  || action == XMLElementChangeInfo.REMOVED
@@ -1229,7 +1235,7 @@ public class JaWEController extends Observable implements
          getSelectionManager().setSelection(eps, true);
 
          if (pkgsToRemove.size() > 0) {
-            if (settings.isDesingTimeValidationEnabled()) {
+            if (isDesignTimeValidation()) {
                it = pkgsToRemove.iterator();
                while (it.hasNext()) {
                   Package pkg = (Package) it.next();
@@ -1994,7 +2000,7 @@ public class JaWEController extends Observable implements
       // System.err.println("Elements to select after undoable change are
       // "+elementsToSelect);
       selectionMng.setSelection(elementsToSelect, true);
-      if (settings.isDesingTimeValidationEnabled()) {
+      if (isDesignTimeValidation()) {
          checkValidity(mainPkg, true, false, true);
       }
    }
@@ -2427,7 +2433,7 @@ public class JaWEController extends Observable implements
    public void undo() {
       if (undoHistoryManager != null) {
          undoHistoryManager.undo();
-         if (settings.isDesingTimeValidationEnabled()) {
+         if (isDesignTimeValidation()) {
             checkValidity(getMainPackage(), true, false, true);
          }
          getSettings().adjustActions();
@@ -2437,7 +2443,7 @@ public class JaWEController extends Observable implements
    public void redo() {
       if (undoHistoryManager != null) {
          undoHistoryManager.redo();
-         if (settings.isDesingTimeValidationEnabled()) {
+         if (isDesignTimeValidation()) {
             checkValidity(getMainPackage(), true, false, true);
          }
          getSettings().adjustActions();
@@ -2745,4 +2751,13 @@ public class JaWEController extends Observable implements
       return appTitle;
    }
 
+   /** Sets design time validation flag */
+   public void setDesignTimeValidation(boolean doDTV) {
+      isDesignTimeValidation = doDTV;
+   }
+
+   /** Returns true if validation will be performed automatically as you design XPDL */
+   public boolean isDesignTimeValidation() {
+      return isDesignTimeValidation;
+   }
 }

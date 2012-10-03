@@ -61,7 +61,7 @@ import org.jedit.syntax.XMLTokenMarker;
 * Creates panel with JLabel and JEditTextArea.
 * @author Sinisa Tutus
 */
-public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel {
+public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel implements XMLAppendChoiceInterface {
 
    public static int SIZE_SMALL=0;
    public static int SIZE_MEDIUM=1;
@@ -71,7 +71,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel {
    public static Dimension textAreaDimensionSmall=new Dimension(200,60);
    public static Dimension textAreaDimensionMedium=new Dimension(300,90);
    public static Dimension textAreaDimensionLarge=new Dimension(400,120);
-   public static Dimension textAreaDimensionExtraLarge=new Dimension(400,300);
+   public static Dimension textAreaDimensionExtraLarge=new Dimension(600,400);
 
    protected JEditTextArea jta;
    protected JLabel jl;
@@ -88,20 +88,9 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel {
 	         boolean isVertical,
 	         int type,
 	         boolean wrapLines,
-	         List choices,
+	         List<List> choices,
 	         boolean isEnabled){
 	   this(pc,myOwner, labelKey, isFalseRequired, isVertical, type, wrapLines,choices, isEnabled, null);
-   }
-   
-   public XMLMultiLineHighlightPanelWithChoiceButton (
-         PanelContainer pc,
-         XMLElement myOwner,
-         boolean isVertical,
-         int type,
-         boolean wrapLines,
-         boolean isEnabled,
-         List choices) {
-	   this(pc,myOwner, myOwner.toName(), myOwner.isRequired(), isVertical, type, wrapLines,choices, isEnabled, null);
    }
    
    public XMLMultiLineHighlightPanelWithChoiceButton (
@@ -112,7 +101,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel {
          boolean isVertical,
          int type,
          boolean wrapLines,
-         List choices,
+         List<List> choices,
          boolean isEnabled,
          String initText) {
    
@@ -217,28 +206,38 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel {
       });
       
       JScrollPane jsp=new JScrollPane(jta);
-      if (choices!=null) {
-         XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this, choices, ((PanelSettings)pc.getSettings()).getInsertVariableDefaultIcon(), 
-               ((PanelSettings)pc.getSettings()).getInsertVariablePressedIcon());
-         optBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
-         optBtn.setAlignmentY(Component.TOP_ALIGNMENT);
-         optBtn.setEnabled(isEnabled && choices.size()>0);
-         optBtn.setContentAreaFilled(false);
-         
-         jspAndOpt.add(jsp);
-         jspAndOpt.add(optBtn);
+      jspAndOpt.add(jsp);
+      if (choices != null) {
+         for (List list : choices) {
+            XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
+                                                                           list,
+                                                                           ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
+                                                                           ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon());
+            // Dimension di=new Dimension(18,18);
+            // optBtn.setMinimumSize(new Dimension(di));
+            // optBtn.setMaximumSize(new Dimension(di));
+            // optBtn.setPreferredSize(new Dimension(di));
+            // optBtn.setBorderPainted(false);
+            optBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+            optBtn.setAlignmentY(Component.TOP_ALIGNMENT);
+            optBtn.setEnabled(isEnabled && list.size() > 0);
+            optBtn.setContentAreaFilled(false);
+
+            jspAndOpt.add(optBtn);
+
+         }
       }
-      
+
       jsp.setViewportView(jta);
       jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
       jsp.setAlignmentY(Component.TOP_ALIGNMENT);
       
       Dimension dim=new Dimension(textAreaDimensionMedium);
-      if (type==XMLMultiLineTextPanelWithChoiceButton.SIZE_SMALL) {
+      if (type==XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL) {
          dim=new Dimension(textAreaDimensionSmall);
-      } else if (type==XMLMultiLineTextPanelWithChoiceButton.SIZE_MEDIUM){
+      } else if (type==XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM){
          dim=new Dimension(textAreaDimensionMedium);
-      } else if (type==XMLMultiLineTextPanelWithChoiceButton.SIZE_LARGE){
+      } else if (type==XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE){
          dim=new Dimension(textAreaDimensionLarge);
       } else {
          dim=new Dimension(textAreaDimensionExtraLarge);

@@ -68,7 +68,7 @@ import org.enhydra.jxpdl.XMLUtil;
  */
 public class XMLBasicListPanel extends XMLBasicPanel implements XMLElementChangeListener {
 
-   protected static Dimension minimalDimension = new Dimension(250, 60);
+   protected static Dimension minimalDimension = new Dimension(450, 60);
 
    protected static Dimension listDimension = new Dimension(450, 150);
 

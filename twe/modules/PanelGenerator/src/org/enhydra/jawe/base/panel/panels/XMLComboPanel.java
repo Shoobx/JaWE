@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -34,8 +34,11 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.SwingConstants;
 
 import org.enhydra.jawe.ResourceManager;
@@ -60,7 +63,7 @@ import org.enhydra.jxpdl.XMLUtil;
  */
 public class XMLComboPanel extends XMLBasicPanel {
 
-   Dimension textDim = new Dimension(250, 20);
+   Dimension textDim = new Dimension(400, 20);
 
    protected JComboBox jcb;
 
@@ -212,13 +215,13 @@ public class XMLComboPanel extends XMLBasicPanel {
          cv = new Vector(chs);
       }
       jcb = new JComboBox(cv);
-
+      jcb.setRenderer(new TooltipComboRenderer());
       // jcb.setMinimumSize(new Dimension(400,50));
       if (chsn != null) {
          jcb.setSelectedItem(chsn);
       }
       if (adjustDimension) {
-         toSet = getComboDimension(chs);
+         toSet = getComboDimension(chs, true);
       }
       jcb.setEditable(isEditable);
 
@@ -367,9 +370,9 @@ public class XMLComboPanel extends XMLBasicPanel {
    public void cleanup() {
    }
 
-   public Dimension getComboDimension(List choices) {
+   public Dimension getComboDimension(List choices, boolean useDefaultDimension) {
       double w = 0;
-      if (choices != null) {
+      if (!useDefaultDimension && choices != null) {
          double longest = 0;
          for (int i = 0; i < choices.size(); i++) {
             try {
@@ -385,7 +388,6 @@ public class XMLComboPanel extends XMLBasicPanel {
       if (w < textDim.width)
          w = textDim.width;
       return new Dimension((int) w, textDim.height);
-
    }
 
    public static Vector sortComboEntries(List ces) {

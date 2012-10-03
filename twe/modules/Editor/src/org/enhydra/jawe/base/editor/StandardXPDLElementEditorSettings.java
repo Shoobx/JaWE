@@ -84,13 +84,13 @@ public class StandardXPDLElementEditorSettings extends PanelSettings {
                                                                "3")));
       componentSettings.put("SimplePanelTextWidth",
                             new Integer(properties.getProperty("XMLBasicPanel.SimplePanelTextWidth",
-                                                               "250")));
+                                                               "400")));
       componentSettings.put("SimplePanelTextHeight",
                             new Integer(properties.getProperty("XMLBasicPanel.SimplePanelTextHeight",
                                                                "20")));
       componentSettings.put("XMLDataTypesPanel.Dimension.WIDTH",
                             new Integer(properties.getProperty("XMLDataTypesPanel.Dimension.WIDTH",
-                                                               "400")));
+                                                               "500")));
       componentSettings.put("XMLDataTypesPanel.Dimension.HEIGHT",
                             new Integer(properties.getProperty("XMLDataTypesPanel.Dimension.HEIGHT",
                                                                "125")));
@@ -275,8 +275,10 @@ public class StandardXPDLElementEditorSettings extends PanelSettings {
       componentSettings.put("ShowColumns.XMLTablePanel.Namespaces", "Name location");
       componentSettings.put("ShowColumns.XMLTablePanel.Participants",
                             "Id Name ParticipantType");
-      componentSettings.put("ShowColumns.XMLTablePanel.Pools", "Id Name Orientation Process Lanes");
-      componentSettings.put("ShowColumns.XMLTablePanel.Lanes", "Id Name Performers NestedLanes");
+      componentSettings.put("ShowColumns.XMLTablePanel.Pools",
+                            "Id Name Orientation Process Lanes");
+      componentSettings.put("ShowColumns.XMLTablePanel.Lanes",
+                            "Id Name Performers NestedLanes");
       componentSettings.put("ShowColumns.XMLTablePanel.Transitions",
                             "Id From To Condition");
       componentSettings.put("ShowColumns.XMLTablePanel.TypeDeclarations",
