@@ -81,6 +81,7 @@ public class XMLChoiceButtonWithPopup extends JButton implements
       setRolloverEnabled(true);
       fillChoices(choices);
       popup.addPopupMenuListener(this);
+      largePopup.addPopupMenuListener(this);
    }
 
    public void actionPerformed(ActionEvent ae) {
