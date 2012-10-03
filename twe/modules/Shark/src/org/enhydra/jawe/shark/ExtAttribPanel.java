@@ -159,9 +159,9 @@ public class ExtAttribPanel extends XMLBasicPanel {
       jchkb.setEnabled(isEnabled);
 
       final XMLPanel p = this;
-      jchkb.addChangeListener(new ChangeListener() {
+      jchkb.addItemListener(new ItemListener() {
 
-         public void stateChanged(ChangeEvent e) {
+         public void itemStateChanged(ItemEvent e) {
             if (getPanelContainer() == null)
                return;
             getPanelContainer().panelChanged(p, e);
