@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.xpdlvalidator.TogWEXPDLValidator;
 import org.enhydra.jxpdl.StandardPackageValidator;
 import org.enhydra.jxpdl.XMLAttribute;
@@ -453,8 +452,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       Map map = getActualParameterOrConditionChoices(el);
 
       Map parts = XMLUtil.getPossibleParticipants(XMLUtil.getWorkflowProcess(el),
-                                                  JaWEManager.getInstance()
-                                                     .getXPDLHandler());
+                                                  xmlInterface);
       Iterator it = parts.entrySet().iterator();
       while (it.hasNext()) {
          Map.Entry me = (Map.Entry) it.next();
