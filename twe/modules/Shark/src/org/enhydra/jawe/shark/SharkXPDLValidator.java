@@ -46,6 +46,7 @@ import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.ListType;
+import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.RecordType;
@@ -137,9 +138,12 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                       && !(ea.getName()
                          .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
                            && v.startsWith("\"") && v.startsWith("\""))) {
-                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                     boolean allowUndefinedVariables = allowsUndefinedVariables(wp);
+                     XMLValidationError verr = new XMLValidationError(allowUndefinedVariables ? XMLValidationError.TYPE_WARNING
+                                                                                             : XMLValidationError.TYPE_ERROR,
                                                                       XMLValidationError.SUB_TYPE_LOGIC,
-                                                                      XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
+                                                                      allowUndefinedVariables ? SharkValidationErrorIds.WARNING_NON_EXISTING_VARIABLE_REFERENCE
+                                                                                             : XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
                                                                       v,
                                                                       ea.get("Value"));
                      existingErrors.add(verr);
@@ -464,6 +468,30 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       }
 
       return map;
+   }
+
+   protected boolean allowsUndefinedVariables(XMLElement el) {
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+      Package pkg = XMLUtil.getPackage(el);
+
+      ExtendedAttribute ea = null;
+      Boolean allow = new Boolean(false);
+      if (wp != null) {
+         ea = wp.getExtendedAttributes()
+            .getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
+         if (ea != null) {
+            allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
+         }
+      }
+      if (ea == null && pkg != null) {
+         ea = XMLUtil.getPackage(wp)
+            .getExtendedAttributes()
+            .getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
+         if (ea != null) {
+            allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
+         }
+      }
+      return allow.booleanValue();
    }
 
 }

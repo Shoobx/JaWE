@@ -1,5 +1,10 @@
 ###### TWE 4.8-1 RELEASED ######
-2012-10-02 Sasa Bojanic <sasaboy@together.at>
+2012-10-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved validation. Now when validating special extended attributes (for client GUI forms and for SMTPEventAuditManager), 
+     "NON_EXISTING_VARIABLE_REFERENCE" ERRORS are considered WARNINGS if there is an extended attribute at WorkflowProcess/Package level that 
+     allows undefined variables (Formal/Actual parameter matching validation still considers such cases an ERROR cases)
+
+2012-10-03 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Email configuration section for each manual activity (used with SMTPEventAuditManager). Nice GUI and XPDL validation.
    # Added new actions to start and stop design time XPDL validation (useful to stop it when dealing with big XPDLs)
    # Enhanced XMLMultiLineTextPanelWithChoiceButton and XMLMultiLineHighlightPanelWithChoiceButton GUI controls

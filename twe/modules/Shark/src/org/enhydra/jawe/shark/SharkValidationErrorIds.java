@@ -35,4 +35,6 @@ public final class SharkValidationErrorIds {
 
    public static final String WARNING_TOOL_AGENT_CLASS_NOT_DEFINED = "WARNING_TOOL_AGENT_CLASS_NOT_DEFINED";
 
+   public static final String WARNING_NON_EXISTING_VARIABLE_REFERENCE = "WARNING_NON_EXISTING_VARIABLE_REFERENCE";
+
 }
