@@ -20,9 +20,13 @@ package org.enhydra.jawe.shark;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import org.enhydra.jawe.JaWEConstants;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
@@ -40,6 +44,28 @@ import org.enhydra.jxpdl.elements.TypeDeclaration;
  * @author Sasa Bojanic
  */
 public class SharkUtils {
+
+   public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
+
+   public static List appDefChoices = null;
+
+   public static List getAppDefChoices() {
+      if (appDefChoices == null) {
+         appDefChoices = new ArrayList();
+         try {
+            Properties props = new Properties();
+            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+            Utils.manageProperties(props, cch, APP_DEF_CHOICES_FILE);
+            Iterator it = props.keySet().iterator();
+            while (it.hasNext()) {
+               String chk = (String)it.next();
+               appDefChoices.add(chk.substring(0, chk.length()-3));
+            }
+         } catch (Exception ex) {
+         }
+      }
+      return appDefChoices;
+   }
 
    public static List getPossibleVariableChoices(Map vars, List varIds, String curId) {
       List l = new ArrayList(vars.values());
@@ -134,7 +160,7 @@ public class SharkUtils {
       String prefix = "{process_variable:";
       String postfix = "}";
       List ups = XMLUtil.getUsingPositions(subjOrCont, prefix, new HashMap(), false);
-//      System.out.println("UPS for "+subjOrCont+" is "+ups);
+      // System.out.println("UPS for "+subjOrCont+" is "+ups);
       for (int i = 0; i < ups.size(); i++) {
          int posprefix = ((Integer) ups.get(i)).intValue();
          int pospostfix = subjOrCont.indexOf(postfix, posprefix);

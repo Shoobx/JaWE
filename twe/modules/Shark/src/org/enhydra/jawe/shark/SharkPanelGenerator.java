@@ -64,11 +64,7 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
  */
 public class SharkPanelGenerator extends StandardPanelGenerator {
 
-   public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
-
    public static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
-
-   protected Properties appDefChoices = new Properties();
 
    protected List commonInfoChoices = new ArrayList();
 
@@ -76,11 +72,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public SharkPanelGenerator() throws Exception {
       super();
-      try {
-         String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
-         Utils.manageProperties(appDefChoices, cch, APP_DEF_CHOICES_FILE);
-      } catch (Exception ex) {
-      }
       try {
          Properties csc = new Properties();
          String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
@@ -397,7 +388,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (ea != null) {
          XMLElement eav = ea.get("Value");
 
-         List choices = new ArrayList(appDefChoices.keySet());
+         List choices = SharkUtils.getAppDefChoices();
          String choosen = eav.toValue();
          if (!choices.contains(choosen)) {
             choices.add(0, choosen);
@@ -612,15 +603,15 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (el.getParent().getParent() instanceof Activity
           && (el.getName().equals(SharkConstants.VTP_UPDATE) || el.getName()
              .equals(SharkConstants.VTP_VIEW))) {
-//         boolean roVar = false;
-//         String vVal = el.getVValue();
+         // boolean roVar = false;
+         // String vVal = el.getVValue();
          Map vars = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
          List chs = null;
-//         if (vars.containsKey(vVal)) {
-//            roVar = true;
-//         } else {
-            chs = getPossibleVariableChoices(vars, (ExtendedAttributes) el.getParent());
-//         }
+         // if (vars.containsKey(vVal)) {
+         // roVar = true;
+         // } else {
+         chs = getPossibleVariableChoices(vars, (ExtendedAttributes) el.getParent());
+         // }
          return new ExtAttribPanel(getPanelContainer(),
                                    el,
                                    chs,
