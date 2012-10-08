@@ -16,6 +16,13 @@
     along with this program. If not, see http://www.gnu.org/licenses
 -->
 <Application Id="xpil" Name="XPIL">
+   <FormalParameters>
+      <FormalParameter Id="XPIL" IsArray="false" Mode="IN">
+         <DataType>
+            <SchemaType/>
+         </DataType>
+      </FormalParameter>
+   </FormalParameters>
    <ExtendedAttributes>
         <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.XPILToolAgent"/>
     </ExtendedAttributes>

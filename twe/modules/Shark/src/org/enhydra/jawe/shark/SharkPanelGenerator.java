@@ -429,9 +429,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          } else if ("org.enhydra.shark.toolagent.XPathToolAgent".equals(choosen)) {
             groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPathToolAgent")));
          } else if ("org.enhydra.shark.toolagent.XPILToolAgent".equals(choosen)) {
-            if (canBeRemoved != null) {
-               groupsToShow.remove(canBeRemoved);
-            }
             groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPILToolAgent")));
          } else if ("org.enhydra.shark.toolagent.XSLTToolAgent".equals(choosen)) {
             groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el, "XSLTToolAgent")));
