@@ -1,4 +1,7 @@
 ###### TWE 4.8-1 RELEASED ######
+2012-10-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved GUI for Application definitions
+
 2012-10-04 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Improved validation. Now when validating special extended attributes (for client GUI forms and for SMTPEventAuditManager), 
      "NON_EXISTING_VARIABLE_REFERENCE" ERRORS are considered WARNINGS if there is an extended attribute at WorkflowProcess/Package level that 

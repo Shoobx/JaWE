@@ -375,7 +375,7 @@ public class StandardPanelGenerator implements PanelGenerator {
    public XMLPanel getPanel(Description el) {
       return generateStandardMultiLineTextPanel(el,
                                                 true,
-                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
                                                 true);
    }
 
@@ -1640,12 +1640,28 @@ public class StandardPanelGenerator implements PanelGenerator {
    protected XMLGroupPanel generateStandardGroupPanel(XMLComplexElement cel,
                                                       boolean hasTitle,
                                                       boolean hasEmptyBorder) {
+      List toShow = getStandardGroupPanelComponents(cel);
+      if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
+            || cel instanceof Condition) {
+           hasTitle = true;
+      }
+      return new XMLGroupPanel(getPanelContainer(),
+                               cel,
+                               toShow,
+                               JaWEManager.getInstance()
+                                  .getLabelGenerator()
+                                  .getLabel(cel),
+                               true,
+                               hasTitle,
+                               hasEmptyBorder);
+   }
+
+   protected List getStandardGroupPanelComponents (XMLComplexElement cel) {
       Set hidden = getHiddenElements("XMLGroupPanel", cel);
       List toShow = new ArrayList(cel.toElements());
       toShow.removeAll(hidden);
       if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
           || cel instanceof Condition) {
-         hasTitle = true;
          if (!(cel instanceof InitialValue)) {
             List<List> mc = new ArrayList<List>();
             mc.add(getExpressionChoices(cel));
@@ -1719,17 +1735,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           .getJaWEController()
                                                                           .canModifyElement(cel)));
       }
-      return new XMLGroupPanel(getPanelContainer(),
-                               cel,
-                               toShow,
-                               JaWEManager.getInstance()
-                                  .getLabelGenerator()
-                                  .getLabel(cel),
-                               true,
-                               hasTitle,
-                               hasEmptyBorder);
+      return toShow;
    }
-
+   
    protected XMLPanel getDataFieldOrFormalParameterPanel(XMLCollectionElement el) {
       Set hidden = getHiddenElements("XMLGroupPanel", el);
       List subpanels = new ArrayList();

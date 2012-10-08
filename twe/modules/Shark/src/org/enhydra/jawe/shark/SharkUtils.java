@@ -28,11 +28,14 @@ import java.util.Properties;
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DeclaredType;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.ExternalReference;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.SchemaType;
@@ -58,8 +61,8 @@ public class SharkUtils {
             Utils.manageProperties(props, cch, APP_DEF_CHOICES_FILE);
             Iterator it = props.keySet().iterator();
             while (it.hasNext()) {
-               String chk = (String)it.next();
-               appDefChoices.add(chk.substring(0, chk.length()-3));
+               String chk = (String) it.next();
+               appDefChoices.add(chk.substring(0, chk.length() - 3));
             }
          } catch (Exception ex) {
          }
@@ -171,4 +174,42 @@ public class SharkUtils {
       }
       return ret;
    }
+
+   public static void updateSingleExtendedAttribute(XMLComplexElement parent,
+                                                    ExtendedAttributes eas,
+                                                    String name,
+                                                    String val,
+                                                    boolean removeIfEmpty) {
+      ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(name);
+      if (ea == null) {
+         ea = (ExtendedAttribute) eas.generateNewElement();
+         ea.setName(name);
+         eas.add(ea);
+      }
+      if (val == null) {
+         XMLElement el = parent.get(name);
+         val = "";
+         if (el instanceof WfVariables) {
+            WfVariables vare = (WfVariables) el;
+            val = "";
+            if (vare.size() > 0) {
+               List varl = vare.toElements();
+               for (int i = 0; i < varl.size(); i++) {
+                  val += ((WfVariable) varl.get(i)).get("Id").toValue();
+                  if (i < varl.size() - 1) {
+                     val += ",";
+                  }
+               }
+            }
+         } else {
+            val = el.toValue().trim();
+         }
+      }
+      if (removeIfEmpty && val.equals("")) {
+         eas.remove(ea);
+      } else {
+         ea.setVValue(val);
+      }
+   }
+
 }

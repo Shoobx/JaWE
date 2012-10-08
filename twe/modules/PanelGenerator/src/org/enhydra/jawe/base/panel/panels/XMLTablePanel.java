@@ -203,7 +203,9 @@ public class XMLTablePanel extends XMLBasicPanel implements
 
       Class pfea = null;
       if (myOwner instanceof ExtendedAttributes) {
-         pfea = myOwner.getParent().getClass();
+         if (myOwner.getParent() != null) {
+            pfea = myOwner.getParent().getClass();
+         }
       }
 
       newElementAction = new NewActionBase(ipc.getJaWEComponent(),
@@ -415,35 +417,35 @@ public class XMLTablePanel extends XMLBasicPanel implements
       public void actionPerformed(ActionEvent ae) {
          XMLElement editElement = getSelectedElement();
          if (editElement != null) {
-            // if (!PanelUtilities.isForModalDialog(editElement)) {
-            if (ipc.isModified()) {
-               lostFocusHandle = false;
-               int sw = ipc.showModifiedWarning();
-               if (sw == JOptionPane.CANCEL_OPTION
-                   || (sw == JOptionPane.YES_OPTION && ipc.isModified())) {
-                  lostFocusHandle = true;
-                  return;
+            if (!PanelUtilities.isForModalDialog(editElement, true)) {
+               if (ipc.isModified()) {
+                  lostFocusHandle = false;
+                  int sw = ipc.showModifiedWarning();
+                  if (sw == JOptionPane.CANCEL_OPTION
+                      || (sw == JOptionPane.YES_OPTION && ipc.isModified())) {
+                     lostFocusHandle = true;
+                     return;
+                  }
                }
-            }
-            Window w = getWindow();
-            if (w instanceof JDialog && ((JDialog) w).isModal()) {
-               JaWEManager.getInstance()
-                  .getXPDLElementEditor()
-                  .editXPDLElement(editElement);
-            } else {
-               JaWEManager.getInstance()
-                  .getJaWEController()
-                  .getSelectionManager()
-                  .setSelection(editElement, true);
-            }
+               Window w = getWindow();
+               if (w instanceof JDialog && ((JDialog) w).isModal()) {
+                  JaWEManager.getInstance()
+                     .getXPDLElementEditor()
+                     .editXPDLElement(editElement);
+               } else {
+                  JaWEManager.getInstance()
+                     .getJaWEController()
+                     .getSelectionManager()
+                     .setSelection(editElement, true);
+               }
 
-            // } else {
-            // ipc.setUpdateInProgress(true);
-            // StandardXPDLElementEditor ed = new StandardXPDLElementEditor(true);
-            // ed.editXPDLElement(editElement);
-            // repaint();
-            // ipc.setUpdateInProgress(false);
-            // }
+            } else {
+               ipc.getJaWEComponent().setUpdateInProgress(true);
+               StandardXPDLElementEditor ed = new StandardXPDLElementEditor(true);
+               ed.editXPDLElement(editElement);
+               repaint();
+               ipc.getJaWEComponent().setUpdateInProgress(false);
+            }
          }
       }
    };
@@ -939,7 +941,7 @@ public class XMLTablePanel extends XMLBasicPanel implements
             XMLElement newEl = JaWEManager.getInstance()
                .getXPDLObjectFactory()
                .createXPDLObject(col, type, false);
-            boolean isForModal = PanelUtilities.isForModalDialog(newEl);
+            boolean isForModal = PanelUtilities.isForModalDialog(newEl, false);
             if (!isForModal && ipc.isModified()) {
                int sw = ipc.showModifiedWarning();
                if (sw == JOptionPane.CANCEL_OPTION

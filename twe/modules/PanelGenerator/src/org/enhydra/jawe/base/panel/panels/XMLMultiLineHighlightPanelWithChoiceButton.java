@@ -71,7 +71,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
    public static Dimension textAreaDimensionSmall=new Dimension(200,60);
    public static Dimension textAreaDimensionMedium=new Dimension(300,90);
    public static Dimension textAreaDimensionLarge=new Dimension(400,120);
-   public static Dimension textAreaDimensionExtraLarge=new Dimension(600,400);
+   public static Dimension textAreaDimensionExtraLarge = new Dimension(800, 300);
 
    protected JEditTextArea jta;
    protected JLabel jl;
@@ -106,7 +106,6 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
          String initText) {
    
       super(pc,myOwner,"",false,false,true);
-      
       KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyboardHandler());
       
       this.initText = initText;

@@ -40,6 +40,7 @@ public class SharkConstants  {
    public static final String SCRIPT_VALUE_PYTHONSCRIPT="text/pythonscript";
 
    public static final String EA_TOOL_AGENT_CLASS="ToolAgentClass";
+   public static final String EA_TOOL_AGENT_CLASS_PROXY="ToolAgentClassProxy";
    public static final String EA_APP_NAME="AppName";
    public static final String EA_APP_MODE="AppMode";
    public static final String EA_SCRIPT="Script";

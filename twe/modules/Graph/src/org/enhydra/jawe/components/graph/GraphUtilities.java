@@ -2720,8 +2720,8 @@ public class GraphUtilities {
                                                 true);
       }
       graph.repaint();
-      System.out.println("AGP2="
-                         + JaWEGraphModel.getAllParticipantsInModel(graph.getModel()));
+//      System.out.println("AGP2="
+//                         + JaWEGraphModel.getAllParticipantsInModel(graph.getModel()));
    }
 
    public static void adjustInsertedOrUpdatedActivityOrArtifact(XMLCollectionElement wpOrAs,

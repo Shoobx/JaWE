@@ -136,7 +136,9 @@ public class XMLListPanel extends XMLBasicPanel implements
 
       Class pfea = null;
       if (myOwner instanceof ExtendedAttributes) {
-         pfea = myOwner.getParent().getClass();
+         if (myOwner.getParent() != null) {
+            pfea = myOwner.getParent().getClass();
+         }
       }
       newElementAction = new NewActionBase(ipc.getJaWEComponent(),
                                            JaWEActions.NEW_ACTION,
@@ -722,7 +724,7 @@ public class XMLListPanel extends XMLBasicPanel implements
             XMLElement newEl = JaWEManager.getInstance()
                .getXPDLObjectFactory()
                .createXPDLObject(col, type, false);
-            boolean isForModal = PanelUtilities.isForModalDialog(newEl);
+            boolean isForModal = PanelUtilities.isForModalDialog(newEl, false);
             if (!isForModal && ipc.isModified()) {
                int sw = ipc.showModifiedWarning();
                if (sw == JOptionPane.CANCEL_OPTION

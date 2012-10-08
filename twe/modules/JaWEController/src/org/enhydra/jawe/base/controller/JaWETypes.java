@@ -451,11 +451,12 @@ public class JaWETypes extends JaWEComponentSettings {
             }
             continue;
          }
+         String langDepName = null;
          String dispName = null;
          ImageIcon icon = null;
          Color color = null;
          try {
-            String langDepName = ResourceManager.getResourceString(properties,
+            langDepName = ResourceManager.getResourceString(properties,
                                                                    "JaWETypes."
                                                                          + name
                                                                          + ".LangDepName."
@@ -494,7 +495,9 @@ public class JaWETypes extends JaWEComponentSettings {
 
          if (dispName != null)
             jtype.setDisplayName(dispName);
-
+         else if (jtype.getDisplayName()==null)
+            jtype.setDisplayName(langDepName);
+         
          if (icon != null)
             jtype.setIcon(icon);
 

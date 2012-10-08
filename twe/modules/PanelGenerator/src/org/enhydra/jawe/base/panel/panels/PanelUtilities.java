@@ -38,6 +38,7 @@ import org.enhydra.jawe.base.controller.JaWEType;
 import org.enhydra.jawe.base.controller.JaWETypeChoiceButton;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLSimpleElement;
@@ -112,7 +113,14 @@ public class PanelUtilities {
       return b;
    }
 
-   public static boolean isForModalDialog(XMLElement el) {
+   public static boolean isForModalDialog(XMLElement el, boolean isEditAction) {
+      // In the case element is member of some collection and collection does not have parent element
+      if (el.getParent() instanceof XMLCollection && el.getParent().getParent()==null) {
+         return true;
+      }
+      if (isEditAction) {
+         return false;
+      }
       boolean onlySimpleOrAttr = true;
       if (el instanceof XMLSimpleElement) {
          return true;

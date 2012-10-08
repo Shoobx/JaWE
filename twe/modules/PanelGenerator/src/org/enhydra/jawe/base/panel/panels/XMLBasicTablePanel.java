@@ -283,7 +283,7 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
          XMLCollection col = (XMLCollection) getOwner();
          XMLElement newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(col, null, false);
 
-         boolean isForModal=PanelUtilities.isForModalDialog(newEl);
+         boolean isForModal=PanelUtilities.isForModalDialog(newEl, false);
          if (!isForModal && ipc.isModified()) {
             int sw=ipc.showModifiedWarning();
             if( sw == JOptionPane.CANCEL_OPTION || (sw==JOptionPane.YES_OPTION && ipc.isModified())) {

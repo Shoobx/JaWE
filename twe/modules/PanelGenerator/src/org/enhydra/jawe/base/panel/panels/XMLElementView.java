@@ -84,7 +84,9 @@ public class XMLElementView {
    public String toString() {
       if (this.element != null) {
          //            if(type == TONAME) {
-         return JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(this.element);
+         String ret = JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(this.element);
+         if (ret==null) ret = this.element.toName(); 
+            return ret;
 //         if (pc!=null) {
 //            
 //            return pc.getDisplayNameGenerator().getDisplayName(this.element);

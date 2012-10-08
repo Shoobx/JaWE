@@ -37,17 +37,20 @@ import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.BasicType;
+import org.enhydra.jxpdl.elements.Condition;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
@@ -379,63 +382,74 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (!hidden.contains(el.get("Description"))) {
          groupsToShow.add(getPanel(el.get("Description")));
       }
+      XMLPanel canBeRemoved = null;
       if (!hidden.contains(el.getApplicationTypes())) {
-         groupsToShow.add(getPanel(el.getApplicationTypes().getFormalParameters()));
+         canBeRemoved = getPanel(el.getApplicationTypes().getFormalParameters());
+         groupsToShow.add(canBeRemoved);
       }
 
       ExtendedAttributes eas = el.getExtendedAttributes();
       ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+      String choosen = null;
+      boolean specTA = false;
       if (ea != null) {
-         XMLElement eav = ea.get("Value");
-
-         List choices = SharkUtils.getAppDefChoices();
-         String choosen = eav.toValue();
-         if (!choices.contains(choosen)) {
-            choices.add(0, choosen);
+         specTA = true;
+         choosen = ea.getVValue();
+         if ("org.enhydra.shark.toolagent.BshToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el, "BshToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.CheckDocumentFormatsToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new StandardToolAgentElement(el,
+                                                                   "CheckDocumentFormatsToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.JavaClassToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new JavaClassToolAgentElement(el,
+                                                                    "JavaClassToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.JavaScriptToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el,
+                                                                      "JavaScriptToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.LDAPToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "LDAPToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.MailToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "MailToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.QuartzToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new ProxyBasedToolAgentElement(el,
+                                                                     "QuartzToolAgent")));
+            groupsToShow.add(getPanel(el.getExtendedAttributes()));
+         } else if ("org.enhydra.shark.toolagent.RuntimeApplicationToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new RuntimeApplicationToolAgentElement(el,
+                                                                             "RuntimeApplicationToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.SchedulerToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new ProxyBasedToolAgentElement(el,
+                                                                     "SchedulerToolAgent")));
+            groupsToShow.add(getPanel(el.getExtendedAttributes()));
+         } else if ("org.enhydra.shark.toolagent.SOAPToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new SOAPToolAgentElement(el, "SOAPToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.UserGroupToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new StandardToolAgentElement(el,
+                                                                   "UserGroupToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.XPathToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPathToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.XPILToolAgent".equals(choosen)) {
+            if (canBeRemoved != null) {
+               groupsToShow.remove(canBeRemoved);
+            }
+            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPILToolAgent")));
+         } else if ("org.enhydra.shark.toolagent.XSLTToolAgent".equals(choosen)) {
+            groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el, "XSLTToolAgent")));
+         } else {
+            specTA = false;
          }
-         XMLPanel pnl = new XMLComboPanel(getPanelContainer(),
-                                          eav,
-                                          getPanelContainer().getLanguageDependentString("ToolAgentClassKey"),
-                                          choices,
-                                          true,
-                                          true,
-                                          false,
-                                          true,
-                                          JaWEManager.getInstance()
-                                             .getJaWEController()
-                                             .canModifyElement(eav),
-                                          true,
-                                          true);
+      }
+      if (!specTA) {
+         if (ea != null) {
+            XMLElement eav = ea.get("Value");
 
-         groupsToShow.add(pnl);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
-      if (ea != null) {
-         XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                         ea.get("Value"),
-                                         getPanelContainer().getLanguageDependentString("ApplicationNameKey"),
-                                         false,
-                                         false,
-                                         JaWEManager.getInstance()
-                                            .getJaWEController()
-                                            .canModifyElement(ea));
-         groupsToShow.add(pnl);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_APP_MODE);
-      if (ea != null) {
-         XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                         ea.get("Value"),
-                                         getPanelContainer().getLanguageDependentString("ApplicationModeKey"),
-                                         false,
-                                         false,
-                                         JaWEManager.getInstance()
-                                            .getJaWEController()
-                                            .canModifyElement(ea));
-         groupsToShow.add(pnl);
-      }
+            XMLPanel pnl = getPanel(eav);
 
-      if (!hidden.contains(el.getExtendedAttributes())) {
-         groupsToShow.add(getPanel(el.getExtendedAttributes()));
+            groupsToShow.add(pnl);
+         }
+         if (!hidden.contains(el.getExtendedAttributes())) {
+            groupsToShow.add(getPanel(el.getExtendedAttributes()));
+         }
       }
       return new XMLGroupPanel(getPanelContainer(),
                                el,
@@ -444,6 +458,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                true,
                                false,
                                true);
+   }
+
+   public XMLPanel generateStandardPanel(XMLElement el) {
+      if (el instanceof ToolAgentElementBase) {
+         return generateSharkModeGroupPanel((XMLComplexElement) el, false, false);
+      }
+      return super.generateStandardPanel(el);
    }
 
    public XMLPanel getPanel(BasicType el) {
@@ -1120,8 +1141,71 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   JaWEManager.getInstance()
                                      .getJaWEController()
                                      .canModifyElement(el));
+      } else if (el.getParent() instanceof ScriptBasedToolAgentElement
+                 && el.toName().equals("Script")) {
+         List<List> mc = new ArrayList<List>();
+         mc.add(getExpressionChoices(el.getParent().getParent()));
+         return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
+                                                               el,
+                                                               "Script",
+                                                               false,
+                                                               true,
+                                                               XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                               false,
+                                                               mc,
+                                                               JaWEManager.getInstance()
+                                                                  .getJaWEController()
+                                                                  .canModifyElement(el));
+      } else if ((el.getParent() instanceof ExtendedAttribute
+                  && ((ExtendedAttribute) el.getParent()).getName()
+                     .equals(SharkConstants.EA_TOOL_AGENT_CLASS)
+                  && el.getParent().getParent().getParent() instanceof Application && el.toName()
+         .equals("Value"))
+                 || (el.getParent() instanceof ProxyBasedToolAgentElement && el.toName()
+                    .equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY))) {
+         String name = el.getParent() instanceof ProxyBasedToolAgentElement ? SharkConstants.EA_TOOL_AGENT_CLASS_PROXY
+                                                                           : SharkConstants.EA_TOOL_AGENT_CLASS;
+         String choosen = el.toValue();
+         List choices = SharkUtils.getAppDefChoices();
+         if (!choices.contains(choosen)) {
+            choices.add(0, choosen);
+         }
+         return new XMLComboPanel(getPanelContainer(),
+                                  el,
+                                  getPanelContainer().getLanguageDependentString(name
+                                                                                 + "Key"),
+                                  choices,
+                                  true,
+                                  true,
+                                  false,
+                                  true,
+                                  JaWEManager.getInstance()
+                                     .getJaWEController()
+                                     .canModifyElement(el),
+                                  true,
+                                  true);
+
       }
       return super.getPanel(el);
+   }
+
+   protected XMLGroupPanel generateSharkModeGroupPanel(XMLComplexElement cel,
+                                                       boolean hasTitle,
+                                                       boolean hasEmptyBorder) {
+      List toShow = getStandardGroupPanelComponents(cel);
+      if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
+          || cel instanceof Condition) {
+         hasTitle = true;
+      }
+      return new SharkModeGroupPanel(getPanelContainer(),
+                                     cel,
+                                     toShow,
+                                     JaWEManager.getInstance()
+                                        .getLabelGenerator()
+                                        .getLabel(cel),
+                                     true,
+                                     hasTitle,
+                                     hasEmptyBorder);
    }
 
    protected List getPossibleVariableChoices(Map vars, ExtendedAttributes eas) {
