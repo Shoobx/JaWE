@@ -27,7 +27,7 @@
             <BasicType Type="STRING"/>
          </DataType>
       </FormalParameter>
-      <FormalParameter Id="ResultVariableId" IsArray="false" Mode="OUT">
+      <FormalParameter Id="ResultVariableId" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
