@@ -30,9 +30,11 @@ import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
+import org.enhydra.jawe.base.panel.SpecialChoiceElement;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
+import org.enhydra.jawe.base.panel.panels.XMLComboPanelWithReferenceLink;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
@@ -390,52 +392,23 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       ExtendedAttributes eas = el.getExtendedAttributes();
       ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
-      String choosen = null;
       boolean specTA = false;
       if (ea != null) {
-         specTA = true;
-         choosen = ea.getVValue();
-         if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(choosen)) {
-            groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el, "BshToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS.equals(choosen)) {
-            groupsToShow.add(getPanel(new StandardToolAgentElement(el,
-                                                                   "CheckDocumentFormatsToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_JAVACLASS.equals(choosen)) {
-            groupsToShow.add(getPanel(new JavaClassToolAgentElement(el,
-                                                                    "JavaClassToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(choosen)) {
-            groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el,
-                                                                      "JavaScriptToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_LDAP.equals(choosen)) {
-            groupsToShow.remove(canBeRemoved);
-            groupsToShow.add(new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(), el));
-         } else if (SharkConstants.TOOL_AGENT_MAIL.equals(choosen)) {
-            groupsToShow.add(getPanel(new MailToolAgentElement(el, "MailToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_QUARTZ.equals(choosen)) {
-            groupsToShow.add(getPanel(new ProxyBasedToolAgentElement(el,
-                                                                     "QuartzToolAgent")));
-            groupsToShow.add(getPanel(el.getExtendedAttributes()));
-         } else if (SharkConstants.TOOL_AGENT_RUNTIMEAPPLICATION.equals(choosen)) {
-            groupsToShow.add(getPanel(new RuntimeApplicationToolAgentElement(el,
-                                                                             "RuntimeApplicationToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_SCHEDULER.equals(choosen)) {
-            groupsToShow.add(getPanel(new ProxyBasedToolAgentElement(el,
-                                                                     "SchedulerToolAgent")));
-            groupsToShow.add(getPanel(el.getExtendedAttributes()));
-         } else if (SharkConstants.TOOL_AGENT_SOAP.equals(choosen)) {
-            groupsToShow.add(getPanel(new SOAPToolAgentElement(el, "SOAPToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_USERGROUP.equals(choosen)) {
-            groupsToShow.remove(canBeRemoved);
-            groupsToShow.add(new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(), el));
-         } else if (SharkConstants.TOOL_AGENT_XPATH.equals(choosen)) {
-            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPathToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_XPIL.equals(choosen)) {
-            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPILToolAgent")));
-         } else if (SharkConstants.TOOL_AGENT_XSLT.equals(choosen)) {
-            groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el, "XSLTToolAgent")));
-         } else {
-            specTA = false;
+         String taName = ea.getVValue();
+         XMLPanel taPanel = getToolAgentPanel(el, taName);
+         if (taPanel != null) {
+            groupsToShow.add(taPanel);
+            if (SharkConstants.TOOL_AGENT_LDAP.equals(taName)) {
+               groupsToShow.remove(canBeRemoved);
+            } else if (SharkConstants.TOOL_AGENT_QUARTZ.equals(taName)) {
+               groupsToShow.add(getPanel(el.getExtendedAttributes()));
+            } else if (SharkConstants.TOOL_AGENT_SCHEDULER.equals(taName)) {
+               groupsToShow.add(getPanel(el.getExtendedAttributes()));
+            } else if (SharkConstants.TOOL_AGENT_USERGROUP.equals(taName)) {
+               groupsToShow.remove(canBeRemoved);
+            }
          }
+         specTA = taPanel != null;
       }
       if (!specTA) {
          if (ea != null) {
@@ -458,8 +431,57 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                true);
    }
 
+   public XMLElement getToolAgentElement(Application el, String taName) {
+      XMLElement ret = null;
+      if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(taName)) {
+         ret = new ScriptBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_BEAN_SHELL);
+      } else if (SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS.equals(taName)) {
+         ret = new StandardToolAgentElement(el,
+                                            SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS);
+      } else if (SharkConstants.TOOL_AGENT_JAVACLASS.equals(taName)) {
+         ret = new JavaClassToolAgentElement(el, SharkConstants.TOOL_AGENT_JAVACLASS);
+      } else if (SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
+         ret = new ScriptBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_JAVASCRIPT);
+      } else if (SharkConstants.TOOL_AGENT_LDAP.equals(taName)) {
+         ret = new LDAPOrUserGroupToolAgentElement(el, SharkConstants.TOOL_AGENT_LDAP);
+      } else if (SharkConstants.TOOL_AGENT_MAIL.equals(taName)) {
+         ret = new MailToolAgentElement(el, SharkConstants.TOOL_AGENT_MAIL);
+      } else if (SharkConstants.TOOL_AGENT_QUARTZ.equals(taName)) {
+         ret = new ProxyBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_QUARTZ);
+      } else if (SharkConstants.TOOL_AGENT_RUNTIMEAPPLICATION.equals(taName)) {
+         ret = new RuntimeApplicationToolAgentElement(el,
+                                                      SharkConstants.TOOL_AGENT_RUNTIMEAPPLICATION);
+      } else if (SharkConstants.TOOL_AGENT_SCHEDULER.equals(taName)) {
+         ret = new ProxyBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_SCHEDULER);
+      } else if (SharkConstants.TOOL_AGENT_SOAP.equals(taName)) {
+         ret = new SOAPToolAgentElement(el, SharkConstants.TOOL_AGENT_SOAP);
+      } else if (SharkConstants.TOOL_AGENT_USERGROUP.equals(taName)) {
+         ret = new LDAPOrUserGroupToolAgentElement(el,
+                                                   SharkConstants.TOOL_AGENT_USERGROUP);
+      } else if (SharkConstants.TOOL_AGENT_XPATH.equals(taName)) {
+         ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_XPATH);
+      } else if (SharkConstants.TOOL_AGENT_XPIL.equals(taName)) {
+         ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_XPIL);
+      } else if (SharkConstants.TOOL_AGENT_XSLT.equals(taName)) {
+         ret = new ScriptBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_XSLT);
+      }
+      return ret;
+   }
+
+   public XMLPanel getToolAgentPanel(Application el, String taName) {
+      XMLElement tael = getToolAgentElement(el, taName);
+      if (tael != null) {
+         return getPanel(tael);
+      }
+      return null;
+   }
+
    public XMLPanel generateStandardPanel(XMLElement el) {
       if (el instanceof ToolAgentElementBase) {
+         if (el instanceof LDAPOrUserGroupToolAgentElement) {
+            return new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(),
+                                                                  XMLUtil.getApplication(el));
+         }
          return generateSharkModeGroupPanel((XMLComplexElement) el, false, false);
       }
       return super.generateStandardPanel(el);
@@ -1172,20 +1194,58 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (!choices.contains(choosen)) {
             choices.add(0, choosen);
          }
-         return new XMLComboPanel(getPanelContainer(),
-                                  el,
-                                  getPanelContainer().getLanguageDependentString(name
-                                                                                 + "Key"),
-                                  choices,
-                                  true,
-                                  true,
-                                  false,
-                                  true,
-                                  JaWEManager.getInstance()
-                                     .getJaWEController()
-                                     .canModifyElement(el),
-                                  true,
-                                  true);
+         if (name.equals(SharkConstants.EA_TOOL_AGENT_CLASS)) {
+            return new XMLComboPanel(getPanelContainer(),
+                                     el,
+                                     getPanelContainer().getLanguageDependentString(name
+                                                                                    + "Key"),
+                                     choices,
+                                     true,
+                                     true,
+                                     false,
+                                     true,
+                                     JaWEManager.getInstance()
+                                        .getJaWEController()
+                                        .canModifyElement(el),
+                                     true,
+                                     true);
+         } else {
+            Application app = XMLUtil.getApplication(el);
+            List specChoices = new ArrayList();
+            Object specChoosen = null;
+            for (int i = 0; i < choices.size(); i++) {
+               String choice = (String) choices.get(i);
+               XMLElement tael = getToolAgentElement(app, choice);
+               if (tael != null) {
+                  specChoices.add(tael);
+               }
+               if (choice.equals(choosen)) {
+                  specChoosen = tael;
+               }
+            }
+            if (specChoosen == null) {
+               specChoosen = choosen;
+            }
+            SpecialChoiceElement cc = new SpecialChoiceElement(el,
+                                                               "",
+                                                               specChoices,
+                                                               specChoosen,
+                                                               true,
+                                                               "",
+                                                               "",
+                                                               el.isRequired());
+            cc.setReadOnly(el.isReadOnly());
+
+            return new XMLComboPanelWithReferenceLinkForTAs(getPanelContainer(),
+                                                            cc,
+                                                            null,
+                                                            true,
+                                                            false,
+                                                            false,
+                                                            JaWEManager.getInstance()
+                                                               .getJaWEController()
+                                                               .canModifyElement(el));
+         }
 
       }
       return super.getPanel(el);

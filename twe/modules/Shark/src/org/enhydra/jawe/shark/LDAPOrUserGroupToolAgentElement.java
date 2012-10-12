@@ -18,22 +18,19 @@
 
 package org.enhydra.jawe.shark;
 
-import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.elements.Application;
 
-public abstract class ToolAgentElementBase extends XMLComplexElement {
+public class LDAPOrUserGroupToolAgentElement extends ToolAgentElementBase {
 
-   public ToolAgentElementBase(Application app, String name) {
-      super(app, name, true);
-      notifyMainListeners = false;
-      notifyListeners = false;
-      handleStructure();
-      setReadOnly(app.isReadOnly());
+   public LDAPOrUserGroupToolAgentElement(Application app, String name) {
+      super(app, name);
    }
 
-   protected abstract void handleStructure();
-
-   public String toValue () {
-      return toName();
+   protected void fillStructure() {
    }
+
+   protected void handleStructure() {
+      
+   }
+
 }

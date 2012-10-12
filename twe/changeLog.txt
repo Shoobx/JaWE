@@ -2,7 +2,7 @@
 2012-10-12 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - Introduced validation for Application definitions depending on ToolAgentClass extended attribute value (Shark tool agent dependent validation)
-      - Improved GUI (dynamic panel for LDAP and UserGroup tool agents)
+      - Improved GUI (dynamic panel for LDAP and UserGroup tool agents, choice dependent panel logic for Quartz and Scheduler tool agents)
    
 2012-10-08 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Improved GUI for Application definitions

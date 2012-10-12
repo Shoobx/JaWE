@@ -38,11 +38,12 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
 
    protected String namePrefix;
 
-   public SharkLDAPAndUserGroupToolAgentDynamicPanel(PanelContainer pc, Application myOwner) {
+   public SharkLDAPAndUserGroupToolAgentDynamicPanel(PanelContainer pc,
+                                                     Application myOwner) {
 
       super(pc, myOwner, "", true, false, false);
       boolean enableEditing = !myOwner.isReadOnly();
-      String className = JaWEEAHandler.getJaWEType(myOwner);
+      String className = null;
       FormalParameters fps = new FormalParameters(myOwner.getApplicationTypes());
       fps.setNotifyListeners(false);
       fps.setNotifyMainListeners(false);
@@ -53,7 +54,14 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
       if (eataname != null) {
          taName = eataname.getVValue();
       }
-
+      if (taName.equals(SharkConstants.TOOL_AGENT_QUARTZ)
+          || taName.equals(SharkConstants.TOOL_AGENT_SCHEDULER)) {
+         eataname = myOwner.getExtendedAttributes()
+            .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY);
+         if (eataname != null) {
+            taName = eataname.getVValue();
+         }
+      }
       String methodName = "";
       ExtendedAttribute eamethodname = myOwner.getExtendedAttributes()
          .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
@@ -61,13 +69,12 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
          methodName = eamethodname.getVValue();
       }
 
-      if (className == null) {
-         if (taName.equals(SharkConstants.TOOL_AGENT_LDAP)) {
-            className = SharkConstants.TOOL_AGENT_LDAP;
-         } else if (taName.equals(SharkConstants.TOOL_AGENT_USERGROUP)) {
-            className = SharkConstants.TOOL_AGENT_USERGROUP;
-         }
+      if (taName.equals(SharkConstants.TOOL_AGENT_LDAP)) {
+         className = SharkConstants.TOOL_AGENT_LDAP;
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_USERGROUP)) {
+         className = SharkConstants.TOOL_AGENT_USERGROUP;
       }
+
       mthds = getMethods(className);
 
       if (!mthds.containsKey(methodName)) {
