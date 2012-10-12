@@ -33,12 +33,9 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.SwingConstants;
 
 import org.enhydra.jawe.ResourceManager;
@@ -245,7 +242,6 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
    public boolean validateEntry() {
       String siv = "";
       Object selItem = getSelectedItem();
-      System.err.println("Validating entry for " + selItem);
       if (selItem != null) {
          // System.err.println("SI="+selItem+", class="+selItem.getClass().getName());
          if (selItem instanceof XMLElement) {
@@ -368,26 +364,6 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
 
    public void requestFocus() {
       jcb.requestFocus();
-   }
-
-   private class TooltipComboRenderer extends DefaultListCellRenderer {
-      public Component getListCellRendererComponent(JList list,
-                                                    Object value,
-                                                    int index,
-                                                    boolean isSelected,
-                                                    boolean cellHasFocus) {
-         JComponent c = (JComponent) super.getListCellRendererComponent(list,
-                                                                        value,
-                                                                        index,
-                                                                        isSelected,
-                                                                        cellHasFocus);
-         if (value != null && isSelected) {
-            list.setToolTipText(value.toString());
-         } else if (isSelected) {
-            list.setToolTipText("");
-         }
-         return c;
-      }
    }
 
 }
