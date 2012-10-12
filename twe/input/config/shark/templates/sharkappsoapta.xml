@@ -16,6 +16,13 @@
     along with this program. If not, see http://www.gnu.org/licenses
 -->
 <Application Id="soap" Name="SOAP">
+   <FormalParameters>
+      <FormalParameter Id="operationName" Name="The name of Web Service operation" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+      </FormalParameter>
+   </FormalParameters>
    <ExtendedAttributes>
       <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.SOAPToolAgent"/>
       <ExtendedAttribute Name="AppName" Value=""/>

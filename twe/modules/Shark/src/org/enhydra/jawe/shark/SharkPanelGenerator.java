@@ -395,42 +395,43 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (ea != null) {
          specTA = true;
          choosen = ea.getVValue();
-         if ("org.enhydra.shark.toolagent.BshToolAgent".equals(choosen)) {
+         if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(choosen)) {
             groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el, "BshToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.CheckDocumentFormatsToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS.equals(choosen)) {
             groupsToShow.add(getPanel(new StandardToolAgentElement(el,
                                                                    "CheckDocumentFormatsToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.JavaClassToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_JAVACLASS.equals(choosen)) {
             groupsToShow.add(getPanel(new JavaClassToolAgentElement(el,
                                                                     "JavaClassToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.JavaScriptToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(choosen)) {
             groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el,
                                                                       "JavaScriptToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.LDAPToolAgent".equals(choosen)) {
-            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "LDAPToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.MailToolAgent".equals(choosen)) {
-            groupsToShow.add(getPanel(new StandardToolAgentElement(el, "MailToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.QuartzToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_LDAP.equals(choosen)) {
+            groupsToShow.remove(canBeRemoved);
+            groupsToShow.add(new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(), el));
+         } else if (SharkConstants.TOOL_AGENT_MAIL.equals(choosen)) {
+            groupsToShow.add(getPanel(new MailToolAgentElement(el, "MailToolAgent")));
+         } else if (SharkConstants.TOOL_AGENT_QUARTZ.equals(choosen)) {
             groupsToShow.add(getPanel(new ProxyBasedToolAgentElement(el,
                                                                      "QuartzToolAgent")));
             groupsToShow.add(getPanel(el.getExtendedAttributes()));
-         } else if ("org.enhydra.shark.toolagent.RuntimeApplicationToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_RUNTIMEAPPLICATION.equals(choosen)) {
             groupsToShow.add(getPanel(new RuntimeApplicationToolAgentElement(el,
                                                                              "RuntimeApplicationToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.SchedulerToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_SCHEDULER.equals(choosen)) {
             groupsToShow.add(getPanel(new ProxyBasedToolAgentElement(el,
                                                                      "SchedulerToolAgent")));
             groupsToShow.add(getPanel(el.getExtendedAttributes()));
-         } else if ("org.enhydra.shark.toolagent.SOAPToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_SOAP.equals(choosen)) {
             groupsToShow.add(getPanel(new SOAPToolAgentElement(el, "SOAPToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.UserGroupToolAgent".equals(choosen)) {
-            groupsToShow.add(getPanel(new StandardToolAgentElement(el,
-                                                                   "UserGroupToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.XPathToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_USERGROUP.equals(choosen)) {
+            groupsToShow.remove(canBeRemoved);
+            groupsToShow.add(new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(), el));
+         } else if (SharkConstants.TOOL_AGENT_XPATH.equals(choosen)) {
             groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPathToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.XPILToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_XPIL.equals(choosen)) {
             groupsToShow.add(getPanel(new StandardToolAgentElement(el, "XPILToolAgent")));
-         } else if ("org.enhydra.shark.toolagent.XSLTToolAgent".equals(choosen)) {
+         } else if (SharkConstants.TOOL_AGENT_XSLT.equals(choosen)) {
             groupsToShow.add(getPanel(new ScriptBasedToolAgentElement(el, "XSLTToolAgent")));
          } else {
             specTA = false;
@@ -1164,6 +1165,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                            : SharkConstants.EA_TOOL_AGENT_CLASS;
          String choosen = el.toValue();
          List choices = SharkUtils.getAppDefChoices();
+         if (name.equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY)) {
+            choices.remove(SharkConstants.TOOL_AGENT_QUARTZ);
+            choices.remove(SharkConstants.TOOL_AGENT_SCHEDULER);
+         }
          if (!choices.contains(choosen)) {
             choices.add(0, choosen);
          }

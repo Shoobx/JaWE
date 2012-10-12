@@ -10103,7 +10103,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           (Formal/Actual parameter matching validation still considers such
           cases an ERROR cases)</para>
         </listitem>
-
+        
+        <listitem>
+          <para>Shark mode: Introduced validation for Application definitions depending on 
+          ToolAgentClass extended attribute value (Shark tool agent dependent validation)</para>
+        </listitem>
+        
         <listitem>
           <para>Shark mode: Improved GUI for Application definitions</para>
         </listitem>

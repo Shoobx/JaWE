@@ -17,6 +17,7 @@
 -->
 <Application Id="ldap" Name="LDAP">
    <ExtendedAttributes>
-        <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.LDAPToolAgent"/>
-    </ExtendedAttributes>
+      <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.LDAPToolAgent"/>
+      <ExtendedAttribute Name="AppName" Value="getUserAttribute"/>
+   </ExtendedAttributes>
 </Application>

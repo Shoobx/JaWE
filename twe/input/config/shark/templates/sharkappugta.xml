@@ -16,24 +16,8 @@
     along with this program. If not, see http://www.gnu.org/licenses
 -->
 <Application Id="user_group" Name="User Group">
-   <FormalParameters>
-      <FormalParameter Id="Method" IsArray="false" Mode="IN">
-         <DataType>
-            <BasicType Type="STRING"/>
-         </DataType>
-      </FormalParameter>
-      <FormalParameter Id="Arg1" IsArray="false" Mode="IN">
-         <DataType>
-            <BasicType Type="STRING"/>
-         </DataType>
-      </FormalParameter>
-      <FormalParameter Id="ResultVariableId" IsArray="false" Mode="IN">
-         <DataType>
-            <BasicType Type="STRING"/>
-         </DataType>
-      </FormalParameter>
-   </FormalParameters>
    <ExtendedAttributes>
-        <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.UserGroupToolAgent"/>
-    </ExtendedAttributes>
+      <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.UserGroupToolAgent"/>
+      <ExtendedAttribute Name="AppName" Value="getUserAttribute"/>
+   </ExtendedAttributes>
 </Application>

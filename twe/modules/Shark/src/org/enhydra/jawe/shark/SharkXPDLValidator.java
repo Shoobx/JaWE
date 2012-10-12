@@ -44,11 +44,13 @@ import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.ListType;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.RecordType;
+import org.enhydra.jxpdl.elements.SchemaType;
 import org.enhydra.jxpdl.elements.Script;
 import org.enhydra.jxpdl.elements.TSScript;
 import org.enhydra.jxpdl.elements.UnionType;
@@ -154,21 +156,6 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             }
          }
       }
-      if (el.toName().equals("Name")
-          && parent instanceof ExtendedAttribute
-          && parent.getParent().getParent() instanceof Application) {
-         if (el.toValue().equals(SharkConstants.EA_TOOL_AGENT_CLASS)) {
-            ExtendedAttribute ea = (ExtendedAttribute) parent;
-            if (ea.getVValue().equals("")) {
-               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_WARNING,
-                                                                XMLValidationError.SUB_TYPE_LOGIC,
-                                                                SharkValidationErrorIds.WARNING_TOOL_AGENT_CLASS_NOT_DEFINED,
-                                                                ea.getVValue(),
-                                                                ea.get("Value"));
-               existingErrors.add(verr);
-            }
-         }
-      }
       if ((el.toName().equals("StartMode") || el.toName().equals("FinishMode"))
           && el.toValue().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)
           && parent instanceof Activity) {
@@ -203,14 +190,21 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
    public void validateElement(Application el, List existingErrors, boolean fullCheck) {
       super.validateElement(el, existingErrors, fullCheck);
 
-      if (el.getExtendedAttributes()
-         .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS) == null) {
+      String taName = null;
+      ExtendedAttribute eataname = el.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+      if (eataname != null) {
+         taName = eataname.getVValue();
+      }
+      if (taName == null || taName.trim().equals("")) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_WARNING,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.WARNING_TOOL_AGENT_CLASS_NOT_DEFINED,
                                                           "",
                                                           el);
          existingErrors.add(verr);
+      } else {
+         validateToolAgent(taName, el, existingErrors, fullCheck);
       }
    }
 
@@ -492,4 +486,557 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       return allow.booleanValue();
    }
 
+   protected boolean compareDataTypes(FormalParameter fp,
+                                      Class dataTypeClass,
+                                      String subType) {
+      if (fp != null) {
+         XMLElement dt = fp.getDataType().getDataTypes().getChoosen();
+         boolean firstMatch = dt.getClass() == dataTypeClass;
+         boolean secondMatch = dataTypeClass != BasicType.class
+                               || ((BasicType) dt).getType().equals(subType);
+         return firstMatch && secondMatch;
+      }
+      return false;
+   }
+
+   protected void validateToolAgent(String taName,
+                                    Application el,
+                                    List existingErrors,
+                                    boolean fullCheck) {
+      if (taName.equals(SharkConstants.TOOL_AGENT_BEAN_SHELL)
+          || taName.equals(SharkConstants.TOOL_AGENT_JAVASCRIPT)) {
+         validateToolAgentBeanShellOrJavaScript(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS)) {
+         validateToolAgentCheckDocumentFormats(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_JAVACLASS)) {
+         validateToolAgentJavaClass(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_LDAP)) {
+         validateToolAgentLDAP(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_MAIL)) {
+         validateToolAgentMail(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_QUARTZ)
+                 || taName.equals(SharkConstants.TOOL_AGENT_SCHEDULER)) {
+         validateToolAgentQuartzOrScheduler(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_RUNTIMEAPPLICATION)) {
+         validateToolAgentRuntimeApplication(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_SOAP)) {
+         validateToolAgentSOAP(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_USERGROUP)) {
+         validateToolAgentUserGroup(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_XPATH)) {
+         validateToolAgentXPath(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_XPIL)) {
+         validateToolAgentXPIL(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_XSLT)) {
+         validateToolAgentXSLT(el, existingErrors, fullCheck);
+      }
+   }
+
+   protected void validateToolAgentBeanShellOrJavaScript(Application el,
+                                                         List existingErrors,
+                                                         boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      ExtendedAttribute ea = el.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+      if (ea == null || ea.getVValue().trim().equals("")) {
+         ea = el.getExtendedAttributes()
+            .getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+      }
+      if (ea == null || ea.getVValue().trim().equals("")) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_BSH_OR_JS_SCRIPT_PARAMETER_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      }
+
+   }
+
+   protected void validateToolAgentCheckDocumentFormats(Application el,
+                                                        List existingErrors,
+                                                        boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter alloweddfs = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ALLOWED_DOCUMENT_FORMATS);
+      FormalParameter unsupporteddids = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_UNSUPPORTED_DOCUMENT_IDS);
+      if (alloweddfs == null || unsupporteddids == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_CHECK_DOCUMENT_FORMATS_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else if (alloweddfs.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_OUT)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else if (unsupporteddids.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_IN)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      }
+   }
+
+   protected void validateToolAgentJavaClass(Application el,
+                                             List existingErrors,
+                                             boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      ExtendedAttribute ea = el.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+      if (ea == null || ea.getVValue().trim().equals("")) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_APP_NAME_EXTENDED_ATTRIBUTE_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      }
+   }
+
+   protected void validateToolAgentLDAP(Application el,
+                                        List existingErrors,
+                                        boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_CL);
+      FormalParameter resultVarId = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_VARIABLE_ID);
+      FormalParameter method = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_METHOD);
+      FormalParameter arg1 = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ARG1);
+      FormalParameter arg2 = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ARG2);
+      String methodId = null;
+      if (method == null) {
+         ExtendedAttribute ea = el.getExtendedAttributes()
+            .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+         if (ea != null) {
+            methodId = ea.getVValue().trim();
+         }
+      }
+      if ((method == null && methodId == null) || (result == null && resultVarId == null)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      }
+      if (methodId != null) {
+         if (!SharkConstants.TOOL_AGENT_LDAP_POSSIBLE_METHODS_LIST.contains(methodId)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_UNEXISTING_METHOD_NAME,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         } else if (methodId.equals(SharkConstants.TOOL_AGENT_LDAP_METHOD_checkPassword)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_LDAP_METHOD_doesGroupBelongToGroup)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_LDAP_METHOD_doesUserBelongToGroup)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_LDAP_METHOD_getGroupAttribute)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_LDAP_METHOD_getUserAttribute)) {
+            if (arg1 == null || arg2 == null) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_INVALID_NUMBER_OF_ARGUMENTS_2_REQUIRED,
+                                                                "",
+                                                                el);
+               existingErrors.add(verr);
+            }
+         } else if (methodId.equals(SharkConstants.TOOL_AGENT_LDAP_METHOD_getAllOrganizationalUnitEntries)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_LDAP_METHOD_getAllUserEntries)) {
+            if (arg1 != null || arg2 != null) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_INVALID_NUMBER_OF_ARGUMENTS_0_REQUIRED,
+                                                                "",
+                                                                el);
+               existingErrors.add(verr);
+            }
+         } else if (arg1 == null || arg2 != null) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_INVALID_NUMBER_OF_ARGUMENTS_1_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+      }
+      if ((arg1 != null && !compareDataTypes(arg1,
+                                             BasicType.class,
+                                             XPDLConstants.BASIC_TYPE_STRING))
+          || (arg2 != null && !compareDataTypes(arg2,
+                                                BasicType.class,
+                                                XPDLConstants.BASIC_TYPE_STRING))
+          || (method != null && !compareDataTypes(method,
+                                                  BasicType.class,
+                                                  XPDLConstants.BASIC_TYPE_STRING))
+          || (resultVarId != null && !compareDataTypes(resultVarId,
+                                                       BasicType.class,
+                                                       XPDLConstants.BASIC_TYPE_STRING))) {
+
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+
+      }
+   }
+
+   protected void validateToolAgentMail(Application el,
+                                        List existingErrors,
+                                        boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      boolean sendMail = true;
+      ExtendedAttribute ea = el.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(SharkConstants.EA_APP_MODE);
+      if (ea != null && ea.getVValue().trim().equals("1")) {
+         sendMail = false;
+      }
+      if (sendMail) {
+         FormalParameter tos = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TO_ADDRESSES);
+         FormalParameter ccs = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_CC_ADDRESSES);
+         FormalParameter bccs = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_BCC_ADDRESSES);
+         if (tos == null && ccs == null && bccs == null) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_MAIL_MISSING_REQUIRED_PARAMETERS,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+      }
+   }
+
+   protected void validateToolAgentQuartzOrScheduler(Application el,
+                                                     List existingErrors,
+                                                     boolean fullCheck) {
+      String taProxyName = null;
+      ExtendedAttribute ea = el.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY);
+      if (ea != null) {
+         taProxyName = ea.getVValue();
+      }
+      if (taProxyName == null || taProxyName.trim().equals("")) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_QUARTZ_OR_SCHEDULER_TOOL_AGENT_CLASS_PROXY_EXTENDED_ATTRIBUTE_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else if (taProxyName.equals(SharkConstants.TOOL_AGENT_QUARTZ) || taProxyName.equals(SharkConstants.TOOL_AGENT_SCHEDULER)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_QUARTZ_OR_SCHEDULER_TOOL_AGENT_CLASS_PROXY_REFERENCE_INVALID,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else {
+         validateToolAgent(taProxyName, el, existingErrors, fullCheck);
+      }
+   }
+
+   protected void validateToolAgentRuntimeApplication(Application el,
+                                                      List existingErrors,
+                                                      boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      ExtendedAttribute ea = el.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+      if (ea == null || ea.getVValue().trim().equals("")) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_APP_NAME_EXTENDED_ATTRIBUTE_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      }
+   }
+
+   protected void validateToolAgentSOAP(Application el,
+                                        List existingErrors,
+                                        boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      ExtendedAttribute ea = el.getExtendedAttributes()
+         .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+      if (ea == null || ea.getVValue().trim().equals("")) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_APP_NAME_EXTENDED_ATTRIBUTE_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else if (fps.size() == 0) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else {
+         FormalParameter soapmethod = (FormalParameter) fps.get(0);
+         if (!compareDataTypes(soapmethod,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_INVALID_SOAP_OPERATION_PARAMETER_TYPE,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+
+      }
+   }
+
+   protected void validateToolAgentUserGroup(Application el,
+                                             List existingErrors,
+                                             boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter name = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_NAME);
+      FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_CL);
+      FormalParameter resultVarId = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_VARIABLE_ID);
+      FormalParameter method = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_METHOD);
+      FormalParameter arg1 = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ARG1);
+      FormalParameter arg2 = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ARG2);
+      String methodId = null;
+      if (method == null) {
+         ExtendedAttribute ea = el.getExtendedAttributes()
+            .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+         if (ea != null) {
+            methodId = ea.getVValue().trim();
+         }
+      }
+      if ((method == null && methodId == null) || (result == null && resultVarId == null)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      }
+      if (methodId != null) {
+         if (!SharkConstants.TOOL_AGENT_USERGROUP_POSSIBLE_METHODS_LIST.contains(methodId)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_UNEXISTING_METHOD_NAME,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         } else if (methodId.equals(SharkConstants.TOOL_AGENT_USERGROUP_METHOD_doesGroupBelongToGroup)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_USERGROUP_METHOD_doesUserBelongToGroup)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_USERGROUP_METHOD_getUserAttribute)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_USERGROUP_METHOD_getGroupAttribute)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_USERGROUP_METHOD_validateUser)) {
+            if (arg1 == null || arg2 == null) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_INVALID_NUMBER_OF_ARGUMENTS_2_REQUIRED,
+                                                                "",
+                                                                el);
+               existingErrors.add(verr);
+            }
+         } else if (methodId.equals(SharkConstants.TOOL_AGENT_USERGROUP_METHOD_getAllGroups)
+                    || methodId.equals(SharkConstants.TOOL_AGENT_USERGROUP_METHOD_getAllUsers)) {
+            if (arg1 != null || arg2 != null) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_INVALID_NUMBER_OF_ARGUMENTS_0_REQUIRED,
+                                                                "",
+                                                                el);
+               existingErrors.add(verr);
+            }
+         } else if (arg1 == null || arg2 != null) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_LDAP_OR_USERGROUP_INVALID_NUMBER_OF_ARGUMENTS_1_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+      }
+      if ((arg1 != null && !compareDataTypes(arg1,
+                                             BasicType.class,
+                                             XPDLConstants.BASIC_TYPE_STRING))
+          || (arg2 != null && !compareDataTypes(arg2,
+                                                BasicType.class,
+                                                XPDLConstants.BASIC_TYPE_STRING))
+          || (method != null && !compareDataTypes(method,
+                                                  BasicType.class,
+                                                  XPDLConstants.BASIC_TYPE_STRING))
+          || (resultVarId != null && !compareDataTypes(resultVarId,
+                                                       BasicType.class,
+                                                       XPDLConstants.BASIC_TYPE_STRING))
+          || (name != null && !compareDataTypes(name,
+                                                BasicType.class,
+                                                XPDLConstants.BASIC_TYPE_STRING))) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+
+      }
+   }
+
+   protected void validateToolAgentXPath(Application el,
+                                         List existingErrors,
+                                         boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter node = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_NODE);
+      FormalParameter expressions = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_EXPRESSIONS);
+      FormalParameter resultVariableIds = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_VARIABLE_IDS);
+      if (node == null || expressions == null || resultVariableIds == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_XPATH_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else {
+         if (!compareDataTypes(node, SchemaType.class, null)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+         if (!compareDataTypes(node, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+         if (!compareDataTypes(node, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+      }
+   }
+
+   protected void validateToolAgentXPIL(Application el,
+                                        List existingErrors,
+                                        boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter xpil = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_XPIL);
+      if (xpil == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_XPIL_XPIL_PARAMETER_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else if (!compareDataTypes(xpil, SchemaType.class, null)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      }
+   }
+
+   protected void validateToolAgentXSLT(Application el,
+                                        List existingErrors,
+                                        boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL);
+      if (result == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_RESULT_PARAMETER_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else if (result.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_IN)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else if (fps.size() == 1) {
+         ExtendedAttribute ea = el.getExtendedAttributes()
+            .getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+         if (ea == null || ea.getVValue().trim().equals("")) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_TRANSFORMER_PARAMETER_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+      } else {
+         boolean hasTransformation = false;
+         List l = fps.toElements();
+         for (int i = 0; i < l.size(); i++) {
+            FormalParameter fp = (FormalParameter) l.get(i);
+            if (fp.getId()
+               .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
+                || fp.getId()
+                   .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
+                || fp.getId()
+                   .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                || fp.getId()
+                   .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
+               hasTransformation = true;
+               if (fp.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_OUT)) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                                                                   "",
+                                                                   el);
+                  existingErrors.add(verr);
+                  if (!fullCheck)
+                     break;
+               }
+               if (fp.getId()
+                  .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                   && !compareDataTypes(fp, SchemaType.class, null)) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                                                                   "",
+                                                                   el);
+                  existingErrors.add(verr);
+               } else if (!fp.getId()
+                  .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                          && !compareDataTypes(fp,
+                                               BasicType.class,
+                                               XPDLConstants.BASIC_TYPE_STRING)) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                                   "",
+                                                                   el);
+                  existingErrors.add(verr);
+               }
+               break;
+            }
+         }
+         if (!hasTransformation) {
+            ExtendedAttribute ea = el.getExtendedAttributes()
+               .getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+            if (ea == null || ea.getVValue().trim().equals("")) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_TRANSFORMER_PARAMETER_REQUIRED,
+                                                                "",
+                                                                el);
+               existingErrors.add(verr);
+            }
+         }
+      }
+   }
 }

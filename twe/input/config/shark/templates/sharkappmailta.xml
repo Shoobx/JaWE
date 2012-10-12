@@ -34,6 +34,8 @@
       </FormalParameter>
    </FormalParameters>
    <ExtendedAttributes>
-        <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
+      <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
+      <ExtendedAttribute Name="AppMode" Value="0"/>
+      <ExtendedAttribute Name="MAIL_TOOL_AGENT_SEND_EXECUTION_MODE" Value="synchronous"/>
     </ExtendedAttributes>
 </Application>

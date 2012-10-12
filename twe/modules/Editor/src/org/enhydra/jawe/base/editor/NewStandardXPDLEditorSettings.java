@@ -115,10 +115,10 @@ public class NewStandardXPDLEditorSettings extends PanelSettings {
                             "Id Name Source Target AssociationDirection");
       componentSettings.put("ShowColumns.XMLTablePanel.Artifacts",
                             "Id Name ArtifactType TextAnnotation");
-      componentSettings.put("ShowColumns.XMLTablePanel.DataFields", "Id Name DataType");
+      componentSettings.put("ShowColumns.XMLTablePanel.DataFields", "Id Name DataType IsArray InitialValue");
       componentSettings.put("ShowColumns.XMLTablePanel.ExtendedAttributes", "Name Value");
       componentSettings.put("ShowColumns.XMLTablePanel.FormalParameters",
-                            "Id Name Mode DataType");
+                            "Id Name Mode DataType IsArray");
       componentSettings.put("ShowColumns.XMLTablePanel.Namespaces", "Name location");
       componentSettings.put("ShowColumns.XMLTablePanel.Participants",
                             "Id Name ParticipantType");

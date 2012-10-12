@@ -67,7 +67,7 @@ public class SharkUtils {
          } catch (Exception ex) {
          }
       }
-      return appDefChoices;
+      return new ArrayList(appDefChoices);
    }
 
    public static List getPossibleVariableChoices(Map vars, List varIds, String curId) {
