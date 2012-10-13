@@ -493,7 +493,8 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          XMLElement dt = fp.getDataType().getDataTypes().getChoosen();
          boolean firstMatch = dt.getClass() == dataTypeClass;
          boolean secondMatch = dataTypeClass != BasicType.class
-                               || ((BasicType) dt).getType().equals(subType);
+                               || (dataTypeClass == BasicType.class && ((BasicType) dt).getType()
+                                  .equals(subType));
          return firstMatch && secondMatch;
       }
       return false;
@@ -728,7 +729,8 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                           "",
                                                           el);
          existingErrors.add(verr);
-      } else if (taProxyName.equals(SharkConstants.TOOL_AGENT_QUARTZ) || taProxyName.equals(SharkConstants.TOOL_AGENT_SCHEDULER)) {
+      } else if (taProxyName.equals(SharkConstants.TOOL_AGENT_QUARTZ)
+                 || taProxyName.equals(SharkConstants.TOOL_AGENT_SCHEDULER)) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_QUARTZ_OR_SCHEDULER_TOOL_AGENT_CLASS_PROXY_REFERENCE_INVALID,

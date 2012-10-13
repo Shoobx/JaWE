@@ -179,7 +179,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
    public XMLElement getTemplateElement(String templateId) {
       if (templateMap.get(templateId) == null)
-         System.out.println("TID=" + templateId);
+         System.out.println("TM="+templateMap.keySet()+", TID="+templateId);
       return (XMLElement) ((XMLElement) templateMap.get(templateId)).clone();
    }
 

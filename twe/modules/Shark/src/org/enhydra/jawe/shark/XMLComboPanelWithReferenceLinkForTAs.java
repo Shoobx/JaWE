@@ -27,8 +27,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -38,8 +40,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
+import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.editor.StandardXPDLElementEditor;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelContainer;
@@ -58,6 +62,9 @@ import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLEmptyChoiceElement;
 import org.enhydra.jxpdl.XMLSimpleElement;
 import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
 
 /**
  * Creates panel with JLabel and JComboBox.
@@ -142,7 +149,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       } else {
          chsn = new XMLElementView(pc, choosen, XMLElementView.TOVALUE);
       }
-      
+
       jcb = new JComboBox(XMLComboPanelWithReferenceLink.sortComboEntries(chs));
       jcb.setRenderer(new TooltipComboRenderer());
       // jcb.setMinimumSize(new Dimension(400,50));
@@ -168,7 +175,8 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       jcb.addItemListener(new ItemListener() {
          public void itemStateChanged(ItemEvent e) {
             Object sel = getSelectedItem();
-            if (!(sel instanceof XMLElement) || (((ToolAgentElementBase)sel).size()==0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
+            if (!(sel instanceof ToolAgentElementBase)
+                || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
                jb.setEnabled(false);
             } else {
                jb.setEnabled(true);
@@ -184,11 +192,13 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          jcb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                Object sel = getSelectedItem();
-               if (!(sel instanceof XMLElement) || (((ToolAgentElementBase)sel).size()==0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
+               if (!(sel instanceof ToolAgentElementBase)
+                   || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
                   jb.setEnabled(false);
                } else {
                   jb.setEnabled(true);
                }
+               updateApplication(((XMLElement) sel).toName());
                if (getPanelContainer() == null)
                   return;
                getPanelContainer().panelChanged(p, ae);
@@ -198,7 +208,8 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          jcb.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                Object sel = getSelectedItem();
-               if (!(sel instanceof XMLElement) || (((ToolAgentElementBase)sel).size()==0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
+               if (!(sel instanceof ToolAgentElementBase)
+                   || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
                   jb.setEnabled(false);
                } else {
                   jb.setEnabled(true);
@@ -235,23 +246,86 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       jb.setPreferredSize(new Dimension(refButDimension));
       jb.setRolloverEnabled(true);
       jb.setContentAreaFilled(false);
-      jb.setEnabled(!(choosen instanceof XMLEmptyChoiceElement) && (((ToolAgentElementBase)choosen).size()>0 || choosen instanceof LDAPOrUserGroupToolAgentElement));
+      jb.setEnabled(!(choosen instanceof XMLEmptyChoiceElement)
+                    && (((ToolAgentElementBase) choosen).size() > 0 || choosen instanceof LDAPOrUserGroupToolAgentElement));
 
       jb.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent ae) {
             String toShow = ((XMLElement) getSelectedItem()).toName();
             XMLElement taElement = ((SharkPanelGenerator) ((InlinePanel) getPanelContainer()).getPanelGenerator()).getToolAgentElement(XMLUtil.getApplication(((SpecialChoiceElement) getOwner()).getControlledElement()),
                                                                                                                                        toShow);
-            ((InlinePanel) getPanelContainer()).getJaWEComponent().setUpdateInProgress(true);
+            ((InlinePanel) getPanelContainer()).getJaWEComponent()
+               .setUpdateInProgress(true);
             StandardXPDLElementEditor ed = new StandardXPDLElementEditor(true);
             ed.editXPDLElement(taElement);
-            ((InlinePanel) getPanelContainer()).getJaWEComponent().setUpdateInProgress(false);
+            ((InlinePanel) getPanelContainer()).getJaWEComponent()
+               .setUpdateInProgress(false);
 
          }
 
       });
       add(jb);
 
+   }
+
+   protected void updateApplication(String taElement) {
+      String toShow = ((XMLElement) getSelectedItem()).toName();
+      Application app = (Application) JaWEManager.getInstance()
+         .getJaWEController()
+         .getJaWETypes()
+         .getTemplateElement(toShow);
+      if (app != null) {         
+         List<ExtendedAttribute> ealist = app.getExtendedAttributes().toElements();
+         Application orig = XMLUtil.getApplication(((SpecialChoiceElement) getOwner()).getControlledElement());
+         ExtendedAttributes eas = orig.getExtendedAttributes();
+         Iterator it = eas.toElements().iterator();
+         JaWEController jc=JaWEManager.getInstance().getJaWEController();
+         jc.startUndouableChange();      
+         List<String> toRemoveNames = new ArrayList<String>();
+         while (it.hasNext()) {
+            ExtendedAttribute ea = (ExtendedAttribute)it.next();
+            if (!(ea.getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS) || ea.getName()
+               .equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY))) {
+               boolean toRemove = true;
+               for (int i=0; i<ealist.size(); i++) {
+                  ExtendedAttribute eapr = ealist.get(i);
+                  if (eapr.getName().equals(ea.getName())) {
+                     ea.setVValue(eapr.getVValue());
+                     toRemove = false;
+                     break;
+                  }
+               }
+               if (toRemove) {
+                  toRemoveNames.add(ea.getName());
+               }
+            } else if (ea.getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY)) {
+               ea.setVValue(toShow);
+            }
+         }
+         for (int i=0; i<toRemoveNames.size(); i++) {
+            String ean = toRemoveNames.get(i);
+            XMLElement toRem = null;
+            while ((toRem=eas.getFirstExtendedAttributeForName(ean))!=null) {
+               eas.remove(toRem);
+            }
+         }
+         for (int i=0; i<ealist.size(); i++) {
+            ExtendedAttribute eapr = ealist.get(i);
+            if (eas.getFirstExtendedAttributeForName(eapr.getName())==null) {
+               ExtendedAttribute ea = (ExtendedAttribute)eas.generateNewElement();
+               ea.setName(eapr.getName());
+               ea.setVValue(eapr.getVValue());
+               eas.add(ea);
+            }
+         }
+
+         orig.getApplicationTypes()
+            .getFormalParameters()
+            .makeAs(app.getApplicationTypes().getFormalParameters());
+         List toSelect = new ArrayList();
+         toSelect.add(orig);
+         jc.endUndouableChange(toSelect);
+      }
    }
 
    public boolean validateEntry() {
@@ -313,7 +387,6 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          } else {
             el = jcb.getSelectedItem();
          }
-
          if (el instanceof XMLElementView) {
             XMLElementView ev = (XMLElementView) getComboBox().getSelectedItem();
             if (ev != null) {

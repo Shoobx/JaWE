@@ -1241,7 +1241,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             null,
                                                             true,
                                                             false,
-                                                            false,
+                                                            true,
                                                             JaWEManager.getInstance()
                                                                .getJaWEController()
                                                                .canModifyElement(el));
