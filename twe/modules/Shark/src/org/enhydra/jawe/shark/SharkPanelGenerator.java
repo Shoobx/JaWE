@@ -480,7 +480,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (el instanceof ToolAgentElementBase) {
          if (el instanceof LDAPOrUserGroupToolAgentElement) {
             return new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(),
-                                                                  XMLUtil.getApplication(el));
+                                                                  (LDAPOrUserGroupToolAgentElement) el);
          }
          return generateSharkModeGroupPanel((XMLComplexElement) el, false, false);
       }
@@ -1185,31 +1185,24 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                     .equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY))) {
          String name = el.getParent() instanceof ProxyBasedToolAgentElement ? SharkConstants.EA_TOOL_AGENT_CLASS_PROXY
                                                                            : SharkConstants.EA_TOOL_AGENT_CLASS;
-         String choosen = el.toValue();
-         List choices = SharkUtils.getAppDefChoices();
-         if (name.equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY)) {
+         if (name.equals(SharkConstants.EA_TOOL_AGENT_CLASS)) {
+            return new XMLTextPanel(getPanelContainer(),
+                                    el,
+                                    getPanelContainer().getLanguageDependentString(name
+                                                                                   + "Key"),
+                                    false,
+                                    false,
+                                    JaWEManager.getInstance()
+                                       .getJaWEController()
+                                       .canModifyElement(el));
+         } else {
+            String choosen = el.toValue();
+            List choices = SharkUtils.getAppDefChoices();
             choices.remove(SharkConstants.TOOL_AGENT_QUARTZ);
             choices.remove(SharkConstants.TOOL_AGENT_SCHEDULER);
-         }
-         if (!choices.contains(choosen)) {
-            choices.add(0, choosen);
-         }
-         if (name.equals(SharkConstants.EA_TOOL_AGENT_CLASS)) {
-            return new XMLComboPanel(getPanelContainer(),
-                                     el,
-                                     getPanelContainer().getLanguageDependentString(name
-                                                                                    + "Key"),
-                                     choices,
-                                     true,
-                                     true,
-                                     false,
-                                     true,
-                                     JaWEManager.getInstance()
-                                        .getJaWEController()
-                                        .canModifyElement(el),
-                                     true,
-                                     true);
-         } else {
+            if (!choices.contains(choosen)) {
+               choices.add(0, choosen);
+            }
             Application app = XMLUtil.getApplication(el);
             List specChoices = new ArrayList();
             Object specChoosen = null;

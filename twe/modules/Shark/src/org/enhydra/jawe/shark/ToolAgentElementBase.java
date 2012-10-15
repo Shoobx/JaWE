@@ -18,6 +18,8 @@
 
 package org.enhydra.jawe.shark;
 
+import org.enhydra.jawe.JaWEManager;
+import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.elements.Application;
 
@@ -29,11 +31,32 @@ public abstract class ToolAgentElementBase extends XMLComplexElement {
       notifyListeners = false;
       handleStructure();
       setReadOnly(app.isReadOnly());
+      getToolAgentClass().setReadOnly(true);
+   }
+
+   public XMLAttribute getToolAgentClass() {
+      return (XMLAttribute) get(SharkConstants.EA_TOOL_AGENT_CLASS);
    }
 
    protected abstract void handleStructure();
 
-   public String toValue () {
+   protected void fillStructure() {
+      XMLAttribute taname = new XMLAttribute(this,
+                                             SharkConstants.EA_TOOL_AGENT_CLASS,
+                                             true);
+      String cn = JaWEManager.getInstance()
+         .getJaWEController()
+         .getSettings()
+         .getLanguageDependentString(toName() + "Key");
+      if (cn == null) {
+         cn = toName();
+      }
+      taname.setValue(cn);
+      taname.setReadOnly(true);
+      add(taname);
+   }
+
+   public String toValue() {
       return toName();
    }
 }

@@ -11,13 +11,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.enhydra.jawe.JaWEEAHandler;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelGenerator;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.FormalParameter;
@@ -39,31 +39,32 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
    protected String namePrefix;
 
    public SharkLDAPAndUserGroupToolAgentDynamicPanel(PanelContainer pc,
-                                                     Application myOwner) {
+                                                     LDAPOrUserGroupToolAgentElement myOwner) {
 
       super(pc, myOwner, "", true, false, false);
+      Application app = XMLUtil.getApplication(myOwner);
       boolean enableEditing = !myOwner.isReadOnly();
       String className = null;
-      FormalParameters fps = new FormalParameters(myOwner.getApplicationTypes());
+      FormalParameters fps = new FormalParameters(app.getApplicationTypes());
       fps.setNotifyListeners(false);
       fps.setNotifyMainListeners(false);
 
       String taName = null;
-      ExtendedAttribute eataname = myOwner.getExtendedAttributes()
+      ExtendedAttribute eataname = app.getExtendedAttributes()
          .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
       if (eataname != null) {
          taName = eataname.getVValue();
       }
       if (taName.equals(SharkConstants.TOOL_AGENT_QUARTZ)
           || taName.equals(SharkConstants.TOOL_AGENT_SCHEDULER)) {
-         eataname = myOwner.getExtendedAttributes()
+         eataname = app.getExtendedAttributes()
             .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY);
          if (eataname != null) {
             taName = eataname.getVValue();
          }
       }
       String methodName = "";
-      ExtendedAttribute eamethodname = myOwner.getExtendedAttributes()
+      ExtendedAttribute eamethodname = app.getExtendedAttributes()
          .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
       if (eamethodname != null) {
          methodName = eamethodname.getVValue();
@@ -78,17 +79,20 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
       mthds = getMethods(className);
 
       if (!mthds.containsKey(methodName)) {
-         fps.makeAs(myOwner.getApplicationTypes().getFormalParameters());
+         fps.makeAs(app.getApplicationTypes().getFormalParameters());
          fps.setReadOnly(true);
          mthds.put("", fps);
       } else {
          fps = (FormalParameters) mthds.get(methodName);
-         if (!fps.equals(myOwner.getApplicationTypes().getFormalParameters())) {
+         if (!fps.equals(app.getApplicationTypes().getFormalParameters())) {
             if (enableEditing) {
                pc.panelChanged(this, null);
             }
          }
       }
+      XMLAttribute attrToolAgentClass = myOwner.getToolAgentClass();
+      XMLPanel tap = getPanelContainer().getPanelGenerator().getPanel(attrToolAgentClass);
+
       XMLAttribute attrMethodName = new XMLAttribute(null, "Method", true);
       attrMethodName.setValue(methodName);
       final XMLComboPanel mp = new XMLComboPanel(getPanelContainer(),
@@ -124,25 +128,26 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
 
       PanelGenerator pg = pc.getPanelGenerator();
       XMLPanel fp = pg.getPanel(fps);
+      add(tap);
       add(mp);
       add(fp);
 
    }
 
    public void setElements() {
-      FormalParameters fps = ((Application) getOwner()).getApplicationTypes()
+      FormalParameters fps = XMLUtil.getApplication(getOwner()).getApplicationTypes()
          .getFormalParameters();
-      FormalParameters fps2 = (FormalParameters) ((XMLPanel) getComponent(1)).getOwner();
+      FormalParameters fps2 = (FormalParameters) ((XMLPanel) getComponent(2)).getOwner();
 
-      ((XMLPanel) getComponent(0)).setElements();
+      ((XMLPanel) getComponent(1)).setElements();
 
-      ExtendedAttribute eamethod = ((Application) getOwner()).getExtendedAttributes()
+      ExtendedAttribute eamethod = XMLUtil.getApplication(getOwner()).getExtendedAttributes()
          .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
       String method = eamethod != null ? eamethod.getVValue() : "";
-      String methodNew = ((XMLPanel) getComponent(0)).getOwner().toValue();
+      String methodNew = ((XMLPanel) getComponent(1)).getOwner().toValue();
       if (!method.equals(methodNew) || !fps.equals(fps2)) {
          SharkUtils.updateSingleExtendedAttribute(null,
-                                                  ((Application) getOwner()).getExtendedAttributes(),
+                                                  (XMLUtil.getApplication(getOwner())).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_NAME,
                                                   methodNew,
                                                   true);
@@ -152,9 +157,9 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
 
    public void setFormalParameters(String mthName) {
       PanelGenerator pg = pc.getPanelGenerator();
-      remove(1);
+      remove(2);
       XMLPanel fpPanel = pg.getPanel((FormalParameters) mthds.get(mthName));
-      add(fpPanel, 1);
+      add(fpPanel, 2);
       validate();
    }
 
@@ -225,7 +230,8 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
    }
 
    protected FormalParameters getFPs(String mthName, List<Class> ms) {
-      FormalParameters fps = new FormalParameters(((Application) getOwner()).getApplicationTypes());
+      FormalParameters fps = new FormalParameters(XMLUtil.getApplication(getOwner())
+         .getApplicationTypes());
       fps.setNotifyListeners(false);
       fps.setNotifyMainListeners(false);
       for (int i = 0; i < ms.size(); i++) {

@@ -65,6 +65,7 @@ public class MailToolAgentElement extends ToolAgentElementBase {
    }
 
    protected void fillStructure() {
+      super.fillStructure();
       XMLAttribute appMode = new XMLAttribute(this,
                                               SharkConstants.EA_APP_MODE,
                                               false,

@@ -47,6 +47,7 @@ public class ScriptBasedToolAgentElement extends ToolAgentElementBase {
    }
 
    protected void fillStructure() {
+      super.fillStructure();
       XMLAttribute script = new XMLAttribute(this, SharkConstants.EA_SCRIPT, true);
       add(script);
    }

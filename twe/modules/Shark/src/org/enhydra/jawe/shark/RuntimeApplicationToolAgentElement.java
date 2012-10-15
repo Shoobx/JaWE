@@ -61,6 +61,7 @@ public class RuntimeApplicationToolAgentElement extends ToolAgentElementBase {
    }
 
    protected void fillStructure() {
+      super.fillStructure();
       XMLAttribute appName = new XMLAttribute(this, SharkConstants.EA_APP_NAME, true);
       XMLAttribute appMode = new XMLAttribute(this,
                                               SharkConstants.EA_APP_MODE,

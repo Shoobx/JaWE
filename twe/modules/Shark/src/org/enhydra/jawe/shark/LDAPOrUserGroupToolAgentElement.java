@@ -26,9 +26,6 @@ public class LDAPOrUserGroupToolAgentElement extends ToolAgentElementBase {
       super(app, name);
    }
 
-   protected void fillStructure() {
-   }
-
    protected void handleStructure() {
       
    }

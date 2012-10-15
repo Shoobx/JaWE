@@ -493,7 +493,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          XMLElement dt = fp.getDataType().getDataTypes().getChoosen();
          boolean firstMatch = dt.getClass() == dataTypeClass;
          boolean secondMatch = dataTypeClass != BasicType.class
-                               || (dataTypeClass == BasicType.class && ((BasicType) dt).getType()
+                               || (dt instanceof BasicType && ((BasicType) dt).getType()
                                   .equals(subType));
          return firstMatch && secondMatch;
       }
@@ -572,14 +572,14 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
                                                           "",
-                                                          el);
+                                                          alloweddfs);
          existingErrors.add(verr);
       } else if (unsupporteddids.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_IN)) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
                                                           "",
-                                                          el);
+                                                          unsupporteddids);
          existingErrors.add(verr);
       }
    }
@@ -665,26 +665,43 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             existingErrors.add(verr);
          }
       }
-      if ((arg1 != null && !compareDataTypes(arg1,
-                                             BasicType.class,
-                                             XPDLConstants.BASIC_TYPE_STRING))
-          || (arg2 != null && !compareDataTypes(arg2,
-                                                BasicType.class,
-                                                XPDLConstants.BASIC_TYPE_STRING))
-          || (method != null && !compareDataTypes(method,
-                                                  BasicType.class,
-                                                  XPDLConstants.BASIC_TYPE_STRING))
-          || (resultVarId != null && !compareDataTypes(resultVarId,
-                                                       BasicType.class,
-                                                       XPDLConstants.BASIC_TYPE_STRING))) {
-
+      if (arg1 != null
+          && !compareDataTypes(arg1, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                                           "",
-                                                          el);
+                                                          arg1);
          existingErrors.add(verr);
-
+      }
+      if (arg2 != null
+          && !compareDataTypes(arg2, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          arg2);
+         existingErrors.add(verr);
+      }
+      if (method != null
+          && !compareDataTypes(method, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          method);
+         existingErrors.add(verr);
+      }
+      if (resultVarId != null
+          && !compareDataTypes(resultVarId,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          resultVarId);
+         existingErrors.add(verr);
       }
    }
 
@@ -860,28 +877,52 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             existingErrors.add(verr);
          }
       }
-      if ((arg1 != null && !compareDataTypes(arg1,
-                                             BasicType.class,
-                                             XPDLConstants.BASIC_TYPE_STRING))
-          || (arg2 != null && !compareDataTypes(arg2,
-                                                BasicType.class,
-                                                XPDLConstants.BASIC_TYPE_STRING))
-          || (method != null && !compareDataTypes(method,
-                                                  BasicType.class,
-                                                  XPDLConstants.BASIC_TYPE_STRING))
-          || (resultVarId != null && !compareDataTypes(resultVarId,
-                                                       BasicType.class,
-                                                       XPDLConstants.BASIC_TYPE_STRING))
-          || (name != null && !compareDataTypes(name,
-                                                BasicType.class,
-                                                XPDLConstants.BASIC_TYPE_STRING))) {
+      if (arg1 != null
+          && !compareDataTypes(arg1, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                                           "",
-                                                          el);
+                                                          arg1);
          existingErrors.add(verr);
-
+      }
+      if (arg2 != null
+          && !compareDataTypes(arg2, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          arg2);
+         existingErrors.add(verr);
+      }
+      if (method != null
+          && !compareDataTypes(method, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          method);
+         existingErrors.add(verr);
+      }
+      if (resultVarId != null
+          && !compareDataTypes(resultVarId,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          resultVarId);
+         existingErrors.add(verr);
+      }
+      if (name != null
+          && !compareDataTypes(name, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                          "",
+                                                          name);
+         existingErrors.add(verr);
       }
    }
 
@@ -903,26 +944,44 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          if (!compareDataTypes(node, SchemaType.class, null)) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
-                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
                                                              "",
-                                                             el);
+                                                             node);
             existingErrors.add(verr);
          }
-         if (!compareDataTypes(node, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+         if (!compareDataTypes(expressions,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING)) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
                                                              SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                                              "",
-                                                             el);
+                                                             expressions);
             existingErrors.add(verr);
          }
-         if (!compareDataTypes(node, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+         if (!compareDataTypes(resultVariableIds,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING)) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
                                                              SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                                              "",
-                                                             el);
+                                                             resultVariableIds);
             existingErrors.add(verr);
+         }
+      }
+      for (int i = 0; i < fps.size(); i++) {
+         FormalParameter fp = (FormalParameter) fps.get(i);
+         if (fp.getId()
+            .startsWith(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_PREFIX_XML_PREFIX_AND_NAMESPACE_URI)) {
+            if (!compareDataTypes(fp, BasicType.class, XPDLConstants.BASIC_TYPE_STRING)) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                                "",
+                                                                fp);
+               existingErrors.add(verr);
+            }
          }
       }
    }
@@ -944,7 +1003,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
                                                           "",
-                                                          el);
+                                                          xpil);
          existingErrors.add(verr);
       }
    }
@@ -966,7 +1025,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
                                                           "",
-                                                          el);
+                                                          result);
          existingErrors.add(verr);
       } else if (fps.size() == 1) {
          ExtendedAttribute ea = el.getExtendedAttributes()
@@ -998,7 +1057,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
                                                                    "",
-                                                                   el);
+                                                                   fp);
                   existingErrors.add(verr);
                   if (!fullCheck)
                      break;
@@ -1010,7 +1069,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
                                                                    "",
-                                                                   el);
+                                                                   fp);
                   existingErrors.add(verr);
                } else if (!fp.getId()
                   .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
@@ -1021,7 +1080,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                                                    "",
-                                                                   el);
+                                                                   fp);
                   existingErrors.add(verr);
                }
                break;

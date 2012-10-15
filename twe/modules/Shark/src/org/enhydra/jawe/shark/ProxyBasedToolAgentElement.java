@@ -47,6 +47,7 @@ public class ProxyBasedToolAgentElement extends ToolAgentElementBase {
    }
 
    protected void fillStructure() {
+      super.fillStructure();
       XMLAttribute taproxy = new XMLAttribute(this, SharkConstants.EA_TOOL_AGENT_CLASS_PROXY, true);
       add(taproxy);
    }

@@ -48,6 +48,7 @@ public class SOAPToolAgentElement extends ToolAgentElementBase {
    }
 
    protected void fillStructure() {
+      super.fillStructure();
       XMLAttribute appName = new XMLAttribute(this, "URL", true);
       add(appName);
    }

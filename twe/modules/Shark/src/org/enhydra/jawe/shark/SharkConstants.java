@@ -110,6 +110,7 @@ public class SharkConstants  {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_NODE = "Node";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_EXPRESSIONS = "Expressions";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RESULT_VARIABLE_IDS = "ResultVariableIds";
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_PREFIX_XML_PREFIX_AND_NAMESPACE_URI = "XML_PREFIX_AND_NAMESPACE_URI";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_XPIL = "XPIL";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_METHOD = "Method";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_ARG1 = "Arg1";

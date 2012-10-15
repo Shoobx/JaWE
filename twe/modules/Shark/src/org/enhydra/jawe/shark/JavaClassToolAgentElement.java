@@ -47,6 +47,7 @@ public class JavaClassToolAgentElement extends ToolAgentElementBase {
    }
 
    protected void fillStructure() {
+      super.fillStructure();
       XMLAttribute appName = new XMLAttribute(this, SharkConstants.EA_APP_NAME, true);
       add(appName);
    }

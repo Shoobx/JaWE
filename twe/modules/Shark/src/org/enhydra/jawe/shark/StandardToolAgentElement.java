@@ -26,7 +26,13 @@ public class StandardToolAgentElement extends ToolAgentElementBase {
       super(app, name);
    }
 
-   protected void fillStructure() {
+   public void setValue(String v) {
+      if (isReadOnly) {
+         throw new RuntimeException("Can't set the value of read only element!");
+      }
+      if (v != null) {
+         this.value = v;
+      }
    }
 
    protected void handleStructure() {
