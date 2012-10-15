@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see http://www.gnu.org/licenses
 -->
-<Application Id="check_document_format" Name="Check Document Format">
+<Application Id="check_document_formats" Name="Check Document Formats">
    <FormalParameters>
       <FormalParameter Id="ALLOWED_DOCUMENT_FORMATS" IsArray="false" Mode="IN">
          <DataType>
