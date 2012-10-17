@@ -34,6 +34,8 @@ public class EmailConfigurationElement extends XMLComplexElement {
 
    protected ExtendedAttributes eas;
 
+   protected boolean isPersisted = false;
+
    public EmailConfigurationElement(ExtendedAttributes eas) {
       super(eas.getParent(), "EmailConfiguration", true);
       this.eas = eas;
@@ -51,35 +53,43 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE,
-                                                  null, false);
+                                                  null,
+                                                  false);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE,
-                                                  null, false);
+                                                  null,
+                                                  false);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY,
-                                                  null, false);
+                                                  null,
+                                                  false);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT,
-                                                  null, true);
+                                                  null,
+                                                  true);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT,
-                                                  null, true);
+                                                  null,
+                                                  true);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS,
-                                                  null, true);
+                                                  null,
+                                                  true);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES,
-                                                  null, true);
+                                                  null,
+                                                  true);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS,
-                                                  null, true);
+                                                  null,
+                                                  true);
       } else {
          this.value = v;
       }
@@ -181,24 +191,32 @@ public class EmailConfigurationElement extends XMLComplexElement {
    }
 
    protected void handleStructure() {
+      int pc = 0;
       Iterator it = eas.toElements().iterator();
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
-         XMLElement attr = get(ea.getName());
+         String eaname = ea.getName();
+         XMLElement attr = get(eaname);
          if (attr != null) {
-            if (ea.getName()
-               .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
-                || ea.getName()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
-                || ea.getName()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)) {
-               ((WfVariables) attr).createStructure(ea.getVValue());
+            String eaval = ea.getVValue();
+            if (eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
+                || eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                || eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)) {
+               ((WfVariables) attr).createStructure(eaval);
             } else {
-               attr.setValue(ea.getVValue());
+               if (eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE)
+                   || eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE)
+                   || eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY)) {
+                  pc++;
+               }
+               attr.setValue(eaval);
             }
          }
       }
-
+      isPersisted = pc >= 3;
    }
 
+   public boolean isPersisted() {
+      return isPersisted;
+   }
 }

@@ -242,6 +242,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                       true,
                                                       false,
                                                       false);
+      if (!el.isPersisted()) {
+         getPanelContainer().panelChanged(ltPanel, null);
+      }
       return ltPanel;
    }
 
