@@ -117,11 +117,15 @@ public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
       List<ActualParameter> apslist = new ArrayList<ActualParameter>(aps.toElements());
 
       if (fps != null) {
+         int ss = apslist.size();
          while (apslist.size() < fps.size()) {
             apslist.add((ActualParameter) aps.generateNewElement());
          }
          while (apslist.size() > fps.size()) {
             apslist.remove(apslist.size() - 1);
+         }
+         if (apslist.size() != ss) {
+            getPanelContainer().panelChanged(this, null);
          }
          Map chm = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(myOwner));
          for (int i = 0; i < fps.size(); i++) {
