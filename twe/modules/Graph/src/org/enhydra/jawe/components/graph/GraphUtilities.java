@@ -2233,7 +2233,7 @@ public class GraphUtilities {
             }
          }
          boolean updated = false;
-         System.out.println("CPARS=" + currentPars);
+//         System.out.println("CPARS=" + currentPars);
          // List agp = new ArrayList(allGraphParticipants);
          // for (int i = 0; i < agp.size(); i++) {
          // System.out.println("GPARS="+allGraphParticipants);
@@ -2256,7 +2256,7 @@ public class GraphUtilities {
          // }
 
          for (int i = 0; i < currentPars.size(); i++) {
-            System.out.println("GPARS=" + allGraphParticipants);
+//            System.out.println("GPARS=" + allGraphParticipants);
             GraphSwimlaneInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
             if (!helper.contains(gpar))
                continue;
@@ -2281,7 +2281,7 @@ public class GraphUtilities {
             }
          }
          for (int i = 0; i < currentPars.size(); i++) {
-            System.out.println("GPARS=" + allGraphParticipants);
+//            System.out.println("GPARS=" + allGraphParticipants);
             GraphSwimlaneInterface gpar = gmgr.getGraphParticipant(currentPars.get(i));
             if (!helper2.contains(gpar))
                continue;

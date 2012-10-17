@@ -39,7 +39,7 @@ public class SharkModeGroupPanel extends XMLGroupPanel {
                         boolean hasBorder,
                         boolean hasEmptyBorder) {
 
-      super(pc, myOwnerL, elements, title, isVertical, hasBorder, hasEmptyBorder);
+      super(pc, myOwnerL, elements, title, isVertical, hasBorder, hasEmptyBorder, null);
    }
 
    public void setElements() {

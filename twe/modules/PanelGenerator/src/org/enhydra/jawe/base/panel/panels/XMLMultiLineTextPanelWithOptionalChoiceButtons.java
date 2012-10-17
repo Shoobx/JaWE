@@ -23,7 +23,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Box;
@@ -46,7 +45,7 @@ import org.enhydra.jxpdl.XMLElement;
  * @author Sasa Bojanic
  */
 public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPanel implements
-                                                                        XMLAppendChoiceInterface {
+                                                                                 XMLAppendChoiceInterface {
 
    public static int SIZE_SMALL = 0;
 
@@ -71,12 +70,12 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
    protected boolean falseRequiredForCC = false;
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
-                                                XMLElement myOwner,
-                                                boolean isVertical,
-                                                int type,
-                                                boolean wrapLines,
-                                                boolean isEnabled,
-                                                List<List> choices) {
+                                                         XMLElement myOwner,
+                                                         boolean isVertical,
+                                                         int type,
+                                                         boolean wrapLines,
+                                                         boolean isEnabled,
+                                                         List<List> choices) {
       this(pc,
            myOwner,
            myOwner.toName(),
@@ -85,20 +84,22 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
            type,
            wrapLines,
            choices,
-           isEnabled);
+           isEnabled,
+           null);
    }
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
-                                                XMLElement myOwner,
-                                                String labelKey,
-                                                boolean isFalseRequired,
-                                                boolean isVertical,
-                                                int type,
-                                                boolean wrapLines,
-                                                List<List> choices,
-                                                boolean isEnabled) {
+                                                         XMLElement myOwner,
+                                                         String labelKey,
+                                                         boolean isFalseRequired,
+                                                         boolean isVertical,
+                                                         int type,
+                                                         boolean wrapLines,
+                                                         List<List> choices,
+                                                         boolean isEnabled,
+                                                         String tooltip) {
 
-      super(pc, myOwner, "", false, false, true);
+      super(pc, myOwner, "", false, false, true, tooltip);
 
       this.falseRequiredForCC = isFalseRequired;
 

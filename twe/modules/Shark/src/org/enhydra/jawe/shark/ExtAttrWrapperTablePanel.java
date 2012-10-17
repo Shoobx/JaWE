@@ -62,7 +62,7 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
          final boolean showArrows,
          boolean useBasicToolBar) {
 
-      super(ipc, myOwner, new ArrayList(), myOwner.toElements(), title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, null, colors, showArrows, useBasicToolBar, false);
+      super(ipc, myOwner, new ArrayList(), myOwner.toElements(), title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, null, colors, showArrows, useBasicToolBar, false, null);
 
    }
 

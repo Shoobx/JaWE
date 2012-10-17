@@ -125,7 +125,7 @@ public class TogWETableEditor extends TableEditor implements Observer {
    }
 
    protected XMLSimpleTablePanel createSTP (String title, XMLCollection owner, List elements, List columnsToShow) {
-      return new XMLSimpleTableSelPanel(inlinePanel, owner, columnsToShow, elements, title, true, true, false); 
+      return new XMLSimpleTableSelPanel(inlinePanel, owner, columnsToShow, elements, title, true, true, false, null); 
    }
    
 }

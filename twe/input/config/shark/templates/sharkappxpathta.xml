@@ -21,21 +21,25 @@
          <DataType>
             <SchemaType/>
          </DataType>
+         <Description>Schema type variable, represents a node for XPath expressions.</Description>
       </FormalParameter>
       <FormalParameter Id="Expressions" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing a comma separated list of XPath expressions.</Description>
       </FormalParameter>
-      <FormalParameter Id="ResultVariableIds" IsArray="false" Mode="IN">
+      <FormalParameter Id="ResultVariableIds" Name="Ids of variables where the result will be stored" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing a comma separated list of Ids of variables where the result of XPath expressions will be stored.</Description>
       </FormalParameter>
-      <FormalParameter Id="XML_PREFIX_AND_NAMESPACE_URI" IsArray="false" Mode="IN">
+      <FormalParameter Id="XML_PREFIX_AND_NAMESPACE_URI" Name="XML Prefix and Namespace URI" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing a namespace and corresponding URI to be used in XPath expressions (e.g. "form=http://www.forms.com/schemas/2012").</Description>
       </FormalParameter>
    </FormalParameters>
    <ExtendedAttributes>

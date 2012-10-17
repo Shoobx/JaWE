@@ -41,9 +41,10 @@ public class XMLColorPanel extends XMLBasicPanel implements ChangeListener {
                         XMLElement myOwner,
                         String label,
                         boolean isVertical,
-                        boolean isEnabled) {
+                        boolean isEnabled,
+                        String tooltip) {
 
-      super(pc, myOwner, "", isVertical, false, true);
+      super(pc, myOwner, "", isVertical, false, true, tooltip);
       Color c = Utils.getColor(myOwner.toValue());
       if (c == null) {
          c = Color.BLACK;

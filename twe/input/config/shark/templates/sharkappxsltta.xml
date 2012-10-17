@@ -21,11 +21,13 @@
          <DataType>
             <SchemaType/>
          </DataType>
+         <Description>Schema type variable, representing source for XSLT transformation.</Description>
       </FormalParameter>
       <FormalParameter Id="result" Name="Result" IsArray="false" Mode="OUT">
          <DataType>
            <SchemaType/>
          </DataType>
+         <Description>Schema type variable, representing result of XSLT transformation.</Description>
       </FormalParameter>
    </FormalParameters>   
    <ExtendedAttributes>

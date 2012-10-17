@@ -72,9 +72,10 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
                                              boolean hasEmptyBorder,
                                              boolean isVertical,
                                              boolean isEditable,
-                                             boolean isEnabled) {
+                                             boolean isEnabled,
+                                             String tooltip) {
 
-      super(pc, myOwner, "", isVertical, false, hasEmptyBorder);
+      super(pc, myOwner, "", isVertical, false, hasEmptyBorder, tooltip);
 
       boolean panelEnabled = true;
       if (pc != null) {
@@ -150,7 +151,8 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
                                                              false,
                                                              mc,
                                                              isEnabled,
-                                                             initText);
+                                                             initText,
+                                                             null);
 
       panel.setAlignmentX(Component.LEFT_ALIGNMENT);
       panel.setAlignmentY(Component.TOP_ALIGNMENT);

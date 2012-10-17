@@ -200,7 +200,7 @@ public class DefInfoEditor extends JDialog {
                                                                  null));
       lst.add(new XMLTextPanel(null, di.get("Version"), false, false, true));
       lst.add(new XMLTextPanel(null, di.get("Status"), false, false, true));
-      XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true);
+      XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true, null);
       return gp;
    }
 

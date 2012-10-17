@@ -368,7 +368,7 @@ public class ExpressionLaneEditor {
                                                                           XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
                                                                           false,
                                                                           null,
-                                                                          !elementToEdit.isReadOnly());
+                                                                          !elementToEdit.isReadOnly(), null);
          } else {
             pIdPanel = new XMLTextPanel(null,
                                         elementToEdit.get("Name"),
@@ -387,7 +387,7 @@ public class ExpressionLaneEditor {
                                            "",
                                            true,
                                            false,
-                                           true);
+                                           true, null);
       return gp;
    }
 

@@ -33,8 +33,9 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
                                             XMLMultiLineTextPanelWithOptionalChoiceButtons {
 
    protected List configStringChoices;
+
    protected List commonInfoChoices;
-   
+
    public XMLMultiLineTextPanelForSMTPEAs(PanelContainer pc,
                                           XMLElement myOwner,
                                           boolean isVertical,
@@ -50,7 +51,8 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
            type,
            wrapLines,
            choices,
-           isEnabled);
+           isEnabled,
+           null);
    }
 
    public XMLMultiLineTextPanelForSMTPEAs(PanelContainer pc,
@@ -61,7 +63,8 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
                                           int type,
                                           boolean wrapLines,
                                           List<List> choices,
-                                          boolean isEnabled) {
+                                          boolean isEnabled,
+                                          String tooltip) {
 
       super(pc,
             myOwner,
@@ -71,18 +74,19 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
             type,
             wrapLines,
             choices,
-            isEnabled);
+            isEnabled,
+            tooltip);
       this.configStringChoices = choices.get(0);
       this.commonInfoChoices = choices.get(1);
    }
 
    public void appendText(String txt) {
       if (configStringChoices.contains(txt)) {
-         txt = "{config_string:"+txt+"}";
+         txt = "{config_string:" + txt + "}";
       } else if (commonInfoChoices.contains(txt)) {
-            txt = "{"+txt+"}";
+         txt = "{" + txt + "}";
       } else {
-         txt = "{process_variable:"+txt+"}";         
+         txt = "{process_variable:" + txt + "}";
       }
       super.appendText(txt);
    }

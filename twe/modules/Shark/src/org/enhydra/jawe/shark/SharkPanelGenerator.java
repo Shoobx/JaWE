@@ -32,9 +32,9 @@ import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
+import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
-import org.enhydra.jawe.base.panel.panels.XMLComboPanelWithReferenceLink;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
@@ -60,8 +60,10 @@ import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Script;
+import org.enhydra.jxpdl.elements.TaskApplication;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
@@ -124,19 +126,19 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                            null,
                                            false,
                                            enableEditing,
-                                           false);
+                                           false, null);
       XMLPanel executionMode = new XMLCheckboxPanel(getPanelContainer(),
                                                     el.getExecutionModeAttribute(),
                                                     null,
                                                     false,
                                                     enableEditing,
-                                                    false);
+                                                    false, null);
       XMLPanel groupEmailOnly = new XMLCheckboxPanel(getPanelContainer(),
                                                      el.getGroupEmailOnlyAttribute(),
                                                      null,
                                                      false,
                                                      enableEditing,
-                                                     false);
+                                                     false, null);
       List cbp = new ArrayList();
       cbp.add(mode);
       cbp.add(executionMode);
@@ -147,7 +149,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 getPanelContainer().getLanguageDependentString("SMTPEntries"),
                                                 false,
                                                 false,
-                                                false);
+                                                false, null);
 
       List variableChoices = getSMTPExpressionChoices(XMLUtil.getWorkflowProcess(el));
       List againVc = getSMTPExpressionChoices(XMLUtil.getWorkflowProcess(el));
@@ -181,7 +183,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                               enableEditing,
                                               true,
                                               true,
-                                              true);
+                                              true, null);
 
       XMLPanel attachmentNames = new XMLListPanel((InlinePanel) getPanelContainer(),
                                                   el.getAttachmentNamesElement(),
@@ -195,7 +197,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                   enableEditing,
                                                   true,
                                                   true,
-                                                  true);
+                                                  true, null);
       List alp = new ArrayList();
       alp.add(attachments);
       alp.add(attachmentNames);
@@ -205,7 +207,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                     getPanelContainer().getLanguageDependentString("SMTPEntries"),
                                                     false,
                                                     false,
-                                                    false);
+                                                    false, null);
 
       XMLPanel dmAttachments = new XMLListPanel((InlinePanel) getPanelContainer(),
                                                 el.getDMAttachmentsElement(),
@@ -218,7 +220,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 enableEditing,
                                                 true,
                                                 true,
-                                                true);
+                                                true, null);
 
       List tgp = new ArrayList();
 
@@ -292,7 +294,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                false,
                                                JaWEManager.getInstance()
                                                   .getJaWEController()
-                                                  .canModifyElement(ea));
+                                                  .canModifyElement(ea), null);
                gp.addToGroup(pnl);
             }
             ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
@@ -305,7 +307,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                false,
                                                JaWEManager.getInstance()
                                                   .getJaWEController()
-                                                  .canModifyElement(ea));
+                                                  .canModifyElement(ea), null);
                gp.addToGroup(pnl);
             }
             ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
@@ -318,7 +320,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                false,
                                                JaWEManager.getInstance()
                                                   .getJaWEController()
-                                                  .canModifyElement(ea));
+                                                  .canModifyElement(ea), null);
                gp.addToGroup(pnl);
             }
             p = gp;
@@ -378,7 +380,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                             false,
                                             false,
                                             true,
-                                            true));
+                                            true, null));
       }
 
       if (!hidden.contains(el.get("Description"))) {
@@ -428,7 +430,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                JaWEManager.getInstance().getLabelGenerator().getLabel(el),
                                true,
                                false,
-                               true);
+                               true, null);
    }
 
    public XMLElement getToolAgentElement(Application el, String taName) {
@@ -480,7 +482,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (el instanceof ToolAgentElementBase) {
          if (el instanceof LDAPOrUserGroupToolAgentElement) {
             return new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(),
-                                                                  (LDAPOrUserGroupToolAgentElement) el);
+                                                                  (LDAPOrUserGroupToolAgentElement) el, null);
          }
          return generateSharkModeGroupPanel((XMLComplexElement) el, false, false);
       }
@@ -523,7 +525,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          false,
                                          JaWEManager.getInstance()
                                             .getJaWEController()
-                                            .canModifyElement(ea));
+                                            .canModifyElement(ea), null);
          int insertAt = gp.getPanelPositionForElement(el.get("Length"));
          if (insertAt >= 0) {
             gp.addToGroup(pnl, insertAt);
@@ -541,7 +543,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          int insertAt = gp.getPanelPositionForElement(el.get("Length"));
          if (insertAt >= 0 && gp.getComponentCount() >= ++insertAt) {
             gp.addToGroup(cbp, insertAt);
@@ -559,7 +561,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          int insertAt = gp.getPanelPositionForElement(el.get("Length"));
          if (insertAt >= 0 && gp.getComponentCount() >= (insertAt += 2)) {
             gp.addToGroup(cbp, insertAt);
@@ -578,7 +580,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          int insertAt = gp.getPanelPositionForElement(el.get("Length"));
          if (insertAt >= 0 && gp.getComponentCount() >= (insertAt += 2)) {
             gp.addToGroup(cbp, insertAt);
@@ -608,7 +610,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                       .getLabel(el),
                                    JaWEManager.getInstance()
                                       .getJaWEController()
-                                      .canModifyElement(el));
+                                      .canModifyElement(el), null);
    }
 
    public XMLPanel getPanel(DeadlineDuration el) {
@@ -637,7 +639,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                 mc,
                                                                 JaWEManager.getInstance()
                                                                    .getJaWEController()
-                                                                   .canModifyElement(el));
+                                                                   .canModifyElement(el), null);
    }
 
    public XMLPanel getPanel(ExtendedAttribute el) {
@@ -661,7 +663,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                    JaWEManager.getInstance()
                                       .getJaWEController()
                                       .canModifyElement(el),
-                                   true);
+                                   true, null);
       }
       return super.getPanel(el);
    }
@@ -699,7 +701,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
@@ -712,7 +714,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
@@ -725,7 +727,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
@@ -738,7 +740,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
@@ -751,7 +753,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
@@ -764,7 +766,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
@@ -777,7 +779,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
 
@@ -791,7 +793,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
 
@@ -805,7 +807,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
 
@@ -823,7 +825,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                   "",
                                                   false,
                                                   false,
-                                                  true));
+                                                  true, null));
          }
       } else {
          panelElements.addAll(ealist);
@@ -839,7 +841,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          false,
                                          JaWEManager.getInstance()
                                             .getJaWEController()
-                                            .canModifyElement(ea));
+                                            .canModifyElement(ea), null);
          panelElements.add(pnl);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
@@ -852,7 +854,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          false,
                                          JaWEManager.getInstance()
                                             .getJaWEController()
-                                            .canModifyElement(ea));
+                                            .canModifyElement(ea), null);
          panelElements.add(pnl);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
@@ -865,7 +867,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          false,
                                          JaWEManager.getInstance()
                                             .getJaWEController()
-                                            .canModifyElement(ea));
+                                            .canModifyElement(ea), null);
          panelElements.add(pnl);
       }
 
@@ -879,7 +881,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                getPanelContainer().getLanguageDependentString("GeneralKey"),
                                true,
                                false,
-                               true);
+                               true, null);
       }
 
       return p;
@@ -914,7 +916,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
@@ -927,7 +929,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
@@ -940,7 +942,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
@@ -953,7 +955,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
@@ -966,7 +968,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
@@ -979,7 +981,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
@@ -992,7 +994,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
 
@@ -1006,7 +1008,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
 
@@ -1020,7 +1022,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                      JaWEManager.getInstance()
                                                         .getJaWEController()
                                                         .canModifyElement(ea.get("Value")),
-                                                     false);
+                                                     false, null);
          ealist.add(cbp);
       }
 
@@ -1038,7 +1040,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                   "",
                                                   false,
                                                   false,
-                                                  true));
+                                                  true, null));
          }
       } else {
          panelElements.addAll(ealist);
@@ -1054,7 +1056,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          false,
                                          JaWEManager.getInstance()
                                             .getJaWEController()
-                                            .canModifyElement(ea));
+                                            .canModifyElement(ea), null);
          panelElements.add(pnl);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
@@ -1067,7 +1069,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          false,
                                          JaWEManager.getInstance()
                                             .getJaWEController()
-                                            .canModifyElement(ea));
+                                            .canModifyElement(ea), null);
          panelElements.add(pnl);
       }
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
@@ -1080,7 +1082,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          false,
                                          JaWEManager.getInstance()
                                             .getJaWEController()
-                                            .canModifyElement(ea));
+                                            .canModifyElement(ea), null);
          panelElements.add(pnl);
       }
 
@@ -1094,7 +1096,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                getPanelContainer().getLanguageDependentString("GeneralKey"),
                                true,
                                false,
-                               true);
+                               true, null);
       }
 
       return p;
@@ -1160,7 +1162,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   true,
                                   JaWEManager.getInstance()
                                      .getJaWEController()
-                                     .canModifyElement(el));
+                                     .canModifyElement(el), null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement
                  && el.toName().equals("Script")) {
          List<List> mc = new ArrayList<List>();
@@ -1194,7 +1196,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                     false,
                                     JaWEManager.getInstance()
                                        .getJaWEController()
-                                       .canModifyElement(el));
+                                       .canModifyElement(el), null);
          } else {
             String choosen = el.toValue();
             List choices = SharkUtils.getAppDefChoices();
@@ -1237,7 +1239,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             true,
                                                             JaWEManager.getInstance()
                                                                .getJaWEController()
-                                                               .canModifyElement(el));
+                                                               .canModifyElement(el), null);
          }
 
       }
@@ -1263,6 +1265,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                      hasEmptyBorder);
    }
 
+   protected XMLActualParametersPanel generateActualParametersPanel(TaskApplication el,
+                                                                    FormalParameters fps) {
+      return new XMLSpecialActualParametersPanel(getPanelContainer(),
+                                                 el.getActualParameters(),
+                                                 fps, null);
+   }
+
    protected List getPossibleVariableChoices(Map vars, ExtendedAttributes eas) {
       List l = new ArrayList(vars.values());
       for (int i = 0; i < eas.size(); i++) {
@@ -1278,7 +1287,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return l;
    }
 
-   protected List getExpressionChoices(XMLElement el) {
+   public List getExpressionChoices(XMLElement el) {
       List l = super.getExpressionChoices(el);
 
       DataField df = new DataField(null);

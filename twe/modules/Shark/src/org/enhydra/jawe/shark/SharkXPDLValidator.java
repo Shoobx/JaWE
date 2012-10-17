@@ -1013,6 +1013,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                         boolean fullCheck) {
       FormalParameters fps = el.getApplicationTypes().getFormalParameters();
       FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL);
+      FormalParameter source = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SOURCE);
       if (result == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
@@ -1020,73 +1021,50 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                           "",
                                                           el);
          existingErrors.add(verr);
-      } else if (result.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_IN)) {
-         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                          XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
-                                                          "",
-                                                          result);
-         existingErrors.add(verr);
-      } else if (fps.size() == 1) {
-         ExtendedAttribute ea = el.getExtendedAttributes()
-            .getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
-         if (ea == null || ea.getVValue().trim().equals("")) {
+      } else {
+         if (result.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_IN)) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
-                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_TRANSFORMER_PARAMETER_REQUIRED,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
                                                              "",
-                                                             el);
+                                                             result);
             existingErrors.add(verr);
          }
-      } else {
-         boolean hasTransformation = false;
-         List l = fps.toElements();
-         for (int i = 0; i < l.size(); i++) {
-            FormalParameter fp = (FormalParameter) l.get(i);
-            if (fp.getId()
-               .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
-                || fp.getId()
-                   .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
-                || fp.getId()
-                   .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
-                || fp.getId()
-                   .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
-               hasTransformation = true;
-               if (fp.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_OUT)) {
-                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                                   XMLValidationError.SUB_TYPE_LOGIC,
-                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
-                                                                   "",
-                                                                   fp);
-                  existingErrors.add(verr);
-                  if (!fullCheck)
-                     break;
-               }
-               if (fp.getId()
-                  .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
-                   && !compareDataTypes(fp, SchemaType.class, null)) {
-                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                                   XMLValidationError.SUB_TYPE_LOGIC,
-                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
-                                                                   "",
-                                                                   fp);
-                  existingErrors.add(verr);
-               } else if (!fp.getId()
-                  .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
-                          && !compareDataTypes(fp,
-                                               BasicType.class,
-                                               XPDLConstants.BASIC_TYPE_STRING)) {
-                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                                   XMLValidationError.SUB_TYPE_LOGIC,
-                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
-                                                                   "",
-                                                                   fp);
-                  existingErrors.add(verr);
-               }
-               break;
-            }
+         if (!compareDataTypes(result, SchemaType.class, null)
+             && !compareDataTypes(result,
+                                  BasicType.class,
+                                  XPDLConstants.BASIC_TYPE_STRING)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                                                             "",
+                                                             result);
          }
-         if (!hasTransformation) {
+      }
+
+      if (source != null) {
+         if (source.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_OUT)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                                                             "",
+                                                             result);
+            existingErrors.add(verr);
+         }
+         if (!compareDataTypes(source, SchemaType.class, null)
+             && !compareDataTypes(source,
+                                  BasicType.class,
+                                  XPDLConstants.BASIC_TYPE_STRING)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                                                             "",
+                                                             source);
+         }
+      }
+      if (result != null) {
+         if (fps.size() == 1) {
+
             ExtendedAttribute ea = el.getExtendedAttributes()
                .getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
             if (ea == null || ea.getVValue().trim().equals("")) {
@@ -1096,6 +1074,66 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                                 "",
                                                                 el);
                existingErrors.add(verr);
+            }
+         } else {
+            boolean hasTransformation = false;
+            List l = fps.toElements();
+            for (int i = 0; i < l.size(); i++) {
+               FormalParameter fp = (FormalParameter) l.get(i);
+               if (fp.getId()
+                  .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
+                   || fp.getId()
+                      .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
+                   || fp.getId()
+                      .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                   || fp.getId()
+                      .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
+                  hasTransformation = true;
+                  if (fp.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_OUT)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                                                                      "",
+                                                                      fp);
+                     existingErrors.add(verr);
+                     if (!fullCheck)
+                        break;
+                  }
+                  if (fp.getId()
+                     .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                      && !compareDataTypes(fp, SchemaType.class, null)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                                                                      "",
+                                                                      fp);
+                     existingErrors.add(verr);
+                  } else if (!fp.getId()
+                     .equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                             && !compareDataTypes(fp,
+                                                  BasicType.class,
+                                                  XPDLConstants.BASIC_TYPE_STRING)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                                      "",
+                                                                      fp);
+                     existingErrors.add(verr);
+                  }
+                  break;
+               }
+            }
+            if (!hasTransformation) {
+               ExtendedAttribute ea = el.getExtendedAttributes()
+                  .getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+               if (ea == null || ea.getVValue().trim().equals("")) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_TRANSFORMER_PARAMETER_REQUIRED,
+                                                                   "",
+                                                                   el);
+                  existingErrors.add(verr);
+               }
             }
          }
       }

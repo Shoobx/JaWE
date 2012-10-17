@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -39,6 +39,7 @@ import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Creates a table panel.
+ * 
  * @author Sasa Bojanic
  * @author Zoran Milakovic
  * @author Miroslav Popov
@@ -46,41 +47,44 @@ import org.enhydra.jxpdl.XMLElement;
 public class XMLSimpleTablePanel extends XMLBasicPanel {
 
    protected static Dimension miniTableDimension = new Dimension(450, 125);
+
    protected static Dimension smallTableDimension = new Dimension(450, 200);
+
    protected static Dimension mediumTableDimension = new Dimension(550, 200);
+
    protected static Dimension largeTableDimension = new Dimension(650, 200);
 
    protected JTable allItems;
 
    protected Vector columnNames;
+
    protected List columnsToShow;
 
-   public XMLSimpleTablePanel(
-         PanelContainer pc,
-         XMLCollection myOwner,
-         List columnsToShow,
-         List elementsToShow,
-         String title,
-         boolean hasBorder,
-         boolean hasEmptyBorder,
-         boolean automaticWidth
-   ) {
-      super(pc,myOwner, title, true, hasBorder, hasEmptyBorder);
+   public XMLSimpleTablePanel(PanelContainer pc,
+                              XMLCollection myOwner,
+                              List columnsToShow,
+                              List elementsToShow,
+                              String title,
+                              boolean hasBorder,
+                              boolean hasEmptyBorder,
+                              boolean automaticWidth,
+                              String tooltip) {
+      super(pc, myOwner, title, true, hasBorder, hasEmptyBorder, tooltip);
 
       columnNames = getColumnNames(columnsToShow);
       this.columnsToShow = columnsToShow;
       allItems = new JTable(new Vector(), columnNames) {
-            public boolean isCellEditable(int row, int col) {
-               return false;
-            }
-         };
+         public boolean isCellEditable(int row, int col) {
+            return false;
+         }
+      };
 
-      Color bkgCol=new Color(245,245,245);
+      Color bkgCol = new Color(245, 245, 245);
       if (pc.getSettings() instanceof PanelSettings) {
-         bkgCol=((PanelSettings)pc.getSettings()).getBackgroundColor();
+         bkgCol = ((PanelSettings) pc.getSettings()).getBackgroundColor();
       }
       allItems.setBackground(bkgCol);
-      
+
       setupTable(automaticWidth);
       fillTableContent(elementsToShow);
 
@@ -108,16 +112,16 @@ public class XMLSimpleTablePanel extends XMLBasicPanel {
       dtm.insertRow(rowpos, v);
    }
 
-   public void removeRow (XMLElement e) {
-      int row=getElementRow(e);
-      if (row>=0) {
+   public void removeRow(XMLElement e) {
+      int row = getElementRow(e);
+      if (row >= 0) {
          DefaultTableModel dtm = (DefaultTableModel) allItems.getModel();
          dtm.removeRow(row);
       }
    }
 
-   public List getElements () {
-      List els=new ArrayList();
+   public List getElements() {
+      List els = new ArrayList();
       for (int i = 0; i < allItems.getRowCount(); i++) {
          els.add(allItems.getValueAt(i, 0));
       }
@@ -195,16 +199,16 @@ public class XMLSimpleTablePanel extends XMLBasicPanel {
       if (elem instanceof XMLComplexElement) {
          Iterator itAllElems = columnsToShow.iterator();
          v = new Vector();
-         XMLComplexElement cmel=(XMLComplexElement) elem;
+         XMLComplexElement cmel = (XMLComplexElement) elem;
          while (itAllElems.hasNext()) {
-            String elName=(String)itAllElems.next();
+            String elName = (String) itAllElems.next();
             XMLElement el = cmel.get(elName);
-            if (el!=null) {
-               v.add(new XMLElementView(pc,el, XMLElementView.TOVALUE));
+            if (el != null) {
+               v.add(new XMLElementView(pc, el, XMLElementView.TOVALUE));
             }
          }
       } else {
-         v.add(new XMLElementView(pc,elem, XMLElementView.TOVALUE));
+         v.add(new XMLElementView(pc, elem, XMLElementView.TOVALUE));
       }
       v.add(0, elem);
       return v;
@@ -221,7 +225,7 @@ public class XMLSimpleTablePanel extends XMLBasicPanel {
       int row = -1;
       for (int i = 0; i < allItems.getRowCount(); i++) {
          XMLElement toCompare = (XMLElement) allItems.getValueAt(i, 0);
-         if (el==toCompare) {
+         if (el == toCompare) {
             row = i;
             break;
          }
@@ -229,6 +233,6 @@ public class XMLSimpleTablePanel extends XMLBasicPanel {
       return row;
    }
 
-   public void cleanup () {
+   public void cleanup() {
    }
 }

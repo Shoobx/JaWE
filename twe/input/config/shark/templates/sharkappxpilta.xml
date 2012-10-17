@@ -21,6 +21,7 @@
          <DataType>
             <SchemaType/>
          </DataType>
+         <Description>Schema type variable, contains information about variables that will be created/updated in the process context.</Description>
       </FormalParameter>
    </FormalParameters>
    <ExtendedAttributes>

@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -48,19 +48,20 @@ public class XMLGroupPanel extends XMLBasicPanel {
                         String title,
                         boolean isVertical,
                         boolean hasBorder,
-                        boolean hasEmptyBorder) {
+                        boolean hasEmptyBorder,
+                        String tooltip) {
 
-      super(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder);
+      super(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder, tooltip);
 
       boolean isRightAllignment = false;
       if (pc != null) {
-         isRightAllignment=pc.getSettings().getSettingBoolean("XMLBasicPanel.RightAllignment");
+         isRightAllignment = pc.getSettings()
+            .getSettingBoolean("XMLBasicPanel.RightAllignment");
       }
-      
 
       initPanel(isVertical, isRightAllignment, elements);
    }
-   
+
    public XMLGroupPanel(PanelContainer pc,
                         XMLElement myOwnerL,
                         List elements,
@@ -68,29 +69,33 @@ public class XMLGroupPanel extends XMLBasicPanel {
                         boolean isVertical,
                         boolean hasBorder,
                         boolean hasEmptyBorder,
-                        boolean isRightAllignment) {
+                        boolean isRightAllignment,
+                        String tooltip) {
 
-      super(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder);
+      super(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder, tooltip);
 
       initPanel(isVertical, isRightAllignment, elements);
    }
 
-   protected void initPanel (boolean isVertical, boolean isRightAllignment, List elements) {
+   protected void initPanel(boolean isVertical, boolean isRightAllignment, List elements) {
       initTopLeft(isVertical, isRightAllignment);
 
-      initElements(elements,isVertical);
-      
+      initElements(elements, isVertical);
+
       initBottomRight(isVertical, isRightAllignment);
    }
-   
-   protected void initElements (List elements, boolean isVertical) {
+
+   protected void initElements(List elements, boolean isVertical) {
       for (int i = 0; i < elements.size(); i++) {
          XMLPanel dtdp = null;
          Object el = elements.get(i);
          if (el instanceof XMLElement) {
             dtdp = pc.getPanelGenerator().getPanel((XMLElement) el);
          } else if (el instanceof String) {
-            System.out.println("GE|TTING PANEL FOR EL"+el+", AEL="+((XMLComplexElement) myOwner).get((String) el)+", OWNER="+myOwner.toName());
+            System.out.println("GE|TTING PANEL FOR EL"
+                               + el + ", AEL="
+                               + ((XMLComplexElement) myOwner).get((String) el)
+                               + ", OWNER=" + myOwner.toName());
             dtdp = pc.getPanelGenerator()
                .getPanel(((XMLComplexElement) myOwner).get((String) el));
          } else if (el instanceof XMLPanel) {
@@ -100,12 +105,12 @@ public class XMLGroupPanel extends XMLBasicPanel {
          if (dtdp != null) {
             add(dtdp);
          } else if (el instanceof Component) {
-            add((Component)el);
+            add((Component) el);
          }
       }
    }
-   
-   protected void initTopLeft (boolean isVertical,boolean isRightAllignment) {
+
+   protected void initTopLeft(boolean isVertical, boolean isRightAllignment) {
       if (isVertical) {
          add(Box.createVerticalStrut(5));
          hasDummyStartEl = true;
@@ -114,10 +119,10 @@ public class XMLGroupPanel extends XMLBasicPanel {
             add(Box.createHorizontalGlue());
             hasDummyStartEl = true;
          }
-      }      
+      }
    }
-   
-   protected void initBottomRight (boolean isVertical,boolean isRightAllignment) {
+
+   protected void initBottomRight(boolean isVertical, boolean isRightAllignment) {
       if (isVertical) {
          add(Box.createVerticalGlue());
          hasDummyEndEl = true;
@@ -126,14 +131,18 @@ public class XMLGroupPanel extends XMLBasicPanel {
             add(Box.createHorizontalGlue());
             hasDummyEndEl = true;
          }
-      }            
+      }
    }
-   
+
+   public int howManyPanels() {
+      return getComponentCount()
+             - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
+   }
+
    public XMLPanel getPanel(int no) {
-      int gps = getComponentCount()
-                - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
+      int gps = howManyPanels();
       if (no >= gps || no < 0) {
-         throw new RuntimeException("There's no element at position "+no);
+         throw new RuntimeException("There's no element at position " + no);
       }
       if (hasDummyStartEl) {
          no++;
@@ -151,7 +160,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
       } else if (newEl instanceof XMLPanel) {
          newPanel = (XMLPanel) newEl;
       } else {
-         throw new RuntimeException("Can't add element "+newEl+" to the group!");
+         throw new RuntimeException("Can't add element " + newEl + " to the group!");
       }
       if (!hasDummyEndEl) {
          add(newPanel);
@@ -161,7 +170,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
       }
    }
 
-   public void addToGroup(Object newEl,int where) {
+   public void addToGroup(Object newEl, int where) {
       int gps = getComponentCount()
                 - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
       if (where >= gps || where < 0) {
@@ -180,7 +189,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
       } else if (newEl instanceof XMLPanel) {
          newPanel = (XMLPanel) newEl;
       } else {
-         throw new RuntimeException("Can't add element "+newEl+" to the group!");
+         throw new RuntimeException("Can't add element " + newEl + " to the group!");
       }
       if (hasDummyStartEl) {
          where++;
@@ -188,12 +197,11 @@ public class XMLGroupPanel extends XMLBasicPanel {
       add(newPanel, where);
    }
 
-   
    public void removeFromGroup(int no) {
       int gps = getComponentCount()
                 - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
       if (no >= gps) {
-         throw new RuntimeException("There's no element at position "+no);
+         throw new RuntimeException("There's no element at position " + no);
       }
       if (hasDummyStartEl) {
          no++;
@@ -246,7 +254,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
       }
       return -1;
    }
-   
+
    public boolean validateEntry() {
       if (isEmpty() && !getOwner().isRequired())
          return true;

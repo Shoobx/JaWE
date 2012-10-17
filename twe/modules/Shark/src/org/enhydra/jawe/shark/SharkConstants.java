@@ -100,6 +100,7 @@ public class SharkConstants  {
    public static final String TOOL_AGENT_XSLT = "org.enhydra.shark.toolagent.XSLTToolAgent";
    
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL = "result";
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_SOURCE = "source";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RESULT_CL = "Result";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_ALLOWED_DOCUMENT_FORMATS = "ALLOWED_DOCUMENT_FORMATS";
    public static final String TOOL_AGENT_FORMAL_PARAMETER_UNSUPPORTED_DOCUMENT_IDS = "UNSUPPORTED_DOCUMENT_IDS";

@@ -1,4 +1,8 @@
 ###### TWE 4.8-1 RELEASED ######
+2012-10-17 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to all panels to display tooltip
+   # Shark mode: Improved GUI for TaskApplication activity modeling (actual->formal parameters)
+
 2012-10-12 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - Introduced validation for Application definitions depending on ToolAgentClass extended attribute value (Shark tool agent dependent validation)

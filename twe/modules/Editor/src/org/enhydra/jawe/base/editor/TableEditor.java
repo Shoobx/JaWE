@@ -257,7 +257,7 @@ public class TableEditor extends JDialog implements JaWEComponent {
                                      title,
                                      true,
                                      true,
-                                     false);
+                                     false, null);
    }
 
 }

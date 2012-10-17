@@ -76,9 +76,10 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
                                          boolean hasEmptyBorder,
                                          boolean isVertical,
                                          boolean isEditable,
-                                         boolean isEnabled) {
+                                         boolean isEnabled,
+                                         String tooltip) {
 
-      super(pc, myOwner, "", isVertical, false, hasEmptyBorder);
+      super(pc, myOwner, "", isVertical, false, hasEmptyBorder, tooltip);
 
       boolean rightAllignment = false;
       boolean comboEnabled = true;

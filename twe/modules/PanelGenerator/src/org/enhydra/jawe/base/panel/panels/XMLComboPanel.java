@@ -34,16 +34,12 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.SwingConstants;
 
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jxpdl.XMLAttribute;
@@ -87,7 +83,8 @@ public class XMLComboPanel extends XMLBasicPanel {
            isEditable,
            isEnabled,
            true,
-           true);
+           true,
+           null);
    }
 
    public XMLComboPanel(PanelContainer pc,
@@ -100,9 +97,10 @@ public class XMLComboPanel extends XMLBasicPanel {
                         boolean isEditable,
                         boolean isEnabled,
                         boolean performSorting,
-                        boolean adjustDimension) {
+                        boolean adjustDimension,
+                        String tooltip) {
 
-      super(pc, myOwner, "", isVertical, false, hasEmptyBorder);
+      super(pc, myOwner, "", isVertical, false, hasEmptyBorder, tooltip);
 
       boolean rightAllignment = false;
       boolean comboEnabled = true;
@@ -276,7 +274,6 @@ public class XMLComboPanel extends XMLBasicPanel {
 
       }
       add(jcb);
-
    }
 
    public boolean validateEntry() {

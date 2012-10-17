@@ -21,16 +21,19 @@
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing a comma separated list of To email addresses.</Description>
       </FormalParameter>
       <FormalParameter Id="subject" Name="Subject" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing email subject.</Description>
       </FormalParameter>
       <FormalParameter Id="content" Name="Content" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing email content.</Description>
       </FormalParameter>
    </FormalParameters>
    <ExtendedAttributes>

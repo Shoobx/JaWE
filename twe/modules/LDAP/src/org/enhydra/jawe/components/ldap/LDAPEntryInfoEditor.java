@@ -164,7 +164,7 @@ public class LDAPEntryInfoEditor extends JDialog {
          public void setValue(String v) {
          }
       });
-      XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true);
+      XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true, null);
       return gp;
    }
 

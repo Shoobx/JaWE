@@ -174,7 +174,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false);
+                                   false, null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -232,7 +232,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      getPanelContainer().getLanguageDependentString("GeneralKey"),
                                      true,
                                      false,
-                                     true);
+                                     true, null);
             }
             break;
 
@@ -322,7 +322,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                       .getLabel(el),
                                    JaWEManager.getInstance()
                                       .getJaWEController()
-                                      .canModifyElement(el));
+                                      .canModifyElement(el), null);
    }
 
    public XMLPanel getPanel(Deadlines el) {
@@ -368,7 +368,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(el));
+                                                   .canModifyElement(el), null);
 
    }
 
@@ -415,7 +415,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 mc,
                                                                 JaWEManager.getInstance()
                                                                    .getJaWEController()
-                                                                   .canModifyElement(el));
+                                                                   .canModifyElement(el), null);
    }
 
    public XMLPanel getPanel(ExtendedAttribute el) {
@@ -463,7 +463,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                              .getJaWEController()
                                              .canModifyElement(el),
                                           false,
-                                          false);
+                                          false, null);
 
       p.getComboBox().setRenderer(cbr);
       return p;
@@ -501,7 +501,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false);
+                                   false, null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -531,7 +531,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false);
+                                   false, null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -568,7 +568,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      getPanelContainer().getLanguageDependentString("GeneralKey"),
                                      true,
                                      false,
-                                     true);
+                                     true, null);
             }
             break;
 
@@ -666,7 +666,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                false,
                                JaWEManager.getInstance()
                                   .getJaWEController()
-                                  .canModifyElement(el));
+                                  .canModifyElement(el), null);
    }
 
    public XMLPanel getPanel(Performer el) {
@@ -681,7 +681,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                        true,
                                                        JaWEManager.getInstance()
                                                           .getJaWEController()
-                                                          .canModifyElement(el));
+                                                          .canModifyElement(el), null);
 
       }
       return new XMLTextPanel(getPanelContainer(),
@@ -758,7 +758,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(el));
+                                                   .canModifyElement(el), null);
    }
 
    public XMLPanel getPanel(Responsibles el) {
@@ -813,7 +813,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                    true,
                                                                                    JaWEManager.getInstance()
                                                                                       .getJaWEController()
-                                                                                      .canModifyElement(el.get("Id")));
+                                                                                      .canModifyElement(el.get("Id")), null);
 
       if (!hidden.contains(el.get("Id"))) {
          panelElements.add(cp);
@@ -829,7 +829,7 @@ public class StandardPanelGenerator implements PanelGenerator {
          }
          final XMLActualParametersPanel app = new XMLActualParametersPanel(getPanelContainer(),
                                                                            el.getActualParameters(),
-                                                                           fps);
+                                                                           fps, null);
          panelElements.add(app);
          cp.getComboBox().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
@@ -877,7 +877,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                  + "Key"),
                                   true,
                                   false,
-                                  true);
+                                  true, null);
       }
       return null;
    }
@@ -922,7 +922,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                    false,
                                                                                    JaWEManager.getInstance()
                                                                                       .getJaWEController()
-                                                                                      .canModifyElement(el.get("Id")));
+                                                                                      .canModifyElement(el.get("Id")), null);
 
       if (!hidden.contains(el.get("Id"))) {
          panelElements.add(cp);
@@ -941,9 +941,7 @@ public class StandardPanelGenerator implements PanelGenerator {
          if (choosen instanceof Application) {
             fps = ((Application) choosen).getApplicationTypes().getFormalParameters();
          }
-         final XMLActualParametersPanel app = new XMLActualParametersPanel(getPanelContainer(),
-                                                                           el.getActualParameters(),
-                                                                           fps);
+         final XMLActualParametersPanel app = generateActualParametersPanel(el, fps);
          panelElements.add(app);
          ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
@@ -968,9 +966,15 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                  + "Key"),
                                   true,
                                   false,
-                                  true);
+                                  true, null);
       }
       return null;
+   }
+   
+   protected XMLActualParametersPanel generateActualParametersPanel (TaskApplication el, FormalParameters fps) {
+      return new XMLActualParametersPanel(getPanelContainer(),
+                                   el.getActualParameters(),
+                                   fps, null);      
    }
 
    public XMLPanel getPanel(Transition el) {
@@ -1007,7 +1011,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      .getLabel(el),
                                   true,
                                   false,
-                                  true);
+                                  true, null);
       }
       return new XMLBasicPanel();
    }
@@ -1041,7 +1045,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false);
+                                   false, null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -1071,7 +1075,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false);
+                                   false, null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -1106,7 +1110,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      getPanelContainer().getLanguageDependentString("GeneralKey"),
                                      true,
                                      false,
-                                     true);
+                                     true, null);
             }
             break;
 
@@ -1215,7 +1219,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       mc,
                                                                       JaWEManager.getInstance()
                                                                          .getJaWEController()
-                                                                         .canModifyElement(el));
+                                                                         .canModifyElement(el), null);
          } else {
             return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                       el,
@@ -1227,7 +1231,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       null,
                                                                       JaWEManager.getInstance()
                                                                          .getJaWEController()
-                                                                         .canModifyElement(el));
+                                                                         .canModifyElement(el), null);
          }
       }
       if (el.getParent() instanceof BlockActivity) {
@@ -1256,7 +1260,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                    false,
                                                    JaWEManager.getInstance()
                                                       .getJaWEController()
-                                                      .canModifyElement(el));
+                                                      .canModifyElement(el), null);
 
       }
       if (el.toName().equalsIgnoreCase("From")) {
@@ -1284,10 +1288,10 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                   false,
                                                   JaWEManager.getInstance()
                                                      .getJaWEController()
-                                                     .canModifyElement(el));
+                                                     .canModifyElement(el), null);
       }
       if (el.toName().equalsIgnoreCase("FillColor")) {
-         return new XMLColorPanel(pc, el, "FillColor", false, true);
+         return new XMLColorPanel(pc, el, "FillColor", false, true, null);
       }
       if (el.toName().equalsIgnoreCase("ObjectClassFilter")) {
          return new XMLComboPanel(getPanelContainer(),
@@ -1445,7 +1449,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(from));
+                                                   .canModifyElement(from), null);
    }
 
    protected XMLPanel getPanelForTOAttribute(XMLCollectionElement tOrAss) {
@@ -1494,7 +1498,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(to));
+                                                   .canModifyElement(to), null);
    }
 
    public XMLPanel generateStandardPanel(XMLElement el) {
@@ -1634,7 +1638,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                               true,
                               false,
                               false,
-                              false);
+                              false, null);
    }
 
    protected XMLGroupPanel generateStandardGroupPanel(XMLComplexElement cel,
@@ -1653,7 +1657,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                   .getLabel(cel),
                                true,
                                hasTitle,
-                               hasEmptyBorder);
+                               hasEmptyBorder, null);
    }
 
    protected List getStandardGroupPanelComponents (XMLComplexElement cel) {
@@ -1687,7 +1691,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           null,
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
-                                                                             .canModifyElement(cel)));
+                                                                             .canModifyElement(cel), null));
          }
       } else if (cel instanceof ExtendedAttribute) {
          XMLElement holder = cel.getParent().getParent();
@@ -1707,7 +1711,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           mc,
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
-                                                                             .canModifyElement(cel)));
+                                                                             .canModifyElement(cel), null));
 
          } else {
             toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
@@ -1720,7 +1724,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           null,
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
-                                                                             .canModifyElement(cel)));
+                                                                             .canModifyElement(cel), null));
          }
       } else if (cel instanceof SchemaType) {
          toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
@@ -1733,7 +1737,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                        null,
                                                                        JaWEManager.getInstance()
                                                                           .getJaWEController()
-                                                                          .canModifyElement(cel)));
+                                                                          .canModifyElement(cel), null));
       }
       return toShow;
    }
@@ -1762,7 +1766,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             .canModifyElement(el)));
       }
       if (subpanels.size() > 0) {
-         g1 = new XMLGroupPanel(getPanelContainer(), el, subpanels, "", true, false, true);
+         g1 = new XMLGroupPanel(getPanelContainer(), el, subpanels, "", true, false, true, null);
          groupsToShow.add(g1);
       }
       XMLGroupPanel g2 = null;
@@ -1779,11 +1783,11 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             JaWEManager.getInstance()
                                                .getJaWEController()
                                                .canModifyElement(isa),
-                                            false));
+                                            false, null));
       }
 
       if (subpanels.size() > 0) {
-         g2 = new XMLGroupPanel(getPanelContainer(), el, subpanels, "", true, false, true);
+         g2 = new XMLGroupPanel(getPanelContainer(), el, subpanels, "", true, false, true, null);
          groupsToShow.add(g2);
       }
       if (g1 != null && g2 != null) {
@@ -1794,7 +1798,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                               false,
                                               false,
                                               true,
-                                              true);
+                                              true, null);
          groupsToShow.clear();
          groupsToShow.add(gp);
       }
@@ -1814,7 +1818,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             "",
                                             false,
                                             false,
-                                            true));
+                                            true, null));
       }
 
       if (!hidden.contains(el.get("Description"))) {
@@ -1829,10 +1833,10 @@ public class StandardPanelGenerator implements PanelGenerator {
                                "",
                                true,
                                false,
-                               true);
+                               true, null);
    }
 
-   protected List getExpressionChoices(XMLElement el) {
+   public List getExpressionChoices(XMLElement el) {
       if (el instanceof Application) {
          FormalParameters fps = ((Application) el).getApplicationTypes()
             .getFormalParameters();

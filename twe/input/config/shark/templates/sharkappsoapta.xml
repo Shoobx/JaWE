@@ -21,6 +21,7 @@
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing the name of Web Service operation to execute.</Description>
       </FormalParameter>
    </FormalParameters>
    <ExtendedAttributes>

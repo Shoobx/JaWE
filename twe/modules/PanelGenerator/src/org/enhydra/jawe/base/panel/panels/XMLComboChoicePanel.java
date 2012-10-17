@@ -48,7 +48,7 @@ public class XMLComboChoicePanel extends XMLBasicPanel {
    protected JScrollPane jsp;
 
    public XMLComboChoicePanel(PanelContainer pc, XMLElement myOwnerL, boolean isEnabled) {
-      this(pc, myOwnerL, "", true, false, true, false, isEnabled);
+      this(pc, myOwnerL, "", true, false, true, false, isEnabled, null);
    }
 
    public XMLComboChoicePanel(PanelContainer pc,
@@ -58,9 +58,10 @@ public class XMLComboChoicePanel extends XMLBasicPanel {
                               boolean isChoiceVertical,
                               boolean hasBorder,
                               boolean isEditable,
-                              boolean isEnabled) {
+                              boolean isEnabled,
+                              String tooltip) {
 
-      super(pc, myOwner, title, isVertical, hasBorder, true);
+      super(pc, myOwner, title, isVertical, hasBorder, true, tooltip);
 
       int noOfPanels = 2;
       if (myOwner instanceof XMLAttribute) {

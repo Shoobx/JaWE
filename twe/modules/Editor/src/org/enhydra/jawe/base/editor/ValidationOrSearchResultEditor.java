@@ -250,7 +250,7 @@ public class ValidationOrSearchResultEditor extends JDialog implements
 
    public void setDisplayPanel(String t, XMLElement el, List errors) {
       setModal(true);
-      showPanel(new ValidationErrorOrSearchResultListPanel(el, errors, t, true, true));
+      showPanel(new ValidationErrorOrSearchResultListPanel(el, errors, t, true, true, null));
    }
 
    public void showPanel(XMLPanel newPanel) {

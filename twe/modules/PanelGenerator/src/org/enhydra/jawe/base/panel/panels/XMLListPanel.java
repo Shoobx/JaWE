@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -70,7 +70,6 @@ import org.enhydra.jxpdl.elements.ExtendedAttributes;
  * @author Sasa Bojanic
  * @author Zoran Milakovic
  * @author Miroslav Popov
- * 
  */
 public class XMLListPanel extends XMLBasicPanel implements
                                                XMLElementChangeListener,
@@ -128,9 +127,10 @@ public class XMLListPanel extends XMLBasicPanel implements
                        final boolean enableEditing,
                        boolean minDimension,
                        boolean useBasicToolbar,
-                       boolean notifyPanel) {
+                       boolean notifyPanel,
+                       String tooltip) {
 
-      super(ipc, myOwner, title, true, hasBorder, hasEmptyBorder);
+      super(ipc, myOwner, title, true, hasBorder, hasEmptyBorder, tooltip);
       this.ipc = ipc;
       this.notifyPanel = notifyPanel;
 
@@ -752,7 +752,7 @@ public class XMLListPanel extends XMLBasicPanel implements
                if (!statOK || !canIns) {
                   if (!canIns) {
                      jc.message(ed.getLanguageDependentString("WarningCannotInsertElement"),
-                                 JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.WARNING_MESSAGE);
                   }
                   ipc.getJaWEComponent().setUpdateInProgress(true);
                   sm.setSelection(ipc.getActiveElement(), true);

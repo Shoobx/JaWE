@@ -92,7 +92,7 @@ public class LDAPPanel extends JPanel implements JaWEComponentView {
                                             false,
                                             false,
                                             false,
-                                            true);
+                                            true, null);
       searchCriteria = new XMLTextPanel(null, search, false, false, true);
       JPanel p = new JPanel();
       p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));

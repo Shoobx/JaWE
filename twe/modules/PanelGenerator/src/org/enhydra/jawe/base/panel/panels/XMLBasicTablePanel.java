@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -70,6 +70,7 @@ import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * Creates a table panel.
+ * 
  * @author Sasa Bojanic
  * @author Zoran Milakovic
  * @author Miroslav Popov
@@ -77,28 +78,32 @@ import org.enhydra.jxpdl.XMLUtil;
 public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChangeListener {
 
    public static Color FOREIGN_EL_COLOR_BKG = Color.lightGray;
+
    public static Color SPEC_EL_COLOR_BKG = Color.orange;
 
    protected static Dimension miniTableDimension = new Dimension(450, 125);
+
    protected static Dimension smallTableDimension = new Dimension(450, 200);
+
    protected static Dimension mediumTableDimension = new Dimension(550, 200);
+
    protected static Dimension largeTableDimension = new Dimension(650, 200);
 
    /**
-    * Object which we are replacing from one place to another within
-    * the list by dragging it.
+    * Object which we are replacing from one place to another within the list by dragging
+    * it.
     */
    protected XMLElement movingElement;
 
    /**
-    * Index of the object which we are replacing from one place to another
-    * within the list by dragging it.
+    * Index of the object which we are replacing from one place to another within the list
+    * by dragging it.
     */
    protected int movingElementPosition;
 
    /**
-    * The new index of the object which we are replacing from one place
-    * to another within the list by dragging it.
+    * The new index of the object which we are replacing from one place to another within
+    * the list by dragging it.
     */
    protected int newMovingElementPosition;
 
@@ -106,35 +111,36 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
    protected boolean dragging = false;
 
    /**
-    * Indicates if the code for changing object position within the list
-    * is executed.
+    * Indicates if the code for changing object position within the list is executed.
     */
    protected boolean changing = false;
 
    protected JTable allItems;
+
    protected JPanel toolbox;
 
    protected Vector columnNames;
+
    protected List columnsToShow;
 
    protected InlinePanel ipc;
 
-   public XMLBasicTablePanel(
-         InlinePanel ipc,
-         XMLCollection myOwner,
-         List columnsToShow,
-         List elementsToShow,
-         String title,
-         boolean hasBorder,
-         boolean hasEmptyBorder,
-         boolean automaticWidth,
-         boolean miniDimension,
-         final boolean colors,
-         final boolean showArrows) {
+   public XMLBasicTablePanel(InlinePanel ipc,
+                             XMLCollection myOwner,
+                             List columnsToShow,
+                             List elementsToShow,
+                             String title,
+                             boolean hasBorder,
+                             boolean hasEmptyBorder,
+                             boolean automaticWidth,
+                             boolean miniDimension,
+                             final boolean colors,
+                             final boolean showArrows,
+                             String tooltip) {
 
-      super(ipc,myOwner, title, true, hasBorder, hasEmptyBorder);
+      super(ipc, myOwner, title, true, hasBorder, hasEmptyBorder, tooltip);
 
-      this.ipc=ipc;
+      this.ipc = ipc;
 
       myOwner.addListener(this);
       myOwner.setNotifyListeners(true);
@@ -150,11 +156,11 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
       paneAndArrows.setLayout(new BoxLayout(paneAndArrows, BoxLayout.X_AXIS));
       paneAndArrows.add(createScrollPane());
 
-//      if (showArrows) {
-//         JPanel p = createArrowPanel();
-//         paneAndArrows.add(Box.createRigidArea(new Dimension(5, 0)));
-//         paneAndArrows.add(p);
-//      }
+      // if (showArrows) {
+      // JPanel p = createArrowPanel();
+      // paneAndArrows.add(Box.createRigidArea(new Dimension(5, 0)));
+      // paneAndArrows.add(p);
+      // }
 
       add(toolbox);
       add(Box.createVerticalStrut(3));
@@ -181,7 +187,7 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
          int rc = allItems.getRowCount();
          if (rc > 0) {
             for (int i = 0; i < rc; i++) {
-               if (el==allItems.getValueAt(i, 0)) {
+               if (el == allItems.getValueAt(i, 0)) {
                   allItems.setRowSelectionInterval(i, i);
 
                   // focus the row
@@ -235,9 +241,9 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
          return;
       }
       if (upOrDown == 0) {
-            newMovingElementPosition--;
+         newMovingElementPosition--;
       } else {
-            newMovingElementPosition++;
+         newMovingElementPosition++;
       }
       moveItem();
    }
@@ -246,15 +252,20 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
       changing = true;
       XMLCollection owncol = (XMLCollection) getOwner();
       int rowCnt = allItems.getRowCount();
-      if (movingElement == null || movingElementPosition == -1 || newMovingElementPosition == -1
-            || newMovingElementPosition == movingElementPosition || (rowCnt - 1) < movingElementPosition
-            || (rowCnt - 1) < newMovingElementPosition || !owncol.contains(movingElement)) {
+      if (movingElement == null
+          || movingElementPosition == -1 || newMovingElementPosition == -1
+          || newMovingElementPosition == movingElementPosition
+          || (rowCnt - 1) < movingElementPosition
+          || (rowCnt - 1) < newMovingElementPosition || !owncol.contains(movingElement)) {
          changing = false;
          return;
       }
 
-      if (JaWEManager.getInstance().getJaWEController().canRepositionElement(owncol, movingElement)) {
-         XMLElement currentElementAtPosition = (XMLElement) allItems.getValueAt(newMovingElementPosition, 0);
+      if (JaWEManager.getInstance()
+         .getJaWEController()
+         .canRepositionElement(owncol, movingElement)) {
+         XMLElement currentElementAtPosition = (XMLElement) allItems.getValueAt(newMovingElementPosition,
+                                                                                0);
          int newpos = owncol.indexOf(currentElementAtPosition);
 
          DefaultTableModel dtm = (DefaultTableModel) allItems.getModel();
@@ -281,33 +292,37 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
          JaWEController jc = JaWEManager.getInstance().getJaWEController();
 
          XMLCollection col = (XMLCollection) getOwner();
-         XMLElement newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(col, null, false);
+         XMLElement newEl = JaWEManager.getInstance()
+            .getXPDLObjectFactory()
+            .createXPDLObject(col, null, false);
 
-         boolean isForModal=PanelUtilities.isForModalDialog(newEl, false);
+         boolean isForModal = PanelUtilities.isForModalDialog(newEl, false);
          if (!isForModal && ipc.isModified()) {
-            int sw=ipc.showModifiedWarning();
-            if( sw == JOptionPane.CANCEL_OPTION || (sw==JOptionPane.YES_OPTION && ipc.isModified())) {
+            int sw = ipc.showModifiedWarning();
+            if (sw == JOptionPane.CANCEL_OPTION
+                || (sw == JOptionPane.YES_OPTION && ipc.isModified())) {
                return;
             }
          }
 
-         boolean updInProg=false;
+         boolean updInProg = false;
          if (isForModal) {
 
             StandardXPDLElementEditor ed = new StandardXPDLElementEditor();
             ed.editXPDLElement(newEl);
-            boolean statOK=(ed.getStatus()==StandardXPDLElementEditor.STATUS_OK);
-            boolean canIns=true;
+            boolean statOK = (ed.getStatus() == StandardXPDLElementEditor.STATUS_OK);
+            boolean canIns = true;
             if (statOK) {
-               canIns=jc.canInsertElement(col, newEl);
+               canIns = jc.canInsertElement(col, newEl);
             }
             if (!statOK || !canIns) {
                if (!canIns) {
-                  jc.message(ed.getLanguageDependentString("WarningCannotInsertElement"),JOptionPane.WARNING_MESSAGE);
+                  jc.message(ed.getLanguageDependentString("WarningCannotInsertElement"),
+                             JOptionPane.WARNING_MESSAGE);
                }
                return;
             }
-            updInProg=true;
+            updInProg = true;
          }
          jc.startUndouableChange();
          col.add(newEl);
@@ -326,8 +341,9 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
          XMLElement editElement = getSelectedElement();
          if (editElement != null) {
             if (ipc.isModified()) {
-               int sw=ipc.showModifiedWarning();
-               if( sw == JOptionPane.CANCEL_OPTION || (sw==JOptionPane.YES_OPTION && ipc.isModified())) {
+               int sw = ipc.showModifiedWarning();
+               if (sw == JOptionPane.CANCEL_OPTION
+                   || (sw == JOptionPane.YES_OPTION && ipc.isModified())) {
                   return;
                }
             }
@@ -341,10 +357,10 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
          XMLElement deleteElement = getSelectedElement();
          if (deleteElement != null) {
             JaWEController jc = JaWEManager.getInstance().getJaWEController();
-            List sel=new ArrayList();
+            List sel = new ArrayList();
             sel.add(deleteElement.getParent());
             if (jc.confirmDelete(sel, deleteElement)) {
-               XMLCollection parent = (XMLCollection)getOwner();
+               XMLCollection parent = (XMLCollection) getOwner();
                jc.startUndouableChange();
                parent.remove(deleteElement);
                jc.endUndouableChange(sel);
@@ -392,14 +408,16 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
    }
 
    protected JTable createTable(final boolean colors) {
-      JTable t=new BasicSortingTable(this, new Vector(), columnNames) {
+      JTable t = new BasicSortingTable(this, new Vector(), columnNames) {
 
          public boolean isCellEditable(int row, int col) {
             return false;
          }
 
          // This table colors elements depending on their owner
-         public Component prepareRenderer(TableCellRenderer renderer, int rowIndex, int vColIndex) {
+         public Component prepareRenderer(TableCellRenderer renderer,
+                                          int rowIndex,
+                                          int vColIndex) {
             Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
             if (!isCellSelected(rowIndex, vColIndex) && colors) {
                XMLElement el = (XMLElement) getValueAt(rowIndex, 0);
@@ -408,7 +426,7 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
                   XMLCollection celOwner = (XMLCollection) cel.getParent();
                   if (celOwner == null) {
                      c.setBackground(SPEC_EL_COLOR_BKG);
-                  } else if (celOwner!=getOwner()) {
+                  } else if (celOwner != getOwner()) {
                      c.setBackground(FOREIGN_EL_COLOR_BKG);
                   } else {
                      c.setBackground(getBackground());
@@ -421,17 +439,19 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
             return c;
          }
       };
-      
-      Color bkgCol=new Color(245,245,245);
+
+      Color bkgCol = new Color(245, 245, 245);
       if (ipc.getSettings() instanceof PanelSettings) {
-         bkgCol=((PanelSettings)ipc.getSettings()).getBackgroundColor();
+         bkgCol = ((PanelSettings) ipc.getSettings()).getBackgroundColor();
       }
       t.setBackground(bkgCol);
-      
+
       return t;
    }
 
-   protected void setupTable(boolean miniDimension, boolean automaticWidth, final boolean showArrows) {
+   protected void setupTable(boolean miniDimension,
+                             boolean automaticWidth,
+                             final boolean showArrows) {
       TableColumn column;
       // setting the first column (object column) to be invisible
       column = allItems.getColumnModel().getColumn(0);
@@ -464,15 +484,18 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
       }
       allItems.setPreferredScrollableViewportSize(new Dimension(tDim));
 
-      allItems.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "edit");
+      allItems.getInputMap(JComponent.WHEN_FOCUSED)
+         .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "edit");
       allItems.getActionMap().put("edit", editElementAction);
 
-      allItems.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0, false), "delete");
+      allItems.getInputMap(JComponent.WHEN_FOCUSED)
+         .put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0, false), "delete");
       allItems.getActionMap().put("delete", deleteElementAction);
 
-
       final XMLCollection col = (XMLCollection) getOwner();
-      final boolean canRepos = JaWEManager.getInstance().getJaWEController().canRepositionElement(col, null);
+      final boolean canRepos = JaWEManager.getInstance()
+         .getJaWEController()
+         .canRepositionElement(col, null);
 
       if (!getOwner().isReadOnly())
          allItems.setToolTipText(ResourceManager.getLanguageDependentString("MessageDragItemToChangeItsPosition"));
@@ -485,7 +508,7 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
             }
          }
 
-         /** Marks the object which place within the table will be changed.*/
+         /** Marks the object which place within the table will be changed. */
          public void mousePressed(MouseEvent me) {
             movingElement = null;
             movingElementPosition = -1;
@@ -495,21 +518,24 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
             try {
                movingElementPosition = allItems.getSelectedRow();
                if (movingElementPosition >= 0) {
-                  movingElement = (XMLElement) allItems.getValueAt(movingElementPosition, 0);
+                  movingElement = (XMLElement) allItems.getValueAt(movingElementPosition,
+                                                                   0);
                   adjustActions();
                }
             } catch (Exception ex) {
             }
          }
 
-         /** Just indicates that dragging is over.*/
+         /** Just indicates that dragging is over. */
          public void mouseReleased(MouseEvent me) {
             dragging = false;
          }
       });
 
-      /** Changes position of object within the list.*/
-      if (showArrows && !myOwner.isReadOnly() && canRepos) {// && ((XMLCollection)getOwner()).getParent().isReadOnly()))) {
+      /** Changes position of object within the list. */
+      if (showArrows && !myOwner.isReadOnly() && canRepos) {// &&
+                                                            // ((XMLCollection)getOwner()).getParent().isReadOnly())))
+                                                            // {
          ListSelectionModel rowSM = allItems.getSelectionModel();
          rowSM.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse) {
@@ -545,16 +571,16 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
       if (elem instanceof XMLComplexElement) {
          Iterator itAllElems = columnsToShow.iterator();
          v = new Vector();
-         XMLComplexElement cmel=(XMLComplexElement) elem;
+         XMLComplexElement cmel = (XMLComplexElement) elem;
          while (itAllElems.hasNext()) {
-            String elName=(String)itAllElems.next();
+            String elName = (String) itAllElems.next();
             XMLElement el = cmel.get(elName);
-            if (el!=null) {
-               v.add(new XMLElementView(ipc,el, XMLElementView.TOVALUE));
+            if (el != null) {
+               v.add(new XMLElementView(ipc, el, XMLElementView.TOVALUE));
             }
          }
       } else {
-         v.add(new XMLElementView(ipc,elem, XMLElementView.TOVALUE));
+         v.add(new XMLElementView(ipc, elem, XMLElementView.TOVALUE));
       }
       v.add(0, elem);
       return v;
@@ -571,11 +597,14 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
       JPanel panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
-      JButton buttonNew = PanelUtilities.createToolbarButton(ipc.getSettings(),newElementAction);
+      JButton buttonNew = PanelUtilities.createToolbarButton(ipc.getSettings(),
+                                                             newElementAction);
       buttonNew.setRolloverEnabled(true);
-      JButton buttonEdit = PanelUtilities.createToolbarButton(ipc.getSettings(),editElementAction);
+      JButton buttonEdit = PanelUtilities.createToolbarButton(ipc.getSettings(),
+                                                              editElementAction);
       buttonEdit.setRolloverEnabled(true);
-      JButton buttonDelete = PanelUtilities.createToolbarButton(ipc.getSettings(), deleteElementAction);
+      JButton buttonDelete = PanelUtilities.createToolbarButton(ipc.getSettings(),
+                                                                deleteElementAction);
       buttonDelete.setRolloverEnabled(true);
 
       panel.add(buttonNew);
@@ -617,7 +646,7 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
          while (it.hasNext()) {
             XMLElement el = (XMLElement) it.next();
             int row = getElementRow(el);
-//            System.out.println("Removing row " + row + " for element " + el);
+            // System.out.println("Removing row " + row + " for element " + el);
             if (row != -1) {
                removeRow(row);
             }
@@ -635,7 +664,7 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
       int row = -1;
       for (int i = 0; i < allItems.getRowCount(); i++) {
          XMLElement toCompare = (XMLElement) allItems.getValueAt(i, 0);
-         if (el==toCompare) {
+         if (el == toCompare) {
             row = i;
             break;
          }
@@ -646,29 +675,32 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
    protected void adjustActions() {
       JaWEController jc = JaWEManager.getInstance().getJaWEController();
 
-      XMLElement selEl=getSelectedElement();
+      XMLElement selEl = getSelectedElement();
       newElementAction.setEnabled(jc.canCreateElement((XMLCollection) getOwner()));
-      editElementAction.setEnabled((selEl != null && XMLUtil.getPackage(selEl)!=null));
-      deleteElementAction.setEnabled((selEl != null && jc.canRemoveElement((XMLCollection)getOwner(), selEl)));
+      editElementAction.setEnabled((selEl != null && XMLUtil.getPackage(selEl) != null));
+      deleteElementAction.setEnabled((selEl != null && jc.canRemoveElement((XMLCollection) getOwner(),
+                                                                           selEl)));
 
-      boolean canRepos = JaWEManager.getInstance().getJaWEController().canRepositionElement((XMLCollection) getOwner(),
-            null);
+      boolean canRepos = JaWEManager.getInstance()
+         .getJaWEController()
+         .canRepositionElement((XMLCollection) getOwner(), null);
       moveUpAction.setEnabled(selEl != null && allItems.getSelectedRow() > 0 && canRepos);
       moveDownAction.setEnabled(selEl != null
-            && allItems.getSelectedRow() < allItems.getModel().getRowCount() - 1 && canRepos);
+                                && allItems.getSelectedRow() < allItems.getModel()
+                                   .getRowCount() - 1 && canRepos);
    }
 
-   public void cleanup () {
+   public void cleanup() {
       myOwner.removeListener(this);
    }
 
-   public boolean isEmpty () {
-      return allItems.getRowCount()==0;
+   public boolean isEmpty() {
+      return allItems.getRowCount() == 0;
    }
 
-   public boolean validateEntry () {
+   public boolean validateEntry() {
       if (isEmpty() && getOwner().isRequired() && !getOwner().isReadOnly()) {
-         XMLBasicPanel.defaultErrorMessage(this.getWindow(),getTitle()+": ");
+         XMLBasicPanel.defaultErrorMessage(this.getWindow(), getTitle() + ": ");
          allItems.requestFocus();
          return false;
       }

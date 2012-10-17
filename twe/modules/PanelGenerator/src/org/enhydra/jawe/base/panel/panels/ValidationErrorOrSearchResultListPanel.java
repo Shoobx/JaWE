@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -35,97 +35,98 @@ import org.enhydra.jxpdl.XMLElement;
 
 /**
  * Creates a references panel.
+ * 
  * @author Sasa Bojanic
  */
 public class ValidationErrorOrSearchResultListPanel extends XMLBasicPanel {
 
-   protected static Dimension listDimension=new Dimension(750,250);
+   protected static Dimension listDimension = new Dimension(750, 250);
 
    protected JList allParam;
-   
-   public ValidationErrorOrSearchResultListPanel (
-         XMLElement checked,
-         List errors,
-         String title,
-         boolean hasBorder,
-         boolean hasEmptyBorder) {
 
-      super(null,checked,title,true,hasBorder,hasEmptyBorder);
+   public ValidationErrorOrSearchResultListPanel(XMLElement checked,
+                                                 List errors,
+                                                 String title,
+                                                 boolean hasBorder,
+                                                 boolean hasEmptyBorder,
+                                                 String tooltip) {
 
-      allParam=createList();      
+      super(null, checked, title, true, hasBorder, hasEmptyBorder, tooltip);
+
+      allParam = createList();
       setupList();
 
       fillListContent(errors);
-      
-      JScrollPane scrollParam=new JScrollPane();
+
+      JScrollPane scrollParam = new JScrollPane();
       scrollParam.setAlignmentX(Component.LEFT_ALIGNMENT);
-      //scrollParam.setAlignmentY(Component.TOP_ALIGNMENT);
+      // scrollParam.setAlignmentY(Component.TOP_ALIGNMENT);
 
       scrollParam.setViewportView(allParam);
       scrollParam.setPreferredSize(new Dimension(listDimension));
-      
+
       add(scrollParam);
    }
 
-   public JList getList () {
+   public JList getList() {
       return allParam;
    }
 
-   protected XMLElement getElementToShow () {
-      XMLElement editElement=null;
-      if (allParam.getModel().getSize()>0) {
+   protected XMLElement getElementToShow() {
+      XMLElement editElement = null;
+      if (allParam.getModel().getSize() > 0) {
          try {
-            Object el=allParam.getSelectedValue();
+            Object el = allParam.getSelectedValue();
             if (el instanceof ValidationError) {
-               editElement=((ValidationError) el).getElement();
+               editElement = ((ValidationError) el).getElement();
             } else {
-               editElement=((SearchResult) el).getElement();
+               editElement = ((SearchResult) el).getElement();
             }
          } catch (Exception ex) {
-             ex.printStackTrace();
+            ex.printStackTrace();
          }
-      }         
-      return editElement;      
+      }
+      return editElement;
    }
-   
-   protected JList createList () {
-      DefaultListModel listModel=new DefaultListModel();
 
-      JList l=new JList(listModel);
-      return l;      
+   protected JList createList() {
+      DefaultListModel listModel = new DefaultListModel();
+
+      JList l = new JList(listModel);
+      return l;
    }
-   
-   protected void setupList () {
+
+   protected void setupList() {
       allParam.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
       allParam.setAlignmentX(Component.LEFT_ALIGNMENT);
       allParam.setAlignmentY(Component.TOP_ALIGNMENT);
    }
-   
-   protected void fillListContent (List errors) {
-      DefaultListModel listModel=(DefaultListModel)allParam.getModel();      
+
+   protected void fillListContent(List errors) {
+      DefaultListModel listModel = (DefaultListModel) allParam.getModel();
       Iterator it = errors.iterator();
       while (it.hasNext()) {
-         listModel.addElement(it.next());      
-      }      
+         listModel.addElement(it.next());
+      }
    }
-   
-   public void cleanup () {
-      allParam=null;
+
+   public void cleanup() {
+      allParam = null;
    }
-   
-   public List getElements () {
-      List l=new ArrayList();
-      DefaultListModel listModel=(DefaultListModel)allParam.getModel();
-      for (int i=0; i<listModel.getSize(); i++) {         
+
+   public List getElements() {
+      List l = new ArrayList();
+      DefaultListModel listModel = (DefaultListModel) allParam.getModel();
+      for (int i = 0; i < listModel.getSize(); i++) {
          l.add(listModel.getElementAt(i));
       }
       return l;
    }
-   
-   public void removeElement (Object el) {
-      DefaultListModel listModel=(DefaultListModel)allParam.getModel();
+
+   public void removeElement(Object el) {
+      DefaultListModel listModel = (DefaultListModel) allParam.getModel();
       listModel.removeElement(el);
    }
-   
+
 }

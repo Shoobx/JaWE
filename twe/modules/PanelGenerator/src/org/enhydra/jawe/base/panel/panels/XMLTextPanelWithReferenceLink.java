@@ -59,9 +59,10 @@ public class XMLTextPanelWithReferenceLink extends XMLBasicPanel {
                                         final XMLElement toReference,
                                         String label,
                                         boolean isVertical,
-                                        boolean isEnabled) {
+                                        boolean isEnabled,
+                                        String tooltip) {
 
-      super(pc, myOwnerL, "", isVertical, false, true);
+      super(pc, myOwnerL, "", isVertical, false, true, tooltip);
 
       boolean rightAllignment = false;
       Dimension textDim = new Dimension(375, 20);
@@ -76,7 +77,7 @@ public class XMLTextPanelWithReferenceLink extends XMLBasicPanel {
          textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
                                  settings.getSettingInt("SimplePanelTextHeight"));
 
-         textDim.setSize(textDim.width-refButDimension.width,textDim.height);
+         textDim.setSize(textDim.width - refButDimension.width, textDim.height);
          if (settings instanceof PanelSettings) {
             bkgCol = ((PanelSettings) settings).getBackgroundColor();
          }
@@ -154,7 +155,6 @@ public class XMLTextPanelWithReferenceLink extends XMLBasicPanel {
 
       });
       add(jb);
-
    }
 
    public boolean validateEntry() {

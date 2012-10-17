@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 /*
  * Created on Jul 19, 2005
@@ -40,22 +40,23 @@ public class XMLElementView {
    protected String elementString = "";
 
    protected int type = 1;
-   protected boolean lDepStr=true;
-   
+
+   protected boolean lDepStr = true;
+
    protected PanelContainer pc;
 
    public XMLElementView(PanelContainer pc, XMLElement el, int type) {
       this.pc = pc;
-      //System.err.println("creating new XMLElementView, el = "+el+", el.toName = "+el.toName()+",
+      // System.err.println("creating new XMLElementView, el = "+el+", el.toName = "+el.toName()+",
       // el.toValue = "+el.toValue());
       this.element = el;
       this.type = type;
    }
 
-   public XMLElementView(PanelContainer pc,String el,boolean lds) {
-      this.pc=pc;
+   public XMLElementView(PanelContainer pc, String el, boolean lds) {
+      this.pc = pc;
       this.elementString = el;
-      this.lDepStr=lds;
+      this.lDepStr = lds;
    }
 
    public XMLElement getElement() {
@@ -74,7 +75,7 @@ public class XMLElementView {
       if (!(obj instanceof XMLElementView))
          return false;
       if (getElement() != null) {
-         return getElement()==(((XMLElementView) obj).getElement());
+         return getElement() == (((XMLElementView) obj).getElement());
       } else if (elementString != null) {
          return this.elementString.equals(((XMLElementView) obj).elementString);
       }
@@ -83,41 +84,47 @@ public class XMLElementView {
 
    public String toString() {
       if (this.element != null) {
-         //            if(type == TONAME) {
-         String ret = JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(this.element);
-         if (ret==null) ret = this.element.toName(); 
-            return ret;
-//         if (pc!=null) {
-//            
-//            return pc.getDisplayNameGenerator().getDisplayName(this.element);
-//         } else {
-//            return ResourceManager.getLanguageDependentString(this.element.toName()+"Key");
-//         }
-         //            }
-         //            if(type == TOVALUE) {
-         //               if (element instanceof XMLBaseForCollectionAndComplex || element instanceof
+         // if(type == TONAME) {
+         String ret = JaWEManager.getInstance()
+            .getDisplayNameGenerator()
+            .getDisplayName(this.element);
+         if (ret == null) {
+            ret = this.element.toName();
+         }
+         return ret;
+         // if (pc!=null) {
+         //
+         // return pc.getDisplayNameGenerator().getDisplayName(this.element);
+         // } else {
+         // return
+         // ResourceManager.getLanguageDependentString(this.element.toName()+"Key");
+         // }
+         // }
+         // if(type == TOVALUE) {
+         // if (element instanceof XMLBaseForCollectionAndComplex || element instanceof
          // XMLComplexChoice) {
-         //                  return JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(this.element);
-         //               } else {
-         //                  return this.element.toValue();
-         //               }
-         //            }
-         //            return "";
-      }      
+         // return
+         // JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(this.element);
+         // } else {
+         // return this.element.toValue();
+         // }
+         // }
+         // return "";
+      }
       String toRet;
       if (lDepStr) {
-         if (pc!=null) {
-            toRet=pc.getSettings().getLanguageDependentString(elementString + "Key");
+         if (pc != null) {
+            toRet = pc.getSettings().getLanguageDependentString(elementString + "Key");
          } else {
-            toRet=ResourceManager.getLanguageDependentString(elementString+"Key");
+            toRet = ResourceManager.getLanguageDependentString(elementString + "Key");
          }
          if (toRet == null) {
             toRet = elementString;
          }
       } else {
-         toRet=elementString;
+         toRet = elementString;
       }
       return toRet;
-      
+
    }
 }

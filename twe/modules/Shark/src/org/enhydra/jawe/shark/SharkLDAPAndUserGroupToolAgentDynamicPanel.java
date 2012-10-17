@@ -39,9 +39,10 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
    protected String namePrefix;
 
    public SharkLDAPAndUserGroupToolAgentDynamicPanel(PanelContainer pc,
-                                                     LDAPOrUserGroupToolAgentElement myOwner) {
+                                                     LDAPOrUserGroupToolAgentElement myOwner,
+                                                     String tooltip) {
 
-      super(pc, myOwner, "", true, false, false);
+      super(pc, myOwner, "", true, false, false, tooltip);
       Application app = XMLUtil.getApplication(myOwner);
       boolean enableEditing = !myOwner.isReadOnly();
       String className = null;
@@ -135,13 +136,15 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
    }
 
    public void setElements() {
-      FormalParameters fps = XMLUtil.getApplication(getOwner()).getApplicationTypes()
+      FormalParameters fps = XMLUtil.getApplication(getOwner())
+         .getApplicationTypes()
          .getFormalParameters();
       FormalParameters fps2 = (FormalParameters) ((XMLPanel) getComponent(2)).getOwner();
 
       ((XMLPanel) getComponent(1)).setElements();
 
-      ExtendedAttribute eamethod = XMLUtil.getApplication(getOwner()).getExtendedAttributes()
+      ExtendedAttribute eamethod = XMLUtil.getApplication(getOwner())
+         .getExtendedAttributes()
          .getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
       String method = eamethod != null ? eamethod.getVValue() : "";
       String methodNew = ((XMLPanel) getComponent(1)).getOwner().toValue();

@@ -177,7 +177,8 @@ public class XMLTablePanel extends XMLBasicPanel implements
            colors,
            showArrows,
            false,
-           false);
+           false,
+           null);
    }
 
    public XMLTablePanel(final InlinePanel ipc,
@@ -193,9 +194,10 @@ public class XMLTablePanel extends XMLBasicPanel implements
                         final boolean colors,
                         final boolean showArrows,
                         boolean useBasicToolbar,
-                        boolean notifyPanel) {
+                        boolean notifyPanel,
+                        String tooltip) {
 
-      super(ipc, myOwner, title, true, hasBorder, hasEmptyBorder);
+      super(ipc, myOwner, title, true, hasBorder, hasEmptyBorder, tooltip);
 
       this.ipc = ipc;
       this.customDim = customDim;

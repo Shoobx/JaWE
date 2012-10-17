@@ -65,8 +65,8 @@ public class WfXMLPanel extends JPanel implements JaWEComponentView {
          add(toolbar,BorderLayout.NORTH);
       }
       
-      cboPanel=new WfXMLComboPanel(controller,ld);
-      tablePanel=new WfXMLTablePanel(controller);
+      cboPanel=new WfXMLComboPanel(controller,ld, null);
+      tablePanel=new WfXMLTablePanel(controller, null);
 
       innerPanel.setLayout(new BorderLayout());
 

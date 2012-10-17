@@ -90,9 +90,10 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
                                                boolean hasEmptyBorder,
                                                boolean isVertical,
                                                boolean isEditable,
-                                               boolean isEnabled) {
+                                               boolean isEnabled,
+                                               String tooltip) {
 
-      super(pc, myOwner, "", isVertical, false, hasEmptyBorder);
+      super(pc, myOwner, "", isVertical, false, hasEmptyBorder, tooltip);
 
       boolean rightAllignment = false;
       boolean comboEnabled = true;
@@ -274,20 +275,20 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          .getJaWEController()
          .getJaWETypes()
          .getTemplateElement(toShow);
-      if (app != null) {         
+      if (app != null) {
          List<ExtendedAttribute> ealist = app.getExtendedAttributes().toElements();
          Application orig = XMLUtil.getApplication(((SpecialChoiceElement) getOwner()).getControlledElement());
          ExtendedAttributes eas = orig.getExtendedAttributes();
          Iterator it = eas.toElements().iterator();
-         JaWEController jc=JaWEManager.getInstance().getJaWEController();
-         jc.startUndouableChange();      
+         JaWEController jc = JaWEManager.getInstance().getJaWEController();
+         jc.startUndouableChange();
          List<String> toRemoveNames = new ArrayList<String>();
          while (it.hasNext()) {
-            ExtendedAttribute ea = (ExtendedAttribute)it.next();
+            ExtendedAttribute ea = (ExtendedAttribute) it.next();
             if (!(ea.getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS) || ea.getName()
                .equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY))) {
                boolean toRemove = true;
-               for (int i=0; i<ealist.size(); i++) {
+               for (int i = 0; i < ealist.size(); i++) {
                   ExtendedAttribute eapr = ealist.get(i);
                   if (eapr.getName().equals(ea.getName())) {
                      ea.setVValue(eapr.getVValue());
@@ -302,17 +303,17 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
                ea.setVValue(toShow);
             }
          }
-         for (int i=0; i<toRemoveNames.size(); i++) {
+         for (int i = 0; i < toRemoveNames.size(); i++) {
             String ean = toRemoveNames.get(i);
             XMLElement toRem = null;
-            while ((toRem=eas.getFirstExtendedAttributeForName(ean))!=null) {
+            while ((toRem = eas.getFirstExtendedAttributeForName(ean)) != null) {
                eas.remove(toRem);
             }
          }
-         for (int i=0; i<ealist.size(); i++) {
+         for (int i = 0; i < ealist.size(); i++) {
             ExtendedAttribute eapr = ealist.get(i);
-            if (eas.getFirstExtendedAttributeForName(eapr.getName())==null) {
-               ExtendedAttribute ea = (ExtendedAttribute)eas.generateNewElement();
+            if (eas.getFirstExtendedAttributeForName(eapr.getName()) == null) {
+               ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
                ea.setName(eapr.getName());
                ea.setVValue(eapr.getVValue());
                eas.add(ea);

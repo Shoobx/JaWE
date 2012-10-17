@@ -17,15 +17,17 @@
 -->
 <Application Id="check_document_formats" Name="Check Document Formats">
    <FormalParameters>
-      <FormalParameter Id="ALLOWED_DOCUMENT_FORMATS" IsArray="false" Mode="IN">
+      <FormalParameter Id="ALLOWED_DOCUMENT_FORMATS" Name="Allowed document formats" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing a comma separated list of allowed document formats.</Description>
       </FormalParameter>
-      <FormalParameter Id="UNSUPPORTED_DOCUMENT_IDS" IsArray="false" Mode="OUT">
+      <FormalParameter Id="UNSUPPORTED_DOCUMENT_IDS" Name="Unsupported document Ids" IsArray="false" Mode="OUT">
          <DataType>
             <BasicType Type="STRING"/>
          </DataType>
+         <Description>String representing a comma separated list of Ids of documents that have unsuppored format.</Description>
       </FormalParameter>
    </FormalParameters>
    <ExtendedAttributes>

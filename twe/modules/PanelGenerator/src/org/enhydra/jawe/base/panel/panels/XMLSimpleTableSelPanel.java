@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -38,9 +38,24 @@ import org.enhydra.jxpdl.XMLElement;
  */
 public class XMLSimpleTableSelPanel extends XMLSimpleTablePanel {
 
-   public XMLSimpleTableSelPanel(PanelContainer pc, XMLCollection myOwner, List columnsToShow, List elementsToShow,
-         String title, boolean hasBorder, boolean hasEmptyBorder, boolean automaticWidth) {
-      super(pc, myOwner, columnsToShow, elementsToShow, title, hasBorder, hasEmptyBorder, automaticWidth);
+   public XMLSimpleTableSelPanel(PanelContainer pc,
+                                 XMLCollection myOwner,
+                                 List columnsToShow,
+                                 List elementsToShow,
+                                 String title,
+                                 boolean hasBorder,
+                                 boolean hasEmptyBorder,
+                                 boolean automaticWidth,
+                                 String tooltip) {
+      super(pc,
+            myOwner,
+            columnsToShow,
+            elementsToShow,
+            title,
+            hasBorder,
+            hasEmptyBorder,
+            automaticWidth,
+            null);
 
    }
 
@@ -62,7 +77,10 @@ public class XMLSimpleTableSelPanel extends XMLSimpleTablePanel {
                try {
                   XMLElement el = getSelectedElement();
                   if (el != null) {
-                     JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection(el, true);
+                     JaWEManager.getInstance()
+                        .getJaWEController()
+                        .getSelectionManager()
+                        .setSelection(el, true);
                   }
                } catch (Exception ex) {
                }

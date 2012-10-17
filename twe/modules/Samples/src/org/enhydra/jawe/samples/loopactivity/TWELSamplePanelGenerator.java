@@ -69,7 +69,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                                         JaWEManager.getInstance()
                                                            .getJaWEController()
                                                            .canModifyElement(ea.get("Value")),
-                                                        false);
+                                                        false, null);
             panelElements.add(cbp);
 
             ea = eas.getFirstExtendedAttributeForName(TWELSampleConstants.EA_SET_TEMPORARY);
@@ -80,7 +80,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                        JaWEManager.getInstance()
                                           .getJaWEController()
                                           .canModifyElement(ea.get("Value")),
-                                       false);
+                                       false, null);
             panelElements.add(cbp);
 
             panelElements.add(el.getFirstPerformerObj());
@@ -92,7 +92,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                   getPanelContainer().getLanguageDependentString("GeneralKey"),
                                   true,
                                   false,
-                                  true);
+                                  true, null);
 
             break;
 
@@ -135,7 +135,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                                                      mc,
                                                                      JaWEManager.getInstance()
                                                                         .getJaWEController()
-                                                                        .canModifyElement(ea));
+                                                                        .canModifyElement(ea), null);
             panelElements.add(pnl);
 
             p = new XMLGroupPanel(getPanelContainer(),
@@ -144,7 +144,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                   "Loop characteristic",
                                   true,
                                   false,
-                                  true);
+                                  true, null);
 
             break;
 

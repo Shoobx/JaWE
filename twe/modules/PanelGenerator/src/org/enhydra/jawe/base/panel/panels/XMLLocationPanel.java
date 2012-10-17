@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel.panels;
 
@@ -40,55 +40,62 @@ import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jxpdl.XMLElement;
 
 /**
-* Creates panel with JLabel, JTextField and JButton, this panel is
-* used to set the file name from some choosed location.
-* @author Sasa Bojanic
-*/
+ * Creates panel with JLabel, JTextField and JButton, this panel is used to set the file
+ * name from some choosed location.
+ * 
+ * @author Sasa Bojanic
+ */
 public class XMLLocationPanel extends XMLBasicPanel {
 
-   private static Dimension fileButtonDimension=new Dimension(25,20);
+   private static Dimension fileButtonDimension = new Dimension(25, 20);
 
    protected JTextField jtf;
+
    protected JLabel jl;
 
-   public XMLLocationPanel (PanelContainer pc,XMLElement myOwnerL,boolean isEnabled) {
-      this(pc,myOwnerL,isEnabled,-1);
+   public XMLLocationPanel(PanelContainer pc, XMLElement myOwnerL, boolean isEnabled) {
+      this(pc, myOwnerL, isEnabled, -1, null);
    }
 
-   public XMLLocationPanel (PanelContainer pc,XMLElement myOwner,boolean isEnabled, final int filteringMode) {
+   public XMLLocationPanel(PanelContainer pc,
+                           XMLElement myOwner,
+                           boolean isEnabled,
+                           final int filteringMode,
+                           String tooltip) {
 
-      super(pc,myOwner,"",false,false,true);
+      super(pc, myOwner, "", false, false, true, tooltip);
 
-      boolean rightAllignment=false;
-      Dimension textDim=new Dimension(400, 20);
-      
-      Color bkgCol=new Color(245,245,245);
-      if (pc!=null) {
-         Settings settings=pc.getSettings();
-      
-         rightAllignment = settings.getSettingBoolean("XMLBasicPanel.RightAllignment"); 
+      boolean rightAllignment = false;
+      Dimension textDim = new Dimension(400, 20);
 
-         textDim=new Dimension(
-            settings.getSettingInt("SimplePanelTextWidth"), 
-            settings.getSettingInt("SimplePanelTextHeight"));
-         fileButtonDimension=new Dimension(fileButtonDimension.width,textDim.height);
-         textDim.width=textDim.width-fileButtonDimension.width;
+      Color bkgCol = new Color(245, 245, 245);
+      if (pc != null) {
+         Settings settings = pc.getSettings();
+
+         rightAllignment = settings.getSettingBoolean("XMLBasicPanel.RightAllignment");
+
+         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
+                                 settings.getSettingInt("SimplePanelTextHeight"));
+         fileButtonDimension = new Dimension(fileButtonDimension.width, textDim.height);
+         textDim.width = textDim.width - fileButtonDimension.width;
 
          if (settings instanceof PanelSettings) {
-            bkgCol=((PanelSettings)settings).getBackgroundColor();
+            bkgCol = ((PanelSettings) settings).getBackgroundColor();
          }
 
-         jl=new JLabel(pc.getLabelGenerator().getLabel(myOwner)+": ");
+         jl = new JLabel(pc.getLabelGenerator().getLabel(myOwner) + ": ");
       } else {
-         jl=new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName()+"Key")+": ");
+         jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName()
+                                                                    + "Key")
+                         + ": ");
       }
 
       jl.setAlignmentX(Component.LEFT_ALIGNMENT);
       jl.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       jl.setHorizontalAlignment(SwingConstants.RIGHT);
-      //jl.setMaximumSize(new Dimension(Short.MAX_VALUE,10));
+      // jl.setMaximumSize(new Dimension(Short.MAX_VALUE,10));
 
-      jtf=new JTextField();
+      jtf = new JTextField();
       jtf.setText(myOwner.toValue());
       jtf.setAlignmentX(Component.LEFT_ALIGNMENT);
       jtf.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -97,19 +104,20 @@ public class XMLLocationPanel extends XMLBasicPanel {
       jtf.setPreferredSize(new Dimension(textDim));
       jtf.setEnabled(isEnabled);
       jtf.setBackground(bkgCol);
-      
-      //add key listener
-      final XMLPanel p=this;
+
+      // add key listener
+      final XMLPanel p = this;
       jtf.addKeyListener(new KeyAdapter() {
          public void keyPressed(KeyEvent e) {
-            if (getPanelContainer()==null) return; 
+            if (getPanelContainer() == null)
+               return;
             if (PanelUtilities.isModifyingEvent(e)) {
                getPanelContainer().panelChanged(p, e);
             }
-         }          
+         }
       });
 
-      JButton jb=new JButton("...");
+      JButton jb = new JButton("...");
       jb.setAlignmentX(Component.LEFT_ALIGNMENT);
       jb.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       jb.setMinimumSize(new Dimension(fileButtonDimension));
@@ -122,59 +130,59 @@ public class XMLLocationPanel extends XMLBasicPanel {
       }
       add(jl);
       if (!rightAllignment) {
-//         add(Box.createRigidArea(new Dimension(200-jl.getPreferredSize().width,1)));
+         // add(Box.createRigidArea(new Dimension(200-jl.getPreferredSize().width,1)));
          add(Box.createHorizontalGlue());
 
       }
       add(jtf);
       add(jb);
 
-      jb.addActionListener(new ActionListener(){
-         public void actionPerformed( ActionEvent ae ){
-            String fileName="";
-            String message=ResourceManager.getLanguageDependentString("DialogChooseFile");
-            fileName=JaWEXMLUtil.dialog(getWindow(),message,0,filteringMode,null);
-            if (fileName!=null && fileName.length()>0) {
+      jb.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent ae) {
+            String fileName = "";
+            String message = ResourceManager.getLanguageDependentString("DialogChooseFile");
+            fileName = JaWEXMLUtil.dialog(getWindow(), message, 0, filteringMode, null);
+            if (fileName != null && fileName.length() > 0) {
                jtf.setText(fileName);
-               if (getPanelContainer()==null) return;
+               if (getPanelContainer() == null)
+                  return;
                getPanelContainer().panelChanged(p, ae);
             }
          }
       });
    }
 
-   public boolean validateEntry () {
-      if (isEmpty() && getOwner().isRequired()
-         && !getOwner().isReadOnly()) {
+   public boolean validateEntry() {
+      if (isEmpty() && getOwner().isRequired() && !getOwner().isReadOnly()) {
 
-          //TODO CHECK THIS
-         XMLBasicPanel.defaultErrorMessage(this.getWindow(),jl.getText());
+         // TODO CHECK THIS
+         XMLBasicPanel.defaultErrorMessage(this.getWindow(), jl.getText());
          jtf.requestFocus();
          return false;
       }
       return true;
    }
 
-   public boolean isEmpty () {
+   public boolean isEmpty() {
       return getText().trim().equals("");
    }
 
-   public void setElements () {
+   public void setElements() {
       if (!getOwner().isReadOnly()) {
          myOwner.setValue(getText().trim());
       }
    }
 
-   public String getText () {
+   public String getText() {
       return jtf.getText();
    }
 
-   public Object getValue () {
+   public Object getValue() {
       return getText();
    }
 
-   public void requestFocus () {
+   public void requestFocus() {
       jtf.requestFocus();
    }
-   
+
 }

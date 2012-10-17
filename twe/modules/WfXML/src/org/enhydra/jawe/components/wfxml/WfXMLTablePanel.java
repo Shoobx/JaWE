@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.wfxml;
 
@@ -56,13 +56,21 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
 
    /**
     * Creates a table panel for displaying remote process definitions.
+    * 
+    * @param tooltip TODO
     */
-   public WfXMLTablePanel(WfXML wfxml) {
-      super(null,wfxml.getDefInfos(),wfxml.getSettings().getLanguageDependentString("ProcessDefinitionListKey"),true,true,false);
-      this.wfxml=wfxml;
+   public WfXMLTablePanel(WfXML wfxml, String tooltip) {
+      super(null,
+            wfxml.getDefInfos(),
+            wfxml.getSettings().getLanguageDependentString("ProcessDefinitionListKey"),
+            true,
+            true,
+            false,
+            tooltip);
+      this.wfxml = wfxml;
       myOwner.addListener(this);
       myOwner.setNotifyListeners(true);
-      dummy=(DefInfo)wfxml.getDefInfos().generateNewElement();
+      dummy = (DefInfo) wfxml.getDefInfos().generateNewElement();
       setLayout(new BorderLayout());
       columnNames = getColumnNames(wfxml);
       allItems = createTable();
@@ -89,7 +97,7 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
          int rc = allItems.getRowCount();
          if (rc > 0) {
             for (int i = 0; i < rc; i++) {
-               if (el==allItems.getValueAt(i, 0)) {
+               if (el == allItems.getValueAt(i, 0)) {
                   allItems.setRowSelectionInterval(i, i);
 
                   // focus the row
@@ -120,7 +128,10 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       try {
          allItems.setRowSelectionInterval(row, row);
 
-         JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection(getSelectedElement(), true);
+         JaWEManager.getInstance()
+            .getJaWEController()
+            .getSelectionManager()
+            .setSelection(getSelectedElement(), true);
 
       } catch (Exception e) {
       }
@@ -138,11 +149,11 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       dtm.removeRow(row);
    }
 
-   public void updateRow (int row) {
+   public void updateRow(int row) {
       DefaultTableModel dtm = (DefaultTableModel) allItems.getModel();
-      DefInfo di=(DefInfo)dtm.getValueAt(row,0);
-      for (int i=0; i<di.toElements().size(); i++) {
-         dtm.setValueAt(di.get(i).toValue(),row,i+1);
+      DefInfo di = (DefInfo) dtm.getValueAt(row, 0);
+      for (int i = 0; i < di.toElements().size(); i++) {
+         dtm.setValueAt(di.get(i).toValue(), row, i + 1);
       }
    }
 
@@ -202,8 +213,8 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       allItems.addMouseListener(new MouseAdapter() {
          public void mouseClicked(MouseEvent me) {
             if (me.getClickCount() > 1) {
-               DefInfo di=getSelectedElement();
-               if (di!=null) {
+               DefInfo di = getSelectedElement();
+               if (di != null) {
                   new DefInfoEditor(di);
                   updateRow(allItems.getSelectedRow());
                }
@@ -220,8 +231,8 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       cnames.add("Object");
       Iterator it = dummy.toElements().iterator();
       while (it.hasNext()) {
-         XMLElement el = (XMLElement)it.next();
-         cnames.add(pWfxml.getSettings().getLanguageDependentString(el.toName()+"Key"));
+         XMLElement el = (XMLElement) it.next();
+         cnames.add(pWfxml.getSettings().getLanguageDependentString(el.toName() + "Key"));
       }
       return cnames;
    }
@@ -263,7 +274,7 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       int row = -1;
       for (int i = 0; i < allItems.getRowCount(); i++) {
          XMLElement toCompare = (XMLElement) allItems.getValueAt(i, 0);
-         if (el==toCompare) {
+         if (el == toCompare) {
             row = i;
             break;
          }
@@ -296,6 +307,5 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
          }
       }
    }
-
 
 }
