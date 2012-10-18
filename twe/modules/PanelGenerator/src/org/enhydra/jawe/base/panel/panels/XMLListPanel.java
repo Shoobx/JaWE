@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -667,10 +668,15 @@ public class XMLListPanel extends XMLBasicPanel implements
             getPanelContainer().panelChanged(this, null);
          }
       } else if (info.getAction() == XMLElementChangeInfo.INSERTED) {
+         Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                       "XMLListPanel",
+                                                       (XMLCollection) getOwner());
          Iterator it = info.getChangedSubElements().iterator();
          while (it.hasNext()) {
             XMLElement el = (XMLElement) it.next();
-            addElement(el);
+            if (!hidden.contains(el)) {
+               addElement(el);
+            }
          }
          if (notifyPanel) {
             getPanelContainer().panelChanged(this, null);

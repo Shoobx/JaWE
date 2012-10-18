@@ -282,6 +282,8 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          Iterator it = eas.toElements().iterator();
          JaWEController jc = JaWEManager.getInstance().getJaWEController();
          jc.startUndouableChange();
+         ((InlinePanel) getPanelContainer()).getJaWEComponent()
+         .setUpdateInProgress(true);
          List<String> toRemoveNames = new ArrayList<String>();
          while (it.hasNext()) {
             ExtendedAttribute ea = (ExtendedAttribute) it.next();
@@ -326,6 +328,8 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          List toSelect = new ArrayList();
          toSelect.add(orig);
          jc.endUndouableChange(toSelect);
+         ((InlinePanel) getPanelContainer()).getJaWEComponent()
+         .setUpdateInProgress(false);
       }
    }
 

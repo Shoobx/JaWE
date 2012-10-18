@@ -41,6 +41,7 @@ import javax.swing.ListCellRenderer;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.Utils;
+import org.enhydra.jawe.base.panel.panels.PanelUtilities;
 import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
@@ -174,7 +175,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false, null);
+                                   false,
+                                   null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -232,7 +234,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      getPanelContainer().getLanguageDependentString("GeneralKey"),
                                      true,
                                      false,
-                                     true, null);
+                                     true,
+                                     null);
             }
             break;
 
@@ -322,7 +325,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                       .getLabel(el),
                                    JaWEManager.getInstance()
                                       .getJaWEController()
-                                      .canModifyElement(el), null);
+                                      .canModifyElement(el),
+                                   null);
    }
 
    public XMLPanel getPanel(Deadlines el) {
@@ -368,7 +372,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(el), null);
+                                                   .canModifyElement(el),
+                                                null);
 
    }
 
@@ -415,7 +420,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 mc,
                                                                 JaWEManager.getInstance()
                                                                    .getJaWEController()
-                                                                   .canModifyElement(el), null);
+                                                                   .canModifyElement(el),
+                                                                null);
    }
 
    public XMLPanel getPanel(ExtendedAttribute el) {
@@ -463,7 +469,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                              .getJaWEController()
                                              .canModifyElement(el),
                                           false,
-                                          false, null);
+                                          false,
+                                          null);
 
       p.getComboBox().setRenderer(cbr);
       return p;
@@ -501,7 +508,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false, null);
+                                   false,
+                                   null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -531,7 +539,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false, null);
+                                   false,
+                                   null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -568,7 +577,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      getPanelContainer().getLanguageDependentString("GeneralKey"),
                                      true,
                                      false,
-                                     true, null);
+                                     true,
+                                     null);
             }
             break;
 
@@ -666,7 +676,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                false,
                                JaWEManager.getInstance()
                                   .getJaWEController()
-                                  .canModifyElement(el), null);
+                                  .canModifyElement(el),
+                               null);
    }
 
    public XMLPanel getPanel(Performer el) {
@@ -681,7 +692,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                        true,
                                                        JaWEManager.getInstance()
                                                           .getJaWEController()
-                                                          .canModifyElement(el), null);
+                                                          .canModifyElement(el),
+                                                       null);
 
       }
       return new XMLTextPanel(getPanelContainer(),
@@ -758,7 +770,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(el), null);
+                                                   .canModifyElement(el),
+                                                null);
    }
 
    public XMLPanel getPanel(Responsibles el) {
@@ -813,7 +826,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                    true,
                                                                                    JaWEManager.getInstance()
                                                                                       .getJaWEController()
-                                                                                      .canModifyElement(el.get("Id")), null);
+                                                                                      .canModifyElement(el.get("Id")),
+                                                                                   null);
 
       if (!hidden.contains(el.get("Id"))) {
          panelElements.add(cp);
@@ -829,7 +843,8 @@ public class StandardPanelGenerator implements PanelGenerator {
          }
          final XMLActualParametersPanel app = new XMLActualParametersPanel(getPanelContainer(),
                                                                            el.getActualParameters(),
-                                                                           fps, null);
+                                                                           fps,
+                                                                           null);
          panelElements.add(app);
          cp.getComboBox().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
@@ -877,7 +892,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                  + "Key"),
                                   true,
                                   false,
-                                  true, null);
+                                  true,
+                                  null);
       }
       return null;
    }
@@ -922,7 +938,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                    false,
                                                                                    JaWEManager.getInstance()
                                                                                       .getJaWEController()
-                                                                                      .canModifyElement(el.get("Id")), null);
+                                                                                      .canModifyElement(el.get("Id")),
+                                                                                   null);
 
       if (!hidden.contains(el.get("Id"))) {
          panelElements.add(cp);
@@ -966,15 +983,18 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                                  + "Key"),
                                   true,
                                   false,
-                                  true, null);
+                                  true,
+                                  null);
       }
       return null;
    }
-   
-   protected XMLActualParametersPanel generateActualParametersPanel (TaskApplication el, FormalParameters fps) {
+
+   protected XMLActualParametersPanel generateActualParametersPanel(TaskApplication el,
+                                                                    FormalParameters fps) {
       return new XMLActualParametersPanel(getPanelContainer(),
-                                   el.getActualParameters(),
-                                   fps, null);      
+                                          el.getActualParameters(),
+                                          fps,
+                                          null);
    }
 
    public XMLPanel getPanel(Transition el) {
@@ -1011,7 +1031,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      .getLabel(el),
                                   true,
                                   false,
-                                  true, null);
+                                  true,
+                                  null);
       }
       return new XMLBasicPanel();
    }
@@ -1045,7 +1066,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false, null);
+                                   false,
+                                   null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -1075,7 +1097,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                    JaWEManager.getInstance()
                                       .getLabelGenerator()
                                       .getLabel(el),
-                                   false, null);
+                                   false,
+                                   null);
       } else if (panels.size() == 1) {
          return (XMLPanel) panels.get(0);
       } else {
@@ -1110,7 +1133,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                      getPanelContainer().getLanguageDependentString("GeneralKey"),
                                      true,
                                      false,
-                                     true, null);
+                                     true,
+                                     null);
             }
             break;
 
@@ -1219,7 +1243,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       mc,
                                                                       JaWEManager.getInstance()
                                                                          .getJaWEController()
-                                                                         .canModifyElement(el), null);
+                                                                         .canModifyElement(el),
+                                                                      null);
          } else {
             return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                       el,
@@ -1231,7 +1256,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       null,
                                                                       JaWEManager.getInstance()
                                                                          .getJaWEController()
-                                                                         .canModifyElement(el), null);
+                                                                         .canModifyElement(el),
+                                                                      null);
          }
       }
       if (el.getParent() instanceof BlockActivity) {
@@ -1260,7 +1286,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                    false,
                                                    JaWEManager.getInstance()
                                                       .getJaWEController()
-                                                      .canModifyElement(el), null);
+                                                      .canModifyElement(el),
+                                                   null);
 
       }
       if (el.toName().equalsIgnoreCase("From")) {
@@ -1288,7 +1315,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                   false,
                                                   JaWEManager.getInstance()
                                                      .getJaWEController()
-                                                     .canModifyElement(el), null);
+                                                     .canModifyElement(el),
+                                                  null);
       }
       if (el.toName().equalsIgnoreCase("FillColor")) {
          return new XMLColorPanel(pc, el, "FillColor", false, true, null);
@@ -1449,7 +1477,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(from), null);
+                                                   .canModifyElement(from),
+                                                null);
    }
 
    protected XMLPanel getPanelForTOAttribute(XMLCollectionElement tOrAss) {
@@ -1498,7 +1527,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                 false,
                                                 JaWEManager.getInstance()
                                                    .getJaWEController()
-                                                   .canModifyElement(to), null);
+                                                   .canModifyElement(to),
+                                                null);
    }
 
    public XMLPanel generateStandardPanel(XMLElement el) {
@@ -1570,7 +1600,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                       boolean hasTitle,
                                                       boolean hasEmptyBorder) {
       List elementsToShow = cl.toElements();
-      Set hidden = getHiddenElements("XMLTablePanel", cl);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLTablePanel",
+                                                    cl);
       elementsToShow.removeAll(hidden);
       List columnsToShow = getColumnsToShow("XMLTablePanel", cl);
       boolean miniDim = false;
@@ -1623,7 +1655,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                     boolean hasTitle,
                                                     boolean hasEmptyBorder) {
       List elementsToShow = cl.toElements();
-      Set hidden = getHiddenElements("XMLListPanel", cl);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLListPanel",
+                                                    cl);
       elementsToShow.removeAll(hidden);
       return new XMLListPanel((InlinePanel) getPanelContainer(),
                               cl,
@@ -1638,7 +1672,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                               true,
                               false,
                               false,
-                              false, null);
+                              false,
+                              null);
    }
 
    protected XMLGroupPanel generateStandardGroupPanel(XMLComplexElement cel,
@@ -1646,8 +1681,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                       boolean hasEmptyBorder) {
       List toShow = getStandardGroupPanelComponents(cel);
       if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
-            || cel instanceof Condition) {
-           hasTitle = true;
+          || cel instanceof Condition) {
+         hasTitle = true;
       }
       return new XMLGroupPanel(getPanelContainer(),
                                cel,
@@ -1657,10 +1692,11 @@ public class StandardPanelGenerator implements PanelGenerator {
                                   .getLabel(cel),
                                true,
                                hasTitle,
-                               hasEmptyBorder, null);
+                               hasEmptyBorder,
+                               null);
    }
 
-   protected List getStandardGroupPanelComponents (XMLComplexElement cel) {
+   protected List getStandardGroupPanelComponents(XMLComplexElement cel) {
       Set hidden = getHiddenElements("XMLGroupPanel", cel);
       List toShow = new ArrayList(cel.toElements());
       toShow.removeAll(hidden);
@@ -1691,7 +1727,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           null,
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
-                                                                             .canModifyElement(cel), null));
+                                                                             .canModifyElement(cel),
+                                                                          null));
          }
       } else if (cel instanceof ExtendedAttribute) {
          XMLElement holder = cel.getParent().getParent();
@@ -1711,7 +1748,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           mc,
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
-                                                                             .canModifyElement(cel), null));
+                                                                             .canModifyElement(cel),
+                                                                          null));
 
          } else {
             toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
@@ -1724,7 +1762,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           null,
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
-                                                                             .canModifyElement(cel), null));
+                                                                             .canModifyElement(cel),
+                                                                          null));
          }
       } else if (cel instanceof SchemaType) {
          toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
@@ -1737,11 +1776,12 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                        null,
                                                                        JaWEManager.getInstance()
                                                                           .getJaWEController()
-                                                                          .canModifyElement(cel), null));
+                                                                          .canModifyElement(cel),
+                                                                       null));
       }
       return toShow;
    }
-   
+
    protected XMLPanel getDataFieldOrFormalParameterPanel(XMLCollectionElement el) {
       Set hidden = getHiddenElements("XMLGroupPanel", el);
       List subpanels = new ArrayList();
@@ -1766,7 +1806,14 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             .canModifyElement(el)));
       }
       if (subpanels.size() > 0) {
-         g1 = new XMLGroupPanel(getPanelContainer(), el, subpanels, "", true, false, true, null);
+         g1 = new XMLGroupPanel(getPanelContainer(),
+                                el,
+                                subpanels,
+                                "",
+                                true,
+                                false,
+                                true,
+                                null);
          groupsToShow.add(g1);
       }
       XMLGroupPanel g2 = null;
@@ -1783,11 +1830,19 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             JaWEManager.getInstance()
                                                .getJaWEController()
                                                .canModifyElement(isa),
-                                            false, null));
+                                            false,
+                                            null));
       }
 
       if (subpanels.size() > 0) {
-         g2 = new XMLGroupPanel(getPanelContainer(), el, subpanels, "", true, false, true, null);
+         g2 = new XMLGroupPanel(getPanelContainer(),
+                                el,
+                                subpanels,
+                                "",
+                                true,
+                                false,
+                                true,
+                                null);
          groupsToShow.add(g2);
       }
       if (g1 != null && g2 != null) {
@@ -1798,7 +1853,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                               false,
                                               false,
                                               true,
-                                              true, null);
+                                              true,
+                                              null);
          groupsToShow.clear();
          groupsToShow.add(gp);
       }
@@ -1818,7 +1874,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             "",
                                             false,
                                             false,
-                                            true, null));
+                                            true,
+                                            null));
       }
 
       if (!hidden.contains(el.get("Description"))) {
@@ -1833,7 +1890,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                "",
                                true,
                                false,
-                               true, null);
+                               true,
+                               null);
    }
 
    public List getExpressionChoices(XMLElement el) {
@@ -1878,54 +1936,6 @@ public class StandardPanelGenerator implements PanelGenerator {
       // }
       // }
       // }
-      return hidden;
-   }
-
-   protected Set getHiddenElements(String panelName, XMLCollection col) {
-      Set hidden = new HashSet();
-      String elAttr = getPanelContainer().getSettings().getSettingString("HideElements."
-                                                                         + panelName
-                                                                         + "."
-                                                                         + col.toName());
-      String[] els = XMLUtil.tokenize(elAttr, " ");
-      for (int k = 0; k < els.length; k++) {
-         String key = els[k];
-         String hstr = getPanelContainer().getSettings().getSettingString("HideElements."
-                                                                          + panelName
-                                                                          + "."
-                                                                          + col.toName()
-                                                                          + "." + key);
-         String[] hstra = XMLUtil.tokenize(hstr, " ");
-         if (hstra != null) {
-            for (int i = 0; i < hstra.length; i++) {
-               if (hstra[i].equals("*")) {
-                  hidden.addAll(col.toElements());
-                  return hidden;
-               }
-               Iterator ci = col.toElements().iterator();
-               while (ci.hasNext()) {
-                  XMLElement el = (XMLElement) ci.next();
-                  if (key.equals("")) {
-                     if (el.toValue().equals(hstra[i])) {
-                        hidden.add(el);
-                     }
-                  } else {
-                     if (el instanceof XMLComplexElement) {
-                        XMLElement sel = ((XMLComplexElement) el).get(key);
-                        if (sel != null) {
-                           if (sel.toValue().equals(hstra[i])) {
-                              hidden.add(el);
-                           }
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-      // System.out.println("There are "+hidden.size()+" hidden elements for panel
-      // "+panelName+",
-      // col="+col+", ks="+keyStarts+", colsize="+col.size());
       return hidden;
    }
 

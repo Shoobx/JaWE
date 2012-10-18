@@ -33,6 +33,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -846,10 +847,15 @@ public class XMLTablePanel extends XMLBasicPanel implements
             getPanelContainer().panelChanged(this, null);
          }
       } else if (info.getAction() == XMLElementChangeInfo.INSERTED) {
+         Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                       "XMLTablePanel",
+                                                       (XMLCollection) getOwner());
          Iterator it = info.getChangedSubElements().iterator();
          while (it.hasNext()) {
             XMLElement el = (XMLElement) it.next();
-            addRow(el);
+            if (!hidden.contains(el)) {
+               addRow(el);
+            }
          }
          if (notifyPanel) {
             getPanelContainer().panelChanged(this, null);
