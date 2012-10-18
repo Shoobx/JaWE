@@ -183,7 +183,33 @@ public class SharkXPDLUtils extends XPDLUtils {
             }
          }
       }
-
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
+      List eas = wp.getExtendedAttributes().toElements();
+      for (int i = 0; i < eas.size(); i++) {
+         ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
+         if (ea.getName()
+            .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+             || ea.getName()
+                .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+             || ea.getName()
+                .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)) {
+            WfVariables vars = new WfVariables(wp, ea.getName(), null, ",", false);
+            vars.createStructure(ea.getVValue());
+            if (vars.getCollectionElement(dfOrFpId) != null) {
+               references.add(ea.get("Value"));
+            }
+         } else if (ea.getName()
+            .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                    || ea.getName()
+                       .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+            if (XMLUtil.getUsingPositions(ea.getVValue(),
+                                          "{process_variable:" + dfOrFpId + "}",
+                                          allVars,
+                                          false).size() > 0) {
+               references.add(ea.get("Value"));
+            }
+         }
+      }
       return references;
    }
 
@@ -234,7 +260,14 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.EA_TRANSIENT)
                  || eaName.equals(SharkConstants.EA_DELETE_FINISHED)
                  || eaName.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY)
-                 || eaName.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION) || eaName.equals(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END))) {
+                 || eaName.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
+                 || eaName.equals(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE) || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT))) {
             continue;
          }
          if (pp instanceof Activity
@@ -279,7 +312,10 @@ public class SharkXPDLUtils extends XPDLUtils {
          if (easmtpv instanceof XMLAttribute) {
             XMLAttribute a = (XMLAttribute) easmtpv;
             if (a.toName().equals("Value")) {
-               if (a.getParent() instanceof ExtendedAttribute) {
+               if (a.getParent() instanceof ExtendedAttribute
+                   && (a.getParent().getParent().getParent() instanceof Activity || a.getParent()
+                      .getParent()
+                      .getParent() instanceof WorkflowProcess)) {
                   if (((ExtendedAttribute) a.getParent()).getName()
                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
                       || ((ExtendedAttribute) a.getParent()).getName()

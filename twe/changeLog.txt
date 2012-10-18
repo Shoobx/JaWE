@@ -1,4 +1,7 @@
 ###### TWE 4.8-1 RELEASED ######
+2012-10-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Email configuration section for workflow process element (used with SMTPEventAuditManager). Nice GUI and XPDL validation.
+
 2012-10-17 Sasa Bojanic <sasaboy@together.at>
    # Added possibility to all panels to display tooltip
    # Shark mode: Improved GUI for TaskApplication activity modeling (actual->formal parameters)
@@ -17,7 +20,7 @@
      allows undefined variables (Formal/Actual parameter matching validation still considers such cases an ERROR cases)
 
 2012-10-03 Sasa Bojanic <sasaboy@together.at>
-   # Shark mode: Email configuration section for each manual activity (used with SMTPEventAuditManager). Nice GUI and XPDL validation.
+   # Shark mode: Email configuration section for manual activity elements (used with SMTPEventAuditManager). Nice GUI and XPDL validation.
    # Added new actions to start and stop design time XPDL validation (useful to stop it when dealing with big XPDLs)
    # Enhanced XMLMultiLineTextPanelWithChoiceButton and XMLMultiLineHighlightPanelWithChoiceButton GUI controls
    # Improved ProblemsNavigator

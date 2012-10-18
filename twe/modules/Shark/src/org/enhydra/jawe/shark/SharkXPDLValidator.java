@@ -89,10 +89,12 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          }
       }
       if (parent instanceof ExtendedAttribute
-          && parent.getParent().getParent() instanceof Activity) {
+          && (parent.getParent().getParent() instanceof Activity || parent.getParent()
+             .getParent() instanceof WorkflowProcess)) {
+         boolean isAct = parent.getParent().getParent() instanceof Activity;
          if (el.toName().equals("Name")) {
-            if (el.toValue().equals(SharkConstants.VTP_UPDATE)
-                || el.toValue().equals(SharkConstants.VTP_VIEW)
+            if (((el.toValue().equals(SharkConstants.VTP_UPDATE) || el.toValue()
+               .equals(SharkConstants.VTP_VIEW)) && isAct)
                 || el.toValue()
                    .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
                 || el.toValue()

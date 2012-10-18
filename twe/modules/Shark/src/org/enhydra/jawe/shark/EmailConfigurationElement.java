@@ -26,6 +26,7 @@ import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.SchemaType;
@@ -60,11 +61,13 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE,
                                                   null,
                                                   false);
-         SharkUtils.updateSingleExtendedAttribute(this,
-                                                  eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY,
-                                                  null,
-                                                  false);
+         if (eas.getParent() instanceof Activity) {
+            SharkUtils.updateSingleExtendedAttribute(this,
+                                                     eas,
+                                                     SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY,
+                                                     null,
+                                                     false);
+         }
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT,
@@ -213,7 +216,8 @@ public class EmailConfigurationElement extends XMLComplexElement {
             }
          }
       }
-      isPersisted = pc >= 3;
+      int toCompNo = getParent() instanceof Activity ? 3 : 2;
+      isPersisted = pc >= toCompNo;
    }
 
    public boolean isPersisted() {
