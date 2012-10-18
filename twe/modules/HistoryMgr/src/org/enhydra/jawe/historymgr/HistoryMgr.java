@@ -63,7 +63,7 @@ public class HistoryMgr implements HistoryManager {
          return;
       if (el == null && current == null)
          return;
-      if (el != current && current != null) {
+      if (el != current && current != null && el!=null) {
          if (!backHistory.isEmpty() && backHistory.lastElement() == current) {
             return;
          }

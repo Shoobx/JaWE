@@ -10,7 +10,7 @@ public class WfVariable extends XMLCollectionElement {
    private List filter;
    
    public WfVariable (WfVariables parent,List filter) {
-      super(parent, false);
+      super(parent, true);
       this.filter=filter;
       notifyMainListeners = false;
       notifyListeners = false;

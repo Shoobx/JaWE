@@ -1208,7 +1208,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             .toName()
             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES);
          if (editable) {
-            if (!chm.containsKey(el.toValue())) {
+            if (!chm.containsKey(el.toValue()) && !el.toValue().equals("")) {
                choices.add(0, el.toValue());
             }
          }
