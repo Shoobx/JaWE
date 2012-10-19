@@ -16,7 +16,7 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.base.panel.panels;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -48,13 +48,13 @@ import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.SchemaType;
 
 /**
- * Creates a table panel.
+ * Advanced panel for editing actual parameters.
  * 
  * @author Sasa Bojanic
  */
-public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
+public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
 
-//   protected String taName = null;
+   // protected String taName = null;
 
    protected FormalParameters fps;
 
@@ -62,10 +62,10 @@ public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
 
    protected XMLPanel emptyPanel;
 
-   public XMLSpecialActualParametersPanel(PanelContainer pc,
-                                          ActualParameters myOwner,
-                                          FormalParameters fps,
-                                          String tooltip) {
+   public XMLAdvancedActualParametersPanel(PanelContainer pc,
+                                           ActualParameters myOwner,
+                                           FormalParameters fps,
+                                           String tooltip) {
 
       super(pc, myOwner, fps, tooltip);
       setPreferredSize(new Dimension(700, 500));
@@ -192,21 +192,21 @@ public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
 
    }
 
-//   protected String getTAName(FormalParameters fps) {
-//      String taName = null;
-//      if (fps != null) {
-//         Application app = XMLUtil.getApplication(fps);
-//         if (app != null) {
-//            ExtendedAttribute ea = app.getExtendedAttributes()
-//               .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
-//
-//            if (ea != null) {
-//               taName = ea.getVValue();
-//            }
-//         }
-//      }
-//      return taName;
-//   }
+   // protected String getTAName(FormalParameters fps) {
+   // String taName = null;
+   // if (fps != null) {
+   // Application app = XMLUtil.getApplication(fps);
+   // if (app != null) {
+   // ExtendedAttribute ea = app.getExtendedAttributes()
+   // .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+   //
+   // if (ea != null) {
+   // taName = ea.getVValue();
+   // }
+   // }
+   // }
+   // return taName;
+   // }
 
    protected List getChoices(List vars, XMLElement dt, boolean doFiltering) {
       List filter = null;
@@ -222,7 +222,7 @@ public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
             });
          }
       }
-      return SharkUtils.getPossibleVariableChoices(vars, filter, 2, false);
+      return PanelUtilities.getPossibleVariableChoices(vars, filter, 2, false);
    }
 
 }

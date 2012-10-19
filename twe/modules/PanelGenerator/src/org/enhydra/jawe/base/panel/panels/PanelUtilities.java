@@ -21,6 +21,7 @@ package org.enhydra.jawe.base.panel.panels;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,11 +42,20 @@ import org.enhydra.jawe.base.controller.JaWETypeChoiceButton;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollection;
+import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLSimpleElement;
 import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.BasicType;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DeclaredType;
+import org.enhydra.jxpdl.elements.ExternalReference;
+import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.Member;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.SchemaType;
+import org.enhydra.jxpdl.elements.TypeDeclaration;
 
 /**
  * Various panel utilities.
@@ -206,6 +216,140 @@ public class PanelUtilities {
       // "+panelName+",
       // col="+col+", ks="+keyStarts+", colsize="+col.size());
       return hidden;
+   }
+
+   public static Set getHiddenElements(PanelContainer pc,
+                                       String panelName,
+                                       XMLComplexElement cel) {
+      Set hidden = new HashSet();
+
+      String hstr = pc.getSettings().getSettingString("HideSubElements."
+                                                      + panelName + "." + cel.toName());
+
+      String[] hstra = XMLUtil.tokenize(hstr, " ");
+      if (hstra != null) {
+         for (int i = 0; i < hstra.length; i++) {
+            XMLElement el = cel.get(hstra[i]);
+            if (el != null) {
+               hidden.add(el);
+            } else if (cel instanceof Package) {
+               Package pkg = (Package) cel;
+               if (hstra[i].equals(pkg.getNamespaces().toName())) {
+                  hidden.add(pkg.getNamespaces());
+               }
+            }
+         }
+      }
+      // if
+      // (getProperties().getProperty(HIDE_COLLECTIONS_AND_COMPLEX_CHOICES,"false").equals("true"))
+      // {
+      // List subEls=cel.toElements();
+      // for (int i=0; i<subEls.size(); i++) {
+      // XMLElement subEl=(XMLElement)subEls.get(i);
+      // if (subEl instanceof XMLCollection || subEl instanceof XMLComplexChoice || subEl
+      // instanceof DataType) {
+      // hidden.add(subEl);
+      // }
+      // }
+      // }
+      return hidden;
+   }
+
+   public static List getColumnsToShow(PanelContainer pc,
+                                       String panelName,
+                                       XMLCollection col) {
+      XMLElement el = col.generateNewElement();
+      List toShow = new ArrayList();
+      if (el instanceof XMLComplexElement) {
+         String hstr = pc.getSettings()
+            .getSettingString("ShowColumns." + panelName + "." + col.toName());
+         // System.err.println("CTS for col "+col+" is "+hstr);
+         String[] hstra = XMLUtil.tokenize(hstr, " ");
+         if (hstra.length > 0) {
+            toShow.addAll(Arrays.asList(hstra));
+         } else {
+            toShow.addAll(((XMLComplexElement) el).toElementMap().keySet());
+         }
+         // System.err.println("CTS list for col "+col+" is "+toShow);
+      }
+      return toShow;
+   }
+
+   // filterType: 0-only declared types, 1-only basic and schema types, 2-both declared
+   // and basic and schema,
+   // 3-any declared and specified basic and schema types
+   // if getIdList is set to true, the list of Strings representing variable Ids will be
+   // returned,
+   // otherwise it will return a list of DataField or FormalParameter objects
+   public static List getPossibleVariableChoices(List choices,
+                                                 List tds,
+                                                 int filterType,
+                                                 boolean getIdList) {
+      if (tds == null || tds.size() == 0) {
+         return new ArrayList(choices);
+      }
+      ArrayList filteredChoices = new ArrayList();
+      for (int i = 0; i < choices.size(); i++) {
+         XMLCollectionElement dfOrFP = (XMLCollectionElement) choices.get(i);
+         XMLElement chn = null;
+         if (dfOrFP.getId().trim().equals("")) {
+            if (getIdList) {
+               filteredChoices.add(dfOrFP.getId());
+            } else {
+               filteredChoices.add(dfOrFP);
+            }
+            continue;
+         }
+         if (dfOrFP instanceof DataField) {
+            chn = ((DataField) dfOrFP).getDataType().getDataTypes().getChoosen();
+         } else {
+            chn = ((FormalParameter) dfOrFP).getDataType().getDataTypes().getChoosen();
+         }
+         if ((filterType == 0 || filterType >= 2) && chn instanceof DeclaredType) {
+            if (filterType == 3) {
+               if (getIdList) {
+                  filteredChoices.add(dfOrFP.getId());
+               } else {
+                  filteredChoices.add(dfOrFP);
+               }
+            } else {
+               String dtId = ((DeclaredType) chn).getId();
+               TypeDeclaration td = XMLUtil.getPackage(dfOrFP).getTypeDeclaration(dtId);
+               if (td != null) {
+                  XMLElement chndt = td.getDataTypes().getChoosen();
+                  if (chndt instanceof ExternalReference) {
+                     String loc = ((ExternalReference) chndt).getLocation();
+                     for (int j = 0; j < tds.size(); j++) {
+                        if ((((String) tds.get(j)).equals("<>") && loc.endsWith("<>"))
+                            || loc.endsWith("." + tds.get(j).toString())) {
+                           if (getIdList) {
+                              filteredChoices.add(dfOrFP.getId());
+                           } else {
+                              filteredChoices.add(dfOrFP);
+                           }
+                           break;
+                        }
+                     }
+                  }
+               }
+            }
+         }
+         if ((filterType > 0) && (chn instanceof BasicType || chn instanceof SchemaType)) {
+            String t = (chn instanceof BasicType) ? ((BasicType) chn).getType()
+                                                 : XMLUtil.getShortClassName(SchemaType.class.getName());
+            for (int j = 0; j < tds.size(); j++) {
+               if (t.endsWith(tds.get(j).toString())) {
+                  if (getIdList) {
+                     filteredChoices.add(dfOrFP.getId());
+                  } else {
+                     filteredChoices.add(dfOrFP);
+                  }
+                  break;
+               }
+            }
+         }
+      }
+      return filteredChoices;
    }
 
 }

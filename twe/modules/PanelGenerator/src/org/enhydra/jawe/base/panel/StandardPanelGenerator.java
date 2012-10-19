@@ -25,8 +25,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +39,7 @@ import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.panels.PanelUtilities;
 import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
+import org.enhydra.jawe.base.panel.panels.XMLAdvancedActualParametersPanel;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
 import org.enhydra.jawe.base.panel.panels.XMLColorPanel;
@@ -154,7 +153,9 @@ public class StandardPanelGenerator implements PanelGenerator {
    public XMLPanel getPanel(Activity el) {
 
       List panels = new ArrayList();
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       for (int i = 1;; i++) {
          try {
             XMLPanel p = getPanel(el, i, hidden);
@@ -487,7 +488,9 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getPanel(Package el) {
       List panels = new ArrayList();
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       for (int i = 1;; i++) {
          try {
             XMLPanel p = getPanel(el, i, hidden);
@@ -518,7 +521,9 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getBasicPanel(Package el) {
       List panels = new ArrayList();
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       for (int i = 1; i <= 3; i++) {
          try {
             XMLPanel p = getPanel(el, i, hidden);
@@ -789,7 +794,9 @@ public class StandardPanelGenerator implements PanelGenerator {
    }
 
    public XMLPanel getPanel(SubFlow el) {
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       List panelElements = new ArrayList();
       SequencedHashMap choices = XMLUtil.getPossibleSubflowProcesses(el,
                                                                      JaWEManager.getInstance()
@@ -892,7 +899,9 @@ public class StandardPanelGenerator implements PanelGenerator {
    }
 
    public XMLPanel getPanel(TaskApplication el) {
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       List panelElements = new ArrayList();
       SequencedHashMap choices = XMLUtil.getPossibleApplications(XMLUtil.getWorkflowProcess(el),
                                                                  JaWEManager.getInstance()
@@ -980,22 +989,40 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    protected XMLActualParametersPanel generateActualParametersPanel(TaskApplication el,
                                                                     FormalParameters fps) {
-      return new XMLActualParametersPanel(getPanelContainer(),
-                                          el.getActualParameters(),
-                                          fps,
-                                          null);
+      if (!getPanelContainer().getSettings()
+         .getSettingBoolean("XMLActualParametersPanel.useAdvanced")) {
+         return new XMLActualParametersPanel(getPanelContainer(),
+                                             el.getActualParameters(),
+                                             fps,
+                                             null);
+      } else {
+         return new XMLAdvancedActualParametersPanel(getPanelContainer(),
+                                                     el.getActualParameters(),
+                                                     fps,
+                                                     null);
+      }
    }
 
    protected XMLActualParametersPanel generateActualParametersPanel(SubFlow el,
                                                                     FormalParameters fps) {
-      return new XMLActualParametersPanel(getPanelContainer(),
-                                          el.getActualParameters(),
-                                          fps,
-                                          null);
+      if (!getPanelContainer().getSettings()
+         .getSettingBoolean("XMLActualParametersPanel.useAdvanced")) {
+         return new XMLActualParametersPanel(getPanelContainer(),
+                                             el.getActualParameters(),
+                                             fps,
+                                             null);
+      } else {
+         return new XMLAdvancedActualParametersPanel(getPanelContainer(),
+                                                     el.getActualParameters(),
+                                                     fps,
+                                                     null);
+      }
    }
 
    public XMLPanel getPanel(Transition el) {
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       List panelElements = new ArrayList();
       if (!hidden.contains(el.get("Id"))) {
          panelElements.add(el.get("Id"));
@@ -1044,7 +1071,9 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getPanel(WorkflowProcess el) {
       List panels = new ArrayList();
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       for (int i = 1;; i++) {
          try {
             XMLPanel p = getPanel(el, i, hidden);
@@ -1075,7 +1104,9 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public XMLPanel getBasicPanel(WorkflowProcess el) {
       List panels = new ArrayList();
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       for (int i = 1; i <= 3; i++) {
          try {
             XMLPanel p = getPanel(el, i, hidden);
@@ -1601,7 +1632,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                     "XMLTablePanel",
                                                     cl);
       elementsToShow.removeAll(hidden);
-      List columnsToShow = getColumnsToShow("XMLTablePanel", cl);
+      List columnsToShow = PanelUtilities.getColumnsToShow(getPanelContainer(),
+                                                           "XMLTablePanel",
+                                                           cl);
       boolean miniDim = false;
       if (cl instanceof ExtendedAttributes) {
          miniDim = true;
@@ -1694,7 +1727,9 @@ public class StandardPanelGenerator implements PanelGenerator {
    }
 
    protected List getStandardGroupPanelComponents(XMLComplexElement cel) {
-      Set hidden = getHiddenElements("XMLGroupPanel", cel);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    cel);
       List toShow = new ArrayList(cel.toElements());
       toShow.removeAll(hidden);
       if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
@@ -1780,7 +1815,9 @@ public class StandardPanelGenerator implements PanelGenerator {
    }
 
    protected XMLPanel getDataFieldOrFormalParameterPanel(XMLCollectionElement el) {
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       List subpanels = new ArrayList();
       List groupsToShow = new ArrayList();
       XMLGroupPanel g1 = null;
@@ -1898,62 +1935,6 @@ public class StandardPanelGenerator implements PanelGenerator {
          return new ArrayList(fps.toElements());
       }
       return new ArrayList(XMLUtil.getPossibleVariables(el).values());
-   }
-
-   protected Set getHiddenElements(String panelName, XMLComplexElement cel) {
-      Set hidden = new HashSet();
-
-      String hstr = getPanelContainer().getSettings().getSettingString("HideSubElements."
-                                                                       + panelName + "."
-                                                                       + cel.toName());
-
-      String[] hstra = XMLUtil.tokenize(hstr, " ");
-      if (hstra != null) {
-         for (int i = 0; i < hstra.length; i++) {
-            XMLElement el = cel.get(hstra[i]);
-            if (el != null) {
-               hidden.add(el);
-            } else if (cel instanceof Package) {
-               Package pkg = (Package) cel;
-               if (hstra[i].equals(pkg.getNamespaces().toName())) {
-                  hidden.add(pkg.getNamespaces());
-               }
-            }
-         }
-      }
-      // if
-      // (getProperties().getProperty(HIDE_COLLECTIONS_AND_COMPLEX_CHOICES,"false").equals("true"))
-      // {
-      // List subEls=cel.toElements();
-      // for (int i=0; i<subEls.size(); i++) {
-      // XMLElement subEl=(XMLElement)subEls.get(i);
-      // if (subEl instanceof XMLCollection || subEl instanceof XMLComplexChoice || subEl
-      // instanceof DataType) {
-      // hidden.add(subEl);
-      // }
-      // }
-      // }
-      return hidden;
-   }
-
-   protected List getColumnsToShow(String panelName, XMLCollection col) {
-      XMLElement el = col.generateNewElement();
-      List toShow = new ArrayList();
-      if (el instanceof XMLComplexElement) {
-         String hstr = getPanelContainer().getSettings().getSettingString("ShowColumns."
-                                                                          + panelName
-                                                                          + "."
-                                                                          + col.toName());
-         // System.err.println("CTS for col "+col+" is "+hstr);
-         String[] hstra = XMLUtil.tokenize(hstr, " ");
-         if (hstra.length > 0) {
-            toShow.addAll(Arrays.asList(hstra));
-         } else {
-            toShow.addAll(((XMLComplexElement) el).toElementMap().keySet());
-         }
-         // System.err.println("CTS list for col "+col+" is "+toShow);
-      }
-      return toShow;
    }
 
    public Settings getSettings() {

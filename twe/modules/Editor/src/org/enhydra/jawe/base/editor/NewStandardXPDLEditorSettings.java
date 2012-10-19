@@ -64,6 +64,10 @@ public class NewStandardXPDLEditorSettings extends PanelSettings {
                             new Boolean(properties.getProperty("InlinePanel.DisplayTitle",
                                                                "false")
                                .equals("true")));
+      componentSettings.put("XMLActualParametersPanel.useAdvanced",
+                            new Boolean(properties.getProperty("XMLActualParametersPanel.useAdvanced",
+                                                               "true")
+                               .equals("true")));
       componentSettings.put("XMLBasicPanel.RightAllignment",
                             new Boolean(properties.getProperty("XMLBasicPanel.RightAllignment",
                                                                "false")
@@ -115,7 +119,8 @@ public class NewStandardXPDLEditorSettings extends PanelSettings {
                             "Id Name Source Target AssociationDirection");
       componentSettings.put("ShowColumns.XMLTablePanel.Artifacts",
                             "Id Name ArtifactType TextAnnotation");
-      componentSettings.put("ShowColumns.XMLTablePanel.DataFields", "Id Name DataType IsArray InitialValue");
+      componentSettings.put("ShowColumns.XMLTablePanel.DataFields",
+                            "Id Name DataType IsArray InitialValue");
       componentSettings.put("ShowColumns.XMLTablePanel.ExtendedAttributes", "Name Value");
       componentSettings.put("ShowColumns.XMLTablePanel.FormalParameters",
                             "Id Name Mode DataType IsArray");

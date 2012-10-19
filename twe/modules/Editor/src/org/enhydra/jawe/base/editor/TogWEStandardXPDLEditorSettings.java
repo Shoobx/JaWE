@@ -72,6 +72,10 @@ public class TogWEStandardXPDLEditorSettings extends PanelSettings {
                             new Boolean(properties.getProperty("InlinePanel.DisplayTitle",
                                                                "false")
                                .equals("true")));
+      componentSettings.put("XMLActualParametersPanel.useAdvanced",
+                            new Boolean(properties.getProperty("XMLActualParametersPanel.useAdvanced",
+                                                               "true")
+                               .equals("true")));
       componentSettings.put("XMLBasicPanel.RightAllignment",
                             new Boolean(properties.getProperty("XMLBasicPanel.RightAllignment",
                                                                "false")

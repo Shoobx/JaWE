@@ -32,7 +32,9 @@ import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
+import org.enhydra.jawe.base.panel.panels.PanelUtilities;
 import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
+import org.enhydra.jawe.base.panel.panels.XMLAdvancedActualParametersPanel;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
@@ -376,7 +378,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(Application el) {
-      Set hidden = getHiddenElements("XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLGroupPanel", el);
       List subpanels = new ArrayList();
       List groupsToShow = new ArrayList();
       if (!hidden.contains(el.get("Id"))) {
@@ -1198,12 +1200,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          for (int i = 0; i < l.size(); i++) {
             varIds.add(((WfVariable) l.get(i)).getId());
          }
-         List choices = SharkUtils.getPossibleVariableChoices(SharkUtils.getPossibleVariableChoices(chm,
-                                                                                                    varIds,
-                                                                                                    el.toValue()),
-                                                              var.getFilter(),
-                                                              2,
-                                                              false);
+         List choices = PanelUtilities.getPossibleVariableChoices(SharkUtils.getPossibleVariableChoices(chm,
+                                                                                                        varIds,
+                                                                                                        el.toValue()),
+                                                                  var.getFilter(),
+                                                                  2,
+                                                                  false);
 
          boolean editable = var.getParent()
             .toName()
@@ -1329,22 +1331,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                      true,
                                      hasTitle,
                                      hasEmptyBorder);
-   }
-
-   protected XMLActualParametersPanel generateActualParametersPanel(TaskApplication el,
-                                                                    FormalParameters fps) {
-      return new XMLSpecialActualParametersPanel(getPanelContainer(),
-                                                 el.getActualParameters(),
-                                                 fps,
-                                                 null);
-   }
-
-   protected XMLActualParametersPanel generateActualParametersPanel(SubFlow el,
-                                                                    FormalParameters fps) {
-      return new XMLSpecialActualParametersPanel(getPanelContainer(),
-                                                 el.getActualParameters(),
-                                                 fps,
-                                                 null);
    }
 
    protected List getPossibleVariableChoices(Map vars, ExtendedAttributes eas) {
