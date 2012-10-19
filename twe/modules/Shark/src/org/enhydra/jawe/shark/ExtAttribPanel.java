@@ -20,6 +20,8 @@ package org.enhydra.jawe.shark;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Collections;
@@ -33,8 +35,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
@@ -125,13 +125,12 @@ public class ExtAttribPanel extends XMLBasicPanel {
          jcb.setEnabled(isEnabled);
 
          final XMLPanel cp = this;
-         jcb.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
+         jcb.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                if (getPanelContainer() == null)
                   return;
                getPanelContainer().panelChanged(cp, e);
             }
-
          });
       } else {
          WorkflowProcess wp = XMLUtil.getWorkflowProcess(myOwner);

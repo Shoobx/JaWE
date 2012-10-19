@@ -21,8 +21,6 @@ package org.enhydra.jawe.base.panel;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Method;
@@ -841,12 +839,13 @@ public class StandardPanelGenerator implements PanelGenerator {
          if (choosen instanceof WorkflowProcess) {
             fps = ((WorkflowProcess) choosen).getFormalParameters();
          }
-         final XMLActualParametersPanel app = new XMLActualParametersPanel(getPanelContainer(),
-                                                                           el.getActualParameters(),
-                                                                           fps,
-                                                                           null);
+         final XMLActualParametersPanel app = generateActualParametersPanel(el, fps);
+         // new XMLActualParametersPanel(getPanelContainer(),
+         // el.getActualParameters(),
+         // fps,
+         // null);
          panelElements.add(app);
-         cp.getComboBox().addActionListener(new ActionListener() {
+         ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                Object sel = cp.getSelectedItem();
                FormalParameters _fps = null;
@@ -854,34 +853,24 @@ public class StandardPanelGenerator implements PanelGenerator {
                   _fps = ((WorkflowProcess) sel).getFormalParameters();
                }
                app.setFormalParameters(_fps);
-               app.validate();
             }
-         });
+         };
+         cp.getComboBox().addActionListener(al);
          cp.getComboBox()
             .getEditor()
             .getEditorComponent()
             .addKeyListener(new KeyAdapter() {
                public void keyPressed(KeyEvent e) {
-                  Object sel = cp.getSelectedItem();
-                  FormalParameters _fps = null;
-                  if (sel instanceof WorkflowProcess) {
-                     _fps = ((WorkflowProcess) sel).getFormalParameters();
+                  if (PanelUtilities.isModifyingEvent(e)) {
+                     Object sel = cp.getSelectedItem();
+                     FormalParameters _fps = null;
+                     if (sel instanceof WorkflowProcess) {
+                        _fps = ((WorkflowProcess) sel).getFormalParameters();
+                     }
+                     app.setFormalParameters(_fps);
                   }
-                  app.setFormalParameters(_fps);
-                  app.validate();
                }
             });
-         cp.getComboBox().addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-               Object sel = cp.getSelectedItem();
-               FormalParameters _fps = null;
-               if (sel instanceof WorkflowProcess) {
-                  _fps = ((WorkflowProcess) sel).getFormalParameters();
-               }
-               app.setFormalParameters(_fps);
-               app.validate();
-            }
-         });
 
       }
       if (panelElements.size() > 0) {
@@ -990,6 +979,14 @@ public class StandardPanelGenerator implements PanelGenerator {
    }
 
    protected XMLActualParametersPanel generateActualParametersPanel(TaskApplication el,
+                                                                    FormalParameters fps) {
+      return new XMLActualParametersPanel(getPanelContainer(),
+                                          el.getActualParameters(),
+                                          fps,
+                                          null);
+   }
+
+   protected XMLActualParametersPanel generateActualParametersPanel(SubFlow el,
                                                                     FormalParameters fps) {
       return new XMLActualParametersPanel(getPanelContainer(),
                                           el.getActualParameters(),

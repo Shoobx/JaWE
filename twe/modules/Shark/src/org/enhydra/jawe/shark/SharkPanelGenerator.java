@@ -63,6 +63,7 @@ import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Script;
+import org.enhydra.jxpdl.elements.SubFlow;
 import org.enhydra.jxpdl.elements.TaskApplication;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
@@ -1331,6 +1332,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLActualParametersPanel generateActualParametersPanel(TaskApplication el,
+                                                                    FormalParameters fps) {
+      return new XMLSpecialActualParametersPanel(getPanelContainer(),
+                                                 el.getActualParameters(),
+                                                 fps,
+                                                 null);
+   }
+
+   protected XMLActualParametersPanel generateActualParametersPanel(SubFlow el,
                                                                     FormalParameters fps) {
       return new XMLSpecialActualParametersPanel(getPanelContainer(),
                                                  el.getActualParameters(),

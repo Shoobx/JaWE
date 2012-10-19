@@ -23,8 +23,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -173,8 +171,9 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       }
 
       final XMLPanel p = this;
-      jcb.addItemListener(new ItemListener() {
-         public void itemStateChanged(ItemEvent e) {
+
+      jcb.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent ae) {
             Object sel = getSelectedItem();
             if (!(sel instanceof ToolAgentElementBase)
                 || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
@@ -182,30 +181,10 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
             } else {
                jb.setEnabled(true);
             }
-            if (getPanelContainer() == null)
-               return;
-            getPanelContainer().panelChanged(p, e);
+            updateApplication(((XMLElement) sel).toName());
          }
-
       });
-
       if (isEditable) {
-         jcb.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-               Object sel = getSelectedItem();
-               if (!(sel instanceof ToolAgentElementBase)
-                   || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
-                  jb.setEnabled(false);
-               } else {
-                  jb.setEnabled(true);
-               }
-               updateApplication(((XMLElement) sel).toName());
-               if (getPanelContainer() == null)
-                  return;
-               getPanelContainer().panelChanged(p, ae);
-            }
-         });
-
          jcb.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                Object sel = getSelectedItem();
@@ -282,8 +261,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          Iterator it = eas.toElements().iterator();
          JaWEController jc = JaWEManager.getInstance().getJaWEController();
          jc.startUndouableChange();
-         ((InlinePanel) getPanelContainer()).getJaWEComponent()
-         .setUpdateInProgress(true);
+         ((InlinePanel) getPanelContainer()).getJaWEComponent().setUpdateInProgress(true);
          List<String> toRemoveNames = new ArrayList<String>();
          while (it.hasNext()) {
             ExtendedAttribute ea = (ExtendedAttribute) it.next();
@@ -329,7 +307,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          toSelect.add(orig);
          jc.endUndouableChange(toSelect);
          ((InlinePanel) getPanelContainer()).getJaWEComponent()
-         .setUpdateInProgress(false);
+            .setUpdateInProgress(false);
       }
    }
 

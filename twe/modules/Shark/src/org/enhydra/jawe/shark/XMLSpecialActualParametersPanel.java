@@ -42,9 +42,7 @@ import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.ActualParameter;
 import org.enhydra.jxpdl.elements.ActualParameters;
-import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.BasicType;
-import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.SchemaType;
@@ -56,7 +54,7 @@ import org.enhydra.jxpdl.elements.SchemaType;
  */
 public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
 
-   protected String taName = null;
+//   protected String taName = null;
 
    protected FormalParameters fps;
 
@@ -111,7 +109,7 @@ public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
          add(jsp);
       }
 
-      taName = getTAName(fps);
+      // taName = getTAName(fps);
       List<XMLPanel> panels = new ArrayList<XMLPanel>();
 
       List<ActualParameter> apslist = new ArrayList<ActualParameter>(aps.toElements());
@@ -194,21 +192,21 @@ public class XMLSpecialActualParametersPanel extends XMLActualParametersPanel {
 
    }
 
-   protected String getTAName(FormalParameters fps) {
-      String taName = null;
-      if (fps != null) {
-         Application app = XMLUtil.getApplication(fps);
-         if (app != null) {
-            ExtendedAttribute ea = app.getExtendedAttributes()
-               .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
-
-            if (ea != null) {
-               taName = ea.getVValue();
-            }
-         }
-      }
-      return taName;
-   }
+//   protected String getTAName(FormalParameters fps) {
+//      String taName = null;
+//      if (fps != null) {
+//         Application app = XMLUtil.getApplication(fps);
+//         if (app != null) {
+//            ExtendedAttribute ea = app.getExtendedAttributes()
+//               .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+//
+//            if (ea != null) {
+//               taName = ea.getVValue();
+//            }
+//         }
+//      }
+//      return taName;
+//   }
 
    protected List getChoices(List vars, XMLElement dt, boolean doFiltering) {
       List filter = null;

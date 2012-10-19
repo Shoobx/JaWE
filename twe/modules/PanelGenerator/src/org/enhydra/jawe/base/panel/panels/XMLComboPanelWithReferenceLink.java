@@ -158,8 +158,8 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
       }
 
       final XMLPanel p = this;
-      jcb.addItemListener(new ItemListener() {
-         public void itemStateChanged(ItemEvent e) {
+      jcb.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent ae) {
             if (!(getSelectedItem() instanceof XMLElement)) {
                jb.setEnabled(false);
             } else {
@@ -167,25 +167,10 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
             }
             if (getPanelContainer() == null)
                return;
-            getPanelContainer().panelChanged(p, e);
+            getPanelContainer().panelChanged(p, ae);
          }
-
       });
-
       if (isEditable) {
-         jcb.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-               if (!(getSelectedItem() instanceof XMLElement)) {
-                  jb.setEnabled(false);
-               } else {
-                  jb.setEnabled(true);
-               }
-               if (getPanelContainer() == null)
-                  return;
-               getPanelContainer().panelChanged(p, ae);
-            }
-         });
-
          jcb.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                if (!(getSelectedItem() instanceof XMLElement)) {

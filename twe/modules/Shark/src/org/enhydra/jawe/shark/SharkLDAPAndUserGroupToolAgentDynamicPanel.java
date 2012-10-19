@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelGenerator;
+import org.enhydra.jawe.base.panel.panels.PanelUtilities;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
@@ -107,20 +108,6 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
 
       mp.getComboBox().addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent ae) {
-            Object sel = mp.getSelectedItem();
-            setFormalParameters(sel.toString());
-            validate();
-         }
-      });
-      mp.getComboBox().getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-         public void keyPressed(KeyEvent e) {
-            Object sel = mp.getSelectedItem();
-            setFormalParameters(sel.toString());
-            validate();
-         }
-      });
-      mp.getComboBox().addItemListener(new ItemListener() {
-         public void itemStateChanged(ItemEvent e) {
             Object sel = mp.getSelectedItem();
             setFormalParameters(sel.toString());
             validate();
