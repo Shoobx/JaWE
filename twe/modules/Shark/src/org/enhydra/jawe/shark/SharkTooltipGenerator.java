@@ -76,6 +76,13 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
          tt += "<hr>";
          tt = tt + tt2.substring(HTML_OPEN.length(), tt2.length());
       }
+      if (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO) {
+         String tt2 = makeSMTPTooltip(eas);
+         tt = tt.substring(0, tt.length() - HTML_CLOSE.length());
+         tt += LINE_BREAK;
+         tt += "<hr>";
+         tt = tt + tt2.substring(HTML_OPEN.length(), tt2.length());
+      }
       return tt;
    }
 
@@ -97,6 +104,41 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
       }
 
       return super.makeTooltip(el, elements);
+   }
+
+   protected String makeSMTPTooltip(ExtendedAttributes el) {
+      Map toDisplay = new SequencedHashMap();
+      ExtendedAttribute ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE);
+      makeSMTPEntry(ea, toDisplay);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE);
+      makeSMTPEntry(ea, toDisplay);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY);
+      makeSMTPEntry(ea, toDisplay);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT);
+      makeSMTPEntry(ea, toDisplay);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT);
+      makeSMTPEntry(ea, toDisplay);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS);
+      makeSMTPEntry(ea, toDisplay);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES);
+      makeSMTPEntry(ea, toDisplay);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS);
+      makeSMTPEntry(ea, toDisplay);
+
+      return super.makeTooltip(el, toDisplay);
+   }
+
+   protected void makeSMTPEntry(ExtendedAttribute ea, Map toDisplay) {
+      if (ea != null) {
+         String lbl = getSettings().getLanguageDependentString(ea.getName() + "Key");
+         if (lbl == null) {
+            lbl = ea.getName();
+         }
+         if (lbl.endsWith("?")) {
+            lbl = lbl.substring(0, lbl.length() - 1);
+         }
+         toDisplay.put(lbl, ea.getVValue());
+      }
    }
 
    protected void putEAKeyValue(DisplayNameGenerator dng,
