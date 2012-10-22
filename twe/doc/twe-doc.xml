@@ -10079,7 +10079,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para>WfXML component: now actions enabled/disabled depending on selection and in the case of WfXML is connected to Shark engine, depending on Shark's upload/update logic</para>
+          <para>WfXML component: now actions enabled/disabled depending on
+          selection and in the case of WfXML is connected to Shark engine,
+          depending on Shark's upload/update logic</para>
+        </listitem>
+
+        <listitem>
+          <para>WfXML component: when connected to Shark engine, can't update
+          URL/Name/Description/Version/Status</para>
         </listitem>
 
         <listitem>
@@ -10095,7 +10102,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Shark mode: Email configuration section for manual activity
           element and workflow process element (used with
-          SMTPEventAuditManager). Nice GUI and XPDL validation. Tooltip information provided.</para>
+          SMTPEventAuditManager). Nice GUI and XPDL validation. Tooltip
+          information provided.</para>
         </listitem>
 
         <listitem>

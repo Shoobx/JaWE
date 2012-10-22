@@ -183,23 +183,27 @@ public class DefInfoEditor extends JDialog {
 
    protected XMLGroupPanel getDefInfoPanel() {
       List lst = new ArrayList();
+      boolean definitionKeyEnabled = true;
+      if (di.getDefinitionKey().indexOf("procMgr=") != -1) {
+         definitionKeyEnabled = false;
+      }
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                  di.get("DefinitionKey"),
                                                                  true,
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
                                                                  false,
-                                                                 true,
+                                                                 definitionKeyEnabled,
                                                                  null));
-      lst.add(new XMLTextPanel(null, di.get("Name"), false, false, false));
+      lst.add(new XMLTextPanel(null, di.get("Name"), false, false, definitionKeyEnabled));
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                  di.get("Description"),
                                                                  true,
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                  true,
-                                                                 false,
+                                                                 definitionKeyEnabled,
                                                                  null));
-      lst.add(new XMLTextPanel(null, di.get("Version"), false, false, false));
-      lst.add(new XMLTextPanel(null, di.get("Status"), false, false, false));
+      lst.add(new XMLTextPanel(null, di.get("Version"), false, false, definitionKeyEnabled));
+      lst.add(new XMLTextPanel(null, di.get("Status"), false, false, definitionKeyEnabled));
       XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true, null);
       return gp;
    }
