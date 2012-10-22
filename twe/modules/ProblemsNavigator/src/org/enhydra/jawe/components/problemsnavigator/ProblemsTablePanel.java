@@ -20,6 +20,7 @@ package org.enhydra.jawe.components.problemsnavigator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
@@ -192,12 +193,12 @@ public class ProblemsTablePanel extends JPanel {
 
       };
 
+
       Color bkgCol = new Color(245, 245, 245);
       if (controller.getSettings() instanceof ProblemsNavigatorSettings) {
          bkgCol = ((ProblemsNavigatorSettings) controller.getSettings()).getBackgroundColor();
       }
       t.setBackground(bkgCol);
-
       return t;
    }
 
@@ -226,26 +227,20 @@ public class ProblemsTablePanel extends JPanel {
       column = allItems.getColumnModel().getColumn(3);
       column.setMinWidth(0);
       // column.setMaxWidth(1000);
-      column.setPreferredWidth(450);
+      column.setPreferredWidth(650);
       column.setResizable(true);
 
       column = allItems.getColumnModel().getColumn(4);
       column.setMinWidth(0);
       // column.setMaxWidth(1000);
-      column.setPreferredWidth(150);
+      column.setPreferredWidth(350);
       column.setResizable(true);
 
       column = allItems.getColumnModel().getColumn(5);
       column.setMinWidth(0);
       // column.setMaxWidth(1000);
-      column.setPreferredWidth(300);
+      column.setPreferredWidth(500);
       column.setResizable(true);
-
-      // column = allItems.getColumnModel().getColumn(6);
-      // column.setMinWidth(0);
-      // column.setMaxWidth(10000);
-      // column.setPreferredWidth(100);
-      // column.setResizable(false);
 
       column = allItems.getColumnModel().getColumn(6);
       column.setMinWidth(0);
@@ -259,7 +254,7 @@ public class ProblemsTablePanel extends JPanel {
       column.setPreferredWidth(0);
       column.setResizable(false);
 
-      allItems.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//      allItems.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
       // setting some table properties
       allItems.setColumnSelectionAllowed(false);

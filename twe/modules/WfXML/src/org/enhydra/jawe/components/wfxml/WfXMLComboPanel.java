@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.components.wfxml;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -96,7 +97,14 @@ public class WfXMLComboPanel extends XMLBasicPanel {
       jcb.setEditable(true);
       jcb.setAlignmentX(Component.LEFT_ALIGNMENT);
       jcb.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-
+      
+      Color bkgCol = new Color(245, 245, 245);
+      if (wfxml.getSettings() instanceof WfXMLSettings) {
+         bkgCol = ((WfXMLSettings) wfxml.getSettings()).getBackgroundColor();
+      }
+      jcb.setBackground(bkgCol);
+      jcb.getEditor().getEditorComponent().setBackground(bkgCol);
+      
       add(jl);
       add(Box.createHorizontalGlue());
       add(jcb);

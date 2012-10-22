@@ -19,6 +19,7 @@
 package org.enhydra.jawe.components.wfxml;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
@@ -160,7 +161,7 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
    protected JTable createTable() {
       // return new SortingTable(this, new Vector(), columnNames) {
 
-      return new JTable(new Vector(), columnNames) {
+      JTable t = new JTable(new Vector(), columnNames) {
          public boolean isCellEditable(int row, int col) {
             return false;
          }
@@ -181,6 +182,13 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
          }
 
       };
+
+      Color bkgCol = new Color(245, 245, 245);
+      if (wfxml.getSettings() instanceof WfXMLSettings) {
+         bkgCol = ((WfXMLSettings) wfxml.getSettings()).getBackgroundColor();
+      }
+      t.setBackground(bkgCol);
+      return t;
    }
 
    protected void setupTable() {
@@ -193,15 +201,21 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       column.setResizable(false);
 
       column = allItems.getColumnModel().getColumn(1);
-      column.setPreferredWidth(375);
+      column.setPreferredWidth(475);
 
       column = allItems.getColumnModel().getColumn(2);
-      column.setPreferredWidth(150);
+      column.setPreferredWidth(250);
 
       column = allItems.getColumnModel().getColumn(3);
-      column.setPreferredWidth(275);
+      column.setPreferredWidth(375);
 
-      allItems.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+      column = allItems.getColumnModel().getColumn(4);
+      column.setPreferredWidth(50);
+
+      column = allItems.getColumnModel().getColumn(5);
+      column.setPreferredWidth(50);
+
+      // allItems.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
       // setting some table properties
       allItems.setColumnSelectionAllowed(false);

@@ -22,6 +22,7 @@
  */
 package org.enhydra.jawe.components.wfxml;
 
+import java.awt.Color;
 import java.net.URL;
 import java.util.Properties;
 
@@ -55,6 +56,14 @@ public class WfXMLSettings extends JaWEComponentSettings {
         // defaults
         arm = new AdditionalResourceManager(properties);
 
+        Color color;
+        try {
+           color = Utils.getColor(ResourceManager.getResourceString(properties, "BackgroundColor"));
+        } catch (Exception e) {
+           color = Utils.getColor("R=245,G=245,B=245");
+        }
+        componentSettings.put("BackgroundColor", color);
+        
         ImageIcon iconI;
         URL iconURL = ResourceManager.getResource(properties, "Image.ConnectToEngine");
         if (iconURL != null)
@@ -120,5 +129,9 @@ public class WfXMLSettings extends JaWEComponentSettings {
 
     public ImageIcon getConnectImage() {
         return (ImageIcon) componentSettings.get("ConnectToEngine");
+    }
+    
+    public Color getBackgroundColor() {
+       return (Color) componentSettings.get("BackgroundColor");
     }
 }

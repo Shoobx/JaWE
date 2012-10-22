@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.components.ldap;
 
+import java.awt.Color;
 import java.net.URL;
 import java.util.Properties;
 
@@ -48,6 +49,14 @@ public class LDAPSettings extends JaWEComponentSettings {
    public void loadDefault(JaWEComponent comp, Properties properties) {
       // defaults
       arm = new AdditionalResourceManager(properties);
+
+      Color color;
+      try {
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "BackgroundColor"));
+      } catch (Exception e) {
+         color = Utils.getColor("R=245,G=245,B=245");
+      }
+      componentSettings.put("BackgroundColor", color);
 
       componentSettings.put("LDAPReferralHandling",
                             properties.getProperty("LDAPReferralHandling", "follow"));
@@ -258,4 +267,8 @@ public class LDAPSettings extends JaWEComponentSettings {
       return (ImageIcon) componentSettings.get("User.Icon");
    }
 
+   public Color getBackgroundColor() {
+      return (Color) componentSettings.get("BackgroundColor");
+   }
+   
 }
