@@ -133,6 +133,7 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
             .getJaWEController()
             .getSelectionManager()
             .setSelection(getSelectedElement(), true);
+         adjustActions();
 
       } catch (Exception e) {
       }
@@ -226,6 +227,7 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       // mouse listener for editing on double-click
       allItems.addMouseListener(new MouseAdapter() {
          public void mouseClicked(MouseEvent me) {
+            adjustActions();
             if (me.getClickCount() > 1) {
                DefInfo di = getSelectedElement();
                if (di != null) {
@@ -322,4 +324,8 @@ public class WfXMLTablePanel extends XMLBasicPanel implements XMLElementChangeLi
       }
    }
 
+   protected void adjustActions() {
+      wfxml.getSettings().adjustActions();
+   }
+   
 }

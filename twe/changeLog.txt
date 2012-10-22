@@ -1,4 +1,7 @@
 ###### TWE 4.8-1 RELEASED ######
+2012-10-22 Sasa Bojanic <sasaboy@together.at>
+   # WfXML component: now actions enabled/disabled depending on selection and in the case of WfXML is connected to Shark engine, depending on Shark's upload/update logic
+
 2012-10-19 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Tooltip information provided for activity's email configuration (Shark's SMTPEventAuditManager related) 
 

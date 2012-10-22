@@ -49,7 +49,7 @@ public class Download extends ActionBase {
    public void enableDisableAction() {
       WfXML wfxml = (WfXML)jawecomponent;
       
-      if (wfxml.hasConnection()) {
+      if (wfxml.hasConnection() && ((WfXMLPanel) wfxml.getView()).getSelectedDefInfo()!=null) {
          setEnabled(true); 
       } else {
          setEnabled(false);

@@ -69,6 +69,6 @@ public class ListDefinitions extends ActionBase {
       if (err) {
          JaWEManager.getInstance().getJaWEController().message(wfxml.getSettings().getLanguageDependentString("ErrorWfXMLProblemsWhileGettingDefinitionListForRegistry")+" "+conn+" !",JOptionPane.ERROR_MESSAGE);
       }
-      
+      wfxml.getSettings().adjustActions();
    }   
 }

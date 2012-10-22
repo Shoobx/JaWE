@@ -10079,6 +10079,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
+          <para>WfXML component: now actions enabled/disabled depending on selection and in the case of WfXML is connected to Shark engine, depending on Shark's upload/update logic</para>
+        </listitem>
+
+        <listitem>
           <para>Shark mode: Support for SESSION_HANDLE, SHARK_VERSION,
           SHARK_RELEASE, SHARK_BUILDID variables</para>
         </listitem>
