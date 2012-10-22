@@ -190,16 +190,16 @@ public class DefInfoEditor extends JDialog {
                                                                  false,
                                                                  true,
                                                                  null));
-      lst.add(new XMLTextPanel(null, di.get("Name"), false, false, true));
+      lst.add(new XMLTextPanel(null, di.get("Name"), false, false, false));
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                  di.get("Description"),
                                                                  true,
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                  true,
-                                                                 true,
+                                                                 false,
                                                                  null));
-      lst.add(new XMLTextPanel(null, di.get("Version"), false, false, true));
-      lst.add(new XMLTextPanel(null, di.get("Status"), false, false, true));
+      lst.add(new XMLTextPanel(null, di.get("Version"), false, false, false));
+      lst.add(new XMLTextPanel(null, di.get("Status"), false, false, false));
       XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true, null);
       return gp;
    }
