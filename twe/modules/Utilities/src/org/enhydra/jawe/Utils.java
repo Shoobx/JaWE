@@ -1155,7 +1155,7 @@ public class Utils {
       return resources;
    }
 
-   public static boolean reconfigure(String newConfig) {
+   public static boolean reconfigure(String newConfig, String filename) {
       JaWEController jc = JaWEManager.getInstance().getJaWEController();
 
       String fn = JaWEConstants.JAWE_CONF_HOME + "/defaultconfig";
@@ -1196,7 +1196,9 @@ public class Utils {
          System.setProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME,
                             JaWEConstants.JAWE_CONF_HOME + "/" + newConfig);
 
-         String filename = jc.getPackageFilename(jc.getMainPackageId());
+         if (filename==null) {
+            filename = jc.getPackageFilename(jc.getMainPackageId());
+         }
          jc.tryToClosePackage(jc.getMainPackageId(), true);
 
          ws.show(null, "", jc.getSettings()

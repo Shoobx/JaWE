@@ -1,4 +1,8 @@
 ###### TWE 4.8-1 RELEASED ######
+2012-11-09 Sasa Bojanic <sasaboy@together.at>
+   # Updated to new TXM (jXPDL) library
+   # Now when opening/reopening XPDL file, if possible, JaWE automatically switches to the mode written in XPDL file itself
+
 2012-10-22 Sasa Bojanic <sasaboy@together.at>
    # WfXML component: now actions enabled/disabled depending on selection and in the case of WfXML is connected to Shark engine, depending on Shark's upload/update logic
    # WfXML component: when connected to Shark engine, can't update URL/Name/Description/Version/Status

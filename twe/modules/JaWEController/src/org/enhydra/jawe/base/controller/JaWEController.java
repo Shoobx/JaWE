@@ -136,6 +136,8 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.elements.WorkflowProcesses;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * Used to handle main JaWE functionalities.
@@ -207,9 +209,9 @@ public class JaWEController extends Observable implements
    public JaWEController(ControllerSettings settings) {
       this.settings = settings;
       this.settings.init(this);
-      
+
       this.isDesignTimeValidation = this.settings.isDesingTimeValidationEnabled();
-      
+
       // application title
       appTitle = getSettings().getLanguageDependentString("DialogTitle");
 
@@ -897,6 +899,10 @@ public class JaWEController extends Observable implements
 
          try {
             if (filename != null) {
+               String newMode = getModeToSwitchTo(filename);
+               if (newMode != null) {
+                  Utils.reconfigure(newMode, filename);
+               }
                pkg = xpdlh.openPackage(filename, true);
             } else {
                pkg = xpdlh.openPackageFromStream(xpdlStream, true);
@@ -1009,6 +1015,43 @@ public class JaWEController extends Observable implements
       } finally {
          ws.setVisible(false);
       }
+   }
+
+   protected String getModeToSwitchTo(String filename) throws Exception {
+      boolean doSwitchMode = true;
+      try {
+         Throwable t = new Throwable();
+         StackTraceElement[] elements = t.getStackTrace();
+         for (int i = 0; i < elements.length; i++) {
+            if (elements[i].getClassName().equals(JaWEManager.class.getName())
+                && elements[i].getMethodName().equals("restart")) {
+               doSwitchMode = false;
+               break;
+            }
+         }
+      } catch (Throwable thr) {
+         doSwitchMode = false;
+      }
+      if (doSwitchMode) {
+         Set availableConfigs = JaWEManager.getInstance()
+            .getJaWEController()
+            .getConfigInfo()
+            .keySet();
+         String ccfg = JaWEManager.getInstance().getJaWEController().getCurrentConfig();
+         Element xpdldoc = XMLUtil.getDocumentFromFile(filename).getDocumentElement();
+         String cn = XMLUtil.getNameSpacePrefix(xpdldoc) + "ExtendedAttributes";
+         Node eascn = XMLUtil.getChildByName(xpdldoc, cn);
+         String eascontent = XMLUtil.getContent(eascn, true);
+         ExtendedAttributes eas = XMLUtil.destringyfyExtendedAttributes(eascontent);
+         if (eas != null) {
+            ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(JaWEEAHandler.EA_JAWE_CONFIGURATION);
+            String cfgm = ea != null ? ea.getVValue() : null;
+            if (cfgm != null && !cfgm.equals(ccfg) && availableConfigs.contains(cfgm)) {
+               return cfgm;
+            }
+         }
+      }
+      return null;
    }
 
    public void addExternalPackage() {

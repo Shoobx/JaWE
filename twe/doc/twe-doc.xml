@@ -10147,7 +10147,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Improved ProblemsNavigator</para>
         </listitem>
-      </itemizedlist>
+
+        <listitem>
+          <para>Now when opening/reopening XPDL file, if possible, JaWE automatically switches to the mode written in XPDL file itself</para>
+        </listitem>
+
+        </itemizedlist>
     </section>
 
     <section>

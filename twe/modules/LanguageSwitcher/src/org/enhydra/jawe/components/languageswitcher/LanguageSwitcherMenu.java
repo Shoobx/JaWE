@@ -147,7 +147,7 @@ public class LanguageSwitcherMenu extends JMenu implements
 
          try {
             JaWEController jc=JaWEManager.getInstance().getJaWEController();
-            Utils.reconfigure(jc.getConfigId(jc.getCurrentConfig()));
+            Utils.reconfigure(jc.getConfigId(jc.getCurrentConfig()), null);
          } catch (Exception ex) {
             JaWEManager.getInstance()
             .getJaWEController()

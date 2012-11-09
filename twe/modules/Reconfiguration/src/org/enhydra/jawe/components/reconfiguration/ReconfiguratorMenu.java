@@ -75,7 +75,7 @@ public class ReconfiguratorMenu extends JMenu implements
 
    public void actionPerformed(ActionEvent ae) {
       JMenuItem mi = (JMenuItem) ae.getSource();
-      boolean reconf = Utils.reconfigure(JaWEManager.getInstance().getJaWEController().getConfigId(mi.getText()));
+      boolean reconf = Utils.reconfigure(JaWEManager.getInstance().getJaWEController().getConfigId(mi.getText()), null);
       if (!reconf) {
          JaWEManager.getInstance()
             .getJaWEController()
