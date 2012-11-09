@@ -236,14 +236,22 @@ public class XMLComboPanel extends XMLBasicPanel {
       }
 
       final XMLPanel p = this;
-      jcb.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent ae) {
+      jcb.addItemListener(new ItemListener() {
+         public void itemStateChanged(ItemEvent e) {
             if (getPanelContainer() == null)
                return;
-            getPanelContainer().panelChanged(p, ae);
+            getPanelContainer().panelChanged(p, e);
          }
+
       });
       if (isEditable) {
+         jcb.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+               if (getPanelContainer() == null)
+                  return;
+               getPanelContainer().panelChanged(p, ae);
+            }
+         });
          jcb.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                if (getPanelContainer() == null)
