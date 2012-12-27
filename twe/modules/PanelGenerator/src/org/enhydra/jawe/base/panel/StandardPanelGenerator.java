@@ -1394,6 +1394,17 @@ public class StandardPanelGenerator implements PanelGenerator {
                                   true,
                                   true);
       }
+      if (el.toName().equalsIgnoreCase("ArtifactType")) {
+         XMLPanel panel = new XMLComboPanel(getPanelContainer(),
+                                   el,
+                                   null,
+                                   false,
+                                   true,
+                                   false,
+                                   false,
+                                   false);
+         return panel;
+      }
 
       return generateStandardPanel(el);
    }
@@ -1810,6 +1821,14 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           .getJaWEController()
                                                                           .canModifyElement(cel),
                                                                        null));
+      } else if (cel instanceof Artifact) {
+         Artifact art = (Artifact)cel;
+         XMLAttribute artType = art.getArtifactTypeAttribute();
+         if (artType.toValue().equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)) {
+            toShow.remove(art.getDataObject());
+         } else if (artType.toValue().equals(XPDLConstants.ARTIFACT_TYPE_DATAOBJECT)) {
+            toShow.remove(art.getTextAnnotationAttribute());
+         }
       }
       return toShow;
    }
