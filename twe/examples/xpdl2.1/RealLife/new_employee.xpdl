@@ -140,7 +140,7 @@
                 </xpdl:DataField>
                 <xpdl:DataField Id="starting_date" IsArray="false" Name="Starting date">
                     <xpdl:DataType>
-                        <xpdl:BasicType Type="DATETIME"/>
+                        <xpdl:BasicType Type="DATE"/>
                     </xpdl:DataType>
                 </xpdl:DataField>
                 <xpdl:DataField Id="job_title" IsArray="false" Name="Job title">
@@ -382,6 +382,6 @@
     <xpdl:ExtendedAttributes>
         <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
         <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
-        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.0-1-20110124-0813"/>
-    </xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.8-1-20121228-1113"/>
+   </xpdl:ExtendedAttributes>
 </xpdl:Package>

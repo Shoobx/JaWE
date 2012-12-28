@@ -122,6 +122,14 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
          else if (choosen instanceof BasicType
                   && ((BasicType) choosen).getType()
+                     .equals(XPDLConstants.BASIC_TYPE_DATE))
+            newFormalParam.getDataType().getDataTypes().getBasicType().setTypeDATE();
+         else if (choosen instanceof BasicType
+                  && ((BasicType) choosen).getType()
+                     .equals(XPDLConstants.BASIC_TYPE_TIME))
+            newFormalParam.getDataType().getDataTypes().getBasicType().setTypeTIME();
+         else if (choosen instanceof BasicType
+                  && ((BasicType) choosen).getType()
                      .equals(XPDLConstants.BASIC_TYPE_BOOLEAN))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeBOOLEAN();
          else if (choosen instanceof DeclaredType) {

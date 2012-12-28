@@ -50,12 +50,12 @@
             <xpdl:FormalParameters>
                 <xpdl:FormalParameter Id="dateFrom" IsArray="false" Mode="IN">
                     <xpdl:DataType>
-                        <xpdl:BasicType Type="DATETIME"/>
+                        <xpdl:BasicType Type="DATE"/>
                     </xpdl:DataType>
                 </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="dateTo" IsArray="false" Mode="IN">
                     <xpdl:DataType>
-                        <xpdl:BasicType Type="DATETIME"/>
+                        <xpdl:BasicType Type="DATE"/>
                     </xpdl:DataType>
                 </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="leave_days_left" IsArray="false" Mode="IN">
@@ -76,7 +76,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
-                <xpdl:ExtendedAttribute Name="Script" Value="accepted=false;&#10;long diffms=dateTo.getTime()-dateFrom.getTime();&#10;diffDays=new java.lang.Long((long)(diffms/(24*60*60*1000)+1.0));&#10;if (diffDays.longValue()&gt;0 &amp;&amp; diffDays.longValue()&lt;=leave_days_left.longValue()) {&#10;   accepted=true;&#10;}"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="accepted=false;&#13;&#10;long diffms=dateTo.getTime()-dateFrom.getTime();&#13;&#10;diffDays=new java.lang.Long((long)(diffms/(24*60*60*1000)+1.0));&#13;&#10;if (diffDays.longValue()&gt;0 &amp;&amp; diffDays.longValue()&lt;=leave_days_left.longValue()) {&#13;&#10;   accepted=true;&#13;&#10;}"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
         <xpdl:Application Id="deduct_leave_balance" Name="Deduct leave balance">
@@ -159,7 +159,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
-                <xpdl:ExtendedAttribute Name="Script" Value="String username = org.enhydra.shark.Shark.getInstance().getAdminMisc().getProcessRequesterUsername(SESSION_HANDLE,PROCESS_ID);&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;personal_Id=String.valueOf((int)(1+99*java.lang.Math.random()));&#10;leave_days_left=new java.lang.Long(5+(int)(10*java.lang.Math.random()));&#10;&#10;try {&#10;   first_name=ug.getUserFirstName(SESSION_HANDLE,username);&#10;   last_name=ug.getUserLastName(SESSION_HANDLE,username);&#10;   email_addr=ug.getUserEMailAddress(SESSION_HANDLE,username);&#10;} catch (Exception ex) {&#10;   first_name = &quot;Administrator&quot;;&#10;   last_name = &quot;Together&quot;;&#10;   email_addr = &quot;admin@together.at&quot;;&#10;}"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String username = org.enhydra.shark.Shark.getInstance().getAdminMisc().getProcessRequesterUsername(SESSION_HANDLE,PROCESS_ID);&#13;&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#13;&#10;&#13;&#10;personal_Id=String.valueOf((int)(1+99*java.lang.Math.random()));&#13;&#10;leave_days_left=new java.lang.Long(5+(int)(10*java.lang.Math.random()));&#13;&#10;&#13;&#10;try {&#13;&#10;   first_name=ug.getUserFirstName(SESSION_HANDLE,username);&#13;&#10;   last_name=ug.getUserLastName(SESSION_HANDLE,username);&#13;&#10;   email_addr=ug.getUserEMailAddress(SESSION_HANDLE,username);&#13;&#10;} catch (Exception ex) {&#13;&#10;   first_name = &quot;Administrator&quot;;&#13;&#10;   last_name = &quot;Together&quot;;&#13;&#10;   email_addr = &quot;admin@together.at&quot;;&#13;&#10;}"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
         <xpdl:Application Id="fill_executor_info" Name="Fill executor info">
@@ -178,7 +178,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
-                <xpdl:ExtendedAttribute Name="Script" Value="String username = SESSION_HANDLE.getVendorData().toString();&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;try {&#10;   current_date=new java.util.Date();&#10;   full_name=ug.getUserFirstName(SESSION_HANDLE,username) +&quot; &quot;+ug.getUserLastName(SESSION_HANDLE,username);&#10;} catch (Exception ex) {&#10;   full_name = &quot;Administrator Together&quot;;&#10;}"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String username = SESSION_HANDLE.getVendorData().toString();&#13;&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#13;&#10;&#13;&#10;try {&#13;&#10;   current_date=new java.util.Date();&#13;&#10;   full_name=ug.getUserFirstName(SESSION_HANDLE,username) +&quot; &quot;+ug.getUserLastName(SESSION_HANDLE,username);&#13;&#10;} catch (Exception ex) {&#13;&#10;   full_name = &quot;Administrator Together&quot;;&#13;&#10;}"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
         <xpdl:Application Id="fill_msg_txt" Name="Fill message text">
@@ -241,7 +241,7 @@
                 </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="leave_from_date" IsArray="false" Mode="IN">
                     <xpdl:DataType>
-                        <xpdl:BasicType Type="DATETIME"/>
+                        <xpdl:BasicType Type="DATE"/>
                     </xpdl:DataType>
                 </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="leave_reason" IsArray="false" Mode="IN">
@@ -251,7 +251,7 @@
                 </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="leave_to_date" IsArray="false" Mode="IN">
                     <xpdl:DataType>
-                        <xpdl:BasicType Type="DATETIME"/>
+                        <xpdl:BasicType Type="DATE"/>
                     </xpdl:DataType>
                 </xpdl:FormalParameter>
                 <xpdl:FormalParameter Id="reason_for_denial" IsArray="false" Mode="INOUT">
@@ -267,7 +267,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
-                <xpdl:ExtendedAttribute Name="Script" Value="String msgTxt = &quot;Dear &quot;+first_name+&quot; &quot;+last_name+&quot;,\n\n&quot;;&#10;msgTxt = msgTxt + &quot;Your &quot;+leave_days_requested+&quot; days leave request:\n\n     From: &quot;+leave_from_date+&quot;\n       To: &quot;+leave_to_date+&quot;\n   Reason: &quot;+leave_reason+&quot;\n\n&quot;;&#10;if (approved_by_personnel) {&#10;   msgTxt = msgTxt + &quot;is approved. \n\n&quot;;&#10;   msgTxt = msgTxt + &quot;Approved by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.\n&quot;;&#10;   msgTxt = msgTxt + &quot;Approved by &quot;+approver_personnel+&quot; from personnel department at &quot;+approval_date_personnel+&quot;.&quot;;&#10;} else {&#10;   msgTxt = msgTxt + &quot;is declined. \n\n&quot;;&#10;   if (accepted_by_system) {&#10;      if (approved_by_supervisor) {&#10;         msgTxt = msgTxt + &quot;Approved by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.\n&quot;;&#10;         msgTxt = msgTxt + &quot;Declined by &quot;+approver_personnel+&quot; from personnel department at &quot;+approval_date_personnel+&quot;.&quot;;&#10;      } else {&#10;         msgTxt = msgTxt + &quot;Declined by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.&quot;; &#10;      }   &#10;      msgTxt = msgTxt + &quot;\n\nReason for denial: &quot;+reason_for_denial;&#10;   } else {&#10;      msgTxt = msgTxt + &quot;Automatically declined by the system at &quot;+new java.util.Date()+&quot;.&quot;; &#10;      if (leave_days_requested.longValue()&lt;=0) {&#10;         String rd = &quot;Invalid request - leave to date is before leave from date!&quot;;&#10;         msgTxt = msgTxt + &quot;\n\nReason for denial: &quot;+rd;&#10;         reason_for_denial = rd;&#10;      } else {&#10;         msgTxt = msgTxt + &quot;\n\nReason for denial: You have only &quot;+leave_days_left+&quot; leave days left in your quota!&quot;;&#10;         reason_for_denial = &quot;Automatically declined by the system - not enough leave days left in your quota!&quot;;&#10;      }&#10;   }&#10;}&#10;&#10;msgTxt = msgTxt + &quot;\n\nTogether Workflow Server System.&quot;;"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String msgTxt = &quot;Dear &quot;+first_name+&quot; &quot;+last_name+&quot;,\n\n&quot;;&#13;&#10;msgTxt = msgTxt + &quot;Your &quot;+leave_days_requested+&quot; days leave request:\n\n     From: &quot;+leave_from_date+&quot;\n       To: &quot;+leave_to_date+&quot;\n   Reason: &quot;+leave_reason+&quot;\n\n&quot;;&#13;&#10;if (approved_by_personnel) {&#13;&#10;   msgTxt = msgTxt + &quot;is approved. \n\n&quot;;&#13;&#10;   msgTxt = msgTxt + &quot;Approved by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.\n&quot;;&#13;&#10;   msgTxt = msgTxt + &quot;Approved by &quot;+approver_personnel+&quot; from personnel department at &quot;+approval_date_personnel+&quot;.&quot;;&#13;&#10;} else {&#13;&#10;   msgTxt = msgTxt + &quot;is declined. \n\n&quot;;&#13;&#10;   if (accepted_by_system) {&#13;&#10;      if (approved_by_supervisor) {&#13;&#10;         msgTxt = msgTxt + &quot;Approved by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.\n&quot;;&#13;&#10;         msgTxt = msgTxt + &quot;Declined by &quot;+approver_personnel+&quot; from personnel department at &quot;+approval_date_personnel+&quot;.&quot;;&#13;&#10;      } else {&#13;&#10;         msgTxt = msgTxt + &quot;Declined by supervisor &quot;+approver_supervisor+&quot; at &quot;+approval_date_supervisor+&quot;.&quot;; &#13;&#10;      }   &#13;&#10;      msgTxt = msgTxt + &quot;\n\nReason for denial: &quot;+reason_for_denial;&#13;&#10;   } else {&#13;&#10;      msgTxt = msgTxt + &quot;Automatically declined by the system at &quot;+new java.util.Date()+&quot;.&quot;; &#13;&#10;      if (leave_days_requested.longValue()&lt;=0) {&#13;&#10;         String rd = &quot;Invalid request - leave to date is before leave from date!&quot;;&#13;&#10;         msgTxt = msgTxt + &quot;\n\nReason for denial: &quot;+rd;&#13;&#10;         reason_for_denial = rd;&#13;&#10;      } else {&#13;&#10;         msgTxt = msgTxt + &quot;\n\nReason for denial: You have only &quot;+leave_days_left+&quot; leave days left in your quota!&quot;;&#13;&#10;         reason_for_denial = &quot;Automatically declined by the system - not enough leave days left in your quota!&quot;;&#13;&#10;      }&#13;&#10;   }&#13;&#10;}&#13;&#10;&#13;&#10;msgTxt = msgTxt + &quot;\n\nTogether Workflow Server System.&quot;;"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
     </xpdl:Applications>
@@ -384,12 +384,14 @@
                     <xpdl:DataType>
                         <xpdl:BasicType Type="DATETIME"/>
                     </xpdl:DataType>
+                    <xpdl:InitialValue>null</xpdl:InitialValue>
                     <xpdl:Description>The date of request approval.</xpdl:Description>
                 </xpdl:DataField>
                 <xpdl:DataField Id="approval_date_supervisor" IsArray="false" Name="Approval date (supervisor)">
                     <xpdl:DataType>
                         <xpdl:BasicType Type="DATETIME"/>
                     </xpdl:DataType>
+                    <xpdl:InitialValue>null</xpdl:InitialValue>
                     <xpdl:Description>The date of supervisors' request approval/denial.</xpdl:Description>
                 </xpdl:DataField>
                 <xpdl:DataField Id="approved_by_personnel" IsArray="false" Name="Approved by personnel?">
@@ -452,7 +454,7 @@
                 </xpdl:DataField>
                 <xpdl:DataField Id="leave_from_date" IsArray="false" Name="Leave from date">
                     <xpdl:DataType>
-                        <xpdl:BasicType Type="DATETIME"/>
+                        <xpdl:BasicType Type="DATE"/>
                     </xpdl:DataType>
                     <xpdl:Description>The date when employee would like to leave.</xpdl:Description>
                 </xpdl:DataField>
@@ -464,7 +466,7 @@
                 </xpdl:DataField>
                 <xpdl:DataField Id="leave_to_date" IsArray="false" Name="Leave to date">
                     <xpdl:DataType>
-                        <xpdl:BasicType Type="DATETIME"/>
+                        <xpdl:BasicType Type="DATE"/>
                     </xpdl:DataType>
                     <xpdl:Description>The date when employee would like to return back to work.</xpdl:Description>
                 </xpdl:DataField>
@@ -1034,6 +1036,6 @@ d;</xpdl:DeadlineDuration>
     <xpdl:ExtendedAttributes>
         <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
         <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
-        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.1-1-20110616-1154"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.8-1-20121228-1113"/>
     </xpdl:ExtendedAttributes>
 </xpdl:Package>
