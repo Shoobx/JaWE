@@ -422,8 +422,9 @@ Section "Install" Install
   ;WriteUninstaller "$%TEMP%\uninstall.exe" ;<<----- Enabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
   Call RefreshShellIcons
 
-   nsExec::ExecToLog 'cacls.exe "$INSTDIR\config" /T /E /C /G Everyone:F'
-
+; nsExec::ExecToLog 'cacls.exe "$INSTDIR\config" /T /E /C /G Everyone:F'
+AccessControl::GrantOnFile "$INSTDIR" "(S-1-1-0)" "FullAccess"
+ 
 end: 
 
 SectionEnd
