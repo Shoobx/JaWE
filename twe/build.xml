@@ -444,7 +444,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <!-- Create binary ZIP distribution -->
       <echo message="Creating ${app.name}-${name.additional}${version}-${release}.zip binary archive, please wait ..." />
       <zip destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.zip" update="true">
-         <zipfileset dir="${build.dir}" prefix="${app.name}-${name.additional}${version}-${release}" excludes="**/doc/api/**"/>
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${name.additional}${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf"/>
       </zip>
       
       <!-- TWE setup EXE -->
@@ -539,7 +539,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <copy file="${build.dir}/doc/${app.name}-current.doc.pdf" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.pdf"/>
       <copy file="${build.dir}/doc/${app.name}-current.doc.html" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.html"/>
       <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.doc.zip" update="true">
-         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*"/>
+         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*,${app.name}-${version}-${release}.test.pdf"/>
       </zip>
       <copy todir="${dist.community.dir}">
          <fileset dir="${build.dir}/doc" includes="${app.name}-current.doc.pdf" />
@@ -547,6 +547,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <delete quiet="true">
          <fileset dir="${build.dir}/doc" includes="${app.name}-${version}-${release}.doc.*" />
       </delete>      
+		<copy file="${output.doc.dir}/${app.name}-${version}-${release}.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />	
       <copy todir="${dist.internal.dir}">
          <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
          <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
@@ -777,7 +778,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </copy>
       <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
       <zip destfile="${tmp.component.dir}/${app.name}-zip/${app.name}.zip" update="true">
-         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**" />
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf" />
       </zip>
       <copy todir="${tmp.component.dir}/${app.name}-zip">
          <fileset dir="${component.dir}" includes="Component.properties" />  

@@ -27,6 +27,7 @@
 
       <!--Set the global variables-->
       <property name="docbook.name" value="twe-doc" />
+      <property name="testcase.name" value="twe-testcases-doc" /> 
       <property name="doc.title" value="Together Workflow Editor" />
       <property name="version" value="4.0" />
       <property name="release" value="1" />
@@ -181,6 +182,7 @@
 
    <target name="rebranding">
       <copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
+      <copy file="${doc.dir}/${testcase.name}.xml" tofile="${tmp.dir}/${testcase.name}.xml" />
       <copy todir="${tmp.dir}/docbook">
          <fileset dir="${docbook.dtd.dir}/dtd"/>
       </copy>
@@ -244,6 +246,42 @@
       <delete file="${tmp.dir}/${docbook.name}.fo" quiet="true" />
       <delete file="${tmp.dir}/${docbook.name}.xml" quiet="true" />
 
+
+      <echo message="docbook to ${testcase.name}.fo" />
+         <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
+            <arg line="-param html.stylesheet html.css 
+                       -param body.start.indent 0pt 
+                       -param ulink.footnotes 1 
+                       -param paper.type A4                       
+                       -out '${testcase.name}.fo' 
+                       -in '${testcase.name}.xml' 
+                       -xsl '${docbook.fo.xsl}'" />
+                       <!-- 
+                       -param page.margin.inner 0.5in 
+                       -param page.margin.outer 0.5in 
+                       -param page.margin.top 0.1in 
+                       -param region.before.extent 0.1in 
+                       -param body.margin.top 0.2in 
+                       -param region.after.extent 0.1in 
+                       -param page.margin.bottom 0.1in 
+                       -param body.margin.bottom 0.2in 
+                       -->
+         </java>
+		 
+	<!--ADD-->
+	  <replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />   
+	  <replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@buildid@"  value="V.${version}-${release} - ${build.timestamp}" />
+	<!--/ADD-->	
+
+      <echo message="docbook to PDF  ${tmp.dir}/${testcase.name}.xml" />
+      <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+         <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${testcase.name}.fo' '${app.name}-${version}-${release}.test.pdf'" />
+      </exec>
+      <!--antcall target="generate-pdf" inheritall="true" inheritrefs="true" /-->
+
+      <delete file="${tmp.dir}/${testcase.name}.fo" quiet="true" />
+      <delete file="${tmp.dir}/${testcase.name}.xml" quiet="true" />
+      
    </target>
 
    <target name="generate-pdf" description="Generates a single PDF file">
@@ -293,7 +331,7 @@
    <target name="clean" depends="init">
       <delete dir="${output.doc.dir}" />
       <delete>
-         <fileset dir="${basedir}" includes="log.txt,${docbook.name}.xml~" defaultexcludes="false"/>
+         <fileset dir="${basedir}" includes="log.txt,${docbook.name}.xml~,${testcase.name}.xml~" defaultexcludes="false"/>
       </delete>
       <delete dir="${basedir}/tmp" />      
    </target>
