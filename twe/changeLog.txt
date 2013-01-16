@@ -1,7 +1,8 @@
 ###### TWE 4.8-1 RELEASED ######
 2013-01-16 Sasa Bojanic <sasaboy@together.at>
    # Initial testcase documentation added to the project
-
+   # Validating dynamic script variable self/cross/implicit cross references
+   
 2012-12-28 Sasa Bojanic <sasaboy@together.at>
    # Supported BasicType DATE and TIME data types
    # leave_request.xpdl and new_employee.xpdl are now utilizing DATE data type

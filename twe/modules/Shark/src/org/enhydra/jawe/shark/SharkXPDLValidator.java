@@ -20,6 +20,7 @@ package org.enhydra.jawe.shark;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.Properties;
 import org.enhydra.jawe.base.xpdlvalidator.TogWEXPDLValidator;
 import org.enhydra.jxpdl.StandardPackageValidator;
 import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
@@ -39,10 +41,12 @@ import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.EnumerationType;
 import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.ListType;
@@ -217,6 +221,88 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                        el.toName(),
                                                        el);
       existingErrors.add(verr);
+   }
+
+   public void validateElement(DataFields el, List existingErrors, boolean fullCheck) {
+      super.validateElement(el, existingErrors, fullCheck);
+      if (!fullCheck && existingErrors.size() > 0) {
+         return;
+      }
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+      if (wp == null) {
+         return;
+      }
+      Map vars = wp.getAllVariables();
+      Iterator it = vars.entrySet().iterator();
+      Map dynamicScriptVariablesContext = new HashMap();
+      while (it.hasNext()) {
+         Map.Entry me = (Map.Entry) it.next();
+         String id = (String) me.getKey();
+         XMLCollectionElement dfOrFp = (XMLCollectionElement) me.getValue();
+         if (isDynamicScriptVariable(dfOrFp, id)) {
+            String iv = ((DataField) dfOrFp).getInitialValue();
+            dynamicScriptVariablesContext.put(me.getKey(), iv);
+         }
+      }
+      try {
+         XMLUtil.determineVariableEvaluationOrder(dynamicScriptVariablesContext);
+      } catch (Exception ex) {
+         String msg = ex.getMessage();
+         List varIds = new ArrayList();
+         if (msg.startsWith(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED)) {
+            String varId = msg.substring(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED.length())
+               .trim();
+            DataField eel = el.getDataField(varId);
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_SELF_REFERENCES_NOT_ALLOWED,
+                                                             eel.toName(),
+                                                             eel);
+            existingErrors.add(verr);
+         } else if (msg.startsWith(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED)) {
+            String[] vids = msg.substring(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED.length())
+               .trim()
+               .split(",");
+            for (int i = 0; i < vids.length; i++) {
+               String varId = vids[i].trim();
+               DataField eel = el.getDataField(varId);
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CROSS_REFERENCES_NOT_ALLOWED,
+                                                                eel.getId(),
+                                                                eel);
+               existingErrors.add(verr);
+            }
+         } else if (msg.startsWith(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED)) {
+            String varId = msg.substring(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED.length())
+               .trim();
+            DataField eel = el.getDataField(varId);
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED,
+                                                             eel.getId(),
+                                                             eel);
+            existingErrors.add(verr);
+         }
+      }
+
+   }
+
+   protected boolean isDynamicScriptVariable(XMLCollectionElement dfOrFp, String varId) {
+      if (dfOrFp instanceof FormalParameter) {
+         return false;
+      }
+      if (dfOrFp == null) {
+         return false;
+      }
+      XMLComplexElement parent = XMLUtil.getWorkflowProcess(dfOrFp);
+      if (parent == null) {
+         parent = XMLUtil.getPackage(dfOrFp);
+      }
+      ExtendedAttribute ea = ((ExtendedAttributes) dfOrFp.get("ExtendedAttributes")).getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMICSCRIPT);
+      boolean isDynamicScriptVariable = ea != null
+                                        && ea.getVValue().equalsIgnoreCase("true");
+      return isDynamicScriptVariable;
    }
 
    public void validateElement(EnumerationType el, List existingErrors, boolean fullCheck) {

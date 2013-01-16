@@ -226,7 +226,7 @@
 
             <entry>make debug</entry>
 
-            <entry>Builds TWE JAR file (jxpdl.jar) with included debug
+            <entry>Builds TWE JAR files with included debug
             information.</entry>
           </row>
 

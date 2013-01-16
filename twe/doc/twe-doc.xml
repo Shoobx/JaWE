@@ -10095,8 +10095,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>Shark mode: Support for DYNAMICSCRIPT attribute for
-          variables</para>
+          <para>Shark mode: Support for DYNAMICSCRIPT attribute for variables
+          (including validation for self/cross/implicit-cross
+          references)</para>
         </listitem>
 
         <listitem>
