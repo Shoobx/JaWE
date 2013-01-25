@@ -33,8 +33,6 @@ import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
 import org.enhydra.jawe.base.panel.panels.PanelUtilities;
-import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
-import org.enhydra.jawe.base.panel.panels.XMLAdvancedActualParametersPanel;
 import org.enhydra.jawe.base.panel.panels.XMLCheckboxPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
@@ -62,11 +60,8 @@ import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
-import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Script;
-import org.enhydra.jxpdl.elements.SubFlow;
-import org.enhydra.jxpdl.elements.TaskApplication;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
@@ -273,6 +268,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return gp;
    }
 
+   public XMLPanel getPanel(ExtendedAttributeWrapper el) {
+      SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(),
+                                                       el,
+                                                       el.toElements(),
+                                                       getPanelContainer().getLanguageDependentString(el.toName()
+                                                                                                      + "Key"),
+                                                       true,
+                                                       false,
+                                                       true);
+      return gp;
+   }
+
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
       if (no >= 3)
          no++;
@@ -300,21 +307,17 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          case 1:
             XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el, no, hidden);
 
-            ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_XFORMS_FILE);
-            if (ea != null) {
-               XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                               ea.get("Value"),
-                                               getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                              + "Key"),
-                                               false,
-                                               false,
-                                               JaWEManager.getInstance()
-                                                  .getJaWEController()
-                                                  .canModifyElement(ea),
-                                               null);
-               gp.addToGroup(pnl);
-            }
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
+            XMLPanel xfpnl = getPanel(new ExtendedAttributeWrapper(eas,
+                                                                   SharkConstants.EA_XFORMS_FILE,
+                                                                   false));
+            gp.addToGroup(xfpnl);
+
+            XMLPanel acpnl = getPanel(new ExtendedAttributeWrapper(eas,
+                                                                   SharkConstants.EA_CHECK_FOR_COMPLETION,
+                                                                   true));
+            gp.addToGroup(acpnl);
+
+            ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
             if (ea != null) {
                XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
                                                ea.get("Value"),
@@ -378,7 +381,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(Application el) {
-      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLGroupPanel", el);
+      Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                    "XMLGroupPanel",
+                                                    el);
       List subpanels = new ArrayList();
       List groupsToShow = new ArrayList();
       if (!hidden.contains(el.get("Id"))) {
@@ -866,20 +871,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          panelElements.addAll(ealist);
       }
 
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END);
-      if (ea != null) {
-         XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                         ea.get("Value"),
-                                         getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                        + "Key"),
-                                         false,
-                                         false,
-                                         JaWEManager.getInstance()
-                                            .getJaWEController()
-                                            .canModifyElement(ea),
-                                         null);
-         panelElements.add(pnl);
-      }
+      XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas,
+                                                               SharkConstants.EA_REDIRECT_AFTER_PROCESS_END,
+                                                               false));
+      panelElements.add(rapePnl);
+
       ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
       if (ea != null) {
          XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
@@ -1105,20 +1101,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             panelElements.addAll(ealist);
          }
 
-         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END);
-         if (ea != null) {
-            XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                            ea.get("Value"),
-                                            getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                           + "Key"),
-                                            false,
-                                            false,
-                                            JaWEManager.getInstance()
-                                               .getJaWEController()
-                                               .canModifyElement(ea),
-                                            null);
-            panelElements.add(pnl);
-         }
+         XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas,
+                                                                  SharkConstants.EA_REDIRECT_AFTER_PROCESS_END,
+                                                                  false));
+         panelElements.add(rapePnl);
+
          ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
          if (ea != null) {
             XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
@@ -1310,6 +1297,20 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             null);
          }
 
+      } else if (el.getParent() instanceof ExtendedAttributeWrapper
+                 && ((ExtendedAttributeWrapper) el.getParent()).isDecisionAttribute()) {
+
+         return new XMLCheckboxPanel(getPanelContainer(),
+                                     el,
+                                     getPanelContainer().getLanguageDependentString(el.getParent()
+                                        .toName()
+                                                                                    + "Key"),
+                                     false,
+                                     JaWEManager.getInstance()
+                                        .getJaWEController()
+                                        .canModifyElement(el),
+                                     false,
+                                     null);
       }
       return super.getPanel(el);
    }

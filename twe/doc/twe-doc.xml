@@ -10108,6 +10108,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Shark mode: supported CHECK_FOR_COMPLETION extended
+          attribute</para>
+        </listitem>
+
+        <listitem>
           <para>Shark mode: Improved validation. Now when validating special
           extended attributes (for client GUI forms and for
           SMTPEventAuditManager), "NON_EXISTING_VARIABLE_REFERENCE" ERRORS are
