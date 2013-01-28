@@ -21,7 +21,6 @@
    </Implementation>
    <ExtendedAttributes>
       <ExtendedAttribute Name="XFORMS_FILE" Value=""/>
-      <ExtendedAttribute Name="CHECK_FOR_COMPLETION" Value=""/>
       <ExtendedAttribute Name="SMTP_EVENT_AUDIT_MANAGER_MODE" Value="true"/>
       <ExtendedAttribute Name="SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE" Value="asynchronous"/>
       <ExtendedAttribute Name="SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY" Value="false"/>
