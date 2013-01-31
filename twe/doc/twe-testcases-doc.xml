@@ -23,7 +23,7 @@
   <title><inlinemediaobject>
       <imageobject>
         <imagedata contentdepth="100%" fileref="images/cover8.jpg"
-                   scalefit="1" width="100%"/>
+                   scalefit="1" width="100%"></imagedata>
       </imageobject>
     </inlinemediaobject> <replaceable><?coverdetail ?></replaceable></title>
 
@@ -75,351 +75,1067 @@
     </legalnotice>
   </info>
 
-  <toc/>
+  <toc></toc>
 
-  <chapter xml:id="aa1">
+  <chapter>
     <title>Test Case Builds</title>
 
-    <para><emphasis role="bold">Description:</emphasis></para>
+    <sect1>
+      <title>Test Case: configure.bat</title>
 
-    <para>The following table shows how to check TWE builds.</para>
+      <para><itemizedlist>
+          <listitem>
+            <para>Test configure.bat script</para>
 
-    <table frame="all">
-      <title>Test Case - Builds</title>
+            <?keepwith ?>
 
-      <tgroup align="left" cols="3" colsep="1" rowsep="1">
-        <colspec colname="c1" colwidth="auto"/>
+            <table>
+              <title>The configure.bat script</title>
 
-        <colspec colname="c2" colwidth="auto"/>
+              <tgroup cols="2" colsep="1" rowsep="1">
+                <colspec colname="c1" colwidth="16*" />
 
-        <colspec colname="c3" colwidth="auto"/>
+                <colspec colname="c2" colwidth="84*" />
 
-        <thead>
-          <row>
-            <entry align="left">Action</entry>
+                <tbody>
+                  <row>
+                    <entry><emphasis role="bold">Purpose :</emphasis></entry>
 
-            <entry align="left">Input</entry>
+                    <entry>Create build.properties and version.properties
+                    files with the default values for all possible
+                    parameters.</entry>
+                  </row>
 
-            <entry align="left">Expected Output</entry>
-          </row>
-        </thead>
+                  <row>
+                    <entry morerows="1"><emphasis role="bold">Prerequisite
+                    :</emphasis></entry>
 
-        <tbody>
-          <row>
-            <entry>configure</entry>
+                    <entry>1. CMD.exe</entry>
+                  </row>
 
-            <entry>configure</entry>
+                  <row>
+                    <entry>2. configure.bat</entry>
+                  </row>
 
-            <entry>Creates build.properties file with the default values for
-            all possible parameters. It can work only if there is a default
-            "JAVA_HOME"</entry>
-          </row>
+                  <row>
+                    <entry><emphasis role="bold">Test Data
+                    :</emphasis></entry>
 
-          <row>
-            <entry>configure -help</entry>
+                    <entry>configure</entry>
+                  </row>
 
-            <entry>configure -help</entry>
+                  <row>
+                    <entry morerows="1"><emphasis role="bold">Expected Output
+                    :</emphasis></entry>
 
-            <entry>Displays the help infomation.</entry>
-          </row>
+                    <entry>1. build.properties</entry>
+                  </row>
 
-          <row>
-            <entry>configure -version</entry>
+                  <row>
+                    <entry>2. version.properties</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
 
-            <entry>configure -version 2.1</entry>
+            <table frame="all">
+              <title>Test Case: configure.bat with parameters</title>
 
-            <entry>Sets the version number for the project in
-            version.properties. ( In the version.properties &gt;&gt; version =
-            2.1 )</entry>
-          </row>
+              <tgroup align="left" cols="3" colsep="1" rowsep="1">
+                <colspec colname="c1" colwidth="auto" />
 
-          <row>
-            <entry>configure -release</entry>
+                <colspec colname="c2" colwidth="auto" />
 
-            <entry>configure -release 1</entry>
+                <colspec colname="c3" colwidth="auto" />
 
-            <entry>Sets the release number for the project in
-            version.properties. ( In the version.properties &gt;&gt; release =
-            1 )</entry>
-          </row>
+                <thead>
+                  <row>
+                    <entry align="center">Action</entry>
 
-          <row>
-            <entry>configure -buildid</entry>
+                    <entry align="center">Input Data</entry>
 
-            <entry>configure -buildid 123456789</entry>
+                    <entry align="center">Expected Output</entry>
+                  </row>
+                </thead>
 
-            <entry>Sets the build id for the project. ( In the
-            build.properties &gt;&gt; buildid = 123456789 )</entry>
-          </row>
+                <tbody>
+                  <row>
+                    <entry>configure</entry>
 
-          <row>
-            <entry>configure -jdkhome</entry>
+                    <entry>configure</entry>
 
-            <entry>configure -jdkhome %JAVA_HOME%</entry>
+                    <entry>Creates build.properties file with the default
+                    values for all possible parameters. It can work only if
+                    there is a default "JAVA_HOME"</entry>
+                  </row>
 
-            <entry>Sets the "JAVA HOME" location of Java to be used to compile
-            the project. ( In the build.properties &gt;&gt; jdk.dir =
-            C:\Java\jdk1.7.0_07 )</entry>
-          </row>
+                  <row>
+                    <entry>configure -help</entry>
 
-          <row>
-            <entry>configure -instdir</entry>
+                    <entry>configure -help</entry>
 
-            <entry>configure -instdir C:/TWE</entry>
+                    <entry>Displays the help infomation.</entry>
+                  </row>
 
-            <entry>Sets the location of the installation directory used when
-            executing make script with the install target specified. ( In the
-            build.properties &gt;&gt; install.dir = C:\TWE )</entry>
-          </row>
+                  <row>
+                    <entry>configure -version</entry>
 
-          <row>
-            <entry>make</entry>
+                    <entry>configure -version 4.8</entry>
 
-            <entry>make</entry>
+                    <entry>Sets the version number for the project in
+                    version.properties. ( In the version.properties &gt;&gt;
+                    version = 4.8 )</entry>
+                  </row>
 
-            <entry>Displays the Help Information.</entry>
-          </row>
+                  <row>
+                    <entry>configure -release</entry>
 
-          <row>
-            <entry>make clean</entry>
+                    <entry>configure -release 1</entry>
 
-            <entry>make clean</entry>
+                    <entry>Sets the release number for the project in
+                    version.properties. ( In the version.properties &gt;&gt;
+                    release = 1 )</entry>
+                  </row>
 
-            <entry>Removes the output and the distributions folder.</entry>
-          </row>
+                  <row>
+                    <entry>configure -buildid</entry>
 
-          <row>
-            <entry>make buildAll</entry>
+                    <entry>configure -buildid 20130130-0900</entry>
 
-            <entry>make buildAll</entry>
+                    <entry>Sets the build id for the project. ( In the
+                    build.properties &gt;&gt; buildid = 20130130-0900
+                    )</entry>
+                  </row>
 
-            <entry>Builds and configures TWE with documentation.</entry>
-          </row>
+                  <row>
+                    <entry>configure -jdkhome</entry>
 
-          <row>
-            <entry>make buildDoc</entry>
+                    <entry>configure -jdkhome C:/Program
+                    Files/Java/jdk1.7.0_11</entry>
 
-            <entry>make buildDoc</entry>
+                    <entry>Sets the "JAVA HOME" location of Java to be used to
+                    compile the project. ( In the build.properties &gt;&gt;
+                    jdk.dir = C:/Program Files/Java/jdk1.7.0_11 )</entry>
+                  </row>
+
+                  <row>
+                    <entry>configure -instdir</entry>
+
+                    <entry>configure -instdir C:/TWE</entry>
+
+                    <entry>Sets the location of the installation directory
+                    used when executing make script with the install target
+                    specified. ( In the build.properties &gt;&gt; install.dir
+                    = C:\TWE)</entry>
+                  </row>
 
-            <entry>Builds documentation only.</entry>
-          </row>
+                  <row>
+                    <entry>configure -rebranding</entry>
+
+                    <entry>configure -rebranding false</entry>
+
+                    <entry>Flag that determines if the project will be
+                    "rebranded" with the context of branding folder.</entry>
+                  </row>
+
+                  <row>
+                    <entry>configure -language</entry>
+
+                    <entry>configure -language English</entry>
+
+                    <entry>Used by NSIS when creating setup (normally used for
+                    rebranding).</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+
+            <para><emphasis role="bold">Steps:</emphasis></para>
+
+            <orderedlist>
+              <listitem>
+                <para>Open CMD.exe</para>
+
+                <?keepwith ?>
+
+                <figure>
+                  <title>Open command prompt - configure</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/1-cmd.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </listitem>
+
+              <listitem>
+                <para>Change current directory to project directory.</para>
+              </listitem>
+
+              <listitem>
+                <para>Run configure.bat with paramerter</para>
+
+                <?keepwith ?>
+
+                <figure>
+                  <title>Example: configure -help</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/2-configure-help.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+
+                <figure>
+                  <title>Configure multiple parameters to
+                  version.properties</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/3-configure-version.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+
+                <figure>
+                  <title>Example configure multiple parameters to
+                  build.properties</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/4-configure-build.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </listitem>
 
-          <row>
-            <entry>make buildNoDoc</entry>
+              <listitem>
+                <para>Check configure result in project directory.</para>
 
-            <entry>make buildNoDoc</entry>
+                <?keepwith ?>
 
-            <entry>Builds and configures TWE without documentation.</entry>
-          </row>
+                <figure>
+                  <title>Open version.properties file</title>
 
-          <row>
-            <entry>make distributions</entry>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/5-result-version.properties.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
 
-            <entry>make distributions</entry>
+                <figure>
+                  <title>Open build.properties file</title>
 
-            <entry>Builds and configures TWE with all documentations and
-            creates distributions package.</entry>
-          </row>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/6-result-build.properties.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </listitem>
+            </orderedlist>
+          </listitem>
+        </itemizedlist></para>
 
-          <row>
-            <entry>make debug</entry>
+      <para></para>
+    </sect1>
 
-            <entry>make debug</entry>
+    <sect1>
+      <title>Test Case: make.bat</title>
 
-            <entry>Builds TWE JAR files with included debug
-            information.</entry>
-          </row>
+      <para><itemizedlist>
+          <listitem>
+            <para>Test make.bat script</para>
 
-          <row>
-            <entry>*Latest Component</entry>
+            <?keepwith ?>
 
-            <entry>Check in the components folder.</entry>
+            <table>
+              <title>The make.bat script</title>
 
-            <entry>Shows components for project.</entry>
-          </row>
+              <tgroup cols="2" colsep="1" rowsep="1">
+                <colspec colname="c1" colwidth="16*" />
 
-          <row>
-            <entry>Signing</entry>
+                <colspec colname="c2" colwidth="84*" />
 
-            <entry>Right click "twe-x.y-z.exe" (build by TAB) &gt;&gt;
-            Properties &gt;&gt; "Digital Signatures" tab.</entry>
+                <tbody>
+                  <row>
+                    <entry><emphasis role="bold">Purpose :</emphasis></entry>
 
-            <entry>Displays Signature list correctly.</entry>
-          </row>
+                    <entry>When the building process finishes, the project
+                    binaries will be in output/twe-4.8-1 folder.</entry>
+                  </row>
 
-          <row>
-            <entry>Timestamp</entry>
+                  <row>
+                    <entry morerows="1"><emphasis role="bold">Prerequisite
+                    :</emphasis></entry>
 
-            <entry>-</entry>
+                    <entry>1. CMD.exe</entry>
+                  </row>
 
-            <entry>Shows properties detail timestamp.</entry>
-          </row>
+                  <row>
+                    <entry>2. make.bat</entry>
+                  </row>
 
-          <row>
-            <entry>Version</entry>
+                  <row>
+                    <entry><emphasis role="bold">Test Data
+                    :</emphasis></entry>
 
-            <entry>-</entry>
+                    <entry>make</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
 
-            <entry>Displays version number correctly.</entry>
-          </row>
+            <table frame="all">
+              <title>Test Case: make.bat with parameters</title>
 
-          <row>
-            <entry>Include List</entry>
+              <tgroup align="left" cols="3" colsep="1" rowsep="1">
+                <colspec colname="c1" colwidth="auto" />
 
-            <entry>Check the twe-includes.csv</entry>
+                <colspec colname="c2" colwidth="auto" />
 
-            <entry>Displays component lists for include to TWE project (tools
-            folder).</entry>
-          </row>
+                <colspec colname="c3" colwidth="auto" />
 
-          <row>
-            <entry>Prerequisite Build Linux / Windows</entry>
+                <thead>
+                  <row>
+                    <entry align="center">Action</entry>
 
-            <entry>Check prereqs.build.windows.csv /
-            prereqs.build.linux.csv</entry>
+                    <entry align="center">Input Data</entry>
 
-            <entry>Shows prerequisite build of project.</entry>
-          </row>
+                    <entry align="center">Expected Output</entry>
+                  </row>
+                </thead>
 
-          <row>
-            <entry>Prerequisite Install Linux / Windows</entry>
+                <tbody>
+                  <row>
+                    <entry>make</entry>
 
-            <entry>Check prereqs.install.windows.csv /
-            prereqs.install.linux.csv</entry>
+                    <entry>make</entry>
 
-            <entry>Shows prerequisite install of project.</entry>
-          </row>
+                    <entry>Displays the Help Information.</entry>
+                  </row>
 
-          <row>
-            <entry>Standardize</entry>
+                  <row>
+                    <entry>make help</entry>
 
-            <entry>Expected output.</entry>
+                    <entry>make help</entry>
 
-            <entry>output standardize, doc, output structure, source
-            structure, binary structure.</entry>
-          </row>
+                    <entry>Displays the Help Information.</entry>
+                  </row>
 
-          <row>
-            <entry>Manifest</entry>
+                  <row>
+                    <entry>make clean</entry>
 
-            <entry>Check MANIFEST.MF inside JAR files</entry>
+                    <entry>make clean</entry>
 
-            <entry>Should show correct information.</entry>
-          </row>
+                    <entry>Removes the output and the distributions
+                    folder.</entry>
+                  </row>
 
-          <row>
-            <entry>Copyright</entry>
+                  <row>
+                    <entry>make buildAll</entry>
 
-            <entry>Right click "twe-x.y-z.exe" &gt;&gt; Properties &gt;&gt;
-            "Details" tab</entry>
+                    <entry>make buildAll</entry>
 
-            <entry>Displays "Copyright" correctly.</entry>
-          </row>
+                    <entry>Builds and configures TWE with
+                    documentation.</entry>
+                  </row>
 
-          <row>
-            <entry>Documentation</entry>
+                  <row>
+                    <entry>make buildDoc</entry>
 
-            <entry>Check output &gt;&gt; doc folder.</entry>
+                    <entry>make buildDoc</entry>
 
-            <entry>Shows documentation in doc folder.</entry>
-          </row>
+                    <entry>Builds documentation only.</entry>
+                  </row>
 
-          <row>
-            <entry>- Introduction</entry>
+                  <row>
+                    <entry>make buildNoDoc</entry>
 
-            <entry>Check chapter Introduction in the documentation.</entry>
+                    <entry>make buildNoDoc</entry>
 
-            <entry>-</entry>
-          </row>
+                    <entry>Builds and configures TWE without
+                    documentation.</entry>
+                  </row>
 
-          <row>
-            <entry>- Installation Guide</entry>
+                  <row>
+                    <entry>make distributions</entry>
 
-            <entry>Check chapter Installation Guide in the
-            documentation.</entry>
+                    <entry>make distributions</entry>
 
-            <entry>-</entry>
-          </row>
+                    <entry>Builds and configures TWE with all documentations
+                    and creates distributions package.</entry>
+                  </row>
 
-          <row>
-            <entry>- User Guide</entry>
+                  <row>
+                    <entry>make debug</entry>
 
-            <entry>Check chapter User Guide in the documentation.</entry>
+                    <entry>make debug</entry>
 
-            <entry>-</entry>
-          </row>
+                    <entry>Builds TWE JAR file(s) with included debug
+                    information.</entry>
+                  </row>
 
-          <row>
-            <entry>- Build Guide</entry>
+                  <row>
+                    <entry>make install</entry>
 
-            <entry>Check chapter Build Guide in the documentation.</entry>
+                    <entry>make install</entry>
 
-            <entry>-</entry>
-          </row>
+                    <entry>Installs and configures TWE into directory defined
+                    by parameter install.dir in the build.properties
+                    file.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
 
-          <row>
-            <entry>- Release Note</entry>
+            <para><emphasis role="bold">Steps:</emphasis></para>
 
-            <entry>Check chapter Releases Notes in the documentation.</entry>
+            <orderedlist>
+              <listitem>
+                <para>Open CMD.exe</para>
 
-            <entry>Shows the latest release update.</entry>
-          </row>
+                <?keepwith ?>
 
-          <row>
-            <entry>- Licenses</entry>
+                <figure>
+                  <title>Open command prompt - make</title>
 
-            <entry>Check Licenses.</entry>
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/1-cmd.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </listitem>
 
-            <entry>Shows project licenses correctly.</entry>
-          </row>
-        </tbody>
-      </tgroup>
-    </table>
+              <listitem>
+                <para>Change current directory to project directory.</para>
+              </listitem>
 
-    <note>
-      <para>*Some projects have Latest Component. TWE project does not have
-      "components folder" in the result output folder.</para>
-    </note>
+              <listitem>
+                <para>Run make.bat with paramerter</para>
+
+                <?keepwith ?>
+
+                <figure>
+                  <title>Example: make help</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/7-make.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+
+                <figure>
+                  <title>Example: make distributions</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata contentdepth="100%"
+                                 fileref="images/1-Chapter1/8-make-distributions.jpg"
+                                 scalefit="1" width="100%"></imagedata>
+                    </imageobject>
+                  </mediaobject>
+                </figure>
+              </listitem>
+            </orderedlist>
+          </listitem>
+        </itemizedlist></para>
+
+      <para></para>
+    </sect1>
+
+    <sect1>
+      <title>Test Case: standardize</title>
+
+      <para><itemizedlist>
+          <listitem>
+            <para>Test check standardize sources ,input ,output ,etc</para>
+
+            <?keepwith ?>
+
+            <table>
+              <title>Standardize</title>
+
+              <tgroup cols="2" colsep="1" rowsep="1">
+                <colspec colname="c1" colwidth="16*" />
+
+                <colspec colname="c2" colwidth="84*" />
+
+                <tbody>
+                  <row>
+                    <entry><emphasis role="bold">Purpose :</emphasis></entry>
+
+                    <entry>Check standardize source ,input ,output
+                    ,etc</entry>
+                  </row>
+
+                  <row>
+                    <entry><emphasis role="bold">Prerequisite
+                    :</emphasis></entry>
+
+                    <entry>-</entry>
+                  </row>
+
+                  <row>
+                    <entry><emphasis role="bold">Test Data
+                    :</emphasis></entry>
+
+                    <entry>Standardize sources ,input ,output ,documents ,
+                    files ,copy right</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+
+            <table frame="all">
+              <title>Test Case: Builds</title>
+
+              <tgroup align="left" cols="3" colsep="1" rowsep="1">
+                <colspec colname="c1" colwidth="auto" />
+
+                <colspec colname="c2" colwidth="auto" />
+
+                <colspec colname="c3" colwidth="auto" />
+
+                <thead>
+                  <row>
+                    <entry align="center">Action</entry>
+
+                    <entry align="center">Input Data</entry>
+
+                    <entry align="center">Expected Output</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>Signing</entry>
+
+                    <entry>Checks right click "twe-4.8-1.exe" &gt;&gt;
+                    Properties &gt;&gt; "Digital Signatures" tab.</entry>
+
+                    <entry>Shows the name of signer is "GrECo International
+                    Holding AG".</entry>
+                  </row>
+
+                  <row>
+                    <entry>Timestamp</entry>
+
+                    <entry>Checks Timestamp</entry>
+
+                    <entry>Shows properties detail timestamp.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Version</entry>
+
+                    <entry>Checks Version</entry>
+
+                    <entry>Shows version number correctly.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Include List</entry>
+
+                    <entry>Checks the twe-includes.csv</entry>
+
+                    <entry>Shows component lists for include to TWE project
+                    (tools folder) correctly.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Prerequisite Build Linux</entry>
+
+                    <entry>Checks prereqs.build.linux.csv</entry>
+
+                    <entry>Shows prerequisite build-linux of project.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Prerequisite Install Linux</entry>
+
+                    <entry>Checks prereqs.install.linux.csv</entry>
+
+                    <entry>Shows prerequisite install-linux of
+                    project.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Prerequisite Build Windows</entry>
+
+                    <entry>Checks prereqs.build.windows.csv</entry>
+
+                    <entry>Shows prerequisite build-windows of
+                    project.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Prerequisite Install Windows</entry>
+
+                    <entry>Checks prereqs.install.windows.csv</entry>
+
+                    <entry>Shows prerequisite install-windows of
+                    project.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Standardize</entry>
+
+                    <entry>Expected output.</entry>
+
+                    <entry>output standardize, doc, output structure, source
+                    structure, binary structure.</entry>
+                  </row>
+
+                  <row>
+                    <entry>Standard Manifest content</entry>
+
+                    <entry>Checks Manifest (JAR,WAR Files) Conent</entry>
+
+                    <entry>Shows Correctly
+                    Vender,Title,BuildID,Version,Project URL</entry>
+                  </row>
+
+                  <row>
+                    <entry>Copyright</entry>
+
+                    <entry>Checks right click "twe-4.8-1.exe" &gt;&gt;
+                    Properties &gt;&gt; "Details" tab &gt;&gt;
+                    Copyright</entry>
+
+                    <entry>Shows the copyright is "©2011 Together
+                    Teamsolutions Co., Ltd. All rights reserved".</entry>
+                  </row>
+
+                  <row>
+                    <entry>Legal trademarks</entry>
+
+                    <entry>Checks right click "twe-4.8-1.exe" &gt;&gt;
+                    Properties &gt;&gt; "Details" tab &gt;&gt; Legal
+                    trademarks</entry>
+
+                    <entry>Shows the legal trademarks is "Together (R) is a
+                    registered of GrECo International Holding AG in
+                    Austria/Europe"</entry>
+                  </row>
+
+                  <row>
+                    <entry>Documentation</entry>
+
+                    <entry>Checks output &gt;&gt; doc folder.</entry>
+
+                    <entry>Shows documentation in doc folder.</entry>
+                  </row>
+
+                  <row>
+                    <entry>- Introduction</entry>
+
+                    <entry>Checks chapter Introduction in the
+                    documentation.</entry>
+
+                    <entry>Displays about introduction.</entry>
+                  </row>
+
+                  <row>
+                    <entry>- Installation Guide</entry>
+
+                    <entry>Checks chapter Installation Guide in the
+                    documentation.</entry>
+
+                    <entry>Displays about installation</entry>
+                  </row>
+
+                  <row>
+                    <entry>- User Guide</entry>
+
+                    <entry>Checks chapter User Guide in the
+                    documentation.</entry>
+
+                    <entry>Displays about user guide.</entry>
+                  </row>
+
+                  <row>
+                    <entry>- Build Guide</entry>
+
+                    <entry>Checks chapter Build Guide in the
+                    documentation.</entry>
+
+                    <entry>Displays about build guide.</entry>
+                  </row>
+
+                  <row>
+                    <entry>- Release Note</entry>
+
+                    <entry>Checks chapter Releases Notes in the
+                    documentation.</entry>
+
+                    <entry>Shows the latest release update.</entry>
+                  </row>
+
+                  <row>
+                    <entry>- Licenses</entry>
+
+                    <entry>Checks Licenses.</entry>
+
+                    <entry>Shows project licenses correctly.</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+          </listitem>
+        </itemizedlist></para>
+
+      <para></para>
+    </sect1>
   </chapter>
 
   <chapter>
     <title>Test Case Installation</title>
 
-    <para><emphasis role="bold">Description:</emphasis></para>
+    <sect1>
+      <title>Normal Installation</title>
 
-    <para/>
+      <itemizedlist>
+        <listitem>
+          <para>Test normal installation.</para>
 
-    <table frame="all">
-      <title>Test Case - Installation</title>
+          <?keepwith ?>
 
-      <tgroup align="left" cols="3" colsep="1" rowsep="1">
-        <colspec colname="c1" colwidth="auto"/>
+          <table>
+            <title>Normal installation.</title>
 
-        <colspec colname="c2" colwidth="auto"/>
+            <tgroup cols="2" colsep="1" rowsep="1">
+              <colspec colname="c1" colwidth="16*" />
 
-        <colspec colname="c3" colwidth="auto"/>
+              <colspec colname="c2" colwidth="84*" />
 
-        <thead>
-          <row>
-            <entry align="left">Action</entry>
+              <tbody>
+                <row>
+                  <entry><emphasis role="bold">Purpose :</emphasis></entry>
 
-            <entry align="left">Input</entry>
+                  <entry><itemizedlist>
+                      <listitem>
+                        <para>The welcome install pop-up must appear.</para>
+                      </listitem>
 
-            <entry align="left">Expected Output</entry>
-          </row>
-        </thead>
+                      <listitem>
+                        <para>Show the license terms before installing
+                        application.</para>
+                      </listitem>
 
-        <tbody>
-          <row>
-            <entry>-</entry>
+                      <listitem>
+                        <para>Create application in the destination
+                        folder.</para>
+                      </listitem>
 
-            <entry>-</entry>
+                      <listitem>
+                        <para>Restore default application path in the
+                        destination folder.</para>
+                      </listitem>
 
-            <entry>-</entry>
-          </row>
-        </tbody>
-      </tgroup>
-    </table>
+                      <listitem>
+                        <para>Create start menu correctly.</para>
+                      </listitem>
+
+                      <listitem>
+                        <para>Show document correctly.</para>
+                      </listitem>
+
+                      <listitem>
+                        <para>Open homepage on the browser correctly.</para>
+                      </listitem>
+
+                      <listitem>
+                        <para>Install program correctly.</para>
+                      </listitem>
+                    </itemizedlist></entry>
+                </row>
+
+                <row>
+                  <entry><emphasis role="bold">Prerequisite
+                  :</emphasis></entry>
+
+                  <entry>twe-4.8-1.exe</entry>
+                </row>
+
+                <row>
+                  <entry><emphasis role="bold">Test Data :</emphasis></entry>
+
+                  <entry>-</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+
+          <para><emphasis role="bold">Steps:</emphasis></para>
+
+          <orderedlist>
+            <listitem>
+              <para>Double click on twe-4.8-1.exe.</para>
+            </listitem>
+
+            <listitem>
+              <para>Observe the welcome screen (The welcome install pop-up
+              must appear).</para>
+            </listitem>
+
+            <listitem>
+              <para>Click "Next" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Check the license terms (Show the license terms before
+              installing application).</para>
+            </listitem>
+
+            <listitem>
+              <para>Tick check box on the license terms page.</para>
+            </listitem>
+
+            <listitem>
+              <para>Click "Next" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Choose the install location of Java virtual machine.
+              (%JAVA_HOME%)</para>
+            </listitem>
+
+            <listitem>
+              <para>Click "Next" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Check destination folder (Check the program was installed
+              correctly folder after finish installation ).</para>
+            </listitem>
+
+            <listitem>
+              <para>Click "Browse" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Click "OK" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Click default button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Check the textbox of program path was restored default
+              value correctly (Restore default application path in the
+              destination folder).</para>
+            </listitem>
+
+            <listitem>
+              <para>Click "Next" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Tick check box;</para>
+
+              <?keepwith ?>
+
+              <itemizedlist>
+                <listitem>
+                  <para>Create Start Menu entry - Checks application on the
+                  Start up Menu (Start &gt;&gt; Program &gt;&gt; Together
+                  Workflow Editor 4.8-1) after finish installation.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Create Shortcut on Desktop - Checks application
+                  shortcut on the desktop after finish installation.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Create Quick Launch - Checks application on the quick
+                  launch after finish installation.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Pin to Taskbar - Checks application shortcut on the
+                  taskbar after finish installation.</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>Click "Install" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>When the application install completed. Click "Next"
+              button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Tick on check box;</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>Start Together Workflow Editor 4.8-1 - The application
+                  will start up after finish installation.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Show Documentation - The TWE documentation will start
+                  up after finish installation.</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>Check document to be showed after finish installation
+              (Show document correctly).</para>
+            </listitem>
+
+            <listitem>
+              <para>Click Visit project homepage link .</para>
+            </listitem>
+
+            <listitem>
+              <para>Check homepage to be showed (Open homepage on the browser
+              correctly).</para>
+            </listitem>
+
+            <listitem>
+              <para>Click "Finish" button.</para>
+            </listitem>
+
+            <listitem>
+              <para>Check program to be intalled correctly (Install program
+              correctly).</para>
+
+              <para></para>
+            </listitem>
+          </orderedlist>
+        </listitem>
+      </itemizedlist>
+    </sect1>
+
+    <sect1>
+      <title>Silent Installation</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Test silent Installation</para>
+
+          <?keepwith ?>
+
+          <table>
+            <title>Silent Installation</title>
+
+            <tgroup cols="2" colsep="1" rowsep="1">
+              <colspec colname="c1" colwidth="16*" />
+
+              <colspec colname="c2" colwidth="84*" />
+
+              <tbody>
+                <row>
+                  <entry><emphasis role="bold">Purpose :</emphasis></entry>
+
+                  <entry><itemizedlist>
+                      <listitem>
+                        <para>Create application in the destination
+                        folder.</para>
+                      </listitem>
+
+                      <listitem>
+                        <para>Create start menu correctly.</para>
+                      </listitem>
+
+                      <listitem>
+                        <para>Install program correctly.</para>
+                      </listitem>
+                    </itemizedlist></entry>
+                </row>
+
+                <row>
+                  <entry><emphasis role="bold">Prerequisite
+                  :</emphasis></entry>
+
+                  <entry>twe-4.8-1.exe</entry>
+                </row>
+
+                <row>
+                  <entry><emphasis role="bold">Test Data :</emphasis></entry>
+
+                  <entry>twe-4.8-1.silent.properties.txt</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+
+          <para><emphasis role="bold">Steps:</emphasis></para>
+
+          <orderedlist>
+            <listitem>
+              <para>To perform a silent installation the
+              twe-4.8-1.silent.properties file must be in the same directory
+              of your installation file. The following lists the properties
+              which can set.</para>
+
+              <programlisting># Where to install Together Workflow Editor
+(default value is C:\Program Files\twe-4.8-1)inst.dir=C:\Program Files\twe-4.8-1
+# Startup menu name. (default value - Together Workflow Editor 4.8-1)
+startup.menu.name=Together Workflow Editor 4.8-1
+# Path to local java installation (obligate - has no default value)
+jdk.dir=C:/Program Files/Java/jdk1.7.0_11
+# Create start menu entry (on/off)
+create.startup.menu=on
+# Create quick launch menu icon (on/off)
+create.quick.launch.icon=on
+# Create desktop icon (on/off)
+create.desktop.icon=on
+# Create pin to taskbar icon (on/off)
+create.pin.to.taskbar=on</programlisting>
+            </listitem>
+
+            <listitem>
+              <para>Double click on the application setup file for start the
+              installation in silent mode.</para>
+            </listitem>
+
+            <listitem>
+              <para>Check the application was installed correctly.</para>
+            </listitem>
+
+            <listitem>
+              <para>Check the application create start menu correctly.</para>
+            </listitem>
+
+            <listitem>
+              <para>Check the application was installed correctly.</para>
+
+              <para></para>
+            </listitem>
+          </orderedlist>
+        </listitem>
+      </itemizedlist>
+    </sect1>
   </chapter>
 
   <chapter>
@@ -427,17 +1143,17 @@
 
     <para><emphasis role="bold">Description:</emphasis></para>
 
-    <para/>
+    <para></para>
 
     <table frame="all">
       <title>Test Case - Feature</title>
 
       <tgroup align="left" cols="3" colsep="1" rowsep="1">
-        <colspec colname="c1" colwidth="auto"/>
+        <colspec colname="c1" colwidth="auto" />
 
-        <colspec colname="c2" colwidth="auto"/>
+        <colspec colname="c2" colwidth="auto" />
 
-        <colspec colname="c3" colwidth="auto"/>
+        <colspec colname="c3" colwidth="auto" />
 
         <thead>
           <row>
