@@ -164,7 +164,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
       WfVariables elAttachments = new WfVariables(this,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS,
                                                   Arrays.asList(new String[] {
-                                                     XMLUtil.getShortClassName(SchemaType.class.getName())
+                                                     XPDLConstants.BASIC_TYPE_STRING, XMLUtil.getShortClassName(SchemaType.class.getName())
                                                   }),
                                                   ",",
                                                   false);
