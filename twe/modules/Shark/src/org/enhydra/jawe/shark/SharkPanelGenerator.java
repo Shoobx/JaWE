@@ -684,6 +684,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          // } else {
          chs = getPossibleVariableChoices(vars, el);
          // }
+            if (!vars.containsKey(el.toValue()) && !el.getVValue().equals("")) {
+               chs.add(0, el.getVValue());
+            }
+
          return new ExtAttribPanel(getPanelContainer(),
                                    el,
                                    chs,

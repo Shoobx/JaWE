@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -46,7 +48,6 @@ import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLElementView;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jxpdl.XMLCollectionElement;
-import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
@@ -97,11 +98,15 @@ public class ExtAttribPanel extends XMLBasicPanel {
          Dimension toSet;
          List chs = null;
          Object chsn = null;
-         XMLElement choosen = null;
          for (int i = 0; i < choices.size(); i++) {
-            XMLCollectionElement cel = (XMLCollectionElement) choices.get(i);
-            if (cel.getId().equals(myOwner.getVValue())) {
-               choosen = cel;
+            Object el = choices.get(i);
+            if (el instanceof XMLCollectionElement) {
+               XMLCollectionElement cel = (XMLCollectionElement) choices.get(i);
+               if (cel.getId().equals(myOwner.getVValue())) {
+                  chsn = new XMLElementView(pc, cel, XMLElementView.TONAME);
+               }
+            } else {
+               chsn = new XMLElementView(pc, myOwner.getVValue(), false);
             }
          }
          chs = PanelUtilities.toXMLElementViewList(pc, choices, true);
@@ -109,12 +114,11 @@ public class ExtAttribPanel extends XMLBasicPanel {
          jcb = new JComboBox(XMLComboPanel.sortComboEntries(chs));
          jcb.setRenderer(new TooltipComboRenderer());
 
-         if (choosen != null) {
-            chsn = new XMLElementView(pc, choosen, XMLElementView.TONAME);
+         if (chsn != null) {
             jcb.setSelectedItem(chsn);
          }
          toSet = getComboDimension(chs, true);
-         jcb.setEditable(false);
+         jcb.setEditable(true);
 
          jcb.setAlignmentX(Component.LEFT_ALIGNMENT);
          jcb.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -125,6 +129,15 @@ public class ExtAttribPanel extends XMLBasicPanel {
          jcb.setEnabled(isEnabled);
 
          final XMLPanel cp = this;
+         jcb.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+               if (getPanelContainer() == null)
+                  return;
+               getPanelContainer().panelChanged(cp, e);
+            }
+
+         });
+                  
          jcb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                if (getPanelContainer() == null)
@@ -132,6 +145,17 @@ public class ExtAttribPanel extends XMLBasicPanel {
                getPanelContainer().panelChanged(cp, e);
             }
          });
+
+         jcb.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+               if (getPanelContainer() == null)
+                  return;
+               if (PanelUtilities.isModifyingEvent(e)) {
+                  getPanelContainer().panelChanged(cp, e);
+               }
+            }
+         });
+
       } else {
          WorkflowProcess wp = XMLUtil.getWorkflowProcess(myOwner);
          String vId = myOwner.getVValue();
@@ -192,9 +216,17 @@ public class ExtAttribPanel extends XMLBasicPanel {
 
    public boolean validateEntry() {
       if (jcb != null) {
+         String siv = "";
          Object selItem = getSelectedItem();
-         if ((selItem == null || !(selItem instanceof XMLCollectionElement))
-             && !getOwner().isReadOnly()) {
+         if (selItem != null) {
+            // System.err.println("SI="+selItem+", class="+selItem.getClass().getName());
+            if (selItem instanceof XMLCollectionElement) {
+               siv = ((XMLCollectionElement) selItem).getId();
+            } else {
+               siv = selItem.toString();
+            }
+         }
+         if ((selItem == null || siv.trim().equals("")) && !getOwner().isReadOnly()) {
 
             XMLBasicPanel.defaultErrorMessage(this.getWindow(), "");
             jcb.requestFocus();
@@ -213,7 +245,7 @@ public class ExtAttribPanel extends XMLBasicPanel {
             if (sel instanceof XMLCollectionElement) {
                ea.setVValue(((XMLCollectionElement) sel).getId());
             } else {
-               ea.setVValue("");
+               ea.setVValue(((String) sel).trim());
             }
          }
       }

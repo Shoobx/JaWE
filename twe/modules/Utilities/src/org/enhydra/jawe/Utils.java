@@ -1225,6 +1225,18 @@ public class Utils {
       return "";
    }
 
+   public static boolean hasCallerMethod (String className, String methodName) {
+      Throwable t = new Throwable();
+      StackTraceElement[] elements = t.getStackTrace();
+      for (int i = 0; i < elements.length; i++) {
+         if (elements[i].getClassName().equals(className)
+             && elements[i].getMethodName().equals(methodName)) {
+            return true;
+         }
+      }
+      return false;
+   }
+   
 }
 
 class PFFilter implements FilenameFilter {

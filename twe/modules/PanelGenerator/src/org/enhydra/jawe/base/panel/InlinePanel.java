@@ -45,6 +45,7 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.XPDLElementChangeInfo;
 import org.enhydra.jawe.base.controller.JaWESelectionManager;
 import org.enhydra.jawe.base.display.DisplayNameGenerator;
@@ -481,11 +482,13 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
    }
 
    public void panelChanged(XMLPanel panel, EventObject ev) {
-      isModified = true;
-      // enableApplyAction(isModified);
-      // enableRevertAction(isModified);
-      getPanelSettings().adjustActions();
-
+      // PREVENT focusLost events (java.awt.AWTEventMulticaster.focusLost) to adjust actions      
+      if (!Utils.hasCallerMethod("java.awt.AWTEventMulticaster", "focusLost")) {
+         isModified = true;
+         // enableApplyAction(isModified);
+         // enableRevertAction(isModified);
+         getPanelSettings().adjustActions();
+      }
    }
 
    public Settings getSettings() {

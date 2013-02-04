@@ -1020,15 +1020,7 @@ public class JaWEController extends Observable implements
    protected String getModeToSwitchTo(String filename) throws Exception {
       boolean doSwitchMode = true;
       try {
-         Throwable t = new Throwable();
-         StackTraceElement[] elements = t.getStackTrace();
-         for (int i = 0; i < elements.length; i++) {
-            if (elements[i].getClassName().equals(JaWEManager.class.getName())
-                && elements[i].getMethodName().equals("restart")) {
-               doSwitchMode = false;
-               break;
-            }
-         }
+         doSwitchMode = !Utils.hasCallerMethod(JaWEManager.class.getName(), "restart");
       } catch (Throwable thr) {
          doSwitchMode = false;
       }
