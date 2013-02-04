@@ -682,7 +682,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          // if (vars.containsKey(vVal)) {
          // roVar = true;
          // } else {
-         chs = getPossibleVariableChoices(vars, (ExtendedAttributes) el.getParent());
+         chs = getPossibleVariableChoices(vars, el);
          // }
          return new ExtAttribPanel(getPanelContainer(),
                                    el,
@@ -1334,12 +1334,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                      hasEmptyBorder);
    }
 
-   protected List getPossibleVariableChoices(Map vars, ExtendedAttributes eas) {
+   protected List getPossibleVariableChoices(Map vars, ExtendedAttribute eac) {
+      ExtendedAttributes eas = (ExtendedAttributes) eac.getParent();
       List l = new ArrayList(vars.values());
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea.getName().equals(SharkConstants.VTP_VIEW)
-             || ea.getName().equals(SharkConstants.VTP_UPDATE)) {
+         if (ea!=eac && (ea.getName().equals(SharkConstants.VTP_VIEW)
+             || ea.getName().equals(SharkConstants.VTP_UPDATE))) {
             XMLCollectionElement var = (XMLCollectionElement) vars.get(ea.getVValue());
             if (var != null) {
                l.remove(var);

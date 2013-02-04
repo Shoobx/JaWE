@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.shark;
 
@@ -46,33 +46,47 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Creates a table panel for a special ext. attr. element.
+ * 
  * @author Sasa Bojanic
  */
 public class ExtAttrWrapperTablePanel extends XMLTablePanel {
 
-   public ExtAttrWrapperTablePanel(
-         InlinePanel ipc,
-         XMLCollection myOwner,
-         String title,
-         boolean hasBorder,
-         boolean hasEmptyBorder,
-         boolean automaticWidth,
-         boolean miniDimension,
-         final boolean colors,
-         final boolean showArrows,
-         boolean useBasicToolBar) {
+   public ExtAttrWrapperTablePanel(InlinePanel ipc,
+                                   XMLCollection myOwner,
+                                   String title,
+                                   boolean hasBorder,
+                                   boolean hasEmptyBorder,
+                                   boolean automaticWidth,
+                                   boolean miniDimension,
+                                   final boolean colors,
+                                   final boolean showArrows,
+                                   boolean useBasicToolBar) {
 
-      super(ipc, myOwner, new ArrayList(), myOwner.toElements(), title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, null, colors, showArrows, useBasicToolBar, false, null);
+      super(ipc,
+            myOwner,
+            new ArrayList(),
+            myOwner.toElements(),
+            title,
+            hasBorder,
+            hasEmptyBorder,
+            automaticWidth,
+            miniDimension,
+            null,
+            colors,
+            showArrows,
+            useBasicToolBar,
+            false,
+            null);
 
    }
 
    public void focusLost(FocusEvent ev) {
-      int sc=allItems.getSelectedColumn();
-      if (sc!=2) {
+      int sc = allItems.getSelectedColumn();
+      if (sc != 2) {
          super.focusLost(ev);
       }
    }
-   
+
    protected Vector getColumnNames(List columnsToShow) {
       // creating a table which do not allow cell editing
       Vector cnames = new Vector();
@@ -84,11 +98,19 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
 
    protected Vector getRow(XMLElement elem) {
       Vector v = new Vector();
-      ExtendedAttribute ea=(ExtendedAttribute)elem;
-      WorkflowProcess wp=XMLUtil.getWorkflowProcess(ea);
-      String varId=ea.getVValue();
-      XMLCollectionElement var=(XMLCollectionElement)wp.getAllVariables().get(varId);
-      v.add(new XMLElementView(ipc,var, XMLElementView.TOVALUE));
+      ExtendedAttribute ea = (ExtendedAttribute) elem;
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
+      String varId = ea.getVValue();
+      XMLCollectionElement var = (XMLCollectionElement) wp.getAllVariables().get(varId);
+      String name = varId;
+      if (var != null) {
+         name = var.get("Name").toValue();
+         if (name.equals("")) {
+            name = varId;
+         }
+      }
+      v.add(name);
+      // v.add(new XMLElementView(ipc,var, XMLElementView.TOVALUE));
       if (ea.getName().equals(SharkConstants.VTP_UPDATE)) {
          v.add(new Boolean(false));
       } else {
@@ -99,17 +121,19 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
    }
 
    protected JTable createTable(final boolean colors) {
-      JTable jt=new SortingTable(this, new Vector(), columnNames) {
+      JTable jt = new SortingTable(this, new Vector(), columnNames) {
 
          public boolean isCellEditable(int row, int col) {
-            if (col==2) {
+            if (col == 2) {
                return true;
             }
             return false;
          }
 
          // This table colors elements depending on their owner
-         public Component prepareRenderer(TableCellRenderer renderer, int rowIndex, int vColIndex) {
+         public Component prepareRenderer(TableCellRenderer renderer,
+                                          int rowIndex,
+                                          int vColIndex) {
             Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
             if (!isCellSelected(rowIndex, vColIndex) && colors) {
                c.setBackground(getBackground());
@@ -119,33 +143,33 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
          }
       };
       new EAWTMListener(jt);
-      
-      Color bkgCol=new Color(245,245,245);
+
+      Color bkgCol = new Color(245, 245, 245);
       if (ipc.getSettings() instanceof PanelSettings) {
-         bkgCol=((PanelSettings)ipc.getSettings()).getBackgroundColor();
+         bkgCol = ((PanelSettings) ipc.getSettings()).getBackgroundColor();
       }
 
       jt.setBackground(bkgCol);
       return jt;
    }
-   
-   public void cleanup () {
+
+   public void cleanup() {
       super.cleanup();
-      ((ExtendedAttributesWrapper)myOwner).unregister();
+      ((ExtendedAttributesWrapper) myOwner).unregister();
    }
-   
+
    class EAWTMListener implements TableModelListener {
-      public EAWTMListener (JTable t) {
+      public EAWTMListener(JTable t) {
          t.getModel().addTableModelListener(this);
       }
-      
-      public void tableChanged (TableModelEvent e) {
-         int col=e.getColumn();
-         if (col==2) {
-            int row=e.getFirstRow();
-            TableModel model=(TableModel)e.getSource();
-            ExtendedAttribute ea=(ExtendedAttribute)model.getValueAt(row, 0);
-            Boolean readOnly=(Boolean)model.getValueAt(row,col);
+
+      public void tableChanged(TableModelEvent e) {
+         int col = e.getColumn();
+         if (col == 2) {
+            int row = e.getFirstRow();
+            TableModel model = (TableModel) e.getSource();
+            ExtendedAttribute ea = (ExtendedAttribute) model.getValueAt(row, 0);
+            Boolean readOnly = (Boolean) model.getValueAt(row, col);
             ipc.getJaWEComponent().setUpdateInProgress(true);
             JaWEManager.getInstance().getJaWEController().startUndouableChange();
             if (readOnly.booleanValue()) {
@@ -153,7 +177,7 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
             } else {
                ea.setName(SharkConstants.VTP_UPDATE);
             }
-            List toSel=new ArrayList();
+            List toSel = new ArrayList();
             toSel.add(ea);
             JaWEManager.getInstance().getJaWEController().endUndouableChange(toSel);
             ipc.getJaWEComponent().setUpdateInProgress(false);
