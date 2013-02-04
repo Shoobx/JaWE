@@ -10079,6 +10079,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
+          <para>TXM updated to version 1.7-1</para>
+        </listitem>
+
+        <listitem>
+          <para>TRR updated to version 1.5-1</para>
+        </listitem>
+
+        <listitem>
           <para>WfXML component: now actions enabled/disabled depending on
           selection and in the case of WfXML is connected to Shark engine,
           depending on Shark's upload/update logic</para>
