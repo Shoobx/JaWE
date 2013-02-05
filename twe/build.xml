@@ -1,0 +1,897 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<!-- ======================================================================= -->
+<!-- ANT-Makefile for TWE                                                    -->
+<!-- ======================================================================= -->
+<project name="TWE" default="help" basedir=".">
+
+
+   <!-- ==================================================================== -->
+   <!-- PROPERTIES                                                           -->
+   <!-- ==================================================================== -->
+
+   <!--Set the global variables-->
+   <property name="project.name" value="Together Workflow Editor" />
+   <property name="app.name" value="twe" />
+
+   <property name="targetVM" value="1.7" />
+
+   <replace dir="${basedir}" includes="build.properties" token="\" value="/" />
+   <property file="${basedir}/build.properties" />
+   <property file="${basedir}/version.properties" />
+   <property file="${basedir}/sign.properties" />
+   <property name="sign.tool" value="" />
+   <property name="sign.alias" value="" />
+
+   <property name="version" value="4.0" />
+   <property name="release" value="1" />
+
+   <property name="rebranding" value="false" />
+   <property name="language" value="English" />
+
+
+   <property name="doc.dir" location="${basedir}/doc" />
+   <property name="modules.dir" location="${basedir}/modules" />
+   <property name="tools.dir" location="${basedir}/tools" />
+   <property name="input.dir" location="${basedir}/input" />
+   <property name="branding.dir" location="${basedir}/branding" />
+
+   <!-- Build directory -->
+   <property name="output.dir" location="${basedir}/output" />
+
+   <!-- Setting for IF task -->
+   <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
+      <classpath>
+         <fileset dir="${tools.dir}/antcontrib">
+            <include name="antcontrib.jar" />
+         </fileset>
+      </classpath>
+   </taskdef>
+
+   <filterset id="Filter_input">
+      <filter token="JAR_NAME" value="${app.name}" />
+      <filter token="VERSION" value="${version}" />
+      <filter token="RELEASE" value="${release}" />
+   </filterset>
+
+   <!-- Build directory -->
+   <property name="build.dir" location="${output.dir}/${app.name}-${version}-${release}" />
+
+   <!-- Build directory -->
+   <property name="output.lib.dir" location="${build.dir}/lib" />
+   <property name="output.doc.dir" location="${build.dir}/doc" />
+   <property name="bin.dir" location="${build.dir}/bin" />
+   <property name="dist.bin.dir" location="${build.dir}/dist/bin" />
+
+   <!-- Operating system  -->
+   <condition property="os" value="windows">
+      <os family="windows" />
+   </condition>
+   <condition property="os" value="unix">
+      <os family="unix" />
+   </condition>
+
+   <condition property="include.ext" value="bat">
+      <os family="windows" />
+   </condition>
+   <condition property="include.ext" value="sh">
+      <os family="unix" />
+   </condition>
+
+   <!-- ==================================================================== -->
+   <!-- Reading of version number                                            -->
+   <!-- ==================================================================== -->
+   <target name="versionRead">
+      <echo message="version = ${version}" />
+      <echo message="release = ${release}" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Prepare target                                                       -->
+   <!-- ==================================================================== -->
+   <target name="prepare" depends="versionRead">
+      <mkdir dir="${output.lib.dir}" />
+      <mkdir dir="${bin.dir}" />
+      <mkdir dir="${dist.bin.dir}" />
+      <if>
+         <equals arg1="${buildid}" arg2="" />
+         <then>
+            <tstamp>
+               <format property="build.timestamp" pattern="yyyyMMdd-HHmm" locale="en,UK" />
+            </tstamp>
+         </then>
+         <else>
+            <property name="build.timestamp" value="${buildid}" />
+         </else>
+      </if>
+   	
+      <if>
+   	      <and>
+   	         <os family="unix" />
+   	         <available type="file" file="${share.dir}/${app.name}-${version}-${release}.zip" />
+   	      </and>
+   	      <then>
+   	         <property name="use.shared" value="true" />
+   	      </then>
+   	      <else>
+   	         <property name="use.shared" value="false" />
+   	      </else>
+   	   </if>
+   </target>
+
+   <target name="setDebug">
+      <property name="build.debug" value="on" />
+   </target>
+      
+   <!-- ==================================================================== -->
+   <!-- Build binaries                                                       -->
+   <!-- ==================================================================== -->
+   <target name="_debug" depends="cleanClasses, setDebug">
+      <ant dir="${modules.dir}" />
+      <antcall target="signJars"/>
+   </target>
+
+   <target name="debug" depends="clean, _debug"/>
+
+   <target name="output" depends="prepare">
+      <!-- tweactivityicons.jar -->
+      <copy todir="${output.lib.dir}">
+         <fileset dir="${tools.dir}/tweicons" includes="*.jar"/>
+      </copy>
+      <ant dir="${modules.dir}" />
+      <echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
+      <!-- Bin directory -->
+      <copy todir="${bin.dir}">
+         <fileset dir="${input.dir}/bin" includes="*.ico" />
+      </copy>
+
+      <!-- Bin directory -->
+      <copy todir="${dist.bin.dir}">
+         <filterset refid="Filter_input" />
+         <fileset dir="${input.dir}/bin" includes="*.${include.ext}.in" />
+         <mapper type="glob" from="*.${include.ext}.in" to="*.${include.ext}.in" />
+      </copy>
+
+      <!-- Configuration Build -->
+      <copy todir="${build.dir}">
+         <fileset dir="${input.dir}" includes="build.xml, *.${include.ext}" />
+      </copy>
+      <chmod dir="${build.dir}" perm="a=rx" includes="*.${include.ext}" />
+
+      <!-- Library directory -->
+      <copy todir="${output.lib.dir}">
+         <mapper type="flatten" />
+         <fileset dir="${tools.dir}/ant" includes="*.jar" />
+         <fileset dir="${tools.dir}/batik" includes="batik.jar" />
+         <fileset dir="${tools.dir}" includes="**/itext.jar"/>
+         <fileset dir="${tools.dir}/javahelp" includes="*.jar"/>
+         <fileset dir="${tools.dir}/jeditsyntax" includes="*.jar"/>
+         <fileset dir="${tools.dir}/jgraph" includes="*.jar"/>
+         <fileset dir="${tools.dir}/txm" includes="*.jar"/>
+         <fileset dir="${tools.dir}/xerces" includes="*.jar"/>
+         <fileset dir="${tools.dir}/xml-commons" includes="*.jar"/>
+      </copy>
+
+      <!-- Examples -->
+      <copy todir="${build.dir}/examples">
+         <fileset dir="${basedir}/examples">
+            <include name="**/**" />
+         </fileset>
+      </copy>
+
+      <!-- Configurations + icon repository -->
+      <copy todir="${build.dir}/config">
+         <fileset dir="${basedir}/input/config">
+            <include name="**/**" />
+         </fileset>
+      </copy>
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*.*" excludes="*.csv,License-TOG.txt,nsis.txt,MIT-DocBook.txt" />
+      </copy>
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*.*" />
+         <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
+      </copy>
+      <if>
+         <available type="file" file="${basedir}/licenses/${app.name}-patches.csv" />
+         <then>
+            <copy todir="${build.dir}/licenses">
+               <fileset file="${basedir}/licenses/${app.name}-patches.csv" />
+               <globmapper from="${app.name}-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
+            </copy>
+         </then>
+      </if>
+      <if>
+         <available type="file" file="${basedir}/licenses/${app.name}-restrictions.csv" />
+         <then>
+            <copy todir="${build.dir}/licenses">
+               <fileset file="${basedir}/licenses/${app.name}-restrictions.csv" />
+               <globmapper from="${app.name}-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
+            </copy>
+         </then>
+      </if>
+      <mkdir dir="${build.dir}/config/default" />
+
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="branding" target="output" inheritAll="true" inheritRefs="true" />
+         </then>
+      </if>
+
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Configure scripts                                                    -->
+   <!-- ==================================================================== -->
+   <target name="configure" depends="output">
+      <echo message="Configuring ${project.name} ..." />
+      <ant dir="${build.dir}" inheritAll="false" inheritRefs="false">
+         <property name="jdk.dir" value="${jdk.dir}" />
+      </ant>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Builds Documentation                                                 -->
+   <!-- ==================================================================== -->
+   <target name="buildDoc">
+      <ant dir="${modules.dir}" target="prepare"/>
+      <ant dir="${doc.dir}" />
+   </target>
+
+   <target name="buildDocNoAPI" unless="${use.shared}">
+      <ant dir="${doc.dir}" target="buildDocJar" />
+      <ant dir="${doc.dir}" target="docbook" />
+   </target>
+
+   <target name="buildAPIDoc">
+      <ant dir="${modules.dir}" target="prepare"/>
+      <ant dir="${doc.dir}" target="javadoc"/>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Builds all                                                           -->
+   <!-- ==================================================================== -->
+   <target name="buildNoDoc" depends="output, configure"/>
+
+   <!-- ==================================================================== -->
+   <!-- Builds all                                                           -->
+   <!-- ==================================================================== -->
+   <target name="buildAll" depends="buildOutput, buildAPIDoc, configure"/>
+
+   <!-- ==================================================================== -->
+   <!-- Builds all output                                                    -->
+   <!-- ==================================================================== -->
+   <target name="buildOutput" depends="buildDocNoAPI, output"/>
+
+   <!-- ==================================================================== -->
+   <!-- Cleans everything                                                    -->
+   <!-- ==================================================================== -->
+   <target name="clean">
+      <ant dir="${modules.dir}" target="clean" />
+      <ant dir="${branding.dir}" target="clean" />
+      <ant dir="${doc.dir}" target="clean" />
+      <delete dir="${output.dir}" />
+      <delete dir="${basedir}/distribution" />
+      <delete quiet="true">
+         <fileset dir="${basedir}" includes="log_*.txt" />
+      </delete>
+      <delete dir="${basedir}/doc/tmp" />
+      <delete dir="${basedir}/installation/unix/rpm" />
+   </target>
+
+   <target name="cleanClasses">
+      <ant dir="${modules.dir}" target="cleanClasses" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Install into destination directory                                   -->
+   <!-- ==================================================================== -->
+   <target name="install" depends="prepare">
+      <if>
+         <equals arg1="${install.dir}" arg2="" />
+         <then>
+            <echo message="Please, define installation directory" />
+         </then>
+         <else>
+            <echo message="Installing ${app.name} in - ${install.dir}" />
+            <copy todir="${install.dir}">
+               <fileset dir="${build.dir}" />
+            </copy>
+
+            <echo message="Configuring ${app.name} ..." />
+            <ant dir="${install.dir}" inheritAll="false" inheritRefs="false">
+               <property name="jdk.dir" value="${jdk.dir}" />
+            </ant>
+         </else>
+      </if>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Help - default target                                                -->
+   <!-- ==================================================================== -->
+   <target name="help">
+      <echo>
+make                     - Displays Help screen
+make help                - Displays Help screen
+make buildAll            - Builds and configures TWE with documentation
+make buildNoDoc          - Builds and configures TWE without documentation
+make buildDoc            - Builds documentation only
+make debug               - Builds TWE JAR files with included debug information
+make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
+                           You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
+                           It should be called only after make buildAll target is executed!
+make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
+make distributions       - Builds and configures TWE with all documentations and creates distribution package
+      </echo>
+   </target>
+
+
+   <!-- ==================================================================== -->
+   <!-- Distributions                                                        -->
+   <!-- ==================================================================== -->
+   <target name="distributions" depends="prepare, clean, initDist, distSource, distBin" />
+
+   <target name="initDist">
+      <!-- Distribution directories -->
+      <property name="dist.dir" location="${basedir}/distribution/${app.name}-${version}-${release}_${build.timestamp}" />
+
+      <!-- Set the directories -->
+      <property name="dist.community.dir" location="${dist.dir}/community" />
+      <property name="dist.twe.dir" location="${dist.dir}/twe" />
+      <property name="dist.debug.dir" location="${dist.dir}/debug" />
+      <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
+      <property name="dist.internal.dir" location="${dist.dir}/internal" />
+      <property name="dist.screenshots.dir" location="${dist.dir}/screenshots" />
+
+      <mkdir dir="${dist.community.dir}" />
+      <mkdir dir="${dist.twe.dir}" />
+      <mkdir dir="${dist.debug.dir}" />
+      <mkdir dir="${dist.community.webstart.dir}" />
+      <mkdir dir="${dist.internal.dir}" />
+      <mkdir dir="${dist.screenshots.dir}" />
+   </target>
+
+   <target name="distBin">
+      <if>
+         <equals arg1="${os}" arg2="windows" />
+         <then>         
+            <antcall target="distBinWindows">
+               <param name="dist.folder" value="${dist.community.dir}" />
+               <param name="name.additional" value="" />
+            </antcall>
+            <antcall target="create.components"/>
+            <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
+            <if>
+               <equals arg1="${tog.lic.exists}" arg2="true" />
+               <then>
+                  <if>
+                     <istrue value="${rebranding}" />
+                     <then>
+                     </then>
+                     <else>
+                        <delete>
+                           <fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
+                        </delete>
+                        <copy todir="${build.dir}/licenses" overwrite="true">
+                           <fileset dir="${basedir}/licenses">
+                              <include name="License-TOG.txt" />
+                           </fileset>
+                        </copy>
+                        <move file="${build.dir}/licenses/License-TOG.txt" tofile="${build.dir}/licenses/License.txt" overwrite="true" />
+                        <jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
+                           <fileset dir="${build.dir}/licenses" includes="License.txt" />
+                        </jar>
+                        <antcall target="distZIPEXE">
+                           <param name="dist.folder" value="${dist.twe.dir}" />
+                           <param name="name.additional" value="tsl-" />
+                        </antcall>
+                        <copy todir="${output.lib.dir}">
+                           <fileset dir="${tools.dir}/itext5" includes="itext.jar"/>
+                        </copy>
+                        <copy todir="${build.dir}/licenses" overwrite="true">
+                           <fileset dir="${basedir}/licenses">
+                              <include name="License.txt" />
+                           </fileset>
+                        </copy>
+                     </else>
+                  </if>                  
+               </then>
+            </if>
+            <ant target="distOther"/>
+         </then>
+         <else>
+            <antcall target="distBinUnix"/>
+         </else>
+      </if>
+      
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Windows binary distribution                                          -->
+   <!-- ==================================================================== -->
+   <target name="distBinWindows" depends="buildOutput, buildAPIDoc, signJars, distWebStart, distZIPEXE"/>
+
+   <target name="distZIPEXE">
+      <property name="dist.folder" value="${dist.community.dir}" />
+      <property name="name.additional" value=""/>
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <delete>
+               <fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
+            </delete>
+         </then>
+      </if>
+
+      <property name="nsis.script" value="twe.nsi" />
+
+      <!-- Create binary ZIP distribution -->
+      <echo message="Creating ${app.name}-${name.additional}${version}-${release}.zip binary archive, please wait ..." />
+      <zip destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.zip" update="true">
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${name.additional}${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf"/>
+      </zip>
+      
+      <!-- TWE setup EXE -->
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="branding" target="install" inheritAll="true" inheritRefs="true" />
+         </then>
+         <else>
+            <if>
+               <not>
+                  <available type="file" file="${sign.tool}" />
+               </not>
+               <then>
+                  <echo message="UnInstall.exe file will not be signed" />
+                  <property name="sign.tool" value="" />
+               </then>
+               <else>
+                  <antcall target="get-current-time" />
+                   <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
+                     <socket server="timestamp.verisign.com" port="80" />
+                  </waitfor>
+                  <if>
+                     <istrue value="${server.timeout}" />
+                     <then>
+                        <echo message="server.timeout = ${server.timeout}" />
+                     </then>
+                  </if>
+                  <antcall target="get-current-time" />
+               </else>
+            </if>
+            <echo message="Creating TWE Windows installation, please wait ..." />
+            <exec dir="${basedir}/installation/Windows" executable="${basedir}/tools/nsis/makensis.exe" resultproperty="exe.return.code1" failonerror="false">
+               <arg line="/V4" />
+               <arg line="/O..\..\log_${app.name}.txt" />
+               <arg line="/DVERSION=${version}" />
+               <arg line="/DRELEASE=${release}" />
+               <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
+               <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
+               <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
+               <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
+               <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
+               <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
+               <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
+               <arg line="/DLANGUAGE=${language}" />
+               <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
+               <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+		         <arg line="${nsis.script}" />
+            </exec>
+            <if>
+               <not>
+                  <equals arg1="${exe.return.code1}" arg2="0" trim="true" />
+               </not>
+               <then>
+                  <fail message="${basedir}/tools/nsis/makensis.exe} return code ${exe.return.code1}" />
+               </then>
+            </if>
+
+         </else>
+      </if>
+
+      <if>
+         <equals arg1="${sign.tool}" arg2="" />
+         <then>
+            <echo message="EXE file will not be signed" />
+         </then>
+         <else>
+            <antcall target="signexe" >
+               <param name="exe.dir" value="${dist.folder}"/>
+               <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
+            </antcall>
+         </else>
+      </if>      
+      <if>
+         <equals arg1="${name.additional}" arg2="" />
+         <then>
+         </then>
+         <else>
+            <move file="${dist.folder}/${app.name}-${version}-${release}.exe" tofile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.exe" overwrite="true" />         
+         </else>
+      </if>      
+   </target>
+
+   <target name="distOther">
+      <copy todir="${dist.screenshots.dir}">
+         <fileset dir="${basedir}/screenshots" includes="${app.name}-screen.zip" />
+         <mapper type="regexp" from="${app.name}-screen.zip" to="${app.name}-${version}-${release}.screens.zip" />
+      </copy>
+      <copy todir="${dist.community.dir}">
+         <fileset dir="${dist.screenshots.dir}" includes="${app.name}-${version}-${release}.screens.zip" />
+      </copy>
+      <copy file="${build.dir}/doc/${app.name}-current.doc.pdf" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.pdf"/>
+      <copy file="${build.dir}/doc/${app.name}-current.doc.html" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.html"/>
+      <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.doc.zip" update="true">
+         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*,${app.name}-${version}-${release}.test.pdf"/>
+      </zip>
+      <copy todir="${dist.community.dir}">
+         <fileset dir="${build.dir}/doc" includes="${app.name}-current.doc.pdf" />
+      </copy>      
+      <delete quiet="true">
+         <fileset dir="${build.dir}/doc" includes="${app.name}-${version}-${release}.doc.*" />
+      </delete>      
+		<copy file="${output.doc.dir}/${app.name}-${version}-${release}.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />	
+      <copy todir="${dist.internal.dir}">
+         <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
+         <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
+      </copy>
+      <if>
+         <available type="file" file="${basedir}/licenses/${app.name}-patches.csv" />
+         <then>
+            <copy todir="${dist.internal.dir}">
+               <fileset file="${basedir}/licenses/${app.name}-patches.csv" />
+               <globmapper from="${app.name}-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
+            </copy>
+         </then>
+      </if>
+      <if>
+         <available type="file" file="${basedir}/licenses/${app.name}-restrictions.csv" />
+         <then>
+            <copy todir="${dist.internal.dir}">
+               <fileset file="${basedir}/licenses/${app.name}-restrictions.csv" />
+               <globmapper from="${app.name}-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
+            </copy>
+         </then>
+      </if>
+      <copy todir="${dist.internal.dir}">
+         <fileset dir="${build.dir}" includes="BuildID.txt" />
+      </copy>
+      <copy todir="${dist.community.dir}">
+         <filterset refid="Filter_input" />
+         <fileset dir="${basedir}/installation/Windows" includes="${app.name}-silent.properties" />
+      </copy>
+      <move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" />
+
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+         </then>
+         <else>
+            <copy todir="${dist.twe.dir}">
+               <fileset dir="${dist.community.dir}" includes="*silent.properties.txt, *.screens.zip, *.doc.pdf" />
+            </copy>
+         </else>
+      </if>
+      
+      <antcall target="_debug"/>
+      <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
+         <zipfileset dir="${build.dir}" includes="**/lib/twe*.jar" excludes="**/lib/twedoc.jar,**/lib/tweactivityicons.jar" prefix="${app.name}-${version}-${release}" />
+      </zip>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Unix binary distribution preparation                                 -->
+   <!-- ==================================================================== -->
+   <target name="distBinUnix" depends="buildOutput, distTARGZ" />
+
+   <target name="distTARGZ">
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Source distribution                                                  -->
+   <!-- ==================================================================== -->
+   <target name="distSource">
+      <condition property="sourceBuildTarget" value="distSourceWindows">
+         <os family="windows" />
+      </condition>
+      <condition property="sourceBuildTarget" value="distSourceUnix">
+         <os family="unix" />
+      </condition>
+   
+      <ant target="${sourceBuildTarget}">
+      </ant>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Windows source distribution                                          -->
+   <!-- ==================================================================== -->
+   <target name="distSourceWindows">
+      <delete quiet="true">
+         <fileset dir="${basedir}" includes="**/*.bak" />
+      </delete>
+
+      <echo message="Creating ${app.name}-${version}-${release}.src.zip source archive, please wait ..." />
+
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
+               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
+            </zip>
+         </then>
+         <else>
+            <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
+               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
+            </zip>
+         </else>
+      </if>
+
+      <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
+      <if>
+         <equals arg1="${tog.lic.exists}" arg2="true" />
+         <then>
+            <if>
+               <istrue value="${rebranding}" />
+               <then>
+               </then>
+               <else>
+                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
+                  <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
+                  <zip destfile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
+                     <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**, shared/**" prefix="${app.name}-tsl-${version}-${release}.src" />
+                  </zip>
+                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
+                  <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
+               </else>
+            </if>                  
+         </then>
+      </if>
+
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Unix source distribution                                             -->
+   <!-- ==================================================================== -->
+   <target name="distSourceUnix" depends="clean">
+      <!-- delete binary build preparations -->
+      <delete quiet="true">
+         <fileset dir="${basedir}" includes="**/*.bak" />
+      </delete>
+
+      <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
+      <tar destfile="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
+         <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src"/>
+      </tar>
+
+      <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
+      <if>
+         <equals arg1="${tog.lic.exists}" arg2="true" />
+         <then>
+            <if>
+               <istrue value="${rebranding}" />
+               <then>
+               </then>
+               <else>
+                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
+                  <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
+                  <tar destfile="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
+                     <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**,tools/itext5/**, shared/**" prefix="${app.name}-tsl-${version}-${release}.src" />
+                  </tar>
+                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
+                  <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
+               </else>
+            </if>                  
+         </then>
+      </if>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Create Web Start archives                                            -->
+   <!-- ==================================================================== -->
+   <target name="distWebStart" depends="prepare" unless="${rebranding}">
+      <property name="dist.folder" value="${dist.community.dir}" />
+      <echo message="Web Start Build" />
+
+      <mkdir dir="${dist.community.webstart.dir}/lib" />
+      <!--Copy jar files to webstart/lib directory -->
+      <copy todir="${dist.community.webstart.dir}/lib">
+         <fileset dir="${output.lib.dir}" includes="*.jar" excludes="ant*.jar" />
+      </copy>
+
+      <!--Copy jnlp files to webstart directory -->
+      <copy todir="${dist.community.webstart.dir}">
+         <filterset refid="Filter_input" />
+         <fileset dir="${input.dir}/ws" includes="${app.name}.jnlp, index.html" />
+      </copy>
+
+      <!--Copy images to webstart directory -->
+      <copy todir="${dist.community.webstart.dir}/images">
+         <fileset dir="${input.dir}/ws/images" />
+      </copy>
+
+      <!-- Signing a jar files -->
+      
+      <if>
+         <equals arg1="${sign.alias}" arg2="" />
+         <then>
+            <signjar alias="Together" keystore="${input.dir}/ws/key/${app.name}key" storepass="together" keypass="together">
+               <path>
+                  <fileset dir="${dist.community.webstart.dir}/lib" includes="**/*.jar" />
+               </path>
+            </signjar>
+         </then>
+         <else>
+            <antcall target="signem" />
+         </else>
+         
+      </if>      
+      <zip destfile="${dist.folder}/${app.name}-${version}-${release}.webstart.zip" update="true">
+         <zipfileset dir="${dist.community.webstart.dir}" prefix="${app.name}-${version}-${release}.webstart" />
+      </zip>
+      <delete dir="${dist.community.webstart.dir}" />
+
+   </target>
+
+   <target name="create.components" unless="${rebranding}">
+      <property name="dist.component.dir" location="${dist.dir}/components"/>
+      <property name="component.dir" location="${basedir}/components"/>
+      <property name="tmp.component.dir" location="${component.dir}/tmp"/>
+      <mkdir dir="${tmp.component.dir}"/>
+      <copy todir="${tmp.component.dir}/${app.name}-core">
+         <fileset dir="${build.dir}/lib">
+            <include name="twecore.jar" />
+            <include name="twelan.jar" />
+            <include name="twepic.jar" />
+            <include name="tweactivityicons.jar" />
+         </fileset>
+         <fileset dir="${component.dir}" includes="Component.properties" />  
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+      </copy>
+      <replace file="${tmp.component.dir}/${app.name}-core/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-core" />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The core of TWE which is enough to integrate TWE into other projects." />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
+      <copy todir="${dist.bin.dir}">
+         <fileset dir="${input.dir}/bin" includes="*.in" />
+      </copy>
+      <copy todir="${build.dir}">
+         <fileset dir="${input.dir}" includes="*.bat,*.sh" />
+      </copy>
+      <chmod dir="${build.dir}" perm="a=rx" includes="*.bin,*.sh" />
+      <zip destfile="${tmp.component.dir}/${app.name}-zip/${app.name}.zip" update="true">
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf" />
+      </zip>
+      <copy todir="${tmp.component.dir}/${app.name}-zip">
+         <fileset dir="${component.dir}" includes="Component.properties" />  
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+      </copy>
+      <replace file="${tmp.component.dir}/${app.name}-zip/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-zip" />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The binary ZIP distribution of TWE, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
+      <copy todir="${tmp.component.dir}">
+         <fileset dir="${tools.dir}">
+            <include name="batik/**" />
+            <include name="jeditsyntax/**" />
+            <include name="jgraph/**" />
+            <include name="txm/**" />
+            <include name="xerces/**" />
+            <include name="xml-commons/**" />
+         </fileset>
+      </copy>  
+      <zip destfile="${dist.component.dir}/${app.name}-${version}-${release}.comp.zip" update="true">
+         <zipfileset dir="${tmp.component.dir}"/>
+      </zip>
+      <delete dir="${tmp.component.dir}"/>
+      
+   </target>
+   
+   <target name="signexe" unless="${rebranding}">
+      <antcall target="get-current-time" />
+
+      <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
+         <socket server="timestamp.verisign.com" port="80" />
+      </waitfor>
+
+      <if>
+         <istrue value="${server.timeout}" />
+         <then>
+            <echo message="server.timeout = ${server.timeout}" />
+         </then>
+      </if>
+
+      <antcall target="get-current-time" />
+
+      <exec executable="${sign.tool}" resultproperty="exe.return.code" failonerror="false">
+          <arg value="sign"/>
+          <arg value="/f"/>
+          <arg value="${sign.privatekey}"/>
+          <arg value="/p"/>
+          <arg value="${sign.pwd}"/>
+          <arg value="/t"/>
+          <arg value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
+          <arg value="/d"/>
+          <arg value="${project.name} ${version}-${release}"/>
+          <arg value="/du"/>
+          <arg value="http://www.together.at"/>
+          <arg value="${exe.dir}/${exe.name}"/>
+      </exec>         
+
+      <if>
+         <not>
+            <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+         </not>
+         <then>
+            <fail message="${sign.tool} return code ${exe.return.code}" />
+         </then>
+      </if>
+   </target>
+
+   
+   <target name="signem">
+      <echo message="Signing with Together certificate" />
+      <signjar alias="${sign.alias}"
+                 storepass="${sign.pwd}"
+                 keystore="${sign.privatekey}"
+                 storetype="pkcs12">
+            <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
+      </signjar>
+   </target>   
+
+   <target name="get-current-time">
+      <tstamp>
+         <format property="current.time" pattern="HH:mm:ss" locale="en,UK" />
+      </tstamp>
+      <echo message="time : ${current.time}" />
+   </target>
+
+   <target name="signJars">
+<!--      
+      <if>
+         <not>
+            <equals arg1="${os}" arg2="unix" />
+         </not>
+         <then>
+            <if>
+               <not>
+                  <equals arg1="${sign.alias}" arg2="" />
+               </not>
+               <then>
+                  <echo message="Signing with Together certificate" />
+                  <signjar alias="${sign.alias}"
+                     storepass="${sign.pwd}"
+                     keystore="${sign.privatekey}"
+                     storetype="pkcs12">
+                     <fileset dir="${output.lib.dir}" includes="${app.name}*.jar" />
+                  </signjar>
+               </then>
+            </if>      
+         </then>
+      </if>   
+-->      
+   </target>
+   
+</project>
+
+
