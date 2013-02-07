@@ -49,7 +49,6 @@ public class EmailConfigurationElement extends XMLComplexElement {
    public void setValue(String v) {
       if (v == null) {
          boolean removeUnconditionally = !isConfigurable();
-         System.out.println("RU="+removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE,
