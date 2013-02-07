@@ -37,7 +37,7 @@ public class SOAPToolAgentElement extends ToolAgentElementBase {
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_NAME,
                                                   getURLAttribute().toValue(),
-                                                  true);
+                                                  true, false);
       } else {
          this.value = v;
       }

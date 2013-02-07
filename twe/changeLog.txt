@@ -1,5 +1,6 @@
 ###### TWE 4.9-1 RELEASED ######
-
+   # Shark mode: improved Email configuration section (new checkbox to enable/disable configuration - disabling means removing all EAs)
+   
 ###### TWE 4.8-1 RELEASED ######
 2013-01-25 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: supported CHECK_FOR_COMPLETION extended attribute

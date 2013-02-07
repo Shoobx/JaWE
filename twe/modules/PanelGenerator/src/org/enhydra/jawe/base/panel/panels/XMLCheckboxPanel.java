@@ -163,6 +163,10 @@ public class XMLCheckboxPanel extends XMLBasicPanel {
    public boolean getCheckboxStatus() {
       return (jcb.isSelected());
    }
+   
+   public JCheckBox getCheckBox () {
+      return jcb;
+   }
 
    public Object getValue() {
       if (jcb.isSelected()) {

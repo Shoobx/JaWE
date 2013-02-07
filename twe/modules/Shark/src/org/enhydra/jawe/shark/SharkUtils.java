@@ -102,36 +102,43 @@ public class SharkUtils {
                                                     ExtendedAttributes eas,
                                                     String name,
                                                     String val,
-                                                    boolean removeIfEmpty) {
+                                                    boolean removeIfEmpty,
+                                                    boolean removeUnconditionally) {
       ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(name);
-      if (ea == null) {
+      if (ea == null && !removeUnconditionally) {
          ea = (ExtendedAttribute) eas.generateNewElement();
          ea.setName(name);
          eas.add(ea);
       }
-      if (val == null) {
-         XMLElement el = parent.get(name);
-         val = "";
-         if (el instanceof WfVariables) {
-            WfVariables vare = (WfVariables) el;
+      if (removeUnconditionally) {
+         if (ea != null) {
+            eas.remove(ea);
+         }
+      } else {
+         if (val == null) {
+            XMLElement el = parent.get(name);
             val = "";
-            if (vare.size() > 0) {
-               List varl = vare.toElements();
-               for (int i = 0; i < varl.size(); i++) {
-                  val += ((WfVariable) varl.get(i)).get("Id").toValue();
-                  if (i < varl.size() - 1) {
-                     val += ",";
+            if (el instanceof WfVariables) {
+               WfVariables vare = (WfVariables) el;
+               val = "";
+               if (vare.size() > 0) {
+                  List varl = vare.toElements();
+                  for (int i = 0; i < varl.size(); i++) {
+                     val += ((WfVariable) varl.get(i)).get("Id").toValue();
+                     if (i < varl.size() - 1) {
+                        val += ",";
+                     }
                   }
                }
+            } else {
+               val = el.toValue().trim();
             }
-         } else {
-            val = el.toValue().trim();
          }
-      }
-      if (removeIfEmpty && val.equals("")) {
-         eas.remove(ea);
-      } else {
-         ea.setVValue(val);
+         if (removeIfEmpty && val.equals("")) {
+            eas.remove(ea);
+         } else {
+            ea.setVValue(val);
+         }
       }
    }
 

@@ -43,59 +43,80 @@ public class EmailConfigurationElement extends XMLComplexElement {
       notifyMainListeners = false;
       notifyListeners = false;
       handleStructure();
-      setReadOnly(eas.isReadOnly());
+      setReadOnly(eas.isReadOnly() || !isConfigurable());
    }
 
    public void setValue(String v) {
-      if (isReadOnly) {
-         throw new RuntimeException("Can't set the value of read only element!");
-      }
       if (v == null) {
+         boolean removeUnconditionally = !isConfigurable();
+         System.out.println("RU="+removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE,
                                                   null,
-                                                  false);
+                                                  false,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE,
                                                   null,
-                                                  false);
+                                                  false,
+                                                  removeUnconditionally);
          if (eas.getParent() instanceof Activity) {
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
                                                      SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY,
                                                      null,
-                                                     false);
+                                                     false,
+                                                     removeUnconditionally);
          }
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT,
                                                   null,
-                                                  true);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT,
                                                   null,
-                                                  true);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS,
                                                   null,
-                                                  true);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES,
                                                   null,
-                                                  true);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS,
                                                   null,
-                                                  true);
+                                                  true,
+                                                  removeUnconditionally);
       } else {
+         if (isReadOnly) {
+            throw new RuntimeException("Can't set the value of read only element!");
+         }
          this.value = v;
       }
+   }
+   
+   public void setReadOnly(boolean ro) {
+      super.setReadOnly(ro);
+      if (!eas.isReadOnly()) {
+         getConfigureEmailAttribute().setReadOnly(false);
+      }
+   }
+   
+   public XMLAttribute getConfigureEmailAttribute() {
+      return (XMLAttribute) get(SharkConstants.CONFIGURE_SMTP_EVENT_AUDIT_MANAGER);
    }
 
    public XMLAttribute getModeAttribute() {
@@ -131,6 +152,13 @@ public class EmailConfigurationElement extends XMLComplexElement {
    }
 
    protected void fillStructure() {
+      XMLAttribute attrConfigureEmail = new XMLAttribute(this,
+                                                         SharkConstants.CONFIGURE_SMTP_EVENT_AUDIT_MANAGER,
+                                                         false,
+                                                         new String[] {
+                                                               "true", "false"
+                                                         },
+                                                         0);
 
       XMLAttribute attrMode = new XMLAttribute(this,
                                                SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE,
@@ -164,7 +192,8 @@ public class EmailConfigurationElement extends XMLComplexElement {
       WfVariables elAttachments = new WfVariables(this,
                                                   SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS,
                                                   Arrays.asList(new String[] {
-                                                     XPDLConstants.BASIC_TYPE_STRING, XMLUtil.getShortClassName(SchemaType.class.getName())
+                                                        XPDLConstants.BASIC_TYPE_STRING,
+                                                        XMLUtil.getShortClassName(SchemaType.class.getName())
                                                   }),
                                                   ",",
                                                   false);
@@ -182,6 +211,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                     }),
                                                     ",",
                                                     false);
+      add(attrConfigureEmail);
       add(attrMode);
       add(attrExecutionMode);
       add(attrGroupEmailOnly);
@@ -196,6 +226,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
    protected void handleStructure() {
       int pc = 0;
       Iterator it = eas.toElements().iterator();
+      boolean hasAny = false;
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          String eaname = ea.getName();
@@ -214,13 +245,19 @@ public class EmailConfigurationElement extends XMLComplexElement {
                }
                attr.setValue(eaval);
             }
+            hasAny = true;
          }
       }
+      getConfigureEmailAttribute().setValue(String.valueOf(hasAny));
       int toCompNo = getParent() instanceof Activity ? 3 : 2;
       isPersisted = pc >= toCompNo;
    }
 
    public boolean isPersisted() {
       return isPersisted;
+   }
+
+   public boolean isConfigurable() {
+      return getConfigureEmailAttribute().toValue().equalsIgnoreCase("true");
    }
 }
