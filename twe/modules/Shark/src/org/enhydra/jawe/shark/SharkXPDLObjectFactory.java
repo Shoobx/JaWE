@@ -58,6 +58,19 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       return sp;
    }
 
+   public WfAttachment createXPDLObject(WfAttachments sps,
+                                        String type,
+                                        boolean addToCollection) {
+      WfAttachment sp = (WfAttachment) sps.generateNewElement();
+
+      adjustXPDLObject(sp, type);
+
+      if (addToCollection) {
+         sps.add(sp);
+      }
+      return sp;
+   }
+
    public void adjustXPDLObject(XMLElement el, String type) {
       super.adjustType(el, type);
       if (el instanceof WorkflowProcess) {

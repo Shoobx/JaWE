@@ -36,7 +36,7 @@ public class ScriptBasedToolAgentElement extends ToolAgentElementBase {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_SCRIPT,
-                                                  null, false, false);
+                                                  null, null, false, false);
       } else {
          this.value = v;
       }

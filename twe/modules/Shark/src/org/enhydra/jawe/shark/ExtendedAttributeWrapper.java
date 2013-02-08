@@ -50,7 +50,7 @@ public class ExtendedAttributeWrapper extends XMLComplexElement {
          throw new RuntimeException("Can't set the value of read only element!");
       }
       if (v == null) {
-         SharkUtils.updateSingleExtendedAttribute(null, eas, toName(), getVValue(), true, false);
+         SharkUtils.updateSingleExtendedAttribute(null, eas, toName(), null, getVValue(), true, false);
       } else {
          this.value = v;
       }

@@ -37,7 +37,7 @@ public class RuntimeApplicationToolAgentElement extends ToolAgentElementBase {
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_NAME,
                                                   null,
-                                                  true, false);
+                                                  null, true, false);
          String val = "0";
          if (getAppModeAttribute().toValue().equals("ASYNCHR")) {
             val = "1";
@@ -45,8 +45,8 @@ public class RuntimeApplicationToolAgentElement extends ToolAgentElementBase {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_MODE,
-                                                  val,
-                                                  true, false);
+                                                  null,
+                                                  val, true, false);
       } else {
          this.value = v;
       }

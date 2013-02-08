@@ -139,8 +139,8 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
          SharkUtils.updateSingleExtendedAttribute(null,
                                                   (XMLUtil.getApplication(getOwner())).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_NAME,
-                                                  methodNew,
-                                                  true, false);
+                                                  null,
+                                                  methodNew, true, false);
          fps.makeAs(fps2);
       }
    }

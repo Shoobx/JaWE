@@ -40,8 +40,8 @@ public class MailToolAgentElement extends ToolAgentElementBase {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_MODE,
-                                                  val,
-                                                  true, false);
+                                                  null,
+                                                  val, true, false);
          val = "synchronous";
          if (getSendMailExecutionModeAttribute().toValue().equals("ASYNCHR")) {
             val = "asynchronous";
@@ -49,8 +49,8 @@ public class MailToolAgentElement extends ToolAgentElementBase {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_MAIL_TOOL_AGENT_SEND_EXECUTION_MODE,
-                                                  val,
-                                                  true, false);
+                                                  null,
+                                                  val, true, false);
       } else {
          this.value = v;
       }

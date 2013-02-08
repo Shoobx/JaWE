@@ -101,6 +101,7 @@ public class SharkUtils {
    public static void updateSingleExtendedAttribute(XMLComplexElement parent,
                                                     ExtendedAttributes eas,
                                                     String name,
+                                                    String subName,
                                                     String val,
                                                     boolean removeIfEmpty,
                                                     boolean removeUnconditionally) {
@@ -124,7 +125,19 @@ public class SharkUtils {
                if (vare.size() > 0) {
                   List varl = vare.toElements();
                   for (int i = 0; i < varl.size(); i++) {
-                     val += ((WfVariable) varl.get(i)).get("Id").toValue();
+                     val += ((WfVariable) varl.get(i)).getId();
+                     if (i < varl.size() - 1) {
+                        val += ",";
+                     }
+                  }
+               }
+            } else if (el instanceof WfAttachments) {
+               WfAttachments vare = (WfAttachments) el;
+               val = "";
+               if (vare.size() > 0) {
+                  List varl = vare.toElements();
+                  for (int i = 0; i < varl.size(); i++) {
+                     val += ((WfAttachment) varl.get(i)).get(subName).toValue();
                      if (i < varl.size() - 1) {
                         val += ",";
                      }

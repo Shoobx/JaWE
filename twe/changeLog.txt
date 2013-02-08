@@ -1,5 +1,9 @@
 ###### TWE 4.9-1 RELEASED ######
-   # Shark mode: improved Email configuration section (new checkbox to enable/disable configuration - disabling means removing all EAs)
+2013-02-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - improved Email configuration section (new checkbox to enable/disable configuration - disabling means removing all EAs)
+      - Attachments and Attachment names joined into the single control
+      - Changed names of the controls
    
 ###### TWE 4.8-1 RELEASED ######
 2013-01-25 Sasa Bojanic <sasaboy@together.at>

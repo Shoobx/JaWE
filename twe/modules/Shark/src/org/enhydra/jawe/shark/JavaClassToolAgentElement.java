@@ -36,7 +36,7 @@ public class JavaClassToolAgentElement extends ToolAgentElementBase {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_NAME,
-                                                  null, true, false);
+                                                  null, null, true, false);
       } else {
          this.value = v;
       }

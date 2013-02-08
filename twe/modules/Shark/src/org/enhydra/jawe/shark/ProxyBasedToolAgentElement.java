@@ -36,7 +36,7 @@ public class ProxyBasedToolAgentElement extends ToolAgentElementBase {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_TOOL_AGENT_CLASS_PROXY,
-                                                  null, true, false);
+                                                  null, null, true, false);
       } else {
          this.value = v;
       }

@@ -120,7 +120,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                       .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
                    || ea.getName()
                       .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)) {
-                  WfVariables vars = new WfVariables(parent.getParent().getParent(),
+                  WfVariables vars = new WfVariables((XMLComplexElement)parent.getParent().getParent(),
                                                      ea.getName(),
                                                      null,
                                                      ",",
@@ -144,7 +144,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                   if (m.get(v) == null
                       && !(ea.getName()
                          .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
-                           && v.startsWith("\"") && v.startsWith("\""))) {
+                           && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
                      boolean allowUndefinedVariables = allowsUndefinedVariables(wp);
                      XMLValidationError verr = new XMLValidationError(allowUndefinedVariables ? XMLValidationError.TYPE_WARNING
                                                                                              : XMLValidationError.TYPE_ERROR,

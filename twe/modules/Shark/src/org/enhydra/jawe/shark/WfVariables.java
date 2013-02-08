@@ -12,8 +12,8 @@ public class WfVariables extends XMLCollection {
    private List filter;
    private String tokenizer;
    
-   public WfVariables(Object iea, String param, List filter, String tokenizer, boolean isRequired) {
-      super((XMLComplexElement) iea, param, isRequired);
+   public WfVariables(XMLComplexElement iea, String name, List filter, String tokenizer, boolean isRequired) {
+      super(iea, name, isRequired);
       this.filter = filter;
       this.tokenizer = tokenizer;
       notifyMainListeners = false;
