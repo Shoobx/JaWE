@@ -73,6 +73,8 @@ public class SharkXPDLUtils extends XPDLUtils {
          return references;
       }
 
+      references.addAll(XMLUtil.getInitialValueReferences(pkg, referencedId));
+      
       Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
       while (it.hasNext()) {
          WorkflowProcess wp = (WorkflowProcess) it.next();
