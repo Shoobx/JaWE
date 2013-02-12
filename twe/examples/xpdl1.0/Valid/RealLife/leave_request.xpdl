@@ -159,7 +159,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
-                <xpdl:ExtendedAttribute Name="Script" Value="String username = org.enhydra.shark.Shark.getInstance().getAdminMisc().getProcessRequesterUsername(shandle,procInstId);&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;personal_Id=String.valueOf((int)(1+99*java.lang.Math.random()));&#10;leave_days_left=new java.lang.Long(5+(int)(10*java.lang.Math.random()));&#10;&#10;try {&#10;   first_name=ug.getUserFirstName(shandle,username);&#10;   last_name=ug.getUserLastName(shandle,username);&#10;   email_addr=ug.getUserEMailAddress(shandle,username);&#10;} catch (Exception ex) {&#10;   first_name = &quot;Administrator&quot;;&#10;   last_name = &quot;Together&quot;;&#10;   email_addr = &quot;admin@together.at&quot;;&#10;}"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String username = org.enhydra.shark.Shark.getInstance().getAdminMisc().getProcessRequesterUsername(shark_session_handle,shark_process_id);&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;personal_Id=String.valueOf((int)(1+99*java.lang.Math.random()));&#10;leave_days_left=new java.lang.Long(5+(int)(10*java.lang.Math.random()));&#10;&#10;try {&#10;   first_name=ug.getUserFirstName(shark_session_handle,username);&#10;   last_name=ug.getUserLastName(shark_session_handle,username);&#10;   email_addr=ug.getUserEMailAddress(shark_session_handle,username);&#10;} catch (Exception ex) {&#10;   first_name = &quot;Administrator&quot;;&#10;   last_name = &quot;Together&quot;;&#10;   email_addr = &quot;admin@together.at&quot;;&#10;}"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
         <xpdl:Application Id="fill_executor_info" Name="Fill executor info">
@@ -178,7 +178,7 @@
             </xpdl:FormalParameters>
             <xpdl:ExtendedAttributes>
                 <xpdl:ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.BshToolAgent"/>
-                <xpdl:ExtendedAttribute Name="Script" Value="String username = shandle.getVendorData().toString();&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;try {&#10;   current_date=new java.util.Date();&#10;   full_name=ug.getUserFirstName(shandle,username) +&quot; &quot;+ug.getUserLastName(shandle,username);&#10;} catch (Exception ex) {&#10;   full_name = &quot;Administrator Together&quot;;&#10;}"/>
+                <xpdl:ExtendedAttribute Name="Script" Value="String username = shark_session_handle.getVendorData().toString();&#10;org.enhydra.shark.api.internal.usergroup.UserGroupManager ug = (org.enhydra.shark.api.internal.usergroup.UserGroupManager)org.enhydra.shark.Shark.getInstance().getPlugIn(org.enhydra.shark.api.common.SharkConstants.PLUGIN_USER_GROUP);&#10;&#10;try {&#10;   current_date=new java.util.Date();&#10;   full_name=ug.getUserFirstName(shark_session_handle,username) +&quot; &quot;+ug.getUserLastName(shark_session_handle,username);&#10;} catch (Exception ex) {&#10;   full_name = &quot;Administrator Together&quot;;&#10;}"/>
             </xpdl:ExtendedAttributes>
         </xpdl:Application>
         <xpdl:Application Id="fill_msg_txt" Name="Fill message text">
@@ -401,7 +401,7 @@
                     </xpdl:Implementation>
                     <xpdl:Deadline Execution="SYNCHR">
                         <xpdl:DeadlineCondition>var d=new java.util.Date();
-d.setTime(ACTIVITY_ACTIVATED_TIME.getTime()+default_deadline_time);
+d.setTime(shark_activity_created_time.getTime()+default_deadline_time);
 d;</xpdl:DeadlineCondition>
                         <xpdl:ExceptionName>end_process</xpdl:ExceptionName>
                     </xpdl:Deadline>

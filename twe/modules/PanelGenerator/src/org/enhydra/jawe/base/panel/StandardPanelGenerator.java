@@ -1602,7 +1602,7 @@ public class StandardPanelGenerator implements PanelGenerator {
       } else if (el instanceof XMLComplexElement) {
          panel = generateStandardGroupPanel((XMLComplexElement) el, false, true);
       } else if (el instanceof XMLCollection) {
-         panel = generateStandardTablePanel((XMLCollection) el, true, false);
+         panel = generateStandardTablePanel((XMLCollection) el, true, false, false);
       } else {
          panel = new XMLBasicPanel();
       }
@@ -1637,7 +1637,8 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    protected XMLTablePanel generateStandardTablePanel(XMLCollection cl,
                                                       boolean hasTitle,
-                                                      boolean hasEmptyBorder) {
+                                                      boolean hasEmptyBorder,
+                                                      boolean miniDim) {
       List elementsToShow = cl.toElements();
       Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
                                                     "XMLTablePanel",
@@ -1646,7 +1647,6 @@ public class StandardPanelGenerator implements PanelGenerator {
       List columnsToShow = PanelUtilities.getColumnsToShow(getPanelContainer(),
                                                            "XMLTablePanel",
                                                            cl);
-      boolean miniDim = false;
       if (cl instanceof ExtendedAttributes) {
          miniDim = true;
       }

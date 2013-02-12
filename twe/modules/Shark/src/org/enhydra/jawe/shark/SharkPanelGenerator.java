@@ -18,7 +18,6 @@
 
 package org.enhydra.jawe.shark;
 
-import java.awt.Container;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -58,7 +57,6 @@ import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.Condition;
 import org.enhydra.jxpdl.elements.DataField;
-import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.ExpressionType;
@@ -209,7 +207,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                              mc);
       XMLPanel attachments = generateStandardTablePanel(el.getAttachmentsElement(),
                                                         true,
-                                                        true);
+                                                        true,
+                                                        false);
       // new XMLListPanel((InlinePanel) getPanelContainer(),
       // el.getAttachmentsElement(),
       // el.getAttachmentsElement().toElements(),
@@ -372,7 +371,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             break;
          case 5:
             ExtendedAttributesWrapper eaw = new ExtendedAttributesWrapper(eas);
-            p = generateStandardTablePanel(eaw, false, false);
+            p = generateStandardTablePanel(eaw, false, false, false);
             p = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
                                              eaw,
                                              JaWEManager.getInstance()
@@ -666,17 +665,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public XMLPanel getPanel(DeadlineDuration el) {
       List cl = getExpressionChoices(el);
-      DataFields dfs = XMLUtil.getWorkflowProcess(el).getDataFields();
-      DataField df = new DataField(dfs);
-      df.setId(SharkConstants.PROCESS_STARTED_TIME);
-      cl.add(df);
-      df = new DataField(dfs);
-      df.setId(SharkConstants.ACTIVITY_ACTIVATED_TIME);
-      cl.add(df);
-      df = new DataField(dfs);
-      df.setId(SharkConstants.ACTIVITY_ACCEPTED_TIME);
-      cl.add(df);
-
       List<List> mc = new ArrayList<List>();
       mc.add(cl);
 
@@ -1400,24 +1388,30 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    public List getExpressionChoices(XMLElement el) {
       List l = super.getExpressionChoices(el);
 
-      DataField df = new DataField(null);
-      df.setId(SharkConstants.PROCESS_ID);
-      l.add(df);
-      df = new DataField(null);
-      df.setId(SharkConstants.ACTIVITY_ID);
-      l.add(df);
-      df = new DataField(null);
-      df.setId(SharkConstants.SESSION_HANDLE);
-      l.add(df);
-      df = new DataField(null);
-      df.setId(SharkConstants.SHARK_VERSION);
-      l.add(df);
-      df = new DataField(null);
-      df.setId(SharkConstants.SHARK_RELEASE);
-      l.add(df);
-      df = new DataField(null);
-      df.setId(SharkConstants.SHARK_BUILDID);
-      l.add(df);
+      boolean isForActivity = XMLUtil.getActivity(el) != null;
+      for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
+         String id = SharkConstants.possibleSystemVariables.get(i);
+         if (id.startsWith("shark_activity_") && !isForActivity) {
+            continue;
+         }
+         DataField df = new DataField(null);
+         df.setId(id);
+         if (!SharkConstants.SHARK_SESSION_HANDLE.equals(id)) {
+            df.getDataType().getDataTypes().setBasicType();
+            if (!id.endsWith("_time")) {
+               df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            } else {
+               df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+            }
+         } else {
+            df.getDataType().getDataTypes().setExternalReference();
+            df.getDataType()
+               .getDataTypes()
+               .getExternalReference()
+               .setLocation("org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle");
+         }
+         l.add(df);
+      }
 
       return l;
    }

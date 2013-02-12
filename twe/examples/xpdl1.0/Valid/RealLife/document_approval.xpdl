@@ -234,7 +234,7 @@
                     </xpdl:Performers>
                     <xpdl:Deadline Execution="SYNCHR">
                         <xpdl:DeadlineDuration>var d=new java.util.Date();
-d.setTime(ACTIVITY_ACTIVATED_TIME.getTime()+60000);
+d.setTime(shark_activity_created_time.getTime()+60000);
 d;</xpdl:DeadlineDuration>
                         <xpdl:ExceptionName>timeout</xpdl:ExceptionName>
                     </xpdl:Deadline>

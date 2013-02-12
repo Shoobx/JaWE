@@ -467,67 +467,33 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
    protected Map getActualParameterOrConditionChoices(XMLElement el) {
       SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
 
-      DataField df = new DataField(null);
-      df.setId(SharkConstants.PROCESS_ID);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.PROCESS_ID, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.ACTIVITY_ID);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.ACTIVITY_ID, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.SESSION_HANDLE);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.SESSION_HANDLE, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.SHARK_RELEASE);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.SHARK_RELEASE, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.SHARK_VERSION);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.SHARK_VERSION, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.SHARK_BUILDID);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-      map.put(SharkConstants.SHARK_BUILDID, df);
+      boolean isForActivity = XMLUtil.getActivity(el)!=null;
+      for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
+         String id = SharkConstants.possibleSystemVariables.get(i);
+         if (id.startsWith("shark_activity_") && !isForActivity) {
+            continue;
+         }
+         DataField df = new DataField(null);
+         df.setId(id);
+         if (!SharkConstants.SHARK_SESSION_HANDLE.equals(id)) {
+            df.getDataType().getDataTypes().setBasicType();
+            if (!id.endsWith("_time")) {
+               df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            } else {
+               df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+            }
+         } else {
+            df.getDataType().getDataTypes().setExternalReference();
+            df.getDataType().getDataTypes().getExternalReference().setLocation("org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle");
+         }
+         map.put(id, df);
+      }
 
       return map;
    }
 
    protected Map getDeadlineConditionChoices(XMLElement el) {
-      Map map = getActualParameterOrConditionChoices(el);
-
-      DataField df = new DataField(null);
-      df.setId(SharkConstants.PROCESS_STARTED_TIME);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-      map.put(SharkConstants.PROCESS_STARTED_TIME, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.ACTIVITY_ACTIVATED_TIME);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-      map.put(SharkConstants.ACTIVITY_ACTIVATED_TIME, df);
-
-      df = new DataField(null);
-      df.setId(SharkConstants.ACTIVITY_ACCEPTED_TIME);
-      df.getDataType().getDataTypes().setBasicType();
-      df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-      map.put(SharkConstants.ACTIVITY_ACCEPTED_TIME, df);
-
-      return map;
+      return getActualParameterOrConditionChoices(el);
    }
 
    protected Map getPerformerChoices(XMLElement el) {

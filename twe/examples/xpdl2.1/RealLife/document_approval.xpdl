@@ -300,7 +300,7 @@
                     </xpdl:Performers>
                     <xpdl:Deadline Execution="SYNCHR">
                         <xpdl:DeadlineDuration>var d=new java.util.Date();
-d.setTime(ACTIVITY_ACTIVATED_TIME.getTime()+60000);
+d.setTime(shark_activity_created_time.getTime()+60000);
 d;</xpdl:DeadlineDuration>
                         <xpdl:ExceptionName>timeout</xpdl:ExceptionName>
                     </xpdl:Deadline>
@@ -501,8 +501,8 @@ d;</xpdl:DeadlineDuration>
         </xpdl:WorkflowProcess>
     </xpdl:WorkflowProcesses>
     <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="shark"/>
         <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
-        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.0-1-20110124-0813"/>
-        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="4.9-1-20130211-1113"/>
     </xpdl:ExtendedAttributes>
 </xpdl:Package>
