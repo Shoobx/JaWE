@@ -185,7 +185,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 null);
 
       List variableChoices = getSMTPExpressionChoices(XMLUtil.getWorkflowProcess(el));
-      List againVc = getSMTPExpressionChoices(XMLUtil.getWorkflowProcess(el));
       List moreVc = new ArrayList(commonInfoChoices);
       List<List> mc = new ArrayList<List>();
       mc.add(configStringChoices);

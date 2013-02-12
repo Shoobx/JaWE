@@ -31,15 +31,8 @@ import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
-import org.enhydra.jxpdl.elements.BasicType;
-import org.enhydra.jxpdl.elements.DataField;
-import org.enhydra.jxpdl.elements.DeclaredType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
-import org.enhydra.jxpdl.elements.ExternalReference;
-import org.enhydra.jxpdl.elements.FormalParameter;
-import org.enhydra.jxpdl.elements.SchemaType;
-import org.enhydra.jxpdl.elements.TypeDeclaration;
 
 /**
  * Various XPDL utilities specific for shark/jawe configuration.
