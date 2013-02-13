@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JScrollPane;
 
@@ -53,8 +54,6 @@ import org.enhydra.jxpdl.elements.SchemaType;
  * @author Sasa Bojanic
  */
 public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
-
-   // protected String taName = null;
 
    protected FormalParameters fps;
 
@@ -109,7 +108,6 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
          add(jsp);
       }
 
-      // taName = getTAName(fps);
       List<XMLPanel> panels = new ArrayList<XMLPanel>();
 
       List<ActualParameter> apslist = new ArrayList<ActualParameter>(aps.toElements());
@@ -151,28 +149,33 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                      fp.getDescription().equals("") ? null
                                                                    : fp.getDescription());
             } else {
-               List choices = getChoices(((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).getExpressionChoices(XMLUtil.getWorkflowProcess(aps)),
-                                         fp.getDataType().getDataTypes().getChoosen(),
-                                         false);
+               Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
+                                                             "XMLGroupPanel",
+                                                             ap);
+               List toShow = new ArrayList(ap.toElements());
+               toShow.removeAll(hidden);
                List<List> mc = new ArrayList<List>();
-               mc.add(choices);
-
-               p = new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
-                                                                  ap,
-                                                                  fp.getName().equals("") ? fp.getId()
-                                                                                         : fp.getName(),
-                                                                  false,
-                                                                  true,
-                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
-                                                                  false,
-                                                                  mc,
-                                                                  JaWEManager.getInstance()
-                                                                     .getJaWEController()
-                                                                     .canModifyElement(aps),
-                                                                  null,
-                                                                  fp.getDescription()
-                                                                     .equals("") ? null
-                                                                                : fp.getDescription());
+               mc.add(((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).getExpressionChoices(ap));
+               toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
+                                                                         ap,
+                                                                         "Expression",
+                                                                         false,
+                                                                         true,
+                                                                         XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                                         false,
+                                                                         mc,
+                                                                         JaWEManager.getInstance()
+                                                                            .getJaWEController()
+                                                                            .canModifyElement(ap)));
+               p = new XMLGroupPanel(getPanelContainer(),
+                                     ap,
+                                     toShow,
+                                     fp.getName().equals("") ? fp.getId() : fp.getName(),
+                                     true,
+                                     true,
+                                     true,
+                                     fp.getDescription().equals("") ? null
+                                                                   : fp.getDescription());
             }
             panels.add(p);
          }
@@ -191,22 +194,6 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
       jsp.setViewportView(gp);
 
    }
-
-   // protected String getTAName(FormalParameters fps) {
-   // String taName = null;
-   // if (fps != null) {
-   // Application app = XMLUtil.getApplication(fps);
-   // if (app != null) {
-   // ExtendedAttribute ea = app.getExtendedAttributes()
-   // .getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
-   //
-   // if (ea != null) {
-   // taName = ea.getVValue();
-   // }
-   // }
-   // }
-   // return taName;
-   // }
 
    protected List getChoices(List vars, XMLElement dt, boolean doFiltering) {
       List filter = null;
