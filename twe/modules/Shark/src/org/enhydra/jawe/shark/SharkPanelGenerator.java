@@ -662,25 +662,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                    null);
    }
 
-   public XMLPanel getPanel(DeadlineDuration el) {
-      List cl = getExpressionChoices(el);
-      List<List> mc = new ArrayList<List>();
-      mc.add(cl);
-
-      return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
-                                                                el,
-                                                                el.toName(),
-                                                                false,
-                                                                true,
-                                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
-                                                                false,
-                                                                mc,
-                                                                JaWEManager.getInstance()
-                                                                   .getJaWEController()
-                                                                   .canModifyElement(el),
-                                                                null);
-   }
-
    public XMLPanel getPanel(ExtendedAttribute el) {
       if (el.getParent().getParent() instanceof Activity
           && (el.getName().equals(SharkConstants.VTP_UPDATE) || el.getName()
