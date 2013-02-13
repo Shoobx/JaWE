@@ -68,7 +68,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
    public XMLHighlightPanelWithReferenceLink(PanelContainer pc,
                                              Performer myOwner,
-                                             List choices,
+                                             List<List> choices,
                                              boolean hasEmptyBorder,
                                              boolean isVertical,
                                              boolean isEditable,
@@ -111,18 +111,6 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
             .getXPDLHandler());
       }
       participants = new ArrayList(ch.values());
-
-      XMLChoiceButtonWithPopup variableList = null;
-
-      if (wp != null) {
-         if (choices==null) {
-            choices = new ArrayList(XMLUtil.getPossibleVariables(wp).values());
-         }
-         variableList = new XMLChoiceButtonWithPopup(this,
-                                                     choices,
-                                                     ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
-                                                     ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon());
-      }
 
       Object chsn = null;
       XMLElement choosen = myOwner;
@@ -181,6 +169,37 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
       add(panel);
 
+      if (wp != null) {
+         if (choices==null) {
+            choices = new ArrayList<List>();
+            choices.add(new ArrayList(XMLUtil.getPossibleVariables(wp).values()));
+         }
+         
+         for (List list : choices) {
+            XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
+                                                                           list,
+                                                                           ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
+                                                                           ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon());
+            // Dimension di=new Dimension(18,18);
+            // optBtn.setMinimumSize(new Dimension(di));
+            // optBtn.setMaximumSize(new Dimension(di));
+            // optBtn.setPreferredSize(new Dimension(di));
+            // optBtn.setBorderPainted(false);
+            optBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+            optBtn.setAlignmentY(Component.TOP_ALIGNMENT);
+            optBtn.setEnabled(isEnabled && list.size() > 0);
+            optBtn.setContentAreaFilled(false);
+
+            optBtn.setBorderPainted(false);
+            optBtn.setContentAreaFilled(false);
+            optBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+            optBtn.setAlignmentY(Component.TOP_ALIGNMENT);
+
+            panel.jspAndOpt.add(optBtn, 0);
+
+         }         
+      }
+      
       if (pc != null) {
          jb = new JButton(((PanelSettings) pc.getSettings()).getArrowRightImageIcon());
       } else {
@@ -205,16 +224,16 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
       });
 
-      if (variableList != null) {
-         variableList.setBorderPainted(false);
-         variableList.setContentAreaFilled(false);
-         variableList.setAlignmentX(Component.LEFT_ALIGNMENT);
-         variableList.setAlignmentY(Component.TOP_ALIGNMENT);
-         if (!isEnabled || choices.size() == 0)
-            variableList.setEnabled(false);
-
-         panel.jspAndOpt.add(variableList, 0);
-      }
+//      if (variableList != null) {
+//         variableList.setBorderPainted(false);
+//         variableList.setContentAreaFilled(false);
+//         variableList.setAlignmentX(Component.LEFT_ALIGNMENT);
+//         variableList.setAlignmentY(Component.TOP_ALIGNMENT);
+//         if (!isEnabled || choices.size() == 0)
+//            variableList.setEnabled(false);
+//
+//         panel.jspAndOpt.add(variableList, 0);
+//      }
       panel.jspAndOpt.add(jb);
    }
 

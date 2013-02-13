@@ -43,8 +43,12 @@ public class SharkUtils {
 
    public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
 
-   public static List appDefChoices = null;
+   public static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
 
+   public static List<String> appDefChoices = null;
+
+   protected static List<String> configStringChoices = null;
+   
    public static List getAppDefChoices() {
       if (appDefChoices == null) {
          appDefChoices = new ArrayList();
@@ -61,6 +65,20 @@ public class SharkUtils {
          }
       }
       return new ArrayList(appDefChoices);
+   }
+
+   public static List getConfigStringChoices() {
+      if (configStringChoices == null) {
+         configStringChoices = new ArrayList();
+         try {
+            Properties csc = new Properties();
+            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+            Utils.manageProperties(csc, cch, CONFIG_STRING_CHOICES_FILE);
+            configStringChoices.addAll(csc.stringPropertyNames());
+         } catch (Exception ex) {
+         }
+      }
+      return new ArrayList(configStringChoices);
    }
 
    public static List getPossibleVariableChoices(Map vars, List varIds, String curId) {

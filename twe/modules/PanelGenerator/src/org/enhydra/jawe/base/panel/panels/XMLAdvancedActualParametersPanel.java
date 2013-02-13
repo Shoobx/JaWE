@@ -154,8 +154,7 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                                              ap);
                List toShow = new ArrayList(ap.toElements());
                toShow.removeAll(hidden);
-               List<List> mc = new ArrayList<List>();
-               mc.add(((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).getExpressionChoices(ap));
+               List<List> mc = ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap);
                toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                          ap,
                                                                          "Expression",

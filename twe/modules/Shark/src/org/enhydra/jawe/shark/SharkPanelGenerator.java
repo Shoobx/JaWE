@@ -23,15 +23,12 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 
-import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
@@ -58,10 +55,10 @@ import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.Condition;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataTypes;
-import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.InitialValue;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Script;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
@@ -71,19 +68,8 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
  */
 public class SharkPanelGenerator extends StandardPanelGenerator {
 
-   public static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
-
-   protected List<String> configStringChoices = new ArrayList<String>();
-
    public SharkPanelGenerator() throws Exception {
       super();
-      try {
-         Properties csc = new Properties();
-         String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
-         Utils.manageProperties(csc, cch, CONFIG_STRING_CHOICES_FILE);
-         configStringChoices.addAll(csc.stringPropertyNames());
-      } catch (Exception ex) {
-      }
    }
 
    protected XMLPanel getPanel(final EmailConfigurationElement el) {
@@ -159,11 +145,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 false,
                                                 null);
 
-      List variableChoices = new ArrayList(XMLUtil.getPossibleVariables(el).values());
-      List<List> mc = new ArrayList<List>();
-      mc.add(configStringChoices);
-      mc.add(SharkConstants.possibleSystemVariables);
-      mc.add(variableChoices);
+      List<List> mc = prepareExpressionChoices(el);
       XMLPanel subject = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                              el.getSubjectAttribute(),
                                                              true,
@@ -1206,8 +1188,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement
                  && el.toName().equals("Script")) {
-         List<List> mc = new ArrayList<List>();
-         mc.add(getExpressionChoices(el.getParent().getParent()));
+         List<List> mc = prepareExpressionChoices(el.getParent().getParent());
          return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                el,
                                                                "Script",
@@ -1342,8 +1323,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    public List getExpressionChoices(XMLElement el) {
       List l = super.getExpressionChoices(el);
 
-      for (int i = 0; i < configStringChoices.size(); i++) {
-         String id = configStringChoices.get(i);         
+      List<String> csc = SharkUtils.getConfigStringChoices();
+      for (int i = 0; i < csc.size(); i++) {
+         String id = csc.get(i);
          DataField df = new DataField(null);
          df.setId(id);
          df.getDataType().getDataTypes().setBasicType();
@@ -1375,6 +1357,54 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          l.add(df);
       }
       return l;
+   }
+
+   public List<List> prepareExpressionChoices(XMLElement el) {
+      List<List> mc = new ArrayList<List>();
+
+      List l = new ArrayList();
+      boolean isForActivity = XMLUtil.getActivity(el) != null;
+      for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
+         String id = SharkConstants.possibleSystemVariables.get(i);
+         if (id.startsWith("shark_activity_") && !isForActivity) {
+            continue;
+         }
+         DataField df = new DataField(null);
+         df.setId(id);
+         if (!SharkConstants.SHARK_SESSION_HANDLE.equals(id)) {
+            df.getDataType().getDataTypes().setBasicType();
+            if (!id.endsWith("_time")) {
+               df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            } else {
+               df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+            }
+         } else {
+            df.getDataType().getDataTypes().setExternalReference();
+            df.getDataType()
+               .getDataTypes()
+               .getExternalReference()
+               .setLocation("org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle");
+         }
+         l.add(df);
+      }
+      mc.add(l);
+
+      mc.add(new ArrayList(XMLUtil.getPossibleVariables(el).values()));
+
+      if (!(el instanceof InitialValue)) {
+         l = new ArrayList();
+         List<String> csc = SharkUtils.getConfigStringChoices();
+         for (int i = 0; i < csc.size(); i++) {
+            String id = csc.get(i);
+            DataField df = new DataField(null);
+            df.setId(id);
+            df.getDataType().getDataTypes().setBasicType();
+            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            l.add(df);
+         }
+         mc.add(l);
+      }
+      return mc;
    }
 
 }

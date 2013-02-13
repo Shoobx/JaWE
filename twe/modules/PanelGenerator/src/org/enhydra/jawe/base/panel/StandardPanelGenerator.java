@@ -689,7 +689,7 @@ public class StandardPanelGenerator implements PanelGenerator {
           || (act != null && (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION))) {
          return new XMLHighlightPanelWithReferenceLink(getPanelContainer(),
                                                        el,
-                                                       getExpressionChoices(el),
+                                                       prepareExpressionChoices(el),
                                                        true,
                                                        false,
                                                        true,
@@ -1260,7 +1260,7 @@ public class StandardPanelGenerator implements PanelGenerator {
              || (XMLUtil.getWorkflowProcess(holder) != null && (holder instanceof Activity
                                                                 || holder instanceof Transition || holder instanceof WorkflowProcess))) {
             List<List> mc = new ArrayList<List>();
-            mc.add(getExpressionChoices(holder));
+            mc.add(getBasicExpressionChoices(el));
             return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                       el,
                                                                       "Value",
@@ -1396,13 +1396,13 @@ public class StandardPanelGenerator implements PanelGenerator {
       }
       if (el.toName().equalsIgnoreCase("ArtifactType")) {
          XMLPanel panel = new XMLComboPanel(getPanelContainer(),
-                                   el,
-                                   null,
-                                   false,
-                                   true,
-                                   false,
-                                   false,
-                                   false);
+                                            el,
+                                            null,
+                                            false,
+                                            true,
+                                            false,
+                                            false,
+                                            false);
          return panel;
       }
 
@@ -1745,34 +1745,18 @@ public class StandardPanelGenerator implements PanelGenerator {
       toShow.removeAll(hidden);
       if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
           || cel instanceof Condition) {
-         if (!(cel instanceof InitialValue)) {
-            List<List> mc = new ArrayList<List>();
-            mc.add(getExpressionChoices(cel));
-            toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
-                                                                      cel,
-                                                                      "Expression",
-                                                                      false,
-                                                                      true,
-                                                                      XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
-                                                                      false,
-                                                                      mc,
-                                                                      JaWEManager.getInstance()
-                                                                         .getJaWEController()
-                                                                         .canModifyElement(cel)));
-         } else {
-            toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
-                                                                          cel,
-                                                                          "Expression",
-                                                                          false,
-                                                                          true,
-                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
-                                                                          false,
-                                                                          null,
-                                                                          JaWEManager.getInstance()
-                                                                             .getJaWEController()
-                                                                             .canModifyElement(cel),
-                                                                          null));
-         }
+         List<List> mc = prepareExpressionChoices(cel);
+         toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
+                                                                   cel,
+                                                                   "Expression",
+                                                                   false,
+                                                                   true,
+                                                                   XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                   false,
+                                                                   mc,
+                                                                   JaWEManager.getInstance()
+                                                                      .getJaWEController()
+                                                                      .canModifyElement(cel)));
       } else if (cel instanceof ExtendedAttribute) {
          XMLElement holder = cel.getParent().getParent();
          if ((holder instanceof Application && ((Application) holder).getApplicationTypes()
@@ -1780,7 +1764,7 @@ public class StandardPanelGenerator implements PanelGenerator {
              || (XMLUtil.getWorkflowProcess(holder) != null && (holder instanceof Activity
                                                                 || holder instanceof Transition || holder instanceof WorkflowProcess))) {
             List<List> mc = new ArrayList<List>();
-            mc.add(getExpressionChoices(holder));
+            mc.add(getBasicExpressionChoices(holder));
             toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                           cel,
                                                                           "ComplexContent",
@@ -1822,7 +1806,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           .canModifyElement(cel),
                                                                        null));
       } else if (cel instanceof Artifact) {
-         Artifact art = (Artifact)cel;
+         Artifact art = (Artifact) cel;
          XMLAttribute artType = art.getArtifactTypeAttribute();
          if (artType.toValue().equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)) {
             toShow.remove(art.getDataObject());
@@ -1947,13 +1931,26 @@ public class StandardPanelGenerator implements PanelGenerator {
                                null);
    }
 
-   public List getExpressionChoices(XMLElement el) {
+   public List getBasicExpressionChoices(XMLElement el) {
       if (el instanceof Application) {
          FormalParameters fps = ((Application) el).getApplicationTypes()
             .getFormalParameters();
          return new ArrayList(fps.toElements());
       }
       return new ArrayList(XMLUtil.getPossibleVariables(el).values());
+   }
+
+   public List getExpressionChoices(XMLElement el) {
+      return getBasicExpressionChoices(el);
+   }
+
+   public List<List> prepareExpressionChoices(XMLElement el) {
+      if (el instanceof InitialValue) {
+         return null;
+      }
+      List<List> mc = new ArrayList<List>();
+      mc.add(getExpressionChoices(el));
+      return mc;
    }
 
    public Settings getSettings() {

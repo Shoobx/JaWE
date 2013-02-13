@@ -120,7 +120,8 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                       .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
                    || ea.getName()
                       .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)) {
-                  WfVariables vars = new WfVariables((XMLComplexElement)parent.getParent().getParent(),
+                  WfVariables vars = new WfVariables((XMLComplexElement) parent.getParent()
+                                                        .getParent(),
                                                      ea.getName(),
                                                      null,
                                                      ",",
@@ -143,8 +144,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                   String v = (String) vals.get(i);
                   if (m.get(v) == null
                       && !(ea.getName()
-                         .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
-                           && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
+                         .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
                      boolean allowUndefinedVariables = allowsUndefinedVariables(wp);
                      XMLValidationError verr = new XMLValidationError(allowUndefinedVariables ? XMLValidationError.TYPE_WARNING
                                                                                              : XMLValidationError.TYPE_ERROR,
@@ -467,7 +467,17 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
    protected Map getActualParameterOrConditionChoices(XMLElement el) {
       SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
 
-      boolean isForActivity = XMLUtil.getActivity(el)!=null;
+      List<String> csc = SharkUtils.getConfigStringChoices();
+      for (int i = 0; i < csc.size(); i++) {
+         String id = csc.get(i);
+         DataField df = new DataField(null);
+         df.setId(id);
+         df.getDataType().getDataTypes().setBasicType();
+         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         map.put(id, df);
+      }
+
+      boolean isForActivity = XMLUtil.getActivity(el) != null;
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
          if (id.startsWith("shark_activity_") && !isForActivity) {
@@ -484,7 +494,10 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             }
          } else {
             df.getDataType().getDataTypes().setExternalReference();
-            df.getDataType().getDataTypes().getExternalReference().setLocation("org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle");
+            df.getDataType()
+               .getDataTypes()
+               .getExternalReference()
+               .setLocation("org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle");
          }
          map.put(id, df);
       }
