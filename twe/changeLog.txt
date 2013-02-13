@@ -1,7 +1,8 @@
 ###### TWE 4.9-1 RELEASED ######
 2013-02-13 Sasa Bojanic <sasaboy@together.at>
    # Improved ActualParameters panel
-
+   # Shark mode: support for configuration choice and system variables
+   
 2013-02-12 Sasa Bojanic <sasaboy@together.at>
    # Shark mode:
       - changed "system" variable naming and validation according to new Shark features (SharkPanelGenerator and SharkXPDLValidator changes)

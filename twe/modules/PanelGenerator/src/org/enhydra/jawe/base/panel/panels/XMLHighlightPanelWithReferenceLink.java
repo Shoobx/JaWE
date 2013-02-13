@@ -113,14 +113,13 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       participants = new ArrayList(ch.values());
 
       XMLChoiceButtonWithPopup variableList = null;
-      List choice = null;
 
       if (wp != null) {
-
-         choice = new ArrayList(XMLUtil.getPossibleVariables(wp).values());
-
+         if (choices==null) {
+            choices = new ArrayList(XMLUtil.getPossibleVariables(wp).values());
+         }
          variableList = new XMLChoiceButtonWithPopup(this,
-                                                     choice,
+                                                     choices,
                                                      ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
                                                      ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon());
       }
@@ -211,7 +210,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
          variableList.setContentAreaFilled(false);
          variableList.setAlignmentX(Component.LEFT_ALIGNMENT);
          variableList.setAlignmentY(Component.TOP_ALIGNMENT);
-         if (!isEnabled || choice.size() == 0)
+         if (!isEnabled || choices.size() == 0)
             variableList.setEnabled(false);
 
          panel.jspAndOpt.add(variableList, 0);

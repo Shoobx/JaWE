@@ -73,9 +73,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
 
-   protected List commonInfoChoices = new ArrayList();
-
-   protected List configStringChoices = new ArrayList();
+   protected List<String> configStringChoices = new ArrayList<String>();
 
    public SharkPanelGenerator() throws Exception {
       super();
@@ -83,32 +81,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          Properties csc = new Properties();
          String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
          Utils.manageProperties(csc, cch, CONFIG_STRING_CHOICES_FILE);
-         configStringChoices.addAll(csc.keySet());
+         configStringChoices.addAll(csc.stringPropertyNames());
       } catch (Exception ex) {
       }
-
-      commonInfoChoices.add("shark_version");
-      commonInfoChoices.add("shark_release");
-      commonInfoChoices.add("shark_buildid");
-      commonInfoChoices.add("user");
-      commonInfoChoices.add("time");
-      commonInfoChoices.add("xpdl_id");
-      commonInfoChoices.add("xpdl_version");
-      commonInfoChoices.add("xpdl_timestamp");
-      commonInfoChoices.add("process_definition_id");
-      commonInfoChoices.add("process_definition_name");
-      commonInfoChoices.add("process_id");
-      commonInfoChoices.add("process_name");
-      commonInfoChoices.add("process_description");
-      commonInfoChoices.add("process_priority");
-      commonInfoChoices.add("process_limit");
-      commonInfoChoices.add("activity_definition_id");
-      commonInfoChoices.add("activity_definition_name");
-      commonInfoChoices.add("activity_id");
-      commonInfoChoices.add("activity_name");
-      commonInfoChoices.add("activity_description");
-      commonInfoChoices.add("activity_priority");
-      commonInfoChoices.add("activity_limit");
    }
 
    protected XMLPanel getPanel(final EmailConfigurationElement el) {
@@ -184,11 +159,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 false,
                                                 null);
 
-      List variableChoices = getSMTPExpressionChoices(XMLUtil.getWorkflowProcess(el));
-      List moreVc = new ArrayList(commonInfoChoices);
+      List variableChoices = new ArrayList(XMLUtil.getPossibleVariables(el).values());
       List<List> mc = new ArrayList<List>();
       mc.add(configStringChoices);
-      mc.add(commonInfoChoices);
+      mc.add(SharkConstants.possibleSystemVariables);
       mc.add(variableChoices);
       XMLPanel subject = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                              el.getSubjectAttribute(),
@@ -1368,6 +1342,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    public List getExpressionChoices(XMLElement el) {
       List l = super.getExpressionChoices(el);
 
+      for (int i = 0; i < configStringChoices.size(); i++) {
+         String id = configStringChoices.get(i);         
+         DataField df = new DataField(null);
+         df.setId(id);
+         df.getDataType().getDataTypes().setBasicType();
+         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         l.add(df);
+      }
       boolean isForActivity = XMLUtil.getActivity(el) != null;
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
@@ -1392,12 +1374,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          l.add(df);
       }
-
       return l;
    }
 
-   protected List getSMTPExpressionChoices(XMLElement el) {
-      List l = super.getExpressionChoices(el);
-      return l;
-   }
 }

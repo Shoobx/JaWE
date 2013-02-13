@@ -689,7 +689,7 @@ public class StandardPanelGenerator implements PanelGenerator {
           || (act != null && (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION))) {
          return new XMLHighlightPanelWithReferenceLink(getPanelContainer(),
                                                        el,
-                                                       null,
+                                                       getExpressionChoices(el),
                                                        true,
                                                        false,
                                                        true,
