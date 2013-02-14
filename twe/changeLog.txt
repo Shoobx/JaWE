@@ -1,5 +1,9 @@
 ###### TWE 4.9-1 RELEASED ######
 2013-02-13 Sasa Bojanic <sasaboy@together.at>
+   # Validating variables' InitialValue expressions
+   # Shark mode: validating variables' InitialValue cross/self/implicit cross references
+   
+2013-02-13 Sasa Bojanic <sasaboy@together.at>
    # Improved ActualParameters panel
    # Shark mode: support for configuration choice and system variables
    

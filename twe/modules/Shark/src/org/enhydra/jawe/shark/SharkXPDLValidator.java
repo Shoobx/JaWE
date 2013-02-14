@@ -41,7 +41,6 @@ import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
-import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.EnumerationType;
 import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExpressionType;
@@ -49,6 +48,7 @@ import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.FormalParameters;
+import org.enhydra.jxpdl.elements.InitialValue;
 import org.enhydra.jxpdl.elements.ListType;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
@@ -223,88 +223,6 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       existingErrors.add(verr);
    }
 
-   public void validateElement(DataFields el, List existingErrors, boolean fullCheck) {
-      super.validateElement(el, existingErrors, fullCheck);
-      if (!fullCheck && existingErrors.size() > 0) {
-         return;
-      }
-      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
-      if (wp == null) {
-         return;
-      }
-      Map vars = wp.getAllVariables();
-      Iterator it = vars.entrySet().iterator();
-      Map dynamicScriptVariablesContext = new HashMap();
-      while (it.hasNext()) {
-         Map.Entry me = (Map.Entry) it.next();
-         String id = (String) me.getKey();
-         XMLCollectionElement dfOrFp = (XMLCollectionElement) me.getValue();
-         if (isDynamicScriptVariable(dfOrFp, id)) {
-            String iv = ((DataField) dfOrFp).getInitialValue();
-            dynamicScriptVariablesContext.put(me.getKey(), iv);
-         }
-      }
-      try {
-         XMLUtil.determineVariableEvaluationOrder(dynamicScriptVariablesContext);
-      } catch (Exception ex) {
-         String msg = ex.getMessage();
-         List varIds = new ArrayList();
-         if (msg.startsWith(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED)) {
-            String varId = msg.substring(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED.length())
-               .trim();
-            DataField eel = el.getDataField(varId);
-            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                             XMLValidationError.SUB_TYPE_LOGIC,
-                                                             SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_SELF_REFERENCES_NOT_ALLOWED,
-                                                             eel.toName(),
-                                                             eel);
-            existingErrors.add(verr);
-         } else if (msg.startsWith(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED)) {
-            String[] vids = msg.substring(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED.length())
-               .trim()
-               .split(",");
-            for (int i = 0; i < vids.length; i++) {
-               String varId = vids[i].trim();
-               DataField eel = el.getDataField(varId);
-               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                                XMLValidationError.SUB_TYPE_LOGIC,
-                                                                SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CROSS_REFERENCES_NOT_ALLOWED,
-                                                                eel.getId(),
-                                                                eel);
-               existingErrors.add(verr);
-            }
-         } else if (msg.startsWith(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED)) {
-            String varId = msg.substring(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED.length())
-               .trim();
-            DataField eel = el.getDataField(varId);
-            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                             XMLValidationError.SUB_TYPE_LOGIC,
-                                                             SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED,
-                                                             eel.getId(),
-                                                             eel);
-            existingErrors.add(verr);
-         }
-      }
-
-   }
-
-   protected boolean isDynamicScriptVariable(XMLCollectionElement dfOrFp, String varId) {
-      if (dfOrFp instanceof FormalParameter) {
-         return false;
-      }
-      if (dfOrFp == null) {
-         return false;
-      }
-      XMLComplexElement parent = XMLUtil.getWorkflowProcess(dfOrFp);
-      if (parent == null) {
-         parent = XMLUtil.getPackage(dfOrFp);
-      }
-      ExtendedAttribute ea = ((ExtendedAttributes) dfOrFp.get("ExtendedAttributes")).getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMICSCRIPT);
-      boolean isDynamicScriptVariable = ea != null
-                                        && ea.getVValue().equalsIgnoreCase("true");
-      return isDynamicScriptVariable;
-   }
-
    public void validateElement(EnumerationType el, List existingErrors, boolean fullCheck) {
       XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                        XMLValidationError.SUB_TYPE_LOGIC,
@@ -395,6 +313,111 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       existingErrors.add(verr);
    }
 
+   public void validateElement(WorkflowProcess el, List existingErrors, boolean fullCheck) {
+      super.validateElement(el, existingErrors, fullCheck);
+      if (!fullCheck && existingErrors.size() > 0) {
+         return;
+      }
+      checkVariableCrossReferences(el, existingErrors, fullCheck);
+   }
+
+   protected void checkVariableCrossReferences(WorkflowProcess wp,
+                                               List existingErrors,
+                                               boolean fullCheck) {
+      Map vars = wp.getAllVariables();
+      Iterator it = vars.entrySet().iterator();
+      Map dynamicScriptVariablesContext = new HashMap();
+      Map otherVariablesContext = new HashMap();
+      while (it.hasNext()) {
+         Map.Entry me = (Map.Entry) it.next();
+         String id = (String) me.getKey();
+         XMLCollectionElement dfOrFp = (XMLCollectionElement) me.getValue();
+         String iv = dfOrFp.get("InitialValue").toValue();
+         if (isDynamicScriptVariable(dfOrFp, id)) {
+            dynamicScriptVariablesContext.put(id, iv);
+         } else {
+            otherVariablesContext.put(id, iv);
+         }
+      }
+      try {
+         XMLUtil.determineVariableEvaluationOrder(dynamicScriptVariablesContext);
+      } catch (Exception ex) {
+         String excMsg = ex.getMessage();
+         handleCrossReferenceExceptionMessage(vars, excMsg, existingErrors, true);
+      }
+      if (!fullCheck && existingErrors.size() > 0) {
+         return;
+      }
+      try {
+         XMLUtil.determineVariableEvaluationOrder(otherVariablesContext);
+      } catch (Exception ex) {
+         String excMsg = ex.getMessage();
+         handleCrossReferenceExceptionMessage(vars, excMsg, existingErrors, false);
+      }
+   }
+
+   protected void handleCrossReferenceExceptionMessage(Map vars,
+                                                       String exceptionMessage,
+                                                       List existingErrors,
+                                                       boolean dynamicScriptVars) {
+      List varIds = new ArrayList();
+      if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED)) {
+         String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED.length())
+            .trim();
+         XMLCollectionElement eel = (XMLCollectionElement) vars.get(varId);
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_SELF_REFERENCES_NOT_ALLOWED
+                                                                           : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_SELF_REFERENCES_NOT_ALLOWED,
+                                                          eel.getId(),
+                                                          eel.get("InitialValue"));
+         existingErrors.add(verr);
+      } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED)) {
+         String[] vids = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED.length())
+            .trim()
+            .split(",");
+         for (int i = 0; i < vids.length; i++) {
+            String varId = vids[i].trim();
+            XMLCollectionElement eel = (XMLCollectionElement) vars.get(varId);
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CROSS_REFERENCES_NOT_ALLOWED
+                                                                              : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CROSS_REFERENCES_NOT_ALLOWED,
+                                                             eel.getId(),
+                                                             eel.get("InitialValue"));
+            existingErrors.add(verr);
+         }
+      } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED)) {
+         String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED.length())
+            .trim();
+         XMLCollectionElement eel = (XMLCollectionElement) vars.get(varId);
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED
+                                                                           : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED,
+                                                          eel.getId(),
+                                                          eel.get("InitialValue"));
+         existingErrors.add(verr);
+      }
+   }
+
+   protected boolean isDynamicScriptVariable(XMLCollectionElement dfOrFp, String varId) {
+      if (dfOrFp instanceof FormalParameter) {
+         return false;
+      }
+      if (dfOrFp == null) {
+         return false;
+      }
+      XMLComplexElement parent = XMLUtil.getWorkflowProcess(dfOrFp);
+      if (parent == null) {
+         parent = XMLUtil.getPackage(dfOrFp);
+      }
+      ExtendedAttribute ea = ((ExtendedAttributes) dfOrFp.get("ExtendedAttributes")).getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMICSCRIPT);
+      boolean isDynamicScriptVariable = ea != null
+                                        && ea.getVValue().equalsIgnoreCase("true");
+      return isDynamicScriptVariable;
+   }
+
    /** Introduces restrictions on script type. */
    public void validateScript(XMLComplexElement el, List existingErrors, boolean fullCheck) {
       String sType = "";
@@ -463,18 +486,20 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
    protected StandardPackageValidator createValidatorInstance() {
       return new SharkXPDLValidator();
    }
-
-   protected Map getActualParameterOrConditionChoices(XMLElement el) {
+   
+   protected Map getExtendedChoices (XMLElement el) {
       SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
 
-      List<String> csc = SharkUtils.getConfigStringChoices();
-      for (int i = 0; i < csc.size(); i++) {
-         String id = csc.get(i);
-         DataField df = new DataField(null);
-         df.setId(id);
-         df.getDataType().getDataTypes().setBasicType();
-         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-         map.put(id, df);
+      if (!(el instanceof InitialValue)) {
+         List<String> csc = SharkUtils.getConfigStringChoices();
+         for (int i = 0; i < csc.size(); i++) {
+            String id = csc.get(i);
+            DataField df = new DataField(null);
+            df.setId(id);
+            df.getDataType().getDataTypes().setBasicType();
+            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            map.put(id, df);
+         }
       }
 
       boolean isForActivity = XMLUtil.getActivity(el) != null;
@@ -502,15 +527,19 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          map.put(id, df);
       }
 
-      return map;
+      return map;      
+   }
+
+   protected Map getActualParameterOrConditionChoices(XMLElement el) {
+      return getExtendedChoices(el);
    }
 
    protected Map getDeadlineConditionChoices(XMLElement el) {
-      return getActualParameterOrConditionChoices(el);
+      return getExtendedChoices(el);
    }
 
    protected Map getPerformerChoices(XMLElement el) {
-      Map map = getActualParameterOrConditionChoices(el);
+      Map map = getExtendedChoices(el);
 
       Map parts = XMLUtil.getPossibleParticipants(XMLUtil.getWorkflowProcess(el),
                                                   xmlInterface);
@@ -527,6 +556,10 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       }
 
       return map;
+   }
+
+   protected Map getInitialValueChoices(XMLElement el) {
+      return getExtendedChoices(el);
    }
 
    protected boolean allowsUndefinedVariables(XMLElement el) {

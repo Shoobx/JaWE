@@ -9404,6 +9404,12 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
+          <para><emphasis>ValidateInitialValueExpressions </emphasis> - if set
+          to true, TWE will consider a warning if variables' initial value
+          expression does not look like valid initial value expression.</para>
+        </listitem>
+
+        <listitem>
           <para><emphasis>ValidateConditionExpressions </emphasis> - if set to
           true, TWE will consider a warning if transition's condition does not
           look like valid expression.</para>

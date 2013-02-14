@@ -56,6 +56,10 @@ public class XPDLValidatorSettings extends JaWEComponentSettings {
                             new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS,
                                                                "true")
                                .equals("true")));
+      componentSettings.put(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS,
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS,
+                                                               "true")
+                               .equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS,
                             new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS,
                                                                "true")
@@ -93,6 +97,10 @@ public class XPDLValidatorSettings extends JaWEComponentSettings {
 
    public boolean shouldValidateActualParameterExpressions() {
       return ((Boolean) componentSettings.get(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS)).booleanValue();
+   }
+
+   public boolean shouldValidateInitialValueExpressions() {
+      return ((Boolean) componentSettings.get(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS)).booleanValue();
    }
 
    public boolean shouldValidateDeadlineExpressions() {
