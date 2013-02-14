@@ -139,6 +139,9 @@ public class XPDLValidatorSettings extends JaWEComponentSettings {
       props.put(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS,
                 componentSettings.get(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS)
                    .toString());
+      props.put(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS,
+                componentSettings.get(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS)
+                   .toString());
       props.put(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS,
                 componentSettings.get(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS)
                    .toString());

@@ -483,11 +483,23 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       return true;
    }
 
+   protected boolean isIdUnique(XMLCollectionElement newEl) {
+      boolean ret = super.isIdUnique(newEl);
+      if (newEl instanceof DataField || newEl instanceof FormalParameter) {
+         String id = newEl.getId();
+         if (SharkUtils.getConfigStringChoices().contains(id)
+             || SharkConstants.possibleSystemVariables.contains(id)) {
+            ret = false;
+         }
+      }
+      return ret;
+   }
+
    protected StandardPackageValidator createValidatorInstance() {
       return new SharkXPDLValidator();
    }
-   
-   protected Map getExtendedChoices (XMLElement el) {
+
+   protected Map getExtendedChoices(XMLElement el) {
       SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
 
       if (!(el instanceof InitialValue)) {
@@ -527,7 +539,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          map.put(id, df);
       }
 
-      return map;      
+      return map;
    }
 
    protected Map getActualParameterOrConditionChoices(XMLElement el) {

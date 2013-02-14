@@ -67,7 +67,7 @@ public class SharkUtils {
       return new ArrayList(appDefChoices);
    }
 
-   public static List getConfigStringChoices() {
+   public static List<String> getConfigStringChoices() {
       if (configStringChoices == null) {
          configStringChoices = new ArrayList();
          try {
@@ -78,7 +78,7 @@ public class SharkUtils {
          } catch (Exception ex) {
          }
       }
-      return new ArrayList(configStringChoices);
+      return new ArrayList<String>(configStringChoices);
    }
 
    public static List getPossibleVariableChoices(Map vars, List varIds, String curId) {
