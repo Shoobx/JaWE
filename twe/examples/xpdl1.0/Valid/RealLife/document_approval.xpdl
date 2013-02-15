@@ -430,7 +430,7 @@ d;</xpdl:DeadlineDuration>
                 </xpdl:Transition>
             </xpdl:Transitions>
             <xpdl:ExtendedAttributes>
-                <xpdl:ExtendedAttribute Name="ASSIGNMENT_MANAGER_PLUGIN" Value="org.enhydra.shark.assignment.HistoryRelatedAssignmentManager"/>
+                <xpdl:ExtendedAttribute Name="ASSIGNMENT_MANAGER_PLUGIN" Value="org.enhydra.shark.assignment.historyrelated.HistoryRelatedAssignmentManager"/>
             </xpdl:ExtendedAttributes>
         </xpdl:WorkflowProcess>
     </xpdl:WorkflowProcesses>

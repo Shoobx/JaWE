@@ -94,7 +94,6 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
          if (elements == null)
             return "";
          Activity act = (Activity) el;
-         LabelGenerator lg = JaWEManager.getInstance().getLabelGenerator();
 
          if (!(act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION)) {
             elements.remove(settings.getLanguageDependentString("StartModeKey"));
