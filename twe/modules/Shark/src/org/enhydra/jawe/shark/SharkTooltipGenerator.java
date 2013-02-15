@@ -78,11 +78,14 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
       }
       if (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO) {
          String tt2 = makeSMTPTooltip(eas);
-         tt = tt.substring(0, tt.length() - HTML_CLOSE.length());
-         tt += LINE_BREAK;
-         tt += "<hr>";
-         tt = tt + tt2.substring(HTML_OPEN.length(), tt2.length());
+         if (!tt2.equals("")) {
+            tt = tt.substring(0, tt.length() - HTML_CLOSE.length());
+            tt += LINE_BREAK;
+            tt += "<hr>";
+            tt = tt + tt2.substring(HTML_OPEN.length(), tt2.length());
+         }
       }
+
       return tt;
    }
 
@@ -124,8 +127,11 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
       makeSMTPEntry(ea, toDisplay);
       ea = el.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS);
       makeSMTPEntry(ea, toDisplay);
-
-      return super.makeTooltip(el, toDisplay);
+      if (toDisplay.size()>0) {
+         return super.makeTooltip(el, toDisplay);
+      } else {
+         return "";
+      }
    }
 
    protected void makeSMTPEntry(ExtendedAttribute ea, Map toDisplay) {

@@ -363,7 +363,9 @@ public class StandardTooltipGenerator implements TooltipGenerator {
          Map.Entry me = (Map.Entry) it.next();
          s += makeAnotherHtmlLine((String) me.getKey(), (String) me.getValue());
       }
-      s = s.substring(0, s.length() - LINE_BREAK.length());
+      if (elements.size()>0) {
+         s = s.substring(0, s.length() - LINE_BREAK.length());
+      }
       s += HTML_CLOSE;
       return s;
    }
