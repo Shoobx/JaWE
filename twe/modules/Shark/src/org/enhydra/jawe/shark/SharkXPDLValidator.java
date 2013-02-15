@@ -325,9 +325,9 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                List existingErrors,
                                                boolean fullCheck) {
       Map vars = wp.getAllVariables();
-      Iterator it = vars.entrySet().iterator();
-      Map dynamicScriptVariablesContext = new HashMap();
-      Map otherVariablesContext = new HashMap();
+      Iterator<Map.Entry<String, String>> it = vars.entrySet().iterator();
+      Map<String, String> dynamicScriptVariablesContext = new HashMap();
+      Map<String, String> otherVariablesContext = new HashMap();
       while (it.hasNext()) {
          Map.Entry me = (Map.Entry) it.next();
          String id = (String) me.getKey();
@@ -353,6 +353,38 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       } catch (Exception ex) {
          String excMsg = ex.getMessage();
          handleCrossReferenceExceptionMessage(vars, excMsg, existingErrors, false);
+      }
+      if (!fullCheck && existingErrors.size() > 0) {
+         return;
+      }
+
+      // check if "normal" variable is referencing dynamic script variable - this is
+      // forbidden
+      it = otherVariablesContext.entrySet().iterator();
+      while (it.hasNext()) {
+         Map.Entry<String, String> me = it.next();
+         String id = me.getKey();
+         String iv = me.getValue();
+
+         Iterator<String> it2 = dynamicScriptVariablesContext.keySet().iterator();
+         while (it2.hasNext()) {
+            String dsvid = it2.next();
+            if (XMLUtil.getUsingPositions(iv,
+                                          dsvid,
+                                          dynamicScriptVariablesContext,
+                                          true,
+                                          true).size() > 0) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_DYNAMICSCRIPT_VARIABLE_REFERENCES_NOT_ALLOWED,
+                                                                id,
+                                                                ((XMLCollectionElement) vars.get(id)).get("InitialValue"));
+               existingErrors.add(verr);
+               if (!fullCheck) {
+                  return;
+               }
+            }
+         }
       }
    }
 

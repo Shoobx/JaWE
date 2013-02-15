@@ -1,5 +1,8 @@
 ###### TWE 4.9-1 RELEASED ######
-2013-02-13 Sasa Bojanic <sasaboy@together.at>
+2013-02-15 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: now validating if variables' InitialValue is referencing DynamicScript variable (it is forbidden)
+
+2013-02-14 Sasa Bojanic <sasaboy@together.at>
    # Now validating variables' InitialValue expressions 
    # Shark mode: now validating variables' InitialValue cross/self/implicit cross references
    # Shark mode: now validating uniqueness of variables considering Shark's system variables and configuration parameters

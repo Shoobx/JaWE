@@ -275,7 +275,7 @@ public class StandardXPDLElementEditorSettings extends PanelSettings {
                             "Id Name DataType IsArray InitialValue");
       componentSettings.put("ShowColumns.XMLTablePanel.ExtendedAttributes", "Name Value");
       componentSettings.put("ShowColumns.XMLTablePanel.FormalParameters",
-                            "Id Name Mode DataType IsArray");
+                            "Id Name Mode DataType IsArray InitialValue");
       componentSettings.put("ShowColumns.XMLTablePanel.Namespaces", "Name location");
       componentSettings.put("ShowColumns.XMLTablePanel.Participants",
                             "Id Name ParticipantType");
