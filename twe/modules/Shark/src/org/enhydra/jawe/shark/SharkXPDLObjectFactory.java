@@ -45,6 +45,16 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       return ea;
    }
 
+   public SharkStringExtendedAttributeWrapper createXPDLObject(SharkStringExtendedAttributesWrapper eas,
+                                                               String type,
+                                                               boolean addToCollection) {
+      SharkStringExtendedAttributeWrapper ea = (SharkStringExtendedAttributeWrapper) eas.generateNewElement();
+      if (addToCollection) {
+         eas.add(ea);
+      }
+      return ea;
+   }
+
    public WfVariable createXPDLObject(WfVariables sps,
                                       String type,
                                       boolean addToCollection) {

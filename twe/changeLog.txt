@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-02-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: initial support for SHARK STRING VARIABLES
+
 2013-02-15 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: now validating if variables' InitialValue is referencing DynamicScript variable (it is forbidden)
    # Shark mode: fixed bug in Shark's tooltip manager

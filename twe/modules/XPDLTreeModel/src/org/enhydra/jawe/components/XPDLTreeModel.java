@@ -301,7 +301,9 @@ public class XPDLTreeModel extends DefaultTreeModel {
                      if (el instanceof XMLComplexElement) {
                         XMLElement sel = ((XMLComplexElement) el).get(key);
                         if (sel != null) {
-                           if (sel.toValue().equals(hstra[k])) {
+                           if (sel.toValue().equals(hstra[k])
+                               || (sel.toName().equals("Name") && sel.toValue()
+                                  .startsWith(hstra[k]))) {
                               hidden.add(el);
                            }
                         }

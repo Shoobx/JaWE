@@ -18,10 +18,12 @@
 
 package org.enhydra.jawe.shark;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
+import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLElement;
 
 /**
@@ -81,14 +83,28 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
    }
 
    public void appendText(String txt) {
-      if (configStringChoices.contains(txt)) {
-         txt = "{config_string:" + txt + "}";
-      } else if (commonInfoChoices.contains(txt)) {
-         txt = "{" + txt + "}";
-      } else {
-         txt = "{process_variable:" + txt + "}";
+      Iterator it = configStringChoices.iterator();
+      String newTxt = null;
+      while (it.hasNext()) {
+         XMLCollectionElement el = (XMLCollectionElement) it.next();
+         if (el.getId().equals(txt)) {
+            newTxt = "{config_string:" + txt + "}";
+            break;
+         }
       }
-      super.appendText(txt);
+      if (newTxt == null) {
+         it = commonInfoChoices.iterator();
+         while (it.hasNext()) {
+            XMLCollectionElement el = (XMLCollectionElement) it.next();
+            if (el.getId().equals(txt)) {
+               newTxt = "{" + txt + "}";
+            }
+         }
+      }
+      if (newTxt==null) {
+         newTxt = "{process_variable:" + txt + "}";
+      }
+      super.appendText(newTxt);
    }
 
 }

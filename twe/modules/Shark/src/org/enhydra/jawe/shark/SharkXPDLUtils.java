@@ -74,7 +74,7 @@ public class SharkXPDLUtils extends XPDLUtils {
       }
 
       references.addAll(XMLUtil.getInitialValueReferences(pkg, referencedId));
-      
+
       Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
       while (it.hasNext()) {
          WorkflowProcess wp = (WorkflowProcess) it.next();
@@ -203,7 +203,9 @@ public class SharkXPDLUtils extends XPDLUtils {
          } else if (ea.getName()
             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
                     || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+                       .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)
+                    || ea.getName()
+                       .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(),
                                           "{process_variable:" + dfOrFpId + "}",
                                           allVars,
@@ -212,6 +214,20 @@ public class SharkXPDLUtils extends XPDLUtils {
             }
          }
       }
+      Package pkg = XMLUtil.getPackage(wp);
+      eas = pkg.getExtendedAttributes().toElements();
+      for (int i = 0; i < eas.size(); i++) {
+         ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
+         if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+            if (XMLUtil.getUsingPositions(ea.getVValue(),
+                                          "{process_variable:" + dfOrFpId + "}",
+                                          allVars,
+                                          false).size() > 0) {
+               references.add(ea.get("Value"));
+            }
+         }
+      }
+
       return references;
    }
 
@@ -240,7 +256,8 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.EA_TRANSIENT)
                  || eaName.equals(SharkConstants.EA_DELETE_FINISHED)
                  || eaName.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY)
-                 || eaName.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION) || eaName.equals(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END))) {
+                 || eaName.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
+                 || eaName.equals(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END) || eaName.startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
             continue;
          }
          if (pp instanceof WorkflowProcess
@@ -269,7 +286,8 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)
                  || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
                  || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE) || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT))) {
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE)
+                 || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT) || eaName.startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
             continue;
          }
          if (pp instanceof Activity
@@ -279,6 +297,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.EA_WORKLOAD_FACTOR)
                  || eaName.equals(SharkConstants.VTP_UPDATE)
                  || eaName.equals(SharkConstants.VTP_VIEW)
+                 || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
                  || eaName.equals(SharkConstants.EA_XFORMS_FILE)
                  || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
                  || eaName.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
@@ -315,22 +334,30 @@ public class SharkXPDLUtils extends XPDLUtils {
             XMLAttribute a = (XMLAttribute) easmtpv;
             if (a.toName().equals("Value")) {
                if (a.getParent() instanceof ExtendedAttribute
-                   && (a.getParent().getParent().getParent() instanceof Activity || a.getParent()
+                   && (a.getParent().getParent().getParent() instanceof Activity
+                       || a.getParent().getParent().getParent() instanceof WorkflowProcess || a.getParent()
                       .getParent()
-                      .getParent() instanceof WorkflowProcess)) {
+                      .getParent() instanceof Package)) {
                   if (((ExtendedAttribute) a.getParent()).getName()
                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
                       || ((ExtendedAttribute) a.getParent()).getName()
-                         .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+                         .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)
+                      || (!(a.getParent().getParent().getParent() instanceof Activity) && ((ExtendedAttribute) a.getParent()).getName()
+                         .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
                      String expr = easmtpv.toValue();
                      String searchValue = "{process_variable:" + oldDfOrFpId + "}";
                      String replaceValue = "{process_variable:" + newDfOrFpId + "}";
                      int varLengthDiff = replaceValue.length() - searchValue.length();
 
+                     Map vars = null;
+                     if (XMLUtil.getWorkflowProcess(easmtpv) != null) {
+                        vars = XMLUtil.getWorkflowProcess(easmtpv).getAllVariables();
+                     } else {
+                        vars = XMLUtil.getPossibleVariables(XMLUtil.getPackage(easmtpv));
+                     }
                      List positions = XMLUtil.getUsingPositions(expr,
                                                                 searchValue,
-                                                                XMLUtil.getWorkflowProcess(easmtpv)
-                                                                   .getAllVariables(),
+                                                                vars,
                                                                 false);
                      for (int i = 0; i < positions.size(); i++) {
                         int pos = ((Integer) positions.get(i)).intValue();

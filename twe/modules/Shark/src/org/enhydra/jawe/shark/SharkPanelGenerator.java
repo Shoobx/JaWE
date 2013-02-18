@@ -257,6 +257,17 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return gp;
    }
 
+   public XMLPanel getPanel(SharkStringExtendedAttributeWrapper el) {
+      SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(),
+                                                       el,
+                                                       el.toElements(),
+                                                       getPanelContainer().getLanguageDependentString("SharkStringVariableKey"),
+                                                       true,
+                                                       false,
+                                                       true);
+      return gp;
+   }
+
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
       if (no >= 3)
          no++;
@@ -326,7 +337,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             break;
          case 5:
             ExtendedAttributesWrapper eaw = new ExtendedAttributesWrapper(eas);
-            p = generateStandardTablePanel(eaw, false, false, false);
             p = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
                                              eaw,
                                              JaWEManager.getInstance()
@@ -650,231 +660,244 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLPanel getPanel(Package el, int no, Set hidden) {
-      if (no != 1) {
+      if (no != 1 && no != 14) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
 
-      List panelElements = new ArrayList();
+      if (no == 1) {
+         List panelElements = new ArrayList();
 
-      if (!hidden.contains(el.get("Id"))) {
-         panelElements.add(el.get("Id"));
-      }
-      if (!hidden.contains(el.get("Name"))) {
-         panelElements.add(el.get("Name"));
-      }
-      if (!hidden.contains(el.getConformanceClass())) {
-         panelElements.add(el.getConformanceClass());
-      }
-      if (!hidden.contains(el.getScript())) {
-         panelElements.add(getPanel(el.getScript(), true));
-      }
+         if (!hidden.contains(el.get("Id"))) {
+            panelElements.add(el.get("Id"));
+         }
+         if (!hidden.contains(el.get("Name"))) {
+            panelElements.add(el.get("Name"));
+         }
+         if (!hidden.contains(el.getConformanceClass())) {
+            panelElements.add(el.getConformanceClass());
+         }
+         if (!hidden.contains(el.getScript())) {
+            panelElements.add(getPanel(el.getScript(), true));
+         }
 
-      List ealist = new ArrayList();
-      ExtendedAttributes eas = el.getExtendedAttributes();
-      ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
+         List ealist = new ArrayList();
+         ExtendedAttributes eas = el.getExtendedAttributes();
+         ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
 
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
 
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_CONTINUATION);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                     ea.get("Value"),
-                                                     n,
-                                                     false,
-                                                     JaWEManager.getInstance()
-                                                        .getJaWEController()
-                                                        .canModifyElement(ea.get("Value")),
-                                                     false,
-                                                     null);
-         ealist.add(cbp);
-      }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_CONTINUATION);
+         if (ea != null) {
+            String n = getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                      + "Key");
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
+                                                        ea.get("Value"),
+                                                        n,
+                                                        false,
+                                                        JaWEManager.getInstance()
+                                                           .getJaWEController()
+                                                           .canModifyElement(ea.get("Value")),
+                                                        false,
+                                                        null);
+            ealist.add(cbp);
+         }
 
-      if (ealist.size() > 3) {
-         for (int i = 0; i < ealist.size(); i += 2) {
-            List subpanels = new ArrayList();
-            subpanels.add(ealist.get(i));
-            subpanels.add(Box.createHorizontalGlue());
-            if ((i + 1) < ealist.size()) {
-               subpanels.add(ealist.get(i + 1));
+         if (ealist.size() > 3) {
+            for (int i = 0; i < ealist.size(); i += 2) {
+               List subpanels = new ArrayList();
+               subpanels.add(ealist.get(i));
+               subpanels.add(Box.createHorizontalGlue());
+               if ((i + 1) < ealist.size()) {
+                  subpanels.add(ealist.get(i + 1));
+               }
+               panelElements.add(new XMLGroupPanelGL(getPanelContainer(),
+                                                     el,
+                                                     subpanels,
+                                                     "",
+                                                     false,
+                                                     false,
+                                                     true,
+                                                     null));
             }
-            panelElements.add(new XMLGroupPanelGL(getPanelContainer(),
-                                                  el,
-                                                  subpanels,
-                                                  "",
-                                                  false,
-                                                  false,
-                                                  true,
-                                                  null));
+         } else {
+            panelElements.addAll(ealist);
+         }
+
+         XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas,
+                                                                  SharkConstants.EA_REDIRECT_AFTER_PROCESS_END,
+                                                                  false));
+         panelElements.add(rapePnl);
+
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
+         if (ea != null) {
+            XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
+                                            ea.get("Value"),
+                                            getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                                           + "Key"),
+                                            false,
+                                            false,
+                                            JaWEManager.getInstance()
+                                               .getJaWEController()
+                                               .canModifyElement(ea),
+                                            null);
+            panelElements.add(pnl);
+         }
+         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
+         if (ea != null) {
+            XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
+                                            ea.get("Value"),
+                                            getPanelContainer().getLanguageDependentString(ea.getName()
+                                                                                           + "Key"),
+                                            false,
+                                            false,
+                                            JaWEManager.getInstance()
+                                               .getJaWEController()
+                                               .canModifyElement(ea),
+                                            null);
+            panelElements.add(pnl);
+         }
+
+         if (!hidden.contains(el.getExtendedAttributes())) {
+            panelElements.add(el.getExtendedAttributes());
+         }
+         if (panelElements.size() > 0) {
+            p = new XMLGroupPanel(getPanelContainer(),
+                                  el,
+                                  panelElements,
+                                  getPanelContainer().getLanguageDependentString("GeneralKey"),
+                                  true,
+                                  false,
+                                  true,
+                                  null);
          }
       } else {
-         panelElements.addAll(ealist);
+         SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
+         p = generateStandardTablePanel(eaw, false, false, false);
       }
-
-      XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                               SharkConstants.EA_REDIRECT_AFTER_PROCESS_END,
-                                                               false));
-      panelElements.add(rapePnl);
-
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
-      if (ea != null) {
-         XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                         ea.get("Value"),
-                                         getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                        + "Key"),
-                                         false,
-                                         false,
-                                         JaWEManager.getInstance()
-                                            .getJaWEController()
-                                            .canModifyElement(ea),
-                                         null);
-         panelElements.add(pnl);
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
-      if (ea != null) {
-         XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                         ea.get("Value"),
-                                         getPanelContainer().getLanguageDependentString(ea.getName()
-                                                                                        + "Key"),
-                                         false,
-                                         false,
-                                         JaWEManager.getInstance()
-                                            .getJaWEController()
-                                            .canModifyElement(ea),
-                                         null);
-         panelElements.add(pnl);
-      }
-
-      if (!hidden.contains(el.getExtendedAttributes())) {
-         panelElements.add(el.getExtendedAttributes());
-      }
-      if (panelElements.size() > 0) {
-         p = new XMLGroupPanel(getPanelContainer(),
-                               el,
-                               panelElements,
-                               getPanelContainer().getLanguageDependentString("GeneralKey"),
-                               true,
-                               false,
-                               true,
-                               null);
-      }
-
       return p;
    }
 
    public XMLPanel getPanel(WorkflowProcess el, int no, Set hidden) {
-      if (no != 1 && no != 11) {
+      if (no != 1 && no != 11 && no != 12) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
@@ -1099,6 +1122,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   true,
                                   null);
          }
+      } else if (no == 11) {
+         SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
+         p = generateStandardTablePanel(eaw, false, false, false);
       } else {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes()));
       }
@@ -1266,6 +1292,23 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             null);
          }
 
+      } else if (el.getParent() instanceof SharkStringExtendedAttributeWrapper) {
+         if (el.toName().equals("Name")) {
+            return super.generateStandardTextPanel(el, false);
+         }
+         List<List> mc = prepareExpressionChoices(el);
+         boolean enableEditing = JaWEManager.getInstance()
+            .getJaWEController()
+            .canModifyElement(el);
+         XMLPanel value = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
+                                                              el,
+                                                              true,
+                                                              XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                              false,
+                                                              enableEditing,
+                                                              mc);
+
+         return value;
       } else if (el.getParent() instanceof ExtendedAttributeWrapper
                  && ((ExtendedAttributeWrapper) el.getParent()).isDecisionAttribute()) {
 

@@ -202,7 +202,9 @@ public class PanelUtilities {
                      if (el instanceof XMLComplexElement) {
                         XMLElement sel = ((XMLComplexElement) el).get(key);
                         if (sel != null) {
-                           if (sel.toValue().equals(hstra[i])) {
+                           if (sel.toValue().equals(hstra[i])
+                               || (sel.toName().equals("Name") && sel.toValue()
+                                  .startsWith(hstra[i]))) {
                               hidden.add(el);
                            }
                         }
