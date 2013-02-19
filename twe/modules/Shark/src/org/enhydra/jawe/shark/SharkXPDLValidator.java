@@ -166,11 +166,13 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                       && !(ea.getName()
                          .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
                      boolean allowUndefinedVariables = allowsUndefinedVariables(wp);
-                     XMLValidationError verr = new XMLValidationError(allowUndefinedVariables ? XMLValidationError.TYPE_WARNING
-                                                                                             : XMLValidationError.TYPE_ERROR,
+                     boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
+
+                     XMLValidationError verr = new XMLValidationError((allowUndefinedVariables || !isWPLevel) ? XMLValidationError.TYPE_WARNING
+                                                                                                             : XMLValidationError.TYPE_ERROR,
                                                                       XMLValidationError.SUB_TYPE_LOGIC,
-                                                                      allowUndefinedVariables ? SharkValidationErrorIds.WARNING_NON_EXISTING_VARIABLE_REFERENCE
-                                                                                             : XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
+                                                                      (allowUndefinedVariables || !isWPLevel) ? SharkValidationErrorIds.WARNING_NON_EXISTING_VARIABLE_REFERENCE
+                                                                                                             : XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
                                                                       v,
                                                                       ea.get("Value"));
                      existingErrors.add(verr);
@@ -211,9 +213,12 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                for (int i = 0; i < xpdlsvals.size(); i++) {
                   String v = xpdlsvals.get(i);
                   if (!psxpdl.containsKey(v)) {
-                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                     boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
+                     XMLValidationError verr = new XMLValidationError(isWPLevel ? XMLValidationError.TYPE_ERROR
+                                                                               : XMLValidationError.TYPE_WARNING,
                                                                       XMLValidationError.SUB_TYPE_LOGIC,
-                                                                      SharkValidationErrorIds.ERROR_NON_EXISTING_SHARK_STRING_VARIABLE_REFERENCE,
+                                                                      isWPLevel ? SharkValidationErrorIds.ERROR_NON_EXISTING_SHARK_STRING_VARIABLE_REFERENCE
+                                                                               : SharkValidationErrorIds.WARNING_NON_EXISTING_SHARK_STRING_VARIABLE_REFERENCE,
                                                                       v,
                                                                       ea.get("Value"));
                      existingErrors.add(verr);
