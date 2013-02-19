@@ -93,9 +93,11 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          }
       }
       if (parent instanceof ExtendedAttribute
-          && (parent.getParent().getParent() instanceof Activity || parent.getParent()
-             .getParent() instanceof WorkflowProcess)) {
+          && (parent.getParent().getParent() instanceof Activity
+              || parent.getParent().getParent() instanceof WorkflowProcess || parent.getParent()
+             .getParent() instanceof Package)) {
          boolean isAct = parent.getParent().getParent() instanceof Activity;
+         boolean isPkg = parent.getParent().getParent() instanceof Package;
          if (el.toName().equals("Name")) {
             if (((el.toValue().equals(SharkConstants.VTP_UPDATE) || el.toValue()
                .equals(SharkConstants.VTP_VIEW)) && isAct)
@@ -108,18 +110,28 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                 || el.toValue()
                    .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
                 || el.toValue()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
+                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)
+                || (!isAct && el.toValue()
+                   .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
                ExtendedAttribute ea = (ExtendedAttribute) parent;
                WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
-               Map m = wp.getAllVariables();
+               Map m = null;
+               if (wp != null) {
+                  m = wp.getAllVariables();
+               } else {
+                  m = XMLUtil.getPossibleVariables(ea);
+               }
                String val = ea.getVValue();
-               List vals = new ArrayList();
-               if (ea.getName()
-                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
-                   || ea.getName()
-                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
-                   || ea.getName()
-                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)) {
+               List<String> vals = new ArrayList<String>();
+               List<String> sysvals = new ArrayList<String>();
+               List<String> csvals = new ArrayList<String>();
+               List<String> xpdlsvals = new ArrayList<String>();
+               if (!isPkg
+                   && (ea.getName()
+                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                       || ea.getName()
+                          .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS) || ea.getName()
+                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS))) {
                   WfVariables vars = new WfVariables((XMLComplexElement) parent.getParent()
                                                         .getParent(),
                                                      ea.getName(),
@@ -132,16 +144,24 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                      WfVariable v = (WfVariable) els.get(i);
                      vals.add(v.getId());
                   }
-               } else if (ea.getName()
-                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
-                          || ea.getName()
-                             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
-                  vals = SharkUtils.getPossibleVariablesWithinMailSubjectOrContent(ea.getVValue());
+               } else if ((!isPkg
+                           && ea.getName()
+                              .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT) || ea.getName()
+                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT))
+                          || (!isAct && ea.getName()
+                             .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
+                  vals = SharkUtils.getPossiblePlaceholderVariables(ea.getVValue(),
+                                                                    SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX);
+                  sysvals = SharkUtils.getPossiblePlaceholderVariables(ea.getVValue(), "");
+                  csvals = SharkUtils.getPossiblePlaceholderVariables(ea.getVValue(),
+                                                                      SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX);
+                  xpdlsvals = SharkUtils.getPossiblePlaceholderVariables(ea.getVValue(),
+                                                                         SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX);
                } else {
                   vals.add(ea.getVValue());
                }
                for (int i = 0; i < vals.size(); i++) {
-                  String v = (String) vals.get(i);
+                  String v = vals.get(i);
                   if (m.get(v) == null
                       && !(ea.getName()
                          .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
@@ -151,6 +171,49 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                                       XMLValidationError.SUB_TYPE_LOGIC,
                                                                       allowUndefinedVariables ? SharkValidationErrorIds.WARNING_NON_EXISTING_VARIABLE_REFERENCE
                                                                                              : XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
+                                                                      v,
+                                                                      ea.get("Value"));
+                     existingErrors.add(verr);
+                     if (!fullCheck) {
+                        return;
+                     }
+                  }
+               }
+               for (int i = 0; i < sysvals.size(); i++) {
+                  String v = sysvals.get(i);
+                  if (!SharkConstants.possibleSystemVariables.contains(v)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      SharkValidationErrorIds.ERROR_NON_EXISTING_SYSTEM_VARIABLE_REFERENCE,
+                                                                      v,
+                                                                      ea.get("Value"));
+                     existingErrors.add(verr);
+                     if (!fullCheck) {
+                        return;
+                     }
+                  }
+               }
+               for (int i = 0; i < csvals.size(); i++) {
+                  String v = csvals.get(i);
+                  if (!SharkUtils.getConfigStringChoices().contains(v)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_WARNING,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      SharkValidationErrorIds.WARNING_NON_EXISTING_CONFIG_STRING_VARIABLE_REFERENCE,
+                                                                      v,
+                                                                      ea.get("Value"));
+                     existingErrors.add(verr);
+                     if (!fullCheck) {
+                        return;
+                     }
+                  }
+               }
+               Properties psxpdl = SharkUtils.getPossibleSharkStringVariables(el, true);
+               for (int i = 0; i < xpdlsvals.size(); i++) {
+                  String v = xpdlsvals.get(i);
+                  if (!psxpdl.containsKey(v)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      SharkValidationErrorIds.ERROR_NON_EXISTING_SHARK_STRING_VARIABLE_REFERENCE,
                                                                       v,
                                                                       ea.get("Value"));
                      existingErrors.add(verr);
@@ -266,6 +329,10 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (existingErrors.size() == 0 || fullCheck) {
          validateScript(el.getScript(), existingErrors, fullCheck);
       }
+      if (!fullCheck && existingErrors.size() > 0) {
+         return;
+      }
+      checkVariableCrossReferences(el, existingErrors, fullCheck);
    }
 
    public void validateElement(Performer el, List existingErrors, boolean fullCheck) {
@@ -321,10 +388,37 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       checkVariableCrossReferences(el, existingErrors, fullCheck);
    }
 
-   protected void checkVariableCrossReferences(WorkflowProcess wp,
+   protected void checkVariableCrossReferences(XMLComplexElement pkgOrWp,
                                                List existingErrors,
                                                boolean fullCheck) {
-      Map vars = wp.getAllVariables();
+      Map vars = new HashMap();
+      if (pkgOrWp instanceof WorkflowProcess) {
+         Iterator it = ((WorkflowProcess) pkgOrWp).getDataFields()
+            .toElements()
+            .iterator();
+         while (it.hasNext()) {
+            DataField df = (DataField) it.next();
+            if (!vars.containsKey(df.getId())) {
+               vars.put(df.getId(), df);
+            }
+         }
+         it = ((WorkflowProcess) pkgOrWp).getFormalParameters().toElements().iterator();
+         while (it.hasNext()) {
+            FormalParameter fp = (FormalParameter) it.next();
+            if (!vars.containsKey(fp.getId())) {
+               vars.put(fp.getId(), fp);
+            }
+         }
+      } else {
+         Iterator it = ((Package) pkgOrWp).getDataFields().toElements().iterator();
+         while (it.hasNext()) {
+            DataField df = (DataField) it.next();
+            if (!vars.containsKey(df.getId())) {
+               vars.put(df.getId(), df);
+            }
+         }
+      }
+      System.out.println("PVS for el " + pkgOrWp + "=" + vars);
       Iterator<Map.Entry<String, String>> it = vars.entrySet().iterator();
       Map<String, String> dynamicScriptVariablesContext = new HashMap();
       Map<String, String> otherVariablesContext = new HashMap();
@@ -386,6 +480,51 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             }
          }
       }
+
+      if (!fullCheck && existingErrors.size() > 0) {
+         return;
+      }
+      // check cross-references inside Shark XPDL String variables
+      Map<String, String> props = new HashMap(SharkUtils.getPossibleSharkStringVariables(pkgOrWp,
+                                                                                         false));
+      Map<String, String> placeholderProps = new HashMap<String, String>();
+      Iterator<Map.Entry<String, String>> ite = props.entrySet().iterator();
+      while (ite.hasNext()) {
+         Map.Entry<String, String> me = ite.next();
+         placeholderProps.put("{"
+                                    + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
+                                    + me.getKey() + "}",
+                              me.getValue());
+      }
+      try {
+         XMLUtil.determineVariableEvaluationOrder(placeholderProps);
+      } catch (Exception ex) {
+         String excMsg = ex.getMessage();
+         // Iterator<Map.Entry<String, String>> ite = props.entrySet().iterator();
+         // while (ite.hasNext()) {
+         // Map.Entry<String, String> me = ite.next();
+         // String id = me.getKey();
+         // String iv = me.getValue();
+         // DataField df = new DataField(null);
+         // df.setId(id);
+         // df.getDataType().getDataTypes().setBasicType();
+         // df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         // l.add(df);
+         // }
+         //
+         Map m1 = SharkUtils.getPossibleSharkStringVariablesEAValues(pkgOrWp, false);
+         Map m2 = new HashMap();
+         Iterator<Map.Entry<String, String>> ite2 = m1.entrySet().iterator();
+         while (ite2.hasNext()) {
+            Map.Entry me = ite2.next();
+            m2.put("{"
+                         + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + me.getKey()
+                         + "}",
+                   me.getValue());
+         }
+         handleCrossReferenceExceptionMessage(m2, excMsg, existingErrors, false);
+      }
+
    }
 
    protected void handleCrossReferenceExceptionMessage(Map vars,
@@ -396,13 +535,20 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED)) {
          String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED.length())
             .trim();
-         XMLCollectionElement eel = (XMLCollectionElement) vars.get(varId);
+         XMLElement eel = (XMLElement) vars.get(varId);
+         if (eel instanceof XMLCollectionElement) {
+            eel = ((XMLCollectionElement) eel).get("InitialValue");
+         } else {
+            varId = varId.substring(SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX.length() + 1,
+                                    varId.length() - 1);
+         }
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_SELF_REFERENCES_NOT_ALLOWED
-                                                                           : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_SELF_REFERENCES_NOT_ALLOWED,
-                                                          eel.getId(),
-                                                          eel.get("InitialValue"));
+                                                                           : ((eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_SELF_REFERENCES_NOT_ALLOWED
+                                                                                                           : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_SELF_REFERENCES_NOT_ALLOWED),
+                                                          varId,
+                                                          eel);
          existingErrors.add(verr);
       } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED)) {
          String[] vids = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED.length())
@@ -410,25 +556,33 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             .split(",");
          for (int i = 0; i < vids.length; i++) {
             String varId = vids[i].trim();
-            XMLCollectionElement eel = (XMLCollectionElement) vars.get(varId);
+            XMLElement eel = (XMLElement) vars.get(varId);
+            if (eel instanceof XMLCollectionElement) {
+               eel = ((XMLCollectionElement) eel).get("InitialValue");
+            }
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
                                                              dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CROSS_REFERENCES_NOT_ALLOWED
-                                                                              : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CROSS_REFERENCES_NOT_ALLOWED,
-                                                             eel.getId(),
-                                                             eel.get("InitialValue"));
+                                                                              : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CROSS_REFERENCES_NOT_ALLOWED
+                                                                                                             : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_CROSS_REFERENCES_NOT_ALLOWED,
+                                                             varId,
+                                                             eel);
             existingErrors.add(verr);
          }
       } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED)) {
          String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED.length())
             .trim();
-         XMLCollectionElement eel = (XMLCollectionElement) vars.get(varId);
+         XMLElement eel = (XMLElement) vars.get(varId);
+         if (eel instanceof XMLCollectionElement) {
+            eel = ((XMLCollectionElement) eel).get("InitialValue");
+         }
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED
-                                                                           : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED,
-                                                          eel.getId(),
-                                                          eel.get("InitialValue"));
+                                                                           : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED
+                                                                                                          : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED,
+                                                          varId,
+                                                          eel);
          existingErrors.add(verr);
       }
    }
@@ -532,12 +686,24 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
    }
 
    protected Map getExtendedChoices(XMLElement el) {
-      SequencedHashMap map = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
+      SequencedHashMap map = XMLUtil.getPossibleVariables(el);
 
       if (!(el instanceof InitialValue)) {
          List<String> csc = SharkUtils.getConfigStringChoices();
          for (int i = 0; i < csc.size(); i++) {
             String id = csc.get(i);
+            DataField df = new DataField(null);
+            df.setId(id);
+            df.getDataType().getDataTypes().setBasicType();
+            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            map.put(id, df);
+         }
+
+         List<String> xpdlsc = new ArrayList<String>(SharkUtils.getPossibleSharkStringVariables(el,
+                                                                                                true)
+            .stringPropertyNames());
+         for (int i = 0; i < xpdlsc.size(); i++) {
+            String id = xpdlsc.get(i);
             DataField df = new DataField(null);
             df.setId(id);
             df.getDataType().getDataTypes().setBasicType();

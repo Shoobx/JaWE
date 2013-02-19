@@ -1296,7 +1296,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (el.toName().equals("Name")) {
             return super.generateStandardTextPanel(el, false);
          }
-         List<List> mc = prepareExpressionChoices(el);
+         List<List> mc = prepareExpressionChoices(el.getParent());
          boolean enableEditing = JaWEManager.getInstance()
             .getJaWEController()
             .canModifyElement(el);
@@ -1323,6 +1323,32 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                         .canModifyElement(el),
                                      false,
                                      null);
+      } else if (el.getParent() instanceof ExtendedAttribute
+                 && el.toName().equals("Value")) {
+         ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
+         XMLElement parentObj = ea.getParent().getParent();
+         boolean isAct = parentObj instanceof Activity;
+         boolean isPkg = parentObj instanceof Package;
+
+         if ((!isPkg && (ea.getName()
+            .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT) || ea.getName()
+            .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)))
+             || (!isAct && (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)))) {
+            List<List> mc = prepareExpressionChoices(ea);
+            boolean enableEditing = JaWEManager.getInstance()
+               .getJaWEController()
+               .canModifyElement(el);
+            XMLPanel value = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
+                                                                 el,
+                                                                 true,
+                                                                 XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                                 false,
+                                                                 enableEditing,
+                                                                 mc);
+
+            return value;
+         }
+
       }
       return super.getPanel(el);
    }
@@ -1407,9 +1433,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       List l = new ArrayList();
       boolean isForActivity = XMLUtil.getActivity(el) != null;
+      boolean isSharkString = (el instanceof SharkStringExtendedAttributeWrapper)
+                              || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
+                                 .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));
+
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
-         if (id.startsWith("shark_activity_") && !isForActivity) {
+         if (id.startsWith("shark_activity_") && !isForActivity && !isSharkString) {
             continue;
          }
          DataField df = new DataField(null);
@@ -1446,6 +1476,21 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             l.add(df);
          }
          mc.add(l);
+
+         l = new ArrayList();
+         List<String> xpdlsc = new ArrayList<String>(SharkUtils.getPossibleSharkStringVariables(el,
+                                                                                                true)
+            .stringPropertyNames());
+         for (int i = 0; i < xpdlsc.size(); i++) {
+            String id = xpdlsc.get(i);
+            DataField df = new DataField(null);
+            df.setId(id);
+            df.getDataType().getDataTypes().setBasicType();
+            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            l.add(df);
+         }
+         mc.add(l);
+
       }
       return mc;
    }

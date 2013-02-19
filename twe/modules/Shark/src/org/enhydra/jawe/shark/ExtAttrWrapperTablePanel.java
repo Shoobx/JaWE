@@ -34,7 +34,6 @@ import javax.swing.table.TableModel;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelSettings;
-import org.enhydra.jawe.base.panel.panels.XMLElementView;
 import org.enhydra.jawe.base.panel.panels.XMLTablePanel;
 import org.enhydra.jawe.base.panel.panels.tablesorting.SortingTable;
 import org.enhydra.jxpdl.XMLCollection;

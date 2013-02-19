@@ -416,4 +416,8 @@ public class SharkConstants {
 
    public static final String XPDL_STRING_PLACEHOLDER_PREFIX = "xpdl_string:";
 
+   public static final String CONFIG_STRING_PLACEHOLDER_PREFIX = "config_string:";
+
+   public static final String PROCESS_VARIABLE_PLACEHOLDER_PREFIX = "process_variable:";
+
 }

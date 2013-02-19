@@ -34,9 +34,11 @@ import org.enhydra.jxpdl.XMLElement;
 public class XMLMultiLineTextPanelForSMTPEAs extends
                                             XMLMultiLineTextPanelWithOptionalChoiceButtons {
 
+   protected List sysVariablesChoices;
+
    protected List configStringChoices;
 
-   protected List commonInfoChoices;
+   protected List xpdlStringChoices;
 
    public XMLMultiLineTextPanelForSMTPEAs(PanelContainer pc,
                                           XMLElement myOwner,
@@ -78,8 +80,9 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
             choices,
             isEnabled,
             tooltip);
-      this.commonInfoChoices = choices.get(0);
+      this.sysVariablesChoices = choices.get(0);
       this.configStringChoices = choices.get(2);
+      this.xpdlStringChoices = choices.get(3);
    }
 
    public void appendText(String txt) {
@@ -88,12 +91,12 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
       while (it.hasNext()) {
          XMLCollectionElement el = (XMLCollectionElement) it.next();
          if (el.getId().equals(txt)) {
-            newTxt = "{config_string:" + txt + "}";
+            newTxt = "{" + SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX + txt + "}";
             break;
          }
       }
       if (newTxt == null) {
-         it = commonInfoChoices.iterator();
+         it = sysVariablesChoices.iterator();
          while (it.hasNext()) {
             XMLCollectionElement el = (XMLCollectionElement) it.next();
             if (el.getId().equals(txt)) {
@@ -101,8 +104,17 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
             }
          }
       }
-      if (newTxt==null) {
-         newTxt = "{process_variable:" + txt + "}";
+      if (newTxt == null) {
+         it = xpdlStringChoices.iterator();
+         while (it.hasNext()) {
+            XMLCollectionElement el = (XMLCollectionElement) it.next();
+            if (el.getId().equals(txt)) {
+               newTxt = "{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + txt + "}";
+            }
+         }
+      }
+      if (newTxt == null) {
+         newTxt = "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + txt + "}";
       }
       super.appendText(newTxt);
    }

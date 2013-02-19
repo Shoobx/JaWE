@@ -33,6 +33,7 @@ import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Various XPDL utilities specific for shark/jawe configuration.
@@ -48,8 +49,8 @@ public class SharkUtils {
    public static List<String> appDefChoices = null;
 
    protected static List<String> configStringChoices = null;
-   
-   public static List getAppDefChoices() {
+
+   public static List<String> getAppDefChoices() {
       if (appDefChoices == null) {
          appDefChoices = new ArrayList();
          try {
@@ -64,7 +65,7 @@ public class SharkUtils {
          } catch (Exception ex) {
          }
       }
-      return new ArrayList(appDefChoices);
+      return new ArrayList<String>(appDefChoices);
    }
 
    public static List<String> getConfigStringChoices() {
@@ -92,18 +93,93 @@ public class SharkUtils {
       return l;
    }
 
-   public static List getPossibleVariablesWithinMailSubjectOrContent(String subjOrCont) {
+   public static List<String> getPossiblePlaceholderVariables(String eav,
+                                                              String typePrefix) {
       List ret = new ArrayList();
-      String prefix = "{process_variable:";
+      String prefix = "{" + typePrefix;
       String postfix = "}";
-      List ups = XMLUtil.getUsingPositions(subjOrCont, prefix, new HashMap(), false);
+      List ups = XMLUtil.getUsingPositions(eav, prefix, new HashMap(), false);
       // System.out.println("UPS for "+subjOrCont+" is "+ups);
       for (int i = 0; i < ups.size(); i++) {
          int posprefix = ((Integer) ups.get(i)).intValue();
-         int pospostfix = subjOrCont.indexOf(postfix, posprefix);
+         int pospostfix = eav.indexOf(postfix, posprefix);
          if (pospostfix > posprefix) {
-            String varId = subjOrCont.substring(posprefix + prefix.length(), pospostfix);
-            ret.add(varId);
+            String placeholdercontent = eav.substring(posprefix + 1, pospostfix);
+            String varId = eav.substring(posprefix + prefix.length(), pospostfix);
+            if (!typePrefix.equals("")
+                || !(placeholdercontent.startsWith(SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX)
+                     || placeholdercontent.startsWith(SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX) || placeholdercontent.startsWith(SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX))) {
+               ret.add(varId);
+            }
+         }
+      }
+      return ret;
+   }
+
+   public static Properties getPossibleSharkStringVariables(XMLElement el,
+                                                            boolean allLevels) {
+      Properties ret = new Properties();
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+      ExtendedAttributes eas = null;
+      if (wp != null) {
+         eas = wp.getExtendedAttributes();
+         for (int i = 0; i < eas.size(); i++) {
+            ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
+            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+               ret.setProperty(ea.getName()
+                                  .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                               ea.getVValue());
+            }
+         }
+      }
+      if (allLevels || wp == null) {
+         eas = XMLUtil.getPackage(el).getExtendedAttributes();
+         for (int i = 0; i < eas.size(); i++) {
+            ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
+            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+               String realName = ea.getName()
+                  .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length());
+               if (!ret.containsKey(realName)) {
+                  ret.setProperty(ea.getName()
+                                     .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                                  ea.getVValue());
+               }
+            }
+         }
+      }
+
+      return ret;
+   }
+
+   public static Map getPossibleSharkStringVariablesEAValues(XMLElement el,
+                                                             boolean allLevels) {
+      Map ret = new HashMap();
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+      ExtendedAttributes eas = null;
+      if (wp != null) {
+         eas = wp.getExtendedAttributes();
+         for (int i = 0; i < eas.size(); i++) {
+            ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
+            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+               ret.put(ea.getName()
+                          .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                       ea.get("Value"));
+            }
+         }
+      }
+      if (allLevels || wp == null) {
+         eas = XMLUtil.getPackage(el).getExtendedAttributes();
+         for (int i = 0; i < eas.size(); i++) {
+            ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
+            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+               String realName = ea.getName()
+                  .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length());
+               if (!ret.containsKey(realName)) {
+                  ret.put(ea.getName()
+                             .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                          ea.get("Value"));
+               }
+            }
          }
       }
       return ret;

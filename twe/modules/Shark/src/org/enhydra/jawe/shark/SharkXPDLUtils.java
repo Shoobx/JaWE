@@ -176,7 +176,8 @@ public class SharkXPDLUtils extends XPDLUtils {
                           || ea.getName()
                              .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)) {
                   if (XMLUtil.getUsingPositions(ea.getVValue(),
-                                                "{process_variable:" + dfOrFpId + "}",
+                                                "{"
+                                                      + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + dfOrFpId + "}",
                                                 allVars,
                                                 false).size() > 0) {
                      references.add(ea.get("Value"));
@@ -207,7 +208,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                     || ea.getName()
                        .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(),
-                                          "{process_variable:" + dfOrFpId + "}",
+                                          "{"+SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + dfOrFpId + "}",
                                           allVars,
                                           false).size() > 0) {
                references.add(ea.get("Value"));
@@ -220,7 +221,7 @@ public class SharkXPDLUtils extends XPDLUtils {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
          if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(),
-                                          "{process_variable:" + dfOrFpId + "}",
+                                          "{"+SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX  + dfOrFpId + "}",
                                           allVars,
                                           false).size() > 0) {
                references.add(ea.get("Value"));
@@ -345,15 +346,15 @@ public class SharkXPDLUtils extends XPDLUtils {
                       || (!(a.getParent().getParent().getParent() instanceof Activity) && ((ExtendedAttribute) a.getParent()).getName()
                          .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
                      String expr = easmtpv.toValue();
-                     String searchValue = "{process_variable:" + oldDfOrFpId + "}";
-                     String replaceValue = "{process_variable:" + newDfOrFpId + "}";
+                     String searchValue = "{"+SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + oldDfOrFpId + "}";
+                     String replaceValue = "{"+SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX  + newDfOrFpId + "}";
                      int varLengthDiff = replaceValue.length() - searchValue.length();
 
                      Map vars = null;
                      if (XMLUtil.getWorkflowProcess(easmtpv) != null) {
                         vars = XMLUtil.getWorkflowProcess(easmtpv).getAllVariables();
                      } else {
-                        vars = XMLUtil.getPossibleVariables(XMLUtil.getPackage(easmtpv));
+                        vars = XMLUtil.getPossibleVariables(easmtpv);
                      }
                      List positions = XMLUtil.getUsingPositions(expr,
                                                                 searchValue,
