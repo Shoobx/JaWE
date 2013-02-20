@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-02-20 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Full support for SHARK STRING VARIABLES
+
 2013-02-19 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Improved support for SHARK STRING VARIABLES
 

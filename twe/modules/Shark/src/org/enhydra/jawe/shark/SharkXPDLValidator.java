@@ -423,7 +423,6 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             }
          }
       }
-      System.out.println("PVS for el " + pkgOrWp + "=" + vars);
       Iterator<Map.Entry<String, String>> it = vars.entrySet().iterator();
       Map<String, String> dynamicScriptVariablesContext = new HashMap();
       Map<String, String> otherVariablesContext = new HashMap();
