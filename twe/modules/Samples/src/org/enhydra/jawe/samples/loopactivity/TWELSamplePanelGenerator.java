@@ -30,7 +30,6 @@ import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
-import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
@@ -123,8 +122,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
 
             ea = eas.getFirstExtendedAttributeForName(TWELSampleConstants.EA_LOOP_CONDITION);
             List<List> mc = new ArrayList<List>();
-            mc.add(new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el))
-               .values()));
+            mc.add(getBasicExpressionChoices(el));
             pnl = new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                      ea,
                                                                      "Condition",
@@ -133,6 +131,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                                                      XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
                                                                      true,
                                                                      mc,
+                                                                     getBasicExpressionChoicesTooltips(el),
                                                                      JaWEManager.getInstance()
                                                                         .getJaWEController()
                                                                         .canModifyElement(ea), null);

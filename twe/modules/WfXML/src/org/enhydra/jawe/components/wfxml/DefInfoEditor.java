@@ -193,6 +193,7 @@ public class DefInfoEditor extends JDialog {
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
                                                                  false,
                                                                  definitionKeyEnabled,
+                                                                 null,
                                                                  null));
       lst.add(new XMLTextPanel(null, di.get("Name"), false, false, definitionKeyEnabled));
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
@@ -201,6 +202,7 @@ public class DefInfoEditor extends JDialog {
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                  true,
                                                                  definitionKeyEnabled,
+                                                                 null,
                                                                  null));
       lst.add(new XMLTextPanel(null, di.get("Version"), false, false, definitionKeyEnabled));
       lst.add(new XMLTextPanel(null, di.get("Status"), false, false, definitionKeyEnabled));

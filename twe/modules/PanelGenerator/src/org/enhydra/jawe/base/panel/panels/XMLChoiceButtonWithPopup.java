@@ -68,11 +68,13 @@ public class XMLChoiceButtonWithPopup extends JButton implements
    public XMLChoiceButtonWithPopup(XMLAppendChoiceInterface parent,
                                    List choices,
                                    ImageIcon icon,
-                                   ImageIcon pressedIcon) {
+                                   ImageIcon pressedIcon,
+                                   String tooltip) {
       this.parent = parent;
       this.defaultIcon = icon;
       this.pressedIcon = pressedIcon;
       setIcon(icon);
+      setToolTipText(tooltip);
       addActionListener(this);
       setMargin(new Insets(1, 2, 1, 2));
       setSize(new Dimension(10, 8));

@@ -154,7 +154,6 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                                              ap);
                List toShow = new ArrayList(ap.toElements());
                toShow.removeAll(hidden);
-               List<List> mc = ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap);
                toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                          ap,
                                                                          "Expression",
@@ -162,8 +161,8 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                                                          true,
                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
                                                                          false,
-                                                                         mc,
-                                                                         JaWEManager.getInstance()
+                                                                         ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap),
+                                                                         ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesTooltips(ap),                                                                         JaWEManager.getInstance()
                                                                             .getJaWEController()
                                                                             .canModifyElement(ap)));
                p = new XMLGroupPanel(getPanelContainer(),

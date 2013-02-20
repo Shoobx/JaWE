@@ -46,7 +46,8 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
                                           int type,
                                           boolean wrapLines,
                                           boolean isEnabled,
-                                          List<List> choices) {
+                                          List<List> choices,
+                                          List<String> chTooltips) {
       this(pc,
            myOwner,
            myOwner.toName(),
@@ -55,6 +56,7 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
            type,
            wrapLines,
            choices,
+           chTooltips,
            isEnabled,
            null);
    }
@@ -67,6 +69,7 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
                                           int type,
                                           boolean wrapLines,
                                           List<List> choices,
+                                          List<String> chTooltips,
                                           boolean isEnabled,
                                           String tooltip) {
 
@@ -78,6 +81,7 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
             type,
             wrapLines,
             choices,
+            chTooltips,
             isEnabled,
             tooltip);
       this.sysVariablesChoices = choices.get(0);

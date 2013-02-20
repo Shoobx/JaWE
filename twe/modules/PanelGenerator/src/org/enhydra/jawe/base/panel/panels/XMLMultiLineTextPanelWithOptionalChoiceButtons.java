@@ -75,7 +75,8 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          int type,
                                                          boolean wrapLines,
                                                          boolean isEnabled,
-                                                         List<List> choices) {
+                                                         List<List> choices,
+                                                         List<String> chTooltips) {
       this(pc,
            myOwner,
            myOwner.toName(),
@@ -84,6 +85,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
            type,
            wrapLines,
            choices,
+           chTooltips,
            isEnabled,
            null);
    }
@@ -96,6 +98,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          int type,
                                                          boolean wrapLines,
                                                          List<List> choices,
+                                                         List<String> chTooltips,
                                                          boolean isEnabled,
                                                          String tooltip) {
 
@@ -168,11 +171,17 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
 
       jspAndOpt.add(jsp);
       if (choices != null) {
-         for (List list : choices) {
+         for (int i=0; i<choices.size(); i++) {
+            List list = choices.get(i);
+            String chTooltip = null;
+            if (chTooltips!=null && chTooltips.size()>=i) {
+               chTooltip = chTooltips.get(i);
+            }
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
                                                                            list,
                                                                            ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
-                                                                           ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon());
+                                                                           ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon(),
+                                                                           chTooltip);
             // Dimension di=new Dimension(18,18);
             // optBtn.setMinimumSize(new Dimension(di));
             // optBtn.setMaximumSize(new Dimension(di));

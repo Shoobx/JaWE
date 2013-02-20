@@ -146,20 +146,24 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 null);
 
       List<List> mc = prepareExpressionChoices(el);
+      List<String> mct = prepareExpressionChoicesTooltips(el);
+
       XMLPanel subject = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                              el.getSubjectAttribute(),
                                                              true,
                                                              XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
                                                              false,
                                                              enableEditing,
-                                                             mc);
+                                                             mc,
+                                                             mct);
       XMLPanel content = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                              el.getContentAttribute(),
                                                              true,
                                                              XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
                                                              false,
                                                              enableEditing,
-                                                             mc);
+                                                             mc,
+                                                             mct);
       XMLPanel attachments = generateStandardTablePanel(el.getAttachmentsElement(),
                                                         true,
                                                         true,
@@ -1214,7 +1218,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement
                  && el.toName().equals("Script")) {
-         List<List> mc = prepareExpressionChoices(el.getParent().getParent());
          return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                el,
                                                                "Script",
@@ -1222,7 +1225,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                true,
                                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
                                                                false,
-                                                               mc,
+                                                               prepareExpressionChoices(el.getParent()
+                                                                  .getParent()),
+                                                               prepareExpressionChoicesTooltips(el.getParent()
+                                                                  .getParent()),
                                                                JaWEManager.getInstance()
                                                                   .getJaWEController()
                                                                   .canModifyElement(el));
@@ -1296,7 +1302,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (el.toName().equals("Name")) {
             return super.generateStandardTextPanel(el, false);
          }
-         List<List> mc = prepareExpressionChoices(el.getParent());
          boolean enableEditing = JaWEManager.getInstance()
             .getJaWEController()
             .canModifyElement(el);
@@ -1306,7 +1311,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                               XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
                                                               false,
                                                               enableEditing,
-                                                              mc);
+                                                              prepareExpressionChoices(el.getParent()),
+                                                              prepareExpressionChoicesTooltips(el.getParent()));
 
          return value;
       } else if (el.getParent() instanceof ExtendedAttributeWrapper
@@ -1334,7 +1340,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT) || ea.getName()
             .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)))
              || (!isAct && (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)))) {
-            List<List> mc = prepareExpressionChoices(ea);
             boolean enableEditing = JaWEManager.getInstance()
                .getJaWEController()
                .canModifyElement(el);
@@ -1344,7 +1349,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
                                                                  false,
                                                                  enableEditing,
-                                                                 mc);
+                                                                 prepareExpressionChoices(ea),
+                                                                 prepareExpressionChoicesTooltips(ea));
 
             return value;
          }
@@ -1401,10 +1407,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
          l.add(df);
       }
-      boolean isForActivity = XMLUtil.getActivity(el) != null;
+      boolean isForActivity = XMLUtil.getActivity(el) != null || XMLUtil.getApplication(el)!=null;
+      boolean isSharkString = (el instanceof SharkStringExtendedAttributeWrapper)
+            || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
+               .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
-         if (id.startsWith("shark_activity_") && !isForActivity) {
+         if (id.startsWith("shark_activity_") && !isForActivity && !isSharkString) {
             continue;
          }
          DataField df = new DataField(null);
@@ -1432,7 +1441,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List<List> mc = new ArrayList<List>();
 
       List l = new ArrayList();
-      boolean isForActivity = XMLUtil.getActivity(el) != null;
+      boolean isForActivity = XMLUtil.getActivity(el) != null || XMLUtil.getApplication(el)!=null;
       boolean isSharkString = (el instanceof SharkStringExtendedAttributeWrapper)
                               || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
                                  .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));
@@ -1462,7 +1471,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       }
       mc.add(l);
 
-      mc.add(new ArrayList(XMLUtil.getPossibleVariables(el).values()));
+      mc.add(getBasicExpressionChoices(el));
 
       if (!(el instanceof InitialValue)) {
          l = new ArrayList();
@@ -1493,6 +1502,19 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       }
       return mc;
+   }
+
+   public List<String> prepareExpressionChoicesTooltips(XMLElement el) {
+      List<String> mct = new ArrayList<String>();
+
+      mct.add(getSettings().getLanguageDependentString("InsertSystemVariableKey"));
+      mct.add(getSettings().getLanguageDependentString("InsertVariableKey"));
+
+      if (!(el instanceof InitialValue)) {
+         mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
+         mct.add(getSettings().getLanguageDependentString("InsertSharkStringVariableKey"));
+      }
+      return mct;
    }
 
 }

@@ -69,6 +69,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
    public XMLHighlightPanelWithReferenceLink(PanelContainer pc,
                                              Performer myOwner,
                                              List<List> choices,
+                                             List<String> chTooltips,
                                              boolean hasEmptyBorder,
                                              boolean isVertical,
                                              boolean isEditable,
@@ -129,6 +130,8 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       }
       List<List> mc = new ArrayList<List>();
       mc.add(participants);
+      List<String> pttps = new ArrayList<String>();
+      pttps.add(pc.getSettings().getLanguageDependentString("InsertParticipantKey"));
       panel = new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                              myOwner,
                                                              myOwner.toName(),
@@ -137,6 +140,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
                                                              XMLMultiLineHighlightPanelWithChoiceButton.SIZE_MEDIUM,
                                                              false,
                                                              mc,
+                                                             pttps,
                                                              isEnabled,
                                                              initText,
                                                              null);
@@ -175,11 +179,17 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
             choices.add(new ArrayList(XMLUtil.getPossibleVariables(wp).values()));
          }
          
-         for (List list : choices) {
+         for (int i = 0; i < choices.size(); i++) {
+            List list = choices.get(i);
+            String chTooltip = null;
+            if (chTooltips != null && chTooltips.size() >= i) {
+               chTooltip = chTooltips.get(i);
+            }
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
                                                                            list,
                                                                            ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
-                                                                           ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon());
+                                                                           ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon(),
+                                                                           chTooltip);
             // Dimension di=new Dimension(18,18);
             // optBtn.setMinimumSize(new Dimension(di));
             // optBtn.setMaximumSize(new Dimension(di));

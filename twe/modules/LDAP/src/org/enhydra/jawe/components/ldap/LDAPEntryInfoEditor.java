@@ -146,6 +146,7 @@ public class LDAPEntryInfoEditor extends JDialog {
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
                                                                  true,
                                                                  false,
+                                                                 null,
                                                                  null));
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                  di.get("DN"),
@@ -153,6 +154,7 @@ public class LDAPEntryInfoEditor extends JDialog {
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
                                                                  true,
                                                                  false,
+                                                                 null,
                                                                  null));
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                  di.get("Details"),
@@ -160,6 +162,7 @@ public class LDAPEntryInfoEditor extends JDialog {
                                                                  XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                  true,
                                                                  true,
+                                                                 null,
                                                                  null) {
          public void setValue(String v) {
          }

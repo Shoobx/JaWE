@@ -417,6 +417,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
                                                                 false,
                                                                 mc,
+                                                                null,
                                                                 JaWEManager.getInstance()
                                                                    .getJaWEController()
                                                                    .canModifyElement(el),
@@ -690,6 +691,7 @@ public class StandardPanelGenerator implements PanelGenerator {
          return new XMLHighlightPanelWithReferenceLink(getPanelContainer(),
                                                        el,
                                                        prepareExpressionChoices(el),
+                                                       prepareExpressionChoicesTooltips(el),
                                                        true,
                                                        false,
                                                        true,
@@ -1269,6 +1271,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                       false,
                                                                       mc,
+                                                                      getBasicExpressionChoicesTooltips(el),
                                                                       JaWEManager.getInstance()
                                                                          .getJaWEController()
                                                                          .canModifyElement(el),
@@ -1281,6 +1284,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       true,
                                                                       XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                       false,
+                                                                      null,
                                                                       null,
                                                                       JaWEManager.getInstance()
                                                                          .getJaWEController()
@@ -1621,6 +1625,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 JaWEManager.getInstance()
                                                                    .getJaWEController()
                                                                    .canModifyElement(el),
+                                                                null,
                                                                 null);
    }
 
@@ -1745,7 +1750,6 @@ public class StandardPanelGenerator implements PanelGenerator {
       toShow.removeAll(hidden);
       if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
           || cel instanceof Condition) {
-         List<List> mc = prepareExpressionChoices(cel);
          toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                    cel,
                                                                    "Expression",
@@ -1753,7 +1757,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                    true,
                                                                    XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                    false,
-                                                                   mc,
+                                                                   prepareExpressionChoices(cel),
+                                                                   prepareExpressionChoicesTooltips(cel),
                                                                    JaWEManager.getInstance()
                                                                       .getJaWEController()
                                                                       .canModifyElement(cel)));
@@ -1773,6 +1778,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                           false,
                                                                           mc,
+                                                                          getBasicExpressionChoicesTooltips(holder),
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
                                                                              .canModifyElement(cel),
@@ -1787,6 +1793,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                           false,
                                                                           null,
+                                                                          null,
                                                                           JaWEManager.getInstance()
                                                                              .getJaWEController()
                                                                              .canModifyElement(cel),
@@ -1800,6 +1807,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                        true,
                                                                        XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
                                                                        false,
+                                                                       null,
                                                                        null,
                                                                        JaWEManager.getInstance()
                                                                           .getJaWEController()
@@ -1940,6 +1948,13 @@ public class StandardPanelGenerator implements PanelGenerator {
       return new ArrayList(XMLUtil.getPossibleVariables(el).values());
    }
 
+   public List<String> getBasicExpressionChoicesTooltips (XMLElement el) {
+      List<String> tc = new ArrayList<String>();
+      tc.add(getSettings().getLanguageDependentString("InsertVariableKey"));
+      return tc;      
+   }
+   
+   
    public List getExpressionChoices(XMLElement el) {
       return getBasicExpressionChoices(el);
    }
@@ -1953,6 +1968,15 @@ public class StandardPanelGenerator implements PanelGenerator {
       return mc;
    }
 
+   public List<String> prepareExpressionChoicesTooltips (XMLElement el) {
+      if (el instanceof InitialValue) {
+         return null;
+      }
+      List<String> tc = new ArrayList<String>();
+      tc.add(getSettings().getLanguageDependentString("InsertVariableKey"));
+      return tc;      
+   }
+   
    public Settings getSettings() {
       return getPanelContainer().getSettings();
    }

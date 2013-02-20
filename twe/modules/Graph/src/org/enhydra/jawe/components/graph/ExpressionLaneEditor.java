@@ -368,6 +368,7 @@ public class ExpressionLaneEditor {
                                                                           XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
                                                                           false,
                                                                           null,
+                                                                          null,
                                                                           !elementToEdit.isReadOnly(), null);
          } else {
             pIdPanel = new XMLTextPanel(null,
