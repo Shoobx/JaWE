@@ -42,6 +42,7 @@ import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
+import org.enhydra.jawe.base.panel.panels.XMLTablePanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollectionElement;
@@ -270,6 +271,34 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                        false,
                                                        true);
       return gp;
+   }
+
+   public XMLPanel getPanel(SharkStringExtendedAttributesWrapper el) {
+      List elementsToShow = el.toElements();
+
+      List columnsToShow = PanelUtilities.getColumnsToShow(getPanelContainer(),
+                                                           "XMLTablePanel",
+                                                           el);
+
+      return new XMLTablePanel((InlinePanel) getPanelContainer(),
+                            el,
+                            columnsToShow,
+                            elementsToShow,
+                            JaWEManager.getInstance().getLabelGenerator().getLabel(el)
+                                  + ", "
+                                  + el.size()
+                                  + " "
+                                  + getPanelContainer().getLanguageDependentString("ElementsKey"),
+                            true,
+                            false,
+                            false,
+                            false,
+                            null,
+                            true,
+                            true,
+                            true,
+                            false,
+                            null);
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
@@ -895,7 +924,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
       } else {
          SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
-         p = generateStandardTablePanel(eaw, false, false, false);
+         p = getPanel(eaw);
       }
       return p;
    }
@@ -1128,7 +1157,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
       } else if (no == 11) {
          SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
-         p = generateStandardTablePanel(eaw, false, false, false);
+         p = getPanel(eaw);
       } else {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes()));
       }
@@ -1407,10 +1436,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
          l.add(df);
       }
-      boolean isForActivity = XMLUtil.getActivity(el) != null || XMLUtil.getApplication(el)!=null;
+      boolean isForActivity = XMLUtil.getActivity(el) != null
+                              || XMLUtil.getApplication(el) != null;
       boolean isSharkString = (el instanceof SharkStringExtendedAttributeWrapper)
-            || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
-               .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));
+                              || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
+                                 .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
          if (id.startsWith("shark_activity_") && !isForActivity && !isSharkString) {
@@ -1441,7 +1471,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List<List> mc = new ArrayList<List>();
 
       List l = new ArrayList();
-      boolean isForActivity = XMLUtil.getActivity(el) != null || XMLUtil.getApplication(el)!=null;
+      boolean isForActivity = XMLUtil.getActivity(el) != null
+                              || XMLUtil.getApplication(el) != null;
       boolean isSharkString = (el instanceof SharkStringExtendedAttributeWrapper)
                               || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
                                  .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));

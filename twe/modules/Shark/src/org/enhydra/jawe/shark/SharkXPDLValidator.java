@@ -504,21 +504,9 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          XMLUtil.determineVariableEvaluationOrder(placeholderProps);
       } catch (Exception ex) {
          String excMsg = ex.getMessage();
-         // Iterator<Map.Entry<String, String>> ite = props.entrySet().iterator();
-         // while (ite.hasNext()) {
-         // Map.Entry<String, String> me = ite.next();
-         // String id = me.getKey();
-         // String iv = me.getValue();
-         // DataField df = new DataField(null);
-         // df.setId(id);
-         // df.getDataType().getDataTypes().setBasicType();
-         // df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-         // l.add(df);
-         // }
-         //
          Map m1 = SharkUtils.getPossibleSharkStringVariablesEAValues(pkgOrWp, false);
          Map m2 = new HashMap();
-         Iterator<Map.Entry<String, String>> ite2 = m1.entrySet().iterator();
+         Iterator<Map.Entry<String, XMLElement>> ite2 = m1.entrySet().iterator();
          while (ite2.hasNext()) {
             Map.Entry me = ite2.next();
             m2.put("{"
