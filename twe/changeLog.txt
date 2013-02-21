@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-02-21 Sasa Bojanic <sasaboy@together.at>
+   # Added more icons that can be used when setting Activity's cutom icon
+
 2013-02-20 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Full support for SHARK STRING VARIABLES
 
