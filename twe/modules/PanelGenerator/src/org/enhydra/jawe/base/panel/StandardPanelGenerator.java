@@ -1606,7 +1606,7 @@ public class StandardPanelGenerator implements PanelGenerator {
       } else if (el instanceof XMLComplexElement) {
          panel = generateStandardGroupPanel((XMLComplexElement) el, false, true);
       } else if (el instanceof XMLCollection) {
-         panel = generateStandardTablePanel((XMLCollection) el, true, false, false);
+         panel = generateStandardTablePanel((XMLCollection) el, true, false, false, false);
       } else {
          panel = new XMLBasicPanel();
       }
@@ -1643,7 +1643,8 @@ public class StandardPanelGenerator implements PanelGenerator {
    protected XMLTablePanel generateStandardTablePanel(XMLCollection cl,
                                                       boolean hasTitle,
                                                       boolean hasEmptyBorder,
-                                                      boolean miniDim) {
+                                                      boolean miniDim,
+                                                      boolean useBasicToolbar) {
       List elementsToShow = cl.toElements();
       Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
                                                     "XMLTablePanel",
@@ -1669,8 +1670,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                     + (cl.size() - hidden.size())
                                                     + " "
                                                     + getPanelContainer().getLanguageDependentString("ElementsKey"),
-                                              true,
-                                              false,
+                                              hasTitle,
+                                              hasEmptyBorder,
                                               false,
                                               miniDim,
                                               true,
@@ -1688,12 +1689,16 @@ public class StandardPanelGenerator implements PanelGenerator {
                                         + (cl.size() - hidden.size())
                                         + " "
                                         + getPanelContainer().getLanguageDependentString("ElementsKey"),
-                                  true,
-                                  false,
+                                  hasTitle,
+                                  hasEmptyBorder,
                                   false,
                                   miniDim,
+                                  null,
                                   true,
-                                  true);
+                                  true,
+                                  useBasicToolbar,
+                                  false,
+                                  null);
       }
    }
 
@@ -1948,13 +1953,12 @@ public class StandardPanelGenerator implements PanelGenerator {
       return new ArrayList(XMLUtil.getPossibleVariables(el).values());
    }
 
-   public List<String> getBasicExpressionChoicesTooltips (XMLElement el) {
+   public List<String> getBasicExpressionChoicesTooltips(XMLElement el) {
       List<String> tc = new ArrayList<String>();
       tc.add(getSettings().getLanguageDependentString("InsertVariableKey"));
-      return tc;      
+      return tc;
    }
-   
-   
+
    public List getExpressionChoices(XMLElement el) {
       return getBasicExpressionChoices(el);
    }
@@ -1968,15 +1972,15 @@ public class StandardPanelGenerator implements PanelGenerator {
       return mc;
    }
 
-   public List<String> prepareExpressionChoicesTooltips (XMLElement el) {
+   public List<String> prepareExpressionChoicesTooltips(XMLElement el) {
       if (el instanceof InitialValue) {
          return null;
       }
       List<String> tc = new ArrayList<String>();
       tc.add(getSettings().getLanguageDependentString("InsertVariableKey"));
-      return tc;      
+      return tc;
    }
-   
+
    public Settings getSettings() {
       return getPanelContainer().getSettings();
    }

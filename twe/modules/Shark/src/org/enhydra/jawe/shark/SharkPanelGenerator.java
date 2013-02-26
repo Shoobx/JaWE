@@ -168,21 +168,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLPanel attachments = generateStandardTablePanel(el.getAttachmentsElement(),
                                                         true,
                                                         true,
-                                                        false);
-      // new XMLListPanel((InlinePanel) getPanelContainer(),
-      // el.getAttachmentsElement(),
-      // el.getAttachmentsElement().toElements(),
-      // getPanelContainer().getLanguageDependentString(el.getAttachmentsElement()
-      // .toName()
-      // + "Key"),
-      // true,
-      // false,
-      // enableEditing,
-      // true,
-      // true,
-      // true,
-      // null);
-
+                                                        false,
+                                                        true);
       XMLPanel dmAttachments = new XMLListPanel((InlinePanel) getPanelContainer(),
                                                 el.getDMAttachmentsElement(),
                                                 el.getDMAttachmentsElement().toElements(),
@@ -274,31 +261,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(SharkStringExtendedAttributesWrapper el) {
-      List elementsToShow = el.toElements();
-
-      List columnsToShow = PanelUtilities.getColumnsToShow(getPanelContainer(),
-                                                           "XMLTablePanel",
-                                                           el);
-
-      return new XMLTablePanel((InlinePanel) getPanelContainer(),
-                            el,
-                            columnsToShow,
-                            elementsToShow,
-                            JaWEManager.getInstance().getLabelGenerator().getLabel(el)
-                                  + ", "
-                                  + el.size()
-                                  + " "
-                                  + getPanelContainer().getLanguageDependentString("ElementsKey"),
-                            true,
-                            false,
-                            false,
-                            false,
-                            null,
-                            true,
-                            true,
-                            true,
-                            false,
-                            null);
+      return generateStandardTablePanel(el, true, false, false, true);
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
