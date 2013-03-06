@@ -37,9 +37,26 @@ public class EmailConfigurationElement extends XMLComplexElement {
 
    protected boolean isPersisted = false;
 
-   public EmailConfigurationElement(ExtendedAttributes eas) {
-      super(eas.getParent(), "EmailConfiguration", true);
+   protected boolean isForErrorHandling = false;
+
+   protected boolean isForAct = false;
+
+   public EmailConfigurationElement(ExtendedAttributes eas,
+                                    boolean isForAct,
+                                    boolean isForErrorHandling) {
+      super(eas.getParent(),
+            ((XMLUtil.getActivity(eas) == null && isForAct) ? "Default"
+                                                              + (isForErrorHandling ? ""
+                                                                                   : "Activity")
+                                                           : (XMLUtil.getWorkflowProcess(eas) == null) ? "Default"
+                                                                                                         + (isForErrorHandling ? ""
+                                                                                                                              : "Process")
+                                                                                                      : "")
+                  + (isForErrorHandling ? "Error" : "") + "EmailConfiguration",
+            true);
       this.eas = eas;
+      this.isForErrorHandling = isForErrorHandling;
+      this.isForAct = isForAct;
       notifyMainListeners = false;
       notifyListeners = false;
       handleStructure();
@@ -49,56 +66,82 @@ public class EmailConfigurationElement extends XMLComplexElement {
    public void setValue(String v) {
       if (v == null) {
          boolean removeUnconditionally = !isConfigurable();
+         String postFix = isForAct ? "_ACTIVITY" : "_PROCESS";
+
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE,
+                                                  isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_MODE
+                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
+                                                                      + postFix,
                                                   null,
                                                   null,
-                                                  false, removeUnconditionally);
+                                                  false,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE,
+                                                  isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_EXECUTION_MODE
+                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
+                                                                      + postFix,
                                                   null,
                                                   null,
-                                                  false, removeUnconditionally);
-         if (eas.getParent() instanceof Activity) {
+                                                  false,
+                                                  removeUnconditionally);
+         if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
-                                                     SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY,
+                                                     isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY
+                                                                       : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
+                                                                         + postFix,
                                                      null,
                                                      null,
-                                                     false, removeUnconditionally);
+                                                     false,
+                                                     removeUnconditionally);
          }
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT,
+                                                  isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT
+                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                                                      + postFix,
                                                   null,
                                                   null,
-                                                  true, removeUnconditionally);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT,
+                                                  isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT
+                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                                                      + postFix,
                                                   null,
                                                   null,
-                                                  true, removeUnconditionally);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS,
+                                                  isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS
+                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
+                                                                      + postFix,
                                                   "ContentVariable",
                                                   null,
-                                                  true, removeUnconditionally);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES,
+                                                  isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES
+                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
+                                                                      + postFix,
                                                   "NameVariableOrExpression",
                                                   null,
-                                                  true, removeUnconditionally);
+                                                  true,
+                                                  removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS,
+                                                  isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS
+                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
+                                                                      + postFix,
                                                   null,
                                                   null,
-                                                  true, removeUnconditionally);
+                                                  true,
+                                                  removeUnconditionally);
       } else {
          if (isReadOnly) {
             throw new RuntimeException("Can't set the value of read only element!");
@@ -106,17 +149,28 @@ public class EmailConfigurationElement extends XMLComplexElement {
          this.value = v;
       }
    }
-   
+
    public void setReadOnly(boolean ro) {
       super.setReadOnly(ro);
       if (!eas.isReadOnly()) {
          getConfigureEmailAttribute().setReadOnly(false);
       }
    }
-   
+
    public XMLElement get(String name) {
-      if (SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES.equals(name)) {
-         name = SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS;
+      String postFix = isForAct ? "_ACTIVITY" : "_PROCESS";
+      if ((SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postFix).equals(name)
+          || (SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES).equals(name)) {
+         name = SharkConstants.SMTP_ATTACHMENTS;
+      }
+      if (isForErrorHandling) {
+         name = name.replaceAll("ERROR_HANDLER_", "");
+      } else {
+         name = name.replaceAll("EVENT_AUDIT_MANAGER_","");
+      }
+
+      if (name.endsWith(postFix)) {
+         name = name.substring(0, name.lastIndexOf(postFix));
       }
       return super.get(name);
    }
@@ -126,31 +180,31 @@ public class EmailConfigurationElement extends XMLComplexElement {
    }
 
    public XMLAttribute getModeAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE);
+      return (XMLAttribute) get(SharkConstants.SMTP_MODE);
    }
 
    public XMLAttribute getExecutionModeAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE);
+      return (XMLAttribute) get(SharkConstants.SMTP_EXECUTION_MODE);
    }
 
    public XMLAttribute getGroupEmailOnlyAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY);
+      return (XMLAttribute) get(SharkConstants.SMTP_GROUP_EMAIL_ONLY);
    }
 
    public XMLAttribute getSubjectAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT);
+      return (XMLAttribute) get(SharkConstants.SMTP_SUBJECT);
    }
 
    public XMLAttribute getContentAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT);
+      return (XMLAttribute) get(SharkConstants.SMTP_CONTENT);
    }
 
    public WfAttachments getAttachmentsElement() {
-      return (WfAttachments) get(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS);
+      return (WfAttachments) get(SharkConstants.SMTP_ATTACHMENTS);
    }
 
    public WfVariables getDMAttachmentsElement() {
-      return (WfVariables) get(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS);
+      return (WfVariables) get(SharkConstants.SMTP_DM_ATTACHMENTS);
    }
 
    protected void fillStructure() {
@@ -163,14 +217,14 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                          0);
 
       XMLAttribute attrMode = new XMLAttribute(this,
-                                               SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE,
+                                               SharkConstants.SMTP_MODE,
                                                false,
                                                new String[] {
                                                      "true", "false"
                                                },
                                                0);
       XMLAttribute attrExecutionMode = new XMLAttribute(this,
-                                                        SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE,
+                                                        SharkConstants.SMTP_EXECUTION_MODE,
                                                         false,
                                                         new String[] {
                                                               "asynchronous",
@@ -178,32 +232,32 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                         },
                                                         0);
       XMLAttribute attrGroupEmailOnly = new XMLAttribute(this,
-                                                         SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY,
+                                                         SharkConstants.SMTP_GROUP_EMAIL_ONLY,
                                                          false,
                                                          new String[] {
                                                                "true", "false"
                                                          },
                                                          1);
       XMLAttribute attrSubject = new XMLAttribute(this,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT,
+                                                  SharkConstants.SMTP_SUBJECT,
                                                   false);
 
       XMLAttribute attrContent = new XMLAttribute(this,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT,
+                                                  SharkConstants.SMTP_CONTENT,
                                                   false);
       WfAttachments elAttachments = new WfAttachments(this,
-                                                  SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS,
-                                                  Arrays.asList(new String[] {
-                                                        XPDLConstants.BASIC_TYPE_STRING,
-                                                        XMLUtil.getShortClassName(SchemaType.class.getName())
-                                                  }),
-                                                  Arrays.asList(new String[] {
-                                                                              XPDLConstants.BASIC_TYPE_STRING
-                                                                           }),
-                                                  ",",
-                                                  false);
+                                                      SharkConstants.SMTP_ATTACHMENTS,
+                                                      Arrays.asList(new String[] {
+                                                            XPDLConstants.BASIC_TYPE_STRING,
+                                                            XMLUtil.getShortClassName(SchemaType.class.getName())
+                                                      }),
+                                                      Arrays.asList(new String[] {
+                                                         XPDLConstants.BASIC_TYPE_STRING
+                                                      }),
+                                                      ",",
+                                                      false);
       WfVariables elDMAttachments = new WfVariables(this,
-                                                    SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS,
+                                                    SharkConstants.SMTP_DM_ATTACHMENTS,
                                                     Arrays.asList(new String[] {
                                                        XPDLConstants.BASIC_TYPE_STRING
                                                     }),
@@ -223,26 +277,45 @@ public class EmailConfigurationElement extends XMLComplexElement {
    protected void handleStructure() {
       int pc = 0;
       Iterator it = eas.toElements().iterator();
+      String postFix = isForAct ? "_ACTIVITY" : "_PROCESS";
+      if (isForErrorHandling)
+         postFix = "";
       boolean hasAny = false;
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          String eaname = ea.getName();
-         XMLElement attr = get(eaname);
+         XMLElement attr = null;
+         if (!isForErrorHandling) {
+            if (!eaname.startsWith("SMTP_EVENT_AUDIT_MANAGER_")) {
+               continue;
+            }
+            eaname= eaname.replaceAll("EVENT_AUDIT_MANAGER_", "");
+            int indof = eaname.lastIndexOf(postFix);
+            if (indof == -1)
+               continue;
+            eaname = eaname.substring(0, indof);
+         } else if (eaname.startsWith("SMTP_ERROR_HANDLER_")) {
+            eaname = eaname.replaceAll("ERROR_HANDLER_", "");
+         } else {
+            continue;
+         }
+         attr = get(eaname);
          if (attr != null) {
             String eaval = ea.getVValue();
-            if (eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)) {
+            if (eaname.equals(SharkConstants.SMTP_DM_ATTACHMENTS)) {
                ((WfVariables) attr).createStructure(eaval);
-            } else if (eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)) {
-               ExtendedAttribute eans = eas.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES);
+            } else if (eaname.equals(SharkConstants.SMTP_ATTACHMENTS)) {
+               ExtendedAttribute eans = eas.getFirstExtendedAttributeForName(SharkConstants.SMTP_ATTACHMENT_NAMES
+                                                                             + postFix);
                String nms = "";
-               if (eans!=null) {
+               if (eans != null) {
                   nms = eans.getVValue();
                }
                ((WfAttachments) attr).createStructure(eaval, nms);
             } else {
-               if (eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_MODE)
-                   || eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE)
-                   || eaname.equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY)) {
+               if (eaname.equals(SharkConstants.SMTP_MODE)
+                   || eaname.equals(SharkConstants.SMTP_EXECUTION_MODE)
+                   || eaname.equals(SharkConstants.SMTP_GROUP_EMAIL_ONLY)) {
                   pc++;
                }
                attr.setValue(eaval);
@@ -262,4 +335,17 @@ public class EmailConfigurationElement extends XMLComplexElement {
    public boolean isConfigurable() {
       return getConfigureEmailAttribute().toValue().equalsIgnoreCase("true");
    }
+
+   public void setConfigurable(boolean isConfigurable) {
+      getConfigureEmailAttribute().setValue(String.valueOf(isConfigurable));
+   }
+
+   public boolean isForActivity() {
+      return isForAct;
+   }
+
+   public boolean isForErrorHandling() {
+      return isForErrorHandling;
+   }
+
 }

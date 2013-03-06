@@ -226,9 +226,9 @@ public class StandardPanelValidator implements PanelValidator {
          }
       }
 
-      System.err.println("Valid for "
-                         + el + ", par=" + el.getParent() + ", newid=" + newId + ", idp="
-                         + idPanel);
+//      System.err.println("Valid for "
+//                         + el + ", par=" + el.getParent() + ", newid=" + newId + ", idp="
+//                         + idPanel);
       boolean isValid = XMLUtil.isIdValid(newId);
       if (!isValid) {
          XMLBasicPanel.errorMessage(pnl.getWindow(),

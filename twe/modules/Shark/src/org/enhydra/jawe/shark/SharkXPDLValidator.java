@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.xpdlvalidator.TogWEXPDLValidator;
 import org.enhydra.jxpdl.StandardPackageValidator;
 import org.enhydra.jxpdl.XMLAttribute;
@@ -97,20 +98,45 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
               || parent.getParent().getParent() instanceof WorkflowProcess || parent.getParent()
              .getParent() instanceof Package)) {
          boolean isAct = parent.getParent().getParent() instanceof Activity;
+         String postfixProc = "_PROCESS";
+         String postfixAct = "_ACTIVITY";
          boolean isPkg = parent.getParent().getParent() instanceof Package;
          if (el.toName().equals("Name")) {
             if (((el.toValue().equals(SharkConstants.VTP_UPDATE) || el.toValue()
                .equals(SharkConstants.VTP_VIEW)) && isAct)
+                || (!isAct && (el.toValue()
+                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
+                           + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
+                                          + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
+                                          + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                          + postfixProc) || el.toValue()
+                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)))
                 || el.toValue()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
+                           + postfixAct)
                 || el.toValue()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
+                           + postfixAct)
                 || el.toValue()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
+                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
+                           + postfixAct)
+                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                       + postfixAct)
+                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                       + postfixAct)
                 || el.toValue()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                   .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
                 || el.toValue()
-                   .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT)
+                   .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
+                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
                 || (!isAct && el.toValue()
                    .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
                ExtendedAttribute ea = (ExtendedAttribute) parent;
@@ -126,12 +152,18 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                List<String> sysvals = new ArrayList<String>();
                List<String> csvals = new ArrayList<String>();
                List<String> xpdlsvals = new ArrayList<String>();
-               if (!isPkg
-                   && (ea.getName()
-                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
-                       || ea.getName()
-                          .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS) || ea.getName()
-                      .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS))) {
+               if (ea.getName()
+                  .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                   || ea.getName()
+                      .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                   || ea.getName()
+                      .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
+                   || ea.getName()
+                      .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                   || ea.getName()
+                      .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
+                   || ea.getName()
+                      .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)) {
                   WfVariables vars = new WfVariables((XMLComplexElement) parent.getParent()
                                                         .getParent(),
                                                      ea.getName(),
@@ -144,10 +176,14 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                      WfVariable v = (WfVariable) els.get(i);
                      vals.add(v.getId());
                   }
-               } else if ((!isPkg
-                           && ea.getName()
-                              .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT) || ea.getName()
-                  .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT))
+               } else if (ea.getName()
+                  .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                          || ea.getName()
+                             .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT)
+                          || ea.getName()
+                             .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                          || ea.getName()
+                             .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
                           || (!isAct && ea.getName()
                              .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
                   vals = SharkUtils.getPossiblePlaceholderVariables(ea.getVValue(),
@@ -163,8 +199,9 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                for (int i = 0; i < vals.size(); i++) {
                   String v = vals.get(i);
                   if (m.get(v) == null
-                      && !(ea.getName()
-                         .equals(SharkConstants.EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
+                      && !((ea.getName()
+                         .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES) || ea.getName()
+                         .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
                      boolean allowUndefinedVariables = allowsUndefinedVariables(wp);
                      boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
 
@@ -225,6 +262,32 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                      if (!fullCheck) {
                         return;
                      }
+                  }
+               }
+            } else if (el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)) {
+               ExtendedAttribute ea = (ExtendedAttribute) parent;
+               XMLComplexElement pkgOrWp = XMLUtil.getWorkflowProcess(el);
+               Map choices = null;
+               if (pkgOrWp == null) {
+                  pkgOrWp = XMLUtil.getPackage(el);
+                  choices = XMLUtil.getPossibleParticipants((Package) pkgOrWp,
+                                                            JaWEManager.getInstance()
+                                                               .getXPDLHandler());
+               } else {
+                  choices = XMLUtil.getPossibleParticipants((WorkflowProcess) pkgOrWp,
+                                                            JaWEManager.getInstance()
+                                                               .getXPDLHandler());
+               }
+
+               if (!choices.containsKey(ea.getVValue())) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   XPDLValidationErrorIds.ERROR_NON_EXISTING_PARTICIPANT_REFERENCE,
+                                                                   ea.getVValue(),
+                                                                   ea.get("Value"));
+                  existingErrors.add(verr);
+                  if (!fullCheck) {
+                     return;
                   }
                }
             }

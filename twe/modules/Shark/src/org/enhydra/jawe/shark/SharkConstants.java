@@ -75,22 +75,60 @@ public class SharkConstants {
 
    public static final String CONFIGURE_SMTP_EVENT_AUDIT_MANAGER = "ConfigureEmail";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_MODE = "SMTP_EVENT_AUDIT_MANAGER_MODE";
+   public static final String SMTP_MODE = "SMTP_MODE";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE = "SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE";
+   public static final String SMTP_EXECUTION_MODE = "SMTP_EXECUTION_MODE";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY = "SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY";
+   public static final String SMTP_GROUP_EMAIL_ONLY = "SMTP_GROUP_EMAIL_ONLY";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_SUBJECT = "SMTP_EVENT_AUDIT_MANAGER_SUBJECT";
+   public static final String SMTP_SUBJECT = "SMTP_SUBJECT";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_CONTENT = "SMTP_EVENT_AUDIT_MANAGER_CONTENT";
+   public static final String SMTP_CONTENT = "SMTP_CONTENT";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS = "SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS";
+   public static final String SMTP_ATTACHMENTS = "SMTP_ATTACHMENTS";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES = "SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES";
+   public static final String SMTP_ATTACHMENT_NAMES = "SMTP_ATTACHMENT_NAMES";
 
-   public static final String EA_SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS = "SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS";
+   public static final String SMTP_DM_ATTACHMENTS = "SMTP_DM_ATTACHMENTS";
 
+   public static final String SMTP_EVENT_AUDIT_MANAGER_MODE = "SMTP_EVENT_AUDIT_MANAGER_MODE";
+
+   public static final String SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE = "SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE";
+
+   public static final String SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY = "SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY";
+
+   public static final String SMTP_EVENT_AUDIT_MANAGER_SUBJECT = "SMTP_EVENT_AUDIT_MANAGER_SUBJECT";
+
+   public static final String SMTP_EVENT_AUDIT_MANAGER_CONTENT = "SMTP_EVENT_AUDIT_MANAGER_CONTENT";
+
+   public static final String SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS = "SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS";
+
+   public static final String SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES = "SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES";
+
+   public static final String SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS = "SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS";
+
+   public static final String CONFIGURE_ERROR_HANDLER = "ConfigureErrorHandler";
+
+   public static final String EA_SMTP_ERROR_HANDLER_EXECUTION_MODE = "SMTP_ERROR_HANDLER_EXECUTION_MODE";
+
+   public static final String EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY = "SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY";
+
+   public static final String EA_SMTP_ERROR_HANDLER_MODE = "SMTP_ERROR_HANDLER_MODE";
+
+   public static final String EA_SMTP_ERROR_HANDLER_SUBJECT = "SMTP_ERROR_HANDLER_SUBJECT";
+
+   public static final String EA_SMTP_ERROR_HANDLER_CONTENT = "SMTP_ERROR_HANDLER_CONTENT";
+
+   public static final String EA_SMTP_ERROR_HANDLER_ATTACHMENTS = "SMTP_ERROR_HANDLER_ATTACHMENTS";
+
+   public static final String EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES = "SMTP_ERROR_HANDLER_ATTACHMENT_NAMES";
+
+   public static final String EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS = "SMTP_ERROR_HANDLER_DM_ATTACHMENTS";
+
+   public static final String EA_SMTP_ERROR_HANDLER_RETURN_CODE = "SMTP_ERROR_HANDLER_RETURN_CODE";
+
+   public static final String EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT";
+   
    public static final String EA_IS_MANDATORY = "IS_MANDATORY";
 
    public static final String EA_MIN_LENGTH = "MIN_LENGTH";
@@ -374,6 +412,10 @@ public class SharkConstants {
 
    public static final String SHARK_TIME = "shark_time";
 
+   public static final String SHARK_ACTIVITY_ERROR_MESSAGE = "shark_activity_error_message";
+
+   public static final String SHARK_ACTIVITY_ERROR_STACKTRACE = "shark_activity_error_stacktrace";
+
    public static final String[] POSSIBLE_SYSTEM_VARIABLES = new String[] {
          SharkConstants.SHARK_PROCESS_DEFINITION_ID,
          SharkConstants.SHARK_PROCESS_DEFINITION_NAME,
@@ -399,6 +441,8 @@ public class SharkConstants {
          SharkConstants.SHARK_ACTIVITY_FINISHED_TIME,
          SharkConstants.SHARK_ACTIVITY_STATE,
          SharkConstants.SHARK_ACTIVITY_HANDLED_BY,
+         SharkConstants.SHARK_ACTIVITY_ERROR_MESSAGE,
+         SharkConstants.SHARK_ACTIVITY_ERROR_STACKTRACE,
          SharkConstants.SHARK_SESSION_HANDLE,
          SharkConstants.SHARK_VERSION,
          SharkConstants.SHARK_RELEASE,
