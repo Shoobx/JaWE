@@ -39,24 +39,29 @@ public class EmailConfigurationElement extends XMLComplexElement {
 
    protected boolean isForErrorHandling = false;
 
+   protected boolean isForLimitHandling = false;
+
    protected boolean isForAct = false;
 
    public EmailConfigurationElement(ExtendedAttributes eas,
                                     boolean isForAct,
-                                    boolean isForErrorHandling) {
+                                    boolean isForErrorHandling,
+                                    boolean isForLimitHandling) {
       super(eas.getParent(),
             ((XMLUtil.getActivity(eas) == null && isForAct) ? "Default"
-                                                              + (isForErrorHandling ? ""
-                                                                                   : "Activity")
+                                                              + ((isForErrorHandling || isForLimitHandling) ? ""
+                                                                                                           : "Activity")
                                                            : (XMLUtil.getWorkflowProcess(eas) == null) ? "Default"
-                                                                                                         + (isForErrorHandling ? ""
-                                                                                                                              : "Process")
+                                                                                                         + ((isForErrorHandling || isForLimitHandling) ? ""
+                                                                                                                                                      : "Process")
                                                                                                       : "")
-                  + (isForErrorHandling ? "Error" : "") + "EmailConfiguration",
+                  + (isForErrorHandling ? "Error" : (isForLimitHandling ? "Limit" : ""))
+                  + "EmailConfiguration",
             true);
       this.eas = eas;
-      this.isForErrorHandling = isForErrorHandling;
       this.isForAct = isForAct;
+      this.isForErrorHandling = isForErrorHandling;
+      this.isForLimitHandling = isForLimitHandling;
       notifyMainListeners = false;
       notifyListeners = false;
       handleStructure();
@@ -71,8 +76,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_MODE
-                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
-                                                                      + postFix,
+                                                                    : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_MODE
+                                                                                         : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
+                                                                                           + postFix),
                                                   null,
                                                   null,
                                                   false,
@@ -80,8 +86,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_EXECUTION_MODE
-                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
-                                                                      + postFix,
+                                                                    : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_EXECUTION_MODE
+                                                                                         : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
+                                                                                           + postFix),
                                                   null,
                                                   null,
                                                   false,
@@ -90,8 +97,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
                                                      isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY
-                                                                       : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
-                                                                         + postFix,
+                                                                       : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY
+                                                                                            : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
+                                                                                              + postFix),
                                                      null,
                                                      null,
                                                      false,
@@ -100,8 +108,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT
-                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                                                      + postFix,
+                                                                    : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_SUBJECT
+                                                                                         : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                                                                           + postFix),
                                                   null,
                                                   null,
                                                   true,
@@ -109,8 +118,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT
-                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                                                      + postFix,
+                                                                    : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_CONTENT
+                                                                                         : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                                                                           + postFix),
                                                   null,
                                                   null,
                                                   true,
@@ -118,8 +128,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS
-                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                                                      + postFix,
+                                                                    : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_ATTACHMENTS
+                                                                                         : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
+                                                                                           + postFix),
                                                   "ContentVariable",
                                                   null,
                                                   true,
@@ -127,8 +138,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES
-                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                                                                      + postFix,
+                                                                    : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
+                                                                                         : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
+                                                                                           + postFix),
                                                   "NameVariableOrExpression",
                                                   null,
                                                   true,
@@ -136,8 +148,9 @@ public class EmailConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   isForErrorHandling ? SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS
-                                                                    : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                                                      + postFix,
+                                                                    : (isForLimitHandling ? SharkConstants.EA_SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
+                                                                                         : SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
+                                                                                           + postFix),
                                                   null,
                                                   null,
                                                   true,
@@ -160,13 +173,16 @@ public class EmailConfigurationElement extends XMLComplexElement {
    public XMLElement get(String name) {
       String postFix = isForAct ? "_ACTIVITY" : "_PROCESS";
       if ((SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postFix).equals(name)
-          || (SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES).equals(name)) {
+          || (SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES).equals(name)
+          || (SharkConstants.EA_SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES).equals(name)) {
          name = SharkConstants.SMTP_ATTACHMENTS;
       }
       if (isForErrorHandling) {
          name = name.replaceAll("ERROR_HANDLER_", "");
+      } else if (isForLimitHandling) {
+         name = name.replaceAll("LIMIT_HANDLER_", "");
       } else {
-         name = name.replaceAll("EVENT_AUDIT_MANAGER_","");
+         name = name.replaceAll("EVENT_AUDIT_MANAGER_", "");
       }
 
       if (name.endsWith(postFix)) {
@@ -285,17 +301,16 @@ public class EmailConfigurationElement extends XMLComplexElement {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          String eaname = ea.getName();
          XMLElement attr = null;
-         if (!isForErrorHandling) {
-            if (!eaname.startsWith("SMTP_EVENT_AUDIT_MANAGER_")) {
-               continue;
-            }
-            eaname= eaname.replaceAll("EVENT_AUDIT_MANAGER_", "");
+         if (isForErrorHandling && eaname.startsWith("SMTP_ERROR_HANDLER_")) {
+            eaname = eaname.replaceAll("ERROR_HANDLER_", "");
+         } else if (isForLimitHandling && eaname.startsWith("SMTP_LIMIT_HANDLER_")) {
+            eaname = eaname.replaceAll("LIMIT_HANDLER_", "");
+         } else if (!(isForErrorHandling || isForLimitHandling) && eaname.startsWith("SMTP_EVENT_AUDIT_MANAGER_")) {
+            eaname = eaname.replaceAll("EVENT_AUDIT_MANAGER_", "");
             int indof = eaname.lastIndexOf(postFix);
             if (indof == -1)
                continue;
             eaname = eaname.substring(0, indof);
-         } else if (eaname.startsWith("SMTP_ERROR_HANDLER_")) {
-            eaname = eaname.replaceAll("ERROR_HANDLER_", "");
          } else {
             continue;
          }
@@ -346,6 +361,10 @@ public class EmailConfigurationElement extends XMLComplexElement {
 
    public boolean isForErrorHandling() {
       return isForErrorHandling;
+   }
+
+   public boolean isForLimitHandling() {
+      return isForLimitHandling;
    }
 
 }

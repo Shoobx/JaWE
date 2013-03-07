@@ -139,7 +139,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                                false);
       this.elECE = new EmailConfigurationElement((ExtendedAttributes) ((XMLComplexElement) parent).get("ExtendedAttributes"),
                                                  true,
-                                                 true);
+                                                 true, false);
       add(attrConfigureEmail);
       add(attrReturnCode);
       add(attrRecipientParticipant);

@@ -153,18 +153,20 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                          choosen,
                                                          false,
                                                          "Id",
-                                                         el.getRecipientParticipantAttribute().toName(),
-                                                         el.getRecipientParticipantAttribute().isRequired());
+                                                         el.getRecipientParticipantAttribute()
+                                                            .toName(),
+                                                         el.getRecipientParticipantAttribute()
+                                                            .isRequired());
       cc.setReadOnly(el.isReadOnly());
 
       XMLPanel recipientParticipant = new XMLComboPanelWithReferenceLink(getPanelContainer(),
-                                                cc,
-                                                null,
-                                                true,
-                                                false,
-                                                false,
-                                                enableEditing,
-                                                null);
+                                                                         cc,
+                                                                         null,
+                                                                         true,
+                                                                         false,
+                                                                         false,
+                                                                         enableEditing,
+                                                                         null);
 
       List tgp = new ArrayList();
 
@@ -477,10 +479,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                              true);
             break;
          case 6:
-            p = getPanel(new EmailConfigurationElement(eas, true, false));
+            p = getPanel(new EmailConfigurationElement(eas, true, false, false));
             break;
          case 7:
             p = getPanel(new ErrorHandlerConfigurationElement(eas));
+            break;
+         case 8:
+            p = getPanel(new EmailConfigurationElement(eas, true, false, true));
             break;
          default:
             if (no < 5) {
@@ -785,7 +790,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLPanel getPanel(Package el, int no, Set hidden) {
-      if (no != 1 && no != 14 && no != 15 && no != 16 && no != 17) {
+      if ((no != 1 && no<14) || no>18) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
@@ -1017,18 +1022,24 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (no == 14) {
          SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
          p = getPanel(eaw);
-      } else if (no != 17) {
+      } else if (no ==15 || no==16) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
                                                     (no == 16),
+                                                    false,
                                                     false));
-      } else {
+      } else if (no==17) {
          p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
+      } else if (no==18) {
+         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
+                                                    true,
+                                                    false,
+                                                    true));         
       }
       return p;
    }
 
    public XMLPanel getPanel(WorkflowProcess el, int no, Set hidden) {
-      if (no != 1 && no != 11 && no != 12 && no != 13 && no != 14) {
+      if ((no != 1 && no < 11) || no>15) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
@@ -1256,12 +1267,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (no == 11) {
          SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
          p = getPanel(eaw);
-      } else if (no != 14) {
+      } else if (no == 12 || no == 13) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
                                                     (no == 13),
+                                                    false,
                                                     false));
-      } else {
+      } else if (no == 14) {
          p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
+      } else if (no == 15) {
+         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
+                                                    true,
+                                                    false,
+                                                    true));
       }
       return p;
    }

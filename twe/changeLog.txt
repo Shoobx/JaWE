@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-03-07 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Initial support for SMTPLimitHandler
+
 2013-03-06 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Now supporting new way of defining SMTPEventAuditManager extended attributes 
    (different names for activity/process EAS + possiblity to define default SMTP attributes on process and package level 
