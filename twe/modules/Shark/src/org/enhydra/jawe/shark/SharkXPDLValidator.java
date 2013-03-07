@@ -115,8 +115,23 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                           + postfixProc)
                                || el.toValue()
                                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                          + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                          + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
+                                          + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
+                                          + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
+                                          + postfixProc)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
                                           + postfixProc) || el.toValue()
-                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)))
+                   .equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)))
                 || el.toValue()
                    .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
                            + postfixAct)
@@ -137,6 +152,16 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                    .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
                 || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
                 || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
+                                       + postfixAct)
+                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
+                                       + postfixAct)
+                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
+                                       + postfixAct)
+                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
+                                       + postfixAct)
+                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
+                                       + postfixAct)
                 || (!isAct && el.toValue()
                    .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
                ExtendedAttribute ea = (ExtendedAttribute) parent;
@@ -163,7 +188,13 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                    || ea.getName()
                       .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
                    || ea.getName()
-                      .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)) {
+                      .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
+                   || ea.getName()
+                      .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES)
+                   || ea.getName()
+                      .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS)
+                   || ea.getName()
+                      .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS)) {
                   WfVariables vars = new WfVariables((XMLComplexElement) parent.getParent()
                                                         .getParent(),
                                                      ea.getName(),
@@ -184,6 +215,10 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                              .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
                           || ea.getName()
                              .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                          || ea.getName()
+                             .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT)
+                          || ea.getName()
+                             .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT)
                           || (!isAct && ea.getName()
                              .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
                   vals = SharkUtils.getPossiblePlaceholderVariables(ea.getVValue(),
@@ -200,8 +235,10 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                   String v = vals.get(i);
                   if (m.get(v) == null
                       && !((ea.getName()
-                         .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES) || ea.getName()
-                         .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
+                         .startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                            || ea.getName()
+                               .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES) || ea.getName()
+                         .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES)) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
                      boolean allowUndefinedVariables = allowsUndefinedVariables(wp);
                      boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
 
@@ -264,7 +301,14 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                      }
                   }
                }
-            } else if (el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)) {
+            } else if (el.toValue()
+               .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
+                       || el.toValue()
+                          .equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT
+                                  + postfixProc)
+                       || el.toValue()
+                          .equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT
+                                  + postfixAct)) {
                ExtendedAttribute ea = (ExtendedAttribute) parent;
                XMLComplexElement pkgOrWp = XMLUtil.getWorkflowProcess(el);
                Map choices = null;

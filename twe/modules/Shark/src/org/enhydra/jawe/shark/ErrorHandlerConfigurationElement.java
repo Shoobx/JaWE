@@ -65,13 +65,6 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                   null,
                                                   false,
                                                   removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this,
-                                                  eas,
-                                                  SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT,
-                                                  null,
-                                                  null,
-                                                  false,
-                                                  removeUnconditionally);
          elECE.setValue(null);
       } else {
          if (isReadOnly) {
@@ -106,10 +99,6 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
       return (XMLAttribute) get(SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE);
    }
 
-   public XMLAttribute getRecipientParticipantAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT);
-   }
-
    public EmailConfigurationElement getEmailConfigurationElement() {
       return elECE;
    }
@@ -134,31 +123,22 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                      },
                                                      0);
 
-      XMLAttribute attrRecipientParticipant = new XMLAttribute(this,
-                                                               SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT,
-                                                               false);
       this.elECE = new EmailConfigurationElement((ExtendedAttributes) ((XMLComplexElement) parent).get("ExtendedAttributes"),
                                                  true,
-                                                 true, false);
+                                                 true,
+                                                 false);
       add(attrConfigureEmail);
       add(attrReturnCode);
-      add(attrRecipientParticipant);
       add(this.elECE);
    }
 
    protected void handleStructure() {
       elECE.handleStructure();
-      int pc = 0;
       boolean hasAny = false;
       ExtendedAttribute earc = eas.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE);
-      ExtendedAttribute earp = eas.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT);
 
       if (earc != null) {
          getReturnCodeAttribute().setValue(earc.getVValue());
-         hasAny = true;
-      }
-      if (earp != null) {
-         getRecipientParticipantAttribute().setValue(earp.getVValue());
          hasAny = true;
       }
       getConfigureErrorHandlerAttribute().setValue(String.valueOf(hasAny

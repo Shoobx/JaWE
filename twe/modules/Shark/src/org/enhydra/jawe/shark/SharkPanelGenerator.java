@@ -119,60 +119,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                               false,
                                               enableEditing);
 
-      SequencedHashMap choices = null;
-      XMLComplexElement pkgOrWp = XMLUtil.getWorkflowProcess(el);
-      if (pkgOrWp == null) {
-         pkgOrWp = XMLUtil.getPackage(el);
-         choices = XMLUtil.getPossibleParticipants((Package) pkgOrWp,
-                                                   JaWEManager.getInstance()
-                                                      .getXPDLHandler());
-      } else {
-         choices = XMLUtil.getPossibleParticipants((WorkflowProcess) pkgOrWp,
-                                                   JaWEManager.getInstance()
-                                                      .getXPDLHandler());
-      }
-      Participant choosen = null;
-      String pId = el.getRecipientParticipantAttribute().toValue();
-      if (!pId.equals("")) {
-         Iterator it = choices.values().iterator();
-         while (it.hasNext()) {
-            Participant p = (Participant) it.next();
-            if (pId.equals(p.getId())) {
-               choosen = p;
-               break;
-            }
-         }
-      }
-      if (choosen != null) {
-         choices.put(choosen.getId(), choosen);
-      }
-
-      SpecialChoiceElement cc = new SpecialChoiceElement(el.getRecipientParticipantAttribute(),
-                                                         "",
-                                                         new ArrayList(choices.values()),
-                                                         choosen,
-                                                         false,
-                                                         "Id",
-                                                         el.getRecipientParticipantAttribute()
-                                                            .toName(),
-                                                         el.getRecipientParticipantAttribute()
-                                                            .isRequired());
-      cc.setReadOnly(el.isReadOnly());
-
-      XMLPanel recipientParticipant = new XMLComboPanelWithReferenceLink(getPanelContainer(),
-                                                                         cc,
-                                                                         null,
-                                                                         true,
-                                                                         false,
-                                                                         false,
-                                                                         enableEditing,
-                                                                         null);
-
       List tgp = new ArrayList();
 
       tgp.add(configErrorHandler);
       tgp.add(returnCode);
-      tgp.add(recipientParticipant);
       tgp.add(getPanel(el.getEmailConfigurationElement()));
       for (int i = 0; i < tgp.size(); i++) {
          ltPanel.addToGroup(tgp.get(i));
@@ -248,17 +198,17 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                     enableEditing,
                                                     false,
                                                     null);
-      XMLPanel groupEmailOnly = new XMLCheckboxPanel(getPanelContainer(),
-                                                     el.getGroupEmailOnlyAttribute(),
-                                                     null,
-                                                     false,
-                                                     enableEditing,
-                                                     false,
-                                                     null);
       List cbp = new ArrayList();
       cbp.add(mode);
       cbp.add(executionMode);
       if (el.getParent() instanceof Activity) {
+         XMLPanel groupEmailOnly = new XMLCheckboxPanel(getPanelContainer(),
+                                                        el.getGroupEmailOnlyAttribute(),
+                                                        null,
+                                                        false,
+                                                        enableEditing,
+                                                        false,
+                                                        null);
          cbp.add(groupEmailOnly);
       }
       XMLGroupPanel cbPanel = new XMLGroupPanel(getPanelContainer(),
@@ -269,6 +219,58 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 false,
                                                 false,
                                                 null);
+
+      XMLPanel recipientParticipant = null;
+      if (el.isForLimitHandling() || el.isForErrorHandling()) {
+         SequencedHashMap choicesForPar = null;
+         XMLComplexElement pkgOrWp = XMLUtil.getWorkflowProcess(el);
+         if (pkgOrWp == null) {
+            pkgOrWp = XMLUtil.getPackage(el);
+            choicesForPar = XMLUtil.getPossibleParticipants((Package) pkgOrWp,
+                                                            JaWEManager.getInstance()
+                                                               .getXPDLHandler());
+         } else {
+            choicesForPar = XMLUtil.getPossibleParticipants((WorkflowProcess) pkgOrWp,
+                                                            JaWEManager.getInstance()
+                                                               .getXPDLHandler());
+         }
+         Participant choosen = null;
+         String pId = el.getRecipientParticipantAttribute().toValue();
+         if (!pId.equals("")) {
+            Iterator it = choicesForPar.values().iterator();
+            while (it.hasNext()) {
+               Participant p = (Participant) it.next();
+               if (pId.equals(p.getId())) {
+                  choosen = p;
+                  break;
+               }
+            }
+         }
+         if (choosen != null) {
+            choicesForPar.put(choosen.getId(), choosen);
+         }
+
+         SpecialChoiceElement cc = new SpecialChoiceElement(el.getRecipientParticipantAttribute(),
+                                                            "",
+                                                            new ArrayList(choicesForPar.values()),
+                                                            choosen,
+                                                            false,
+                                                            "Id",
+                                                            el.getRecipientParticipantAttribute()
+                                                               .toName(),
+                                                            el.getRecipientParticipantAttribute()
+                                                               .isRequired());
+         cc.setReadOnly(el.isReadOnly());
+
+         recipientParticipant = new XMLComboPanelWithReferenceLink(getPanelContainer(),
+                                                                            cc,
+                                                                            null,
+                                                                            true,
+                                                                            false,
+                                                                            false,
+                                                                            enableEditing,
+                                                                            null);
+      }
 
       List<List> mc = prepareExpressionChoices(el);
       List<String> mct = prepareExpressionChoicesTooltips(el);
@@ -312,6 +314,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       tgp.add(configEmail);
       tgp.add(cbPanel);
+      if (recipientParticipant!=null) {
+         tgp.add(recipientParticipant);
+      }
       tgp.add(subject);
       tgp.add(content);
       tgp.add(attachments);
@@ -790,7 +795,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLPanel getPanel(Package el, int no, Set hidden) {
-      if ((no != 1 && no<14) || no>18) {
+      if ((no != 1 && no < 14) || no > 19) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
@@ -1022,24 +1027,24 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (no == 14) {
          SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
          p = getPanel(eaw);
-      } else if (no ==15 || no==16) {
+      } else if (no == 15 || no == 16) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
                                                     (no == 16),
                                                     false,
                                                     false));
-      } else if (no==17) {
+      } else if (no == 17) {
          p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
-      } else if (no==18) {
+      } else if (no == 18 || no == 19) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
-                                                    true,
+                                                    (no == 19),
                                                     false,
-                                                    true));         
+                                                    true));
       }
       return p;
    }
 
    public XMLPanel getPanel(WorkflowProcess el, int no, Set hidden) {
-      if ((no != 1 && no < 11) || no>15) {
+      if ((no != 1 && no < 11) || no > 16) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
@@ -1274,9 +1279,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                     false));
       } else if (no == 14) {
          p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
-      } else if (no == 15) {
+      } else if (no == 15 || no == 16) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
-                                                    true,
+                                                    (no == 16),
                                                     false,
                                                     true));
       }
