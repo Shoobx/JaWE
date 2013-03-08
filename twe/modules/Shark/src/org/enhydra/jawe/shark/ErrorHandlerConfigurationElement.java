@@ -62,7 +62,8 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                   eas,
                                                   SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE,
                                                   null,
-                                                  null,
+                                                  String.valueOf(getReturnCodeAttribute().getChoices()
+                                                     .indexOf(getReturnCodeAttribute().toValue())),
                                                   false,
                                                   removeUnconditionally);
          elECE.setValue(null);
@@ -138,7 +139,8 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
       ExtendedAttribute earc = eas.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE);
 
       if (earc != null) {
-         getReturnCodeAttribute().setValue(earc.getVValue());
+         getReturnCodeAttribute().setValue((String) getReturnCodeAttribute().getChoices()
+            .get(Integer.parseInt(earc.getVValue())));
          hasAny = true;
       }
       getConfigureErrorHandlerAttribute().setValue(String.valueOf(hasAny

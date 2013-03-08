@@ -201,7 +201,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List cbp = new ArrayList();
       cbp.add(mode);
       cbp.add(executionMode);
-      if (el.getParent() instanceof Activity) {
+      if (el.isForActivity()) {
          XMLPanel groupEmailOnly = new XMLCheckboxPanel(getPanelContainer(),
                                                         el.getGroupEmailOnlyAttribute(),
                                                         null,
@@ -263,13 +263,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          cc.setReadOnly(el.isReadOnly());
 
          recipientParticipant = new XMLComboPanelWithReferenceLink(getPanelContainer(),
-                                                                            cc,
-                                                                            null,
-                                                                            true,
-                                                                            false,
-                                                                            false,
-                                                                            enableEditing,
-                                                                            null);
+                                                                   cc,
+                                                                   null,
+                                                                   true,
+                                                                   false,
+                                                                   false,
+                                                                   enableEditing,
+                                                                   null);
       }
 
       List<List> mc = prepareExpressionChoices(el);
@@ -314,7 +314,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       tgp.add(configEmail);
       tgp.add(cbPanel);
-      if (recipientParticipant!=null) {
+      if (recipientParticipant != null) {
          tgp.add(recipientParticipant);
       }
       tgp.add(subject);
@@ -413,11 +413,17 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
           || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
          hidden.add(el.get("Deadlines"));
       }
-      if (!(el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && (el.getStartMode()
-         .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode()
-         .equals(XPDLConstants.ACTIVITY_MODE_MANUAL))))) {
+      boolean isManual = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && (el.getStartMode()
+            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode()
+            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
+      boolean isAutomatic = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION;
+      if (!isManual && !isAutomatic) {
          return super.getPanel(el, no, hidden);
       }
+      if (!isManual && no<5) return super.getPanel(el, no, hidden);
+      if (!isManual && no<7) return null;
+      if (!isAutomatic && no==7) return null;
+
       XMLPanel p = null;
       ExtendedAttributes eas = el.getExtendedAttributes();
       switch (no) {
