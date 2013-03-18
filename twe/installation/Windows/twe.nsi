@@ -136,6 +136,9 @@ SetDateSave          on
   Var CREATE_DESKTOP_ICON
   Var CREATE_PINTOTASKBAR  
   Var DefaultDir
+;Variable for window registry 
+  !define AppUserModelID "Together.Workflow.Editor"
+  
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "$(license_text)"
 
@@ -225,17 +228,20 @@ Function PinToTaskbar
 		Empty:
 FunctionEnd
 
-Function un.PinFromTaskbar
-	IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" StartUnPinToTaskbar Empty
-		StartUnPinToTaskbar:
-			IfFileExists "$INSTDIR\unpin.vbs" StartUnPin Empty
-				StartUnPin:
-;					MessageBox MB_OK|MB_ICONSTOP "$INSTDIR"
-               StrCpy $0 "$INSTDIR\unpin.vbs"
-;					MessageBox MB_OK|MB_ICONSTOP  "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
-				nsExec::Exec '"$SYSDIR\CScript.exe" "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
-		Empty:
+!macro PINFROMTASKBAR un
+Function ${un}PinFromTaskbar
+ IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" StartUnPinToTaskbar Empty
+	  StartUnPinToTaskbar:
+		  IfFileExists "$INSTDIR\unpin.vbs" StartUnPin Empty
+		  StartUnPin:
+				StrCpy $0 "$INSTDIR\unpin.vbs"
+				  nsExec::Exec '"$SYSDIR\CScript.exe" "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+	  Empty:
 FunctionEnd
+!macroend
+; Insert function as an installer and uninstaller function.
+!insertmacro PINFROMTASKBAR ""
+!insertmacro PINFROMTASKBAR "un."
 
 Section "Install" Install
 	
@@ -268,6 +274,9 @@ Section "Install" Install
 			StrCpy $ADD_PINTOTASKBAR "0"
 		${endif}
 	${endif}
+#------ Clear Pin from taskbar previous version -----
+  Call PinFromTaskbar
+   
 #----------------------------------------------------
    
   SetOutPath "$INSTDIR"
@@ -368,18 +377,21 @@ Section "Install" Install
   								"$INSTDIR\uninstall.exe" \
   								"/SILENT=$SILENT" \
   								"$INSTDIR\uninstall.exe"
+   WinShell::SetLnkAUMI "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
   ${If} $ADD_QUICKLAUNCH != '0'
   CreateShortCut "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
                   "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0  
+   WinShell::SetLnkAUMI "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
   ${If} $ADD_DESKTOP != '0'
   CreateShortCut "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
                   "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0
+   WinShell::SetLnkAUMI "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
 
   ${If} $ADD_PINTOTASKBAR != '0'

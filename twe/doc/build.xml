@@ -70,6 +70,7 @@
 		<property name="xalan.lib.dir" location="${project.dir}/tools/xalan" />
 		<property name="jgraph.lib.dir" location="${project.dir}/tools/jgraph" />
 		<property name="jeditsyntax.lib.dir" location="${project.dir}/tools/jeditsyntax" />
+		<property name="jna.lib.dir" location="${project.dir}/tools/jna" />
 		<property name="itext.lib.dir" location="${project.dir}/tools/itext5" />
 		<property name="javahelp.lib.dir" location="${project.dir}/tools/javahelp" />
 		<property name="txm.lib.dir" location="${project.dir}/tools/txm" />
@@ -80,6 +81,7 @@
       <!--Set the main classpath-->
       <path id="classpath">
          <pathelement location="${jgraph.lib.dir}/jgraph.jar" />
+         <pathelement location="${jna.lib.dir}/jna.jar" />
          <pathelement location="${javahelp.lib.dir}/jhall.jar" />
          <pathelement location="${tools.dir}/batik/batik.jar" />
          <pathelement location="${tools.dir}/xerces/xercesImpl.jar" />

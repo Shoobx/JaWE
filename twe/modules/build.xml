@@ -53,6 +53,7 @@
       <pathelement location="${tools.dir}/javahelp/jhall.jar" />
       <pathelement location="${tools.dir}/jeditsyntax/jEdit-syntax.jar" />
       <pathelement location="${tools.dir}/jgraph/jgraph.jar" />
+      <pathelement location="${tools.dir}/jna/jna.jar" />
       <pathelement location="${tools.dir}/txm/jxpdl.jar" />
       <pathelement location="${tools.dir}/xerces/xercesImpl.jar" />
       <pathelement location="${tools.dir}/xml-commons//xml-apis.jar" />
