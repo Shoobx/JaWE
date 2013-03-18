@@ -413,16 +413,21 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
           || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
          hidden.add(el.get("Deadlines"));
       }
-      boolean isManual = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && (el.getStartMode()
-            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode()
-            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
-      boolean isAutomatic = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION;
+      boolean isManual = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
+                         || ((el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) && (el.getStartMode()
+                            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode()
+                            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
+      boolean isAutomatic = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
+                            || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT;
       if (!isManual && !isAutomatic) {
          return super.getPanel(el, no, hidden);
       }
-      if (!isManual && no<5) return super.getPanel(el, no, hidden);
-      if (!isManual && no<7) return null;
-      if (!isAutomatic && no==7) return null;
+      if (!isManual && no < 5)
+         return super.getPanel(el, no, hidden);
+      if (!isManual && no < 7)
+         return null;
+      if (!isAutomatic && no == 7)
+         return null;
 
       XMLPanel p = null;
       ExtendedAttributes eas = el.getExtendedAttributes();
