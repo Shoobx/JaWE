@@ -44,7 +44,7 @@
 	<classpathentry kind="lib" path="tools/javahelp/jhall.jar"/>
 	<classpathentry kind="lib" path="tools/jgraph/jgraph.jar"/>
 	<classpathentry kind="lib" path="tools/jeditsyntax/jEdit-syntax.jar"/>
-	<classpathentry kind="lib" path="tools/txm/jxpdl.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jxpdl"/>	
 	<classpathentry kind="lib" path="tools/jna/jna.jar"/>
 	<classpathentry kind="lib" path="tools/xerces/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="tools/xml-commons/xml-apis.jar"/>
