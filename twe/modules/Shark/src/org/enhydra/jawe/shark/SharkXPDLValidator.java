@@ -444,7 +444,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (!fullCheck && existingErrors.size() > 0) {
          return;
       }
-      checkVariableCrossReferences(el, existingErrors, fullCheck);
+      checkVariableCircularReferences(el, existingErrors, fullCheck);
    }
 
    public void validateElement(Performer el, List existingErrors, boolean fullCheck) {
@@ -497,12 +497,12 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (!fullCheck && existingErrors.size() > 0) {
          return;
       }
-      checkVariableCrossReferences(el, existingErrors, fullCheck);
+      checkVariableCircularReferences(el, existingErrors, fullCheck);
    }
 
-   protected void checkVariableCrossReferences(XMLComplexElement pkgOrWp,
-                                               List existingErrors,
-                                               boolean fullCheck) {
+   protected void checkVariableCircularReferences(XMLComplexElement pkgOrWp,
+                                                  List existingErrors,
+                                                  boolean fullCheck) {
       Map vars = new HashMap();
       if (pkgOrWp instanceof WorkflowProcess) {
          Iterator it = ((WorkflowProcess) pkgOrWp).getDataFields()
@@ -548,7 +548,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          XMLUtil.determineVariableEvaluationOrder(dynamicScriptVariablesContext);
       } catch (Exception ex) {
          String excMsg = ex.getMessage();
-         handleCrossReferenceExceptionMessage(vars, excMsg, existingErrors, true);
+         handleCircularReferenceExceptionMessage(vars, excMsg, existingErrors, true);
       }
       if (!fullCheck && existingErrors.size() > 0) {
          return;
@@ -557,7 +557,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          XMLUtil.determineVariableEvaluationOrder(otherVariablesContext);
       } catch (Exception ex) {
          String excMsg = ex.getMessage();
-         handleCrossReferenceExceptionMessage(vars, excMsg, existingErrors, false);
+         handleCircularReferenceExceptionMessage(vars, excMsg, existingErrors, false);
       }
       if (!fullCheck && existingErrors.size() > 0) {
          return;
@@ -595,7 +595,7 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
       if (!fullCheck && existingErrors.size() > 0) {
          return;
       }
-      // check cross-references inside Shark XPDL String variables
+      // check circular-references inside Shark XPDL String variables
       Map<String, String> props = new HashMap(SharkUtils.getPossibleSharkStringVariables(pkgOrWp,
                                                                                          false));
       Map<String, String> placeholderProps = new HashMap<String, String>();
@@ -621,15 +621,15 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                          + "}",
                    me.getValue());
          }
-         handleCrossReferenceExceptionMessage(m2, excMsg, existingErrors, false);
+         handleCircularReferenceExceptionMessage(m2, excMsg, existingErrors, false);
       }
 
    }
 
-   protected void handleCrossReferenceExceptionMessage(Map vars,
-                                                       String exceptionMessage,
-                                                       List existingErrors,
-                                                       boolean dynamicScriptVars) {
+   protected void handleCircularReferenceExceptionMessage(Map vars,
+                                                          String exceptionMessage,
+                                                          List existingErrors,
+                                                          boolean dynamicScriptVars) {
       List varIds = new ArrayList();
       if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED)) {
          String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED.length())
@@ -649,8 +649,8 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
                                                           varId,
                                                           eel);
          existingErrors.add(verr);
-      } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED)) {
-         String[] vids = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_CROSS_REFERENCES_NOT_ALLOWED.length())
+      } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_CIRCULAR_REFERENCES_NOT_ALLOWED)) {
+         String[] vids = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_CIRCULAR_REFERENCES_NOT_ALLOWED.length())
             .trim()
             .split(",");
          for (int i = 0; i < vids.length; i++) {
@@ -661,15 +661,15 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
             }
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
-                                                             dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CROSS_REFERENCES_NOT_ALLOWED
-                                                                              : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CROSS_REFERENCES_NOT_ALLOWED
-                                                                                                             : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_CROSS_REFERENCES_NOT_ALLOWED,
+                                                             dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                              : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                                                             : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED,
                                                              varId,
                                                              eel);
             existingErrors.add(verr);
          }
-      } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED)) {
-         String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED.length())
+      } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED)) {
+         String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED.length())
             .trim();
          XMLElement eel = (XMLElement) vars.get(varId);
          if (eel instanceof XMLCollectionElement) {
@@ -677,9 +677,9 @@ public class SharkXPDLValidator extends TogWEXPDLValidator {
          }
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
-                                                          dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED
-                                                                           : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED
-                                                                                                          : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_IMPLICIT_CROSS_REFERENCES_NOT_ALLOWED,
+                                                          dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                           : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                                                          : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED,
                                                           varId,
                                                           eel);
          existingErrors.add(verr);
