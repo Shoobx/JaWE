@@ -912,9 +912,11 @@ public class JaWEController extends Observable implements
             clearAll();
             xpdlh.closeAllPackages();
             ws.setVisible(false);
-            message(settings.getLanguageDependentString("ErrorCannotOpenXPDL"
-                                                        + "\n" + ex.getMessage()),
+            message(settings.getLanguageDependentString("ErrorCannotOpenXPDL")
+                          + "\n"
+                          + ((ex.getMessage() != null) ? "\n" + ex.getMessage() : ""),
                     JOptionPane.INFORMATION_MESSAGE);
+            return pkg;
          }
 
          if (pkg != null) {
