@@ -25,6 +25,7 @@ import org.enhydra.jawe.base.display.DisplayNameGenerator;
 import org.enhydra.jawe.base.label.LabelGenerator;
 import org.enhydra.jawe.base.tooltip.StandardTooltipGenerator;
 import org.enhydra.jawe.base.tooltip.TooltipGeneratorSettings;
+import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;

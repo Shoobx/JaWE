@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
+import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLElement;
 

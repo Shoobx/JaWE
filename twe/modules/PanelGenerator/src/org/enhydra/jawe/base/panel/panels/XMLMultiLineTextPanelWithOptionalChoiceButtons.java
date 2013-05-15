@@ -61,7 +61,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
 
    public static Dimension textAreaDimensionLarge = new Dimension(400, 120);
 
-   public static Dimension textAreaDimensionExtraLarge = new Dimension(800, 300);
+   public static Dimension textAreaDimensionExtraLarge = new Dimension(800, 250);
 
    protected JTextArea jta;
 

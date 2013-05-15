@@ -771,6 +771,19 @@ make distributions       - Builds and configures TWE with all documentations and
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
+      <copy todir="${tmp.component.dir}/${app.name}-sharkxpdlvalidation">
+         <fileset dir="${build.dir}/lib">
+            <include name="twesharkxpdlvalidation.jar" />
+         </fileset>
+         <fileset dir="${component.dir}" includes="Component.properties" />  
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+      </copy>
+      <replace file="${tmp.component.dir}/${app.name}-sharkxpdlvalidation/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-sharkxpdlvalidation" />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The business objects used for shark based XPDL validation." />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
       <copy todir="${dist.bin.dir}">
          <fileset dir="${input.dir}/bin" includes="*.in" />
       </copy>

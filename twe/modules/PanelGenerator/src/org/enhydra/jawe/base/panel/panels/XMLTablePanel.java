@@ -96,7 +96,7 @@ public class XMLTablePanel extends XMLBasicPanel implements
 
    public static Color SPEC_EL_COLOR_BKG = Color.orange;
 
-   protected static Dimension miniTableDimension = new Dimension(450, 125);
+   protected static Dimension miniTableDimension = new Dimension(450, 75);
 
    protected static Dimension smallTableDimension = new Dimension(450, 200);
 

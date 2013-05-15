@@ -163,7 +163,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                panels.add(p);
             }
          } catch (Exception ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
             break;
          }
       }

@@ -1,6 +1,5 @@
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.shark.business;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.enhydra.jxpdl.XMLCollection;
@@ -75,5 +74,5 @@ public class WfAttachments extends XMLCollection {
    public XMLElement generateNewElement() {
       return new WfAttachment(this, filterContentVariable, filterNameVariableOrExpression);
    }
-
+   
 }

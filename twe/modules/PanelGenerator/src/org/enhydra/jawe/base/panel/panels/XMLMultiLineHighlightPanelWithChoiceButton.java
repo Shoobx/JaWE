@@ -77,7 +77,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
 
    public static Dimension textAreaDimensionLarge = new Dimension(400, 120);
 
-   public static Dimension textAreaDimensionExtraLarge = new Dimension(800, 300);
+   public static Dimension textAreaDimensionExtraLarge = new Dimension(800, 250);
 
    protected JEditTextArea jta;
 

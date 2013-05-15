@@ -20,6 +20,13 @@ package org.enhydra.jawe.shark;
 
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactory;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactorySettings;
+import org.enhydra.jawe.shark.business.DeadlineEmailConfigurationElements;
+import org.enhydra.jawe.shark.business.EmailConfigurationElement;
+import org.enhydra.jawe.shark.business.SharkConstants;
+import org.enhydra.jawe.shark.business.WfAttachment;
+import org.enhydra.jawe.shark.business.WfAttachments;
+import org.enhydra.jawe.shark.business.WfVariable;
+import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
@@ -79,6 +86,19 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
          sps.add(sp);
       }
       return sp;
+   }
+
+   public EmailConfigurationElement createXPDLObject(DeadlineEmailConfigurationElements eces,
+                                        String type,
+                                        boolean addToCollection) {
+      EmailConfigurationElement ece = (EmailConfigurationElement) eces.generateNewElement();
+
+      adjustXPDLObject(ece, type);
+
+      if (addToCollection) {
+         eces.add(ece);
+      }
+      return ece;
    }
 
    public void adjustXPDLObject(XMLElement el, String type) {

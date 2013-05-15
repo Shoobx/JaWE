@@ -1,4 +1,4 @@
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.shark.business;
 
 import java.util.List;
 

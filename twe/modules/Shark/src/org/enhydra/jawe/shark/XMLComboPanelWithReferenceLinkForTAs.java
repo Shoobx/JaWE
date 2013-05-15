@@ -53,6 +53,7 @@ import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanelWithReferenceLink;
 import org.enhydra.jawe.base.panel.panels.XMLElementView;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
+import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLComplexChoice;
 import org.enhydra.jxpdl.XMLComplexElement;

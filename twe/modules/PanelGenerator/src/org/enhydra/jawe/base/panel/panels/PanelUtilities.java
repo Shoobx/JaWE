@@ -20,6 +20,7 @@ package org.enhydra.jawe.base.panel.panels;
 
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -135,6 +136,21 @@ public class PanelUtilities {
       if (isEditAction) {
          return false;
       }
+      // If there is isForModalDialog method defined and it returns true
+      try {
+         Class cl = el.getClass();
+         Method m = null;
+         try {
+            m = cl.getMethod("isForModalDialog", new Class[] {});
+            if ((Boolean) m.invoke(el, new Object[] {})) {
+               return true;
+            }
+         } catch (Exception ex) {
+         }
+
+      } catch (Throwable e) {
+      }
+
       boolean onlySimpleOrAttr = true;
       if (el instanceof XMLSimpleElement) {
          return true;

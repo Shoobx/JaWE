@@ -36,6 +36,7 @@ import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jawe.base.panel.panels.XMLTablePanel;
 import org.enhydra.jawe.base.panel.panels.tablesorting.SortingTable;
+import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLElement;

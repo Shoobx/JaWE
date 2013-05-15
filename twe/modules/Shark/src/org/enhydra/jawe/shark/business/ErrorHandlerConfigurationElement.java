@@ -16,8 +16,9 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.shark.business;
 
+import org.enhydra.jawe.shark.SharkUtils;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLUtil;
@@ -127,14 +128,15 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
       this.elECE = new EmailConfigurationElement((ExtendedAttributes) ((XMLComplexElement) parent).get("ExtendedAttributes"),
                                                  true,
                                                  true,
-                                                 false);
+                                                 false,
+                                                 false,
+                                                 null);
       add(attrConfigureEmail);
       add(attrReturnCode);
       add(this.elECE);
    }
 
    protected void handleStructure() {
-      elECE.handleStructure();
       boolean hasAny = false;
       ExtendedAttribute earc = eas.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE);
 

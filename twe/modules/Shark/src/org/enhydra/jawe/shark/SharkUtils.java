@@ -27,6 +27,11 @@ import java.util.Properties;
 
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.Utils;
+import org.enhydra.jawe.shark.business.SharkConstants;
+import org.enhydra.jawe.shark.business.WfAttachment;
+import org.enhydra.jawe.shark.business.WfAttachments;
+import org.enhydra.jawe.shark.business.WfVariable;
+import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
@@ -91,29 +96,6 @@ public class SharkUtils {
          }
       }
       return l;
-   }
-
-   public static List<String> getPossiblePlaceholderVariables(String eav,
-                                                              String typePrefix) {
-      List ret = new ArrayList();
-      String prefix = "{" + typePrefix;
-      String postfix = "}";
-      List ups = XMLUtil.getUsingPositions(eav, prefix, new HashMap(), false);
-      // System.out.println("UPS for "+subjOrCont+" is "+ups);
-      for (int i = 0; i < ups.size(); i++) {
-         int posprefix = ((Integer) ups.get(i)).intValue();
-         int pospostfix = eav.indexOf(postfix, posprefix);
-         if (pospostfix > posprefix) {
-            String placeholdercontent = eav.substring(posprefix + 1, pospostfix);
-            String varId = eav.substring(posprefix + prefix.length(), pospostfix);
-            if (!typePrefix.equals("")
-                || !(placeholdercontent.startsWith(SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX)
-                     || placeholdercontent.startsWith(SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX) || placeholdercontent.startsWith(SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX))) {
-               ret.add(varId);
-            }
-         }
-      }
-      return ret;
    }
 
    public static Properties getPossibleSharkStringVariables(XMLElement el,

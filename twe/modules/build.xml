@@ -305,7 +305,11 @@
       </antcall>
       <antcall target="makeJAR">
          <param name="jar2create" value="${app.name}shark.jar"/>
-         <param name="includepath" value="**/jawe/shark/**"/>
+         <param name="includepath" value="**/jawe/shark/*.*"/>
+      </antcall>
+      <antcall target="makeJAR">
+         <param name="jar2create" value="${app.name}sharkxpdlvalidation.jar"/>
+         <param name="includepath" value="**/jawe/shark/business/**"/>
       </antcall>
       <antcall target="makeJAR">
          <param name="jar2create" value="${app.name}samples.jar"/>

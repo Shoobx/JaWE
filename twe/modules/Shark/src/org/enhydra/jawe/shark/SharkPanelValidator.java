@@ -20,6 +20,7 @@ package org.enhydra.jawe.shark;
 
 import org.enhydra.jawe.base.panel.StandardPanelValidator;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
+import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jxpdl.XMLElement;
 
 /**

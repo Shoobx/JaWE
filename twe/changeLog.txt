@@ -1,4 +1,9 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-05-15 Sasa Bojanic <sasaboy@together.at>
+   # shark mode: now supporting deadline handling via ext attributes
+   # shark mode: code refactored regarding SMTP handling (event audit, error, limit, deadline)
+   # new component to deliver to shark (for XPDL validation)
+   
 2013-03-18 Sasa Bojanic <sasaboy@together.at>
    # Now icons in the taskbar are grouped
 

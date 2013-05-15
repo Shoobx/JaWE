@@ -20,6 +20,7 @@ package org.enhydra.jawe.shark;
 
 import java.util.Iterator;
 
+import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
