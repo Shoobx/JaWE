@@ -32,6 +32,7 @@
 	<jar href="lib/twesamples.jar" />
 	<jar href="lib/twesearchnavigator.jar" />
 	<jar href="lib/tweshark.jar" />
+	<jar href="lib/twesharkxpdlvalidation.jar" />
 	<jar href="lib/twetranspkgpool.jar" />
 	<jar href="lib/tweundomgr.jar" />
 	<jar href="lib/twewfxml.jar" />
