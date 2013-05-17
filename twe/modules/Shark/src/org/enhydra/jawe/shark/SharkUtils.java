@@ -98,7 +98,7 @@ public class SharkUtils {
       return l;
    }
 
-   public static Properties getPossibleSharkStringVariables(XMLElement el,
+   public static Properties getPossibleXPDLStringVariables(XMLElement el,
                                                             boolean allLevels) {
       Properties ret = new Properties();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
@@ -107,9 +107,9 @@ public class SharkUtils {
          eas = wp.getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
                ret.setProperty(ea.getName()
-                                  .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                                  .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
                                ea.getVValue());
             }
          }
@@ -118,12 +118,12 @@ public class SharkUtils {
          eas = XMLUtil.getPackage(el).getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
                String realName = ea.getName()
-                  .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length());
+                  .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
                if (!ret.containsKey(realName)) {
                   ret.setProperty(ea.getName()
-                                     .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                                     .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
                                   ea.getVValue());
                }
             }
@@ -133,7 +133,7 @@ public class SharkUtils {
       return ret;
    }
 
-   public static Map getPossibleSharkStringVariablesEAValues(XMLElement el,
+   public static Map getPossibleXPDLStringVariablesEAValues(XMLElement el,
                                                              boolean allLevels) {
       Map ret = new HashMap();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
@@ -142,9 +142,9 @@ public class SharkUtils {
          eas = wp.getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
                ret.put(ea.getName()
-                          .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                          .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
                        ea.get("Value"));
             }
          }
@@ -153,12 +153,12 @@ public class SharkUtils {
          eas = XMLUtil.getPackage(el).getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
                String realName = ea.getName()
-                  .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length());
+                  .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
                if (!ret.containsKey(realName)) {
                   ret.put(ea.getName()
-                             .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()),
+                             .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
                           ea.get("Value"));
                }
             }

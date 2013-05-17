@@ -24,11 +24,11 @@ import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 
-public class SharkStringExtendedAttributeWrapper extends XMLComplexElement {
+public class XPDLStringExtendedAttributeWrapper extends XMLComplexElement {
 
    protected ExtendedAttribute ea;
 
-   public SharkStringExtendedAttributeWrapper(SharkStringExtendedAttributesWrapper parent,
+   public XPDLStringExtendedAttributeWrapper(XPDLStringExtendedAttributesWrapper parent,
                                               ExtendedAttribute ea) {
       super(parent, ea.toName(), true);
       this.ea = ea;
@@ -56,7 +56,7 @@ public class SharkStringExtendedAttributeWrapper extends XMLComplexElement {
          throw new RuntimeException("Can't set the value of read only element!");
       }
       if (v == null) {
-         ea.setName(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX + getName());
+         ea.setName(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX + getName());
          ea.setVValue(getVValue());
       } else {
          this.value = v;
@@ -86,7 +86,7 @@ public class SharkStringExtendedAttributeWrapper extends XMLComplexElement {
    protected void handleStructure() {
       if (ea != null) {
          setName(ea.getName()
-            .substring(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX.length()));
+            .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()));
          setVValue(ea.getVValue());
       }
    }

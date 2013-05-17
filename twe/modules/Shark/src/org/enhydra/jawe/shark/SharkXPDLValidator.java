@@ -92,17 +92,17 @@ public class SharkXPDLValidator extends SharkPackageValidator {
       return true;
    }
 
-   protected Map getPossibleSharkStringVariablesEAValues(XMLElement el, boolean allLevels) {
-      return SharkUtils.getPossibleSharkStringVariablesEAValues(el, allLevels);
+   protected Map getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
+      return SharkUtils.getPossibleXPDLStringVariablesEAValues(el, allLevels);
    }
 
-   protected Properties getPossibleSharkStringVariables(XMLElement el, boolean allLevels) {
-      return SharkUtils.getPossibleSharkStringVariables(el, allLevels);
+   protected Properties getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
+      return SharkUtils.getPossibleXPDLStringVariables(el, allLevels);
    }
 
-   protected List<String> getPossibleSharkStringVariableNames(XMLElement el,
+   protected List<String> getPossibleXPDLStringVariableNames(XMLElement el,
                                                               boolean allLevels) {
-      return new ArrayList<String>(SharkUtils.getPossibleSharkStringVariables(el,
+      return new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el,
                                                                               allLevels)
          .stringPropertyNames());
    }

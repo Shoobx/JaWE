@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-05-17 Sasa Bojanic <sasaboy@together.at>
+   # shark mode: renaming of "SharkString" -> "XPDLString"
+
 2013-05-15 Sasa Bojanic <sasaboy@together.at>
    # shark mode: now supporting deadline handling via ext attributes
    # shark mode: code refactored regarding SMTP handling (event audit, error, limit, deadline)

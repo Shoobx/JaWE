@@ -176,7 +176,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
                                        + postfixAct)
                 || (!isAct && el.toValue()
-                   .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
+                   .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
 
                isWarning = el.toValue().equals(SharkConstants.VTP_UPDATE)
                            || el.toValue().equals(SharkConstants.VTP_VIEW)
@@ -248,7 +248,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                           || ea.getName()
                              .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT)
                           || (!isAct && ea.getName()
-                             .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
+                             .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
                   vals = getPossiblePlaceholderVariables(ea.getVValue(),
                                                          SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX);
                   sysvals = getPossiblePlaceholderVariables(ea.getVValue(), "");
@@ -316,7 +316,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      }
                   }
                }
-               Properties psxpdl = getPossibleSharkStringVariables(el, true);
+               Properties psxpdl = getPossibleXPDLStringVariables(el, true);
                for (int i = 0; i < xpdlsvals.size(); i++) {
                   String v = xpdlsvals.get(i);
                   if (!psxpdl.containsKey(v)) {
@@ -695,7 +695,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          return;
       }
       // check circular-references inside Shark XPDL String variables
-      Map<String, String> props = new HashMap(getPossibleSharkStringVariables(pkgOrWp,
+      Map<String, String> props = new HashMap(getPossibleXPDLStringVariables(pkgOrWp,
                                                                               false));
       Map<String, String> placeholderProps = new HashMap<String, String>();
       Iterator<Map.Entry<String, String>> ite = props.entrySet().iterator();
@@ -710,7 +710,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          XMLUtil.determineVariableEvaluationOrder(placeholderProps);
       } catch (Exception ex) {
          String excMsg = ex.getMessage();
-         Map m1 = getPossibleSharkStringVariablesEAValues(pkgOrWp, false);
+         Map m1 = getPossibleXPDLStringVariablesEAValues(pkgOrWp, false);
          Map m2 = new HashMap();
          Iterator<Map.Entry<String, XMLElement>> ite2 = m1.entrySet().iterator();
          while (ite2.hasNext()) {
@@ -864,7 +864,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             map.put(id, df);
          }
 
-         List<String> xpdlsc = getPossibleSharkStringVariableNames(el, true);
+         List<String> xpdlsc = getPossibleXPDLStringVariableNames(el, true);
          for (int i = 0; i < xpdlsc.size(); i++) {
             String id = xpdlsc.get(i);
             DataField df = new DataField(null);
@@ -1640,13 +1640,13 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
 
    public abstract boolean isDeadlineHandlerUsed();
 
-   protected abstract Map getPossibleSharkStringVariablesEAValues(XMLElement el,
+   protected abstract Map getPossibleXPDLStringVariablesEAValues(XMLElement el,
                                                                   boolean allLevels);
 
-   protected abstract Properties getPossibleSharkStringVariables(XMLElement el,
+   protected abstract Properties getPossibleXPDLStringVariables(XMLElement el,
                                                                  boolean allLevels);
 
-   protected abstract List<String> getPossibleSharkStringVariableNames(XMLElement el,
+   protected abstract List<String> getPossibleXPDLStringVariableNames(XMLElement el,
                                                                        boolean allLevels);
 
    protected abstract List<String> getConfigStringChoices();

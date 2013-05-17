@@ -32,20 +32,20 @@ import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
-public class SharkStringExtendedAttributesWrapper extends XMLCollection implements
+public class XPDLStringExtendedAttributesWrapper extends XMLCollection implements
                                                                       XMLElementChangeListener {
 
    protected ExtendedAttributes eas;
 
-   public SharkStringExtendedAttributesWrapper(ExtendedAttributes eas) {
-      super((XMLComplexElement) eas.getParent(), "SharkStringVariables", false);
+   public XPDLStringExtendedAttributesWrapper(ExtendedAttributes eas) {
+      super((XMLComplexElement) eas.getParent(), "XPDLStringVariables", false);
       this.eas = eas;
       notifyMainListeners = false;
       notifyListeners = false;
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
-            super.elements.add(new SharkStringExtendedAttributeWrapper(this, ea));
+         if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+            super.elements.add(new XPDLStringExtendedAttributeWrapper(this, ea));
          }
       }
       notifyListeners = true;
@@ -55,14 +55,14 @@ public class SharkStringExtendedAttributesWrapper extends XMLCollection implemen
    public void add(XMLElement el) {
       this.eas.removeListener(this);
       super.add(el);
-      eas.add(((SharkStringExtendedAttributeWrapper)el).getExtendedAttribute());
+      eas.add(((XPDLStringExtendedAttributeWrapper)el).getExtendedAttribute());
       this.eas.addListener(this);
    }
 
    public int remove(XMLElement el) {
       this.eas.removeListener(this);
       super.remove(el);
-      int ret = eas.remove(((SharkStringExtendedAttributeWrapper)el).getExtendedAttribute());
+      int ret = eas.remove(((XPDLStringExtendedAttributeWrapper)el).getExtendedAttribute());
       this.eas.addListener(this);
       return ret;
    }
@@ -80,7 +80,7 @@ public class SharkStringExtendedAttributesWrapper extends XMLCollection implemen
       int realNewPos = newPos;
       XMLElement se = (XMLElement) super.elements.get(newPos);
       realNewPos = eas.indexOf(se);
-      super.reposition(((SharkStringExtendedAttributeWrapper)el).getExtendedAttribute(), newPos);
+      super.reposition(((XPDLStringExtendedAttributeWrapper)el).getExtendedAttribute(), newPos);
       boolean ret = eas.reposition(el, realNewPos);
       this.eas.addListener(this);
       return ret;
@@ -95,9 +95,9 @@ public class SharkStringExtendedAttributesWrapper extends XMLCollection implemen
       } else {
          dfs = XMLUtil.getPackage(eas).getDataFields();
       }
-      ea.setName(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX);
+      ea.setName(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX);
       ea.setVValue("");
-      return new SharkStringExtendedAttributeWrapper(this, ea);
+      return new XPDLStringExtendedAttributeWrapper(this, ea);
    }
 
    public void xmlElementChanged(XMLElementChangeInfo info) {

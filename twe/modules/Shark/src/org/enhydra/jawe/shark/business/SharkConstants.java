@@ -510,7 +510,7 @@ public class SharkConstants {
 
    public static final List<String> possibleSystemVariables = Collections.unmodifiableList(Arrays.asList(SharkConstants.POSSIBLE_SYSTEM_VARIABLES));
 
-   public final static String EA_SHARK_STRING_VARIABLE_PREFIX = "SHARK_STRING_VARIABLE.";
+   public final static String EA_XPDL_STRING_VARIABLE_PREFIX = "XPDL_STRING_VARIABLE.";
 
    public static final String XPDL_STRING_PLACEHOLDER_PREFIX = "xpdl_string:";
 

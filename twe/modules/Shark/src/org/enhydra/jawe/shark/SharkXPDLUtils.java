@@ -431,7 +431,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                     || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
                                            + postfixAct)
                     || ea.getName()
-                       .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+                       .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(),
                                           "{"
                                                 + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX
@@ -515,7 +515,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                     || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
                                            + postfixAct)
                     || ea.getName()
-                       .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)) {
+                       .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(),
                                           "{"
                                                 + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX
@@ -636,7 +636,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
                                   + postfixAct)
                  || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                  + postfixAct) || eaName.startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
+                                  + postfixAct) || eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
             continue;
          }
          if (pp instanceof WorkflowProcess
@@ -736,7 +736,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
                                   + postfixAct)
                  || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                  + postfixAct) || eaName.startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
+                                  + postfixAct) || eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
 
             continue;
          }
@@ -854,7 +854,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                                        + postfixAct)
                       || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
                                        + postfixAct)
-                      || (!(a.getParent().getParent().getParent() instanceof Activity) && eaName.startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX))) {
+                      || (!(a.getParent().getParent().getParent() instanceof Activity) && eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
                      String expr = easmtpv.toValue();
                      String searchValue = "{"
                                           + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX

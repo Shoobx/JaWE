@@ -444,18 +444,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return gp;
    }
 
-   public XMLPanel getPanel(SharkStringExtendedAttributeWrapper el) {
+   public XMLPanel getPanel(XPDLStringExtendedAttributeWrapper el) {
       SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(),
                                                        el,
                                                        el.toElements(),
-                                                       getPanelContainer().getLanguageDependentString("SharkStringVariableKey"),
+                                                       getPanelContainer().getLanguageDependentString("XPDLStringVariableKey"),
                                                        true,
                                                        false,
                                                        true);
       return gp;
    }
 
-   public XMLPanel getPanel(SharkStringExtendedAttributesWrapper el) {
+   public XMLPanel getPanel(XPDLStringExtendedAttributesWrapper el) {
       return generateStandardTablePanel(el, true, false, false, true);
    }
 
@@ -1118,7 +1118,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
          }
       } else if (no == 14) {
-         SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
+         XPDLStringExtendedAttributesWrapper eaw = new XPDLStringExtendedAttributesWrapper(el.getExtendedAttributes());
          p = getPanel(eaw);
       } else if (no == 15 || no == 16) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
@@ -1374,7 +1374,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
          }
       } else if (no == 11) {
-         SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(el.getExtendedAttributes());
+         XPDLStringExtendedAttributesWrapper eaw = new XPDLStringExtendedAttributesWrapper(el.getExtendedAttributes());
          p = getPanel(eaw);
       } else if (no == 12 || no == 13) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
@@ -1566,7 +1566,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             null);
          }
 
-      } else if (el.getParent() instanceof SharkStringExtendedAttributeWrapper) {
+      } else if (el.getParent() instanceof XPDLStringExtendedAttributeWrapper) {
          if (el.toName().equals("Name")) {
             return super.generateStandardTextPanel(el, false);
          }
@@ -1614,7 +1614,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                 || (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
                                         + postFixAct) || ea.getName()
                    .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postFixAct))
-                || (!isAct && (ea.getName().startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX)))) {
+                || (!isAct && (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)))) {
                boolean enableEditing = JaWEManager.getInstance()
                   .getJaWEController()
                   .canModifyElement(el);
@@ -1684,12 +1684,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       }
       boolean isForActivity = XMLUtil.getActivity(el) != null
                               || XMLUtil.getApplication(el) != null;
-      boolean isSharkString = (el instanceof SharkStringExtendedAttributeWrapper)
+      boolean isXPDLString = (el instanceof XPDLStringExtendedAttributeWrapper)
                               || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
-                                 .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));
+                                 .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
-         if (id.startsWith("shark_activity_") && !isForActivity && !isSharkString) {
+         if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString) {
             continue;
          }
          DataField df = new DataField(null);
@@ -1720,13 +1720,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       boolean isForActivity = XMLUtil.getActivity(el) != null
                               || XMLUtil.getApplication(el) != null
                               || ((el instanceof EmailConfigurationElement) && ((EmailConfigurationElement) el).isForActivity());
-      boolean isSharkString = (el instanceof SharkStringExtendedAttributeWrapper)
+      boolean isXPDLString = (el instanceof XPDLStringExtendedAttributeWrapper)
                               || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
-                                 .startsWith(SharkConstants.EA_SHARK_STRING_VARIABLE_PREFIX));
+                                 .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
 
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
-         if (id.startsWith("shark_activity_") && !isForActivity && !isSharkString) {
+         if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString) {
             continue;
          }
          DataField df = new DataField(null);
@@ -1765,7 +1765,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          mc.add(l);
 
          l = new ArrayList();
-         List<String> xpdlsc = new ArrayList<String>(SharkUtils.getPossibleSharkStringVariables(el,
+         List<String> xpdlsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el,
                                                                                                 true)
             .stringPropertyNames());
          for (int i = 0; i < xpdlsc.size(); i++) {
@@ -1790,7 +1790,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       if (!(el instanceof InitialValue)) {
          mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
-         mct.add(getSettings().getLanguageDependentString("InsertSharkStringVariableKey"));
+         mct.add(getSettings().getLanguageDependentString("InsertXPDLStringVariableKey"));
       }
       return mct;
    }

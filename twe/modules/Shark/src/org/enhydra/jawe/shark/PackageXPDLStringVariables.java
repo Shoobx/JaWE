@@ -28,25 +28,25 @@ import org.enhydra.jawe.base.editor.XPDLElementEditor;
 
 
 /**
- * Class that implements action to display shark config strings on process level.
+ * Class that implements action to display shark config strings on package level.
  */
-public class ProcessSharkStringVariables extends ActionBase {
+public class PackageXPDLStringVariables extends ActionBase {
 
-   public ProcessSharkStringVariables (JaWEComponent jawecomponent) {
+   public PackageXPDLStringVariables (JaWEComponent jawecomponent) {
       super(jawecomponent);
    }
 
    public void enableDisableAction() {  
-      if (getWorkflowProcess() != null)
+      if (getPackage() != null)
          setEnabled(true);
       else 
          setEnabled(false);
    }
    
    public void actionPerformed(ActionEvent e) {
-      if (getWorkflowProcess()==null) return;
+      if (getPackage()==null) return;
       JaWEController jc = (JaWEController)jawecomponent;
-      SharkStringExtendedAttributesWrapper eaw = new SharkStringExtendedAttributesWrapper(getWorkflowProcess().getExtendedAttributes());
+      XPDLStringExtendedAttributesWrapper eaw = new XPDLStringExtendedAttributesWrapper(getPackage().getExtendedAttributes());
       jc.getSelectionManager().setSelection(eaw, false);
       XPDLElementEditor ed=JaWEManager.getInstance().getXPDLElementEditor();
       ed.editXPDLElement(eaw);
