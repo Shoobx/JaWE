@@ -621,9 +621,9 @@ make distributions       - Builds and configures TWE with all documentations and
                                                 <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
                                                 <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
                                                 <arg line="/DTWE_DIR=${build.dir}" />
+                                                <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
                                                 <arg line="/DLICENSE=${build.dir}/licenses/License.txt" />
                                                 <arg line="/DLANGUAGE=${language}" />
-                                                <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
                                                 <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
                                                 <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
                                                 <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
