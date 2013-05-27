@@ -1008,49 +1008,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <delete dir="${tmp.component.dir}"/>
       
    </target>
-   
-   <target name="signexe" unless="${rebranding}">
-      <antcall target="get-current-time" />
-
-      <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
-         <socket server="timestamp.verisign.com" port="80" />
-      </waitfor>
-
-      <if>
-         <istrue value="${server.timeout}" />
-         <then>
-            <echo message="server.timeout = ${server.timeout}" />
-         </then>
-      </if>
-
-      <antcall target="get-current-time" />
-
-      <exec executable="${sign.tool}" resultproperty="exe.return.code" failonerror="false">
-          <arg value="sign"/>
-          <arg value="/f"/>
-          <arg value="${sign.privatekey}"/>
-          <arg value="/p"/>
-          <arg value="${sign.pwd}"/>
-          <arg value="/t"/>
-          <arg value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
-          <arg value="/d"/>
-          <arg value="${project.name} ${version}-${release}"/>
-          <arg value="/du"/>
-          <arg value="http://www.together.at"/>
-          <arg value="${exe.dir}/${exe.name}"/>
-      </exec>         
-
-      <if>
-         <not>
-            <equals arg1="${exe.return.code}" arg2="0" trim="true" />
-         </not>
-         <then>
-            <fail message="${sign.tool} return code ${exe.return.code}" />
-         </then>
-      </if>
-   </target>
-
-   
+      
    <target name="signem">
       <echo message="Signing with Together certificate" />
       <signjar alias="${sign.alias}"
