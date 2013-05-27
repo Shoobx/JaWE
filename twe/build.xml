@@ -54,6 +54,14 @@
    <!-- Build directory -->
    <property name="output.dir" location="${basedir}/output" />
 
+   <typedef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+         <fileset dir="${basedir}/tools/antcontrib">
+            <include name="ant*contrib*.jar" />
+         </fileset>
+      </classpath>
+   </typedef>
+   
    <!-- Setting for IF task -->
    <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
       <classpath>
@@ -93,6 +101,53 @@
       <os family="unix" />
    </condition>
 
+   <if>
+      <not>
+         <isset property="sign.timestamp.urls" />
+      </not>
+      <then>
+         <property name="sign.timestamp.urls" value="http://timestamp.globalsign.com/scripts/timestamp.dll http://www.trustcenter.de/codesigning/timestamp http://timestamp.digicert.com http://tsa.starfieldtech.com" />
+      </then>
+   </if>
+
+   <!-- begin set signing parameters -->
+   <if>
+      <and>
+         <available type="file" file="${sign.tool}" />
+         <not>
+            <isset property="sign.all.flag" />
+         </not>
+      </and>
+      <then>
+         <property name="sign.all.flag" value="true" />
+         <property name="sign.jar.flag" value="true" />
+         <property name="sign.setup.flag" value="true" />
+      </then>
+   </if>
+
+   <if>
+      <not>
+         <isset property="sign.jar.timestamp" />
+      </not>
+      <then>
+         <property name="sign.jar.timestamp" value="true" />
+      </then>
+   </if>
+
+   <if>
+      <not>
+         <isset property="sign.setup.timestamp" />
+      </not>
+      <then>
+         <property name="sign.setup.timestamp" value="true" />
+      </then>
+   </if>
+
+   <property name="sign.digestalg" value="SHA1" />
+   <property name="sign.sigalg" value="SHA1withRSA" />
+   <!-- end set signing parameters -->
+
+   
    <!-- ==================================================================== -->
    <!-- Reading of version number                                            -->
    <!-- ==================================================================== -->
@@ -119,19 +174,19 @@
             <property name="build.timestamp" value="${buildid}" />
          </else>
       </if>
-   	
+      
       <if>
-   	      <and>
-   	         <os family="unix" />
-   	         <available type="file" file="${share.dir}/${app.name}-${version}-${release}.zip" />
-   	      </and>
-   	      <then>
-   	         <property name="use.shared" value="true" />
-   	      </then>
-   	      <else>
-   	         <property name="use.shared" value="false" />
-   	      </else>
-   	   </if>
+            <and>
+               <os family="unix" />
+               <available type="file" file="${share.dir}/${app.name}-${version}-${release}.zip" />
+            </and>
+            <then>
+               <property name="use.shared" value="true" />
+            </then>
+            <else>
+               <property name="use.shared" value="false" />
+            </else>
+         </if>
    </target>
 
    <target name="setDebug">
@@ -441,6 +496,7 @@ make distributions       - Builds and configures TWE with all documentations and
       </if>
 
       <property name="nsis.script" value="twe.nsi" />
+      <property name="makensis.exe" location="${basedir}/tools/nsis/makensis.exe" />
 
       <!-- Create binary ZIP distribution -->
       <echo message="Creating ${app.name}-${name.additional}${version}-${release}.zip binary archive, please wait ..." />
@@ -456,69 +512,200 @@ make distributions       - Builds and configures TWE with all documentations and
          </then>
          <else>
             <if>
+               <or>
+                  <not>
+                     <isset property="sign.all.flag" />
+                  </not>
+                  <isfalse value="${sign.all.flag}" />
+               </or>
+               <then>
+                  <echo message="UnInstall.exe file will not be signed" />
+                  <property name="sign.tool" value="" />
+                  <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
+                     <arg line="/V4" />
+                     <arg line="/O..\..\log_${app.name}.txt" />
+                     <arg line="/DVERSION=${version}" />
+                     <arg line="/DRELEASE=${release}" />
+                     <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
+                     <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
+                     <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
+                     <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
+                     <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
+                     <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
+                     <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
+                     <arg line="/DLANGUAGE=${language}" />
+                     <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
+                     <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+                     <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
+                     <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
+                     <arg line="${nsis.script}" />
+                  </exec>
+               </then>
+               <elseif>
+                  <and>
+                     <istrue value="${sign.all.flag}" />
+                     <or>
+                        <not>
+                           <isset property="sign.setup.flag" />
+                        </not>
+                        <isfalse value="${sign.setup.flag}" />
+                     </or>
+                  </and>
+                  <then>
+                     <echo message="UnInstall.exe file will not be signed" />
+                     <property name="sign.tool" value="" />
+
+                     <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
+                        <arg line="/V4" />
+                        <arg line="/O..\..\log_${app.name}.txt" />
+                        <arg line="/DVERSION=${version}" />
+                        <arg line="/DRELEASE=${release}" />
+                        <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
+                        <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
+                        <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
+                        <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
+                        <arg line="/DTWE_DIR=${build.dir}" />
+                        <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
+                        <arg line="/DLICENSE=${build.dir}/licenses/License.txt" />
+                        <arg line="/DLANGUAGE=${language}" />
+                        <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
+                        <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+                        <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
+                        <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
+                        <arg line="${nsis.script}" />
+                     </exec>
+                  </then>
+               </elseif>
+               <elseif>
+                  <istrue value="${sign.setup.flag}" />
+                  <then>
+                     <echo message="UnInstall.exe file will be signed" />
+
+                     <var name="count.error.timestamp" value="0" />
+
+                     <for list="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50" param="sign.timestamp.index.item" delimiter="," trim="true">
+                        <sequential>
+                           <if>
+                              <not>
+                                 <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
+                              </not>
+                              <then>
+                                 <for list="${sign.timestamp.urls}" param="sign.timestamp.url" delimiter=" " trim="true">
+                                    <sequential>
+                                       <antcall target="get-current-time" />
+                                       <if>
+                                          <not>
+                                             <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
+                                          </not>
+                                          <then>
+                                             <echo message="Signing with '@{sign.timestamp.url}'" />
+                                             <antcallback target="check.timestamp.server" return="server.timeout">
+                                                <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
+                                             </antcallback>
+                                             <if>
+                                                <istrue value="${server.timeout}" />
+                                                <then>
+                                                   <echo message="server.timeout = ${server.timeout}" />
+                                                </then>
+                                             </if>
+
+                                             <var name="make.exe.return.code" unset="true" />
+
+                                             <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="false">
+                                                <arg line="/V4" />
+                                                <arg line="/O..\..\log_${app.name}.txt" />
+                                                <arg line="/DVERSION=${version}" />
+                                                <arg line="/DRELEASE=${release}" />
+                                                <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
+                                                <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
+                                                <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
+                                                <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
+                                                <arg line="/DTWE_DIR=${build.dir}" />
+                                                <arg line="/DLICENSE=${build.dir}/licenses/License.txt" />
+                                                <arg line="/DLANGUAGE=${language}" />
+                                                <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
+                                                <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
+                                                <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+                                                <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
+                                                <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
+                                                <arg line="${nsis.script}" />
+                                             </exec>
+
+                                          </then>
+                                       </if>
+
+                                       <if>
+                                          <not>
+                                             <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
+                                          </not>
+                                          <then>
+                                             <math result="count.error.timestamp" datatype="int" operation="add" operand1="${count.error.timestamp}" operand2="1" />
+                                             <sleep seconds="2" />
+                                          </then>
+                                       </if>
+
+                                    </sequential>
+                                 </for>
+                              </then>
+                           </if>
+                        </sequential>
+                     </for>
+
+                  </then>
+               </elseif>
+            </if>
+
+            <if>
+               <and>
+                  <available type="file" file="${sign.tool}" />
+                  <not>
+                     <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
+                  </not>
+               </and>
+               <then>
+                  <fail message="${makensis.exe} return code ${make.exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+               </then>
+               <elseif>
+                  <available type="file" file="${sign.tool}" />
+                  <then>
+                     <echo message="${makensis.exe} return code ${make.exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+                  </then>
+               </elseif>
+               <else>
+                  <echo message="${makensis.exe} return code ${make.exe.return.code}." />
+               </else>
+            </if>
+
+            <if>
                <not>
                   <available type="file" file="${sign.tool}" />
                </not>
                <then>
-                  <echo message="UnInstall.exe file will not be signed" />
+                  <echo message="EXE file will not be signed" />
                   <property name="sign.tool" value="" />
                </then>
                <else>
-                  <antcall target="get-current-time" />
-                   <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
-                     <socket server="timestamp.verisign.com" port="80" />
-                  </waitfor>
-                  <if>
-                     <istrue value="${server.timeout}" />
-                     <then>
-                        <echo message="server.timeout = ${server.timeout}" />
-                     </then>
-                  </if>
-                  <antcall target="get-current-time" />
+                  <var name="sign.setup.control" unset="true" />
+                  <antcall target="sign.with.timestamp">
+                     <param name="exe.dir" value="${dist.folder}" />
+                     <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
+                     <param name="fullname" value="${project.name} ${version}-${release}" />
+                     <param name="sign.setup.control" value="${sign.setup.timestamp}" />
+                  </antcall>
+
+                  <var name="sign.setup.control" unset="true" />
+                  <antcall target="sign.without.timestamp">
+                     <param name="exe.dir" value="${dist.community.dir}" />
+                     <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
+                     <param name="fullname" value="${application.name} ${version}-${release}" />
+                     <param name="sign.setup.control" value="${sign.setup.timestamp}" />
+                  </antcall>
                </else>
             </if>
-            <echo message="Creating TWE Windows installation, please wait ..." />
-            <exec dir="${basedir}/installation/Windows" executable="${basedir}/tools/nsis/makensis.exe" resultproperty="exe.return.code1" failonerror="false">
-               <arg line="/V4" />
-               <arg line="/O..\..\log_${app.name}.txt" />
-               <arg line="/DVERSION=${version}" />
-               <arg line="/DRELEASE=${release}" />
-               <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
-               <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
-               <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
-               <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
-               <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
-               <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
-               <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
-               <arg line="/DLANGUAGE=${language}" />
-               <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
-               <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
-		         <arg line="${nsis.script}" />
-            </exec>
-            <if>
-               <not>
-                  <equals arg1="${exe.return.code1}" arg2="0" trim="true" />
-               </not>
-               <then>
-                  <fail message="${basedir}/tools/nsis/makensis.exe} return code ${exe.return.code1}" />
-               </then>
-            </if>
-
+            
          </else>
       </if>
 
-      <if>
-         <equals arg1="${sign.tool}" arg2="" />
-         <then>
-            <echo message="EXE file will not be signed" />
-         </then>
-         <else>
-            <antcall target="signexe" >
-               <param name="exe.dir" value="${dist.folder}"/>
-               <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
-            </antcall>
-         </else>
-      </if>      
       <if>
          <equals arg1="${name.additional}" arg2="" />
          <then>
@@ -548,7 +735,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <delete quiet="true">
          <fileset dir="${build.dir}/doc" includes="${app.name}-${version}-${release}.doc.*" />
       </delete>      
-		<copy file="${output.doc.dir}/${app.name}-${version}-${release}.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />	
+      <copy file="${output.doc.dir}/${app.name}-${version}-${release}.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />   
       <copy todir="${dist.internal.dir}">
          <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
          <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
@@ -872,8 +1059,153 @@ make distributions       - Builds and configures TWE with all documentations and
                  storetype="pkcs12">
             <fileset dir="${dist.community.webstart.dir}/lib" includes="*.jar" />
       </signjar>
+   </target>
+
+   <target name="sign.with.timestamp" if="${sign.setup.control}">
+
+      <var name="count.error.timestamp" value="0" />
+
+      <for list="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50" param="sign.timestamp.index.item" delimiter="," trim="true">
+         <sequential>
+            <if>
+               <not>
+                  <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+               </not>
+               <then>
+                  <for list="${sign.timestamp.urls}" param="sign.timestamp.url" delimiter=" " trim="true">
+                     <sequential>
+                        <antcall target="get-current-time" />
+                        <if>
+                           <not>
+                              <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+                           </not>
+                           <then>
+                              <echo message="Signing with '@{sign.timestamp.url}'" />
+                              <antcallback target="check.timestamp.server" return="server.timeout">
+                                 <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
+                              </antcallback>
+                              <if>
+                                 <istrue value="${server.timeout}" />
+                                 <then>
+                                    <echo message="server.timeout = ${server.timeout}" />
+                                 </then>
+                              </if>
+
+                              <var name="exe.return.code" unset="true" />
+
+                              <exec executable="${sign.tool}" resultproperty="exe.return.code" failonerror="false">
+                                 <arg value="sign" />
+                                 <arg value="/f" />
+                                 <arg value="${sign.privatekey}" />
+                                 <arg value="/p" />
+                                 <arg value="${sign.pwd}" />
+                                 <arg value="/t" />
+                                 <arg value="@{sign.timestamp.url}" />
+                                 <arg value="/d" />
+                                 <arg value="${fullname}" />
+                                 <arg value="/du" />
+                                 <arg value="http://www.together.at" />
+                                 <arg value="${exe.dir}/${exe.name}" />
+                              </exec>
+
+                           </then>
+                        </if>
+
+                        <if>
+                           <not>
+                              <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+                           </not>
+                           <then>
+                              <math result="count.error.timestamp" datatype="int" operation="add" operand1="${count.error.timestamp}" operand2="1" />
+                              <sleep seconds="2" />
+                           </then>
+                        </if>
+
+                     </sequential>
+                  </for>
+
+               </then>
+            </if>
+         </sequential>
+      </for>
+
+      <if>
+         <not>
+            <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+         </not>
+         <then>
+            <fail message="${sign.tool} return code ${exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+         </then>
+         <else>
+            <echo message="${sign.tool} return code ${exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+         </else>
+      </if>
+
+   </target>
+
+   <target name="sign.without.timestamp" unless="${sign.setup.control}">
+
+      <exec executable="${sign.tool}" resultproperty="exe.return.code" failonerror="false">
+         <arg value="sign" />
+         <arg value="/f" />
+         <arg value="${sign.privatekey}" />
+         <arg value="/p" />
+         <arg value="${sign.pwd}" />
+         <arg value="/d" />
+         <arg value="${fullname}" />
+         <arg value="/du" />
+         <arg value="http://www.together.at" />
+         <arg value="${exe.dir}/${exe.name}" />
+      </exec>
+
+      <if>
+         <not>
+            <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+         </not>
+         <then>
+            <fail message="${sign.tool} return code ${exe.return.code}." />
+         </then>
+         <else>
+            <echo message="${sign.tool} return code ${exe.return.code}." />
+         </else>
+      </if>
+
    </target>   
 
+   <target name="check.timestamp.server">
+      <propertyregex property="sign.timestamp.url.temp" input="${sign.timestamp.url}" regexp="([h|H][t|T]{2}[p|P][s|S]?\:[/][/])([[\w]*[.]{0,1}[\w]*]*)([:]?)([\d]*)([[/]*[\w]]*)" select="\2" casesensitive="true" />
+      <propertyregex property="sign.timestamp.port.temp" input="${sign.timestamp.url}" regexp="([h|H][t|T]{2}[p|P][s|S]?\:[/][/])([[\w]*[.]{0,1}[\w]*]*)([:]?)([\d]*)([[/]*[\w]]*)" select="\4" casesensitive="true" />
+      <antcall target="get-current-time" />
+      <var name="server.timeout" unset="true" />
+      <if>
+         <and>
+            <isset property="sign.timestamp.url.temp" />
+            <isset property="sign.timestamp.port.temp" />
+            <not>
+               <equals arg1="${sign.timestamp.port.temp}" arg2="" trim="true" />
+            </not>
+         </and>
+         <then>
+            <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
+               <socket server="${sign.timestamp.url.temp}" port="${sign.timestamp.port.temp}" />
+            </waitfor>
+         </then>
+         <elseif>
+            <isset property="sign.timestamp.url.temp" />
+            <then>
+               <waitfor maxwait="3" maxwaitunit="minute" checkevery="10000" timeoutproperty="server.timeout">
+                  <socket server="${sign.timestamp.url.temp}" port="80" />
+               </waitfor>
+            </then>
+         </elseif>
+         <else>
+            <echo message="Invalid URL : @{sign.timestamp.url}" />
+         </else>
+      </if>
+      <var name="sign.timestamp.url.temp" unset="true" />
+      <antcall target="get-current-time" />
+   </target>
+   
    <target name="get-current-time">
       <tstamp>
          <format property="current.time" pattern="HH:mm:ss" locale="en,UK" />
@@ -881,27 +1213,111 @@ make distributions       - Builds and configures TWE with all documentations and
       <echo message="time : ${current.time}" />
    </target>
 
+   <target name="signjars.with.timestamp" if="${sign.jar.timestamp}">
+      <echo message="Signing with Together certificate" />
+
+      <var name="count.error.timestamp" value="0" />
+
+      <for list="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50" param="sign.timestamp.index.item" delimiter="," trim="true">
+         <sequential>
+            <if>
+               <not>
+                  <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+               </not>
+               <then>
+                  <for list="${sign.timestamp.urls}" param="sign.timestamp.url" delimiter=" " trim="true">
+                     <sequential>
+                        <antcall target="get-current-time" />
+                        <if>
+                           <not>
+                              <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+                           </not>
+                           <then>
+
+                              <echo message="Signing with '@{sign.timestamp.url}'" />
+                              <antcallback target="check.timestamp.server" return="server.timeout">
+                                 <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
+                              </antcallback>
+                              <if>
+                                 <istrue value="${server.timeout}" />
+                                 <then>
+                                    <echo message="server.timeout = ${server.timeout}" />
+                                 </then>
+                              </if>
+
+                              <var name="exe.return.code" unset="true" />
+
+                              <trycatch>
+                                 <try>
+                                    <signjar alias="${sign.alias}" storepass="${sign.pwd}" keystore="${sign.privatekey}" storetype="pkcs12" digestalg="${sign.digestalg}" sigalg="${sign.sigalg}" tsaurl="@{sign.timestamp.url}">
+                                       <fileset dir="${output.lib.dir}" includes="${app.name}*.jar" />
+                                    </signjar>
+                                    <var name="exe.return.code" value="0" />
+                                 </try>
+                                 <catch>
+                                    <var name="exe.return.code" value="1" />
+                                 </catch>
+                              </trycatch>
+
+                           </then>
+                        </if>
+
+                        <if>
+                           <not>
+                              <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+                           </not>
+                           <then>
+                              <math result="count.error.timestamp" datatype="int" operation="add" operand1="${count.error.timestamp}" operand2="1" />
+                              <sleep seconds="2" />
+                           </then>
+                        </if>
+
+                     </sequential>
+                  </for>
+
+               </then>
+            </if>
+         </sequential>
+      </for>
+
+      <if>
+         <not>
+            <equals arg1="${exe.return.code}" arg2="0" trim="true" />
+         </not>
+         <then>
+            <fail message="jarsigner return code ${exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+         </then>
+         <else>
+            <echo message="jarsigner return code ${exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+         </else>
+      </if>
+
+   </target>
+
+   <target name="signjars.without.timestamp" unless="${sign.jar.timestamp}">
+      <echo message="Signing with Together certificate" />
+      <signjar alias="${sign.alias}" storepass="${sign.pwd}" keystore="${sign.privatekey}" storetype="pkcs12" digestalg="${sign.digestalg}" sigalg="${sign.sigalg}">
+         <fileset dir="${output.lib.dir}" includes="${app.name}*.jar" />
+      </signjar>
+   </target>
+   
    <target name="signJars">
 <!--      
       <if>
-         <not>
-            <equals arg1="${os}" arg2="unix" />
-         </not>
+         <and>
+            <isset property="sign.alias" />
+            <not>
+               <equals arg1="${sign.alias}" arg2="" trim="true" />
+            </not>
+            <not>
+               <equals arg1="${os}" arg2="unix" />
+            </not>
+            <istrue value="${sign.all.flag}" />
+            <istrue value="${sign.jar.flag}" />
+         </and>
          <then>
-            <if>
-               <not>
-                  <equals arg1="${sign.alias}" arg2="" />
-               </not>
-               <then>
-                  <echo message="Signing with Together certificate" />
-                  <signjar alias="${sign.alias}"
-                     storepass="${sign.pwd}"
-                     keystore="${sign.privatekey}"
-                     storetype="pkcs12">
-                     <fileset dir="${output.lib.dir}" includes="${app.name}*.jar" />
-                  </signjar>
-               </then>
-            </if>      
+            <antcall target="signjars.with.timestamp" />
+            <antcall target="signjars.without.timestamp" />
          </then>
       </if>   
 -->      

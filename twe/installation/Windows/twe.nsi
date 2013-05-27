@@ -17,10 +17,10 @@
 
 ;----------------------------------------------------------------------------------
 ; TWE installation script
-;	All output message will be written to file ..\..\log_twe.txt
+;   All output message will be written to file ..\..\log_twe.txt
 ;----------------------------------------------------------------------------------
 ;Use only for testing with makensisw.exe
-;!define VERSION "3.0" 	; Uncomment this for build with makensisw.exe
+;!define VERSION "3.0"    ; Uncomment this for build with makensisw.exe
 ;!define RELEASE "1" ; Uncomment this for build with makensisw.exe
 ;!define TWE_DIR "..\..\output\twe-${VERSION}-${RELEASE}"
 ;!define OUT_DIR ".\..\..\distribution\twe-${VERSION}-${RELEASE}\community"
@@ -93,24 +93,24 @@ SetDateSave          on
   !define MUI_FINISHPAGE
 
 ; smaller fonts
-	!define MUI_FINISHPAGE_TITLE_3LINES
-		
-	!define MUI_FINISHPAGE_LINK $(home_page_link)
-	!define MUI_FINISHPAGE_LINK_LOCATION $(home_page_link_location)
+   !define MUI_FINISHPAGE_TITLE_3LINES
+      
+   !define MUI_FINISHPAGE_LINK $(home_page_link)
+   !define MUI_FINISHPAGE_LINK_LOCATION $(home_page_link_location)
 
-	!define MUI_FINISHPAGE_NOAUTOCLOSE ;To allow ShowInstDetails log
-	!define MUI_FINISHPAGE_RUN
-	!define MUI_FINISHPAGE_RUN_FUNCTION "StartJaWE"
-	;!define MUI_FINISHPAGE_CANCEL_ENABLED
+   !define MUI_FINISHPAGE_NOAUTOCLOSE ;To allow ShowInstDetails log
+   !define MUI_FINISHPAGE_RUN
+   !define MUI_FINISHPAGE_RUN_FUNCTION "StartJaWE"
+   ;!define MUI_FINISHPAGE_CANCEL_ENABLED
 
-	!define MUI_TEXT_FINISH_RUN "$(Start) $(Name)"
+   !define MUI_TEXT_FINISH_RUN "$(Start) $(Name)"
 
-	
-	!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\doc\twe-current.doc.pdf"
-	!define MUI_FINISHPAGE_SHOWREADME_TEXT "Show Documentation"
-	!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+   
+   !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\doc\twe-current.doc.pdf"
+   !define MUI_FINISHPAGE_SHOWREADME_TEXT "Show Documentation"
+   !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 
-	;!define MUI_UNTEXT_CONFIRM_TITLE $(MUI_UNTEXT_CONFIRM_TITLE)
+   ;!define MUI_UNTEXT_CONFIRM_TITLE $(MUI_UNTEXT_CONFIRM_TITLE)
 
   !define MUI_UNINSTALLER
   !define MUI_UNCONFIRMPAGE
@@ -181,17 +181,24 @@ SetDateSave          on
      !endif
   !else
    ;normal mode[return success/fail]
-   !if "${SIGNTOOL_PATH}" != ""
-       !echo "Return Value"
-	!system "$\"${SIGNTOOL_PATH}$\" sign /f $\"${KEY_PATH}$\" /p ${PASSWORD} /d $\"${FULL_NAME}$\" /du $\"http://www.together.at$\" /t $\"http://timestamp.verisign.com/scripts/timestamp.dll$\" $\"$%TEMP%\uninstall.exe$\"" = 0
-     !endif
- !endif
+   !if "${SIGN_SETUP_TIMESTAMP}" == "true"
+      !if "${SIGNTOOL_PATH}" != ""
+         !system "$\"${SIGNTOOL_PATH}$\" sign /f $\"${KEY_PATH}$\" /p ${PASSWORD} /d $\"${FULL_NAME}$\" /du $\"http://www.together.at$\" /t $\"${TIMESTAMP_URL}$\" $\"$%TEMP%\uninstall.exe$\"" = 0
+      !endif
+   !endif
+   
+   !if "${SIGN_SETUP_TIMESTAMP}" == "false"
+      !if "${SIGNTOOL_PATH}" != "" 
+         !system "$\"${SIGNTOOL_PATH}$\" sign /f $\"${KEY_PATH}$\" /p ${PASSWORD} /d $\"${FULL_NAME}$\" /du $\"http://www.together.at$\" $\"$%TEMP%\uninstall.exe$\"" = 0
+      !endif
+   !endif
+!endif
 
 ;  !system "SIGNCODE <signing options> $%TEMP%\uninstaller.exe" = 0
  
   ; Good.  Now we can carry on writing the real installer.
  
-  OutFile "${OUT_DIR}\${SHORT_NAME}-${VERSION}-${RELEASE}.exe"	; The file to write
+  OutFile "${OUT_DIR}\${SHORT_NAME}-${VERSION}-${RELEASE}.exe"   ; The file to write
 !endif
 
 ;==========================================================================  
@@ -216,27 +223,27 @@ SetDateSave          on
 ;Installer Sections
 ;---------------------------------------------------------------------------------------
 Function PinToTaskbar
-	IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" StartPinToTaskbar Empty
-		StartPinToTaskbar:
-;			MessageBox MB_OK|MB_ICONSTOP "$INSTDIR"
-			SetOutPath "$INSTDIR"
-			StrCpy $0 "pin.vbs"
-			File /oname=$0 'pin.vbs'
-;			MessageBox MB_OK|MB_ICONSTOP "$0"
-			nsExec::Exec '"$SYSDIR\CScript.exe"  "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
-			Delete 'pin.vbs'
-		Empty:
+   IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" StartPinToTaskbar Empty
+      StartPinToTaskbar:
+;         MessageBox MB_OK|MB_ICONSTOP "$INSTDIR"
+         SetOutPath "$INSTDIR"
+         StrCpy $0 "pin.vbs"
+         File /oname=$0 'pin.vbs'
+;         MessageBox MB_OK|MB_ICONSTOP "$0"
+         nsExec::Exec '"$SYSDIR\CScript.exe"  "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+         Delete 'pin.vbs'
+      Empty:
 FunctionEnd
 
 !macro PINFROMTASKBAR un
 Function ${un}PinFromTaskbar
  IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" StartUnPinToTaskbar Empty
-	  StartUnPinToTaskbar:
-		  IfFileExists "$INSTDIR\unpin.vbs" StartUnPin Empty
-		  StartUnPin:
-				StrCpy $0 "$INSTDIR\unpin.vbs"
-				  nsExec::Exec '"$SYSDIR\CScript.exe" "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
-	  Empty:
+     StartUnPinToTaskbar:
+        IfFileExists "$INSTDIR\unpin.vbs" StartUnPin Empty
+        StartUnPin:
+            StrCpy $0 "$INSTDIR\unpin.vbs"
+              nsExec::Exec '"$SYSDIR\CScript.exe" "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+     Empty:
 FunctionEnd
 !macroend
 ; Insert function as an installer and uninstaller function.
@@ -244,7 +251,7 @@ FunctionEnd
 !insertmacro PINFROMTASKBAR "un."
 
 Section "Install" Install
-	
+   
    SectionIn 1 2 3 
    SetOverwrite try
    SetShellVarContext all
@@ -252,28 +259,28 @@ Section "Install" Install
    Push $R0
 
 #----------------- setting for silent installation --
-	${if} $SILENT == "YES"
-		${if} $CREATE_STARTUP_MENU == "on"
-			StrCpy $ADD_STARTMENU "1"
-		${else}
-			StrCpy $ADD_STARTMENU "0"
-		${endif}
-		${if} $CREATE_QUICK_LAUNCH_ICON == "on"
-			StrCpy $ADD_QUICKLAUNCH "1"
-		${else}
-			StrCpy $ADD_QUICKLAUNCH "0"
-		${endif}
-		${if} $CREATE_DESKTOP_ICON == "on"
-			StrCpy $ADD_DESKTOP "1"
-		${else}
-			StrCpy $ADD_DESKTOP "0"
-		${endif}
-		${if} $CREATE_PINTOTASKBAR == "on"
-			StrCpy $ADD_PINTOTASKBAR "1"
-		${else}
-			StrCpy $ADD_PINTOTASKBAR "0"
-		${endif}
-	${endif}
+   ${if} $SILENT == "YES"
+      ${if} $CREATE_STARTUP_MENU == "on"
+         StrCpy $ADD_STARTMENU "1"
+      ${else}
+         StrCpy $ADD_STARTMENU "0"
+      ${endif}
+      ${if} $CREATE_QUICK_LAUNCH_ICON == "on"
+         StrCpy $ADD_QUICKLAUNCH "1"
+      ${else}
+         StrCpy $ADD_QUICKLAUNCH "0"
+      ${endif}
+      ${if} $CREATE_DESKTOP_ICON == "on"
+         StrCpy $ADD_DESKTOP "1"
+      ${else}
+         StrCpy $ADD_DESKTOP "0"
+      ${endif}
+      ${if} $CREATE_PINTOTASKBAR == "on"
+         StrCpy $ADD_PINTOTASKBAR "1"
+      ${else}
+         StrCpy $ADD_PINTOTASKBAR "0"
+      ${endif}
+   ${endif}
 #------ Clear Pin from taskbar previous version -----
   Call PinFromTaskbar
    
@@ -294,8 +301,8 @@ Section "Install" Install
   
   
   !ifndef INNER
-;	  SetOutPath ${INSTDIR}
-	  File $%TEMP%\uninstall.exe
+;     SetOutPath ${INSTDIR}
+     File $%TEMP%\uninstall.exe
   !endif
 
   StrCpy $1 $JAVAHOME
@@ -303,27 +310,27 @@ Section "Install" Install
   Push "$1"
   Push "\"
   Push "/"
-	Call ReplaceChar
-	Pop $1
+   Call ReplaceChar
+   Pop $1
 
-	ClearErrors
+   ClearErrors
 
   SetOutPath $INSTDIR
 
   
-	DetailPrint '"$INSTDIR\configure.bat" -jdkhome "$1"'
+   DetailPrint '"$INSTDIR\configure.bat" -jdkhome "$1"'
 
-	StrCpy $0 0
-	nsExec::ExecToLog '"$INSTDIR\configure.bat" -jdkhome "$1"'
+   StrCpy $0 0
+   nsExec::ExecToLog '"$INSTDIR\configure.bat" -jdkhome "$1"'
 
 
-	StrCmp $0 "0" success1
-	DetailPrint $(INSTALL_FAILED_DETAIL)
-	MessageBox MB_ICONSTOP|MB_OK $(INSTALL_FAILED_MESSAGE)
-	Goto end
+   StrCmp $0 "0" success1
+   DetailPrint $(INSTALL_FAILED_DETAIL)
+   MessageBox MB_ICONSTOP|MB_OK $(INSTALL_FAILED_MESSAGE)
+   Goto end
 
-	success1:
-	DetailPrint $(INSTALL_SUCCED_DETAIL)
+   success1:
+   DetailPrint $(INSTALL_SUCCED_DETAIL)
 
   ${If} ${RunningX64}
      SetRegView 64
@@ -358,7 +365,7 @@ Section "Install" Install
                  "$JAVAHOME\bin\javaw.exe" \
                  "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \
                  "$INSTDIR\bin\TWE.ico"
-				 				 
+                          
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk" \
                  "$INSTDIR\doc\twe-current.doc.html" \
@@ -372,11 +379,11 @@ Section "Install" Install
                  $(home_page_link_location) \
                  "" \
                  $DEFAULT_BROWSER
-				 
+             
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(Uninstall).lnk" \
-  								"$INSTDIR\uninstall.exe" \
-  								"/SILENT=$SILENT" \
-  								"$INSTDIR\uninstall.exe"
+                          "$INSTDIR\uninstall.exe" \
+                          "/SILENT=$SILENT" \
+                          "$INSTDIR\uninstall.exe"
    WinShell::SetLnkAUMI "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
   ${If} $ADD_QUICKLAUNCH != '0'
@@ -410,25 +417,25 @@ Section "Install" Install
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \   
                            "EstimatedSize" "$0"
   ; Write the uninstall keys for Windows
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
                     "DisplayName" "$(MID_NAME)"
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"UninstallString" "$INSTDIR\uninstall.exe /SILENT=$SILENT"
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "UninstallString" "$INSTDIR\uninstall.exe /SILENT=$SILENT"
 
   WriteRegStr HKLM     "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
                                      "DisplayIcon" "$INSTDIR\bin\TWE.ico"
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"Publisher" $(Publisher)
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"DisplayVersion" "${VERSION}-${RELEASE}-${BUILDID}"
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"URLInfoAbout" $(URLInfoAbout)
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"URLUpdateInfo" $(URLUpdateInfo)
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"HelpLink" $(HelpLink)
-  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-  									"StartMenuFolder" "$STARTMENU_FOLDER"									
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "Publisher" $(Publisher)
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "DisplayVersion" "${VERSION}-${RELEASE}-${BUILDID}"
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "URLInfoAbout" $(URLInfoAbout)
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "URLUpdateInfo" $(URLUpdateInfo)
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "HelpLink" $(HelpLink)
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "StartMenuFolder" "$STARTMENU_FOLDER"                           
 
   
   ;WriteUninstaller "$%TEMP%\uninstall.exe" ;<<----- Enabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
@@ -459,11 +466,11 @@ Function .onInit
     ${else}
           StrCpy $INSTDIR "$PROGRAMFILES\${SHORT_NAME}-${VERSION}-${RELEASE}"
     ${EndIf}
-	StrCpy $DefaultDir $INSTDIR
+   StrCpy $DefaultDir $INSTDIR
  
 ; Read default browser path
   ReadRegStr $R9 HKCR "HTTP\shell\open\command" ""
-	
+   
   Push $R9 ;original string
   Push '"' ;needs to be replaced
   Push '' ;will replace wrong characters
@@ -574,13 +581,13 @@ Function .onInit
 
   start_initialization:
   normal_default:
-		StrCpy $ADD_STARTMENU 		'1'
-		StrCpy $ENABLE_DESKTOP 		'on'
-		StrCpy $ADD_DESKTOP 		'1'
-		StrCpy $ENABLE_QUICKLAUNCH 	'on'
-		StrCpy $ADD_QUICKLAUNCH 	'0'
-		StrCpy $ENABLE_PINTOTASKBAR	'on'
-		StrCpy $ADD_PINTOTASKBAR 	'1'
+      StrCpy $ADD_STARTMENU       '1'
+      StrCpy $ENABLE_DESKTOP       'on'
+      StrCpy $ADD_DESKTOP       '1'
+      StrCpy $ENABLE_QUICKLAUNCH    'on'
+      StrCpy $ADD_QUICKLAUNCH    '0'
+      StrCpy $ENABLE_PINTOTASKBAR   'on'
+      StrCpy $ADD_PINTOTASKBAR    '1'
 
         ReadRegStr $R0 HKLM "${REG_UNINSTALL}" "InstDir"
         StrCmp $R0 "" start
@@ -592,13 +599,13 @@ Function .onInit
  
 # start splash screen
 # the plugins dir is automatically deleted when the installer exits
-		InitPluginsDir
-		File /oname=$PLUGINSDIR\splash.bmp "${SRCDIR}\twe-splash.bmp"
+      InitPluginsDir
+      File /oname=$PLUGINSDIR\splash.bmp "${SRCDIR}\twe-splash.bmp"
 #optional
 #File /oname=$PLUGINSDIR\splash.wav "C:\myprog\sound.wav"
-		advsplash::show 1000 600 400 -1 $PLUGINSDIR\splash
-		Pop $0 ; $0 has '1' if the user closed the splash screen early,
-		                ; '0' if everything closed normal, and '-1' if some error occured.
+      advsplash::show 1000 600 400 -1 $PLUGINSDIR\splash
+      Pop $0 ; $0 has '1' if the user closed the splash screen early,
+                      ; '0' if everything closed normal, and '-1' if some error occured.
 # end splash screen
 
   end_splash_screen:
@@ -623,10 +630,10 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)"
   DeleteRegKey HKLM "SOFTWARE\$(Name)"
 
-	DeleteRegKey HKCR ".xpdl"
-	DeleteRegKey HKCR "xpdlfile\DefaultIcon"
-	DeleteRegKey HKCR "xpdlfile\Shell"
-	DeleteRegKey HKCR "xpdlfile"
+   DeleteRegKey HKCR ".xpdl"
+   DeleteRegKey HKCR "xpdlfile\DefaultIcon"
+   DeleteRegKey HKCR "xpdlfile\Shell"
+   DeleteRegKey HKCR "xpdlfile"
 
   ; Unpin from Taskbar
   Call un.PinFromTaskbar
@@ -702,7 +709,7 @@ FunctionEnd
 ; Call on installation failed
 ;------------------------------------------------------------------------------
 Function .onInstFailed
-	Call Cleanup
+   Call Cleanup
 FunctionEnd
 ;------------------------------------------------------------------------------
 ; Call when installation failed or when uninstall started
@@ -714,10 +721,10 @@ Function Cleanup
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)"
   DeleteRegKey HKLM "SOFTWARE\$(Name)"
 
-	DeleteRegKey HKCR ".xpdl"
-	DeleteRegKey HKCR "xpdlfile\DefaultIcon"
-	DeleteRegKey HKCR "xpdlfile\Shell"
-	DeleteRegKey HKCR "xpdlfile"
+   DeleteRegKey HKCR ".xpdl"
+   DeleteRegKey HKCR "xpdlfile\DefaultIcon"
+   DeleteRegKey HKCR "xpdlfile\Shell"
+   DeleteRegKey HKCR "xpdlfile"
 
   ; MUST REMOVE UNINSTALLER, too
   Delete $INSTDIR\uninstall.exe
@@ -832,17 +839,17 @@ FunctionEnd
 ;   ; at this point $0 will equal "C:/JBuilder/jdk1.3.1"
 ;------------------------------------------------------------------------------
 Function ReplaceChar
-					; stack="/","\","C:\JBuilder\jdk1.3.1", ... (from top to down)
+               ; stack="/","\","C:\JBuilder\jdk1.3.1", ... (from top to down)
   Exch $2 ; $2="/", stack="2-gi param","\","C:\JBuilder\jdk1.3.1", ...
-  Exch  	; stack="\","2-ti param","C:\JBuilder\jdk1.3.1", ...
+  Exch     ; stack="\","2-ti param","C:\JBuilder\jdk1.3.1", ...
   Exch $1 ; $1="\", stack="1-vi param","2-gi param","C:\JBuilder\jdk1.3.1", ...
   Exch    ; stack="2-gi param","1-vi param","C:\JBuilder\jdk1.3.1", ...
-	Exch 2	; stack="C:\JBuilder\jdk1.3.1","1-vi param","2-gi param", ...
+   Exch 2   ; stack="C:\JBuilder\jdk1.3.1","1-vi param","2-gi param", ...
   Exch $0 ; $0="C:\JBuilder\jdk1.3.1", stack="0-ti param","1-vi param","2-gi param", ...
   Exch 2  ; stack="2-gi param","1-vi param","0-ti param", ...
 
-  Push $3	; Len("C:\JBuilder\jdk1.3.1")
-  Push $4	; index of string
+  Push $3   ; Len("C:\JBuilder\jdk1.3.1")
+  Push $4   ; index of string
   Push $5 ; tmp - form strat to found char witch need to change
   Push $6 ; tmp - from found char witch need to change + 1 to end ($3)
   Push $7 ; tmp - position where found char witch need to change + 1
@@ -855,14 +862,14 @@ Function ReplaceChar
     IntOp $4 $4 + 1
   Goto loop
   change:
-  	StrCpy $6 $4				; pozition where found char witch need to change
-  	StrCpy $5 $0 $6   	; $5="C:"
-  	StrCpy $5 "$5$2"   	; $5="C:/"
-  	StrCpy $7 $4				; pozition where found char witch need to change
-  	IntOp $7 $7 + 1 		; next pozition
-  	StrCpy $6 $0 $3 $7  ; $6="JBuilder\jdk1.3.1"
-  	StrCpy $0 $5				; $0="C:/"
-  	StrCpy $0 "$0$6" 		; $0="C:/JBuilder\jdk1.3.1"
+     StrCpy $6 $4            ; pozition where found char witch need to change
+     StrCpy $5 $0 $6      ; $5="C:"
+     StrCpy $5 "$5$2"      ; $5="C:/"
+     StrCpy $7 $4            ; pozition where found char witch need to change
+     IntOp $7 $7 + 1       ; next pozition
+     StrCpy $6 $0 $3 $7  ; $6="JBuilder\jdk1.3.1"
+     StrCpy $0 $5            ; $0="C:/"
+     StrCpy $0 "$0$6"       ; $0="C:/JBuilder\jdk1.3.1"
   Goto loop
   exit:
     Pop $7
@@ -1181,7 +1188,7 @@ Function GetJavaVersion
   ;===========================================
   ; A.)Read the registry JDK 32bit 
   ;===========================================
-  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit" 	  "CurrentVersion"
+  ReadRegStr $2 HKLM "SOFTWARE\JavaSoft\Java Development Kit"      "CurrentVersion"
   ReadRegStr $1 HKLM "SOFTWARE\JavaSoft\Java Development Kit\$2"  "JavaHome"
   ${if} $1 != ""   ;found jdk 32bit.
     StrCpy $R9 0   ; count EnumRegKey from "SOFTWARE\JavaSoft\Java Development Kit"
@@ -1257,7 +1264,7 @@ Function GetJavaVersion
     ${else}
        goto noSunJRE32bit
     ${endif}
-	
+   
   incrementJRE32bit:
     IntOp $R9 $R9 + 1
     goto loopJRE32bit
@@ -1293,7 +1300,7 @@ Function GetJavaVersion
                 
     noSunJRE64bit:
         SetRegView 32
-		
+      
     ClearErrors
   ${endif}
   ;**********************************************************************
