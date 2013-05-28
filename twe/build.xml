@@ -57,7 +57,7 @@
    <typedef resource="net/sf/antcontrib/antlib.xml">
       <classpath>
          <fileset dir="${basedir}/tools/antcontrib">
-            <include name="ant*contrib*.jar" />
+            <include name="*.jar" />
          </fileset>
       </classpath>
    </typedef>
