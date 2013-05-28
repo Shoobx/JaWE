@@ -1267,9 +1267,6 @@ make distributions       - Builds and configures TWE with all documentations and
             <not>
                <equals arg1="${sign.alias}" arg2="" trim="true" />
             </not>
-            <not>
-               <equals arg1="${os}" arg2="unix" />
-            </not>
             <istrue value="${sign.all.flag}" />
             <istrue value="${sign.jar.flag}" />
          </and>
