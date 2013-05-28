@@ -787,7 +787,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix binary distribution preparation                                 -->
    <!-- ==================================================================== -->
-   <target name="distBinUnix" depends="buildOutput, distTARGZ" />
+   <target name="distBinUnix" depends="buildOutput, signJars, distTARGZ" />
 
    <target name="distTARGZ">
    </target>
