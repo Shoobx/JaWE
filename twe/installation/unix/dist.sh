@@ -87,7 +87,7 @@ It is compatible with WfMC specification - XPDL (XML Process Definition Language
 %prep
 %setup -q -n $name$nameadditional-$version-$release.src
 
-cp $PWD/build.properties $RPM_ROOT/BUILD/$name$nameadditional-$version-$release
+cp $PWD/*.properties $RPM_ROOT/BUILD/$name$nameadditional-$version-$release.src
 
 %build
 	if [[ ! -f "$RPM_ROOT/../../../shared/$name$nameadditional-$version-$release.zip" ]];
