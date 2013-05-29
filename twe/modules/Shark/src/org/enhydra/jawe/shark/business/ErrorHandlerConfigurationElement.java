@@ -119,7 +119,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                      false,
                                                      new String[] {
                                                            "PROPAGATE",
-                                                           "IGNORE",
+                                                           "KEEP_ACTIVITY_RUNNING",
                                                            "TERMINATE_ACTIVITY",
                                                            "TERMINATE_PROCESS",
                                                      },

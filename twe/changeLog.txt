@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-05-29 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: error handler code change: IGNORE->KEEP_ACTIVITY_RUNNING
+   
 2013-05-27 Sasa Bojanic <sasaboy@together.at>
    # New way of signing with timestamping implemented (different servers possible for timestamping)
    
