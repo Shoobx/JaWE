@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-05-30 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: error handler EA change: SMTP_ERROR_HANDLER_RETURN_CODE->ERROR_HANDLER_RETURN_CODE
+
 2013-05-29 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: error handler code change: IGNORE->KEEP_ACTIVITY_RUNNING
    

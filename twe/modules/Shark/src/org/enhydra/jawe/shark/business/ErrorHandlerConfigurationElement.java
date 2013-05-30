@@ -61,7 +61,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
 
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
-                                                  SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE,
+                                                  SharkConstants.EA_ERROR_HANDLER_RETURN_CODE,
                                                   null,
                                                   String.valueOf(getReturnCodeAttribute().getChoices()
                                                      .indexOf(getReturnCodeAttribute().toValue())),
@@ -98,7 +98,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
    }
 
    public XMLAttribute getReturnCodeAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE);
+      return (XMLAttribute) get(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE);
    }
 
    public EmailConfigurationElement getEmailConfigurationElement() {
@@ -115,7 +115,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                          0);
 
       XMLAttribute attrReturnCode = new XMLAttribute(this,
-                                                     SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE,
+                                                     SharkConstants.EA_ERROR_HANDLER_RETURN_CODE,
                                                      false,
                                                      new String[] {
                                                            "PROPAGATE",
@@ -138,7 +138,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
 
    protected void handleStructure() {
       boolean hasAny = false;
-      ExtendedAttribute earc = eas.getFirstExtendedAttributeForName(SharkConstants.EA_SMTP_ERROR_HANDLER_RETURN_CODE);
+      ExtendedAttribute earc = eas.getFirstExtendedAttributeForName(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE);
 
       if (earc != null) {
          getReturnCodeAttribute().setValue((String) getReturnCodeAttribute().getChoices()
