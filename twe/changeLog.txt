@@ -1,5 +1,6 @@
 ###### TWE 4.9-1 RELEASED ######
 2013-05-30 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: supported new error handler which can also create new process and write log to file system
    # Shark mode: error handler EA change: SMTP_ERROR_HANDLER_RETURN_CODE->ERROR_HANDLER_RETURN_CODE
 
 2013-05-29 Sasa Bojanic <sasaboy@together.at>

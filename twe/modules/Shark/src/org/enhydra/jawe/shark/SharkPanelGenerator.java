@@ -148,10 +148,40 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                               false,
                                               enableEditing);
 
+      XMLPanel newproc = new XMLCheckboxPanel(getPanelContainer(),
+                                              el.getDoCreateNewProcAttribute(),
+                                              null,
+                                              false,
+                                              enableEditing,
+                                              false,
+                                              null);
+
+      XMLPanel filesyslog = new XMLCheckboxPanel(getPanelContainer(),
+                                                 el.getDoWriteFilesysLogAttribute(),
+                                                 null,
+                                                 false,
+                                                 enableEditing,
+                                                 false,
+                                                 null);
+
       List tgp = new ArrayList();
 
       tgp.add(configErrorHandler);
       tgp.add(returnCode);
+      
+      List cbp = new ArrayList();
+      cbp.add(newproc);
+      cbp.add(filesyslog);
+      XMLGroupPanel cbPanel = new XMLGroupPanel(getPanelContainer(),
+                                                el,
+                                                cbp,
+                                                "",
+                                                false,
+                                                false,
+                                                false,
+                                                null);      
+      
+      tgp.add(cbPanel);      
       tgp.add(getPanel(el.getEmailConfigurationElement()));
       for (int i = 0; i < tgp.size(); i++) {
          ltPanel.addToGroup(tgp.get(i));
@@ -1685,8 +1715,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       boolean isForActivity = XMLUtil.getActivity(el) != null
                               || XMLUtil.getApplication(el) != null;
       boolean isXPDLString = (el instanceof XPDLStringExtendedAttributeWrapper)
-                              || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
-                                 .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
+                             || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
+                                .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
          if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString) {
@@ -1721,8 +1751,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                               || XMLUtil.getApplication(el) != null
                               || ((el instanceof EmailConfigurationElement) && ((EmailConfigurationElement) el).isForActivity());
       boolean isXPDLString = (el instanceof XPDLStringExtendedAttributeWrapper)
-                              || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
-                                 .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
+                             || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
+                                .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
 
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
@@ -1766,7 +1796,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
          l = new ArrayList();
          List<String> xpdlsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el,
-                                                                                                true)
+                                                                                               true)
             .stringPropertyNames());
          for (int i = 0; i < xpdlsc.size(); i++) {
             String id = xpdlsc.get(i);

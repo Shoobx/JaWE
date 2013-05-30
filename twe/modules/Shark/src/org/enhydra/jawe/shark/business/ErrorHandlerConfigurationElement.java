@@ -67,6 +67,20 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                      .indexOf(getReturnCodeAttribute().toValue())),
                                                   false,
                                                   removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE,
+                                                  null,
+                                                  getDoCreateNewProcAttribute().toValue(),
+                                                  false,
+                                                  removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE,
+                                                  null,
+                                                  getDoWriteFilesysLogAttribute().toValue(),
+                                                  false,
+                                                  removeUnconditionally);
          elECE.setValue(null);
       } else {
          if (isReadOnly) {
@@ -101,6 +115,14 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
       return (XMLAttribute) get(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE);
    }
 
+   public XMLAttribute getDoCreateNewProcAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE);
+   }
+
+   public XMLAttribute getDoWriteFilesysLogAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE);
+   }
+
    public EmailConfigurationElement getEmailConfigurationElement() {
       return elECE;
    }
@@ -125,6 +147,22 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                      },
                                                      0);
 
+      XMLAttribute attrDoCreateNewProc = new XMLAttribute(this,
+                                                          SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE,
+                                                          false,
+                                                          new String[] {
+                                                                "true", "false"
+                                                          },
+                                                          0);
+
+      XMLAttribute attrDoWriteFilesysLog = new XMLAttribute(this,
+                                                            SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE,
+                                                            false,
+                                                            new String[] {
+                                                                  "true", "false"
+                                                            },
+                                                            0);
+
       this.elECE = new EmailConfigurationElement((ExtendedAttributes) ((XMLComplexElement) parent).get("ExtendedAttributes"),
                                                  true,
                                                  true,
@@ -133,16 +171,30 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                  null);
       add(attrConfigureEmail);
       add(attrReturnCode);
+      add(attrDoCreateNewProc);
+      add(attrDoWriteFilesysLog);
       add(this.elECE);
    }
 
    protected void handleStructure() {
       boolean hasAny = false;
-      ExtendedAttribute earc = eas.getFirstExtendedAttributeForName(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE);
 
-      if (earc != null) {
+      ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE);
+      if (ea != null) {
          getReturnCodeAttribute().setValue((String) getReturnCodeAttribute().getChoices()
-            .get(Integer.parseInt(earc.getVValue())));
+            .get(Integer.parseInt(ea.getVValue())));
+         hasAny = true;
+      }
+
+      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE);
+      if (ea != null) {
+         getDoCreateNewProcAttribute().setValue(ea.getVValue());
+         hasAny = true;
+      }
+
+      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE);
+      if (ea != null) {
+         getDoWriteFilesysLogAttribute().setValue(ea.getVValue());
          hasAny = true;
       }
       getConfigureErrorHandlerAttribute().setValue(String.valueOf(hasAny
