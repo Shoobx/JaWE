@@ -462,6 +462,8 @@ public class SharkConstants {
 
    public static final String SHARK_XPDL_ID = "shark_xpdl_id";
 
+   public static final String SHARK_XPDL_INTERNAL_VERSION = "shark_xpdl_internal_version";
+
    public static final String SHARK_XPDL_VERSION = "shark_xpdl_version";
 
    public static final String SHARK_XPDL_UPLOAD_TIME = "shark_xpdl_upload_time";
@@ -506,6 +508,7 @@ public class SharkConstants {
          SharkConstants.SHARK_RELEASE,
          SharkConstants.SHARK_BUILDID,
          SharkConstants.SHARK_XPDL_ID,
+         SharkConstants.SHARK_XPDL_INTERNAL_VERSION,
          SharkConstants.SHARK_XPDL_VERSION,
          SharkConstants.SHARK_XPDL_UPLOAD_TIME,
          SharkConstants.SHARK_USER,
