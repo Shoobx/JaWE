@@ -361,6 +361,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                }
 
                if (!choices.containsKey(ea.getVValue())) {
+                  isWarning = el.toValue()
+                     .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
                   XMLValidationError verr = new XMLValidationError(isWarning ? XMLValidationError.TYPE_WARNING
                                                                             : XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
@@ -696,7 +698,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       }
       // check circular-references inside Shark XPDL String variables
       Map<String, String> props = new HashMap(getPossibleXPDLStringVariables(pkgOrWp,
-                                                                              false));
+                                                                             false));
       Map<String, String> placeholderProps = new HashMap<String, String>();
       Iterator<Map.Entry<String, String>> ite = props.entrySet().iterator();
       while (ite.hasNext()) {
@@ -1641,13 +1643,13 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    public abstract boolean isDeadlineHandlerUsed();
 
    protected abstract Map getPossibleXPDLStringVariablesEAValues(XMLElement el,
-                                                                  boolean allLevels);
-
-   protected abstract Properties getPossibleXPDLStringVariables(XMLElement el,
                                                                  boolean allLevels);
 
+   protected abstract Properties getPossibleXPDLStringVariables(XMLElement el,
+                                                                boolean allLevels);
+
    protected abstract List<String> getPossibleXPDLStringVariableNames(XMLElement el,
-                                                                       boolean allLevels);
+                                                                      boolean allLevels);
 
    protected abstract List<String> getConfigStringChoices();
 
