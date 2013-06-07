@@ -16,22 +16,14 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.shark.business;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.enhydra.jawe.JaWEConstants;
-import org.enhydra.jawe.Utils;
-import org.enhydra.jawe.shark.business.SharkConstants;
-import org.enhydra.jawe.shark.business.WfAttachment;
-import org.enhydra.jawe.shark.business.WfAttachments;
-import org.enhydra.jawe.shark.business.WfVariable;
-import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
@@ -46,46 +38,6 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
  * @author Sasa Bojanic
  */
 public class SharkUtils {
-
-   public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
-
-   public static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
-
-   public static List<String> appDefChoices = null;
-
-   protected static List<String> configStringChoices = null;
-
-   public static List<String> getAppDefChoices() {
-      if (appDefChoices == null) {
-         appDefChoices = new ArrayList();
-         try {
-            Properties props = new Properties();
-            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
-            Utils.manageProperties(props, cch, APP_DEF_CHOICES_FILE);
-            Iterator it = props.keySet().iterator();
-            while (it.hasNext()) {
-               String chk = (String) it.next();
-               appDefChoices.add(chk.substring(0, chk.length() - 3));
-            }
-         } catch (Exception ex) {
-         }
-      }
-      return new ArrayList<String>(appDefChoices);
-   }
-
-   public static List<String> getConfigStringChoices() {
-      if (configStringChoices == null) {
-         configStringChoices = new ArrayList();
-         try {
-            Properties csc = new Properties();
-            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
-            Utils.manageProperties(csc, cch, CONFIG_STRING_CHOICES_FILE);
-            configStringChoices.addAll(csc.stringPropertyNames());
-         } catch (Exception ex) {
-         }
-      }
-      return new ArrayList<String>(configStringChoices);
-   }
 
    public static List getPossibleVariableChoices(Map vars, List varIds, String curId) {
       List l = new ArrayList(vars.values());

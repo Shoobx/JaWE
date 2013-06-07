@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-06-06 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: a bit of code refactoring
+
 2013-06-05 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Introduced XPDL Package->RedefinableHeader->Version as system variable 
 

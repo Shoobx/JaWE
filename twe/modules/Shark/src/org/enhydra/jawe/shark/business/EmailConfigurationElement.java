@@ -21,7 +21,6 @@ package org.enhydra.jawe.shark.business;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.enhydra.jawe.shark.SharkUtils;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;

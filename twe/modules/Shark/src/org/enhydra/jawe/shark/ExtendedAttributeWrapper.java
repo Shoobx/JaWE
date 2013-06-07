@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.shark;
 
+import org.enhydra.jawe.shark.business.SharkUtils;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;

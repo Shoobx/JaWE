@@ -19,6 +19,7 @@
 package org.enhydra.jawe.shark;
 
 import org.enhydra.jawe.shark.business.SharkConstants;
+import org.enhydra.jawe.shark.business.SharkUtils;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;

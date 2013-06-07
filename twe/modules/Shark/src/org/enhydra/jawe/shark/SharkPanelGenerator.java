@@ -24,12 +24,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 
+import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
@@ -49,6 +52,7 @@ import org.enhydra.jawe.shark.business.DeadlineHandlerConfigurationElement;
 import org.enhydra.jawe.shark.business.EmailConfigurationElement;
 import org.enhydra.jawe.shark.business.ErrorHandlerConfigurationElement;
 import org.enhydra.jawe.shark.business.SharkConstants;
+import org.enhydra.jawe.shark.business.SharkUtils;
 import org.enhydra.jawe.shark.business.WfAttachment;
 import org.enhydra.jawe.shark.business.WfAttachments;
 import org.enhydra.jawe.shark.business.WfVariable;
@@ -80,6 +84,46 @@ import org.enhydra.jxpdl.utilities.SequencedHashMap;
  * @author Sasa Bojanic
  */
 public class SharkPanelGenerator extends StandardPanelGenerator {
+
+   public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
+
+   protected static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
+
+   protected static List<String> appDefChoices = null;
+
+   protected static List<String> configStringChoices = null;
+
+   public static List<String> getAppDefChoices() {
+      if (appDefChoices == null) {
+         appDefChoices = new ArrayList();
+         try {
+            Properties props = new Properties();
+            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+            Utils.manageProperties(props, cch, APP_DEF_CHOICES_FILE);
+            Iterator it = props.keySet().iterator();
+            while (it.hasNext()) {
+               String chk = (String) it.next();
+               appDefChoices.add(chk.substring(0, chk.length() - 3));
+            }
+         } catch (Exception ex) {
+         }
+      }
+      return new ArrayList<String>(appDefChoices);
+   }
+
+   public static List<String> getConfigStringChoices() {
+      if (configStringChoices == null) {
+         configStringChoices = new ArrayList();
+         try {
+            Properties csc = new Properties();
+            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+            Utils.manageProperties(csc, cch, CONFIG_STRING_CHOICES_FILE);
+            configStringChoices.addAll(csc.stringPropertyNames());
+         } catch (Exception ex) {
+         }
+      }
+      return new ArrayList<String>(configStringChoices);
+   }
 
    public SharkPanelGenerator() throws Exception {
       super();
@@ -168,7 +212,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       tgp.add(configErrorHandler);
       tgp.add(returnCode);
-      
+
       List cbp = new ArrayList();
       cbp.add(newproc);
       cbp.add(filesyslog);
@@ -179,9 +223,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 false,
                                                 false,
                                                 false,
-                                                null);      
-      
-      tgp.add(cbPanel);      
+                                                null);
+
+      tgp.add(cbPanel);
       tgp.add(getPanel(el.getEmailConfigurationElement()));
       for (int i = 0; i < tgp.size(); i++) {
          ltPanel.addToGroup(tgp.get(i));
@@ -1552,7 +1596,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                     null);
          } else {
             String choosen = el.toValue();
-            List choices = SharkUtils.getAppDefChoices();
+            List choices = SharkPanelGenerator.getAppDefChoices();
             choices.remove(SharkConstants.TOOL_AGENT_QUARTZ);
             choices.remove(SharkConstants.TOOL_AGENT_SCHEDULER);
             if (!choices.contains(choosen)) {
@@ -1703,7 +1747,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    public List getExpressionChoices(XMLElement el) {
       List l = super.getExpressionChoices(el);
 
-      List<String> csc = SharkUtils.getConfigStringChoices();
+      List<String> csc = SharkPanelGenerator.getConfigStringChoices();
       for (int i = 0; i < csc.size(); i++) {
          String id = csc.get(i);
          DataField df = new DataField(null);
@@ -1783,7 +1827,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       if (!(el instanceof InitialValue)) {
          l = new ArrayList();
-         List<String> csc = SharkUtils.getConfigStringChoices();
+         List<String> csc = SharkPanelGenerator.getConfigStringChoices();
          for (int i = 0; i < csc.size(); i++) {
             String id = csc.get(i);
             DataField df = new DataField(null);

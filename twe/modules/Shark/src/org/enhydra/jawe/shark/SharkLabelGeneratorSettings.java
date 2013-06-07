@@ -28,7 +28,7 @@ public class SharkLabelGeneratorSettings extends LabelGeneratorSettings {
 
    public void loadDefault(JaWEComponent comp, Properties properties) {
       properties.setProperty(AdditionalResourceManager.ADDITIONAL_LANGUAGE_PROPERTY_FILE
-                             + "1", SharkUtils.APP_DEF_CHOICES_FILE);
+                             + "1", SharkPanelGenerator.APP_DEF_CHOICES_FILE);
       super.loadDefault(comp, properties);
    }
 

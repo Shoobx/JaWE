@@ -26,6 +26,7 @@ import java.util.Properties;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jawe.shark.business.SharkPackageValidator;
+import org.enhydra.jawe.shark.business.SharkUtils;
 import org.enhydra.jawe.shark.business.SharkValidationErrorIds;
 import org.enhydra.jxpdl.StandardPackageValidator;
 import org.enhydra.jxpdl.XMLComplexElement;
@@ -101,14 +102,14 @@ public class SharkXPDLValidator extends SharkPackageValidator {
    }
 
    protected List<String> getPossibleXPDLStringVariableNames(XMLElement el,
-                                                              boolean allLevels) {
+                                                             boolean allLevels) {
       return new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el,
-                                                                              allLevels)
+                                                                             allLevels)
          .stringPropertyNames());
    }
 
    protected List<String> getConfigStringChoices() {
-      return SharkUtils.getConfigStringChoices();
+      return SharkPanelGenerator.getConfigStringChoices();
    }
 
 }
