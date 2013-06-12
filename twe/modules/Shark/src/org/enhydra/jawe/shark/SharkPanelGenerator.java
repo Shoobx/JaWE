@@ -1797,10 +1797,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       boolean isXPDLString = (el instanceof XPDLStringExtendedAttributeWrapper)
                              || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
                                 .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
+      boolean canBeDynamicScript = el instanceof InitialValue;
 
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
-         if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString) {
+         if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString && !canBeDynamicScript) {
             continue;
          }
          DataField df = new DataField(null);
