@@ -878,6 +878,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       }
 
       boolean isForActivity = XMLUtil.getActivity(el) != null;
+      boolean canBeDynamicScript = el instanceof InitialValue;
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
          if (id.startsWith("shark_activity_") && !isForActivity) {
