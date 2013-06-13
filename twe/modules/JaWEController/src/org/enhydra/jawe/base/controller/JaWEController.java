@@ -2185,7 +2185,7 @@ public class JaWEController extends Observable implements
       } else if (action == XMLElementChangeInfo.UPDATED) {
          XMLElement parent = changedElement.getParent();
          if (changedElement.toName().equals("Name")
-             && (parent instanceof Participant || parent instanceof WorkflowProcess)) {
+             && (parent instanceof Participant || parent instanceof WorkflowProcess || parent instanceof ExtendedAttribute)) {
             updateSpecialInProgress = true;
             if (parent instanceof Participant) {
                List prefs = JaWEManager.getInstance()
@@ -2201,7 +2201,7 @@ public class JaWEController extends Observable implements
                      l.setName(changedElement.toValue());
                   }
                }
-            } else {
+            } else if (parent instanceof WorkflowProcess) {
                List wrefs = JaWEManager.getInstance()
                   .getXPDLUtils()
                   .getWorkflowProcessReferences((Package) parent.getParent().getParent(),
@@ -2213,6 +2213,17 @@ public class JaWEController extends Observable implements
                      ((Pool) pOrSub).setName(changedElement.toValue());
                   }
                }
+            } else {
+               JaWEManager.getInstance()
+                  .getXPDLUtils()
+                  .updateExtendedAttributeReferences(JaWEManager.getInstance()
+                                                        .getXPDLUtils()
+                                                        .getExtendedAttributeReferences((XMLComplexElement) parent.getParent()
+                                                                                           .getParent(),
+                                                                                        (ExtendedAttribute) parent,
+                                                                                        (String) info.getOldValue()),
+                                                     (String) info.getOldValue(),
+                                                     (String) info.getNewValue());
             }
             updateSpecialInProgress = false;
          }
@@ -2516,10 +2527,13 @@ public class JaWEController extends Observable implements
    }
 
    public boolean confirmDelete(List sel, XMLElement firstSelected) {
-      XMLComplexElement pkgOrWP = getMainPackage();
+      XMLComplexElement pkgOrWPOrEAsParent = getMainPackage();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(firstSelected);
       if (wp != null && wp != firstSelected) {
-         pkgOrWP = wp;
+         pkgOrWPOrEAsParent = wp;
+      }
+      if (firstSelected instanceof ExtendedAttribute) {
+         pkgOrWPOrEAsParent = (XMLComplexElement) firstSelected.getParent().getParent();
       }
 
       String doNotAskOnDeletionOfReferencedElements = getControllerSettings().doNotAskOnDeletionOfReferencedElementTypes();
@@ -2544,7 +2558,7 @@ public class JaWEController extends Observable implements
                if (!notToAsk.contains(el.toName())) {
                   refs.addAll(JaWEManager.getInstance()
                      .getXPDLUtils()
-                     .getReferences(pkgOrWP, (XMLComplexElement) el));
+                     .getReferences(pkgOrWPOrEAsParent, (XMLComplexElement) el));
                }
             }
          }

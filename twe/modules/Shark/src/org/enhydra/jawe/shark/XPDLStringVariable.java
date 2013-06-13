@@ -19,18 +19,14 @@
 package org.enhydra.jawe.shark;
 
 import org.enhydra.jawe.shark.business.SharkConstants;
-import org.enhydra.jxpdl.XMLAttribute;
-import org.enhydra.jxpdl.XMLComplexElement;
-import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 
-public class XPDLStringExtendedAttributeWrapper extends XMLComplexElement {
+public class XPDLStringVariable extends ExtendedAttribute {// XMLComplexElement {
 
    protected ExtendedAttribute ea;
 
-   public XPDLStringExtendedAttributeWrapper(XPDLStringExtendedAttributesWrapper parent,
-                                              ExtendedAttribute ea) {
-      super(parent, ea.toName(), true);
+   public XPDLStringVariable(XPDLStringVariables parent, ExtendedAttribute ea) {
+      super(parent);
       this.ea = ea;
       notifyMainListeners = false;
       notifyListeners = false;
@@ -38,18 +34,18 @@ public class XPDLStringExtendedAttributeWrapper extends XMLComplexElement {
       setReadOnly(ea.isReadOnly());
    }
 
-   protected void fillStructure() {
-      XMLAttribute attrName = new XMLAttribute(this, "Name", true); // required
-      XMLAttribute attrValue = new XMLAttribute(this, "Value", false);
-
-      add(attrName);
-      add(attrValue);
-   }
-
-   public void makeAs(XMLElement el) {
-      super.makeAs(el);
-      setValue(el.toValue());
-   }
+   // protected void fillStructure() {
+   // XMLAttribute attrName = new XMLAttribute(this, "Name", true); // required
+   // XMLAttribute attrValue = new XMLAttribute(this, "Value", false);
+   //
+   // add(attrName);
+   // add(attrValue);
+   // }
+   //
+   // public void makeAs(XMLElement el) {
+   // super.makeAs(el);
+   // setValue(el.toValue());
+   // }
 
    public void setValue(String v) {
       if (isReadOnly) {
@@ -64,24 +60,24 @@ public class XPDLStringExtendedAttributeWrapper extends XMLComplexElement {
    }
 
    /** Returns the Name attribute value of this object. */
-   public String getName() {
-      return get("Name").toValue();
-   }
+   // public String getName() {
+   // return get("Name").toValue();
+   // }
 
    /** Sets the Name attribute value of this object. */
-   public void setName(String name) {
-      set("Name", name);
-   }
+   // public void setName(String name) {
+   // set("Name", name);
+   // }
 
    /** Returns the Value attribute value of this object. */
-   public String getVValue() {
-      return get("Value").toValue();
-   }
+   // public String getVValue() {
+   // return get("Value").toValue();
+   // }
 
    /** Returns the Value attribute value of this object. */
-   public void setVValue(String value) {
-      set("Value", value);
-   }
+   // public void setVValue(String value) {
+   // set("Value", value);
+   // }
 
    protected void handleStructure() {
       if (ea != null) {

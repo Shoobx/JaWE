@@ -46,7 +46,7 @@ public class ProcessXPDLStringVariables extends ActionBase {
    public void actionPerformed(ActionEvent e) {
       if (getWorkflowProcess()==null) return;
       JaWEController jc = (JaWEController)jawecomponent;
-      XPDLStringExtendedAttributesWrapper eaw = new XPDLStringExtendedAttributesWrapper(getWorkflowProcess().getExtendedAttributes());
+      XPDLStringVariables eaw = new XPDLStringVariables(getWorkflowProcess().getExtendedAttributes());
       jc.getSelectionManager().setSelection(eaw, false);
       XPDLElementEditor ed=JaWEManager.getInstance().getXPDLElementEditor();
       ed.editXPDLElement(eaw);

@@ -48,6 +48,7 @@ import org.enhydra.jxpdl.elements.Artifacts;
 import org.enhydra.jxpdl.elements.Association;
 import org.enhydra.jxpdl.elements.Associations;
 import org.enhydra.jxpdl.elements.BlockActivity;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.Lane;
 import org.enhydra.jxpdl.elements.Lanes;
 import org.enhydra.jxpdl.elements.NestedLane;
@@ -171,10 +172,13 @@ public class JaWEEdit {
       JaWEController jc = JaWEManager.getInstance().getJaWEController();
       XMLComplexElement el = (XMLComplexElement) jc.getSelectionManager()
          .getSelectedElement();
-      XMLComplexElement pkgOrWP = XMLUtil.getPackage(el);
+      XMLComplexElement pkgOrWPOrEAsParent = XMLUtil.getPackage(el);
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       if (wp != null && wp != el) {
-         pkgOrWP = wp;
+         pkgOrWPOrEAsParent = wp;
+      }
+      if (el instanceof ExtendedAttribute) {
+         pkgOrWPOrEAsParent = (XMLComplexElement) el.getParent().getParent();
       }
 
       XPDLElementChangeInfo info = null;
@@ -194,7 +198,7 @@ public class JaWEEdit {
          info = jc.createInfo(el,
                               Utils.makeSearchResultList(JaWEManager.getInstance()
                                  .getXPDLUtils()
-                                 .getReferences(pkgOrWP, el)),
+                                 .getReferences(pkgOrWPOrEAsParent, el)),
                               XPDLElementChangeInfo.REFERENCES);
       } else if (el instanceof Package) {
          info = jc.createInfo(el,
@@ -205,7 +209,7 @@ public class JaWEEdit {
       } else {
          if (el instanceof WorkflowProcess
              || el instanceof Application || el instanceof Participant) {
-            if (pkgOrWP instanceof Package) {
+            if (pkgOrWPOrEAsParent instanceof Package) {
                info = jc.createInfo(el,
                                     getAllReferences(el),
                                     XPDLElementChangeInfo.REFERENCES);
@@ -213,14 +217,14 @@ public class JaWEEdit {
                info = jc.createInfo(el,
                                     Utils.makeSearchResultList(JaWEManager.getInstance()
                                        .getXPDLUtils()
-                                       .getReferences(pkgOrWP, el)),
+                                       .getReferences(pkgOrWPOrEAsParent, el)),
                                     XPDLElementChangeInfo.REFERENCES);
             }
          } else {
             info = jc.createInfo(el,
                                  Utils.makeSearchResultList(JaWEManager.getInstance()
                                     .getXPDLUtils()
-                                    .getReferences(pkgOrWP, el)),
+                                    .getReferences(pkgOrWPOrEAsParent, el)),
                                  XPDLElementChangeInfo.REFERENCES);
          }
       }

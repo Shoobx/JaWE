@@ -1,4 +1,7 @@
 ###### TWE 4.9-1 RELEASED ######
+2013-06-13 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: now correctly handling references to XPDL_STRING extended attributes
+
 2013-06-06 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: a bit of code refactoring
 

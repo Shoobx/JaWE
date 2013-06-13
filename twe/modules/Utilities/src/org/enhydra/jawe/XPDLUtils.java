@@ -80,24 +80,25 @@ public class XPDLUtils {
       return XMLUtil.isEndingActivity(act);
    }
 
-   public List getReferences(XMLComplexElement pkgOrWp, XMLComplexElement referenced) {
-      return getReferences(pkgOrWp, referenced,JaWEManager.getInstance().getXPDLHandler());
+   public List getReferences(XMLComplexElement pkgOrWpOrEAsParent, XMLComplexElement referenced) {
+      return getReferences(pkgOrWpOrEAsParent, referenced, JaWEManager.getInstance()
+         .getXPDLHandler());
    }
 
-   public List getReferences(XMLComplexElement pkgOrWp,
-                                    XMLComplexElement referenced,
-                                    XMLInterface xmli) {
-      if (pkgOrWp instanceof Package) {
-         return getReferences((Package) pkgOrWp, referenced, xmli);
-      } else if (pkgOrWp instanceof WorkflowProcess) {
-         return getReferences((WorkflowProcess) pkgOrWp, referenced);
+   public List getReferences(XMLComplexElement pkgOrWpOrEAsParent,
+                             XMLComplexElement referenced,
+                             XMLInterface xmli) {
+      if (referenced instanceof ExtendedAttribute) {
+         return getReferences(pkgOrWpOrEAsParent, (ExtendedAttribute) referenced);                  
+      } else if (pkgOrWpOrEAsParent instanceof Package) {
+         return getReferences((Package) pkgOrWpOrEAsParent, referenced, xmli);
+      } else if (pkgOrWpOrEAsParent instanceof WorkflowProcess) {
+         return getReferences((WorkflowProcess) pkgOrWpOrEAsParent, referenced);
       }
       return new ArrayList();
    }
 
-   public List getReferences(Package pkg,
-                                    XMLComplexElement referenced,
-                                    XMLInterface xmli) {
+   public List getReferences(Package pkg, XMLComplexElement referenced, XMLInterface xmli) {
       if (referenced instanceof Package) {
          return getReferences((Package) referenced, xmli);
       } else if (referenced instanceof TypeDeclaration) {
@@ -136,37 +137,44 @@ public class XPDLUtils {
       return new ArrayList();
    }
 
-   
    public List getReferences(Package pkg) {
-      return getReferences(pkg,JaWEManager.getInstance().getXPDLHandler());
+      return getReferences(pkg, JaWEManager.getInstance().getXPDLHandler());
    }
 
    public List getReferences(Package pkg, XMLInterface xmli) {
-      return XMLUtil.getReferences(pkg,xmli);
-   }   
-   
+      return XMLUtil.getReferences(pkg, xmli);
+   }
+
    public List getAllExternalPackageReferences(Package pkg, Package referenced) {
       return XMLUtil.getAllExternalPackageReferences(pkg, referenced);
    }
 
+   public List getReferences(XMLComplexElement eaparent, ExtendedAttribute referenced) {
+      return new ArrayList();
+   }
+   
+   public List getExtendedAttributeReferences(XMLComplexElement eaparent, ExtendedAttribute ea, String referencedName) {
+      return new ArrayList();
+   }
+
    public List getReferences(Package pkg, TypeDeclaration referenced) {
-      return XMLUtil.getReferences(pkg,referenced);
+      return XMLUtil.getReferences(pkg, referenced);
    }
 
    public List getReferences(WorkflowProcess wp, TypeDeclaration referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      return XMLUtil.getReferences(wp, referenced);
    }
 
    public List getReferences(TypeDeclaration td, TypeDeclaration referenced) {
-      return XMLUtil.getReferences(td,referenced);
+      return XMLUtil.getReferences(td, referenced);
    }
 
    public List getTypeDeclarationReferences(Package pkg, String referencedId) {
-      return XMLUtil.getTypeDeclarationReferences(pkg,referencedId);
+      return XMLUtil.getTypeDeclarationReferences(pkg, referencedId);
    }
 
    public List getReferencingDeclaredTypes(DataTypes dts, String typeDeclarationId) {
-      return XMLUtil.getReferencingDeclaredTypes(dts,typeDeclarationId);
+      return XMLUtil.getReferencingDeclaredTypes(dts, typeDeclarationId);
    }
 
    public List getReferences(Artifact referenced) {
@@ -174,7 +182,7 @@ public class XPDLUtils {
    }
 
    public List getArtifactReferences(Package pkg, String referencedId) {
-      return XMLUtil.getArtifactReferences(pkg,referencedId);
+      return XMLUtil.getArtifactReferences(pkg, referencedId);
    }
 
    public List getReferences(Package pkg, Association referenced) {
@@ -190,55 +198,55 @@ public class XPDLUtils {
    }
 
    public List getParticipantReferences(XMLComplexElement pkgOrWp, String referencedId) {
-      return XMLUtil.getParticipantReferences(pkgOrWp,referencedId);   
+      return XMLUtil.getParticipantReferences(pkgOrWp, referencedId);
    }
 
    public List getReferences(Package pkg, Participant referenced) {
-      return XMLUtil.getReferences(pkg,referenced);
+      return XMLUtil.getReferences(pkg, referenced);
    }
 
    public List getParticipantReferences(Package pkg, String referencedId) {
-      return XMLUtil.getParticipantReferences(pkg,referencedId);
+      return XMLUtil.getParticipantReferences(pkg, referencedId);
    }
 
    public List getReferences(WorkflowProcess wp, Participant referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      return XMLUtil.getReferences(wp, referenced);
    }
 
    public List getParticipantReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getParticipantReferences(wp,referencedId);
+      return XMLUtil.getParticipantReferences(wp, referencedId);
    }
 
    public List getApplicationReferences(XMLComplexElement pkgOrWp, String referencedId) {
-      return XMLUtil.getApplicationReferences(pkgOrWp,referencedId);
+      return XMLUtil.getApplicationReferences(pkgOrWp, referencedId);
    }
 
    public List getReferences(Package pkg, Application referenced) {
-      return XMLUtil.getReferences(pkg,referenced);
+      return XMLUtil.getReferences(pkg, referenced);
    }
 
    public List getApplicationReferences(Package pkg, String referencedId) {
-      return XMLUtil.getApplicationReferences(pkg,referencedId);
+      return XMLUtil.getApplicationReferences(pkg, referencedId);
    }
 
    public List getReferences(WorkflowProcess wp, Application referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      return XMLUtil.getReferences(wp, referenced);
    }
 
    public List getApplicationReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getApplicationReferences(wp,referencedId);
+      return XMLUtil.getApplicationReferences(wp, referencedId);
    }
 
    public List getLaneReferences(XMLComplexElement pkgOrWp, String referencedId) {
-      return XMLUtil.getLaneReferences(pkgOrWp,referencedId);
+      return XMLUtil.getLaneReferences(pkgOrWp, referencedId);
    }
 
    public List getReferences(Package pkg, Lane referenced) {
-      return XMLUtil.getReferences(pkg,referenced);
+      return XMLUtil.getReferences(pkg, referenced);
    }
 
    public List getLaneReferences(Package pkg, String referencedId) {
-      return XMLUtil.getLaneReferences(pkg,referencedId);
+      return XMLUtil.getLaneReferences(pkg, referencedId);
    }
 
    public List getReferences(WorkflowProcess wp, Lane referenced) {
@@ -246,7 +254,7 @@ public class XPDLUtils {
    }
 
    public List getLaneReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getLaneReferences(wp,referencedId);
+      return XMLUtil.getLaneReferences(wp, referencedId);
    }
 
    public List getDataFieldReferences(XMLComplexElement pkgOrWp, String referencedId) {
@@ -258,55 +266,55 @@ public class XPDLUtils {
    }
 
    public List getDataFieldReferences(Package pkg, String referencedId) {
-      return XMLUtil.getDataFieldReferences(pkg,referencedId);
+      return XMLUtil.getDataFieldReferences(pkg, referencedId);
    }
 
    public List getReferences(WorkflowProcess wp, DataField referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      return XMLUtil.getReferences(wp, referenced);
    }
 
    public List getDataFieldReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getDataFieldReferences(wp,referencedId);
+      return XMLUtil.getDataFieldReferences(wp, referencedId);
    }
 
    public List getReferences(Package pkg, WorkflowProcess referenced) {
-      return XMLUtil.getReferences(pkg,referenced);
+      return XMLUtil.getReferences(pkg, referenced);
    }
 
    public List getWorkflowProcessReferences(Package pkg, String referencedId) {
-      return XMLUtil.getWorkflowProcessReferences(pkg,referencedId);
+      return XMLUtil.getWorkflowProcessReferences(pkg, referencedId);
    }
 
    public List getReferences(WorkflowProcess wp, WorkflowProcess referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      return XMLUtil.getReferences(wp, referenced);
    }
 
    public List getWorkflowProcessReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getWorkflowProcessReferences(wp,referencedId);
+      return XMLUtil.getWorkflowProcessReferences(wp, referencedId);
    }
 
    public List getReferences(WorkflowProcess wp, FormalParameter referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      return XMLUtil.getReferences(wp, referenced);
    }
 
    public List getFormalParameterReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getFormalParameterReferences(wp,referencedId);
+      return XMLUtil.getFormalParameterReferences(wp, referencedId);
    }
 
    public List getReferences(WorkflowProcess wp, ActivitySet referenced) {
-      return XMLUtil.getReferences(wp,referenced);
+      return XMLUtil.getReferences(wp, referenced);
    }
 
    public List getActivitySetReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getActivitySetReferences(wp,referencedId);
+      return XMLUtil.getActivitySetReferences(wp, referencedId);
    }
 
    public List getReferences(ActivitySet as, ActivitySet referenced) {
-      return XMLUtil.getReferences(as,referenced);
+      return XMLUtil.getReferences(as, referenced);
    }
 
    public List getReferences(ActivitySet as, String referencedId) {
-      return XMLUtil.getReferences(as,referencedId);
+      return XMLUtil.getReferences(as, referencedId);
    }
 
    public List getReferences(Activity act) {
@@ -314,7 +322,7 @@ public class XPDLUtils {
    }
 
    public List getActivityReferences(XMLCollectionElement wpOrAs, String referencedId) {
-      return XMLUtil.getActivityReferences(wpOrAs,referencedId);
+      return XMLUtil.getActivityReferences(wpOrAs, referencedId);
    }
 
    public List getReferences(Transition tra) {
@@ -337,6 +345,11 @@ public class XPDLUtils {
       return XMLUtil.correctSplitAndJoin(act);
    }
 
+   public void updateExtendedAttributeReferences(List refs,
+                                        String oldEAName,
+                                        String newEAName) {
+   }
+   
    public void updateActivityReferences(List refsTrasToFrom,
                                         String oldActId,
                                         String newActId) {
@@ -366,7 +379,10 @@ public class XPDLUtils {
                                                       String traId,
                                                       String traOldFromId,
                                                       String traNewFromId) {
-      XMLUtil.updateActivitiesOnTransitionFromChange(acts, traId, traOldFromId, traNewFromId);
+      XMLUtil.updateActivitiesOnTransitionFromChange(acts,
+                                                     traId,
+                                                     traOldFromId,
+                                                     traNewFromId);
    }
 
    public void updateActivitiesOnTransitionToChange(Activities acts,
@@ -470,7 +486,6 @@ public class XPDLUtils {
       return XMLUtil.removeArtifactAndAssociationsForProcessOrActivitySet(wpOrAs);
    }
 
-   
    public void updateTypeDeclarationReferences(List refDeclaredTypes, String newTdId) {
       XMLUtil.updateTypeDeclarationReferences(refDeclaredTypes, newTdId);
    }
@@ -498,7 +513,9 @@ public class XPDLUtils {
    public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlConds,
                                         String oldDfOrFpId,
                                         String newDfOrFpId) {
-      XMLUtil.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds, oldDfOrFpId, newDfOrFpId);
+      XMLUtil.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds,
+                                       oldDfOrFpId,
+                                       newDfOrFpId);
    }
 
    public List getActivities(Package pkg, List types) {
@@ -514,11 +531,13 @@ public class XPDLUtils {
    }
 
    public SequencedHashMap getPossibleResponsibles(Responsibles resp, Responsible rsp) {
-      return XMLUtil.getPossibleResponsibles(resp, rsp, JaWEManager.getInstance().getXPDLHandler());
+      return XMLUtil.getPossibleResponsibles(resp, rsp, JaWEManager.getInstance()
+         .getXPDLHandler());
    }
 
    public boolean doesCrossreferenceExist(Package pkg) {
-      return XMLUtil.doesCrossreferenceExist(pkg, JaWEManager.getInstance().getXPDLHandler());
+      return XMLUtil.doesCrossreferenceExist(pkg, JaWEManager.getInstance()
+         .getXPDLHandler());
    }
 
    public Set getAllExtendedAttributeNames(XMLComplexElement cel, XPDLHandler xpdlh) {
@@ -684,6 +703,4 @@ public class XPDLUtils {
       return null;
    }
 
-   
-   
 }

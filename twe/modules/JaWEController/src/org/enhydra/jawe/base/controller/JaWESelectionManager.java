@@ -45,6 +45,7 @@ import org.enhydra.jxpdl.elements.Artifacts;
 import org.enhydra.jxpdl.elements.Association;
 import org.enhydra.jxpdl.elements.Associations;
 import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.Lane;
 import org.enhydra.jxpdl.elements.Package;
@@ -334,7 +335,7 @@ public class JaWESelectionManager {
       }
 
       if (hasActivity && hasTransition && hasAssociation && !hasOther) {
-         Set parentsParents = new HashSet();         
+         Set parentsParents = new HashSet();
          for (int i = 0; i < selection.size(); i++) {
             XMLElement el = (XMLElement) selection.get(i);
             if (el instanceof Activity || el instanceof Transition) {
@@ -345,21 +346,22 @@ public class JaWESelectionManager {
          if (parentsParents.size() != 1) {
             return false;
          }
-         
-         XMLCollectionElement wpOrAs = (XMLCollectionElement)parentsParents.toArray()[0];
-         Activities acts = (Activities)wpOrAs.get("Activities");
+
+         XMLCollectionElement wpOrAs = (XMLCollectionElement) parentsParents.toArray()[0];
+         Activities acts = (Activities) wpOrAs.get("Activities");
          for (int i = 0; i < selection.size(); i++) {
             XMLElement el = (XMLElement) selection.get(i);
             if (el instanceof Association) {
-               Association asoc = (Association)selection.get(i);
+               Association asoc = (Association) selection.get(i);
                Activity from = acts.getActivity(asoc.getSource());
                Activity to = acts.getActivity(asoc.getTarget());
-               if (!((from!=null && from.getParent().getParent()==wpOrAs) || (to!=null && to.getParent().getParent()==wpOrAs))) {
+               if (!((from != null && from.getParent().getParent() == wpOrAs) || (to != null && to.getParent()
+                  .getParent() == wpOrAs))) {
                   return false;
                }
             }
          }
-         
+
          return true;
       }
 
@@ -504,7 +506,9 @@ public class JaWESelectionManager {
 
       XMLElement firstSelected = (XMLElement) selectedElements.get(0);
 
-      if ((firstSelected instanceof WorkflowProcess || firstSelected instanceof ActivitySet) && (clipboardElementsClass1==Artifact.class || clipboardElementsClass1==Association.class)) return true;
+      if ((firstSelected instanceof WorkflowProcess || firstSelected instanceof ActivitySet)
+          && (clipboardElementsClass1 == Artifact.class || clipboardElementsClass1 == Association.class))
+         return true;
       if (firstSelected instanceof XMLAttribute
           || firstSelected instanceof XMLSimpleElement
           || firstSelected instanceof XMLComplexChoice) {
@@ -571,7 +575,8 @@ public class JaWESelectionManager {
           || selected instanceof DataField
           || (selected instanceof FormalParameter && selected.getParent().getParent() instanceof WorkflowProcess)
           || selected instanceof Activity || selected instanceof Transition
-          || selected instanceof Package || selected instanceof Lane) {
+          || selected instanceof Package || selected instanceof Lane
+          || selected instanceof ExtendedAttribute) {
          return true;
       }
       return false;
@@ -617,7 +622,9 @@ public class JaWESelectionManager {
             return false;
          }
          XMLCollection col = (XMLCollection) parent;
-         if ((!(el instanceof Transition || el instanceof Association) && !jc.canDuplicateElement(col, el, false))
+         if ((!(el instanceof Transition || el instanceof Association) && !jc.canDuplicateElement(col,
+                                                                                                  el,
+                                                                                                  false))
              || ((!jc.canInsertElement(col, el, false) || !jc.canCreateElement(col, false)) && !(col instanceof Associations || col instanceof Artifacts))) {
             return false;
          }

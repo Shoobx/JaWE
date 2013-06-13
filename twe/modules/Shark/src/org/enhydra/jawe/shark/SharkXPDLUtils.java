@@ -20,6 +20,7 @@ package org.enhydra.jawe.shark;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +56,193 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
  * @author Sasa Bojanic
  */
 public class SharkXPDLUtils extends XPDLUtils {
+
+   public List getReferences(XMLComplexElement eaparent, ExtendedAttribute referenced) {
+      return getExtendedAttributeReferences(eaparent, referenced, referenced.getName());
+   }
+
+   public List getExtendedAttributeReferences(XMLComplexElement eaparent,
+                                              ExtendedAttribute ea,
+                                              String referencedName) {
+      if (ea instanceof XPDLStringVariable
+          || referencedName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+         if (referencedName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+            referencedName = referencedName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+         }
+         List references = new ArrayList();
+         getXPDLStringEAReferences(eaparent, ea, referencedName, references);
+         return references;
+      }
+      return super.getExtendedAttributeReferences(eaparent, ea, referencedName);
+   }
+
+   protected List getXPDLStringEAReferences(XMLComplexElement el,
+                                            ExtendedAttribute ea,
+                                            String referencedName,
+                                            List references) {
+      references.addAll(getXPDLStringEAReferences(el, ea, referencedName));
+      if (el instanceof Package) {
+         Iterator it = ((Package) el).getWorkflowProcesses().toElements().iterator();
+         while (it.hasNext()) {
+            references.addAll(getXPDLStringEAReferences((WorkflowProcess) it.next(),
+                                                        ea,
+                                                        referencedName));
+         }
+      } else if (el instanceof WorkflowProcess) {
+         Iterator it = ((WorkflowProcess) el).getActivities().toElements().iterator();
+         while (it.hasNext()) {
+            Activity act = (Activity) it.next();
+            references.addAll(getXPDLStringEAReferences(act, ea, referencedName));
+         }
+         it = ((WorkflowProcess) el).getActivitySets().toElements().iterator();
+         while (it.hasNext()) {
+            ActivitySet actSet = (ActivitySet) it.next();
+            Iterator it2 = actSet.getActivities().toElements().iterator();
+            while (it2.hasNext()) {
+               Activity act = (Activity) it2.next();
+               references.addAll(getXPDLStringEAReferences(act, ea, referencedName));
+            }
+         }
+      }
+
+      return references;
+   }
+
+   protected List getXPDLStringEAReferences(XMLComplexElement el,
+                                            ExtendedAttribute ea2s,
+                                            String referencedName) {
+      List references = new ArrayList();
+
+      String postfixProc = "_PROCESS";
+      String postfixAct = "_ACTIVITY";
+
+      Iterator it = ((ExtendedAttributes) el.get("ExtendedAttributes")).toElements()
+         .iterator();
+      while (it.hasNext()) {
+         ExtendedAttribute ea = (ExtendedAttribute) it.next();
+         if (ea == ea2s) {
+            continue;
+         }
+         boolean canref = false;
+         if (el instanceof Activity) {
+            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                    + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || ea.getName()
+                   .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                || ea.getName()
+                   .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
+                                       + postfixAct)) {
+               canref = true;
+            }
+         } else if (el instanceof WorkflowProcess) {
+            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                    + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                       + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
+                                       + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
+                                       + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
+                                       + postfixAct)
+                || ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+               canref = true;
+            }
+         } else if (el instanceof Package) {
+            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                    + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                       + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
+                                       + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
+                                       + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
+                                       + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
+                                       + postfixAct)
+                || ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+               canref = true;
+            }
+         }
+         if (canref) {
+            if (XMLUtil.getUsingPositions(ea.getVValue(),
+                                          "{"
+                                                + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
+                                                + referencedName + "}",
+                                          new HashMap(),
+                                          false)
+               .size() > 0) {
+               references.add(ea.get("Value"));
+            }
+         }
+
+      }
+      return references;
+   }
+
+   public void updateExtendedAttributeReferences(List refsEAValues,
+                                                 String oldEAName,
+                                                 String newEAName) {
+      Iterator it = refsEAValues.iterator();
+      while (it.hasNext()) {
+         XMLElement easmtpv = (XMLElement) it.next();
+         if (easmtpv instanceof XMLAttribute) {
+            XMLAttribute a = (XMLAttribute) easmtpv;
+            String expr = easmtpv.toValue();
+            String searchValue = "{"
+                                 + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
+                                 + oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
+                                 + "}";
+            String replaceValue = "{"
+                                  + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
+                                  + newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
+                                  + "}";
+            int varLengthDiff = replaceValue.length() - searchValue.length();
+
+            List positions = XMLUtil.getUsingPositions(expr,
+                                                       searchValue,
+                                                       new HashMap(),
+                                                       false);
+            for (int i = 0; i < positions.size(); i++) {
+               int pos = ((Integer) positions.get(i)).intValue();
+               int realPos = pos + varLengthDiff * i;
+               String pref = expr.substring(0, realPos);
+               String suff = expr.substring(realPos + searchValue.length());
+               expr = pref + replaceValue + suff;
+               // System.out.println("Pref="+pref+", suff="+suff+", expr="+expr);
+            }
+            easmtpv.setValue(expr);
+            it.remove();
+         }
+      }
+      super.updateExtendedAttributeReferences(refsEAValues, oldEAName, newEAName);
+   }
 
    public List getParticipantReferences(XMLComplexElement pkgOrWp, String referencedId) {
       if (referencedId.equals("")) {
@@ -468,8 +656,7 @@ public class SharkXPDLUtils extends XPDLUtils {
              || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
              || ea.getName()
                 .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-             || ea.getName()
-                .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
+             || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
              || ea.getName()
                 .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
              || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES

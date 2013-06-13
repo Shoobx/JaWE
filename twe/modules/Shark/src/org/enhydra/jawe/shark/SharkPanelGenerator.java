@@ -518,7 +518,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return gp;
    }
 
-   public XMLPanel getPanel(XPDLStringExtendedAttributeWrapper el) {
+   public XMLPanel getPanel(XPDLStringVariable el) {
       SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(),
                                                        el,
                                                        el.toElements(),
@@ -529,8 +529,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return gp;
    }
 
-   public XMLPanel getPanel(XPDLStringExtendedAttributesWrapper el) {
-      return generateStandardTablePanel(el, true, false, false, true);
+   public XMLPanel getPanel(XPDLStringVariables el) {
+      return generateStandardTablePanel(el, true, false, false, false);
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
@@ -1192,7 +1192,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
          }
       } else if (no == 14) {
-         XPDLStringExtendedAttributesWrapper eaw = new XPDLStringExtendedAttributesWrapper(el.getExtendedAttributes());
+         XPDLStringVariables eaw = new XPDLStringVariables(el.getExtendedAttributes());
          p = getPanel(eaw);
       } else if (no == 15 || no == 16) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
@@ -1448,7 +1448,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
          }
       } else if (no == 11) {
-         XPDLStringExtendedAttributesWrapper eaw = new XPDLStringExtendedAttributesWrapper(el.getExtendedAttributes());
+         XPDLStringVariables eaw = new XPDLStringVariables(el.getExtendedAttributes());
          p = getPanel(eaw);
       } else if (no == 12 || no == 13) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(),
@@ -1640,7 +1640,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             null);
          }
 
-      } else if (el.getParent() instanceof XPDLStringExtendedAttributeWrapper) {
+      } else if (el.getParent() instanceof XPDLStringVariable) {
          if (el.toName().equals("Name")) {
             return super.generateStandardTextPanel(el, false);
          }
@@ -1758,7 +1758,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       }
       boolean isForActivity = XMLUtil.getActivity(el) != null
                               || XMLUtil.getApplication(el) != null;
-      boolean isXPDLString = (el instanceof XPDLStringExtendedAttributeWrapper)
+      boolean isXPDLString = (el instanceof XPDLStringVariable)
                              || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
                                 .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
@@ -1794,7 +1794,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       boolean isForActivity = XMLUtil.getActivity(el) != null
                               || XMLUtil.getApplication(el) != null
                               || ((el instanceof EmailConfigurationElement) && ((EmailConfigurationElement) el).isForActivity());
-      boolean isXPDLString = (el instanceof XPDLStringExtendedAttributeWrapper)
+      boolean isXPDLString = (el instanceof XPDLStringVariable)
                              || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName()
                                 .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX));
       boolean canBeDynamicScript = el instanceof InitialValue;

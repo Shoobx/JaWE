@@ -52,10 +52,10 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       return ea;
    }
 
-   public XPDLStringExtendedAttributeWrapper createXPDLObject(XPDLStringExtendedAttributesWrapper eas,
+   public XPDLStringVariable createXPDLObject(XPDLStringVariables eas,
                                                                String type,
                                                                boolean addToCollection) {
-      XPDLStringExtendedAttributeWrapper ea = (XPDLStringExtendedAttributeWrapper) eas.generateNewElement();
+      XPDLStringVariable ea = (XPDLStringVariable) eas.generateNewElement();
       if (addToCollection) {
          eas.add(ea);
       }

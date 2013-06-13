@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.display.DisplayNameGenerator;
-import org.enhydra.jawe.base.label.LabelGenerator;
 import org.enhydra.jawe.base.tooltip.StandardTooltipGenerator;
 import org.enhydra.jawe.base.tooltip.TooltipGeneratorSettings;
 import org.enhydra.jawe.shark.business.SharkConstants;
