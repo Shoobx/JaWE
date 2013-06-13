@@ -470,6 +470,8 @@ public class SharkConstants {
 
    public static final String SHARK_USER = "shark_user";
 
+   public static final String SHARK_USERNAME = "shark_username";
+
    public static final String SHARK_TIME = "shark_time";
 
    public static final String SHARK_ACTIVITY_ERROR_MESSAGE = "shark_activity_error_message";
@@ -512,6 +514,7 @@ public class SharkConstants {
          SharkConstants.SHARK_XPDL_VERSION,
          SharkConstants.SHARK_XPDL_UPLOAD_TIME,
          SharkConstants.SHARK_USER,
+         SharkConstants.SHARK_USERNAME,
          SharkConstants.SHARK_TIME
    };
 
