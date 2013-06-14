@@ -80,13 +80,22 @@ public class SharkXPDLUtils extends XPDLUtils {
                                             ExtendedAttribute ea,
                                             String referencedName,
                                             List references) {
+      String fullReferencedName = SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX
+                                  + referencedName;
+      ExtendedAttribute eal = ((ExtendedAttributes) (el.get("ExtendedAttributes"))).getFirstExtendedAttributeForName(fullReferencedName);
+      if (el instanceof WorkflowProcess
+          && eal != null && XMLUtil.getWorkflowProcess(ea) == null) {
+         return references;
+      }
+
       references.addAll(getXPDLStringEAReferences(el, ea, referencedName));
       if (el instanceof Package) {
          Iterator it = ((Package) el).getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
             references.addAll(getXPDLStringEAReferences((WorkflowProcess) it.next(),
                                                         ea,
-                                                        referencedName));
+                                                        referencedName,
+                                                        references));
          }
       } else if (el instanceof WorkflowProcess) {
          Iterator it = ((WorkflowProcess) el).getActivities().toElements().iterator();

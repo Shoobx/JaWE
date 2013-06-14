@@ -1640,6 +1640,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             null);
          }
 
+      } else if (el.getParent() instanceof ExtendedAttribute
+                 && el.toName().equals("Name")
+                 && el.toValue()
+                    .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)
+                 && (el.getParent().getParent().getParent() instanceof WorkflowProcess || el.getParent()
+                    .getParent()
+                    .getParent() instanceof Package)) {
+         return new XMLTextPanel(getPanelContainer(), el, false, false, false);
       } else if (el.getParent() instanceof XPDLStringVariable) {
          if (el.toName().equals("Name")) {
             return super.generateStandardTextPanel(el, false);
@@ -1801,7 +1809,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
          String id = SharkConstants.possibleSystemVariables.get(i);
-         if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString && !canBeDynamicScript) {
+         if (id.startsWith("shark_activity_")
+             && !isForActivity && !isXPDLString && !canBeDynamicScript) {
             continue;
          }
          DataField df = new DataField(null);

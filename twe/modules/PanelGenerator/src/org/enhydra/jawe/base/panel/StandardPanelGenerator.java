@@ -477,13 +477,6 @@ public class StandardPanelGenerator implements PanelGenerator {
       return p;
    }
 
-   // public XMLPanel getPanel(InitialValue el) {
-   // return generateStandardMultiLineTextPanel(el,
-   // true,
-   // XMLMultiLineTextPanel.SIZE_MEDIUM,
-   // false);
-   // }
-
    public XMLPanel getPanel(Join el) {
       return generateStandardGroupPanel(el, true, false);
    }
@@ -1761,7 +1754,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                    "Expression",
                                                                    false,
                                                                    true,
-                                                                   XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                   XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
                                                                    false,
                                                                    prepareExpressionChoices(cel),
                                                                    prepareExpressionChoicesTooltips(cel),
@@ -1909,24 +1902,13 @@ public class StandardPanelGenerator implements PanelGenerator {
          groupsToShow.clear();
          groupsToShow.add(gp);
       }
-      subpanels.clear();
       if (!hidden.contains(el.get("DataType"))) {
-         subpanels.add(generateStandardGroupPanel((XMLComplexElement) el.get("DataType"),
-                                                  true,
-                                                  false));
+         groupsToShow.add(generateStandardGroupPanel((XMLComplexElement) el.get("DataType"),
+                                    true,
+                                    false));
       }
       if (!hidden.contains(el.get("InitialValue"))) {
-         subpanels.add(getPanel(el.get("InitialValue")));
-      }
-      if (subpanels.size() > 0) {
-         groupsToShow.add(new XMLGroupPanel(getPanelContainer(),
-                                            el,
-                                            subpanels,
-                                            "",
-                                            false,
-                                            false,
-                                            true,
-                                            null));
+         groupsToShow.add(getPanel(el.get("InitialValue")));
       }
 
       if (!hidden.contains(el.get("Description"))) {
