@@ -18,10 +18,15 @@
 
 package org.enhydra.jawe.shark;
 
+import java.util.List;
+
+import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.base.panel.StandardPanelValidator;
+import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XPDLValidationErrorIds;
 
 /**
  * Class used to validate panels for all XPDL entities.
@@ -29,6 +34,26 @@ import org.enhydra.jxpdl.XMLElement;
  * @author Sasa Bojanic
  */
 public class SharkPanelValidator extends StandardPanelValidator {
+
+   public boolean standardPanelValidation(XMLElement el, XMLPanel panel) {
+      boolean ok = super.standardPanelValidation(el, panel);
+      if (ok && el instanceof XPDLStringVariable) {
+
+         XMLPanel idPanel = findPanel(panel, ((XPDLStringVariable) el).get("Name"));
+         String newId = ((String) idPanel.getValue()).trim();
+         XPDLStringVariables xpdlVars = (XPDLStringVariables) el.getParent();
+         List xvs = xpdlVars.getElementsForName(newId);
+         if (xvs.size() > 0 && !xvs.contains(el)) {
+            XMLBasicPanel.errorMessage(panel.getWindow(),
+                                       ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                       "",
+                                       ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_NON_UNIQUE_ID));
+            idPanel.requestFocus();
+            return false;
+         }
+      }
+      return ok;
+   }
 
    protected boolean validateId(XMLPanel pnl, XMLElement el) {
       if (el instanceof WfVariable) {
