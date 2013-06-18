@@ -436,6 +436,8 @@ public class SharkConstants {
 
    public static final String SHARK_ACTIVITY_NAME = "shark_activity_name";
 
+   public static final String SHARK_ACTIVITY_TYPE = "shark_activity_type";
+
    public static final String SHARK_ACTIVITY_DESCRIPTION = "shark_activity_description";
 
    public static final String SHARK_ACTIVITY_PRIORITY = "shark_activity_priority";
@@ -495,6 +497,7 @@ public class SharkConstants {
          SharkConstants.SHARK_ACTIVITY_DEFINITION_NAME,
          SharkConstants.SHARK_ACTIVITY_ID,
          SharkConstants.SHARK_ACTIVITY_NAME,
+         SharkConstants.SHARK_ACTIVITY_TYPE,
          SharkConstants.SHARK_ACTIVITY_DESCRIPTION,
          SharkConstants.SHARK_ACTIVITY_PRIORITY,
          SharkConstants.SHARK_ACTIVITY_LIMIT_TIME,
