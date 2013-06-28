@@ -1,4 +1,8 @@
 ###### TWE 5.0-1 RELEASED ######
+2013-06-28 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Create process -> Create preconfigured error process
+   # build procedure improved so Shark mode has all the required images
+
 2013-06-13 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: now correctly handling references to XPDL_STRING extended attributes
 

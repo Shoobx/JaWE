@@ -305,7 +305,7 @@
       </antcall>
       <antcall target="makeJAR">
          <param name="jar2create" value="${app.name}shark.jar"/>
-         <param name="includepath" value="**/jawe/shark/*.*"/>
+         <param name="includepath" value="**/jawe/shark/*.*,**/jawe/shark/images/**"/>
       </antcall>
       <antcall target="makeJAR">
          <param name="jar2create" value="${app.name}sharkxpdlvalidation.jar"/>
@@ -321,10 +321,7 @@
 
    </target>
    <target name="makeJAR">
-      <jar destfile="${output.lib.dir}/${jar2create}">
-         <fileset dir="${classes.dir}">
-            <include name="${includepath}"/>
-         </fileset>
+      <jar destfile="${output.lib.dir}/${jar2create}" basedir="${classes.dir}" includes="${includepath}">
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
             <attribute name="Title" value="Together Workflow Editor" />
