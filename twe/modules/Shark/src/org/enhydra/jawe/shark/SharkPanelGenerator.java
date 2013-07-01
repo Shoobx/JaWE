@@ -1503,8 +1503,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       } else if (el.getParent() instanceof WfVariable
                  || el.getParent() instanceof WfAttachment) {
-         WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
-         Map chm = XMLUtil.getPossibleVariables(wp);
+         Map chm = XMLUtil.getPossibleVariables(el);
          List varIds = new ArrayList();
          List filter = null;
          boolean editable = false;
