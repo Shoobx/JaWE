@@ -19,7 +19,6 @@
 package org.enhydra.jawe.base.panel.panels;
 
 import java.awt.Component;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.Box;
@@ -92,10 +91,6 @@ public class XMLGroupPanel extends XMLBasicPanel {
          if (el instanceof XMLElement) {
             dtdp = pc.getPanelGenerator().getPanel((XMLElement) el);
          } else if (el instanceof String) {
-            System.out.println("GE|TTING PANEL FOR EL"
-                               + el + ", AEL="
-                               + ((XMLComplexElement) myOwner).get((String) el)
-                               + ", OWNER=" + myOwner.toName());
             dtdp = pc.getPanelGenerator()
                .getPanel(((XMLComplexElement) myOwner).get((String) el));
          } else if (el instanceof XMLPanel) {

@@ -73,6 +73,8 @@ public class SharkConstants {
 
    public static final String EA_CHECK_FOR_COMPLETION = "CHECK_FOR_COMPLETION";
 
+   public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL = "XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL";
+   
    public static final String CONFIGURE_SMTP_EVENT_AUDIT_MANAGER = "ConfigureEmail";
 
    public static final String SMTP_MODE = "SMTP_MODE";
