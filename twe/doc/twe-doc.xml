@@ -10085,7 +10085,114 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para/>
+          <para>Shark mode:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Improved Email configuration section:</para>
+
+              <para>* New checkbox to enable/disable configuration - disabling
+              means removing all related extended attributes </para>
+
+              <para>* Attachments and Attachment names joined into the single
+              control</para>
+
+              <para>* Changed names of the controls</para>
+            </listitem>
+
+            <listitem>
+              <para>Support for SMTPNewProcFileSysLogErrorHandler</para>
+            </listitem>
+
+            <listitem>
+              <para>Support for SMTPLimitHandler</para>
+            </listitem>
+
+            <listitem>
+              <para>Support for XPILLogEventAuditManager</para>
+            </listitem>
+
+            <listitem>
+              <para>Now always displaying possible process extended
+              attributes</para>
+            </listitem>
+
+            <listitem>
+              <para>Now supporting new way of defining SMTPEventAuditManager
+              extended attributes (different names for activity/process EAS +
+              possiblity to define default SMTP attributes on process and
+              package level for the activity and on the package level for the
+              process)</para>
+            </listitem>
+
+            <listitem>
+              <para>Now supporting deadline handling via ext attributes</para>
+            </listitem>
+
+            <listitem>
+              <para>Code refactored regarding SMTP handling (event audit,
+              error, limit, deadline)</para>
+            </listitem>
+
+            <listitem>
+              <para>Changed "system" variable naming and validation according
+              to new Shark features (SharkPanelGenerator and
+              SharkXPDLValidator changes)</para>
+            </listitem>
+
+            <listitem>
+              <para>Example (shark) XPDLs changed according to the changes
+              made in Shark</para>
+            </listitem>
+
+            <listitem>
+              <para>Support for configuration choice variables</para>
+            </listitem>
+
+            <listitem>
+              <para>Support for SHARK STRING VARIABLES</para>
+            </listitem>
+
+            <listitem>
+              <para>Support for system variables</para>
+            </listitem>
+
+            <listitem>
+              <para>Now validating uniqueness of variables considering Shark's
+              system variables and configuration parameters</para>
+            </listitem>
+
+            <listitem>
+              <para>Now validating variables' InitialValue cross/self/implicit
+              cross references</para>
+            </listitem>
+
+            <listitem>
+              <para>Fixed bug in Shark's tooltip manager</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Improved ActualParameters panel</para>
+        </listitem>
+
+        <listitem>
+          <para>Now validating variables' InitialValue expressions </para>
+        </listitem>
+
+        <listitem>
+          <para>Added more icons that can be used when setting Activity's
+          cutom icon</para>
+        </listitem>
+
+        <listitem>
+          <para>Now icons in the taskbar are grouped</para>
+        </listitem>
+
+        <listitem>
+          <para>New way of signing with timestamping implemented (different
+          servers possible for timestamping)</para>
         </listitem>
       </itemizedlist>
     </section>
