@@ -17,7 +17,7 @@
 -->
 <WorkflowProcess>
    <ExtendedAttributes>
-      <ExtendedAttribute Name="ALLOW_UNDEFINED_VARIABLES" Value="false"/>
+      <ExtendedAttribute Name="ALLOW_UNDEFINED_VARIABLES" Value="true"/>
       <ExtendedAttribute Name="DYNAMIC_VARIABLE_HANDLING" Value="false"/>
       <ExtendedAttribute Name="CHOOSE_NEXT_PERFORMER" Value="false"/>      
       <ExtendedAttribute Name="USE_PROCESS_CONTEXT_ONLY" Value="false"/>
@@ -26,6 +26,7 @@
       <ExtendedAttribute Name="DELETE_FINISHED" Value="false"/>
       <ExtendedAttribute Name="CHECK_FOR_FIRST_ACTIVITY" Value="false"/>
       <ExtendedAttribute Name="CHECK_FOR_CONTINUATION" Value="false"/>        
+      <ExtendedAttribute Name="XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL" Value="true"/>        
       <ExtendedAttribute Name="REDIRECT_AFTER_PROCESS_END" Value=""/>        
     </ExtendedAttributes>
 </WorkflowProcess>

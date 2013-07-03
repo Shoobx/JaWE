@@ -1028,9 +1028,6 @@ d;</xpdl:DeadlineDuration>
                     </xpdl:ConnectorGraphicsInfos>
                 </xpdl:Transition>
             </xpdl:Transitions>
-            <xpdl:ExtendedAttributes>
-                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION" Value="VERTICAL"/>
-            </xpdl:ExtendedAttributes>
         </xpdl:WorkflowProcess>
     </xpdl:WorkflowProcesses>
     <xpdl:ExtendedAttributes>
