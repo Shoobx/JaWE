@@ -168,7 +168,7 @@ public class SharkUtils {
                val = el.toValue().trim();
             }
          }
-         if (removeIfEmpty && val.equals("")) {
+         if (removeIfEmpty && val.trim().equals("")) {
             eas.remove(ea);
          } else {
             ea.setVValue(val);
