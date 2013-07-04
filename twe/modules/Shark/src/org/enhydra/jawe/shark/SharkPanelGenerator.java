@@ -21,6 +21,7 @@ package org.enhydra.jawe.shark;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1028,25 +1029,21 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas,
-                                            SharkConstants.EA_TRANSIENT,
-                                            true);
+         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
+         ealist.add(pnl);
+         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DELETE_FINISHED, true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
-                                            SharkConstants.EA_DELETE_FINISHED,
+                                            SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
                                             true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw=new ExtendedAttributeWrapper(eas,
-                                          SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
-                                          true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
@@ -1095,6 +1092,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             pplist.addAll(ealist);
          }
 
+         XMLPanel xpilfnPnl = getPanel(new ExtendedAttributeWrapper(eas,
+                                                                    SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR,
+                                                                    false));
+         pplist.add(xpilfnPnl);
          XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas,
                                                                   SharkConstants.EA_REDIRECT_AFTER_PROCESS_END,
                                                                   false));
@@ -1219,8 +1220,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
-                                      SharkConstants.EA_CHOOSE_NEXT_PERFORMER,
-                                      true);
+                                            SharkConstants.EA_CHOOSE_NEXT_PERFORMER,
+                                            true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
@@ -1243,33 +1244,29 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas,
-                                      SharkConstants.EA_TRANSIENT,
-                                      true);
+         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
+         ealist.add(pnl);
+         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DELETE_FINISHED, true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
-                                      SharkConstants.EA_DELETE_FINISHED,
-                                      true);
+                                            SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
+                                            true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
-                                      SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
-                                      true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas,
-                                      SharkConstants.EA_CHECK_FOR_CONTINUATION,
-                                      true);
+                                            SharkConstants.EA_CHECK_FOR_CONTINUATION,
+                                            true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
@@ -1310,6 +1307,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             panelElements.addAll(ealist);
          }
 
+         XMLPanel xpilfnPnl = getPanel(new ExtendedAttributeWrapper(eas,
+                                                                    SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR,
+                                                                    false));
+         panelElements.add(xpilfnPnl);
          XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas,
                                                                   SharkConstants.EA_REDIRECT_AFTER_PROCESS_END,
                                                                   false));
@@ -1461,6 +1462,40 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   true,
                                   false,
                                   editable,
+                                  true,
+                                  true,
+                                  JaWEManager.getInstance()
+                                     .getJaWEController()
+                                     .canModifyElement(el),
+                                  null);
+      } else if (el.toName().equals("Value")
+                 && el.getParent() instanceof ExtendedAttribute
+                 && ((ExtendedAttribute) el.getParent()).getName()
+                    .equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
+                 || el.toName()
+                    .equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
+                 && el.getParent() instanceof ExtendedAttributeWrapper) {
+         Map chm = XMLUtil.getPossibleVariables(el);
+         List choices = PanelUtilities.getPossibleVariableChoices(new ArrayList(chm.values()),
+                                                                  Arrays.asList(new String[] {
+                                                                     XPDLConstants.BASIC_TYPE_STRING
+                                                                  }),
+                                                                  1,
+                                                                  false);
+         DataField df = new DataField(null);
+         df.setId(" ");
+         df.getDataType().getDataTypes().setBasicType();
+         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         choices.add(0,df);
+         return new XMLComboPanel(getPanelContainer(),
+                                  el,
+                                  getPanelContainer().getLanguageDependentString(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR
+                                                                                 + "Key"),
+                                  choices,
+                                  false,
+                                  true,
+                                  false,
+                                  false,
                                   true,
                                   true,
                                   JaWEManager.getInstance()
