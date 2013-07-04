@@ -991,51 +991,81 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                      true);
          if (!eaw.isPersisted()) {
             eaw.setVValue("true");
+            getPanelContainer().panelChanged(null, null);
          }
          XMLPanel pnl = getPanel(eaw);
          ealist.add(pnl);
-
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_CHOOSE_NEXT_PERFORMER,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_CHOOSE_NEXT_PERFORMER,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
                                             SharkConstants.EA_CREATE_ASSIGNMENTS,
                                             true);
          if (!eaw.isPersisted()) {
             eaw.setVValue("true");
+            getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_TRANSIENT,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_TRANSIENT,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_DELETE_FINISHED,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_DELETE_FINISHED,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
-                                                     true));
+         eaw=new ExtendedAttributeWrapper(eas,
+                                          SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
+                                          true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_CHECK_FOR_CONTINUATION,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_CHECK_FOR_CONTINUATION,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
                                             SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL,
                                             true);
          if (!eaw.isPersisted()) {
             eaw.setVValue("true");
+            getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
@@ -1176,50 +1206,81 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                      true);
          if (!eaw.isPersisted()) {
             eaw.setVValue("true");
+            getPanelContainer().panelChanged(null, null);
          }
          XMLPanel pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_CHOOSE_NEXT_PERFORMER,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                      SharkConstants.EA_CHOOSE_NEXT_PERFORMER,
+                                      true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                            SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY,
+                                            true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
                                             SharkConstants.EA_CREATE_ASSIGNMENTS,
                                             true);
          if (!eaw.isPersisted()) {
             eaw.setVValue("true");
+            getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_TRANSIENT,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                      SharkConstants.EA_TRANSIENT,
+                                      true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_DELETE_FINISHED,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                      SharkConstants.EA_DELETE_FINISHED,
+                                      true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                      SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY,
+                                      true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
-         pnl = getPanel(new ExtendedAttributeWrapper(eas,
-                                                     SharkConstants.EA_CHECK_FOR_CONTINUATION,
-                                                     true));
+         eaw = new ExtendedAttributeWrapper(eas,
+                                      SharkConstants.EA_CHECK_FOR_CONTINUATION,
+                                      true);
+         if (!eaw.isPersisted()) {
+            getPanelContainer().panelChanged(null, null);
+         }
+         pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas,
                                             SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL,
                                             true);
          if (!eaw.isPersisted()) {
             eaw.setVValue("true");
+            getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
          ealist.add(pnl);
