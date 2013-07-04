@@ -1,0 +1,48 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<Application Id="xpath" Name="XPath">
+   <FormalParameters>
+      <FormalParameter Id="Node" IsArray="false" Mode="IN">
+         <DataType>
+            <SchemaType/>
+         </DataType>
+         <Description>Schema type variable, represents a node for XPath expressions.</Description>
+      </FormalParameter>
+      <FormalParameter Id="Expressions" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a comma separated list of XPath expressions.</Description>
+      </FormalParameter>
+      <FormalParameter Id="ResultVariableIds" Name="Ids of variables where the result will be stored" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a comma separated list of Ids of variables where the result of XPath expressions will be stored.</Description>
+      </FormalParameter>
+      <FormalParameter Id="XML_PREFIX_AND_NAMESPACE_URI" Name="XML Prefix and Namespace URI" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a namespace and corresponding URI to be used in XPath expressions (e.g. "form=http://www.forms.com/schemas/2012").</Description>
+      </FormalParameter>
+   </FormalParameters>
+   <ExtendedAttributes>
+        <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.XPathToolAgent"/>
+    </ExtendedAttributes>
+</Application>
