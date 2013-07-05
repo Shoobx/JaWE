@@ -10092,7 +10092,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               <para>Improved Email configuration section:</para>
 
               <para>* New checkbox to enable/disable configuration - disabling
-              means removing all related extended attributes </para>
+              means removing all related extended attributes</para>
 
               <para>* Attachments and Attachment names joined into the single
               control</para>
@@ -10163,8 +10163,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
             </listitem>
 
             <listitem>
-              <para>Now validating variables' InitialValue cross/self/implicit
-              cross references</para>
+              <para>Now validating variables' InitialValue
+              circular/self/implicit circular references</para>
             </listitem>
 
             <listitem>
@@ -10178,7 +10178,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>Now validating variables' InitialValue expressions </para>
+          <para>Now validating variables' InitialValue expressions</para>
         </listitem>
 
         <listitem>
