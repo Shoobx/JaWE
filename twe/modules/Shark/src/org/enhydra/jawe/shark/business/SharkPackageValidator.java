@@ -329,8 +329,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                                                          : XMLValidationError.TYPE_WARNING,
                                                                       XMLValidationError.SUB_TYPE_LOGIC,
                                                                       isWPLevel
-                                                                            && !isWarning ? SharkValidationErrorIds.ERROR_NON_EXISTING_SHARK_STRING_VARIABLE_REFERENCE
-                                                                                         : SharkValidationErrorIds.WARNING_NON_EXISTING_SHARK_STRING_VARIABLE_REFERENCE,
+                                                                            && !isWarning ? SharkValidationErrorIds.ERROR_NON_EXISTING_XPDL_STRING_VARIABLE_REFERENCE
+                                                                                         : SharkValidationErrorIds.WARNING_NON_EXISTING_XPDL_STRING_VARIABLE_REFERENCE,
                                                                       v,
                                                                       ea.get("Value"));
                      existingErrors.add(verr);
@@ -764,7 +764,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_SELF_REFERENCES_NOT_ALLOWED
                                                                            : ((eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_SELF_REFERENCES_NOT_ALLOWED
-                                                                                                           : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_SELF_REFERENCES_NOT_ALLOWED),
+                                                                                                           : SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_SELF_REFERENCES_NOT_ALLOWED),
                                                           varId,
                                                           eel);
          existingErrors.add(verr);
@@ -782,7 +782,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                              XMLValidationError.SUB_TYPE_LOGIC,
                                                              dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED
                                                                               : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CIRCULAR_REFERENCES_NOT_ALLOWED
-                                                                                                             : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED,
+                                                                                                             : SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED,
                                                              varId,
                                                              eel);
             existingErrors.add(verr);
@@ -798,7 +798,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
                                                                            : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
-                                                                                                          : SharkValidationErrorIds.ERROR_SHARK_STRING_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED,
+                                                                                                          : SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED,
                                                           varId,
                                                           eel);
          existingErrors.add(verr);
