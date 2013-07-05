@@ -20,6 +20,7 @@ package org.enhydra.jawe.shark.business;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -101,8 +102,10 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             if (((el.toValue().equals(SharkConstants.VTP_UPDATE) || el.toValue()
                .equals(SharkConstants.VTP_VIEW)) && isAct)
                 || (!isAct && (el.toValue()
-                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                           + postfixProc)
+                   .equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
+                               || el.toValue()
+                                  .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
+                                          + postfixProc)
                                || el.toValue()
                                   .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
                                           + postfixProc)
@@ -367,6 +370,21 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                                             : XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    XPDLValidationErrorIds.ERROR_NON_EXISTING_PARTICIPANT_REFERENCE,
+                                                                   ea.getVValue(),
+                                                                   ea.get("Value"));
+                  existingErrors.add(verr);
+                  if (!fullCheck) {
+                     return;
+                  }
+               }
+            } else if (el.toValue().equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE)) {
+               ExtendedAttribute ea = (ExtendedAttribute) parent;
+               if (!Arrays.asList(new String[] {
+                     "0", "1", "2", "3"
+               }).contains(ea.getVValue())) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   SharkValidationErrorIds.ERROR_INVALID_ERROR_HANDLER_RETURN_CODE,
                                                                    ea.getVValue(),
                                                                    ea.get("Value"));
                   existingErrors.add(verr);
