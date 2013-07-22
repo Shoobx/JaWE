@@ -406,6 +406,7 @@ make distributions       - Builds and configures TWE with all documentations and
    <target name="initDist">
       <!-- Distribution directories -->
       <property name="dist.dir" location="${basedir}/distribution/${app.name}-${version}-${release}_${build.timestamp}" />
+      <property name="dist.file.name" value="${app.name}-${version}-${release}" />
 
       <!-- Set the directories -->
       <property name="dist.community.dir" location="${dist.dir}/community" />
@@ -431,6 +432,11 @@ make distributions       - Builds and configures TWE with all documentations and
                <param name="dist.folder" value="${dist.community.dir}" />
                <param name="name.additional" value="" />
             </antcall>
+            <antcall target="distTARGZ">
+               <param name="dist.folder" value="${dist.community.dir}" />
+               <param name="name.additional" value="" />
+            </antcall>
+
             <antcall target="create.components"/>
             <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
             <if>
@@ -454,6 +460,10 @@ make distributions       - Builds and configures TWE with all documentations and
                            <fileset dir="${build.dir}/licenses" includes="License.txt" />
                         </jar>
                         <antcall target="distZIPEXE">
+                           <param name="dist.folder" value="${dist.twe.dir}" />
+                           <param name="name.additional" value="tsl-" />
+                        </antcall>
+                        <antcall target="distTARGZ">
                            <param name="dist.folder" value="${dist.twe.dir}" />
                            <param name="name.additional" value="tsl-" />
                         </antcall>
@@ -790,6 +800,13 @@ make distributions       - Builds and configures TWE with all documentations and
    <target name="distBinUnix" depends="buildOutput, distTARGZ" />
 
    <target name="distTARGZ">
+      <property name="dist.folder" value="${dist.community.dir}" />
+      <property name="name.additional" value=""/>
+      <tar destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.tar.gz" compression="gzip" longfile="gnu">
+         <tarfileset dir="${output.dir}/${app.name}-${version}-${release}" mode="666" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf" prefix="${app.name}-${name.additional}${version}-${release}">
+         </tarfileset>
+      </tar>
+      <chmod file="${dist.folder}/${app.name}-${name.additional}${version}-${release}.tar.gz" perm="ugo+rw"/>
    </target>
 
    <!-- ==================================================================== -->
@@ -805,6 +822,14 @@ make distributions       - Builds and configures TWE with all documentations and
    
       <ant target="${sourceBuildTarget}">
       </ant>
+      <if>
+         <equals arg1="${os}" arg2="windows" />
+         <then>
+            <antcall target="distSrcUnix"/>
+            <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />
+            <move file="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" tofile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.tar.gz" overwrite="true" />
+         </then>
+      </if>
    </target>
 
    <!-- ==================================================================== -->
@@ -857,7 +882,8 @@ make distributions       - Builds and configures TWE with all documentations and
    <!-- ==================================================================== -->
    <!-- Unix source distribution                                             -->
    <!-- ==================================================================== -->
-   <target name="distSourceUnix" depends="clean">
+   <target name="distSourceUnix" depends="clean,distSrcUnix"/>
+   <target name="distSrcUnix">
       <!-- delete binary build preparations -->
       <delete quiet="true">
          <fileset dir="${basedir}" includes="**/*.bak" />

@@ -1,4 +1,7 @@
 ###### TWE 5.0-1 RELEASED ######
+2013-07-22 Sasa Bojanic <sasaboy@together.at>
+   # Builds changed so that windows build is generating tar.gz and src.tar.gz packages
+
 2013-07-02 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - support for XPILLog event audit manager extended attribute XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL
