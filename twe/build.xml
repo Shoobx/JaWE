@@ -800,6 +800,11 @@ make distributions       - Builds and configures TWE with all documentations and
    <target name="distBinUnix" depends="buildOutput, distTARGZ" />
 
    <target name="distTARGZ">
+      <copy file="${input.dir}/configure.sh" tofile="${output.dir}/${app.name}-${version}-${release}/configure.sh"/>
+      <copy file="${input.dir}/bin/run.sh.in" tofile="${output.dir}/${app.name}-${version}-${release}/dist/bin/run.sh.in"/>
+      <delete file="${output.dir}/${app.name}-${version}-${release}/configure.bat"/>
+      <delete file="${output.dir}/${app.name}-${version}-${release}/dist/bin/run.bat.in"/>
+      
       <property name="dist.folder" value="${dist.community.dir}" />
       <property name="name.additional" value=""/>
       <tar destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.tar.gz" compression="gzip" longfile="gnu">
@@ -807,6 +812,11 @@ make distributions       - Builds and configures TWE with all documentations and
          </tarfileset>
       </tar>
       <chmod file="${dist.folder}/${app.name}-${name.additional}${version}-${release}.tar.gz" perm="ugo+rw"/>
+
+      <copy file="${input.dir}/configure.bat" tofile="${output.dir}/${app.name}-${version}-${release}/configure.bat"/>
+      <copy file="${input.dir}/bin/run.bat.in" tofile="${output.dir}/${app.name}-${version}-${release}/dist/bin/run.bat.in"/>
+      <delete file="${output.dir}/${app.name}-${version}-${release}/configure.sh"/>
+      <delete file="${output.dir}/${app.name}-${version}-${release}/dist/bin/run.sh.in"/>
    </target>
 
    <!-- ==================================================================== -->
