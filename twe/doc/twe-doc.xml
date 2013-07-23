@@ -10081,6 +10081,16 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     <title>Release Notes</title>
 
     <section>
+      <title>Release5.1-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Linux tar.gz distributions now built under windows</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release5.0-1</title>
 
       <itemizedlist>
