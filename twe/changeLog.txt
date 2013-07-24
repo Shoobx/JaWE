@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2013-07-24 Sasa Bojanic <sasaboy@together.at>
+   # Improvement regarding silent uninstallation
+
 2013-07-22 Sasa Bojanic <sasaboy@together.at>
    # Builds changed so that windows build is generating tar.gz and src.tar.gz packages
 
