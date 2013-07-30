@@ -23,10 +23,14 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -43,9 +47,7 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.JaWETabbedPane;
-import org.enhydra.jawe.JaWEXMLUtil;
 import org.enhydra.jawe.ResourceManager;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jxpdl.XMLUtil;
 
 /**
@@ -125,8 +127,34 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       toolbar.setFloatable(false);
       
       // Logo      
-      setIconImage(controller.getControllerSettings().getApplicationIcon().getImage());
-
+//      setIconImage(controller.getControllerSettings().getApplicationIcon().getImage());
+      List<Image> icons = new ArrayList<Image>();
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                                   .getResource("org/enhydra/jawe/images/jawe.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe20.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe24.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe32.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe40.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe48.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe60.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe64.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe72.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe80.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe96.gif")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
+                              .getResource("org/enhydra/jawe/images/jawe256.gif")).getImage());
+      setIconImages(icons);
+      
       setBackground(Color.lightGray);
       getContentPane().setLayout(new BorderLayout());
       setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
