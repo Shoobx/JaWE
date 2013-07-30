@@ -24,8 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.enhydra.jxpdl.XMLUtil;
-
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.WString;
@@ -94,9 +92,9 @@ public class JaWE {
 
       JaWEManager.getInstance().start(fn);
 
-      if (fn==null) {
-         String jh=JaWEConstants.JAWE_HOME;
-         System.setProperty("user.dir",jh+"/examples/xpdl2.1/RealLife");
+      if (fn == null) {
+         String jh = JaWEConstants.JAWE_HOME;
+         System.setProperty("user.dir", jh + "/examples/xpdl2.1/RealLife");
       }
       try {
          setAppUserModelID();
