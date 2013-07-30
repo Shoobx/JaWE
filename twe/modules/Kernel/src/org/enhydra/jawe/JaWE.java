@@ -92,6 +92,10 @@ public class JaWE {
 
       JaWEManager.getInstance().start(fn);
 
+      if (fn == null) {
+         String jh = JaWEConstants.JAWE_HOME;
+         System.setProperty("user.dir", jh + "/examples/xpdl2.1/RealLife");
+      }
       try {
          setAppUserModelID();
       } catch (Exception e) {
