@@ -144,27 +144,27 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
          .getResource("org/enhydra/jawe/images/jawe.gif")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe20.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe20.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe24.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe24.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe32.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe32.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe40.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe40.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe48.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe48.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe60.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe60.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe64.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe64.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe72.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe72.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe80.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe80.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe96.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe96.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe256.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe256.png")).getImage());
       setIconImages(icons);
 
       setBackground(Color.lightGray);
