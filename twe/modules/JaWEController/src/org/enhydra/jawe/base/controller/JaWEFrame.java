@@ -142,7 +142,7 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       // setIconImage(controller.getControllerSettings().getApplicationIcon().getImage());
       List<Image> icons = new ArrayList<Image>();
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe.gif")).getImage());
+         .getResource("org/enhydra/jawe/images/twe16.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
          .getResource("org/enhydra/jawe/images/twe20.png")).getImage());
       icons.add(new ImageIcon(ResourceManager.class.getClassLoader()

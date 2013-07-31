@@ -345,7 +345,7 @@
          <!-- Key for search -->
          <replacevalue>
             <!-- Value for replace -->
-            <![CDATA[<mapID target="jaweicon" url="Images/jawe.gif" />
+            <![CDATA[<mapID target="jaweicon" url="Images/twe16.png" />
          </map>]]>
          </replacevalue>
       </replace>

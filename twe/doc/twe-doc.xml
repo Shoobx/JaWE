@@ -1391,7 +1391,7 @@ create.desktop.icon=on
                 <row>
                   <entry align="left" valign="middle"><inlinemediaobject>
                       <imageobject>
-                        <imagedata fileref="Images/jawe.gif" format="GIF"/>
+                        <imagedata fileref="Images/twe16.png"/>
                       </imageobject>
                     </inlinemediaobject>About</entry>
 
@@ -1959,7 +1959,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/freetextlane.png" format="GIF"/>
+                    <imagedata fileref="Images/freetextlane.png"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
@@ -1970,7 +1970,7 @@ create.desktop.icon=on
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
-                    <imagedata fileref="Images/commonexplane.png" format="GIF"/>
+                    <imagedata fileref="Images/commonexplane.png"/>
                   </imageobject>
                 </inlinemediaobject></entry>
 
