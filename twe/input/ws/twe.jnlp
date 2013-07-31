@@ -5,7 +5,7 @@
 	<vendor>Together Teamsolutions Co., Ltd.</vendor>
 	<homepage href="http://www.together.at/prod/workflow/twe"/>
 	<description kind="short">Together Workflow Editor @VERSION@-@RELEASE@ Web Start</description>
-	<icon href="images/TWE_32.gif"/>
+	<icon href="images/twe32.png"/>
 	<offline-allowed/>
 </information>
 <security>

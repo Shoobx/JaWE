@@ -145,7 +145,7 @@ public class ControllerSettings extends JaWEComponentSettings {
          appIcon = new ImageIcon(iconURL);
       else
          appIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/jawe.gif"));
+            .getResource("org/enhydra/jawe/images/twe16.png"));
       componentSettings.put("ApplicationIcon", appIcon);
 
       ImageIcon hicon;
@@ -330,7 +330,7 @@ public class ControllerSettings extends JaWEComponentSettings {
       // HelpAbout
       action = new HelpAbout(comp);
       icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/jawe.gif"));
+         .getResource("org/enhydra/jawe/images/twe16.png"));
       langDepName = "HelpAbout";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("HelpAbout", ja);
