@@ -37,11 +37,15 @@ import com.sun.jna.win32.W32APITypeMapper;
  */
 public class JaWE {
 
-   static int timeLeft = 10; // in seconds
-
    public static void main(String[] args) throws Throwable {
       System.out.println("Starting JAWE ....");
       System.out.println("JaWE -> JaWE is being initialized ...");
+
+      try {
+         setAppUserModelID();
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
 
       File cfgf = null;
       System.out.println("JaWE_CONF_HOME=" + JaWEConstants.JAWE_CONF_HOME);
@@ -95,11 +99,6 @@ public class JaWE {
       if (fn == null) {
          String jh = JaWEConstants.JAWE_HOME;
          System.setProperty("user.dir", jh + "/examples/xpdl2.1/RealLife");
-      }
-      try {
-         setAppUserModelID();
-      } catch (Exception e) {
-         e.printStackTrace();
       }
    }
 
