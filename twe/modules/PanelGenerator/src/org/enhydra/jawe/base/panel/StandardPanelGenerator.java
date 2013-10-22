@@ -163,7 +163,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                panels.add(p);
             }
          } catch (Exception ex) {
-//            ex.printStackTrace();
+            // ex.printStackTrace();
             break;
          }
       }
@@ -380,7 +380,7 @@ public class StandardPanelGenerator implements PanelGenerator {
    public XMLPanel getPanel(Description el) {
       return generateStandardMultiLineTextPanel(el,
                                                 true,
-                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                2,
                                                 true);
    }
 
@@ -415,7 +415,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 el.toName(),
                                                                 false,
                                                                 true,
-                                                                XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                                2,
                                                                 false,
                                                                 mc,
                                                                 null,
@@ -1262,7 +1262,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       "Value",
                                                                       false,
                                                                       true,
-                                                                      XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                      5,
                                                                       false,
                                                                       mc,
                                                                       getBasicExpressionChoicesTooltips(el),
@@ -1276,7 +1276,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       "Value",
                                                                       false,
                                                                       true,
-                                                                      XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                      5,
                                                                       false,
                                                                       null,
                                                                       null,
@@ -1749,12 +1749,19 @@ public class StandardPanelGenerator implements PanelGenerator {
       toShow.removeAll(hidden);
       if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition))
           || cel instanceof Condition) {
+         int noOfLines = 4;
+         try {
+            noOfLines = getPanelContainer().getSettings()
+               .getSettingInt("PreferredNumberOfLinesForExpression");
+         } catch (Exception ex) {
+            System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: 4");
+         }
          toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                    cel,
                                                                    "Expression",
                                                                    false,
                                                                    true,
-                                                                   XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                                   noOfLines,
                                                                    false,
                                                                    prepareExpressionChoices(cel),
                                                                    prepareExpressionChoicesTooltips(cel),
@@ -1774,7 +1781,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           "ComplexContent",
                                                                           false,
                                                                           true,
-                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                          7,
                                                                           false,
                                                                           mc,
                                                                           getBasicExpressionChoicesTooltips(holder),
@@ -1789,7 +1796,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           "ComplexContent",
                                                                           false,
                                                                           true,
-                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                          7,
                                                                           false,
                                                                           null,
                                                                           null,
@@ -1804,7 +1811,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                        "ComplexContent",
                                                                        false,
                                                                        true,
-                                                                       XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                       5,
                                                                        false,
                                                                        null,
                                                                        null,
@@ -1904,8 +1911,8 @@ public class StandardPanelGenerator implements PanelGenerator {
       }
       if (!hidden.contains(el.get("DataType"))) {
          groupsToShow.add(generateStandardGroupPanel((XMLComplexElement) el.get("DataType"),
-                                    true,
-                                    false));
+                                                     true,
+                                                     false));
       }
       if (!hidden.contains(el.get("InitialValue"))) {
          groupsToShow.add(getPanel(el.get("InitialValue")));

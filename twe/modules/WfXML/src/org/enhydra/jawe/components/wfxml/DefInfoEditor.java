@@ -41,6 +41,7 @@ import javax.swing.WindowConstants;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
@@ -143,6 +144,7 @@ public class DefInfoEditor extends JDialog {
       }
       setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
       setResizable(true);
+      Utils.center(this, 100, 100);
       setLocationRelativeTo(getParent());
       buttonOK.setDefaultCapable(true);
       getRootPane().setDefaultButton(buttonOK);
@@ -190,7 +192,7 @@ public class DefInfoEditor extends JDialog {
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                  di.get("DefinitionKey"),
                                                                  true,
-                                                                 XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
+                                                                 2,
                                                                  false,
                                                                  definitionKeyEnabled,
                                                                  null,
@@ -199,7 +201,7 @@ public class DefInfoEditor extends JDialog {
       lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                  di.get("Description"),
                                                                  true,
-                                                                 XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE,
+                                                                 3,
                                                                  true,
                                                                  definitionKeyEnabled,
                                                                  null,

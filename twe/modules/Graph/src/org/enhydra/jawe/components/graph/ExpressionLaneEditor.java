@@ -365,7 +365,7 @@ public class ExpressionLaneEditor {
                                                                           "Expression",
                                                                           false,
                                                                           true,
-                                                                          XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
+                                                                          5,
                                                                           false,
                                                                           null,
                                                                           null,

@@ -444,21 +444,30 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void rearrangeFrame() {
+      int hmrem = 0;
       int mcc = mainComponents.getComponentCount();
       if (mcc == 0) {
          mainComponents.getParent().remove(mainComponents);
+         hmrem++;
       }
       int tcc = treeComponents.getComponentCount();
       if (tcc == 0) {
          treeComponents.getParent().remove(treeComponents);
+         hmrem++;
       }
       int scc = specialComponents.getComponentCount();
       if (scc == 0) {
          specialComponents.getParent().remove(specialComponents);
+         hmrem++;
       }
       int occ = otherComponents.getComponentCount();
       if (occ == 0) {
          otherComponents.getParent().remove(otherComponents);
+         hmrem++;
+      }
+      if (hmrem>=3) {
+         bigSplit.setDividerLocation(0);
+         bigSplit.setEnabled(false);
       }
    }
 

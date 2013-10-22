@@ -57,6 +57,12 @@ public class TableEditorSettings extends PanelSettings {
                             new Boolean(properties.getProperty("XMLActualParametersPanel.useAdvanced",
                                                                "true")
                                .equals("true")));
+      componentSettings.put("XMLActualParametersPanel.preferredNumberOfLinesForExpression",
+                            new Integer(properties.getProperty("XMLActualParametersPanel.preferredNumberOfLinesForExpression",
+                                                               "4")));
+      componentSettings.put("PreferredNumberOfLinesForExpression",
+                            new Integer(properties.getProperty("PreferredNumberOfLinesForExpression",
+                                                               "4")));
       componentSettings.put("XMLBasicPanel.RightAllignment",
                             new Boolean(properties.getProperty("XMLBasicPanel.RightAllignment",
                                                                "false")

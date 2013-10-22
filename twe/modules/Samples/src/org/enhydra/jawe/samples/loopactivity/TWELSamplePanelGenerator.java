@@ -128,7 +128,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                                                      "Condition",
                                                                      false,
                                                                      true,
-                                                                     XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM,
+                                                                     5,
                                                                      true,
                                                                      mc,
                                                                      getBasicExpressionChoicesTooltips(el),

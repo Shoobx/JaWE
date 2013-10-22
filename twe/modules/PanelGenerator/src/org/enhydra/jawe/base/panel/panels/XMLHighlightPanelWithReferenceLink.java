@@ -58,8 +58,6 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
    private static Dimension refButDimension = new Dimension(25, 20);
 
-   Dimension textDim = new Dimension(400, 20);
-
    protected XMLMultiLineHighlightPanelWithChoiceButton panel;
 
    protected JButton jb;
@@ -132,12 +130,19 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       mc.add(participants);
       List<String> pttps = new ArrayList<String>();
       pttps.add(pc.getSettings().getLanguageDependentString("InsertParticipantKey"));
+      int noOfLines = 4;
+      try {
+         noOfLines = getPanelContainer().getSettings()
+            .getSettingInt("PreferredNumberOfLinesForExpression");
+      } catch (Exception ex) {
+         System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: 4");
+      }
       panel = new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                              myOwner,
                                                              myOwner.toName(),
                                                              false,
                                                              true,
-                                                             XMLMultiLineHighlightPanelWithChoiceButton.SIZE_MEDIUM,
+                                                             noOfLines,
                                                              false,
                                                              mc,
                                                              pttps,

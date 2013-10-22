@@ -9162,6 +9162,15 @@ JaWETypes.ActivityType.XPDLTemplate.loop = sampleactloop.xml</programlisting>whe
         </listitem>
       </itemizedlist>
 
+      <para>The following parameters are related to the preferred number of
+      lines in text areas for defining various expressions. The first
+      parameter is related to transition condition, initial value, deadline,
+      ... expressions and 2nd one for actual parameter expressions:</para>
+
+      <programlisting>#PreferredNumberOfLinesForExpression=4
+
+#XMLActualParametersPanel.preferredNumberOfLinesForExpression=4</programlisting>
+
       <para>There are properties which can be adjusted to fine-tune the basic
       element property panels L&amp;F, such as alignment, TOP, BOTTOM, RIGHT,
       LEFT empty space in the panels, the width and height of the text boxes,
@@ -10084,6 +10093,29 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <title>Release5.1-1</title>
 
       <itemizedlist>
+        <listitem>
+          <para>New configuration parameter to specify preferred number of
+          lines for text areas where expressions are defined
+          (PreferredNumberOfLinesForExpression)</para>
+        </listitem>
+
+        <listitem>
+          <para>New configuration parameter to specify preferred number of
+          lines for text areas where actual parameter expressions are defined
+          (XMLActualParametersPanel.preferredNumberOfLinesForExpression)</para>
+        </listitem>
+
+        <listitem>
+          <para>Now XMLMultiLineTextPanelWithOptionalChoiceButtons panel
+          constructor accepts parameter to specify how many lines are
+          preferred for text area</para>
+        </listitem>
+
+        <listitem>
+          <para>Hidding and disabling main divider if application is
+          configured to have only one area</para>
+        </listitem>
+
         <listitem>
           <para>Linux tar.gz distributions now built under windows</para>
         </listitem>
