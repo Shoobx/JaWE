@@ -8870,7 +8870,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <listitem>
           <para><emphasis>FileLocking</emphasis> - if set to true, TWE will
           lock open XPDL files. Main XPDL file will be exclusively locked, and
-          external package's XPDL files will have a shared lock</para>
+          external package's XPDL files will have a shared lock.</para>
+
+          <note>
+            <para>This property is relevant only for Windows OS</para>
+          </note>
         </listitem>
       </itemizedlist>
     </sect1>
@@ -10114,6 +10118,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Hidding and disabling main divider if application is
           configured to have only one area</para>
+        </listitem>
+
+        <listitem>
+          <para>On non-Windows OSs files we are not using RandomFileAccess
+          class to open/save files anymore. Anyway, on non-Windows OSs it
+          wasn't possible to lock files, and there was a problem with this
+          approach in some cases - the file wasn't saved if another
+          application changed it meanwhile.</para>
         </listitem>
 
         <listitem>

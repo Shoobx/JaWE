@@ -1,4 +1,9 @@
 ###### TWE 5.1-1 RELEASED ######
+2013-10-24 Sasa Bojanic <sasaboy@together.at>
+   # On non-Windows OSs files we are not using RandomFileAccess class to open/save files anymore. 
+     Anyway, on non-Windows OSs it wasn't possible to lock files, and there was a problem with this 
+     approach in some cases - the file wasn't saved if another application changed it meanwhile.
+
 2013-10-22 Sasa Bojanic <sasaboy@together.at>
    # New configuration parameter to specify preferred number of lines for text areas where expressions are defined(PreferredNumberOfLinesForExpression)
    # New configuration parameter to specify preferred number of lines for text areas where actual parameter expressions are defined (XMLActualParametersPanel.preferredNumberOfLinesForExpression)</para

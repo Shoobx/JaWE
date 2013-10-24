@@ -1471,6 +1471,10 @@ public class JaWEController extends Observable implements
       XPDLHandler xpdlhandler = JaWEManager.getInstance().getXPDLHandler();
       Package pkg = xpdlhandler.getPackageById(xpdlId);
       String oldFilename = xpdlhandler.getAbsoluteFilePath(pkg);
+      // on Windows, output stream will either be the FileOutputStream in the
+      // case of save as, or the ByteArrayOutputStream if we are
+      // saving an existing file. On other OSs it will always be FileOutputStream
+      OutputStream os = null;
       try {
 
          if (filename == null)
@@ -1507,38 +1511,38 @@ public class JaWEController extends Observable implements
          // retrieve the file writter
          RandomAccessFile raf = xpdlhandler.getRaf(pkg);
 
-         // output stream will either be the FileOutputStream in the
-         // case of save as, or the ByteArrayOutputStream if we are
-         // saving an existing file
-         OutputStream os;
-         if (isNewFile) {
-            // try to open random access file as rw, if it fails
-            // the saving shouldn't occur
-            try {
-               File f = new File(filename);
-               RandomAccessFile r = new RandomAccessFile(f, "rw");
-               FileLock flck = r.getChannel().tryLock();
-               flck.release();
-               r.close(); // Harald Meister
-               // this exception happens when using jdk1.4 under Linux
-               // if it happens, just catch it and proceed with saving
-               // because Linux with jdk1.4.0 doesn't support locking
-            } catch (IOException ioe) {
-               // ioe.printStackTrace();
-               // this happens when the locking fails, and null is returned,
-               // and after that release method is called on the null;
-               // This means that the file we want to save the given
-               // package as, is already locked, so we do not allow saving
-            } catch (NullPointerException npe) {
-               // npe.printStackTrace();
-               throw new Exception();
-            }
-            // if we are at this point, this means either the locking
-            // succeeded, or we use jdk1.4 under Linux that does not
-            // support locking
+         if (!Utils.isWindows()) {
             os = new FileOutputStream(filename);
          } else {
-            os = new ByteArrayOutputStream();
+            if (isNewFile) {
+               // try to open random access file as rw, if it fails
+               // the saving shouldn't occur
+               try {
+                  File f = new File(filename);
+                  RandomAccessFile r = new RandomAccessFile(f, "rw");
+                  FileLock flck = r.getChannel().tryLock();
+                  flck.release();
+                  r.close(); // Harald Meister
+                  // this exception happens when using jdk1.4 under Linux
+                  // if it happens, just catch it and proceed with saving
+                  // because Linux with jdk1.4.0 doesn't support locking
+               } catch (IOException ioe) {
+                  // ioe.printStackTrace();
+                  // this happens when the locking fails, and null is returned,
+                  // and after that release method is called on the null;
+                  // This means that the file we want to save the given
+                  // package as, is already locked, so we do not allow saving
+               } catch (NullPointerException npe) {
+                  // npe.printStackTrace();
+                  throw new Exception();
+               }
+               // if we are at this point, this means either the locking
+               // succeeded, or we use jdk1.4 under Linux that does not
+               // support locking
+               os = new FileOutputStream(filename);
+            } else {
+               os = new ByteArrayOutputStream();
+            }
          }
 
          // Here we get all document elements set
@@ -1595,6 +1599,13 @@ public class JaWEController extends Observable implements
          message(settings.getLanguageDependentString("ErrorCannotSaveDocument"),
                  JOptionPane.ERROR_MESSAGE);
          // ex.printStackTrace();
+      } finally {
+         if (os!=null) {
+            try {
+               os.close();
+            } catch (Exception ex) {               
+            }
+         }
       }
       // xpdlhandler.printDebug();
       // XPDLElementChangeInfo info = createInfo(pkg, XPDLElementChangeInfo.SELECTED);

@@ -1196,7 +1196,7 @@ public class Utils {
          System.setProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME,
                             JaWEConstants.JAWE_CONF_HOME + "/" + newConfig);
 
-         if (filename==null) {
+         if (filename == null) {
             filename = jc.getPackageFilename(jc.getMainPackageId());
          }
          jc.tryToClosePackage(jc.getMainPackageId(), true);
@@ -1225,7 +1225,7 @@ public class Utils {
       return "";
    }
 
-   public static boolean hasCallerMethod (String className, String methodName) {
+   public static boolean hasCallerMethod(String className, String methodName) {
       Throwable t = new Throwable();
       StackTraceElement[] elements = t.getStackTrace();
       for (int i = 0; i < elements.length; i++) {
@@ -1236,7 +1236,20 @@ public class Utils {
       }
       return false;
    }
-   
+
+   private static String OS = null;
+
+   public static String getOsName() {
+      if (OS == null) {
+         OS = System.getProperty("os.name");
+      }
+      return OS;
+   }
+
+   public static boolean isWindows() {
+      return getOsName().startsWith("Windows");
+   }
+
 }
 
 class PFFilter implements FilenameFilter {
