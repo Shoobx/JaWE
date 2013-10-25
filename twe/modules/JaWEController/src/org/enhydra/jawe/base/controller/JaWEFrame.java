@@ -465,8 +465,19 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
          otherComponents.getParent().remove(otherComponents);
          hmrem++;
       }
-      if (hmrem>=3) {
-         bigSplit.setDividerLocation(0);
+      if (hmrem >= 3) {
+         if (mcc > 0 || occ > 0) {
+            bigSplit.setDividerLocation(0);
+         } else {
+            int sw = (int)GraphicsEnvironment.getLocalGraphicsEnvironment()
+               .getDefaultScreenDevice()
+               .getDefaultConfiguration()
+               .getBounds()
+               .getSize()
+               .getWidth();
+            bigSplit.setResizeWeight(1.0);
+            bigSplit.setDividerLocation(sw);
+         }
          bigSplit.setEnabled(false);
       }
    }
