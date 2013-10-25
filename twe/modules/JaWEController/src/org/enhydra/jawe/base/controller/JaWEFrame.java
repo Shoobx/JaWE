@@ -462,6 +462,7 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       }
       if (tcc==0 && scc==0) {
          bigSplit.setDividerLocation(0);
+         bigSplit.setEnabled(false);
       } else if (mcc==0 && occ==0){
          int sw = (int) GraphicsEnvironment.getLocalGraphicsEnvironment()
             .getDefaultScreenDevice()
@@ -471,8 +472,8 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
             .getWidth();
          bigSplit.setResizeWeight(1.0);
          bigSplit.setDividerLocation(sw);
+         bigSplit.setEnabled(false);
       }
-      bigSplit.setEnabled(false);
    }
 
    private JComponent getFrameComponentByName(String name) {
