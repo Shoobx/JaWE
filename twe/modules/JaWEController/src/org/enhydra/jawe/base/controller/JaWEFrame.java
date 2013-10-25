@@ -444,42 +444,35 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void rearrangeFrame() {
-      int hmrem = 0;
       int mcc = mainComponents.getComponentCount();
       if (mcc == 0) {
          mainComponents.getParent().remove(mainComponents);
-         hmrem++;
       }
       int tcc = treeComponents.getComponentCount();
       if (tcc == 0) {
          treeComponents.getParent().remove(treeComponents);
-         hmrem++;
       }
       int scc = specialComponents.getComponentCount();
       if (scc == 0) {
          specialComponents.getParent().remove(specialComponents);
-         hmrem++;
       }
       int occ = otherComponents.getComponentCount();
       if (occ == 0) {
          otherComponents.getParent().remove(otherComponents);
-         hmrem++;
       }
-      if (hmrem >= 3) {
-         if (mcc > 0 || occ > 0) {
-            bigSplit.setDividerLocation(0);
-         } else {
-            int sw = (int)GraphicsEnvironment.getLocalGraphicsEnvironment()
-               .getDefaultScreenDevice()
-               .getDefaultConfiguration()
-               .getBounds()
-               .getSize()
-               .getWidth();
-            bigSplit.setResizeWeight(1.0);
-            bigSplit.setDividerLocation(sw);
-         }
-         bigSplit.setEnabled(false);
+      if (tcc==0 && scc==0) {
+         bigSplit.setDividerLocation(0);
+      } else if (mcc==0 && occ==0){
+         int sw = (int) GraphicsEnvironment.getLocalGraphicsEnvironment()
+            .getDefaultScreenDevice()
+            .getDefaultConfiguration()
+            .getBounds()
+            .getSize()
+            .getWidth();
+         bigSplit.setResizeWeight(1.0);
+         bigSplit.setDividerLocation(sw);
       }
+      bigSplit.setEnabled(false);
    }
 
    private JComponent getFrameComponentByName(String name) {
