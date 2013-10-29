@@ -53,7 +53,7 @@
 				<copy todir="tmp/org/enhydra/jawe/activityicons">
 					<fileset dir="activityicons" />
 				</copy>
-				<jar destfile="${build.dir}/lib/tweactivityicons.jar" update="false">
+				<jar destfile="${build.dir}/lib/${app.name}activityicons.jar" update="false">
 					<fileset dir="tmp" />
 				</jar>
 				<delete dir="tmp/org/enhydra/jawe/activityicons" quiet="true" />
@@ -64,7 +64,7 @@
 		<copy todir="tmp/org/enhydra/jawe/language">
 			<fileset dir="i18n" />
 		</copy>
-		<jar destfile="${build.dir}/lib/twelan.jar" update="true">
+		<jar destfile="${build.dir}/lib/${app.name}lan.jar" update="true">
 			<fileset dir="tmp" />
 		</jar>
 		<delete dir="tmp/org/enhydra/jawe/language" quiet="true" />
@@ -73,7 +73,7 @@
 		<copy todir="tmp/org/enhydra/jawe/images">
 			<fileset dir="images" />
 		</copy>
-		<jar destfile="${build.dir}/lib/twepic.jar" update="true">
+		<jar destfile="${build.dir}/lib/${app.name}pic.jar" update="true">
 			<fileset dir="tmp" />
 		</jar>
 		<delete dir="tmp/org/enhydra/jawe/images" quiet="true" />
@@ -90,7 +90,7 @@
 		<copy todir="tmp/org/enhydra/jawe">
 			<fileset dir="about" />
 		</copy>
-		<jar destfile="${build.dir}/lib/twecore.jar" update="true">
+		<jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
 			<fileset dir="tmp" />
 		</jar>
 		<delete dir="tmp" includes="License.txt" quiet="true" />
@@ -125,9 +125,9 @@
 	<target name="install">
 		<mkdir dir="tmp/install" />
 		<copy todir="tmp/install">
-			<fileset dir="${basedir}/../installation/Windows" />
+			<fileset dir="${tweDir}/installation/Windows" />
 		</copy>     
-		<copy todir="${basedir}/../installation/Windows" overwrite="true">
+		<copy todir="${tweDir}/installation/Windows" overwrite="true">
 			<fileset dir="${basedir}/installation" />
 		</copy>
 
@@ -147,7 +147,7 @@
 		</if>
 
 		<echo message="Creating Rebrended TWE Windows installation, please wait ..." />
-		<exec dir="${basedir}/../installation/Windows" executable="${basedir}/../tools/nsis/makensis.exe">
+		<exec dir="${tweDir}/installation/Windows" executable="${tweDir}/tools/nsis/makensis.exe">
 			<arg line="/V4" />
 			<arg line="/O..\..\${log.filename}" />
 			<arg line="/DVERSION=${version}" />
@@ -165,7 +165,7 @@
 			<arg line="${nsis.script}" />
 		</exec>
 
-		<copy todir="${basedir}/../installation/Windows" overwrite="true">
+		<copy todir="${tweDir}/installation/Windows" overwrite="true">
 			<fileset dir="${basedir}/tmp/install" />
 		</copy>
       

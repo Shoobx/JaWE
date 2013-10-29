@@ -501,7 +501,7 @@ Function .onInit
  
 
  #------- seting silent installation -----------------#
-  IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties silent normal
+  IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties silent normal
   
   silent:
   SetSilent silent
@@ -514,9 +514,9 @@ Function .onInit
   Goto start_initialization
   
   start_silent_initialization:
-    IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties "" continue
+    IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties "" continue
     ClearErrors
-    FileOpen $9 $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties r
+    FileOpen $9 $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties r
 
   loop:
     FileRead $9 $8

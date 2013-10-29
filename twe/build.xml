@@ -26,15 +26,16 @@
    <!-- ==================================================================== -->
 
    <!--Set the global variables-->
-   <property name="project.name" value="Together Workflow Editor" />
-   <property name="app.name" value="twe" />
-
    <property name="targetVM" value="1.7" />
 
    <replace dir="${basedir}" includes="build.properties" token="\" value="/" />
    <property file="${basedir}/build.properties" />
    <property file="${basedir}/version.properties" />
    <property file="${basedir}/sign.properties" />
+
+   <property name="project.name" value="Together Workflow Editor" />
+   <property name="app.name" value="twe" />
+
    <property name="sign.tool" value="" />
    <property name="sign.alias" value="" />
 
@@ -205,9 +206,7 @@
 
    <target name="output" depends="prepare">
       <!-- tweactivityicons.jar -->
-      <copy todir="${output.lib.dir}">
-         <fileset dir="${tools.dir}/tweicons" includes="*.jar"/>
-      </copy>
+      <copy file="${tools.dir}/tweicons/tweactivityicons.jar" tofile="${output.lib.dir}/${app.name}activityicons.jar"/>
       <ant dir="${modules.dir}" />
       <echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
       <!-- Bin directory -->
@@ -518,7 +517,9 @@ make distributions       - Builds and configures TWE with all documentations and
       <if>
          <istrue value="${rebranding}" />
          <then>
-            <ant dir="branding" target="install" inheritAll="true" inheritRefs="true" />
+            <ant dir="${branding.dir}" target="install" inheritAll="true" inheritRefs="true">
+               <property name="tweDir" value="${basedir}" />
+            </ant>
          </then>
          <else>
             <if>
@@ -773,9 +774,9 @@ make distributions       - Builds and configures TWE with all documentations and
       </copy>
       <copy todir="${dist.community.dir}">
          <filterset refid="Filter_input" />
-         <fileset dir="${basedir}/installation/Windows" includes="${app.name}-silent.properties" />
+         <fileset dir="${basedir}/installation/Windows" includes="twe-silent.properties" />
       </copy>
-      <move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" />
+      <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
 
       <if>
          <istrue value="${rebranding}" />
@@ -837,7 +838,15 @@ make distributions       - Builds and configures TWE with all documentations and
          <then>
             <antcall target="distSrcUnix"/>
             <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />
-            <move file="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" tofile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.tar.gz" overwrite="true" />
+            <if>
+               <istrue value="${rebranding}" />
+               <then>
+               </then>
+               <else>
+                  <move file="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" tofile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.tar.gz" overwrite="true" />               
+               </else>
+            </if>
+            
          </then>
       </if>
    </target>

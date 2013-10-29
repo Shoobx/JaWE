@@ -1,5 +1,6 @@
 ###### TWE 5.1-1 RELEASED ######
 2013-10-29 Sasa Bojanic <sasaboy@together.at>
+	# Introduced possibility to specify app.name and project.name in build.properties (using configure script)
 	# Introduced possibility to specify branding directory to be outside the project.
 	  Configure script changed to be able to specify branding directory (written in build.properties)
 

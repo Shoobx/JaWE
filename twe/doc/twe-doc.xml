@@ -9801,6 +9801,9 @@ configure -brandingdir - Sets the location of the branding folder used when
 configure -language    - ONLY FOR WINDOWS. Used by NSIS when creating setup 
                          (normally used for rebranding). 
                          Possible values [English/Portuguese/PortugueseBR].
+configure -appname     - Sets the short name for the editor (default is twe).
+configure -projectname - Sets the name for the editor 
+                        (default is Together Workflow Editor).
 
 Multiple parameters can be specified at once.
 

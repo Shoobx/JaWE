@@ -28,12 +28,16 @@ SET SET_INSTALLDIR=off
 SET SET_REBRANDING=off
 SET SET_BRANDINGDIR=off
 SET SET_LANGUAGE=off
+SET SET_APPNAME=off
+SET SET_PROJECTNAME=off
 
 SET BUILDID=
 SET INSTALLDIR=
 SET REBRANDING=false
 SET BRANDINGDIR=
 SET LANGUAGE=English
+SET APPNAME=twe
+SET PROJECTNAME=Together Workflow Editor
 
 
 if %~1.==. goto skiphelp
@@ -67,6 +71,8 @@ if %~1==-instdir goto instdir
 if %~1==-rebranding goto rebranding
 if %~1==-brandingdir goto brandingdir
 if %~1==-language goto language
+if %~1==-appname goto appname
+if %~1==-projectname goto projectname
 goto error
 
 :default
@@ -116,6 +122,16 @@ find "language=" < build.properties > language.txt
 for /F "tokens=1,2* delims==" %%i in (language.txt) do SET LANGUAGE=%%j
 del language.txt>nul
 
+:initappname
+find "app.name=" < build.properties > appname.txt
+for /F "tokens=1,2* delims==" %%i in (appname.txt) do SET APPNAME=%%j
+del appname.txt>nul
+
+:initprojectname
+find "project.name=" < build.properties > projectname.txt
+for /F "tokens=1,2* delims==" %%i in (projectname.txt) do SET PROJECTNAME=%%j
+del projectname.txt>nul
+
 goto start
 
 rem *********************************************************
@@ -129,6 +145,8 @@ echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
 echo branding.dir=%BRANDINGDIR%>>build.properties
 echo language=%LANGUAGE%>>build.properties
+echo app.name=%APPNAME%>>build.properties
+echo project.name=%PROJECTNAME%>>build.properties
 if exist version.properties del version.properties
 echo #####################>>version.properties
 echo version=^%VERSION%>>version.properties
@@ -167,6 +185,8 @@ echo                          Possible values [true/false].
 echo configure -brandingdir - Sets the location of the branding folder used when re-branding application.
 echo configure -language    - Used by NSIS when creating setup (normally used for rebranding). 
 echo                          Currently possible values [English/Portuguese/PortugueseBR].
+echo configure -appname     - Sets the short name for the editor (default is twe).
+echo configure -projectname - Sets the name for the editor (default is Together Workflow Editor).
 echo.
 echo Multiple parameters can be specified at once.
 echo.
@@ -287,6 +307,32 @@ if "X%~1"=="X" goto make
 goto start
 
 rem *********************************************************
+rem *  Set APPNAME parameter value
+rem *********************************************************
+:appname
+if %SET_APPNAME%==on goto error
+shift
+if "X%~1"=="X" goto error
+SET APPNAME=%~1
+SET SET_APPNAME=on
+shift
+if "X%~1"=="X" goto make
+goto start
+
+rem *********************************************************
+rem *  Set PROJECTNAME parameter value
+rem *********************************************************
+:projectname
+if %SET_PROJECTNAME%==on goto error
+shift
+if "X%~1"=="X" goto error
+SET PROJECTNAME=%~1
+SET SET_PROJECTNAME=on
+shift
+if "X%~1"=="X" goto make
+goto start
+
+rem *********************************************************
 rem *  Reset evironment variables
 rem *********************************************************
 :end
@@ -298,3 +344,5 @@ SET INSTALLDIR=
 SET REBRANDING=
 SET BRANDINGDIR=
 SET LANGUAGE=
+SET APPNAME=
+SET PROJECTNAME=
