@@ -26,11 +26,13 @@ SET SET_BUILDID=off
 SET SET_JDKHOME=off
 SET SET_INSTALLDIR=off
 SET SET_REBRANDING=off
+SET SET_BRANDINGDIR=off
 SET SET_LANGUAGE=off
 
 SET BUILDID=
 SET INSTALLDIR=
 SET REBRANDING=false
+SET BRANDINGDIR=
 SET LANGUAGE=English
 
 
@@ -63,6 +65,7 @@ if %~1==-buildid goto buildid
 if %~1==-jdkhome goto jdkhome
 if %~1==-instdir goto instdir
 if %~1==-rebranding goto rebranding
+if %~1==-brandingdir goto brandingdir
 if %~1==-language goto language
 goto error
 
@@ -103,6 +106,11 @@ find "rebranding=" < build.properties > rebranding.txt
 for /F "tokens=1,2* delims==" %%i in (rebranding.txt) do SET REBRANDING=%%j
 del rebranding.txt>nul
 
+:initbrandingdir
+find "branding.dir=" < build.properties > brandingdir.txt
+for /F "tokens=1,2* delims==" %%i in (brandingdir.txt) do SET BRANDINGDIR=%%j
+del brandingdir.txt>nul
+
 :initlanguage
 find "language=" < build.properties > language.txt
 for /F "tokens=1,2* delims==" %%i in (language.txt) do SET LANGUAGE=%%j
@@ -119,6 +127,7 @@ echo buildid=%BUILDID%>>build.properties
 echo jdk.dir=^%JDKHOME%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
+echo branding.dir=%BRANDINGDIR%>>build.properties
 echo language=%LANGUAGE%>>build.properties
 if exist version.properties del version.properties
 echo #####################>>version.properties
@@ -144,19 +153,20 @@ rem *********************************************************
 echo.
 echo Possible parameters for configure script:
 echo.
-echo configure             - Creates build.properties file with default values for all possible parameters.
-echo                         It can work only if there is a default JAVA registered with the system.
-echo configure -help       - Displays Help screen
-echo configure -version    - Sets the version number for the project.
-echo configure -release    - Sets the release number for the project.
-echo configure -buildid    - Sets the build id for the project.
-echo configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project.
-echo configure -instdir    - Sets the location of the installation dir used when executing make script 
-echo                         with install target specified.
-echo configure -rebranding - Flag that determines if the project will be "rebranded" with the context of branding folder.
-echo                         Possible values [true/false].
-echo configure -language   - Used by NSIS when creating setup (normally used for rebranding). 
-echo                         Currently possible values [English/Portuguese/PortugueseBR].
+echo configure              - Creates build.properties file with default values for all possible parameters.
+echo                          It can work only if there is a default JAVA registered with the system.
+echo configure -help        - Displays Help screen
+echo configure -version     - Sets the version number for the project.
+echo configure -release     - Sets the release number for the project.
+echo configure -buildid     - Sets the build id for the project.
+echo configure -jdkhome     - Sets the "JAVA HOME" location of Java to be used to compile the project.
+echo configure -instdir     - Sets the location of the installation dir used when executing make script 
+echo                          with install target specified.
+echo configure -rebranding  - Flag that determines if the project will be "rebranded" with the context of branding folder.
+echo                          Possible values [true/false].
+echo configure -brandingdir - Sets the location of the branding folder used when re-branding application.
+echo configure -language    - Used by NSIS when creating setup (normally used for rebranding). 
+echo                          Currently possible values [English/Portuguese/PortugueseBR].
 echo.
 echo Multiple parameters can be specified at once.
 echo.
@@ -251,6 +261,19 @@ if "X%~1"=="X" goto make
 goto start
 
 rem *********************************************************
+rem *  Set BRANDINGDIR parameter value
+rem *********************************************************
+:brandingdir
+if %SET_BRANDINGDIR%==on goto error
+shift
+if "X%~1"=="X" goto error
+SET BRANDINGDIR=%~1
+SET SET_BRANDINGDIR=on
+shift
+if "X%~1"=="X" goto make
+goto start
+
+rem *********************************************************
 rem *  Set LANGUAGE parameter value
 rem *********************************************************
 :language
@@ -273,4 +296,5 @@ SET BUILDID=
 SET JDKHOME=
 SET INSTALLDIR=
 SET REBRANDING=
+SET BRANDINGDIR=
 SET LANGUAGE=

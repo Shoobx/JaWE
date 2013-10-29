@@ -9782,23 +9782,25 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <para>Possible parameters for the configure script are:</para>
 
-      <programlisting>configure             - Creates build.properties file with default values
-                        for all possible parameters. It can work only if 
-                        there is a default JAVA registered with the system.
-configure -help       - Displays Help screen
-configure -version    - Sets the version number for the project.
-configure -release    - Sets the release number for the project.
-configure -buildid    - Sets the build id for the project.
-configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used 
-                        to compile the project.
-configure -instdir    - Sets the location of the installation dir used when
-                        executing make script with install target specified.
-configure -rebranding - ONLY FOR WINDOWS. Flag that determines if the project 
-                        will be "rebranded" with the context of branding folder. 
-                        Possible values [true/false].
-configure -language   - ONLY FOR WINDOWS. Used by NSIS when creating setup 
-                        (normally used for rebranding). 
-                        Possible values [English/Portuguese/PortugueseBR].
+      <programlisting>configure              - Creates build.properties file with default values
+                         for all possible parameters. It can work only if 
+                         there is a default JAVA registered with the system.
+configure -help        - Displays Help screen
+configure -version     - Sets the version number for the project.
+configure -release     - Sets the release number for the project.
+configure -buildid     - Sets the build id for the project.
+configure -jdkhome     - Sets the "JAVA HOME" location of Java to be used 
+                         to compile the project.
+configure -instdir     - Sets the location of the installation dir used when
+                         executing make script with install target specified.
+configure -rebranding  - ONLY FOR WINDOWS. Flag that determines if the project 
+                         will be "rebranded" with the context of branding folder. 
+                         Possible values [true/false].
+configure -brandingdir - Sets the location of the branding folder used when 
+                         re-branding application.
+configure -language    - ONLY FOR WINDOWS. Used by NSIS when creating setup 
+                         (normally used for rebranding). 
+                         Possible values [English/Portuguese/PortugueseBR].
 
 Multiple parameters can be specified at once.
 

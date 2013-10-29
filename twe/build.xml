@@ -286,7 +286,7 @@
       <if>
          <istrue value="${rebranding}" />
          <then>
-            <ant dir="branding" target="output" inheritAll="true" inheritRefs="true" />
+            <ant dir="${branding.dir}" target="output" inheritAll="true" inheritRefs="true" />
          </then>
       </if>
 

@@ -1,4 +1,8 @@
 ###### TWE 5.1-1 RELEASED ######
+2013-10-29 Sasa Bojanic <sasaboy@together.at>
+	# Introduced possibility to specify branding directory to be outside the project.
+	  Configure script changed to be able to specify branding directory (written in build.properties)
+
 2013-10-24 Sasa Bojanic <sasaboy@together.at>
    # On non-Windows OSs files we are not using RandomFileAccess class to open/save files anymore. 
      Anyway, on non-Windows OSs it wasn't possible to lock files, and there was a problem with this 
