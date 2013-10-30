@@ -191,7 +191,7 @@
       <if>
          <istrue value="${rebranding}" />
          <then>
-            <ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true" />
+            <ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true"/>
             <touch file="${doc.dir}/${docbook.name}.xml" />
          </then>
       </if>

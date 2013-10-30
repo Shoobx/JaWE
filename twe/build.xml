@@ -285,7 +285,7 @@
       <if>
          <istrue value="${rebranding}" />
          <then>
-            <ant dir="${branding.dir}" target="output" inheritAll="true" inheritRefs="true" />
+            <ant dir="branding" target="output" inheritAll="true" inheritRefs="true" />
          </then>
       </if>
 
@@ -339,7 +339,7 @@
    <!-- ==================================================================== -->
    <target name="clean">
       <ant dir="${modules.dir}" target="clean" />
-      <ant dir="${branding.dir}" target="clean" />
+      <ant dir="branding" target="clean" />
       <ant dir="${doc.dir}" target="clean" />
       <delete dir="${output.dir}" />
       <delete dir="${basedir}/distribution" />
@@ -517,9 +517,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <if>
          <istrue value="${rebranding}" />
          <then>
-            <ant dir="${branding.dir}" target="install" inheritAll="true" inheritRefs="true">
-               <property name="tweDir" value="${basedir}" />
-            </ant>
+            <ant dir="branding" target="install" inheritAll="true" inheritRefs="true"/>
          </then>
          <else>
             <if>
