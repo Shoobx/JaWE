@@ -9891,9 +9891,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <title>Rebranding</title>
 
       <para>TWE build procedure enables you to create so called "branded"
-      version of TWE distribution under Windows.</para>
+      version of TWE distribution files.</para>
 
-      <para>It means that at the end you can get the windows setup file fully
+      <para>It means that at the end you can get the distribution files fully
       "branded" as if the product is under your own ownership. E.g. instead of
       calling the product "Together Workflow Editor", you can call it "XYZ
       Workflow Editor", and during the build procedure replace all other
@@ -9914,26 +9914,26 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <para>Then you can also specify the short name for the application, e.g.
       instead of the default "twe" you can specify "mywe":</para>
 
-      <programlisting>configure -appname myeditor</programlisting>
+      <programlisting>configure -appname mywe</programlisting>
 
       <para>And the full name for the application, e.g. instead of default
-      "Together Workflow Editor" you can specify "My Workflow Editor":</para>
+      "Together Workflow Editor" you can specify "MyWEditor":</para>
 
-      <programlisting>configure -projectname "My Workflow Editor"</programlisting>
+      <programlisting>configure -projectname "MyWEditor"</programlisting>
 
       <para>Finally, you have to specify the branding folder where you will
-      put your files that will be used during for re-branding process:</para>
+      put your files that will be used for re-branding process:</para>
 
       <programlisting>configure -brandingdir d:/tmp/branding</programlisting>
 
       <para>You can copy the sample files from %TWE_HOME%/branding folder to
       that folder to see the sample branding files.</para>
 
-      <para>There are several sub-folders in %BRANDING_DIR%/branding folder
-      which content needs to be edited,removed or appended in order to rebrand
-      the application distribution. The following table explains the meaning
-      of the sub-folders and how can you perform TWE branding by changing
-      their content:</para>
+      <para>There are several sub-folders in %TWE_HOME%/branding folder which
+      content needs to be edited,removed or appended in order to rebrand the
+      application distribution. The following table explains the meaning of
+      the sub-folders and how can you perform TWE branding by changing their
+      content:</para>
 
       <table>
         <title>Explanation for %TWE_HOME%/branding</title>
@@ -10155,7 +10155,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Improved rebranding process (ability to specify
           app.name/project.name/brandingdir parameters using configuration
-          script)</para>
+          script). Now also possible to do re-branding on Linux.</para>
         </listitem>
 
         <listitem>
