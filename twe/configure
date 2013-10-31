@@ -22,15 +22,22 @@
 #
 
 function help {
-   echo "configure             - Creates build.properties file with default values for all possible parameters."
-   echo "                        It can work only if there is a default JAVA registered with the system."
-   echo "configure -help       - Displays Help screen"
-   echo "configure -version    - Sets the version number for the project."
-   echo "configure -release    - Sets the release number for the project."
-   echo "configure -buildid    - Sets the build id for the project."
-   echo "configure -jdkhome    - Sets the "JAVA HOME" location of Java to be used to compile the project."
-   echo "configure -instdir    - Sets the location of the installation dir used when executing make script"
-   echo "                        with install target specified."
+   echo "configure              - Creates build.properties file with default values for all possible parameters."
+   echo "                         It can work only if there is a default JAVA registered with the system."
+   echo "configure -help        - Displays Help screen"
+   echo "configure -version     - Sets the version number for the project."
+   echo "configure -release     - Sets the release number for the project."
+   echo "configure -buildid     - Sets the build id for the project."
+   echo "configure -jdkhome     - Sets the "JAVA HOME" location of Java to be used to compile the project."
+   echo "configure -instdir     - Sets the location of the installation dir used when executing make script"
+   echo "                         with install target specified."
+   echo "configure -rebranding  - Flag that determines if the project will be "rebranded" with the context of branding folder."
+   echo "                         Possible values [true/false]."
+   echo "configure -brandingdir - Sets the location of the branding folder used when re-branding application."
+   echo "configure -language    - Used by NSIS when creating setup (normally used for rebranding)." 
+   echo "                         Currently possible values [English/Portuguese/PortugueseBR]."
+   echo "configure -appname     - Sets the short name for the editor (default is twe)."
+   echo "configure -projectname - Sets the name for the editor (default is Together Workflow Editor)."
    echo
    echo "Multiple parameters can be specified at once."
    echo
@@ -51,6 +58,9 @@ done
                         
 buildid=
 install_DOT_dir=
+rebranding=false
+app_DOT_name=twe
+project_DOT_name="Together Workflow Editor"
 
 cd $(dirname $0)        
                         
@@ -97,6 +107,21 @@ do
 
 		-instdir | --instdir)		previous=install_DOT_dir;;
 		-instdir=* | --instdir=*)	install_DOT_dir=$optarg;;
+
+		-rebranding | --rebranding)	previous=rebranding;;
+		-rebranding=* | --rebranding=*)	rebranding=$optarg;;
+
+		-brandingdir | --brandingdir)		previous=branding_DOT_dir;;
+		-brandingdir=* | --brandingdir=*)	branding_DOT_dir=$optarg;;
+
+		-language | --language)		previous=language;;
+		-language=* | --language=*)	language=$optarg;;
+
+		-appname | --appname)		previous=app_DOT_name;;
+		-appname=* | --appname=*)	app_DOT_name=$optarg;;
+
+		-projectname | --projectname)		previous=project_DOT_name;;
+		-projectname=* | --projectname=*)	project_DOT_name=$optarg;;
 
 	-*)
 		{
@@ -148,7 +173,7 @@ if test -d $jdk_DOT_dir -a -x $jdk_DOT_dir/bin/javac ; then
     cat >Makefile <<EOF
 #
 VERSION=$version
-PROJECT=twe
+PROJECT=$app_DOT_name
 PREFIX=$prefix
 CLASSPATH=\
 $PWD/tools/ant/ant.jar:\
@@ -189,7 +214,7 @@ distributions:
 	@rm -fr installation/Unix/rpm
 	@java -Xmx512M -XX:MaxPermSize=192M -jar tools/ant/ant-launcher.jar distSourceUnix
 	@chmod +x installation/unix/dist.sh
-	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release community $buildid
+	@JAVA_HOME=\$(JAVA_HOME) installation/unix/dist.sh \$(VERSION) $release $app_DOT_name $rebranding community $buildid
 
 FORCE:
 
@@ -213,6 +238,16 @@ echo "# Configured on "`uname -n`" at "`date` >build.properties
     echo "jdk.dir=$jdk_DOT_dir"
     echo "### ----------      Install directory   --------- ###"
     echo "install.dir=$install_DOT_dir"
+    echo "### ----------      Rebranding   --------- ###"
+    echo "rebranding=$rebranding"
+    echo "### ----------      branding directory   --------- ###"
+    echo "brandingdir=$branding_DOT_dir"
+    echo "### ----------      language   --------- ###"
+    echo "language=$language"
+    echo "### ----------      appname   --------- ###"
+    echo "app.name=$app_DOT_name"
+    echo "### ----------      projectname   --------- ###"
+    echo "project.name=$project_DOT_name"
     echo "#####################"
 )|sed -e 's|_DOT_|\.|g'>>build.properties 
 
