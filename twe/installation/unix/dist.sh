@@ -230,9 +230,7 @@ tar czf ../../../distribution/${name}-${version}-${release}_${BID}/$buildtype/$n
 cd ../../..
 rm -fr tmp
 
-echo buildtype je $buildtype a rebranding je $rebranding
 if [ $buildtype == 'community' ] && [ $rebranding == 'false' ]; then
-echo uslov je zadovoljen
 	if [ -f licenses/License-TOG.txt ]; then
 		rm -fr installation/Unix/rpm
 		$0 $1 $2 $3 $4 twe $BID -tsl
