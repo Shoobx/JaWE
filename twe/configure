@@ -60,7 +60,7 @@ buildid=
 install_DOT_dir=
 rebranding=false
 app_DOT_name=twe
-project_DOT_name="\"Together Workflow Editor\""
+project_DOT_name="Together Workflow Editor"
 
 cd $(dirname $0)        
                         
@@ -247,7 +247,7 @@ echo "# Configured on "`uname -n`" at "`date` >build.properties
     echo "### ----------      appname   --------- ###"
     echo "app.name=$app_DOT_name"
     echo "### ----------      projectname   --------- ###"
-    echo "project.name=$project_DOT_name"
+    echo "project.name=\"$project_DOT_name\""
     echo "#####################"
 )|sed -e 's|_DOT_|\.|g'>>build.properties 
 
