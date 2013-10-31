@@ -9890,16 +9890,16 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     <sect1>
       <title>Rebranding</title>
 
-      <para>TWE build procedure enables you to create so called "rebranded"
+      <para>TWE build procedure enables you to create so called "branded"
       version of TWE distribution under Windows.</para>
 
       <para>It means that at the end you can get the windows setup file fully
-      "rebranded" as if the product is under your own ownership. E.g. instead
-      of calling the product "Together Workflow Editor", you can call it "XYZ
+      "branded" as if the product is under your own ownership. E.g. instead of
+      calling the product "Together Workflow Editor", you can call it "XYZ
       Workflow Editor", and during the build procedure replace all other
-      things neccessary for the "rebranding".</para>
+      things neccessary for the "branding".</para>
 
-      <para>To build rebranded product, first you have to configure TWE by
+      <para>To build branded product, first you have to configure TWE by
       executing the following configure command in %TWE_HOME% folder:</para>
 
       <para><programlisting>configure -rebranding true</programlisting>If you
@@ -9911,14 +9911,29 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <para>NOTE: currently possible values are English, Portuguese and
       PortugueseBR.</para>
 
-      <para>After that, several things needs to be done in the
-      %TWE_HOME%/branding folder:</para>
+      <para>Then you can also specify the short name for the application, e.g.
+      instead of the default "twe" you can specify "mywe":</para>
 
-      <para>There are several sub-folders in %TWE_HOME%/branding folder which
-      content needs to be edited,removed or appended in order to rebrand the
-      application distribution. The following table explains the meaning of
-      the sub-folders and how can you perform TWE branding by changing their
-      content:</para>
+      <programlisting>configure -appname myeditor</programlisting>
+
+      <para>And the full name for the application, e.g. instead of default
+      "Together Workflow Editor" you can specify "My Workflow Editor":</para>
+
+      <programlisting>configure -projectname "My Workflow Editor"</programlisting>
+
+      <para>Finally, you have to specify the branding folder where you will
+      put your files that will be used during for re-branding process:</para>
+
+      <programlisting>configure -brandingdir d:/tmp/branding</programlisting>
+
+      <para>You can copy the sample files from %TWE_HOME%/branding folder to
+      that folder to see the sample branding files.</para>
+
+      <para>There are several sub-folders in %BRANDING_DIR%/branding folder
+      which content needs to be edited,removed or appended in order to rebrand
+      the application distribution. The following table explains the meaning
+      of the sub-folders and how can you perform TWE branding by changing
+      their content:</para>
 
       <table>
         <title>Explanation for %TWE_HOME%/branding</title>
@@ -9958,14 +9973,18 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
             <row>
               <entry><para>config</para></entry>
 
-              <entry><para>If you want to change some of the existing TWE
-              configuration modes, you should add new folder into this
-              sub-folder that would contain modified TWE property files. Also,
-              'defaultconfig' file in the root of config folder specify
-              default configuration to use during TWE
-              startup.</para><para>Example file in-here shows how to set
+              <entry><para>During rebrandign process, the output will contain
+              only original default TWE configuration and configurations
+              specified in this folder. The configurations from this folder
+              can override files from default configuration and add new
+              configurations.</para><para>If you want to change existing
+              default TWE configuration, you should add new folder into this
+              sub-folder with the name "default" that would contain modified
+              TWE property files. Also, 'defaultconfig' file in the root of
+              config folder specify which configuration will be used during
+              TWE startup.</para><para>Example file in-here shows how to set
               default startup configuration to 'default' and contains 2
-              configuration files which are modified (comparing to original
+              configuration files which are modified (compared to original
               ones): </para><para> a) towebasic.properties:</para><para> - the
               default language is set to Portuguese</para><para> - configured
               not to have default transient packages </para><para> b)
@@ -10131,6 +10150,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           wasn't possible to lock files, and there was a problem with this
           approach in some cases - the file wasn't saved if another
           application changed it meanwhile.</para>
+        </listitem>
+
+        <listitem>
+          <para>Improved rebranding process (ability to specify
+          app.name/project.name/brandingdir parameters using configuration
+          script)</para>
         </listitem>
 
         <listitem>
