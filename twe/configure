@@ -60,7 +60,7 @@ buildid=
 install_DOT_dir=
 rebranding=false
 app_DOT_name=twe
-project_DOT_name="Together Workflow Editor"
+project_DOT_name="\"Together Workflow Editor\""
 
 cd $(dirname $0)        
                         
