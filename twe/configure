@@ -241,7 +241,7 @@ echo "# Configured on "`uname -n`" at "`date` >build.properties
     echo "### ----------      Rebranding   --------- ###"
     echo "rebranding=$rebranding"
     echo "### ----------      branding directory   --------- ###"
-    echo "brandingdir=$branding_DOT_dir"
+    echo "branding.dir=$branding_DOT_dir"
     echo "### ----------      language   --------- ###"
     echo "language=$language"
     echo "### ----------      appname   --------- ###"
