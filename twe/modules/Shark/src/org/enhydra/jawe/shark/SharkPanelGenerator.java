@@ -1503,13 +1503,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement
                  && el.toName().equals("Script")) {
-         int noOfLines = 4;
-         try {
-            noOfLines = getPanelContainer().getSettings()
-               .getSettingInt("PreferredNumberOfLinesForExpression");
-         } catch (Exception ex) {
-            System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: 4");
-         }
+         int noOfLines = 8;
+//         try {
+//            noOfLines = getPanelContainer().getSettings()
+//               .getSettingInt("PreferredNumberOfLinesForExpression");
+//         } catch (Exception ex) {
+//            System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: 4");
+//         }
          return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                el,
                                                                "Script",
@@ -1605,6 +1605,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          boolean enableEditing = JaWEManager.getInstance()
             .getJaWEController()
             .canModifyElement(el);
+         
          XMLPanel value = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                               el,
                                                               true,

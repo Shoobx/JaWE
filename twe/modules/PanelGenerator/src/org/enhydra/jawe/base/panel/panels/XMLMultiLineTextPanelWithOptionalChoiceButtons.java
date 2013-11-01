@@ -197,9 +197,8 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
 
       int fm = (int) (getFontMetrics(getFont()).getHeight() * scale);
       Dimension dim = new Dimension(700, fm * type);
-
-      jta.setMinimumSize(new Dimension(dim.width - 5, dim.height - 5));
-      jta.setPreferredSize(new Dimension(dim.width - 5, dim.height - 5));
+//      jta.setMinimumSize(new Dimension(dim.width - 5, dim.height - 5));
+//      jta.setPreferredSize(new Dimension(dim.width - 5, dim.height - 5));
 
       jsp.setMinimumSize(dim);
       jsp.setPreferredSize(dim);
