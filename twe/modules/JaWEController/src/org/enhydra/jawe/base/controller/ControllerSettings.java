@@ -112,7 +112,7 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("ShowTooltip",
                             new Boolean(properties.getProperty("ShowTooltip", "true")
                                .equals("true")));
-      componentSettings.put("TitleString", properties.getProperty("TitleString", "{pkgId} {pkgVer} - {appName} {appVer} ({appConfig})"));
+      componentSettings.put("TitleString", properties.getProperty("TitleString", "{pkgName} {pkgVer} - {appName} {appVer} ({appConfig})"));
       componentSettings.put("UndoHistoryManager.Class",
                             properties.getProperty("UndoHistoryManager.Class",
                                                    "org.enhydra.jawe.undohistorymgr.UndoHistoryMgr"));
