@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 /**
  * Miroslav Popov, Dec 1, 2005 miroslav.popov@gmail.com
@@ -112,6 +112,7 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("ShowTooltip",
                             new Boolean(properties.getProperty("ShowTooltip", "true")
                                .equals("true")));
+      componentSettings.put("TitleString", properties.getProperty("TitleString", "{pkgId} {pkgVer} - {appName} {appVer} ({appConfig})"));
       componentSettings.put("UndoHistoryManager.Class",
                             properties.getProperty("UndoHistoryManager.Class",
                                                    "org.enhydra.jawe.undohistorymgr.UndoHistoryMgr"));
@@ -348,10 +349,10 @@ public class ControllerSettings extends JaWEComponentSettings {
             action = null;
          }
          icon = new ImageIcon(ResourceManager.class.getClassLoader()
-                              .getResource("org/enhydra/jawe/images/manual.gif"));
-                           langDepName = "HelpManual";
-                           ja = new JaWEAction(action, icon, langDepName);
-                           componentAction.put("HelpManual", ja);
+            .getResource("org/enhydra/jawe/images/manual.gif"));
+         langDepName = "HelpManual";
+         ja = new JaWEAction(action, icon, langDepName);
+         componentAction.put("HelpManual", ja);
       } catch (Exception ex) {
       }
 
@@ -748,8 +749,8 @@ public class ControllerSettings extends JaWEComponentSettings {
    public ImageIcon getSponsore2LogoIcon() {
       return (ImageIcon) componentSettings.get("Sponsore2Logo");
    }
-   
-   public boolean useJaWEFrame () {
-       return true;
+
+   public boolean useJaWEFrame() {
+      return true;
    }
 }

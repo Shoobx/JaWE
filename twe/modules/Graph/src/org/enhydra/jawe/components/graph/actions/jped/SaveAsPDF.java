@@ -70,7 +70,7 @@ public class SaveAsPDF extends ActionBase {
         }
     }
 
-    public void saveGraphAsPDF(final String file, final Graph graph, final WorkflowProcess process)
+    public static void saveGraphAsPDF(final String file, final Graph graph, final WorkflowProcess process)
             throws Exception {
         PDFWorkflowExport export = new PDFWorkflowExport();
         try {

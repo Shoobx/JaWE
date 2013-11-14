@@ -3676,6 +3676,34 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <para><emphasis>#Toolbar.ActionOrder.defaultToolbar = ConfigureLDAP
       SearchLDAP - ImportSelected ImportAll</emphasis></para>
     </sect1>
+
+    <sect1>
+      <title>Command-line usage</title>
+
+      <para>It is possible to use TWE from command-line in order to write
+      process definition graph into the file in the selected format.</para>
+
+      <para>Below is an example how to write graph of process definition
+      "simple_sync_deadline" from XPDL on path "d:\tmp\deadlineexamples.xpdl"
+      into the file "d:\tmp\simple_sync_deadline.jpg"</para>
+
+      <programlisting>"C:/Program Files/Java/jdk1.7.0_40/bin/java" -Xmx512M 
+   -DJaWE_HOME="d:/twe-6.0-1" -Djava.ext.dirs="d:/twe-6.0-1/lib" 
+   org.enhydra.jawe.JaWE d:\tmp\deadlineexamples.xpdl 
+   write_graph_2_file_procdefid=simple_sync_deadline 
+   write_graph_2_file_format=jpg 
+   write_graph_2_file_filepath=d:\tmp\simple_sync_deadline</programlisting>
+
+      <note>
+        <para>This example assumes Java location is "C:/Program
+        Files/Java/jdk1.7.0_40/bin/java", TWE is installed in "d:\twe-6.0-1"
+        and there is XPDL file at "d:\tmp\deadlines.xpdl" that has process
+        definition with Id "simple_sync_deadline"</para>
+      </note>
+
+      <para>The possible values for the parameter "write_graph_2_file_format"
+      are: jpg, svg and pdf</para>
+    </sect1>
   </chapter>
 
   <chapter>
@@ -9011,6 +9039,61 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
           <programlisting>DoNotAskOnDeletionOfReferencedElementTypes = Activity Transition</programlisting>
         </listitem>
+
+        <listitem>
+          <para>TitleString - defines which information and in which order
+          will appear in the applications' titlebar. There are 7 different
+          placeholders that can be used to construct titlebar content:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>{filename} - will be replaced with the path to the file
+              being currently edited</para>
+            </listitem>
+
+            <listitem>
+              <para>{pkgId} - will be replaced with the value of Id attribute
+              of the main XPDL (Package) element</para>
+            </listitem>
+
+            <listitem>
+              <para>{pkgName} - will be replaced with the value of Name
+              attribute of the main XPDL (Package) element . If name is not
+              defined, it will be replaced with the value of Id
+              attribute.</para>
+            </listitem>
+
+            <listitem>
+              <para>{pkgVer} - will be replaced with the value of Version
+              attribute of Package's RedefinableHeader.</para>
+            </listitem>
+
+            <listitem>
+              <para>{appName} - will be replaced with the language dependent
+              value for the editor's name</para>
+            </listitem>
+
+            <listitem>
+              <para>{appVersion} - will be replaced with the information about
+              the editor's version</para>
+            </listitem>
+
+            <listitem>
+              <para>{appConfig} - will be replaced with the current
+              application configuration mode appended with language dependent
+              string for the key "ConfigurationKey"</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>The following example configuration for titlebar:</para>
+
+          <programlisting>TitleString = {filename} - {pkgName} {pkgVer} - {appName} {appVer} ({appConfig})</programlisting>
+
+          <para>will make titlebar displaying something like:</para>
+
+          <para>d:\test\test.xpdl - My Test Package 1.1 - Together Workflow
+          Editor 5.1-1 (Default configuration)</para>
+        </listitem>
       </itemizedlist>
 
       <para>The following parameters are defining initial TWE frame
@@ -9023,7 +9106,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           there are several application areas. Amongst others, there are areas
           called <emphasis>main</emphasis>, <emphasis>tree</emphasis>,
           <emphasis>special</emphasis> and <emphasis>other</emphasis>. The
-          example of valid value for this paramter is:</para>
+          example of valid value for this parameter is:</para>
 
           <programlisting>FrameSettings = V; special H tree; main H other</programlisting>
 
@@ -10150,6 +10233,20 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           wasn't possible to lock files, and there was a problem with this
           approach in some cases - the file wasn't saved if another
           application changed it meanwhile.</para>
+        </listitem>
+
+        <listitem>
+          <para>Added possibility to use TWE from command-line to write the
+          process graph in one of the following formats: jpg, svg and pdf.
+          Documentation updated with new section describing this
+          feature.</para>
+        </listitem>
+
+        <listitem>
+          <para>Added possibility to configure the content and order of
+          application's title text with 7 possible placeholders. Documentation
+          updated to describe new configuration entry (TitleString entry in
+          togwecontroller.properties).</para>
         </listitem>
 
         <listitem>

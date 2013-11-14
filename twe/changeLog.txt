@@ -1,4 +1,13 @@
 ###### TWE 5.1-1 RELEASED ######
+2013-11-04 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to configure the content and order of application's title text with 7 possible placeholders
+     Documentation updated to describe new configuration entry (TitleString entry in togwecontroller.properties).
+   # Added possibility to use TWE from command-line to write the process graph in one of the following formats: jpg, svg and pdf. 
+     Documentation updated with new section describing this feature. Example:
+         java -Xmx512M -DJaWE_HOME="d:/twe-6.0-1" -Djava.ext.dirs="d:/twe-6.0-1/lib" org.enhydra.jawe.JaWE 
+            d:\tmp\deadlineexamples.xpdl write_graph_2_file_procdefid=simple_sync_deadline 
+            write_graph_2_file_format=jpg write_graph_2_file_filepath=d:\tmp\simple_sync_deadline
+
 2013-10-31 Sasa Bojanic <sasaboy@together.at>
    # When re-branding, now only default configuration + branding configurations appearing in the output
 
