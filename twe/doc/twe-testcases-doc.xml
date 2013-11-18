@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-"docbook/docbook.dtd">
+"../tools/docbook-dtd/dtd/docbook.dtd">
 <!--
 	Together Worflow Editor
 	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
