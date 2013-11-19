@@ -264,11 +264,11 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       // setSize((int)rb.getWidth()+100, (int)rb.getHeight()+50);
       Graphics2D g2 = (Graphics2D) g;
       g2.setStroke(new BasicStroke(1));
-      g.setFont(getFont());
+      Font f = GraphConstants.getFont(view.getAllAttributes());
+      g.setFont(f);
       if (label != null && label.length() > 0) {
          Dimension d = getLabelDimension((GraphActivityViewInterface) view);
          int w = (int) g.getClipBounds().getWidth();
-         Font f = getFont();
          FontMetrics metrics = getFontMetrics(f);
          int sh = metrics.getHeight();
          g.setFont(f);
