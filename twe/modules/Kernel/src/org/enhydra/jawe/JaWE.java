@@ -24,6 +24,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.enhydra.jawe.components.graph.Graph;
+import org.enhydra.jawe.components.graph.GraphController;
+import org.enhydra.jawe.components.graph.GraphControllerPanel;
+import org.enhydra.jawe.components.graph.GraphUtilities;
+import org.enhydra.jawe.components.graph.actions.SaveAsJPG;
+import org.enhydra.jawe.components.graph.actions.SaveAsSVG;
+import org.enhydra.jawe.components.graph.actions.jped.SaveAsPDF;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
+
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.WString;
@@ -36,6 +45,14 @@ import com.sun.jna.win32.W32APITypeMapper;
  * @author Sasa Bojanic
  */
 public class JaWE {
+
+   private static final String XPDL_FILEPATH = "xpdl_file_path";
+
+   private static final String WRITE_GRAPH_PROCDEFID = "write_graph_2_file_procdefid";
+
+   private static final String WRITE_GRAPH_FILEPATH = "write_graph_2_file_filepath";
+
+   private static final String WRITE_GRAPH_FORMAT = "write_graph_2_file_format";
 
    public static void main(String[] args) throws Throwable {
       System.out.println("Starting JAWE ....");
@@ -92,6 +109,19 @@ public class JaWE {
       // check if there is a file that should be open at the startup
       if (args != null && args.length > 0) {
          fn = args[0];
+         for (int i = 0; i < args.length; i++) {
+            System.out.println("ARG " + i + " is " + args[i]);
+         }
+      }
+
+      Map<String, String> argsMap = getArgumentsMap(args);
+      if (shouldSaveGraph(argsMap)) {
+         try {
+            writeGraph(argsMap);
+            System.exit(0);
+         } catch (Exception ex) {
+            System.exit(1);
+         }
       }
 
       JaWEManager.getInstance().start(fn);
@@ -126,6 +156,72 @@ public class JaWE {
          shell32.SetCurrentProcessExplicitAppUserModelID(wAppId);
          // AppUsermodelID_End
       }
+   }
+
+   private static Map<String, String> getArgumentsMap(String[] args) throws Exception {
+      Map<String, String> argsMap = new HashMap<String, String>();
+      if (args != null && args.length > 1) {
+         File xpdlFile = new File(args[0]);
+         if (xpdlFile.exists()) {
+            argsMap.put(XPDL_FILEPATH, args[0]);
+            for (int i = 0; i < args.length; i++) {
+               String arg = args[i];
+               int indofequal = arg.indexOf("=");
+               if (indofequal != -1) {
+                  String key = arg.substring(0, indofequal);
+                  String val = arg.substring(indofequal + 1);
+                  if (!key.trim().equals("") && !val.trim().equals("")) {
+                     argsMap.put(key, val);
+                  }
+               }
+            }
+         }
+      }
+      return argsMap;
+   }
+
+   private static boolean shouldSaveGraph(Map<String, String> argsMap) throws Exception {
+      String fn = argsMap.get(XPDL_FILEPATH);
+      String pdefid = argsMap.get(WRITE_GRAPH_PROCDEFID);
+      String filepath = argsMap.get(WRITE_GRAPH_FILEPATH);
+      String format = argsMap.get(WRITE_GRAPH_FORMAT);
+      if (fn != null && pdefid != null && filepath != null && format != null) {
+         return true;
+      }
+      return false;
+   }
+
+   private static void writeGraph(Map<String, String> argsMap) throws Exception {
+      String fn = argsMap.get(XPDL_FILEPATH);
+      String pdefid = argsMap.get(WRITE_GRAPH_PROCDEFID);
+      String filepath = argsMap.get(WRITE_GRAPH_FILEPATH);
+      String format = argsMap.get(WRITE_GRAPH_FORMAT);
+      filepath = filepath + "." + format;
+      String successMsg = "Graph from XPDL "+fn+" for process definition '"+pdefid+"' saved to "+filepath;
+      JaWEManager.getInstance().init();
+      org.enhydra.jxpdl.elements.Package pkg = JaWEManager.getInstance()
+         .getJaWEController()
+         .openPackageFromFile(fn);
+      GraphController graphController = GraphUtilities.getGraphController();
+      WorkflowProcess wp = pkg.getWorkflowProcess(pdefid);
+      Graph graph = graphController.getGraph(wp);
+      ((GraphControllerPanel) graphController.getView()).graphSelected(graph);
+      graph.setSize(graph.getPreferredSize());
+      graph.refresh();
+      if (format.equalsIgnoreCase("jpg")) {
+         SaveAsJPG.saveGraphAsJPG(filepath, graph);
+         System.out.println(successMsg);
+      } else if (format.equalsIgnoreCase("svg")) {
+         SaveAsSVG.saveGraphAsSVG(filepath, graph);
+         System.out.println(successMsg);
+      } else if (format.equalsIgnoreCase("pdf")) {
+         SaveAsPDF.saveGraphAsPDF(filepath, graph, wp);
+         System.out.println(successMsg);
+      } else {
+         System.out.println("Unknown graph format: " + format);
+         throw new RuntimeException("Unknown graph format " + format);
+      }
+
    }
 
 }

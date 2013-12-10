@@ -25,19 +25,11 @@
    <!-- ==================================================================== -->
 
    <!--Set the global variables-->
-   <property name="version" value="2.3" />
-   <property name="release" value="1" />
-
-   <property name="project.name" value="TWE" />
-   <property name="app.name" value="twe" />
 
    <!--Set the directories-->
    <!-- Set directories -->
-   <property name="output.dir" location="${basedir}/../output" />
    <property name="build.dir" location="${output.dir}/${app.name}-${version}-${release}" />
    <property name="output.lib.dir" location="${build.dir}/lib" />
-   <property name="tools.dir" location="${basedir}/../tools" />
-   <property name="doc.dir" location="${basedir}/../doc" />
 
    <!--Classes directory-->
    <property name="classes.dir" location="${basedir}/classes" />

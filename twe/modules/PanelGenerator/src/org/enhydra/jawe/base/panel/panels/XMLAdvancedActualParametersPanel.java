@@ -154,12 +154,19 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                                              ap);
                List toShow = new ArrayList(ap.toElements());
                toShow.removeAll(hidden);
+               int noOfLines = 4;
+               try {
+                  noOfLines = getPanelContainer().getSettings()
+                     .getSettingInt("XMLActualParametersPanel.preferredNumberOfLinesForExpression");
+               } catch (Exception ex) {
+                  System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression");
+               }
                toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                          ap,
                                                                          "Expression",
                                                                          false,
                                                                          true,
-                                                                         XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                                         noOfLines,
                                                                          false,
                                                                          ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap),
                                                                          ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesTooltips(ap),                                                                         JaWEManager.getInstance()

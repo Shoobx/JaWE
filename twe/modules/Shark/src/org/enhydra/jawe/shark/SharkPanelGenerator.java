@@ -46,7 +46,6 @@ import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jawe.shark.business.DeadlineHandlerConfigurationElement;
@@ -411,7 +410,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLPanel subject = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                              el.getSubjectAttribute(),
                                                              true,
-                                                             XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL,
+                                                             1,
                                                              false,
                                                              enableEditing,
                                                              mc,
@@ -419,7 +418,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLPanel content = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                              el.getContentAttribute(),
                                                              true,
-                                                             XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                             7,
                                                              false,
                                                              enableEditing,
                                                              mc,
@@ -1504,12 +1503,19 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement
                  && el.toName().equals("Script")) {
+         int noOfLines = 8;
+//         try {
+//            noOfLines = getPanelContainer().getSettings()
+//               .getSettingInt("PreferredNumberOfLinesForExpression");
+//         } catch (Exception ex) {
+//            System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: 4");
+//         }
          return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                el,
                                                                "Script",
                                                                false,
                                                                true,
-                                                               XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                               noOfLines,
                                                                false,
                                                                prepareExpressionChoices(el.getParent()
                                                                   .getParent()),
@@ -1599,10 +1605,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          boolean enableEditing = JaWEManager.getInstance()
             .getJaWEController()
             .canModifyElement(el);
+         
          XMLPanel value = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                               el,
                                                               true,
-                                                              XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                              10,
                                                               false,
                                                               enableEditing,
                                                               prepareExpressionChoices(el.getParent()),
@@ -1647,7 +1654,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                XMLPanel value = new XMLMultiLineTextPanelForSMTPEAs(getPanelContainer(),
                                                                     el,
                                                                     true,
-                                                                    XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_EXTRA_LARGE,
+                                                                    10,
                                                                     false,
                                                                     enableEditing,
                                                                     prepareExpressionChoices(ea),

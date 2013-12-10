@@ -141,7 +141,7 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
    protected void paintLabel(Graphics g, String label, Point middle) {
       Graphics2D g2 = (Graphics2D) g;
       g2.setStroke(new BasicStroke(1));
-      g.setFont(getFont());
+      g.setFont(GraphConstants.getFont(view.getAllAttributes()));
       if (label != null && label.length() > 0) {
          Dimension d = getLabelDimension((GraphArtifactViewInterface) view);
          g.setColor(getBackground());

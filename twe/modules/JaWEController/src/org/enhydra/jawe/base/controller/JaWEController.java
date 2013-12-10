@@ -1471,6 +1471,10 @@ public class JaWEController extends Observable implements
       XPDLHandler xpdlhandler = JaWEManager.getInstance().getXPDLHandler();
       Package pkg = xpdlhandler.getPackageById(xpdlId);
       String oldFilename = xpdlhandler.getAbsoluteFilePath(pkg);
+      // on Windows, output stream will either be the FileOutputStream in the
+      // case of save as, or the ByteArrayOutputStream if we are
+      // saving an existing file. On other OSs it will always be FileOutputStream
+      OutputStream os = null;
       try {
 
          if (filename == null)
@@ -1507,38 +1511,38 @@ public class JaWEController extends Observable implements
          // retrieve the file writter
          RandomAccessFile raf = xpdlhandler.getRaf(pkg);
 
-         // output stream will either be the FileOutputStream in the
-         // case of save as, or the ByteArrayOutputStream if we are
-         // saving an existing file
-         OutputStream os;
-         if (isNewFile) {
-            // try to open random access file as rw, if it fails
-            // the saving shouldn't occur
-            try {
-               File f = new File(filename);
-               RandomAccessFile r = new RandomAccessFile(f, "rw");
-               FileLock flck = r.getChannel().tryLock();
-               flck.release();
-               r.close(); // Harald Meister
-               // this exception happens when using jdk1.4 under Linux
-               // if it happens, just catch it and proceed with saving
-               // because Linux with jdk1.4.0 doesn't support locking
-            } catch (IOException ioe) {
-               // ioe.printStackTrace();
-               // this happens when the locking fails, and null is returned,
-               // and after that release method is called on the null;
-               // This means that the file we want to save the given
-               // package as, is already locked, so we do not allow saving
-            } catch (NullPointerException npe) {
-               // npe.printStackTrace();
-               throw new Exception();
-            }
-            // if we are at this point, this means either the locking
-            // succeeded, or we use jdk1.4 under Linux that does not
-            // support locking
+         if (!Utils.isWindows()) {
             os = new FileOutputStream(filename);
          } else {
-            os = new ByteArrayOutputStream();
+            if (isNewFile) {
+               // try to open random access file as rw, if it fails
+               // the saving shouldn't occur
+               try {
+                  File f = new File(filename);
+                  RandomAccessFile r = new RandomAccessFile(f, "rw");
+                  FileLock flck = r.getChannel().tryLock();
+                  flck.release();
+                  r.close(); // Harald Meister
+                  // this exception happens when using jdk1.4 under Linux
+                  // if it happens, just catch it and proceed with saving
+                  // because Linux with jdk1.4.0 doesn't support locking
+               } catch (IOException ioe) {
+                  // ioe.printStackTrace();
+                  // this happens when the locking fails, and null is returned,
+                  // and after that release method is called on the null;
+                  // This means that the file we want to save the given
+                  // package as, is already locked, so we do not allow saving
+               } catch (NullPointerException npe) {
+                  // npe.printStackTrace();
+                  throw new Exception();
+               }
+               // if we are at this point, this means either the locking
+               // succeeded, or we use jdk1.4 under Linux that does not
+               // support locking
+               os = new FileOutputStream(filename);
+            } else {
+               os = new ByteArrayOutputStream();
+            }
          }
 
          // Here we get all document elements set
@@ -1595,6 +1599,13 @@ public class JaWEController extends Observable implements
          message(settings.getLanguageDependentString("ErrorCannotSaveDocument"),
                  JOptionPane.ERROR_MESSAGE);
          // ex.printStackTrace();
+      } finally {
+         if (os != null) {
+            try {
+               os.close();
+            } catch (Exception ex) {
+            }
+         }
       }
       // xpdlhandler.printDebug();
       // XPDLElementChangeInfo info = createInfo(pkg, XPDLElementChangeInfo.SELECTED);
@@ -2625,40 +2636,105 @@ public class JaWEController extends Observable implements
    }
 
    protected void updateTitle() {
-      String title = "";
+      String titleString = (String) getSettings().getSetting("TitleString");
+      if (titleString == null) {
+         titleString = "";
+      }
+      String filename = "";
+      String pkgId = "";
+      String pkgName = "";
+      String pkgVer = "";
+      String appName = JaWEManager.getInstance().getName();
+      String appVer = BuildInfo.getVersion() + "-" + BuildInfo.getRelease();
+      String appConfig = getCurrentConfigName();
+      if (appConfig == null) {
+         appConfig = "Default";
+      }
+      if (getMainPackage() != null) {
+         XPDLHandler xpdlh = JaWEManager.getInstance().getXPDLHandler();
+         filename = xpdlh.getAbsoluteFilePath(getMainPackage());
+         if (filename == null || filename.equals("")) {
+            filename = getSettings().getLanguageDependentString("NotSavedKey");
+         }
+         pkgId = getMainPackage().getId();
+         pkgName = getMainPackage().getName();
+         pkgVer = getMainPackage().getRedefinableHeader().getVersion();
+      }
+
+      String title = parseTitleString(titleString,
+                                      filename,
+                                      pkgId,
+                                      pkgName,
+                                      pkgVer,
+                                      appName,
+                                      appVer,
+                                      appConfig).trim();
+      while (title.startsWith("-")) {
+         title = title.substring(1);
+         title = title.trim();
+      }
+      title = title.replace("- -", "-");
+      title = title.replace("-  -", "-");
       if (getMainPackage() != null) {
          XPDLListenerAndObservable xpdllo = getXPDLListenerObservable(getMainPackage());
          if (xpdllo != null && xpdllo.isModified()) {
-            // System.out.println("WXPLD=" + xpdllo.getPackage().getId());
-            title = "*";
+            title = "*" + title;
          }
       }
 
-      title += JaWEManager.getInstance().getName()
-               + " " + BuildInfo.getVersion() + "-" + BuildInfo.getRelease();
-
-      String ccn = getCurrentConfigName();
-      if (ccn == null) {
-         ccn = "Default";
-      }
-      title += " ("
-               + ccn + " " + getSettings().getLanguageDependentString("ConfigurationKey")
-               + ")";
-
-      if (getMainPackage() != null) {
-         title += " - ";
-         XPDLHandler xpdlh = JaWEManager.getInstance().getXPDLHandler();
-         String s = xpdlh.getAbsoluteFilePath(getMainPackage());
-         if (s == null || s.equals("")) {
-            title += getSettings().getLanguageDependentString("NotSavedKey");
-         } else {
-            title += s;
-         }
-      }
       if (getJaWEFrame() != null) {
          getJaWEFrame().setTitle(title);
       }
 
+   }
+
+   protected String parseTitleString(String template,
+                                     String filename,
+                                     String pkgId,
+                                     String pkgName,
+                                     String pkgVer,
+                                     String appName,
+                                     String appVer,
+                                     String appConfig) {
+      String ret = template;
+
+      if (ret != null) {
+         if (-1 != template.indexOf("{filename}")) {
+            String strVal = filename != null ? filename : "";
+            ret = ret.replace("{filename}", strVal);
+         }
+         if (-1 != template.indexOf("{pkgId}")) {
+            String strVal = pkgId != null ? pkgId : "";
+            ret = ret.replace("{pkgId}", strVal);
+         }
+         if (-1 != template.indexOf("{pkgName}")) {
+            String strVal = pkgName != null && !pkgName.equals("") ? pkgName
+                                                                  : (pkgId != null ? pkgId
+                                                                                  : "");
+            ret = ret.replace("{pkgName}", strVal);
+         }
+         if (-1 != template.indexOf("{pkgVer}")) {
+            String strVal = pkgVer != null ? pkgVer : "";
+            ret = ret.replace("{pkgVer}", strVal);
+         }
+         if (-1 != template.indexOf("{appName}")) {
+            String strVal = appName != null ? appName : "";
+            ret = ret.replace("{appName}", strVal);
+         }
+         if (-1 != template.indexOf("{appVer}")) {
+            String strVal = appVer != null ? appVer : "";
+            ret = ret.replace("{appVer}", strVal);
+         }
+         if (-1 != template.indexOf("{appConfig}")) {
+            String strVal = appConfig != null ? appConfig
+                                                + " "
+                                                + getSettings().getLanguageDependentString("ConfigurationKey")
+                                             : "";
+            ret = ret.replace("{appConfig}", strVal);
+         }
+      }
+
+      return ret;
    }
 
    public JaWETypes getJaWETypes() {

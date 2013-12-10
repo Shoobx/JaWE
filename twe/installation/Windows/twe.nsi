@@ -379,11 +379,21 @@ Section "Install" Install
                  $(home_page_link_location) \
                  "" \
                  $DEFAULT_BROWSER
-             
+
+  IfSilent createShortCutUninstallSilent
+	
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(Uninstall).lnk" \
-                          "$INSTDIR\uninstall.exe" \
-                          "/SILENT=$SILENT" \
-                          "$INSTDIR\uninstall.exe"
+  				 "$INSTDIR\uninstall.exe" \
+  				 "" \
+  				 "$INSTDIR\uninstall.exe" 0	
+  Goto endShortCut
+  createShortCutUninstallSilent:
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(Uninstall).lnk" \
+  				 "$INSTDIR\uninstall.exe" \
+  				 "/SILENT" \
+  				 "$INSTDIR\uninstall.exe" 0
+  endShortCut:
+	
    WinShell::SetLnkAUMI "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
   ${If} $ADD_QUICKLAUNCH != '0'
@@ -421,6 +431,15 @@ Section "Install" Install
                     "DisplayName" "$(MID_NAME)"
   WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
                              "UninstallString" "$INSTDIR\uninstall.exe /SILENT=$SILENT"
+	IfSilent writeRegStrSilent
+	WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+  					"UninstallString" '"$INSTDIR\uninstall.exe"'
+	Goto continueWriteReg
+	writeRegStrSilent:
+  WriteRegStr HKLM 	"Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+  					"UninstallString" '"$INSTDIR\uninstall.exe" /SILENT'
+
+	continueWriteReg:
 
   WriteRegStr HKLM     "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
                                      "DisplayIcon" "$INSTDIR\bin\TWE.ico"
@@ -482,7 +501,7 @@ Function .onInit
  
 
  #------- seting silent installation -----------------#
-  IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties silent normal
+  IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties silent normal
   
   silent:
   SetSilent silent
@@ -495,9 +514,9 @@ Function .onInit
   Goto start_initialization
   
   start_silent_initialization:
-    IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties "" continue
+    IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties "" continue
     ClearErrors
-    FileOpen $9 $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties r
+    FileOpen $9 $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties r
 
   loop:
     FileRead $9 $8
@@ -684,13 +703,17 @@ Function un.onInit
    Push $2
    Push $R0
    
-   Push "SILENT"
-   Push "NO"
-   Call un.GetParameterValue
-   Pop $2
-   StrCpy $SILENT $2
+   ;Push "SILENT"
+   ;Push "NO"
+   ;Call un.GetParameterValue
+   ;Pop $2
+   ;StrCpy $SILENT $2
 
-   StrCmp $SILENT "NO" init_cmd_normal
+   ;StrCmp $SILENT "NO" init_cmd_normal
+   ClearErrors
+   ${GetParameters} $R0 ; read options
+   ${GetOptions} "$R0" "/SILENT" $2 ; check the option by non-case sensitive
+   IfErrors init_cmd_normal ; if error, the option not found
    SetSilent silent
 
    init_cmd_normal:

@@ -63,22 +63,6 @@ import org.jedit.syntax.XMLTokenMarker;
 public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel implements
                                                                              XMLAppendChoiceInterface {
 
-   public static int SIZE_SMALL = 0;
-
-   public static int SIZE_MEDIUM = 1;
-
-   public static int SIZE_LARGE = 2;
-
-   public static int SIZE_EXTRA_LARGE = 3;
-
-   public static Dimension textAreaDimensionSmall = new Dimension(200, 60);
-
-   public static Dimension textAreaDimensionMedium = new Dimension(300, 90);
-
-   public static Dimension textAreaDimensionLarge = new Dimension(400, 120);
-
-   public static Dimension textAreaDimensionExtraLarge = new Dimension(800, 250);
-
    protected JEditTextArea jta;
 
    protected JLabel jl;
@@ -94,7 +78,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
                                                      String labelKey,
                                                      boolean isFalseRequired,
                                                      boolean isVertical,
-                                                     int type,
+                                                     int noOfLines,
                                                      boolean wrapLines,
                                                      List<List> choices,
                                                      List<String> chTooltips,
@@ -104,7 +88,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
            labelKey,
            isFalseRequired,
            isVertical,
-           type,
+           noOfLines,
            wrapLines,
            choices,
            chTooltips,
@@ -264,20 +248,26 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
       jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
       jsp.setAlignmentY(Component.TOP_ALIGNMENT);
 
-      Dimension dim = new Dimension(textAreaDimensionMedium);
-      if (type == XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_SMALL) {
-         dim = new Dimension(textAreaDimensionSmall);
-      } else if (type == XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_MEDIUM) {
-         dim = new Dimension(textAreaDimensionMedium);
-      } else if (type == XMLMultiLineTextPanelWithOptionalChoiceButtons.SIZE_LARGE) {
-         dim = new Dimension(textAreaDimensionLarge);
-      } else {
-         dim = new Dimension(textAreaDimensionExtraLarge);
+      double scale = 1.3;
+      if (type <= 0) {
+         type = 1;
       }
-      jta.setMinimumSize(new Dimension(1, 1));
-      jta.setPreferredSize(new Dimension(dim.width - 5, dim.height - 5));
+      if (type == 1) {
+         scale = 2.5;
+      } else if (type <= 3) {
+         scale = 1.6;
+      }
 
+      int fm = (int) (getFontMetrics(getFont()).getHeight() * scale);
+      Dimension dim = new Dimension(600, fm * type);
+
+      jta.setMinimumSize(new Dimension(dim.width - 5, dim.height - 5));
+      jta.setPreferredSize(new Dimension(dim.width - 5, dim.height - 5));
+      // jta.setMaximumSize(new Dimension(dim.width - 5, dim.height - 5));
+
+      jsp.setMinimumSize(dim);
       jsp.setPreferredSize(dim);
+      // jsp.setMaximumSize(dim);
 
       JPanel mainPanel = this;
       if (isVertical) {

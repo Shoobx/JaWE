@@ -21,15 +21,18 @@
 MWD=$(dirname $0)
 version=$1
 release=$2
-buildtype=$3
-buildid=$4
-nameadditional=$5
+name=$3
+rebranding=$4
+buildtype=$5
+buildid=$6
+nameadditional=$7
 version=${version:=2.0}
 release=${release:=beta1}
+name=${name:=twe}
+rebranding=${rebranding:=false}
 buildtype=${buildtype:=community}
-nameadditional=${nameadditional:=}
 buildid=${buildid:=$(date +%Y%m%d-%H%M)}
-name=twe
+nameadditional=${nameadditional:=}
 prefix=/usr/local
 
 BID=
@@ -227,10 +230,10 @@ tar czf ../../../distribution/${name}-${version}-${release}_${BID}/$buildtype/$n
 cd ../../..
 rm -fr tmp
 
-if [ $buildtype = 'community' ]; then
+if [ $buildtype == 'community' ] && [ $rebranding == 'false' ]; then
 	if [ -f licenses/License-TOG.txt ]; then
 		rm -fr installation/Unix/rpm
-		$0 $1 $2 twe $BID -tsl
+		$0 $1 $2 $3 $4 twe $BID -tsl
 
 	fi 
 fi

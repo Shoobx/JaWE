@@ -188,10 +188,12 @@
       <copy todir="${tmp.dir}/docbook">
          <fileset dir="${docbook.dtd.dir}/dtd"/>
       </copy>
+      <replace file="${tmp.dir}/${docbook.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
+      <replace file="${tmp.dir}/${testcase.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
       <if>
          <istrue value="${rebranding}" />
          <then>
-            <ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true" />
+            <ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true"/>
             <touch file="${doc.dir}/${docbook.name}.xml" />
          </then>
       </if>
