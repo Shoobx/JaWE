@@ -33,6 +33,7 @@ public class LDAPConfiguration extends XMLComplexElement {
    }
 
    protected void fillStructure() {
+      XMLAttribute protocol = new XMLAttribute(this, "Protocol", true);
       XMLAttribute host = new XMLAttribute(this, "Host", true);
       XMLAttribute port = new XMLAttribute(this, "Port", true);
       XMLAttribute baseDN = new XMLAttribute(this, "BaseDN", false);
@@ -70,6 +71,7 @@ public class LDAPConfiguration extends XMLComplexElement {
       XMLAttribute timeLimit = new XMLAttribute(this, "LDAPTimeLimit", true);
       XMLAttribute pageSize = new XMLAttribute(this, "LDAPPageSize", true);
 
+      super.add(protocol);
       super.add(host);
       super.add(port);
       super.add(baseDN);
@@ -91,6 +93,7 @@ public class LDAPConfiguration extends XMLComplexElement {
    }
 
    protected void setConfigValues() {
+      set("Protocol", settings.getLDAPProtocol());
       set("Host", settings.getLDAPHost());
       set("Port", settings.getLDAPPort());
       set("BaseDN", settings.getLDAPBaseDN());

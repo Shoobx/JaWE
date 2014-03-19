@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.ldap;
 
@@ -58,64 +58,51 @@ public class LDAPSettings extends JaWEComponentSettings {
       }
       componentSettings.put("BackgroundColor", color);
 
-      componentSettings.put("LDAPReferralHandling",
-                            properties.getProperty("LDAPReferralHandling", "follow"));
-      componentSettings.put("LDAPCountLimit",
-                            new Integer(properties.getProperty("LDAPCountLimit", "0")));
-      componentSettings.put("LDAPTimeLimit",
-                            new Integer(properties.getProperty("LDAPTimeLimit", "0")));
-      componentSettings.put("LDAPPageSize",
-                            new Integer(properties.getProperty("LDAPPageSize", "1000")));
+      componentSettings.put("LDAPReferralHandling", properties.getProperty("LDAPReferralHandling", "follow"));
+      componentSettings.put("LDAPCountLimit", new Integer(properties.getProperty("LDAPCountLimit", "0")));
+      componentSettings.put("LDAPTimeLimit", new Integer(properties.getProperty("LDAPTimeLimit", "0")));
+      componentSettings.put("LDAPPageSize", new Integer(properties.getProperty("LDAPPageSize", "1000")));
+      componentSettings.put("LDAPProtocol", properties.getProperty("LDAPProtocol", "ldap"));
       componentSettings.put("LDAPHost", properties.getProperty("LDAPHost", "localhost"));
       componentSettings.put("LDAPPort", properties.getProperty("LDAPPort", "389"));
       componentSettings.put("LDAPBaseDN", properties.getProperty("LDAPBaseDN", ""));
-      componentSettings.put("LDAPObjectClassFilter",
-                            properties.getProperty("LDAPObjectClassFilter", "group"));
-      componentSettings.put("LDAPSearchScope", properties.getProperty("LDAPSearchScope",
-                                                                      "SCOPE_SUB"));
-      componentSettings.put("LDAPSecurityLevel",
-                            properties.getProperty("LDAPSecurityLevel", "UserAndPassword"));
-      componentSettings.put("LDAPSecurityUserDN",
-                            properties.getProperty("LDAPSecurityUserDN",
-                                                   "username@company.com"));
-      componentSettings.put("LDAPSecurityPassword",
-                            properties.getProperty("LDAPSecurityPassword", "somepwd"));
-      componentSettings.put("LDAPShowConfigDialog",
-                            properties.getProperty("LDAPShowConfigDialog", "true"));
+      componentSettings.put("LDAPObjectClassFilter", properties.getProperty("LDAPObjectClassFilter", "group"));
+      componentSettings.put("LDAPSearchScope", properties.getProperty("LDAPSearchScope", "SCOPE_SUB"));
+      componentSettings.put("LDAPSecurityLevel", properties.getProperty("LDAPSecurityLevel", "UserAndPassword"));
+      componentSettings.put("LDAPSecurityUserDN", properties.getProperty("LDAPSecurityUserDN", "username@company.com"));
+      componentSettings.put("LDAPSecurityPassword", properties.getProperty("LDAPSecurityPassword", "somepwd"));
+      componentSettings.put("LDAPShowConfigDialog", properties.getProperty("LDAPShowConfigDialog", "true"));
       componentSettings.put("LDAPObjectClassFilterChoices",
                             properties.getProperty("LDAPObjectClassFilterChoices",
                                                    "group,organizationalUnit,organizationalRole,user,person,organizationalPerson,inetOrgPerson,AllListed"));
-      componentSettings.put("LDAPGroupUniqueAttributeName", "sAMAccountName");
-      componentSettings.put("LDAPGroupNameAttributeName", "displayName");
-      componentSettings.put("LDAPGroupDescriptionAttributeName", "description");
-      componentSettings.put("LDAPUserUniqueAttributeName", "sAMAccountName");
-      componentSettings.put("LDAPUserNameAttributeName", "displayName");
-      componentSettings.put("LDAPUserDescriptionAttributeName", "description");
-      componentSettings.put("LDAPDistinguishedNameAttributeName", "distinguishedName");
+      componentSettings.put("LDAPGroupUniqueAttributeName", properties.getProperty("LDAPGroupUniqueAttributeName", "sAMAccountName"));
+      componentSettings.put("LDAPGroupNameAttributeName", properties.getProperty("LDAPGroupNameAttributeName", "displayName"));
+      componentSettings.put("LDAPGroupDescriptionAttributeName", properties.getProperty("LDAPGroupDescriptionAttributeName", "description"));
+      componentSettings.put("LDAPUserUniqueAttributeName", properties.getProperty("LDAPUserUniqueAttributeName", "sAMAccountName"));
+      componentSettings.put("LDAPUserNameAttributeName", properties.getProperty("LDAPUserNameAttributeName", "displayName"));
+      componentSettings.put("LDAPUserDescriptionAttributeName", properties.getProperty("LDAPUserDescriptionAttributeName", "description"));
+      componentSettings.put("LDAPDistinguishedNameAttributeName", properties.getProperty("LDAPDistinguishedNameAttributeName", "distinguishedName"));
 
       ImageIcon actionIcon;
       URL iconURL = ResourceManager.getResource(properties, "Role.Icon");
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/participantrole.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/participantrole.gif"));
       componentSettings.put("Role.Icon", actionIcon);
 
       iconURL = ResourceManager.getResource(properties, "Group.Icon");
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/participantorgunit.png"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/participantorgunit.png"));
       componentSettings.put("Group.Icon", actionIcon);
 
       iconURL = ResourceManager.getResource(properties, "User.Icon");
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/participant.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/participant.gif"));
       componentSettings.put("User.Icon", actionIcon);
 
       loadDefaultMenusToolbarsAndActions(comp);
@@ -131,8 +118,7 @@ public class LDAPSettings extends JaWEComponentSettings {
 
    public void loadDefaultMenusToolbarsAndActions(JaWEComponent comp) {
       // toolbar
-      componentSettings.put("defaultToolbarToolbar",
-                            "ConfigureLDAP SearchLDAP - ImportSelected ImportAll");
+      componentSettings.put("defaultToolbarToolbar", "ConfigureLDAP SearchLDAP - ImportSelected ImportAll");
 
       // actions
       ActionBase action;
@@ -142,32 +128,28 @@ public class LDAPSettings extends JaWEComponentSettings {
 
       // Configure
       action = new ConfigureLDAP(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/config.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/config.gif"));
       langDepName = "ConfigureLDAP";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // Search
       action = new SearchLDAP(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/searchldap.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/searchldap.png"));
       langDepName = "SearchLDAP";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // Import selected
       action = new ImportSelected(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/importselected.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/importselected.png"));
       langDepName = "ImportSelected";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // Import all
       action = new ImportAll(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/importexternalparticipants.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/importexternalparticipants.gif"));
       langDepName = "ImportAll";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -188,6 +170,10 @@ public class LDAPSettings extends JaWEComponentSettings {
 
    public String getLDAPPageSize() {
       return getSettingString("LDAPPageSize");
+   }
+
+   public String getLDAPProtocol() {
+      return getSettingString("LDAPProtocol");
    }
 
    public String getLDAPHost() {
@@ -270,5 +256,5 @@ public class LDAPSettings extends JaWEComponentSettings {
    public Color getBackgroundColor() {
       return (Color) componentSettings.get("BackgroundColor");
    }
-   
+
 }

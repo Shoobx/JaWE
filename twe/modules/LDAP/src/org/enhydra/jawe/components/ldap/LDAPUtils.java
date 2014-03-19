@@ -68,6 +68,7 @@ public class LDAPUtils {
       // boolean attributeOnly = true; // returns attributes
       // boolean attributeOnly = false; // returns attributes and their values
 
+      String ldapProtocol = ldc.get("Protocol").toValue();
       String ldapHost = ldc.get("Host").toValue();
       String searchBase = ldc.get("BaseDN").toValue();
       String searchFilter;
@@ -119,7 +120,7 @@ public class LDAPUtils {
 
       env.put(Context.REFERRAL, referralHandling);
 
-      env.put(Context.PROVIDER_URL, "ldap://" + ldapHost + ":" + ldapPort);
+      env.put(Context.PROVIDER_URL, ldapProtocol+"://" + ldapHost + ":" + ldapPort);
       env.put("java.naming.ldap.version", "3"); // always use ldap v3
 
       LDAPSecurity security = (LDAPSecurity) ldc.get("LDAPSecurity");
