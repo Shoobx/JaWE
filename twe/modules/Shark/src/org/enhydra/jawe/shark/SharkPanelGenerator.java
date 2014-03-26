@@ -701,7 +701,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       }
 
       eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DYNAMICSCRIPT, true);
-      if (eaw.isPersisted()) {
+      if (!eaw.isPersisted()) {
          eaw.setVValue("false");
          getPanelContainer().panelChanged(null, null);
       }
