@@ -197,6 +197,8 @@ public class SharkConstants {
 
    public static final String EA_DYNAMICSCRIPT = "DYNAMICSCRIPT";
 
+   public static final String EA_IS_ACTIVITY_SCOPE_ONLY = "IS_ACTIVITY_SCOPE_ONLY";
+
    public static final String VTP_UPDATE = "VariableToProcess_UPDATE";
 
    public static final String VTP_VIEW = "VariableToProcess_VIEW";

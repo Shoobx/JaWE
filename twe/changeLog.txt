@@ -1,4 +1,8 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-04-26 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Support for new extended attribute "IS_ACTIVITY_SCOPE_ONLY"
+
 2014-03-19 Sasa Bojanic <sasaboy@together.at>
    # LDAP component now supporting different ldap protocols (e.g. ldap and ldaps) (also new parameter in ldap.properties to be able to pre-configure it)
 
