@@ -463,7 +463,7 @@ public class JaWETypes extends JaWEComponentSettings {
                                                                          + types.get(i));
             dispName = controller.getSettings().getLanguageDependentString(langDepName);
          } catch (Exception e) {
-            System.err.println("JaWETypes->locaTypes: Failed to load type "
+            System.err.println("JaWETypes->localTypes: Failed to load type "
                                + typeClass + " for name " + name);
          }
          try {
