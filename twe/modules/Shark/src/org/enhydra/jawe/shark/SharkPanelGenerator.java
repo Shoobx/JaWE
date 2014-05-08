@@ -1157,13 +1157,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                   null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement && el.toName().equals("Script")) {
-         int noOfLines = 8;
-         // try {
-         // noOfLines = getPanelContainer().getSettings()
-         // .getSettingInt("PreferredNumberOfLinesForExpression");
-         // } catch (Exception ex) {
-         // System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: 4");
-         // }
+         int noOfLines = 15;
+//          try {
+//          noOfLines = getPanelContainer().getSettings()
+//          .getSettingInt("PreferredNumberOfLinesForExpression");
+//          } catch (Exception ex) {
+//          System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: "+noOfLines);
+//          }
          return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                el,
                                                                "Script",

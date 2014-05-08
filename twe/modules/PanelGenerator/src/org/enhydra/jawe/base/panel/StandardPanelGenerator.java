@@ -1403,7 +1403,12 @@ public class StandardPanelGenerator implements PanelGenerator {
                                             false);
          return panel;
       }
-
+      if (el.toName().equalsIgnoreCase("TextAnnotation")) {
+         return generateStandardMultiLineTextPanel(el,
+                                                   true,
+                                                   3,
+                                                   true);
+      }
       return generateStandardPanel(el);
    }
 
