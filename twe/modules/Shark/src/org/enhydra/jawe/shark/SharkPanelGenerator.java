@@ -844,7 +844,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL, true);
          if (!eaw.isPersisted()) {
-            eaw.setVValue("true");
+            eaw.setVValue("false");
             getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
@@ -1004,7 +1004,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL, true);
          if (!eaw.isPersisted()) {
-            eaw.setVValue("true");
+            eaw.setVValue("false");
             getPanelContainer().panelChanged(null, null);
          }
          pnl = getPanel(eaw);
