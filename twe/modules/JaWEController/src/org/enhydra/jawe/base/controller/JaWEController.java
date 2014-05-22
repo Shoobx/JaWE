@@ -418,11 +418,11 @@ public class JaWEController extends Observable implements
                        + "-" + BuildInfo.getRelease() + "-" + BuildInfo.getBuildNo();
       if (!JaWEEAHandler.getEditingToolVersion(pkg).equals(verInfo)) {
          JaWEEAHandler.setEditingToolVersion(pkg, verInfo);
-         changed = true;
+//         changed = true;
       }
       if (!JaWEEAHandler.getEditingTool(pkg).equals(JaWEManager.getInstance().getName())) {
          JaWEEAHandler.setEditingTool(pkg, JaWEManager.getInstance().getName());
-         changed = true;
+//         changed = true;
       }
 
       if (JaWEEAHandler.removeOldPackageEAs(pkg)) {

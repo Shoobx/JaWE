@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-05-22 Sasa Bojanic <sasaboy@together.at>
+   # Now XPDL is not marked as "Not saved" in the case opened XPDL has different values for EDITING_TOOL or EDITING_TOOL_VERSION extended attribute of package
+
 2014-05-08 Sasa Bojanic <sasaboy@together.at>
    # Artifact's TextAnnotation is now represented by TextArea with several rows
    # Shark mode: Script expressions now have 15 characters

@@ -10266,6 +10266,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Now XPDL is not marked as "Not saved" in the case opened XPDL
+          has different values for EDITING_TOOL or EDITING_TOOL_VERSION
+          extended attribute of package</para>
+        </listitem>
+
+        <listitem>
           <para>Improved rebranding process (ability to specify
           app.name/project.name/brandingdir parameters using configuration
           script). Now also possible to do re-branding on Linux.</para>
