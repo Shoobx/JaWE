@@ -10318,7 +10318,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>New configuration parameter to specify if XPDL should be saved
           when Apply button is pressed in property panel. Parameter name is
-          ApplyActionSavesXPDL and if it is set to true, whenever apply butotn
+          ApplyActionSavesXPDL and if it is set to true, whenever apply button
           is pressed, XPDL will be saved.</para>
         </listitem>
 
