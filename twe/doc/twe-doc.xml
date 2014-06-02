@@ -3230,6 +3230,15 @@ create.desktop.icon=on
         </listitem>
 
         <listitem>
+          <para>ApplyActionSavesXPDL - if set to true, whenever
+          <inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/check.gif" format="GIF"/>
+              </imageobject>
+            </inlinemediaobject>is pressed, XPDL will be saved.</para>
+        </listitem>
+
+        <listitem>
           <para><emphasis>Toolbar.ActionOrder.defaultToolbar </emphasis> -
           defines the content and the order of the dialog's toolbar.</para>
         </listitem>
@@ -3703,6 +3712,26 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <para>The possible values for the parameter "write_graph_2_file_format"
       are: jpg, svg and pdf</para>
+    </sect1>
+
+    <sect1>
+      <title>Setting working directory with startup parameter</title>
+
+      <para>It is possible to set the startup parameter for the initial
+      working directory (the place where TWE will search for XPDL files when
+      using Open dialog).</para>
+
+      <para>Below is an example how to set working directory to d:\tmp:</para>
+
+      <programlisting>"C:/Program Files/Java/jdk1.7.0_40/bin/java" -Xmx512M 
+   -DJaWE_HOME="d:/twe-6.0-1" -Djava.ext.dirs="d:/twe-6.0-1/lib" 
+   org.enhydra.jawe.JaWE WORKING_DIR=d:\tmp</programlisting>
+
+      <note>
+        <para>This example assumes Java location is "C:/Program
+        Files/Java/jdk1.7.0_40/bin/java", TWE is installed in "d:\twe-6.0-1"
+        and there is an existing directory at "d:\tmp"</para>
+      </note>
     </sect1>
   </chapter>
 
@@ -9243,6 +9272,15 @@ JaWETypes.ActivityType.XPDLTemplate.loop = sampleactloop.xml</programlisting>whe
         </listitem>
 
         <listitem>
+          <para>ApplyActionSavesXPDL - if set to true, whenever
+          <inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/check.gif" format="GIF"/>
+              </imageobject>
+            </inlinemediaobject>is pressed, XPDL will be saved.</para>
+        </listitem>
+
+        <listitem>
           <para><emphasis>Toolbar.ActionOrder.defaultToolbar </emphasis> -
           defines the content and the order of the dialog's toolbar
           buttons.</para>
@@ -10269,6 +10307,19 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>Now XPDL is not marked as "Not saved" in the case opened XPDL
           has different values for EDITING_TOOL or EDITING_TOOL_VERSION
           extended attribute of package</para>
+        </listitem>
+
+        <listitem>
+          <para>Added possibility to set the working directory with startup
+          parameter (the place where TWE will search for XPDL files when using
+          Open dialog).</para>
+        </listitem>
+
+        <listitem>
+          <para>New configuration parameter to specify if XPDL should be saved
+          when Apply button is pressed in property panel. Parameter name is
+          ApplyActionSavesXPDL and if it is set to true, whenever apply butotn
+          is pressed, XPDL will be saved.</para>
         </listitem>
 
         <listitem>

@@ -108,6 +108,9 @@ public class StandardXPDLElementEditorSettings extends PanelSettings {
       componentSettings.put("XMLComboPanel.DisableCombo",
                             properties.getProperty("XMLComboPanel.DisableCombo", ""));
 
+      componentSettings.put("ApplyActionSavesXPDL",
+                            new Boolean(properties.getProperty("ApplyActionSavesXPDL", "false")));
+      
       Color color = null;
       try {
          color = Utils.getColor(ResourceManager.getResourceString(properties,

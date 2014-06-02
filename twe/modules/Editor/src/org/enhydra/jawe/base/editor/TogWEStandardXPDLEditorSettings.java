@@ -125,6 +125,9 @@ public class TogWEStandardXPDLEditorSettings extends PanelSettings {
       componentSettings.put("HistorySize",
                             new Integer(properties.getProperty("HistorySize", "15")));
 
+      componentSettings.put("ApplyActionSavesXPDL",
+                            new Boolean(properties.getProperty("ApplyActionSavesXPDL", "false")));
+      
       Color color = null;
       try {
          color = Utils.getColor(ResourceManager.getResourceString(properties,

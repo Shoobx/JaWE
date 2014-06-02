@@ -124,6 +124,9 @@ public class PropertiesPanelSettings extends PanelSettings {
       componentSettings.put("HistorySize",
                             new Integer(properties.getProperty("HistorySize", "25")));
 
+      componentSettings.put("ApplyActionSavesXPDL",
+                            new Boolean(properties.getProperty("ApplyActionSavesXPDL", "false")));
+
       ImageIcon hicon;
       URL iconURL = ResourceManager.getResource(properties, "ArrowRightImage");
       if (iconURL != null)

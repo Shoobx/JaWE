@@ -86,6 +86,8 @@ public class TableEditorSettings extends PanelSettings {
       componentSettings.put("SimplePanelTextHeight",
                             new Integer(properties.getProperty("XMLBasicPanel.SimplePanelTextHeight",
                                                                "20")));
+      componentSettings.put("ApplyActionSavesXPDL",
+                            new Boolean(properties.getProperty("ApplyActionSavesXPDL", "false")));
 
       componentSettings.put("ShowColumns.XMLTablePanel.Applications", "Id Name");
       componentSettings.put("ShowColumns.XMLTablePanel.Associations",

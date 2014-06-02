@@ -32,6 +32,7 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.editor.TogWEStandardXPDLElementEditor;
 import org.enhydra.jawe.base.panel.InlinePanel;
+import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jxpdl.XMLElement;
 
 /**
@@ -79,6 +80,10 @@ public class Apply extends ActionBase {
       ipc.validateElement(el);      
       
       ipc.setModified(false);
+ 
+      if (((PanelSettings)ipc.getSettings()).applyActionSavesXPDL()) {
+         JaWEManager.getInstance().getJaWEController().getControllerSettings().getAction("Save").getAction().actionPerformed(null);
+      }
    }
    
 }

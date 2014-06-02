@@ -111,6 +111,9 @@ public class NewStandardXPDLEditorSettings extends PanelSettings {
       componentSettings.put("XMLComboPanel.DisableCombo",
                             properties.getProperty("XMLComboPanel.DisableCombo", ""));
 
+      componentSettings.put("ApplyActionSavesXPDL",
+                            new Boolean(properties.getProperty("ApplyActionSavesXPDL", "false")));
+      
       componentSettings.put("HideElements.XMLTablePanel.ExtendedAttributes", "Name");
       componentSettings.put("HideElements.XMLTablePanel.ExtendedAttributes.Name",
                             "JaWE_CONFIGURATION JaWE_TYPE EDITING_TOOL EDITING_TOOL_VERSION");

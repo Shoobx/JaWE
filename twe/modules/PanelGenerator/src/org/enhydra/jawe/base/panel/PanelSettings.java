@@ -125,4 +125,7 @@ public abstract class PanelSettings extends JaWEComponentSettings {
       return (Color) componentSettings.get("BackgroundColor");
    }
 
+   public boolean applyActionSavesXPDL () {
+      return getSettingBoolean("ApplyActionSavesXPDL");
+   }
 }

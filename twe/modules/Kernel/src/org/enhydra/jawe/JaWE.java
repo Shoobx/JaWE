@@ -54,6 +54,8 @@ public class JaWE {
 
    private static final String WRITE_GRAPH_FORMAT = "write_graph_2_file_format";
 
+   private static final String WORKING_DIR = "WORKING_DIR";
+
    public static void main(String[] args) throws Throwable {
       System.out.println("Starting JAWE ....");
       System.out.println("JaWE -> JaWE is being initialized ...");
@@ -103,17 +105,6 @@ public class JaWE {
          JaWEManager.configure();
       }
 
-      // Starting file name
-      String fn = null;
-
-      // check if there is a file that should be open at the startup
-      if (args != null && args.length > 0) {
-         fn = args[0];
-         for (int i = 0; i < args.length; i++) {
-            System.out.println("ARG " + i + " is " + args[i]);
-         }
-      }
-
       Map<String, String> argsMap = getArgumentsMap(args);
       if (shouldSaveGraph(argsMap)) {
          try {
@@ -124,11 +115,14 @@ public class JaWE {
          }
       }
 
-      JaWEManager.getInstance().start(fn);
+      // Starting file name
+      String fn = argsMap.get(XPDL_FILEPATH);
 
+      JaWEManager.getInstance().start(fn);
+      
       if (fn == null) {
-         String jh = JaWEConstants.JAWE_HOME;
-         System.setProperty("user.dir", jh + "/examples/xpdl2.1/RealLife");
+         String wd = getWorkingDir(argsMap);
+         System.setProperty("user.dir", wd);
       }
    }
 
@@ -160,24 +154,32 @@ public class JaWE {
 
    private static Map<String, String> getArgumentsMap(String[] args) throws Exception {
       Map<String, String> argsMap = new HashMap<String, String>();
-      if (args != null && args.length > 1) {
+      if (args != null && args.length > 0) {
          File xpdlFile = new File(args[0]);
          if (xpdlFile.exists()) {
             argsMap.put(XPDL_FILEPATH, args[0]);
-            for (int i = 0; i < args.length; i++) {
-               String arg = args[i];
-               int indofequal = arg.indexOf("=");
-               if (indofequal != -1) {
-                  String key = arg.substring(0, indofequal);
-                  String val = arg.substring(indofequal + 1);
-                  if (!key.trim().equals("") && !val.trim().equals("")) {
-                     argsMap.put(key, val);
-                  }
+         }
+         for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+            int indofequal = arg.indexOf("=");
+            if (indofequal != -1) {
+               String key = arg.substring(0, indofequal);
+               String val = arg.substring(indofequal + 1);
+               if (!key.trim().equals("") && !val.trim().equals("")) {
+                  argsMap.put(key, val);
                }
             }
          }
       }
       return argsMap;
+   }
+
+   private static String getWorkingDir(Map<String, String> argsMap) throws Exception {
+      String pwd = argsMap.get(WORKING_DIR);
+      if (pwd!=null && new File(pwd).exists()) {
+         return pwd;
+      }
+      return JaWEConstants.JAWE_HOME + "/examples/xpdl2.1/RealLife";
    }
 
    private static boolean shouldSaveGraph(Map<String, String> argsMap) throws Exception {
