@@ -3715,17 +3715,17 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     </sect1>
 
     <sect1>
-      <title>Setting working directory with startup parameter</title>
+      <title>Setting working directory with system parameter</title>
 
-      <para>It is possible to set the startup parameter for the initial
-      working directory (the place where TWE will search for XPDL files when
-      using Open dialog).</para>
+      <para>It is possible to set the system parameter for the initial working
+      directory JaWE_WORKING_DIR (the place where TWE will search for XPDL
+      files when using Open dialog).</para>
 
       <para>Below is an example how to set working directory to d:\tmp:</para>
 
       <programlisting>"C:/Program Files/Java/jdk1.7.0_40/bin/java" -Xmx512M 
-   -DJaWE_HOME="d:/twe-6.0-1" -Djava.ext.dirs="d:/twe-6.0-1/lib" 
-   org.enhydra.jawe.JaWE WORKING_DIR=d:\tmp</programlisting>
+   -DJaWE_HOME="d:/twe-6.0-1" -DJaWE_WORKING_DIR=d:\tmp -Djava.ext.dirs="d:/twe-6.0-1/lib" 
+   org.enhydra.jawe.JaWE</programlisting>
 
       <note>
         <para>This example assumes Java location is "C:/Program

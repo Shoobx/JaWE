@@ -54,7 +54,7 @@ public class JaWE {
 
    private static final String WRITE_GRAPH_FORMAT = "write_graph_2_file_format";
 
-   private static final String WORKING_DIR = "WORKING_DIR";
+   private static final String JaWE_WORKING_DIR = "JaWE_WORKING_DIR";
 
    public static void main(String[] args) throws Throwable {
       System.out.println("Starting JAWE ....");
@@ -78,24 +78,18 @@ public class JaWE {
                props.load(fis);
                fis.close();
             } catch (Exception ex) {
-               System.err.println("Something went wrong while reading configuration from the file "
-                                  + mainConfig.getAbsolutePath());
+               System.err.println("Something went wrong while reading configuration from the file " + mainConfig.getAbsolutePath());
             }
          }
-         String conf_home = JaWEConstants.JAWE_CONF_HOME
-                            + "/"
-                            + props.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+         String conf_home = JaWEConstants.JAWE_CONF_HOME + "/" + props.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
          File cfh = new File(conf_home);
          if (cfh.exists()) {
             System.setProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME, conf_home);
             if (Utils.checkFileExistence(JaWEManager.TOGWE_BASIC_PROPERTYFILE_NAME)
-                || Utils.checkResourceExistence(JaWEManager.TOGWE_BASIC_PROPERTYFILE_PATH,
-                                                JaWEManager.TOGWE_BASIC_PROPERTYFILE_NAME)) {
-               cfgf = new File(conf_home
-                               + "/" + JaWEManager.TOGWE_BASIC_PROPERTYFILE_NAME);
+                || Utils.checkResourceExistence(JaWEManager.TOGWE_BASIC_PROPERTYFILE_PATH, JaWEManager.TOGWE_BASIC_PROPERTYFILE_NAME)) {
+               cfgf = new File(conf_home + "/" + JaWEManager.TOGWE_BASIC_PROPERTYFILE_NAME);
             } else {
-               cfgf = new File(conf_home
-                               + "/" + JaWEConstants.JAWE_BASIC_PROPERTYFILE_NAME);
+               cfgf = new File(conf_home + "/" + JaWEConstants.JAWE_BASIC_PROPERTYFILE_NAME);
             }
          }
       }
@@ -119,9 +113,9 @@ public class JaWE {
       String fn = argsMap.get(XPDL_FILEPATH);
 
       JaWEManager.getInstance().start(fn);
-      
+
       if (fn == null) {
-         String wd = getWorkingDir(argsMap);
+         String wd = getWorkingDir();
          System.setProperty("user.dir", wd);
       }
    }
@@ -143,9 +137,7 @@ public class JaWE {
                put(Library.OPTION_TYPE_MAPPER, W32APITypeMapper.UNICODE);
             }
          };
-         Shell32 shell32 = (Shell32) Native.loadLibrary("shell32",
-                                                        Shell32.class,
-                                                        WIN32API_OPTIONS);
+         Shell32 shell32 = (Shell32) Native.loadLibrary("shell32", Shell32.class, WIN32API_OPTIONS);
          WString wAppId = new WString("Together.Workflow.Editor");
          shell32.SetCurrentProcessExplicitAppUserModelID(wAppId);
          // AppUsermodelID_End
@@ -174,10 +166,10 @@ public class JaWE {
       return argsMap;
    }
 
-   private static String getWorkingDir(Map<String, String> argsMap) throws Exception {
-      String pwd = argsMap.get(WORKING_DIR);
-      if (pwd!=null && new File(pwd).exists()) {
-         return pwd;
+   private static String getWorkingDir() throws Exception {
+      String wd = System.getProperty("JaWE_WORKING_DIR");
+      if (wd != null && new File(wd).exists()) {
+         return wd;
       }
       return JaWEConstants.JAWE_HOME + "/examples/xpdl2.1/RealLife";
    }
@@ -199,11 +191,9 @@ public class JaWE {
       String filepath = argsMap.get(WRITE_GRAPH_FILEPATH);
       String format = argsMap.get(WRITE_GRAPH_FORMAT);
       filepath = filepath + "." + format;
-      String successMsg = "Graph from XPDL "+fn+" for process definition '"+pdefid+"' saved to "+filepath;
+      String successMsg = "Graph from XPDL " + fn + " for process definition '" + pdefid + "' saved to " + filepath;
       JaWEManager.getInstance().init();
-      org.enhydra.jxpdl.elements.Package pkg = JaWEManager.getInstance()
-         .getJaWEController()
-         .openPackageFromFile(fn);
+      org.enhydra.jxpdl.elements.Package pkg = JaWEManager.getInstance().getJaWEController().openPackageFromFile(fn);
       GraphController graphController = GraphUtilities.getGraphController();
       WorkflowProcess wp = pkg.getWorkflowProcess(pdefid);
       Graph graph = graphController.getGraph(wp);

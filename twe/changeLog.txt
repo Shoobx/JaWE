@@ -1,6 +1,6 @@
 ###### TWE 5.1-1 RELEASED ######
 2014-06-02 Sasa Bojanic <sasaboy@together.at>
-   # Added possibility to set the working directory with startup parameter (the place where TWE will search for XPDL files when using Open dialog).
+   # Added possibility to set the working directory with system parameter JaWE_WORKING_DIR (the place where TWE will search for XPDL files when using Open dialog).
    # New configuration parameter to specify if XPDL should be saved when Apply button is pressed in property panel. 
      Parameter name is ApplyActionSavesXPDL and if it is set to true, whenever apply button is pressed, XPDL will be saved.
           
