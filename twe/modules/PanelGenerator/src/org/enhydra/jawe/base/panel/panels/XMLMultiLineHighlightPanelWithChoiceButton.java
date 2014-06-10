@@ -23,14 +23,21 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.EventObject;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,8 +47,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.PlainDocument;
 
+import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jxpdl.XMLElement;
@@ -60,8 +69,7 @@ import org.jedit.syntax.XMLTokenMarker;
  * 
  * @author Sinisa Tutus
  */
-public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel implements
-                                                                             XMLAppendChoiceInterface {
+public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel implements XMLAppendChoiceInterface {
 
    protected JEditTextArea jta;
 
@@ -83,18 +91,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
                                                      List<List> choices,
                                                      List<String> chTooltips,
                                                      boolean isEnabled) {
-      this(pc,
-           myOwner,
-           labelKey,
-           isFalseRequired,
-           isVertical,
-           noOfLines,
-           wrapLines,
-           choices,
-           chTooltips,
-           isEnabled,
-           null,
-           null);
+      this(pc, myOwner, labelKey, isFalseRequired, isVertical, noOfLines, wrapLines, choices, chTooltips, isEnabled, null, null, null);
    }
 
    public XMLMultiLineHighlightPanelWithChoiceButton(PanelContainer pc,
@@ -108,11 +105,11 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
                                                      List<String> chTooltips,
                                                      boolean isEnabled,
                                                      String initText,
-                                                     String tooltip) {
+                                                     String tooltip,
+                                                     final String extension) {
 
       super(pc, myOwner, "", false, false, true, tooltip);
-      KeyboardFocusManager.getCurrentKeyboardFocusManager()
-         .addKeyEventDispatcher(new KeyboardHandler());
+      KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyboardHandler());
 
       this.initText = initText;
 
@@ -244,6 +241,76 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
          }
       }
 
+      if (extension != null) {
+         final String appName = Utils.getAppForExtension(extension);
+         Dimension fileButtonDimension = new Dimension(20, 20);
+         ImageIcon ii = new ImageIcon(this.getClass().getClassLoader().getResource("org/enhydra/jawe/images/edit.png"));
+         JButton jb = new JButton(ii);
+         jb.setBorderPainted(false);
+         jb.setAlignmentX(Component.LEFT_ALIGNMENT);
+         jb.setAlignmentY(Component.TOP_ALIGNMENT);
+         jb.setMinimumSize(new Dimension(fileButtonDimension));
+         jb.setMaximumSize(new Dimension(fileButtonDimension));
+         jb.setPreferredSize(new Dimension(fileButtonDimension));
+         jb.setContentAreaFilled(false);
+         jb.setEnabled(appName != null);
+         jb.setToolTipText(getPanelContainer().getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip"));
+         
+         jb.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+               PanelContainer pc = getPanelContainer();
+               String dirName = JaWEConstants.JAWE_USER_HOME + "/tmp";
+               new File(dirName).mkdirs();
+               String filename = dirName + "/tmp-" + System.currentTimeMillis() + (extension != null ? ("." + extension) : "");
+               OutputStream os = null;
+               try {
+                  os = new FileOutputStream(filename);
+                  os.write(jta.getText().getBytes());
+                  os.flush();
+               } catch (Exception ex) {
+                  XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
+                     .getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey"));
+                  ex.printStackTrace();
+                  return;
+               } finally {
+                  if (os != null) {
+                     try {
+                        os.close();
+                     } catch (Exception ex) {
+                     }
+                  }
+               }
+               File f = new File(filename);
+               try {
+                  String execName = appName + " " + filename;
+                  Runtime rt = Runtime.getRuntime();
+                  Process prc = rt.exec(execName);
+                  long t1 = System.currentTimeMillis();
+                  prc.waitFor();
+                  long t2 = System.currentTimeMillis();
+                  if ((t2 - t1) > 1000) {
+                     String fc = XMLUtil.fileToString(filename);
+                     if (!jta.getText().equals(fc)) {
+                        jta.setText(fc);
+                        pc.panelChanged(p, null);
+                     }
+                     jta.requestFocus();
+                     f.delete();
+                  } else {
+                     f.delete();
+                     XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
+                        .getLanguageDependentString("ApplicationDidntOpenCorrectlyKey"));
+                  }
+               } catch (Exception ex) {
+                  XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
+                     .getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey"));
+                  ex.printStackTrace();
+               }
+            }
+         });
+
+         jspAndOpt.add(jb);
+      }
       jsp.setViewportView(jta);
       jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
       jsp.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -292,8 +359,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
    }
 
    public boolean validateEntry() {
-      if (isEmpty()
-          && getOwner().isRequired() && falseRequiredForCC && !getOwner().isReadOnly()) {
+      if (isEmpty() && getOwner().isRequired() && falseRequiredForCC && !getOwner().isReadOnly()) {
          // TODO CHECK THIS
          XMLBasicPanel.defaultErrorMessage(this.getWindow(), jl.getText());
          jta.requestFocus();
@@ -338,8 +404,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
 
    public void setHighlightScript(String scriptType) {
       if (scriptType != null) {
-         if (scriptType.equalsIgnoreCase("text/javascript")
-             || scriptType.equalsIgnoreCase("text/ecmascript"))
+         if (scriptType.equalsIgnoreCase("text/javascript") || scriptType.equalsIgnoreCase("text/ecmascript"))
             jta.setTokenMarker(new JavaScriptTokenMarker());
          else if (scriptType.equals("text/java"))
             jta.setTokenMarker(new JavaTokenMarker());
@@ -361,13 +426,11 @@ class MouseWheelHandler implements MouseWheelListener {
 
    public void mouseWheelMoved(MouseWheelEvent e) {
       if (e.isControlDown()) {
-         if ((area.getFirstLine() + e.getWheelRotation()) < 0
-             || ((area.getFirstLine() + area.getVisibleLines() + e.getWheelRotation()) > area.getLineCount()))
+         if ((area.getFirstLine() + e.getWheelRotation()) < 0 || ((area.getFirstLine() + area.getVisibleLines() + e.getWheelRotation()) > area.getLineCount()))
             return;
          area.setFirstLine(area.getFirstLine() + e.getWheelRotation());
       } else {
-         if ((area.getFirstLine() + e.getUnitsToScroll()) < 0
-             || ((area.getFirstLine() + area.getVisibleLines() + e.getUnitsToScroll()) > area.getLineCount()))
+         if ((area.getFirstLine() + e.getUnitsToScroll()) < 0 || ((area.getFirstLine() + area.getVisibleLines() + e.getUnitsToScroll()) > area.getLineCount()))
             return;
          area.setFirstLine(area.getFirstLine() + e.getUnitsToScroll());
       }

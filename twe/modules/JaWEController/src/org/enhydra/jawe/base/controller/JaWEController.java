@@ -411,7 +411,7 @@ public class JaWEController extends Observable implements
       // configuration ext. attribute
       if (!JaWEEAHandler.getJaWEConfig(pkg).equals(getCurrentConfig())) {
          JaWEEAHandler.setJaWEConfig(pkg, getCurrentConfig());
-         changed = true;
+//         changed = true;
       }
 
       String verInfo = BuildInfo.getVersion()

@@ -9595,6 +9595,81 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
       </itemizedlist>
     </sect1>
+
+    <sect1 condition="demo-emptytext">
+      <title>Property file
+      <emphasis>appsforextensions.properties</emphasis></title>
+
+      <para>This file contains mapping information which is used to determine
+      which editor application is associated with a certain file extension.
+      This information is used when user wants to edit some expression (e.g.
+      actual parameter, deadline, transition condition expression) in an
+      external editor and have the result filled into appropriate text field
+      in corresponding TWE panel.</para>
+
+      <para>The file extension of the temporary file which will be saved into
+      %USER_HOME%/.JaWE/tmp folder depends on the script type attribute value
+      of the element that is using this special feature. If element does not
+      have or does not define its script type attribute, the value of the
+      script type element of main Package XPDL element is used.</para>
+
+      <para>Currently, we only recognize 3 possible script types:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>text/java - if this type is specified, the temporary file
+          extension will be "java"</para>
+        </listitem>
+
+        <listitem>
+          <para>text/javascript - if this type is specified, the temporary
+          file extension will be "js"</para>
+        </listitem>
+
+        <listitem>
+          <para>text/pythonscript - if this type is specified, the temporary
+          file extension will be "py"</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>If any other script type is specified, the temporary file
+      extension will be "txt".</para>
+
+      <note>
+        <para>The special usage of this feature to open expression in external
+        editor application can be found in "Shark" mode for XSLT, Java Script
+        and Bean Shell tool agents' scripts, the extensions will be "xsl",
+        "js" and "java" respectively.</para>
+      </note>
+
+      <para>If there are no mappings specified in appsforextensions.properties
+      file, "notepad" editor will be used for any temporary file extension on
+      Windows, and "gedit" editor will be used on Linux.</para>
+
+      <figure>
+        <title>Editing expression with associated application</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/editinassociatedapp.jpg" scalefit="1"
+                       width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>When the edit button is pressed, associated application is
+      launched to edit temporary file which content is taken from appropriate
+      TWE's control representing expression. Then TWE waits until associated
+      application is closed and puts the content of that temporary file back
+      into the control.</para>
+
+      <note>
+        <para>If associated application is multi-document application, make
+        sure that no other documents are opened. Otherwise, TWE will refuse to
+        apply this logic and will prompt the message to the user.</para>
+      </note>
+    </sect1>
   </chapter>
 
   <chapter>
@@ -10305,8 +10380,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
         <listitem>
           <para>Now XPDL is not marked as "Not saved" in the case opened XPDL
-          has different values for EDITING_TOOL or EDITING_TOOL_VERSION
-          extended attribute of package</para>
+          has different values for EDITING_TOOL, EDITING_TOOL_VERSION or
+          JaWE_CONFIGURATION extended attribute of package</para>
         </listitem>
 
         <listitem>
@@ -10326,6 +10401,13 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>Improved rebranding process (ability to specify
           app.name/project.name/brandingdir parameters using configuration
           script). Now also possible to do re-branding on Linux.</para>
+        </listitem>
+
+        <listitem>
+          <para>Added possibility to edit expressions in external editor
+          application (new documentation section "Property file
+          <emphasis>appsforextensions.properties" describes this
+          feature).</emphasis></para>
         </listitem>
 
         <listitem>

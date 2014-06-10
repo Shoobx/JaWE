@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.swing.JScrollPane;
 
 import org.enhydra.jawe.JaWEManager;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
 import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
@@ -61,10 +62,7 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
 
    protected XMLPanel emptyPanel;
 
-   public XMLAdvancedActualParametersPanel(PanelContainer pc,
-                                           ActualParameters myOwner,
-                                           FormalParameters fps,
-                                           String tooltip) {
+   public XMLAdvancedActualParametersPanel(PanelContainer pc, ActualParameters myOwner, FormalParameters fps, String tooltip) {
 
       super(pc, myOwner, fps, tooltip);
       setPreferredSize(new Dimension(700, 500));
@@ -74,8 +72,7 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
    public void setElements() {
       ActualParameters aps = (ActualParameters) myOwner;
       if (fps != null && fps.size() > 0) {
-         XMLGroupPanel gp = (XMLGroupPanel) ((JScrollPane) getComponent(0)).getViewport()
-            .getView();
+         XMLGroupPanel gp = (XMLGroupPanel) ((JScrollPane) getComponent(0)).getViewport().getView();
          gp.setElements();
          for (int i = 0; i < fps.size(); i++) {
             if (i >= aps.size()) {
@@ -129,10 +126,9 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
             ActualParameter ap = apslist.get(i);
             XMLPanel p = null;
             if (!fp.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_IN)) {
-               List choices = getChoices(new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(myOwner))
-                                            .values()),
-                                         fp.getDataType().getDataTypes().getChoosen(),
-                                         true);
+               List choices = getChoices(new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(myOwner)).values()), fp.getDataType()
+                  .getDataTypes()
+                  .getChoosen(), true);
                p = new XMLComboPanel(getPanelContainer(),
                                      ap,
                                      fp.getName().equals("") ? fp.getId() : fp.getName(),
@@ -143,23 +139,25 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                      false,
                                      true,
                                      true,
-                                     JaWEManager.getInstance()
-                                        .getJaWEController()
-                                        .canModifyElement(aps),
-                                     fp.getDescription().equals("") ? null
-                                                                   : fp.getDescription());
+                                     JaWEManager.getInstance().getJaWEController().canModifyElement(aps),
+                                     fp.getDescription().equals("") ? null : fp.getDescription());
             } else {
-               Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(),
-                                                             "XMLGroupPanel",
-                                                             ap);
+               Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLGroupPanel", ap);
                List toShow = new ArrayList(ap.toElements());
                toShow.removeAll(hidden);
                int noOfLines = 4;
                try {
-                  noOfLines = getPanelContainer().getSettings()
-                     .getSettingInt("XMLActualParametersPanel.preferredNumberOfLinesForExpression");
+                  noOfLines = getPanelContainer().getSettings().getSettingInt("XMLActualParametersPanel.preferredNumberOfLinesForExpression");
                } catch (Exception ex) {
                   System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression");
+               }
+               String ext = null;
+               String scriptType = ap.getScriptType();
+               if (scriptType.equals("")) {
+                  scriptType = XMLUtil.getPackage(ap).getScript().getType();
+               }
+               if (!scriptType.equals("")) {
+                  ext = Utils.getFileExtension(scriptType);
                }
                toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                          ap,
@@ -169,9 +167,11 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                                                          noOfLines,
                                                                          false,
                                                                          ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap),
-                                                                         ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesTooltips(ap),                                                                         JaWEManager.getInstance()
-                                                                            .getJaWEController()
-                                                                            .canModifyElement(ap)));
+                                                                         ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesTooltips(ap),
+                                                                         JaWEManager.getInstance().getJaWEController().canModifyElement(ap),
+                                                                         null,
+                                                                         null,
+                                                                         ext));
                p = new XMLGroupPanel(getPanelContainer(),
                                      ap,
                                      toShow,
@@ -179,22 +179,14 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                      true,
                                      true,
                                      true,
-                                     fp.getDescription().equals("") ? null
-                                                                   : fp.getDescription());
+                                     fp.getDescription().equals("") ? null : fp.getDescription());
             }
             panels.add(p);
          }
       }
       XMLPanel gp = emptyPanel;
       if (panels.size() > 0) {
-         gp = new XMLGroupPanel(getPanelContainer(),
-                                aps,
-                                panels,
-                                aplabel,
-                                true,
-                                true,
-                                false,
-                                null);
+         gp = new XMLGroupPanel(getPanelContainer(), aps, panels, aplabel, true, true, false, null);
       }
       jsp.setViewportView(gp);
 

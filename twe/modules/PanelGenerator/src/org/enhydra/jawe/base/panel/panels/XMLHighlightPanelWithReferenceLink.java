@@ -32,6 +32,7 @@ import javax.swing.event.CaretListener;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Settings;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
@@ -130,12 +131,17 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       mc.add(participants);
       List<String> pttps = new ArrayList<String>();
       pttps.add(pc.getSettings().getLanguageDependentString("InsertParticipantKey"));
-      int noOfLines = 4;
+      int noOfLines = 8;
       try {
          noOfLines = getPanelContainer().getSettings()
             .getSettingInt("PreferredNumberOfLinesForExpression");
       } catch (Exception ex) {
-         System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: 4");
+         System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: " + String.valueOf(noOfLines));
+      }
+      String scriptType = XMLUtil.getPackage(myOwner).getScript().getType();
+      String ext = null;
+      if (!scriptType.equals("")) {
+         ext = Utils.getFileExtension(scriptType);
       }
       panel = new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                              myOwner,
@@ -148,7 +154,8 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
                                                              pttps,
                                                              isEnabled,
                                                              initText,
-                                                             null);
+                                                             null,
+                                                             ext);
 
       panel.setAlignmentX(Component.LEFT_ALIGNMENT);
       panel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -157,7 +164,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       while (it.hasNext()) {
          XMLElement el = ((XMLElement) it.next());
          if (!(el instanceof XMLEmptyChoiceElement)) {
-            String scriptType = XMLUtil.getPackage(el).getScript().getType();
+            scriptType = XMLUtil.getPackage(el).getScript().getType();
             panel.setHighlightScript(scriptType);
             break;
          }

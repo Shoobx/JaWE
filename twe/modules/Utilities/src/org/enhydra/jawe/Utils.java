@@ -88,8 +88,37 @@ public class Utils {
 
    public static final String LANG_PROP_PREFIX = "JaWE";
 
-   public static Properties getProperties(String path, Properties defaultProperties)
-      throws Exception {
+   public static final String APP_EXTENSION_INFO = "appsforextensions.properties";
+
+   protected static Map<String, String> ext2App = null;
+
+   public static String getAppForExtension(String ext) {
+      if (ext2App == null) {
+         ext2App = new HashMap<String, String>();
+         try {
+            Properties props = new Properties();
+            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+            Utils.manageProperties(props, cch, APP_EXTENSION_INFO);
+            Iterator it = props.entrySet().iterator();
+            while (it.hasNext()) {
+               Map.Entry me = (Map.Entry) it.next();
+               ext2App.put(((String) me.getKey()).toLowerCase(), (String) me.getValue());
+            }
+         } catch (Exception ex) {
+         }
+      }
+      String appForExt = ext2App.get(ext.toLowerCase());
+      if (appForExt == null) {
+         if (Utils.isWindows()) {
+            appForExt = "notepad";
+         } else {
+            appForExt = "gedit";
+         }
+      }
+      return appForExt;
+   }
+
+   public static Properties getProperties(String path, Properties defaultProperties) throws Exception {
       Properties props = defaultProperties;
       if (path == null || path.equals(""))
          return props;
@@ -118,13 +147,10 @@ public class Utils {
             props.load(fis);
             fis.close();
          } catch (Exception ex) {
-            throw new Exception("Something went wrong while reading configuration from file "
-                                      + configFile + "!!!",
-                                ex);
+            throw new Exception("Something went wrong while reading configuration from file " + configFile + "!!!", ex);
          }
       } else {
-         throw new Exception("Component needs to be configured properly - configuration file "
-                             + configFile + " does not exist!!!");
+         throw new Exception("Component needs to be configured properly - configuration file " + configFile + " does not exist!!!");
       }
       return props;
    }
@@ -172,8 +198,7 @@ public class Utils {
       return toRet;
    }
 
-   public static boolean copyPropertyFile(String path, String name, boolean overwrite)
-      throws Exception {
+   public static boolean copyPropertyFile(String path, String name, boolean overwrite) throws Exception {
       String confhome = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
       if (confhome == null)
          return true;
@@ -214,22 +239,19 @@ public class Utils {
       // return false;
    }
 
-   public static void manageProperties(Properties properties, String path, String name)
-      throws Exception {
+   public static void manageProperties(Properties properties, String path, String name) throws Exception {
       try {
          // if (true) return;
          if (!Utils.copyPropertyFile(path, name, false)) {
             Properties external = new Properties();
             FileInputStream fis = null;
             try {
-               fis = new FileInputStream(System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME)
-                                         + "/" + name);
+               fis = new FileInputStream(System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME) + "/" + name);
                external.load(fis);
                fis.close();
                Utils.adjustProperties(properties, external);
             } catch (Exception ex) {
-               throw new Error("Something went wrong while reading external component properties !!!",
-                               ex);
+               throw new Error("Something went wrong while reading external component properties !!!", ex);
             }
          } else {
             URL u = JaWEManager.class.getClassLoader().getResource(path + name);
@@ -241,8 +263,7 @@ public class Utils {
             properties.load(is);
          }
       } catch (Exception ex) {
-         throw new Exception("Something went wrong while reading component's properties !!!",
-                             ex);
+         throw new Exception("Something went wrong while reading component's properties !!!", ex);
       }
    }
 
@@ -306,9 +327,7 @@ public class Utils {
             int i3 = col.indexOf("B=");
             if (i3 == -1)
                i3 = col.indexOf("b=");
-            if (i1 != -1
-                && i1c != -1 && i2 != -1 && i2c != -1 && i3 != -1 && (i1c < i2)
-                && (i2c < i3)) {
+            if (i1 != -1 && i1c != -1 && i2 != -1 && i2c != -1 && i3 != -1 && (i1c < i2) && (i2c < i3)) {
                r = Integer.valueOf(col.substring(i1 + 2, i1c).trim()).intValue();
                if (r < 0)
                   r = 0;
@@ -358,8 +377,7 @@ public class Utils {
       if (c == null) {
          return "128,128,128";
       }
-      return String.valueOf(c.getRed())
-             + "," + String.valueOf(c.getGreen()) + "," + String.valueOf(c.getBlue());
+      return String.valueOf(c.getRed()) + "," + String.valueOf(c.getGreen()) + "," + String.valueOf(c.getBlue());
    }
 
    public static void flipCoordinates(Point p) {
@@ -387,11 +405,7 @@ public class Utils {
 
       // make dialog smaller if needed, and center it
       // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-      Dimension screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment()
-         .getDefaultScreenDevice()
-         .getDefaultConfiguration()
-         .getBounds()
-         .getSize();
+      Dimension screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds().getSize();
 
       Dimension windowSize = w.getPreferredSize();
       if (windowSize.width > screenSize.width - minXDiffFromMax) {
@@ -401,8 +415,7 @@ public class Utils {
          windowSize.height = screenSize.height - minYDiffFromMax;
       }
       w.setSize(windowSize);
-      w.setLocation(screenSize.width / 2 - (windowSize.width / 2),
-                    screenSize.height / 2 - (windowSize.height / 2));
+      w.setLocation(screenSize.width / 2 - (windowSize.width / 2), screenSize.height / 2 - (windowSize.height / 2));
    }
 
    public static java.util.List findPropertyFiles() {
@@ -425,8 +438,7 @@ public class Utils {
          try {
             String jp = "org/enhydra/jawe/language/JaWE.properties";
             u = Utils.class.getClassLoader().getResource(jp);
-            String jarPath = u.getPath()
-               .substring(0, u.getPath().length() - jp.length() - 2);
+            String jarPath = u.getPath().substring(0, u.getPath().length() - jp.length() - 2);
             jarPath = URLDecoder.decode(jarPath, "UTF-8");
             jarPath = jarPath.substring(5);
             jfile = new JarFile(jarPath, false);
@@ -438,8 +450,7 @@ public class Utils {
                   ZipEntry entry = (ZipEntry) e.nextElement();
                   String entryname = entry.getName();
                   // entry must end with '.properties'
-                  if (entryname.indexOf(LANG_PROP_PREFIX) != -1
-                      && entryname.endsWith(".properties")) {
+                  if (entryname.indexOf(LANG_PROP_PREFIX) != -1 && entryname.endsWith(".properties")) {
                      pfs.add(entryname);
                   }
                } catch (Exception ex) {
@@ -453,33 +464,27 @@ public class Utils {
       // if there are no property files, try to find the default ones distributed
       // with JaWE
       if (pfs.size() == 0) {
-         u = Utils.class.getClassLoader()
-            .getResource("org/enhydra/jawe/language/JaWE.properties");
+         u = Utils.class.getClassLoader().getResource("org/enhydra/jawe/language/JaWE.properties");
          if (u != null) {
             pfs.add("JaWE.properties");
          }
-         u = Utils.class.getClassLoader()
-            .getResource("org/enhydra/jawe/language/JaWE_de.properties");
+         u = Utils.class.getClassLoader().getResource("org/enhydra/jawe/language/JaWE_de.properties");
          if (u != null) {
             pfs.add("JaWE_de.properties");
          }
-         u = Utils.class.getClassLoader()
-            .getResource("org/enhydra/jawe/language/JaWE_fr.properties");
+         u = Utils.class.getClassLoader().getResource("org/enhydra/jawe/language/JaWE_fr.properties");
          if (u != null) {
             pfs.add("JaWE_fr.properties");
          }
-         u = Utils.class.getClassLoader()
-            .getResource("org/enhydra/jawe/language/JaWE_sh.properties");
+         u = Utils.class.getClassLoader().getResource("org/enhydra/jawe/language/JaWE_sh.properties");
          if (u != null) {
             pfs.add("JaWE_sh.properties");
          }
-         u = Utils.class.getClassLoader()
-            .getResource("org/enhydra/jawe/language/JaWE_es.properties");
+         u = Utils.class.getClassLoader().getResource("org/enhydra/jawe/language/JaWE_es.properties");
          if (u != null) {
             pfs.add("JaWE_es.properties");
          }
-         u = Utils.class.getClassLoader()
-            .getResource("org/enhydra/jawe/language/JaWE_pt.properties");
+         u = Utils.class.getClassLoader().getResource("org/enhydra/jawe/language/JaWE_pt.properties");
          if (u != null) {
             pfs.add("JaWE_pt.properties");
          }
@@ -493,9 +498,7 @@ public class Utils {
             int p1 = propFile.indexOf(LANG_PROP_PREFIX) + LANG_PROP_PREFIX.length();
             boolean isDefault = !propFile.substring(p1, p1 + 1).equals("_");
             if (!isDefault) {
-               PFLocale pfl = PFLocale.createPFLocale(propFile.substring(p1 + 1,
-                                                                         propFile.length()
-                                                                               - ".properties".length()));
+               PFLocale pfl = PFLocale.createPFLocale(propFile.substring(p1 + 1, propFile.length() - ".properties".length()));
                if (pfl != null) {
                   pfLocales.add(pfl);
                }
@@ -519,8 +522,7 @@ public class Utils {
    }
 
    public static void showEAS(ExtendedAttributes el) {
-      System.err.println("ExtendedAttributes, el = "
-                         + el + ", there are " + el.size() + " eas");
+      System.err.println("ExtendedAttributes, el = " + el + ", there are " + el.size() + " eas");
       Iterator it = el.toElements().iterator();
       while (it.hasNext()) {
          System.err.println();
@@ -577,17 +579,13 @@ public class Utils {
    public static List sortValidationErrorList(List verrs) {
       List sorted = new ArrayList();
 
-      Map epves = JaWEManager.getInstance()
-         .getXPDLValidator()
-         .getExtPkgValidationErrors();
+      Map epves = JaWEManager.getInstance().getXPDLValidator().getExtPkgValidationErrors();
       Iterator it = epves.values().iterator();
       while (it.hasNext()) {
          List l = (List) it.next();
          verrs.removeAll(l);
       }
-      sorted.addAll(Utils.sortValidationErrorList(verrs, JaWEManager.getInstance()
-         .getJaWEController()
-         .getMainPackage()));
+      sorted.addAll(Utils.sortValidationErrorList(verrs, JaWEManager.getInstance().getJaWEController().getMainPackage()));
       it = epves.entrySet().iterator();
       while (it.hasNext()) {
          Map.Entry me = (Map.Entry) it.next();
@@ -603,9 +601,7 @@ public class Utils {
    public static List sortValidationErrorList(List verrs, Package p) {
       List sorted = new ArrayList();
 
-      sorted.addAll(findErrorList(verrs,
-                                  Package.class,
-                                  XMLValidationError.SUB_TYPE_SCHEMA));
+      sorted.addAll(findErrorList(verrs, Package.class, XMLValidationError.SUB_TYPE_SCHEMA));
 
       sorted.addAll(findErrorList(verrs, p, XMLValidationError.SUB_TYPE_LOGIC));
       sorted.addAll(findErrorListParent(verrs, p));
@@ -616,8 +612,7 @@ public class Utils {
       Iterator it = p.getApplications().toElements().iterator();
       while (it.hasNext()) {
          Application app = (Application) it.next();
-         sorted.addAll(findErrorListParent(verrs, app.getApplicationTypes()
-            .getFormalParameters()));
+         sorted.addAll(findErrorListParent(verrs, app.getApplicationTypes().getFormalParameters()));
       }
 
       it = p.getWorkflowProcesses().toElements().iterator();
@@ -644,8 +639,7 @@ public class Utils {
          Iterator it2 = wp.getApplications().toElements().iterator();
          while (it2.hasNext()) {
             Application app = (Application) it2.next();
-            sorted.addAll(findErrorListParent(verrs, app.getApplicationTypes()
-               .getFormalParameters()));
+            sorted.addAll(findErrorListParent(verrs, app.getApplicationTypes().getFormalParameters()));
          }
          it2 = wp.getActivitySets().toElements().iterator();
          while (it2.hasNext()) {
@@ -719,8 +713,7 @@ public class Utils {
 
       for (int i = 0; i < allErrs.size(); i++) {
          ValidationError verr = (ValidationError) allErrs.get(i);
-         if (verr.getSubType().equals(validationType)
-             && verr.getElement().getClass() == objClass) {
+         if (verr.getSubType().equals(validationType) && verr.getElement().getClass() == objClass) {
             toRet.add(verr);
          }
       }
@@ -831,28 +824,20 @@ public class Utils {
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       Package pkg = XMLUtil.getPackage(el);
 
-      String loc = ResourceManager.getLanguageDependentString("PackageKey")
-                   + " '" + pkg.getId() + "'";
+      String loc = ResourceManager.getLanguageDependentString("PackageKey") + " '" + pkg.getId() + "'";
       if (wp != null) {
-         loc += ", "
-                + ResourceManager.getLanguageDependentString("WorkflowProcessKey") + " '"
-                + wp.getId() + "'";
+         loc += ", " + ResourceManager.getLanguageDependentString("WorkflowProcessKey") + " '" + wp.getId() + "'";
       }
       if (as != null) {
-         loc += ", "
-                + ResourceManager.getLanguageDependentString("ActivitySetKey") + " '"
-                + as.getId() + "'";
+         loc += ", " + ResourceManager.getLanguageDependentString("ActivitySetKey") + " '" + as.getId() + "'";
       }
       if (location != as && location != wp && location != pkg) {
-         loc += ", "
-                + ResourceManager.getLanguageDependentString(location.toName() + "Key")
-                + " '" + ((XMLComplexElement) location).get("Id").toValue() + "'";
+         loc += ", " + ResourceManager.getLanguageDependentString(location.toName() + "Key") + " '" + ((XMLComplexElement) location).get("Id").toValue() + "'";
       }
       if (el != location && el != as && el != wp && el != pkg) {
          XMLElement parent = el.getParent();
          if (parent != location && !(parent instanceof XMLCollection)) {
-            loc += ", "
-                   + ResourceManager.getLanguageDependentString(parent.toName() + "Key");
+            loc += ", " + ResourceManager.getLanguageDependentString(parent.toName() + "Key");
          }
          loc += " -> " + ResourceManager.getLanguageDependentString(el.toName() + "Key");
       }
@@ -874,22 +859,14 @@ public class Utils {
       return loadActions(properties, comp, new HashMap());
    }
 
-   public static Map loadActions(Properties properties,
-                                 JaWEComponent comp,
-                                 Map defaultActions) {
+   public static Map loadActions(Properties properties, JaWEComponent comp, Map defaultActions) {
       Map componentAction = new HashMap();
 
       // ******** actions
       Set actions = new HashSet();
-      List actionsN = ResourceManager.getResourceStrings(properties,
-                                                         "Action.Name.",
-                                                         false);
-      List actionsC = ResourceManager.getResourceStrings(properties,
-                                                         "Action.Class.",
-                                                         false);
-      List actionsI = ResourceManager.getResourceStrings(properties,
-                                                         "Action.Image.",
-                                                         false);
+      List actionsN = ResourceManager.getResourceStrings(properties, "Action.Name.", false);
+      List actionsC = ResourceManager.getResourceStrings(properties, "Action.Class.", false);
+      List actionsI = ResourceManager.getResourceStrings(properties, "Action.Image.", false);
       actions.addAll(actionsN);
       actions.addAll(actionsC);
       actions.addAll(actionsI);
@@ -905,9 +882,7 @@ public class Utils {
 
             try {
                // Action Base
-               String className = ResourceManager.getResourceString(properties,
-                                                                    "Action.Class."
-                                                                          + actionName);
+               String className = ResourceManager.getResourceString(properties, "Action.Class." + actionName);
                Constructor c = Class.forName(className).getConstructor(new Class[] {
                   JaWEComponent.class
                });
@@ -920,8 +895,7 @@ public class Utils {
 
             try {
                // Icon
-               URL url = ResourceManager.getResource(properties, "Action.Image."
-                                                                 + actionName);
+               URL url = ResourceManager.getResource(properties, "Action.Image." + actionName);
                ImageIcon icon = null;
                if (url != null)
                   icon = new ImageIcon(url);
@@ -932,28 +906,19 @@ public class Utils {
 
             try {
                // Language dependent name
-               String langDepName = ResourceManager.getResourceString(properties,
-                                                                      "Action.Name."
-                                                                            + actionName);
+               String langDepName = ResourceManager.getResourceString(properties, "Action.Name." + actionName);
                ja.setLangDepName(langDepName);
             } catch (Exception e) {
             }
 
             if (ja.getAction() != null) {
                componentAction.put(actionName, ja);
-               JaWEManager.getInstance()
-                  .getLoggingManager()
-                  .info("Created " + comp.getName() + " action for class " + actionName);
+               JaWEManager.getInstance().getLoggingManager().info("Created " + comp.getName() + " action for class " + actionName);
             } else {
-               JaWEManager.getInstance()
-                  .getLoggingManager()
-                  .info("Missing action for " + actionName);
+               JaWEManager.getInstance().getLoggingManager().info("Missing action for " + actionName);
             }
          } catch (Throwable thr) {
-            JaWEManager.getInstance()
-               .getLoggingManager()
-               .error("Can't create "
-                      + comp.getName() + " action for class " + actionName);
+            JaWEManager.getInstance().getLoggingManager().error("Can't create " + comp.getName() + " action for class " + actionName);
          }
       }
 
@@ -973,16 +938,10 @@ public class Utils {
    public static Map loadSubMenus(Properties properties) {
       Map componentSettings = new HashMap();
 
-      List subMenus = ResourceManager.getResourceStrings(properties,
-                                                         "SubMenu.Name.",
-                                                         false);
+      List subMenus = ResourceManager.getResourceStrings(properties, "SubMenu.Name.", false);
       for (int i = 0; i < subMenus.size(); i++) {
-         String aorder = ResourceManager.getResourceString(properties,
-                                                           "SubMenu.ActionOrder."
-                                                                 + subMenus.get(i));
-         String langName = ResourceManager.getResourceString(properties,
-                                                             "SubMenu.Name."
-                                                                   + subMenus.get(i));
+         String aorder = ResourceManager.getResourceString(properties, "SubMenu.ActionOrder." + subMenus.get(i));
+         String langName = ResourceManager.getResourceString(properties, "SubMenu.Name." + subMenus.get(i));
          componentSettings.put(subMenus.get(i) + "Menu", aorder);
          componentSettings.put(subMenus.get(i) + "LangName", langName);
       }
@@ -993,13 +952,9 @@ public class Utils {
    public static Map loadToolbars(Properties properties) {
       Map componentSettings = new HashMap();
 
-      List toolbars = ResourceManager.getResourceStrings(properties,
-                                                         "Toolbar.ActionOrder.",
-                                                         false);
+      List toolbars = ResourceManager.getResourceStrings(properties, "Toolbar.ActionOrder.", false);
       for (int i = 0; i < toolbars.size(); i++) {
-         String aorder = ResourceManager.getResourceString(properties,
-                                                           "Toolbar.ActionOrder."
-                                                                 + toolbars.get(i));
+         String aorder = ResourceManager.getResourceString(properties, "Toolbar.ActionOrder." + toolbars.get(i));
          componentSettings.put(toolbars.get(i) + "Toolbar", aorder);
       }
 
@@ -1008,13 +963,9 @@ public class Utils {
 
    public static Map loadPopups(Properties properties) {
       Map componentSettings = new HashMap();
-      List popupMenus = ResourceManager.getResourceStrings(properties,
-                                                           "PopupMenu.ActionOrder.",
-                                                           false);
+      List popupMenus = ResourceManager.getResourceStrings(properties, "PopupMenu.ActionOrder.", false);
       for (int i = 0; i < popupMenus.size(); i++) {
-         String aorder = ResourceManager.getResourceString(properties,
-                                                           "PopupMenu.ActionOrder."
-                                                                 + popupMenus.get(i));
+         String aorder = ResourceManager.getResourceString(properties, "PopupMenu.ActionOrder." + popupMenus.get(i));
          componentSettings.put(popupMenus.get(i) + "Menu", aorder);
       }
       return componentSettings;
@@ -1058,10 +1009,8 @@ public class Utils {
                File[] files = f.listFiles();
                if (files != null) {
                   for (int j = 0; j < files.length; j++) {
-                     if (files[j].isFile()
-                         && files[j].getName().indexOf("activityicons") >= 0) {
-                        m.putAll(Utils.getResourcesForPath(files[j].getAbsolutePath(),
-                                                           JaWEConstants.JAWE_ACTIVITY_ICONS));
+                     if (files[j].isFile() && files[j].getName().indexOf("activityicons") >= 0) {
+                        m.putAll(Utils.getResourcesForPath(files[j].getAbsolutePath(), JaWEConstants.JAWE_ACTIVITY_ICONS));
                      }
                   }
                }
@@ -1109,8 +1058,7 @@ public class Utils {
                   // checking if resource is image
                   ImageIcon ii = null;
                   try {
-                     ii = new ImageIcon(Utils.class.getClassLoader()
-                        .getResource(entryname));
+                     ii = new ImageIcon(Utils.class.getClassLoader().getResource(entryname));
                   } catch (Exception ex) {
                   }
 
@@ -1140,8 +1088,7 @@ public class Utils {
                   // checking if resource is image
                   ImageIcon ii = null;
                   try {
-                     ii = new ImageIcon(Utils.class.getClassLoader()
-                        .getResource(prefix + "/" + fileName));
+                     ii = new ImageIcon(Utils.class.getClassLoader().getResource(prefix + "/" + fileName));
                   } catch (Exception ex) {
                   }
                   if (ii != null) {
@@ -1177,8 +1124,7 @@ public class Utils {
          String line = null;
          boolean done = false;
          while ((line = reader.readLine()) != null) {
-            if (!done
-                && (line.startsWith("#" + JaWEConstants.JAWE_CURRENT_CONFIG_HOME) || line.startsWith(JaWEConstants.JAWE_CURRENT_CONFIG_HOME))) {
+            if (!done && (line.startsWith("#" + JaWEConstants.JAWE_CURRENT_CONFIG_HOME) || line.startsWith(JaWEConstants.JAWE_CURRENT_CONFIG_HOME))) {
                line = JaWEConstants.JAWE_CURRENT_CONFIG_HOME + " = " + newConfig;
 
                done = true;
@@ -1193,16 +1139,14 @@ public class Utils {
          file.delete();
          newFile.renameTo(file);
 
-         System.setProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME,
-                            JaWEConstants.JAWE_CONF_HOME + "/" + newConfig);
+         System.setProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME, JaWEConstants.JAWE_CONF_HOME + "/" + newConfig);
 
          if (filename == null) {
             filename = jc.getPackageFilename(jc.getMainPackageId());
          }
          jc.tryToClosePackage(jc.getMainPackageId(), true);
 
-         ws.show(null, "", jc.getSettings()
-            .getLanguageDependentString("ReconfiguringKey"));
+         ws.show(null, "", jc.getSettings().getLanguageDependentString("ReconfiguringKey"));
 
          JaWEManager.getInstance().restart(filename);
          ws.setVisible(false);
@@ -1229,8 +1173,7 @@ public class Utils {
       Throwable t = new Throwable();
       StackTraceElement[] elements = t.getStackTrace();
       for (int i = 0; i < elements.length; i++) {
-         if (elements[i].getClassName().equals(className)
-             && elements[i].getMethodName().equals(methodName)) {
+         if (elements[i].getClassName().equals(className) && elements[i].getMethodName().equals(methodName)) {
             return true;
          }
       }
@@ -1248,6 +1191,19 @@ public class Utils {
 
    public static boolean isWindows() {
       return getOsName().startsWith("Windows");
+   }
+
+   public static String getFileExtension(String mimeType) {
+      String ret = "txt";
+      if (mimeType.equals("text/java")) {
+         ret = "java";
+      } else if (mimeType.equals("text/javascript")) {
+         ret = "js";
+      } else if (mimeType.equals("text/pythonscript")) {
+         ret = "py";
+      }
+
+      return ret;
    }
 
 }

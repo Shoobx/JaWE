@@ -1158,12 +1158,21 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement && el.toName().equals("Script")) {
          int noOfLines = 15;
-//          try {
-//          noOfLines = getPanelContainer().getSettings()
-//          .getSettingInt("PreferredNumberOfLinesForExpression");
-//          } catch (Exception ex) {
-//          System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: "+noOfLines);
-//          }
+         // try {
+         // noOfLines = getPanelContainer().getSettings()
+         // .getSettingInt("PreferredNumberOfLinesForExpression");
+         // } catch (Exception ex) {
+         // System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: "+noOfLines);
+         // }
+         String ext = "txt";
+         String taName = ((ScriptBasedToolAgentElement) el.getParent()).toName();
+         if (taName.equals(SharkConstants.TOOL_AGENT_XSLT)) {
+            ext = "xsl";
+         } else if (taName.equals(SharkConstants.TOOL_AGENT_BEAN_SHELL)) {
+            ext = "java";
+         } else if (taName.equals(SharkConstants.TOOL_AGENT_JAVASCRIPT)) {
+            ext = "js";
+         }
          return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
                                                                el,
                                                                "Script",
@@ -1173,7 +1182,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                false,
                                                                prepareExpressionChoices(el.getParent().getParent()),
                                                                prepareExpressionChoicesTooltips(el.getParent().getParent()),
-                                                               JaWEManager.getInstance().getJaWEController().canModifyElement(el));
+                                                               JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                                               null,
+                                                               null,
+                                                               ext);
       } else if ((el.getParent() instanceof ExtendedAttribute
                   && ((ExtendedAttribute) el.getParent()).getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS)
                   && el.getParent().getParent().getParent() instanceof Application && el.toName().equals("Value"))

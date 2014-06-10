@@ -80,7 +80,7 @@ public class PropertiesPanelSettings extends PanelSettings {
                                                                "4")));
       componentSettings.put("PreferredNumberOfLinesForExpression",
                             new Integer(properties.getProperty("PreferredNumberOfLinesForExpression",
-                                                               "4")));
+                                                               "8")));
       componentSettings.put("XMLBasicPanel.RightAllignment",
                             new Boolean(properties.getProperty("XMLBasicPanel.RightAllignment",
                                                                "false")
