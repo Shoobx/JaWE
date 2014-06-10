@@ -255,7 +255,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
          jb.setContentAreaFilled(false);
          jb.setEnabled(appName != null);
          jb.setToolTipText(getPanelContainer().getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip"));
-         
+
          jb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                PanelContainer pc = getPanelContainer();
@@ -288,18 +288,19 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
                   long t1 = System.currentTimeMillis();
                   prc.waitFor();
                   long t2 = System.currentTimeMillis();
-                  if ((t2 - t1) > 1000) {
-                     String fc = XMLUtil.fileToString(filename);
-                     if (!jta.getText().equals(fc)) {
+                  String fc = XMLUtil.fileToString(filename);
+                  boolean nochange = jta.getText().equals(fc);
+                  if ((t2 - t1) < 3000 && nochange) {
+                     f.delete();
+                     XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
+                        .getLanguageDependentString("ApplicationDidntOpenCorrectlyKey"));
+                  } else {
+                     if (!nochange) {
                         jta.setText(fc);
                         pc.panelChanged(p, null);
                      }
                      jta.requestFocus();
                      f.delete();
-                  } else {
-                     f.delete();
-                     XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
-                        .getLanguageDependentString("ApplicationDidntOpenCorrectlyKey"));
                   }
                } catch (Exception ex) {
                   XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
