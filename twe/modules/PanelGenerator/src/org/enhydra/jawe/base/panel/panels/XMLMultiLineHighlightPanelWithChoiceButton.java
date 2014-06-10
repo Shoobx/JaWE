@@ -290,7 +290,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
                   long t2 = System.currentTimeMillis();
                   String fc = XMLUtil.fileToString(filename);
                   boolean nochange = jta.getText().equals(fc);
-                  if ((t2 - t1) < 3000 && nochange) {
+                  if ((t2 - t1) < 2500 && nochange) {
                      f.delete();
                      XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
                         .getLanguageDependentString("ApplicationDidntOpenCorrectlyKey"));
