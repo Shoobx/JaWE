@@ -122,42 +122,26 @@
     <fo:simple-page-master master-name="titlepage-first"
                            page-width="{$page.width}"
                            page-height="{$page.height}"
-                           margin-top="{$page.margin.top}"
-                           margin-bottom="{$page.margin.bottom}">
-      <xsl:attribute name="margin-{$direction.align.start}">
-        <xsl:value-of select="$page.margin.inner"/>
-	<xsl:if test="$fop.extensions != 0">
-	  <xsl:value-of select="concat(' - (',$title.margin.left,')')"/>
-        </xsl:if>
-      </xsl:attribute>
-      <xsl:attribute name="margin-{$direction.align.end}">
-        <xsl:value-of select="$page.margin.outer"/>
-      </xsl:attribute>
+                           margin-top="{$titlepage.margin.top}" margin-bottom="0"
+                           margin-left="{$titlepage.margin.left}" margin-right="0">
       <xsl:if test="$axf.extensions != 0">
         <xsl:call-template name="axf-page-master-properties">
           <xsl:with-param name="page.master">titlepage-first</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
-      <fo:region-body margin-bottom="{$body.margin.bottom}"
-                      margin-top="{$body.margin.top}"
-                      column-gap="{$column.gap.titlepage}"
+      <fo:region-body margin-bottom="0" margin-top="0"
+                       margin-left="0" margin-right="0"
+                      column-gap="0"
                       column-count="{$column.count.titlepage}">
-        <xsl:attribute name="margin-{$direction.align.start}">
-          <xsl:value-of select="$body.margin.inner"/>
-        </xsl:attribute>
-        <xsl:attribute name="margin-{$direction.align.end}">
-          <xsl:value-of select="$body.margin.outer"/>
-        </xsl:attribute>
       </fo:region-body>
-      <fo:region-before region-name="xsl-region-before-first"
-                        extent="{$region.before.extent}"
-                        precedence="{$region.before.precedence}"
-                        display-align="before"/>
+      <fo:region-before region-name="xsl-region-before-titlepage-first"
+                        extent="0"
+                        precedence="{$region.before.precedence}"/>
       <fo:region-after region-name="xsl-region-after-first"
-                       extent="{$region.after.extent}"
+                       extent="0"
                         precedence="{$region.after.precedence}"
                         display-align="after"/>
-      <xsl:call-template name="region.inner">
+     <xsl:call-template name="region.inner">
         <xsl:with-param name="sequence">first</xsl:with-param>
         <xsl:with-param name="pageclass">titlepage</xsl:with-param>
       </xsl:call-template>
@@ -283,8 +267,8 @@
           <xsl:with-param name="page.master">lot-first</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
-      <fo:region-body margin-bottom="{$body.margin.bottom}"
-                      margin-top="{$body.margin.top}"
+      <fo:region-body margin-top="{$body.margin.top}"
+			margin-bottom="{$body.TableOfContent.margin.bottom}"
                       column-gap="{$column.gap.lot}"
                       column-count="{$column.count.lot}">
         <xsl:attribute name="margin-{$direction.align.start}">
@@ -295,11 +279,11 @@
         </xsl:attribute>
       </fo:region-body>
       <fo:region-before region-name="xsl-region-before-first"
-                        extent="{$region.before.extent}"
+                        extent="{$region.before.extent}" 
                         precedence="{$region.before.precedence}"
-                        display-align="before"/>
-      <fo:region-after region-name="xsl-region-after-first"
-                       extent="{$region.after.extent}"
+                        display-align="before"/> 
+      <fo:region-after region-name="xsl-region-after-first" 
+                       extent="{$region.tableOfContent.after.extent}"
                         precedence="{$region.after.precedence}"
                        display-align="after"/>
       <xsl:call-template name="region.inner">
@@ -331,7 +315,7 @@
           <xsl:with-param name="page.master">lot-odd</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
-      <fo:region-body margin-bottom="{$body.margin.bottom}"
+      <fo:region-body margin-bottom="{$body.TableOfContent.margin.bottom}"
                       margin-top="{$body.margin.top}"
                       column-gap="{$column.gap.lot}"
                       column-count="{$column.count.lot}">
@@ -347,7 +331,7 @@
                         precedence="{$region.before.precedence}"
                         display-align="before"/>
       <fo:region-after region-name="xsl-region-after-odd"
-                       extent="{$region.after.extent}"
+                       extent="{$region.tableOfContent.after.extent}"
                         precedence="{$region.after.precedence}"
                         display-align="after"/>
       <xsl:call-template name="region.inner">
@@ -379,7 +363,7 @@
           <xsl:with-param name="page.master">lot-even</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
-      <fo:region-body margin-bottom="{$body.margin.bottom}"
+      <fo:region-body margin-bottom="{$body.TableOfContent.margin.bottom}"
                       margin-top="{$body.margin.top}"
                       column-gap="{$column.gap.lot}"
                       column-count="{$column.count.lot}">
@@ -393,9 +377,9 @@
       <fo:region-before region-name="xsl-region-before-even"
                         extent="{$region.before.extent}"
                         precedence="{$region.before.precedence}"
-                        display-align="before"/>
+                        display-align="before" />
       <fo:region-after region-name="xsl-region-after-even"
-                       extent="{$region.after.extent}"
+                        extent="{$region.tableOfContent.after.extent}"
                         precedence="{$region.after.precedence}"
                         display-align="after"/>
       <xsl:call-template name="region.outer">
@@ -735,7 +719,7 @@
       <fo:region-before region-name="xsl-region-before-first"
                         extent="{$region.before.extent}"
                         precedence="{$region.before.precedence}"
-                        display-align="before"/>
+                        display-align="before" />
       <fo:region-after region-name="xsl-region-after-first"
                        extent="{$region.after.extent}"
                         precedence="{$region.after.precedence}"
@@ -2470,7 +2454,7 @@
   <xsl:param name="gentext-key"/>
 
   <xsl:if test="$header.rule != 0">
-    <xsl:attribute name="border-bottom-width">0.5pt</xsl:attribute>
+    <xsl:attribute name="border-bottom-width">0</xsl:attribute>
     <xsl:attribute name="border-bottom-style">solid</xsl:attribute>
     <xsl:attribute name="border-bottom-color">black</xsl:attribute>
   </xsl:if>
@@ -2482,7 +2466,7 @@
   <xsl:param name="gentext-key"/>
 
   <xsl:if test="$footer.rule != 0">
-    <xsl:attribute name="border-top-width">0.5pt</xsl:attribute>
+    <xsl:attribute name="border-top-width">0</xsl:attribute>
     <xsl:attribute name="border-top-style">solid</xsl:attribute>
     <xsl:attribute name="border-top-color">black</xsl:attribute>
   </xsl:if>
@@ -2506,8 +2490,14 @@
     </xsl:choose>
   </xsl:variable>
 
+  <fo:static-content flow-name="xsl-region-before-titlepage-first">
+    <fo:block>
+      <fo:external-graphic src="{$title.image.filename}" height="{$titlepage.height}" width="{$titlepage.width}" content-height="scale-to-fit" content-width="scale-to-fit"></fo:external-graphic>    
+    </fo:block>
+  </fo:static-content>
+
   <fo:static-content flow-name="xsl-region-before-first">
-    <fo:block xsl:use-attribute-sets="header.content.properties">
+    <fo:block xsl:use-attribute-sets="header.content.properties">    
       <xsl:call-template name="header.table">
         <xsl:with-param name="pageclass" select="$pageclass"/>
         <xsl:with-param name="sequence" select="'first'"/>
@@ -2614,6 +2604,12 @@
 
   <xsl:variable name="candidate">
     <fo:table xsl:use-attribute-sets="header.table.properties">
+        <!--  xsl:attribute name="background-image">
+      		<xsl:call-template name="fo-external-image">
+               <xsl:with-param name="filename" select="$header.image.filename"/>
+            </xsl:call-template>
+      	</xsl:attribute>-->
+    
       <xsl:call-template name="head.sep.rule">
         <xsl:with-param name="pageclass" select="$pageclass"/>
         <xsl:with-param name="sequence" select="$sequence"/>
@@ -2633,7 +2629,7 @@
           <xsl:text>)</xsl:text>
         </xsl:attribute>
       </fo:table-column>
-      <fo:table-column column-number="2">
+      <!-- <fo:table-column column-number="2">
         <xsl:attribute name="column-width">
           <xsl:text>proportional-column-width(</xsl:text>
           <xsl:call-template name="header.footer.width">
@@ -2658,7 +2654,7 @@
           </xsl:call-template>
           <xsl:text>)</xsl:text>
         </xsl:attribute>
-      </fo:table-column>
+      </fo:table-column> -->
 
       <fo:table-body>
         <fo:table-row>
@@ -2666,20 +2662,20 @@
             <xsl:value-of select="$header.table.height"/>
           </xsl:attribute>
           <fo:table-cell text-align="start"
-                         display-align="before">
+                         display-align="after">
             <xsl:if test="$fop.extensions = 0">
               <xsl:attribute name="relative-align">baseline</xsl:attribute>
             </xsl:if>
-            <fo:block>
-              <xsl:call-template name="header.content">
-                <xsl:with-param name="pageclass" select="$pageclass"/>
-                <xsl:with-param name="sequence" select="$sequence"/>
-                <xsl:with-param name="position" select="$direction.align.start"/>
-                <xsl:with-param name="gentext-key" select="$gentext-key"/>
-              </xsl:call-template>
-            </fo:block>
+              <fo:block>
+		<xsl:call-template name="header.content">
+		  <xsl:with-param name="pageclass" select="$pageclass"/>
+		  <xsl:with-param name="sequence" select="$sequence"/>
+		  <xsl:with-param name="position" select="$direction.align.start"/>
+		  <xsl:with-param name="gentext-key" select="$gentext-key"/>
+	        </xsl:call-template>
+              </fo:block>
           </fo:table-cell>
-          <fo:table-cell text-align="center"
+          <!-- <fo:table-cell text-align="center"
                          display-align="before">
             <xsl:if test="$fop.extensions = 0">
               <xsl:attribute name="relative-align">baseline</xsl:attribute>
@@ -2706,7 +2702,7 @@
                 <xsl:with-param name="gentext-key" select="$gentext-key"/>
               </xsl:call-template>
             </fo:block>
-          </fo:table-cell>
+          </fo:table-cell> -->
         </fo:table-row>
       </fo:table-body>
     </fo:table>
@@ -2744,54 +2740,63 @@
     <xsl:value-of select="$gentext-key"/>
   </fo:block>
 -->
-
-  <fo:block>
-
-    <!-- sequence can be odd, even, first, blank -->
-    <!-- position can be left, center, right -->
-    <xsl:choose>
-      <xsl:when test="$sequence = 'blank'">
-        <!-- nothing -->
-      </xsl:when>
-
-      <xsl:when test="$position='left'">
-        <!-- Same for odd, even, empty, and blank sequences -->
-        <xsl:call-template name="draft.text"/>
-      </xsl:when>
-
-      <xsl:when test="($sequence='odd' or $sequence='even') and $position='center'">
-        <xsl:if test="$pageclass != 'titlepage'">
-          <xsl:choose>
-            <xsl:when test="ancestor::book and ($double.sided != 0)">
-              <fo:retrieve-marker retrieve-class-name="section.head.marker"
-                                  retrieve-position="first-including-carryover"
-                                  retrieve-boundary="page-sequence"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:apply-templates select="." mode="titleabbrev.markup"/>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:if>
-      </xsl:when>
-
-      <xsl:when test="$position='center'">
-        <!-- nothing for empty and blank sequences -->
-      </xsl:when>
-
-      <xsl:when test="$position='right'">
-        <!-- Same for odd, even, empty, and blank sequences -->
-        <xsl:call-template name="draft.text"/>
-      </xsl:when>
-
-      <xsl:when test="$sequence = 'first'">
-        <!-- nothing for first pages -->
-      </xsl:when>
-
-      <xsl:when test="$sequence = 'blank'">
-        <!-- nothing for blank pages -->
-      </xsl:when>
-    </xsl:choose>
+  <fo:block xsl:use-attribute-sets="page.header.image">
+    <fo:external-graphic src="{$header.image.filename}" width="{$header.image.width}" content-height="scale-to-fit" content-width="scale-to-fit"></fo:external-graphic>
   </fo:block>
+  <fo:block-container xsl:use-attribute-sets="page.header.block.label">
+	  <fo:block xsl:use-attribute-sets="page.header.label">
+		<!-- sequence can be odd, even, first, blank -->
+		<!-- position can be left, center, right -->
+		
+	<!--
+		<xsl:attribute name="color">white</xsl:attribute>
+		<xsl:attribute name="text-indent">0.8in</xsl:attribute>
+		<xsl:attribute name="font-family">Calibri,sans-serif,Symbol,ZapfDingbats</xsl:attribute>
+		<xsl:attribute name="margin-bottom">0.25in</xsl:attribute>
+	-->
+		<xsl:choose>
+		  <xsl:when test="$sequence = 'odd' and $position = 'left'">
+			<xsl:value-of 
+				   select="ancestor-or-self::book/titleabbrev"/>
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'odd' and $position = 'center'">
+			<!-- xsl:call-template name="draft.text"/-->
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'odd' and $position = 'right'">
+			<!--  fo:page-number/> -->
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'even' and $position = 'left'">  
+			<xsl:value-of 
+				   select="ancestor-or-self::book/titleabbrev"/>
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'even' and $position = 'center'">
+			<!--  xsl:call-template name="draft.text"/-->
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'even' and $position = 'right'">
+			<xsl:apply-templates select="." mode="titleabbrev.markup"/>
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'first' and $position = 'left'">
+			<xsl:value-of 
+				   select="ancestor-or-self::book/titleabbrev"/>
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'first' and $position = 'right'">  
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'first' and $position = 'center'"> 
+			<xsl:value-of 
+				   select="ancestor-or-self::book/bookinfo/corpauthor"/>
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'blank' and $position = 'left'">
+			<xsl:value-of 
+				   select="ancestor-or-self::book/titleabbrev"/>
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'blank' and $position = 'center'">
+			<xsl:text>This page intentionally left blank</xsl:text>
+		  </xsl:when>
+		  <xsl:when test="$sequence = 'blank' and $position = 'right'">
+		  </xsl:when>
+		</xsl:choose>
+	  </fo:block>
+  </fo:block-container>
 </xsl:template>
 
 <xsl:template name="header.footer.width">
@@ -2820,7 +2825,6 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-
 
   <xsl:variable name="width">
     <xsl:choose>
@@ -2870,7 +2874,6 @@
 </xsl:template>
 
 <!-- ==================================================================== -->
-
 <xsl:template match="*" mode="running.foot.mode">
   <xsl:param name="master-reference" select="'unknown'"/>
   <xsl:param name="gentext-key" select="local-name(.)"/>
@@ -2965,6 +2968,7 @@
         <xsl:with-param name="sequence" select="$sequence"/>
         <xsl:with-param name="gentext-key" select="$gentext-key"/>
       </xsl:call-template>
+      
       <fo:table-column column-number="1">
         <xsl:attribute name="column-width">
           <xsl:text>proportional-column-width(</xsl:text>
@@ -3006,12 +3010,43 @@
       </fo:table-column>
 
       <fo:table-body>
+<!--
+		<fo:table-row >
+		  <xsl:choose>
+            <xsl:when  test="$pageclass = 'lot'">
+              <xsl:attribute name="block-progression-dimension.minimum">
+                <xsl:value-of select="$footer.tableOfContent.table.row1.height"/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="block-progression-dimension.minimum">
+                <xsl:value-of select="$footer.table.row1.height"/>
+              </xsl:attribute>
+            </xsl:otherwise>
+		  </xsl:choose>
+
+          <fo:table-cell text-align="start" display-align="after"
+                         number-columns-spanned="3" padding-left="0.2in">
+            <xsl:if test="$fop.extensions = 0">
+              <xsl:attribute name="relative-align">baseline</xsl:attribute>
+            </xsl:if>
+<fo:block>
+              <xsl:call-template name="footer.content">
+                <xsl:with-param name="pageclass" select="$pageclass"/>
+                <xsl:with-param name="sequence" select="$sequence"/>
+                <xsl:with-param name="position" select="'center'"/>
+                <xsl:with-param name="gentext-key" select="$gentext-key"/>
+              </xsl:call-template>
+            </fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+-->
         <fo:table-row>
-          <xsl:attribute name="block-progression-dimension.minimum">
-            <xsl:value-of select="$footer.table.height"/>
-          </xsl:attribute>
-          <fo:table-cell text-align="start"
-                         display-align="after">
+	  <xsl:attribute name="block-progression-dimension.minimum">
+		<xsl:value-of select="$footer.table.row2.height"/>
+	  </xsl:attribute>
+
+          <fo:table-cell text-align="start" display-align="after">
             <xsl:if test="$fop.extensions = 0">
               <xsl:attribute name="relative-align">baseline</xsl:attribute>
             </xsl:if>
@@ -3024,22 +3059,22 @@
               </xsl:call-template>
             </fo:block>
           </fo:table-cell>
-          <fo:table-cell text-align="center"
-                         display-align="after">
+          <fo:table-cell text-align="start" display-align="before" font-size="9pt">
             <xsl:if test="$fop.extensions = 0">
               <xsl:attribute name="relative-align">baseline</xsl:attribute>
             </xsl:if>
             <fo:block>
+<!--
               <xsl:call-template name="footer.content">
                 <xsl:with-param name="pageclass" select="$pageclass"/>
                 <xsl:with-param name="sequence" select="$sequence"/>
                 <xsl:with-param name="position" select="'center'"/>
                 <xsl:with-param name="gentext-key" select="$gentext-key"/>
               </xsl:call-template>
+-->
             </fo:block>
           </fo:table-cell>
-          <fo:table-cell text-align="end"
-                         display-align="after">
+          <fo:table-cell text-align="end" display-align="after" font-size="9pt">
             <xsl:if test="$fop.extensions = 0">
               <xsl:attribute name="relative-align">baseline</xsl:attribute>
             </xsl:if>
@@ -3095,8 +3130,12 @@
     <!-- sequence can be odd, even, first, blank -->
     <!-- position can be left, center, right -->
     <xsl:choose>
+<!-- 
       <xsl:when test="$pageclass = 'titlepage'">
-        <!-- nop; no footer on title pages -->
+      </xsl:when>
+-->
+      <xsl:when test="($sequence = 'odd' or $sequence = 'first' or $sequence = 'even') and $position='left'">
+        <fo:external-graphic src="{$footer.image.filename}" height="{$footer.image.height}" content-height="scale-to-fit" content-width="scale-to-fit"></fo:external-graphic>    <!-- height="{$footer.image.height}" content-height="scale-to-fit" content-width="scale-to-fit" -->
       </xsl:when>
 
       <xsl:when test="$double.sided != 0 and $sequence = 'even'
@@ -3109,8 +3148,16 @@
         <fo:page-number/>
       </xsl:when>
 
-      <xsl:when test="$double.sided = 0 and $position='center'">
-        <fo:page-number/>
+	<!-- Legal notice -->
+<!--
+      <xsl:when test="$pageclass = 'lot' and $double.sided = 0 and $position='center'">
+	        <xsl:value-of select="ancestor-or-self::book/bookinfo/legalnotice"/>
+	        <xsl:attribute name="font-size">3pt</xsl:attribute>
+			<xsl:attribute name="text-align">left</xsl:attribute>
+      </xsl:when>
+-->
+      <xsl:when test="$double.sided = 0 and $position='right'">
+        <xsl:text>Page </xsl:text><fo:page-number/>
       </xsl:when>
 
       <xsl:when test="$sequence='blank'">
@@ -3126,8 +3173,6 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
-
-
       <xsl:otherwise>
         <!-- nop -->
       </xsl:otherwise>
@@ -3183,7 +3228,6 @@
       <xsl:with-param name="gentext-key" select="$gentext-key"/>
     </xsl:call-template>
   </fo:static-content>
-
 </xsl:template>
 
 <xsl:template match="*" mode="region.outer.mode">
@@ -3233,7 +3277,6 @@
       <xsl:with-param name="gentext-key" select="$gentext-key"/>
     </xsl:call-template>
   </fo:static-content>
-
 </xsl:template>
 
 <xsl:template name="inner.region.content">
@@ -3275,12 +3318,12 @@
   <xsl:param name="master-reference" select="''"/>
 
   <xsl:choose>
-    <xsl:when test="$element = 'toc' and self::book">i</xsl:when>
-    <xsl:when test="$element = 'set'">i</xsl:when>
-    <xsl:when test="$element = 'book'">i</xsl:when>
-    <xsl:when test="$element = 'preface'">i</xsl:when>
-    <xsl:when test="$element = 'dedication'">i</xsl:when>
-    <xsl:when test="$element = 'acknowledgements'">i</xsl:when>
+    <xsl:when test="$element = 'toc' and self::book">1</xsl:when>
+    <xsl:when test="$element = 'set'">1</xsl:when>
+    <xsl:when test="$element = 'book'">1</xsl:when>
+    <xsl:when test="$element = 'preface'">1</xsl:when>
+    <xsl:when test="$element = 'dedication'">1</xsl:when>
+    <xsl:when test="$element = 'acknowledgements'">1</xsl:when>
     <xsl:otherwise>1</xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -3325,9 +3368,9 @@
                             or preceding::article
                             or preceding::dedication
                             or parent::part
-                            or parent::reference)">1</xsl:when>
+                            or parent::reference)">auto</xsl:when>
         <xsl:when test="generate-id($first.book.content) =
-                        generate-id(.)">1</xsl:when>
+                        generate-id(.)">auto</xsl:when>
         <xsl:otherwise><xsl:value-of select="$first"/></xsl:otherwise>
       </xsl:choose>
     </xsl:when>
@@ -3345,9 +3388,9 @@
                             or preceding::article
                             or preceding::dedication
                             or parent::part
-                            or parent::reference)">1</xsl:when>
+                            or parent::reference)">auto</xsl:when>
         <xsl:when test="generate-id($first.book.content) =
-                        generate-id(.)">1</xsl:when>
+                        generate-id(.)">auto</xsl:when>
         <xsl:otherwise>auto</xsl:otherwise>
       </xsl:choose>
     </xsl:otherwise>
@@ -3482,5 +3525,4 @@
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
-
 </xsl:stylesheet>

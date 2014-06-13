@@ -101,8 +101,20 @@
    <condition property="include.ext" value="sh">
       <os family="unix" />
    </condition>
-
-   <if>
+    
+	<if>
+       <equals arg1="${buildid}" arg2="" trim="true"/>
+       <then>
+          <tstamp>
+             <format property="build.timestamp" pattern="yyyyMMdd-HHmm" locale="en,UK" />
+          </tstamp>
+       </then>
+       <else>
+          <property name="build.timestamp" value="${buildid}" />
+       </else>
+    </if>
+   
+	<if>
       <not>
          <isset property="sign.timestamp.urls" />
       </not>
@@ -164,18 +176,7 @@
       <mkdir dir="${output.lib.dir}" />
       <mkdir dir="${bin.dir}" />
       <mkdir dir="${dist.bin.dir}" />
-      <if>
-         <equals arg1="${buildid}" arg2="" />
-         <then>
-            <tstamp>
-               <format property="build.timestamp" pattern="yyyyMMdd-HHmm" locale="en,UK" />
-            </tstamp>
-         </then>
-         <else>
-            <property name="build.timestamp" value="${buildid}" />
-         </else>
-      </if>
-      
+
       <if>
             <and>
                <os family="unix" />
@@ -510,7 +511,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <!-- Create binary ZIP distribution -->
       <echo message="Creating ${app.name}-${name.additional}${version}-${release}.zip binary archive, please wait ..." />
       <zip destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.zip" update="true">
-         <zipfileset dir="${build.dir}" prefix="${app.name}-${name.additional}${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf"/>
+         <zipfileset dir="${build.dir}" prefix="${app.name}-${name.additional}${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf,**/doc/${app.name}-current.test.pdf"/>
       </zip>
       
       <!-- TWE setup EXE -->
@@ -736,7 +737,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <copy file="${build.dir}/doc/${app.name}-current.doc.pdf" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.pdf"/>
       <copy file="${build.dir}/doc/${app.name}-current.doc.html" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.html"/>
       <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.doc.zip" update="true">
-         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*,${app.name}-${version}-${release}.test.pdf"/>
+         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*,${app.name}-${version}-${release}.test.pdf, ${app.name}-current.test.pdf"/>
       </zip>
       <copy todir="${dist.community.dir}">
          <fileset dir="${build.dir}/doc" includes="${app.name}-current.doc.pdf" />
@@ -744,7 +745,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <delete quiet="true">
          <fileset dir="${build.dir}/doc" includes="${app.name}-${version}-${release}.doc.*" />
       </delete>      
-      <copy file="${output.doc.dir}/${app.name}-${version}-${release}.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />   
+      <copy file="${output.doc.dir}/${app.name}-current.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />   
       <copy todir="${dist.internal.dir}">
          <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
          <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
@@ -807,7 +808,7 @@ make distributions       - Builds and configures TWE with all documentations and
       <property name="dist.folder" value="${dist.community.dir}" />
       <property name="name.additional" value=""/>
       <tar destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.tar.gz" compression="gzip" longfile="gnu">
-         <tarfileset dir="${output.dir}/${app.name}-${version}-${release}" mode="666" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf" prefix="${app.name}-${name.additional}${version}-${release}">
+         <tarfileset dir="${output.dir}/${app.name}-${version}-${release}" mode="666" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf,**/doc/${app.name}-current.test.pdf" prefix="${app.name}-${name.additional}${version}-${release}">
          </tarfileset>
       </tar>
       <chmod file="${dist.folder}/${app.name}-${name.additional}${version}-${release}.tar.gz" perm="ugo+rw"/>

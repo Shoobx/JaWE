@@ -292,7 +292,7 @@ Section "Install" Install
   File /r "${TWE_DIR}\bin"
   File /r "${TWE_DIR}\config"
   File /r "${TWE_DIR}\dist"
-  File /r /x api "${TWE_DIR}\doc"
+  File /r /x api /x *.test.pdf "${TWE_DIR}\doc"
   File /r "${TWE_DIR}\examples"
   File /r "${TWE_DIR}\lib"
   File /r "${TWE_DIR}\licenses"

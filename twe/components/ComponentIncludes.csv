@@ -1,5 +1,3 @@
-trr,trr
-txm,txm
 tec,ant
 tec,antcontrib
 tec,avalon-framework
@@ -8,6 +6,7 @@ tec,commons-io
 tec,commons-logging
 tec,docbook-dtd
 tec,docbook-xsl
+tds,docbook-xsl-fo
 tec,fop
 tec,itext5
 tec,javahelp
@@ -15,6 +14,9 @@ tec,jeditsyntax
 tec,jgraph
 tec,jna
 tec,nsis
+tds,tds
+trr,trr
+txm,txm
 tec,xalan
 txm,xerces
 txm,xml-commons

@@ -97,6 +97,27 @@
             <include name="*.jar" />
          </fileset>
       </path>
+   	
+	<path id="fop-classpath">
+		<fileset dir="${tools.dir}/avalon-framework">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/batik">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/commons-io">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/commons-logging">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/fop">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/xmlgraphics-commons">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
 
       <property name="docbook.fo.xsl" location="${tools.dir}/docbook-xsl-fo/docbookx.xsl" />
       <property name="docbook.pdf.classpath" location="${fop.lib.dir}/fop.jar${path.separator}${tools.dir}/batik/batik.jar${path.separator}${tools.dir}/avalon-framework/avalon-framework.jar${path.separator}${tools.dir}/commons-io/commons-io.jar${path.separator}${tools.dir}/xmlgraphics-commons/xmlgraphics-commons.jar${path.separator}${tools.dir}/commons-logging/commons-logging.jar" />
@@ -133,10 +154,13 @@
    <!-- ==================================================================== -->
    <!-- Content output                                                       -->
    <!-- ==================================================================== -->
-   <target name="content" depends="prepare">
+	<target name="content" depends="prepare">
       <copy todir="${tmp.dir}/Images">
          <fileset dir="${doc.dir}/Images" />
       </copy>
+		<copy todir="${tmp.dir}/Images/templates">
+			<fileset dir="${tools.dir}/tds" includes="*.jpg" />
+		</copy>
    </target>
 
    <!-- ==================================================================== -->
@@ -198,33 +222,48 @@
          </then>
       </if>
    </target>
+	
+	<target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
+		<echo message="compile docbook with javahelp.xsl" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param ignore.image.scaling 1" />
+			<arg line="-xsl '${docbook.xsl.dir}/xsl/javahelp/javahelp.xsl'" />
+			<arg line="-in '${docbook.name}.xml'" />
+		</java>
+		<replace file="${tmp.dir}/jhelptoc.xml" token="text=&quot;&quot;" value="text=&quot;${doc.title}&quot;" />
+		
+		<echo message="compile docbook with chunk.xsl" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param ignore.image.scaling 1" />
+			<arg line="-xsl '${docbook.xsl.dir}/xsl/html/chunk.xsl'" />
+			<arg line="-in '${docbook.name}.xml'" />
+			<arg line="-out '${app.name}-current.doc.html'" />
+		</java>
+		
+		<echo message="compile docbook with docbook.xsl" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param ignore.image.scaling 1" />
+			<arg line="-xsl '${docbook.xsl.dir}/xsl/html/docbook.xsl'" />
+			<arg line="-in '${docbook.name}.xml'" />
+			<arg line="-out '${app.name}-current.doc.html'" />
+		</java>
 
-   <target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
-      <echo message="compile docbook with javahelp.xsl" />
-      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true">
-         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -in '${docbook.name}.xml' -xsl '${docbook.xsl.dir}/xsl/javahelp/javahelp.xsl'" />
-      </java>
-      <replace file="${tmp.dir}/jhelptoc.xml" token="text=&quot;&quot;" value="text=&quot;${doc.title}&quot;" />
-      <echo message="compile docbook with chunk.xsl" />
-      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${app.name}-current.doc.html' -in '${docbook.name}.xml' -xsl '${docbook.xsl.dir}/xsl/html/chunk.xsl'" />
-      </java>
-
-      <echo message="compile docbook with docbook.xsl" />
-      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-         <arg line="-param html.stylesheet html.css -param ignore.image.scaling 1 -out '${app.name}-current.doc.html' -in '${docbook.name}.xml' -xsl '${docbook.xsl.dir}/xsl/html/docbook.xsl'" />
-      </java>
-
-      <echo message="docbook to ${docbook.name}.fo" />
-      <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-         <arg line="-param html.stylesheet html.css 
-                    -param body.start.indent 0pt 
-                    -param ulink.footnotes 1 
-                    -param paper.type A4
-                    -out '${docbook.name}.fo' 
-                    -in '${docbook.name}.xml' 
-                    -xsl '${docbook.fo.xsl}'" />
-                    <!-- 
+		<echo message="docbook to ${docbook.name}.fo" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param section.autolabel 1" />
+			<arg line="-param section.label.includes.component.label 1 " />
+			<arg line="-param section.autolabel.max.depth 8" />
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param body.start.indent 0pt" />
+			<arg line="-param ulink.footnotes 1" />
+			<arg line="-param paper.type A4" />
+			<arg line="-xsl '${docbook.fo.xsl}'" />
+			<arg line="-in '${docbook.name}.xml'" />
+			<arg line="-out '${docbook.name}.fo'" />
+			<!-- 
                     -param page.margin.inner 0.5in 
                     -param page.margin.outer 0.5in 
                     -param page.margin.top 0.1in 
@@ -234,32 +273,36 @@
                     -param page.margin.bottom 0.1in 
                     -param body.margin.bottom 0.2in 
                     -->
-      </java>
-	  
-	<!--ADD-->
-	  <replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />   
-	  <replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@buildid@"  value="V.${version}-${release} - ${build.timestamp}" />
-	<!--/ADD-->		  
+		</java>
+		<!--ADD-->
+		<replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />   
+		<replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@buildid@"  value="Version: ${version}-${release} - ${build.timestamp}" />
+		<!--/ADD-->		  
 
-      <echo message="docbook to PDF  ${tmp.dir}/${docbook.name}.xml" />
-      <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+		<echo message="docbook to PDF ${tmp.dir}/${docbook.name}.xml" />
+      <!--exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
          <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${app.name}-current.doc.pdf'" />
-      </exec>
-      <!--antcall target="generate-pdf" inheritall="true" inheritrefs="true" /-->
-
-      <delete file="${tmp.dir}/${docbook.name}.fo" quiet="true" />
-      <delete file="${tmp.dir}/${docbook.name}.xml" quiet="true" />
-
-
-      <echo message="docbook to ${testcase.name}.fo" />
-         <java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" fork="true" dir="${tmp.dir}">
-            <arg line="-param html.stylesheet html.css 
-                       -param body.start.indent 0pt 
-                       -param ulink.footnotes 1 
-                       -param paper.type A4                       
-                       -out '${testcase.name}.fo' 
-                       -in '${testcase.name}.xml' 
-                       -xsl '${docbook.fo.xsl}'" />
+      </exec-->
+		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
+			<arg line="-c ${tools.dir}/fop/userconfig.xml" />
+			<arg line="-fo '${docbook.name}.fo'" />
+			<arg line="-pdf '${app.name}-current.doc.pdf'" />
+		</java>
+		<delete file="${tmp.dir}/${docbook.name}.fo" quiet="true" />
+		<delete file="${tmp.dir}/${docbook.name}.xml" quiet="true" />
+		
+		<echo message="docbook to ${testcase.name}.fo" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param section.autolabel 1" />
+			<arg line="-param section.label.includes.component.label 1 " />
+			<arg line="-param section.autolabel.max.depth 8" />
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param body.start.indent 0pt" />
+			<arg line="-param ulink.footnotes 1" />
+			<arg line="-param paper.type A4" />
+			<arg line="-xsl '${docbook.fo.xsl}'" />
+			<arg line="-in '${testcase.name}.xml'" />
+			<arg line="-out '${testcase.name}.fo'" />
                        <!-- 
                        -param page.margin.inner 0.5in 
                        -param page.margin.outer 0.5in 
@@ -270,23 +313,25 @@
                        -param page.margin.bottom 0.1in 
                        -param body.margin.bottom 0.2in 
                        -->
-         </java>
-		 
-	<!--ADD-->
-	  <replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />   
-	  <replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@buildid@"  value="V.${version}-${release} - ${build.timestamp}" />
-	<!--/ADD-->	
+		</java>
+		<!--ADD-->
+		<replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />
+		<replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@buildid@" value="Version: ${version}-${release} - ${build.timestamp}" />
+		<!--/ADD-->	
 
-      <echo message="docbook to PDF  ${tmp.dir}/${testcase.name}.xml" />
-      <exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+		<echo message="docbook to PDF ${tmp.dir}/${testcase.name}.xml" />
+      <!--exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
          <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${testcase.name}.fo' '${app.name}-${version}-${release}.test.pdf'" />
-      </exec>
-      <!--antcall target="generate-pdf" inheritall="true" inheritrefs="true" /-->
-
-      <delete file="${tmp.dir}/${testcase.name}.fo" quiet="true" />
-      <delete file="${tmp.dir}/${testcase.name}.xml" quiet="true" />
-      
-   </target>
+      </exec-->
+		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
+			<arg line="-c ${tools.dir}/fop/userconfig.xml" />
+			<arg line="-fo '${testcase.name}.fo'" />
+			<arg line="-pdf '${app.name}-current.test.pdf'" />
+		</java>
+		
+		<delete file="${tmp.dir}/${testcase.name}.fo" quiet="true" />
+		<delete file="${tmp.dir}/${testcase.name}.xml" quiet="true" />
+	</target>
 
    <target name="generate-pdf" description="Generates a single PDF file">
       <fop format="application/pdf" fofile="${tmp.dir}/${docbook.name}.fo" outfile="${tmp.dir}/${app.name}-current.doc.pdf" logfiles="log.txt" />
