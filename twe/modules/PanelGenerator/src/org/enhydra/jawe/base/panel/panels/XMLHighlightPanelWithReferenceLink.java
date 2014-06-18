@@ -59,7 +59,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
    private static Dimension refButDimension = new Dimension(25, 20);
 
-   protected XMLMultiLineHighlightPanelWithChoiceButton panel;
+   protected XMLMultiLineTextPanelWithOptionalChoiceButtons panel;
 
    protected JButton jb;
 
@@ -143,7 +143,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       if (!scriptType.equals("")) {
          ext = Utils.getFileExtension(scriptType);
       }
-      panel = new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
+      panel = new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                              myOwner,
                                                              myOwner.toName(),
                                                              false,
@@ -160,15 +160,15 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       panel.setAlignmentX(Component.LEFT_ALIGNMENT);
       panel.setAlignmentY(Component.TOP_ALIGNMENT);
       panel.setEnabled(isEnabled && panelEnabled);
-      Iterator it = participants.iterator();
-      while (it.hasNext()) {
-         XMLElement el = ((XMLElement) it.next());
-         if (!(el instanceof XMLEmptyChoiceElement)) {
-            scriptType = XMLUtil.getPackage(el).getScript().getType();
-            panel.setHighlightScript(scriptType);
-            break;
-         }
-      }
+//      Iterator it = participants.iterator();
+//      while (it.hasNext()) {
+//         XMLElement el = ((XMLElement) it.next());
+//         if (!(el instanceof XMLEmptyChoiceElement)) {
+//            scriptType = XMLUtil.getPackage(el).getScript().getType();
+//            panel.setHighlightScript(scriptType);
+//            break;
+//         }
+//      }
 
       if (isEditable) {
          panel.jta.addCaretListener(new CaretListener() {
@@ -303,10 +303,6 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
             myOwner.setValue(sel.toString());
          }
       }
-   }
-
-   public JEditTextArea getEditTextArea() {
-      return panel.jta;
    }
 
    public Object getInsertedText() {

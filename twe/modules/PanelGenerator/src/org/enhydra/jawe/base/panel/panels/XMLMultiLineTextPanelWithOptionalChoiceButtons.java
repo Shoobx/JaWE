@@ -21,36 +21,47 @@ package org.enhydra.jawe.base.panel.panels;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
 
 /**
  * Creates panel with JLabel and JTextArea.
  * 
  * @author Sasa Bojanic
  */
-public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPanel implements
-                                                                                 XMLAppendChoiceInterface {
+public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPanel implements XMLAppendChoiceInterface {
 
    protected JTextArea jta;
 
    protected JLabel jl;
 
+   protected JPanel jspAndOpt;
+   
    protected boolean falseRequiredForCC = false;
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
@@ -61,17 +72,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          boolean isEnabled,
                                                          List<List> choices,
                                                          List<String> chTooltips) {
-      this(pc,
-           myOwner,
-           myOwner.toName(),
-           myOwner.isRequired(),
-           isVertical,
-           noOfLines,
-           wrapLines,
-           choices,
-           chTooltips,
-           isEnabled,
-           null);
+      this(pc, myOwner, myOwner.toName(), myOwner.isRequired(), isVertical, noOfLines, wrapLines, choices, chTooltips, isEnabled, null);
    }
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
@@ -85,6 +86,22 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          List<String> chTooltips,
                                                          boolean isEnabled,
                                                          String tooltip) {
+      this(pc, myOwner, labelKey, isFalseRequired, isVertical, type, wrapLines, choices, chTooltips, isEnabled, null, tooltip, null);
+   }
+
+   public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
+                                                         XMLElement myOwner,
+                                                         String labelKey,
+                                                         boolean isFalseRequired,
+                                                         boolean isVertical,
+                                                         int type,
+                                                         boolean wrapLines,
+                                                         List<List> choices,
+                                                         List<String> chTooltips,
+                                                         boolean isEnabled,
+                                                         String initText,
+                                                         String tooltip,
+                                                         final String extension) {
 
       super(pc, myOwner, "", false, false, true, tooltip);
 
@@ -124,14 +141,18 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
          jl.setHorizontalAlignment(SwingConstants.LEFT);
       }
 
-      JPanel jspAndOpt = new JPanel();
+      jspAndOpt = new JPanel();
       jspAndOpt.setLayout(new BoxLayout(jspAndOpt, BoxLayout.X_AXIS));
       jspAndOpt.setAlignmentX(Component.LEFT_ALIGNMENT);
       jspAndOpt.setAlignmentY(Component.TOP_ALIGNMENT);
       jta = new JTextArea();
 
       jta.setTabSize(4);
-      jta.setText(myOwner.toValue());
+      if (initText!=null) {
+         jta.setText(initText);
+      } else {
+         jta.setText(myOwner.toValue());
+      }
       jta.getCaret().setDot(0);
       jta.setLineWrap(wrapLines);
       jta.setWrapStyleWord(wrapLines);
@@ -155,10 +176,10 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
 
       jspAndOpt.add(jsp);
       if (choices != null) {
-         for (int i=0; i<choices.size(); i++) {
+         for (int i = 0; i < choices.size(); i++) {
             List list = choices.get(i);
             String chTooltip = null;
-            if (chTooltips!=null && chTooltips.size()>=i) {
+            if (chTooltips != null && chTooltips.size() >= i) {
                chTooltip = chTooltips.get(i);
             }
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
@@ -181,10 +202,81 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
          }
       }
 
+      if (extension != null) {
+         final String appName = Utils.getAppForExtension(extension);
+         Dimension fileButtonDimension = new Dimension(20, 20);
+         ImageIcon ii = new ImageIcon(this.getClass().getClassLoader().getResource("org/enhydra/jawe/images/edit.png"));
+         JButton jb = new JButton(ii);
+         jb.setBorderPainted(false);
+         jb.setAlignmentX(Component.LEFT_ALIGNMENT);
+         jb.setAlignmentY(Component.TOP_ALIGNMENT);
+         jb.setMinimumSize(new Dimension(fileButtonDimension));
+         jb.setMaximumSize(new Dimension(fileButtonDimension));
+         jb.setPreferredSize(new Dimension(fileButtonDimension));
+         jb.setContentAreaFilled(false);
+         jb.setEnabled(appName != null);
+         jb.setToolTipText(getPanelContainer().getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip"));
+
+         jb.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+               PanelContainer pc = getPanelContainer();
+               String dirName = JaWEConstants.JAWE_USER_HOME + "/tmp";
+               new File(dirName).mkdirs();
+               String filename = dirName + "/tmp-" + System.currentTimeMillis() + (extension != null ? ("." + extension) : "");
+               OutputStream os = null;
+               try {
+                  os = new FileOutputStream(filename);
+                  os.write(jta.getText().getBytes());
+                  os.flush();
+               } catch (Exception ex) {
+                  XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
+                     .getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey"));
+                  ex.printStackTrace();
+                  return;
+               } finally {
+                  if (os != null) {
+                     try {
+                        os.close();
+                     } catch (Exception ex) {
+                     }
+                  }
+               }
+               File f = new File(filename);
+               try {
+                  String execName = appName + " " + filename;
+                  Runtime rt = Runtime.getRuntime();
+                  Process prc = rt.exec(execName);
+                  long t1 = System.currentTimeMillis();
+                  prc.waitFor();
+                  long t2 = System.currentTimeMillis();
+                  String fc = XMLUtil.fileToString(filename);
+                  boolean nochange = jta.getText().equals(fc);
+                  if ((t2 - t1) < 2500 && nochange) {
+                     f.delete();
+                     XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
+                        .getLanguageDependentString("ApplicationDidntOpenCorrectlyKey"));
+                  } else {
+                     if (!nochange) {
+                        jta.setText(fc);
+                        pc.panelChanged(p, null);
+                     }
+                     jta.requestFocus();
+                     f.delete();
+                  }
+               } catch (Exception ex) {
+                  XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
+                     .getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey"));
+                  ex.printStackTrace();
+               }
+            }
+         });
+
+         jspAndOpt.add(jb);
+      }
       jsp.setViewportView(jta);
       jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
       jsp.setAlignmentY(Component.TOP_ALIGNMENT);
-      
+
       double scale = 1.3;
       if (type <= 0) {
          type = 1;
@@ -196,9 +288,9 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
       }
 
       int fm = (int) (getFontMetrics(getFont()).getHeight() * scale);
-      Dimension dim = new Dimension(700, fm * type);
-//      jta.setMinimumSize(new Dimension(dim.width - 5, dim.height - 5));
-//      jta.setPreferredSize(new Dimension(dim.width - 5, dim.height - 5));
+      Dimension dim = new Dimension(600, fm * type);
+      // jta.setMinimumSize(new Dimension(dim.width - 5, dim.height - 5));
+      // jta.setPreferredSize(new Dimension(dim.width - 5, dim.height - 5));
 
       jsp.setMinimumSize(dim);
       jsp.setPreferredSize(dim);
@@ -227,8 +319,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
    }
 
    public boolean validateEntry() {
-      if (isEmpty()
-          && getOwner().isRequired() && falseRequiredForCC && !getOwner().isReadOnly()) {
+      if (isEmpty() && getOwner().isRequired() && falseRequiredForCC && !getOwner().isReadOnly()) {
          // TODO CHECK THIS
          XMLBasicPanel.defaultErrorMessage(this.getWindow(), jl.getText());
          jta.requestFocus();

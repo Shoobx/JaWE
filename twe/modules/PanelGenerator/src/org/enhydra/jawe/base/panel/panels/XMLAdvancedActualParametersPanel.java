@@ -159,19 +159,19 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                if (!scriptType.equals("")) {
                   ext = Utils.getFileExtension(scriptType);
                }
-               toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
-                                                                         ap,
-                                                                         "Expression",
-                                                                         false,
-                                                                         true,
-                                                                         noOfLines,
-                                                                         false,
-                                                                         ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap),
-                                                                         ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesTooltips(ap),
-                                                                         JaWEManager.getInstance().getJaWEController().canModifyElement(ap),
-                                                                         null,
-                                                                         null,
-                                                                         ext));
+               toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                             ap,
+                                                                             "Expression",
+                                                                             false,
+                                                                             true,
+                                                                             noOfLines,
+                                                                             false,
+                                                                             ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap),
+                                                                             ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesTooltips(ap),
+                                                                             JaWEManager.getInstance().getJaWEController().canModifyElement(ap),
+                                                                             null,
+                                                                             null,
+                                                                             ext));
                p = new XMLGroupPanel(getPanelContainer(),
                                      ap,
                                      toShow,

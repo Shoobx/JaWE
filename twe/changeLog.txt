@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-06-18 Sasa Bojanic <sasaboy@together.at>
+   # Improved GUI
+
 2014-06-10 Sasa Bojanic <sasaboy@together.at>
    # Added possibility to edit expressions in external editor application (new documentation section "Property file appsforextensions.properties" describes this feature)
    # Now XPDL is not marked as "Not saved" in the case opened XPDL has different value for JaWE_CONFIGURATION extended attribute of package

@@ -46,6 +46,7 @@ import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
+import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jawe.shark.business.DeadlineHandlerConfigurationElement;
@@ -1173,19 +1174,19 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          } else if (taName.equals(SharkConstants.TOOL_AGENT_JAVASCRIPT)) {
             ext = "js";
          }
-         return new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
-                                                               el,
-                                                               "Script",
-                                                               false,
-                                                               true,
-                                                               noOfLines,
-                                                               false,
-                                                               prepareExpressionChoices(el.getParent().getParent()),
-                                                               prepareExpressionChoicesTooltips(el.getParent().getParent()),
-                                                               JaWEManager.getInstance().getJaWEController().canModifyElement(el),
-                                                               null,
-                                                               null,
-                                                               ext);
+         return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                   el,
+                                                                   "Script",
+                                                                   false,
+                                                                   true,
+                                                                   noOfLines,
+                                                                   false,
+                                                                   prepareExpressionChoices(el.getParent().getParent()),
+                                                                   prepareExpressionChoicesTooltips(el.getParent().getParent()),
+                                                                   JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                                                   null,
+                                                                   null,
+                                                                   ext);
       } else if ((el.getParent() instanceof ExtendedAttribute
                   && ((ExtendedAttribute) el.getParent()).getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS)
                   && el.getParent().getParent().getParent() instanceof Application && el.toName().equals("Value"))

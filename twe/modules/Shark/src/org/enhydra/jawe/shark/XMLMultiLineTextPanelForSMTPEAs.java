@@ -84,7 +84,9 @@ public class XMLMultiLineTextPanelForSMTPEAs extends
             choices,
             chTooltips,
             isEnabled,
-            tooltip);
+            null,
+            tooltip,
+            "txt");
       this.sysVariablesChoices = choices.get(0);
       this.configStringChoices = choices.get(2);
       this.xpdlStringChoices = choices.get(3);

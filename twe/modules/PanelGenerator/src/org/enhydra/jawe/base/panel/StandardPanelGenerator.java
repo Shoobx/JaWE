@@ -1071,7 +1071,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       mc,
                                                                       getBasicExpressionChoicesTooltips(el),
                                                                       JaWEManager.getInstance().getJaWEController().canModifyElement(el),
-                                                                      null);
+                                                                      null,
+                                                                      null,
+                                                                      "txt");
          } else {
             return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                       el,
@@ -1083,7 +1085,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       null,
                                                                       null,
                                                                       JaWEManager.getInstance().getJaWEController().canModifyElement(el),
-                                                                      null);
+                                                                      null,
+                                                                      null,
+                                                                      "txt");
          }
       }
       if (el.getParent() instanceof BlockActivity) {
@@ -1423,19 +1427,19 @@ public class StandardPanelGenerator implements PanelGenerator {
             ext = Utils.getFileExtension(scriptType);
          }
 
-         toShow.add(new XMLMultiLineHighlightPanelWithChoiceButton(getPanelContainer(),
-                                                                   cel,
-                                                                   "Expression",
-                                                                   false,
-                                                                   true,
-                                                                   noOfLines,
-                                                                   false,
-                                                                   prepareExpressionChoices(cel),
-                                                                   prepareExpressionChoicesTooltips(cel),
-                                                                   JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
-                                                                   null,
-                                                                   null,
-                                                                   ext));
+         toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                       cel,
+                                                                       "Expression",
+                                                                       false,
+                                                                       true,
+                                                                       noOfLines,
+                                                                       false,
+                                                                       prepareExpressionChoices(cel),
+                                                                       prepareExpressionChoicesTooltips(cel),
+                                                                       JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
+                                                                       null,
+                                                                       null,
+                                                                       ext));
       } else if (cel instanceof ExtendedAttribute) {
          XMLElement holder = cel.getParent().getParent();
          if ((holder instanceof Application && ((Application) holder).getApplicationTypes().getChoosen() instanceof FormalParameters)
@@ -1452,7 +1456,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           mc,
                                                                           getBasicExpressionChoicesTooltips(holder),
                                                                           JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
-                                                                          null));
+                                                                          null,
+                                                                          null,
+                                                                          "txt"));
 
          } else {
             toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
@@ -1465,7 +1471,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           null,
                                                                           null,
                                                                           JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
-                                                                          null));
+                                                                          null,
+                                                                          null,
+                                                                          "txt"));
          }
       } else if (cel instanceof SchemaType) {
          toShow.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
