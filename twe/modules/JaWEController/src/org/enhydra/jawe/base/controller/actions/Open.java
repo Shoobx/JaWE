@@ -42,9 +42,9 @@ public class Open extends ActionBase {
    public void actionPerformed(ActionEvent e) {
       JaWEController jc=JaWEManager.getInstance().getJaWEController();
       String fn=jc.getPackageFilename(jc.getMainPackageId());
+      String name = jc.openDialog(jc.getSettings().getLanguageDependentString("Open" + BarFactory.LABEL_POSTFIX),fn);
+      if (name==null) return;
       if (jc.tryToClosePackage(jc.getMainPackageId(), false)) {
-         String name = jc.openDialog(jc.getSettings().getLanguageDependentString("Open" + BarFactory.LABEL_POSTFIX),fn);
-         if (name==null) return;
          jc.openPackageFromFile(name);
       }
       

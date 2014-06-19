@@ -10411,6 +10411,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Improved Open (new XPDL file) action to work in a standard
+          way</para>
+        </listitem>
+
+        <listitem>
           <para>Linux tar.gz distributions now built under windows</para>
         </listitem>
 

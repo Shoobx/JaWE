@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-06-19 Sasa Bojanic <sasaboy@together.at>
+   # Improved Open (new XPDL file) action to work in a standard way
+
 2014-06-18 Sasa Bojanic <sasaboy@together.at>
    # Improved GUI
 
