@@ -69,8 +69,7 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
                 .getType()
                 .equals(XPDLConstants.CONDITION_TYPE_DEFAULTEXCEPTION)) {
             am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_LINE);
-         }
-         if (t.getCondition().getType().equals(XPDLConstants.CONDITION_TYPE_CONDITION) || !t.getCondition().toValue().equals("")) {
+         } else if (t.getCondition().getType().equals(XPDLConstants.CONDITION_TYPE_CONDITION) || t.getCondition().getType().equals(XPDLConstants.CONDITION_TYPE_EXCEPTION)|| !t.getCondition().toValue().equals("")) {
             Activity from = XMLUtil.getFromActivity(t);
             if (from != null
                 && from.getActivityType() != XPDLConstants.ACTIVITY_TYPE_ROUTE) {
@@ -78,6 +77,8 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
                am.put(GraphConstants.BEGINFILL, false);
                am.put(GraphConstants.BEGINSIZE, 11);
             }
+         } else {
+            am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_NONE);                        
          }
       } else {
          am.put(GraphConstants.DASHPATTERN, new float[] {

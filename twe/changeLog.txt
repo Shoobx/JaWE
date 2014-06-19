@@ -1,7 +1,8 @@
 ###### TWE 5.1-1 RELEASED ######
 2014-06-19 Sasa Bojanic <sasaboy@together.at>
    # Improved Open (new XPDL file) action to work in a standard way
-
+   # Fix: Now properly rendering transition's diamond on the tail (it was not properly rendered when transition expression was set and then removed)
+   
 2014-06-18 Sasa Bojanic <sasaboy@together.at>
    # Improved GUI
 
