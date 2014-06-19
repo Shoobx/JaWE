@@ -91,6 +91,7 @@ public class XMLElementView {
          if (ret == null) {
             ret = this.element.toName();
          }
+         if (ret.equals("")) ret=" ";
          return ret;
          // if (pc!=null) {
          //
@@ -124,6 +125,7 @@ public class XMLElementView {
       } else {
          toRet = elementString;
       }
+      if (toRet.equals("")) toRet=" ";
       return toRet;
 
    }
