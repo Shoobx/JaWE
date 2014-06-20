@@ -2747,13 +2747,6 @@
 	  <fo:block xsl:use-attribute-sets="page.header.label">
 		<!-- sequence can be odd, even, first, blank -->
 		<!-- position can be left, center, right -->
-		
-	<!--
-		<xsl:attribute name="color">white</xsl:attribute>
-		<xsl:attribute name="text-indent">0.8in</xsl:attribute>
-		<xsl:attribute name="font-family">Calibri,sans-serif,Symbol,ZapfDingbats</xsl:attribute>
-		<xsl:attribute name="margin-bottom">0.25in</xsl:attribute>
-	-->
 		<xsl:choose>
 		  <xsl:when test="$sequence = 'odd' and $position = 'left'">
 			<xsl:value-of 

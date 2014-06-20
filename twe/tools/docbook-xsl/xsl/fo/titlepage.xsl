@@ -24,8 +24,6 @@
   <xsl:attribute name="text-align">center</xsl:attribute>
 </xsl:attribute-set>
 
-<xsl:attribute-set name="book.titlepage.recto.content.style"/>
-
 <xsl:attribute-set name="book.titlepage.verso.style">
   <xsl:attribute name="font-size">10pt</xsl:attribute>
 </xsl:attribute-set>
@@ -166,7 +164,6 @@
                    use-attribute-sets="section.titlepage.verso.style"/>
 
 <xsl:attribute-set name="table.of.contents.titlepage.recto.style"/>
-
 <xsl:attribute-set name="table.of.contents.titlepage.verso.style"/>
 
 <xsl:attribute-set name="list.of.tables.titlepage.recto.style"/>
