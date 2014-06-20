@@ -505,7 +505,7 @@ public class Graph extends JGraph {
       setAutoscrolls(true);
       selectionModel.setSelectionMode(GraphSelectionModel.MULTIPLE_GRAPH_SELECTION);
       refreshGraphConfiguration();
-
+      setEdgeLabelsMovable(true);
    }
 
    public void refreshGraphConfiguration() {

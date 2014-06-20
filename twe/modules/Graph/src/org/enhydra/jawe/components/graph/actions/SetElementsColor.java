@@ -86,7 +86,7 @@ public class SetElementsColor extends ActionBase {
             } else if (cell[i] instanceof GraphTransitionInterface) {
                ConnectorGraphicsInfo cgi = JaWEManager.getInstance()
                   .getXPDLUtils()
-                  .getConnectorGraphicsInfo((XMLCollectionElement) ((WorkflowElement) cell[i]).getPropertyObject());
+                  .getConnectorGraphicsInfo((XMLCollectionElement) ((WorkflowElement) cell[i]).getPropertyObject(), false);
                fc = cgi.get("FillColor");
             }
             els2edit.add(fc);

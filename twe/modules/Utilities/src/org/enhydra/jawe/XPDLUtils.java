@@ -81,15 +81,12 @@ public class XPDLUtils {
    }
 
    public List getReferences(XMLComplexElement pkgOrWpOrEAsParent, XMLComplexElement referenced) {
-      return getReferences(pkgOrWpOrEAsParent, referenced, JaWEManager.getInstance()
-         .getXPDLHandler());
+      return getReferences(pkgOrWpOrEAsParent, referenced, JaWEManager.getInstance().getXPDLHandler());
    }
 
-   public List getReferences(XMLComplexElement pkgOrWpOrEAsParent,
-                             XMLComplexElement referenced,
-                             XMLInterface xmli) {
+   public List getReferences(XMLComplexElement pkgOrWpOrEAsParent, XMLComplexElement referenced, XMLInterface xmli) {
       if (referenced instanceof ExtendedAttribute) {
-         return getReferences(pkgOrWpOrEAsParent, (ExtendedAttribute) referenced);                  
+         return getReferences(pkgOrWpOrEAsParent, (ExtendedAttribute) referenced);
       } else if (pkgOrWpOrEAsParent instanceof Package) {
          return getReferences((Package) pkgOrWpOrEAsParent, referenced, xmli);
       } else if (pkgOrWpOrEAsParent instanceof WorkflowProcess) {
@@ -152,7 +149,7 @@ public class XPDLUtils {
    public List getReferences(XMLComplexElement eaparent, ExtendedAttribute referenced) {
       return new ArrayList();
    }
-   
+
    public List getExtendedAttributeReferences(XMLComplexElement eaparent, ExtendedAttribute ea, String referencedName) {
       return new ArrayList();
    }
@@ -345,50 +342,30 @@ public class XPDLUtils {
       return XMLUtil.correctSplitAndJoin(act);
    }
 
-   public void updateExtendedAttributeReferences(List refs,
-                                        String oldEAName,
-                                        String newEAName) {
+   public void updateExtendedAttributeReferences(List refs, String oldEAName, String newEAName) {
    }
-   
-   public void updateActivityReferences(List refsTrasToFrom,
-                                        String oldActId,
-                                        String newActId) {
+
+   public void updateActivityReferences(List refsTrasToFrom, String oldActId, String newActId) {
       XMLUtil.updateActivityReferences(refsTrasToFrom, oldActId, newActId);
    }
 
-   public void updateArtifactReferences(List refsAsocsTargetSource,
-                                        String oldArtId,
-                                        String newArtId) {
+   public void updateArtifactReferences(List refsAsocsTargetSource, String oldArtId, String newArtId) {
       XMLUtil.updateArtifactReferences(refsAsocsTargetSource, oldArtId, newArtId);
    }
 
-   public void updateActivityOnTransitionIdChange(Activities acts,
-                                                  String actFromId,
-                                                  String oldTraId,
-                                                  String newTraId) {
+   public void updateActivityOnTransitionIdChange(Activities acts, String actFromId, String oldTraId, String newTraId) {
       XMLUtil.updateActivityOnTransitionIdChange(acts, actFromId, oldTraId, newTraId);
    }
 
-   public void updateActivityOnTransitionIdChange(Activity act,
-                                                  String oldTraId,
-                                                  String newTraId) {
+   public void updateActivityOnTransitionIdChange(Activity act, String oldTraId, String newTraId) {
       XMLUtil.updateActivityOnTransitionIdChange(act, oldTraId, newTraId);
    }
 
-   public void updateActivitiesOnTransitionFromChange(Activities acts,
-                                                      String traId,
-                                                      String traOldFromId,
-                                                      String traNewFromId) {
-      XMLUtil.updateActivitiesOnTransitionFromChange(acts,
-                                                     traId,
-                                                     traOldFromId,
-                                                     traNewFromId);
+   public void updateActivitiesOnTransitionFromChange(Activities acts, String traId, String traOldFromId, String traNewFromId) {
+      XMLUtil.updateActivitiesOnTransitionFromChange(acts, traId, traOldFromId, traNewFromId);
    }
 
-   public void updateActivitiesOnTransitionToChange(Activities acts,
-                                                    String traId,
-                                                    String traOldToId,
-                                                    String traNewToId) {
+   public void updateActivitiesOnTransitionToChange(Activities acts, String traId, String traOldToId, String traNewToId) {
       XMLUtil.updateActivitiesOnTransitionFromChange(acts, traId, traOldToId, traNewToId);
    }
 
@@ -510,12 +487,8 @@ public class XPDLUtils {
       XMLUtil.updateActivitySetReferences(refBlocks, newAsId);
    }
 
-   public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlConds,
-                                        String oldDfOrFpId,
-                                        String newDfOrFpId) {
-      XMLUtil.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds,
-                                       oldDfOrFpId,
-                                       newDfOrFpId);
+   public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlConds, String oldDfOrFpId, String newDfOrFpId) {
+      XMLUtil.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds, oldDfOrFpId, newDfOrFpId);
    }
 
    public List getActivities(Package pkg, List types) {
@@ -531,13 +504,11 @@ public class XPDLUtils {
    }
 
    public SequencedHashMap getPossibleResponsibles(Responsibles resp, Responsible rsp) {
-      return XMLUtil.getPossibleResponsibles(resp, rsp, JaWEManager.getInstance()
-         .getXPDLHandler());
+      return XMLUtil.getPossibleResponsibles(resp, rsp, JaWEManager.getInstance().getXPDLHandler());
    }
 
    public boolean doesCrossreferenceExist(Package pkg) {
-      return XMLUtil.doesCrossreferenceExist(pkg, JaWEManager.getInstance()
-         .getXPDLHandler());
+      return XMLUtil.doesCrossreferenceExist(pkg, JaWEManager.getInstance().getXPDLHandler());
    }
 
    public Set getAllExtendedAttributeNames(XMLComplexElement cel, XPDLHandler xpdlh) {
@@ -556,68 +527,54 @@ public class XPDLUtils {
          Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
             WorkflowProcess wp = (WorkflowProcess) it.next();
-            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getActivities()
-               .toElements()));
+            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getActivities().toElements()));
 
             Iterator asets = wp.getActivitySets().toElements().iterator();
             while (asets.hasNext()) {
                ActivitySet as = (ActivitySet) asets.next();
-               extAttribNames.addAll(getAllExtendedAttributeNamesForElements(as.getActivities()
-                  .toElements()));
+               extAttribNames.addAll(getAllExtendedAttributeNamesForElements(as.getActivities().toElements()));
             }
          }
       } else if (cel instanceof Application) {
-         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getApplications()
-            .toElements()));
+         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getApplications().toElements()));
          Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
             WorkflowProcess wp = (WorkflowProcess) it.next();
-            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getApplications()
-               .toElements()));
+            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getApplications().toElements()));
          }
       } else if (cel instanceof DataField) {
-         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getDataFields()
-            .toElements()));
+         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getDataFields().toElements()));
          Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
             WorkflowProcess wp = (WorkflowProcess) it.next();
-            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getDataFields()
-               .toElements()));
+            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getDataFields().toElements()));
          }
       } else if (cel instanceof ExternalPackage) {
-         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getExternalPackages()
-            .toElements()));
+         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getExternalPackages().toElements()));
       } else if (cel instanceof Package) {
-         extAttribNames.addAll(getAllExtendedAttributeNames(pkg.getExtendedAttributes()
-            .toElements()));
+         extAttribNames.addAll(getAllExtendedAttributeNames(pkg.getExtendedAttributes().toElements()));
       } else if (cel instanceof Participant) {
-         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getParticipants()
-            .toElements()));
+         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getParticipants().toElements()));
          Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
             WorkflowProcess wp = (WorkflowProcess) it.next();
-            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getParticipants()
-               .toElements()));
+            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getParticipants().toElements()));
          }
       } else if (cel instanceof Transition) {
          Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
             WorkflowProcess wp = (WorkflowProcess) it.next();
-            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getTransitions()
-               .toElements()));
+            extAttribNames.addAll(getAllExtendedAttributeNamesForElements(wp.getTransitions().toElements()));
             Iterator asets = wp.getActivitySets().toElements().iterator();
             while (asets.hasNext()) {
                ActivitySet as = (ActivitySet) asets.next();
-               extAttribNames.addAll(getAllExtendedAttributeNamesForElements(as.getTransitions()
-                  .toElements()));
+               extAttribNames.addAll(getAllExtendedAttributeNamesForElements(as.getTransitions().toElements()));
             }
          }
       } else if (cel instanceof TypeDeclaration) {
-         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getTypeDeclarations()
-            .toElements()));
+         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getTypeDeclarations().toElements()));
       } else if (cel instanceof WorkflowProcess) {
-         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getWorkflowProcesses()
-            .toElements()));
+         extAttribNames.addAll(getAllExtendedAttributeNamesForElements(pkg.getWorkflowProcesses().toElements()));
       }
       return extAttribNames;
    }
@@ -644,22 +601,18 @@ public class XPDLUtils {
          }
          if (pp instanceof Package
              && (eaName.equals(JaWEEAHandler.EA_EDITING_TOOL)
-                 || eaName.equals(JaWEEAHandler.EA_EDITING_TOOL_VERSION)
-                 || eaName.equals(JaWEEAHandler.EA_JAWE_CONFIGURATION) || eaName.equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID))) {
+                 || eaName.equals(JaWEEAHandler.EA_EDITING_TOOL_VERSION) || eaName.equals(JaWEEAHandler.EA_JAWE_CONFIGURATION) || eaName.equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID))) {
             continue;
          }
          if (pp instanceof WorkflowProcess
              && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK))) {
+                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
+                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK))) {
             continue;
          }
-         if (pp instanceof Activity
-             && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID))) {
+         if (pp instanceof Activity && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID))) {
             continue;
          }
          if (pp instanceof Transition
@@ -672,8 +625,7 @@ public class XPDLUtils {
    }
 
    public NodeGraphicsInfo getNodeGraphicsInfo(XMLCollectionElement actOrArtif) {
-      Iterator it = ((NodeGraphicsInfos) actOrArtif.get("NodeGraphicsInfos")).toElements()
-         .iterator();
+      Iterator it = ((NodeGraphicsInfos) actOrArtif.get("NodeGraphicsInfos")).toElements().iterator();
       while (it.hasNext()) {
          NodeGraphicsInfo ngi = (NodeGraphicsInfo) it.next();
          if (ngi.getToolId().equals("JaWE")) {
@@ -691,12 +643,11 @@ public class XPDLUtils {
       return null;
    }
 
-   public ConnectorGraphicsInfo getConnectorGraphicsInfo(XMLCollectionElement tra) {
-      Iterator it = ((ConnectorGraphicsInfos) tra.get("ConnectorGraphicsInfos")).toElements()
-         .iterator();
+   public ConnectorGraphicsInfo getConnectorGraphicsInfo(XMLCollectionElement tra, boolean forLabel) {
+      Iterator it = ((ConnectorGraphicsInfos) tra.get("ConnectorGraphicsInfos")).toElements().iterator();
       while (it.hasNext()) {
          ConnectorGraphicsInfo cgi = (ConnectorGraphicsInfo) it.next();
-         if (cgi.getToolId().equals("JaWE")) {
+         if (cgi.getToolId().equals("JaWE") && (forLabel ? cgi.getStyle().equals("LABEL") : !cgi.getStyle().equals("LABEL"))) {
             return cgi;
          }
       }

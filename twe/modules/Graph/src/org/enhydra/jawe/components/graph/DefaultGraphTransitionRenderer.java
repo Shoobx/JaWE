@@ -199,7 +199,7 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
       XMLCollectionElement tOrA = (XMLCollectionElement) tr.getUserObject();
       ConnectorGraphicsInfo cgi = JaWEManager.getInstance()
          .getXPDLUtils()
-         .getConnectorGraphicsInfo(tOrA);
+         .getConnectorGraphicsInfo(tOrA, false);
       Color clr = null;
       if (cgi != null) {
          clr = Utils.getColor(cgi.getFillColor());

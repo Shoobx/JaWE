@@ -65,15 +65,32 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
     */
    public DefaultGraphTransitionView(Object cell) {
       super(cell);
-      int x = (GraphConstants.PERMILLE / 2);
-      int y = (GraphConstants.PERMILLE / 100);
-      Point center = new Point(x, y);
       AttributeMap map = new AttributeMap();
-      GraphConstants.setLabelPosition(map, center);
       GraphConstants.setAutoSize(map, true);
       this.setAttributes(map);
    }
 
+   protected void checkDefaultLabelPosition() {
+      GraphTransitionInterface tr = (GraphTransitionInterface) cell;
+      XMLCollectionElement tra = ((XMLCollectionElement) tr.getUserObject());
+      labelPosition = GraphConstants.getLabelPosition(allAttributes);
+      String label = tra instanceof Transition ? String.valueOf(((Transition)tra).getCondition().toValue()) : null;
+      if (labelPosition == null && label != null && label.length() > 0) {
+         Point lp = GraphUtilities.getLabelPosition(tra);
+         if (lp != null) {
+            labelPosition = lp;
+            Point offs = GraphUtilities.getLabelPositionOffset(tra);
+            if (offs!=null) {
+               GraphConstants.setOffset(allAttributes, GraphUtilities.getLabelPositionOffset(tra));
+            }
+         } else {
+            int center = GraphConstants.PERMILLE / 2;
+            labelPosition = new Point(center, GraphConstants.PERMILLE / 100);
+         }
+         GraphConstants.setLabelPosition(allAttributes, labelPosition);
+      }
+   }
+   
    public CellViewRenderer getRenderer() {
       String type = ((GraphTransitionInterface) super.getCell()).getType();
       GraphTransitionRendererInterface gtrenderer = (GraphTransitionRendererInterface) renderers.get(type);
@@ -108,8 +125,8 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
             for (int i = 0; i < getPointCount() - 1; i++) {
                Point p = new Point((int) getPoint(i).getX(), (int) getPoint(i).getY());// HM,
                // JGraph3.4.1
-               Point p1 = new Point((int) getPoint(i + 1).getX(),
-                                    (int) getPoint(i + 1).getY());// HM, JGraph3.4.1
+               Point p1 = new Point((int) getPoint(i + 1).getX(), (int) getPoint(i + 1).getY());// HM,
+                                                                                                // JGraph3.4.1
 
                // Point p = (Point) graph.snap(new Point((int) getPoint(i).getX(), (int)
                // getPoint(i).getY()));//HM, JGraph3.4.1
@@ -130,11 +147,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
                GraphConstants.setPoints(edgeMap, points);
                propertyMap.put(cell, edgeMap);
-               ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
-                                                                 propertyMap,
-                                                                 null,
-                                                                 null,
-                                                                 null);
+               ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
             }
          }
       }
@@ -172,11 +185,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                AttributeMap edgeMap = new AttributeMap(((GraphCell) cell).getAttributes());
                GraphConstants.setPoints(edgeMap, points);
                propertyMap.put(cell, edgeMap);
-               ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
-                                                                 propertyMap,
-                                                                 null,
-                                                                 null,
-                                                                 null);
+               ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
             }
          }
       }
@@ -260,9 +269,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                      ((Association) uo).setTarget(to);
                   }
                   if (from.equals(to)) {
-                     ConnectorGraphicsInfo bpea = JaWEManager.getInstance()
-                        .getXPDLUtils()
-                        .getConnectorGraphicsInfo(uo);
+                     ConnectorGraphicsInfo bpea = JaWEManager.getInstance().getXPDLUtils().getConnectorGraphicsInfo(uo, false);
                      if (bpea == null) {
                         GraphManager gmgr = ((Graph) graph).getGraphManager();
                         GraphActivityInterface gact = gmgr.getGraphActivity(from);
@@ -286,7 +293,10 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                         breakpoints.add(p1);
                         breakpoints.add(p2);
 
-                        GraphUtilities.createConnectorGraphicsInfo(uo, breakpoints, true);
+                        GraphUtilities.createConnectorGraphicsInfo(uo,
+                                                                   breakpoints,
+                                                                   GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_NO_ROUTING_SPLINE,
+                                                                   true);
                         Map propertyMap = new HashMap();
                         AttributeMap map = new AttributeMap(edge.getAttributes());
                         propertyMap.put(edge.getCell(), map);
@@ -298,11 +308,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                         points.add(pt);
                         // JaWEManager.getInstance().getLoggingManager().debug("Updating breakpoints for transition: "+points);
                         GraphConstants.setPoints(map, points);
-                        ((JaWEGraphModel) graph.getModel()).insertAndEdit(null,
-                                                                          propertyMap,
-                                                                          null,
-                                                                          null,
-                                                                          null);
+                        ((JaWEGraphModel) graph.getModel()).insertAndEdit(null, propertyMap, null, null, null);
                      }
 
                   }
@@ -313,6 +319,31 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                   graph.refresh();
                   ((Graph) graph).getGraphController().setUpdateInProgress(false);
                   return;
+               }
+            } else if (label) {
+               GraphTransitionInterface tr = (GraphTransitionInterface) edge.getCell();
+               XMLCollectionElement tra = (XMLCollectionElement)tr.getUserObject();
+               String label = null;
+               if (tra instanceof Transition) {
+                  label = String.valueOf(((Transition) tra).getCondition().toValue());
+               }
+               if (label != null && !label.equals("")) {
+                  Point2D labelPosition = GraphConstants.getLabelPosition(edge.getAllAttributes());
+                  Point2D absLP = ((DefaultGraphTransitionView) edge).getAbsoluteLabelPosition();
+                  Point clp = GraphUtilities.getLabelPosition(tra);
+                  if (clp==null || clp.getX()!=labelPosition.getX() || clp.getY()!=labelPosition.getY()) {
+                     JaWEController jc = JaWEManager.getInstance().getJaWEController();
+                     ((Graph) graph).getGraphController().setUpdateInProgress(true);
+                     jc.startUndouableChange();
+                     Point2D offset = GraphConstants.getOffset(edge.getAllAttributes());
+                     Point op = offset!=null ? new Point((int)offset.getX(),(int)offset.getY()) : null;
+                     GraphUtilities.setLabelPosition(tra, new Point((int) labelPosition.getX(), (int) labelPosition.getY()), op);
+                     List toSelect = new ArrayList();
+                     toSelect.add(tra);
+                     jc.endUndouableChange(toSelect);
+                     graph.refresh();
+                     ((Graph) graph).getGraphController().setUpdateInProgress(false);
+                  }
                }
             }
             setChanges();
@@ -335,11 +366,10 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
             int noOfPoints = edge.getPointCount();
             List pnts = new ArrayList();
             for (int i = 1; i < noOfPoints - 1; i++) {
-               pnts.add(new Point((int) edge.getPoint(i).getX(), (int) edge.getPoint(i)
-                  .getY()));// HM, JGraph3.4.1
+               pnts.add(new Point((int) edge.getPoint(i).getX(), (int) edge.getPoint(i).getY()));// HM,
+                                                                                                 // JGraph3.4.1
             }
-            GraphUtilities.setBreakpoints((XMLCollectionElement) ((GraphTransitionInterface) edge.getCell()).getPropertyObject(),
-                                          pnts);
+            GraphUtilities.setBreakpoints((XMLCollectionElement) ((GraphTransitionInterface) edge.getCell()).getPropertyObject(), pnts);
          }
          ConnectionSet cs = createConnectionSet(edge, false);
          Map nested = GraphConstants.createAttributes(new CellView[] {
@@ -377,8 +407,6 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
     * @return The renderer.
     */
    protected GraphTransitionRendererInterface createRenderer(XMLCollectionElement tra) {
-      return GraphUtilities.getGraphController()
-         .getGraphObjectRendererFactory()
-         .createTransitionRenderer(tra);
+      return GraphUtilities.getGraphController().getGraphObjectRendererFactory().createTransitionRenderer(tra);
    }
 }

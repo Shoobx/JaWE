@@ -116,7 +116,7 @@ public class SetToDefaultColor extends ActionBase {
                } else {
                   ConnectorGraphicsInfo cgi = JaWEManager.getInstance()
                      .getXPDLUtils()
-                     .getConnectorGraphicsInfo((XMLCollectionElement) el);
+                     .getConnectorGraphicsInfo((XMLCollectionElement) el, false);
                   if (cgi != null) {
                      cgi.setFillColor(String.valueOf(c.getRed())
                                       + "," + String.valueOf(c.getGreen()) + ","

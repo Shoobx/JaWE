@@ -71,9 +71,10 @@ public class GraphEAConstants {
    public static final String EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_BEZIER = "SIMPLE_ROUTING_BEZIER";
    public static final String EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_ORTHOGONAL = "SIMPLE_ROUTING_ORTHOGONAL";
    public static final String EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_SPLINE = "SIMPLE_ROUTING_SPLINE";
+   public static final String EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_LABEL = "LABEL";
    
    public static final String EA_JAWE_GRAPH_TRANSITION_STYLE_OLD = "RoutingType";
-   public static final String EA_JAWE_GRAPH_BREAK_POINTS_OLD = "BreakPoint";
+   public static final String EA_JAWE_GRAPH_BREAK_POINTS_OLD = "BreakPoint";   
    
    // ****** EXTENDED ATTRIBUTE PARTS
    public static final String EA_PART_ACTIVITY_SET_ID = "ACTIVITY_SET_ID";

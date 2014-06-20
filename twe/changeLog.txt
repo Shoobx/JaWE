@@ -1,6 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
 2014-06-20 Sasa Bojanic <sasaboy@together.at>
    # "CTRL +", "CTRL -" and "CTRL 1" key combination now can be used to "Zoom In", "Zoom Out" and "Make actual size" in the graph.
+   # Added possibility to position transition labels. Information stored in XPDL.
    
 2014-06-19 Sasa Bojanic <sasaboy@together.at>
    # Improved Open (new XPDL file) action to work in a standard way
