@@ -19,8 +19,11 @@
 package org.enhydra.jawe.components.graph;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,6 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.JViewport;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
 import org.enhydra.jawe.ActionBase;
@@ -129,6 +133,19 @@ public class GraphControllerPanel extends JPanel implements JaWEComponentView {
 		add(toolbars,BorderLayout.NORTH);
 		//      add(wp,BorderLayout.CENTER);
 		add(graphScrollPane,BorderLayout.CENTER);
+		
+      getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control 1"), "ActualSize");
+      getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control NUMPAD1"), "ActualSize");
+      getActionMap().put("ActualSize", controller.getSettings().getAction("ActualSize").getAction());
+
+      getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control shift EQUALS"), "ZoomIn");
+      getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control ADD"), "ZoomIn");
+      getActionMap().put("ZoomIn", controller.getSettings().getAction("ZoomIn").getAction());
+
+      getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control MINUS"), "ZoomOut");
+      getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control SUBTRACT"), "ZoomOut");
+      getActionMap().put("ZoomOut", controller.getSettings().getAction("ZoomOut").getAction());
+
 	}
 
 	public JaWEComponent getJaWEComponent () {
