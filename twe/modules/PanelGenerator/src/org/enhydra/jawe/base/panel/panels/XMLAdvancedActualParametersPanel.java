@@ -151,7 +151,7 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                } catch (Exception ex) {
                   System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression");
                }
-               String ext = null;
+               String ext = "txt";
                String scriptType = ap.getScriptType();
                if (scriptType.equals("")) {
                   scriptType = XMLUtil.getPackage(ap).getScript().getType();

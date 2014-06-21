@@ -139,7 +139,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
          System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: " + String.valueOf(noOfLines));
       }
       String scriptType = XMLUtil.getPackage(myOwner).getScript().getType();
-      String ext = null;
+      String ext = "txt";
       if (!scriptType.equals("")) {
          ext = Utils.getFileExtension(scriptType);
       }

@@ -1411,7 +1411,7 @@ public class StandardPanelGenerator implements PanelGenerator {
             System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: "
                                + String.valueOf(noOfLines));
          }
-         String ext = null;
+         String ext = "txt";
          ExpressionType et = null;
          if (cel instanceof ExpressionType) {
             et = (ExpressionType) cel;
