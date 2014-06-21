@@ -50,7 +50,7 @@ public class RemoveLane extends ActionBase {
       if (gc.getSelectedGraph() != null) {
          if (!gc.getSelectedGraph().getXPDLObject().isReadOnly()) {
             Object[] scells=gc.getSelectedGraph().getSelectionCells();
-            if (scells!=null && scells.length>0 && ((WorkflowElement)scells[0]).getPropertyObject() instanceof Lane) {
+            if (scells!=null && scells.length>0 && scells[0] instanceof WorkflowElement && ((WorkflowElement)scells[0]).getPropertyObject() instanceof Lane) {
                en=true;               
             }
          }

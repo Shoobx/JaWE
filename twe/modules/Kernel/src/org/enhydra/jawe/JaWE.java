@@ -105,6 +105,7 @@ public class JaWE {
             writeGraph(argsMap);
             System.exit(0);
          } catch (Exception ex) {
+            ex.printStackTrace();
             System.exit(1);
          }
       }
