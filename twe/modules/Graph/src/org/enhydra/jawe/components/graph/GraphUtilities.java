@@ -3029,8 +3029,28 @@ public class GraphUtilities {
 
    public static Set getTransitionsWithChangedBreakpointsOrStyle(List allInfo, XMLCollectionElement wpOrAs) {
       Set s = new HashSet();
-      List l = findInfoList(allInfo, ConnectorGraphicsInfo.class, XMLAttribute.class);
       Activities acts = (Activities) wpOrAs.get("Activities");
+      List l = findInfoList(allInfo, Transition.class, ConnectorGraphicsInfos.class);
+      for (int i = 0; i < l.size(); i++) {
+         XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
+         if ((info.getAction() == XMLElementChangeInfo.INSERTED) || (info.getAction() == XMLElementChangeInfo.REMOVED)) {
+            XMLCollectionElement tmp = XMLUtil.getActivitySetOrWorkflowProcess(info.getChangedElement());
+            if (tmp == wpOrAs) {
+               List cgis = info.getChangedSubElements();
+               if (cgis != null && cgis.size() > 0) {
+                  for (int j=0; j<cgis.size(); j++) {
+                     Transition tra = XMLUtil.getTransition((XMLElement)cgis.get(i));
+                     if (tra!=null) {
+                        System.out.println("ADDED TRA FOR CHANGED LABEL POSITION");                        
+                        s.add(tra);
+                     }
+                  }
+               }
+            }
+
+         }
+      }
+      l = findInfoList(allInfo, ConnectorGraphicsInfo.class, XMLAttribute.class);
       for (int i = 0; i < l.size(); i++) {
          XPDLElementChangeInfo info = (XPDLElementChangeInfo) l.get(i);
          XMLElement el = info.getChangedElement();

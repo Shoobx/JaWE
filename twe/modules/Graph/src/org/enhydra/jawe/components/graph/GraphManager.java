@@ -536,6 +536,11 @@ public class GraphManager implements Serializable {
          if (lpo!=null) {
             GraphConstants.setOffset(map, lpo);
          }
+      } else {
+         int center = GraphConstants.PERMILLE / 2;
+         Point labelPosition = new Point(center, GraphConstants.PERMILLE / 100);
+         GraphConstants.setLabelPosition(map, labelPosition);
+         GraphConstants.setOffset(map, new Point(0,0));
       }
    }
 

@@ -335,11 +335,18 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
                      Point2D offset = GraphConstants.getOffset(edge.getAllAttributes());
                      Point op = offset!=null ? new Point((int)offset.getX(),(int)offset.getY()) : null;
                      GraphUtilities.setLabelPosition(tra, new Point((int) labelPosition.getX(), (int) labelPosition.getY()), op);
+                     ConnectionSet cs = createConnectionSet(edge, false);
+                     Map nested = GraphConstants.createAttributes(new CellView[] {
+                        edge
+                     }, null);
+                     graph.getGraphLayoutCache().edit(nested, cs, null, null);
+
                      List toSelect = new ArrayList();
                      toSelect.add(tra);
                      jc.endUndouableChange(toSelect);
                      graph.refresh();
                      ((Graph) graph).getGraphController().setUpdateInProgress(false);
+                     return;
                   }
                }
             }
