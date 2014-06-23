@@ -71,9 +71,11 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
     * Returns an empty string.
     */
    public String toString() {
-      org.enhydra.jxpdl.elements.Transition tr = (org.enhydra.jxpdl.elements.Transition) userObject;
-      if (tr!=null) {
-         return tr.getCondition().toValue();
+      if (userObject instanceof Transition) {
+         Transition tr = (Transition) userObject;
+         if (tr != null) {
+            return tr.getCondition().toValue();
+         }
       }
       return "";
    }
@@ -115,11 +117,7 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
 
    public String getType() {
       if (userObject != null) {
-         return JaWEManager.getInstance()
-            .getJaWEController()
-            .getTypeResolver()
-            .getJaWEType((XMLElement) userObject)
-            .getTypeId();
+         return JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType((XMLElement) userObject).getTypeId();
       }
 
       return JaWEConstants.TRANSITION_TYPE_UNCONDITIONAL;
