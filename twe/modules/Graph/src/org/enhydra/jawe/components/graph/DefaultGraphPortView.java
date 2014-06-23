@@ -46,6 +46,7 @@ public class DefaultGraphPortView extends GraphPortViewInterface {
       super(cell);
       AttributeMap map = new AttributeMap();
       GraphConstants.setSize(map, new Dimension(30, 30));
+      allowPortMagic = false;
       super.setAttributes(map);
    }
 

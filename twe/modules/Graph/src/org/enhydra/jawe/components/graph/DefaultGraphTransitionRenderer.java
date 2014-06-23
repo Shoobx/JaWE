@@ -76,6 +76,8 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
                am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_DIAMOND);
                am.put(GraphConstants.BEGINFILL, false);
                am.put(GraphConstants.BEGINSIZE, 11);
+            } else {
+               am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_NONE);
             }
          } else {
             am.put(GraphConstants.LINEBEGIN, GraphConstants.ARROW_NONE);                        
@@ -149,8 +151,7 @@ public class DefaultGraphTransitionRenderer extends EdgeRenderer implements
          Point2D p0 = p[0];
          Point2D p1 = p[1];
          Point2D p2 = p[n - 2];
-         src = (p2.equals(p0) || GraphConstants.getRouting(view.getAllAttributes()) == GraphConstants.ROUTING_SIMPLE) ? p1
-                                                                                                                     : p2;
+         src = p1;//(p2.equals(p0) || GraphConstants.getRouting(view.getAllAttributes()) == GraphConstants.ROUTING_SIMPLE) ? p1 : p2;
          dst = p0;
          int n1 = (int) Math.min(7, dst.distance(src));
          if (n1 == 0)

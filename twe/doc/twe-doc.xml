@@ -10451,6 +10451,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Fix: rendering of (otherwise) transitions going from/to and/or
+          split/join node.</para>
+        </listitem>
+
+        <listitem>
           <para>Linux tar.gz distributions now built under windows</para>
         </listitem>
 

@@ -2,7 +2,8 @@
 2014-06-23 Sasa Bojanic <sasaboy@together.at>
    # Fix: transition condition label was not always fully shown 
    # Fix: scrollbars were missing when Zoom In action was performed and then activity was moved
-
+   # Fix: rendering of (otherwise) transitions going from/to and/or split/join node
+   
 2014-06-20 Sasa Bojanic <sasaboy@together.at>
    # "CTRL +", "CTRL -" and "CTRL 1" key combination now can be used to "Zoom In", "Zoom Out" and "Make actual size" in the graph.
    # Added possibility to position transition labels. Information stored in XPDL.
