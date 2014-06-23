@@ -74,7 +74,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
       GraphTransitionInterface tr = (GraphTransitionInterface) cell;
       XMLCollectionElement tra = ((XMLCollectionElement) tr.getUserObject());
       labelPosition = GraphConstants.getLabelPosition(allAttributes);
-      String label = tra instanceof Transition ? String.valueOf(((Transition)tra).getCondition().toValue()) : null;
+      String label = String.valueOf(getCell());
       if (labelPosition == null && label != null && label.length() > 0) {
          Point lp = GraphUtilities.getLabelPosition(tra);
          if (lp != null) {
@@ -323,10 +323,7 @@ public class DefaultGraphTransitionView extends GraphTransitionViewInterface {
             } else if (label) {
                GraphTransitionInterface tr = (GraphTransitionInterface) edge.getCell();
                XMLCollectionElement tra = (XMLCollectionElement)tr.getUserObject();
-               String label = null;
-               if (tra instanceof Transition) {
-                  label = String.valueOf(((Transition) tra).getCondition().toValue());
-               }
+               String label = String.valueOf(edge.getCell());
                if (label != null && !label.equals("")) {
                   Point2D labelPosition = GraphConstants.getLabelPosition(edge.getAllAttributes());
                   Point2D absLP = ((DefaultGraphTransitionView) edge).getAbsoluteLabelPosition();

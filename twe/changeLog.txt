@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-06-23 Sasa Bojanic <sasaboy@together.at>
+   # Fixed: transition condition label was not always fully shown 
+
 2014-06-20 Sasa Bojanic <sasaboy@together.at>
    # "CTRL +", "CTRL -" and "CTRL 1" key combination now can be used to "Zoom In", "Zoom Out" and "Make actual size" in the graph.
    # Added possibility to position transition labels. Information stored in XPDL.

@@ -71,9 +71,10 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
     * Returns an empty string.
     */
    public String toString() {
-      // org.enhydra.jxpdl.elements.Transition tr=
-      // (org.enhydra.jxpdl.elements.Transition)userObject;
-      // return tr.getCondition().toValue();
+      org.enhydra.jxpdl.elements.Transition tr = (org.enhydra.jxpdl.elements.Transition) userObject;
+      if (tr!=null) {
+         return tr.getCondition().toValue();
+      }
       return "";
    }
 
