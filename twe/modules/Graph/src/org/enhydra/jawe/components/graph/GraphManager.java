@@ -2811,9 +2811,9 @@ public class GraphManager implements Serializable {
 
    public Dimension getGraphsPreferredSize() {
       if (!isGraphRotated()) {
-         return new Dimension(getRootParticipantWidth(null, null) + 50, getNewRootParYPos(null, null) + 50);
+         return new Dimension((int)(graph.getScale()*getRootParticipantWidth(null, null)) + 50, (int)(graph.getScale()*getNewRootParYPos(null, null)) + 50);
       }
-      return new Dimension(getNewRootParXPos(null, null) + 50, getRootParticipantHeight(null, null) + 50);
+      return new Dimension((int)(graph.getScale()*getNewRootParXPos(null, null)) + 50, (int)(graph.getScale()*getRootParticipantHeight(null, null)) + 50);
    }
 
    protected List getPoints(GraphTransitionInterface cell, Map propertyMap) {// HM,

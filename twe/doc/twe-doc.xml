@@ -10441,8 +10441,13 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>Fix: transition condition label was not always fully shown
-          </para>
+          <para>Fix: transition condition label was not always fully
+          shown</para>
+        </listitem>
+
+        <listitem>
+          <para>Fix: scrollbars were missing when Zoom In action was performed
+          and then activity was moved</para>
         </listitem>
 
         <listitem>

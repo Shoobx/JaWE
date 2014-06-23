@@ -18,7 +18,6 @@
 
 package org.enhydra.jawe.components.graph.actions;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import org.enhydra.jawe.ActionBase;
@@ -49,15 +48,9 @@ public class ActualSize extends ActionBase {
       Graph selectedGraph=((GraphController)jawecomponent).getSelectedGraph();
       if (selectedGraph==null) return;
       //setResizeAction(null);
-      double curScale=selectedGraph.getScale();
-      try {
-         Dimension prefSize=selectedGraph.getSize();
-         prefSize.width=(int)(prefSize.width/curScale);
-         prefSize.height=(int)(prefSize.height/curScale);
-         selectedGraph.setPreferredSize(selectedGraph.getGraphManager().getGraphsPreferredSize());
-      } catch (Exception ex) {}
 
       selectedGraph.setScale(1);
+      selectedGraph.setPreferredSize(selectedGraph.getGraphManager().getGraphsPreferredSize());
       if (selectedGraph.getSelectionCell() != null) {
          selectedGraph.scrollCellToVisible(selectedGraph.getSelectionCell());
       }
