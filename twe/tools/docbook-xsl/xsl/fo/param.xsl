@@ -784,7 +784,7 @@ set       toc,title
 
 <xsl:param name="prefer.internal.olink" select="0"/>
 
-<xsl:param name="insert.olink.page.number">no</xsl:param>f
+<xsl:param name="insert.olink.page.number">no</xsl:param>
 
 <xsl:param name="insert.olink.pdf.frag" select="0"/>
 
