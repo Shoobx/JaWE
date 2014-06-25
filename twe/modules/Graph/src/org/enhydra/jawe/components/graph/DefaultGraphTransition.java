@@ -74,7 +74,11 @@ public class DefaultGraphTransition extends GraphTransitionInterface {
       if (userObject instanceof Transition) {
          Transition tr = (Transition) userObject;
          if (tr != null) {
-            return tr.getCondition().toValue();
+            if (!((GraphSettings)GraphUtilities.getGraphController().getSettings()).shouldShowTransitionNameForCondition()) {
+               return tr.getCondition().toValue();
+            } else {
+               return tr.getName();
+            }
          }
       }
       return "";
