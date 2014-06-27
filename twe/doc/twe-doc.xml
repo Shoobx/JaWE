@@ -2300,6 +2300,11 @@ create.desktop.icon=on
             </listitem>
           </itemizedlist>
         </listitem>
+
+        <listitem>
+          <para>For Gateways, Artifacts, Start and End events, one can also
+          set (text) label location to Top/Bottom/Left/Right.</para>
+        </listitem>
       </itemizedlist>
 
       <para>As mentioned, when the graph is empty (e.g. when a new process is
@@ -10427,6 +10432,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Added possibility to position transition labels. Information
           stored in XPDL.</para>
+        </listitem>
+
+        <listitem>
+          <para>Added possibility to position artifact/gateway/start/end
+          labels to the top/bottom/left/right location. Information stored in
+          XPDL.</para>
         </listitem>
 
         <listitem>

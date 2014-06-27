@@ -29,7 +29,6 @@ import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphActivityInterface;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
-import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.Transition;
 import org.jgraph.graph.DefaultGraphCell;
 

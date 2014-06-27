@@ -107,4 +107,10 @@ public class GraphEAConstants {
          GraphEAConstants.EA_JAWE_GRAPH_TRANSITION_STYLE_VALUE_SIMPLE_ROUTING_SPLINE });
 
    
+   public static int LABEL_POSITION_BOTTOM = 0;
+   public static int LABEL_POSITION_TOP = 1;
+   public static int LABEL_POSITION_LEFT = 2;
+   public static int LABEL_POSITION_RIGHT = 3;
+   
+   
 }

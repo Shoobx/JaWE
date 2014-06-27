@@ -26,7 +26,6 @@ import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.editor.StandardXPDLElementEditor;
-import org.enhydra.jawe.base.editor.XPDLElementEditor;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphCommonInterface;
 import org.enhydra.jawe.components.graph.GraphController;

@@ -37,14 +37,14 @@ import org.enhydra.jawe.Utils;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.NodeGraphicsInfo;
+import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.VertexRenderer;
 import org.jgraph.graph.VertexView;
 
 /**
  * Class used to render graph event activity object.
  */
-public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
-                                                                     GraphActivityRendererInterface {
+public class DefaultGraphEventActivityRenderer extends VertexRenderer implements GraphActivityRendererInterface {
 
    public void paint(Graphics g) {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
@@ -55,25 +55,22 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       }
       Rectangle ra = getBounds();
       Rectangle rg = ((GraphActivityViewInterface) view).getOriginalBounds();
-      Graphics gl = g.create((int) (rg.getX() - ra.getX()),
-                             (int) (rg.getY() - ra.getY()),
-                             (int) rg.getWidth(),
-                             (int) rg.getHeight());
+      Graphics gl = g.create((int) (rg.getX() - ra.getX()), (int) (rg.getY() - ra.getY()), (int) rg.getWidth(), (int) rg.getHeight());
       Graphics2D g2 = (Graphics2D) gl;
 
       Color c = getFillColor();
       bordercolor = getBorderColor();
 
       if (selected) {
-         c = GraphUtilities.getGraphController()
-            .getGraphSettings()
-            .getSelectedActivityColor();
+         c = GraphUtilities.getGraphController().getGraphSettings().getSelectedActivityColor();
       }
       setText(null);
 
       Object AntiAlias = RenderingHints.VALUE_ANTIALIAS_ON;// Harald Meister
       g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, AntiAlias);// Harald Meister
       Dimension d = rg.getSize();
+      int actW = d.width;
+      int actH = d.height;
 
       if (super.isOpaque()) {
          int r = c.getRed();
@@ -81,16 +78,16 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
          int b = c.getBlue();
          Color c1 = new Color(r, gr, b, 255);
          Color c2 = new Color(r, gr, b, 0);
-         GradientPaint gp = new GradientPaint(0, 0, c1, d.width - 1, d.height - 1, c2);
+         GradientPaint gp = new GradientPaint(0, 0, c1, actW - 1, actH - 1, c2);
          g2.setPaint(gp);
-         g2.fillOval(1, 1, d.width - 2, d.height - 2);
+         g2.fillOval(1, 1, actW - 2, actH - 2);
       }
       g2.setColor(bordercolor);
-      drawOwal(g2, d.width, d.height, lineWidth);
+      drawOwal(g2, actW, actH, lineWidth);
 
       String label = act.getName();
       if (!label.trim().equals("")) {
-         paintLabel(g, label, d.height);
+         paintLabel(g, label, actW, actH, GraphUtilities.getLabelLocation(act));
       }
    }
 
@@ -100,9 +97,7 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
    public Color getBorderColor() {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
-      NodeGraphicsInfo ngi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getNodeGraphicsInfo(act);
+      NodeGraphicsInfo ngi = JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(act);
       Color bc = null;
       if (ngi != null) {
          bc = Utils.getColor(ngi.getBorderColor());
@@ -119,9 +114,7 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
    public Color getFillColor() {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
-      NodeGraphicsInfo ngi = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getNodeGraphicsInfo(act);
+      NodeGraphicsInfo ngi = JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(act);
       Color fc = null;
       if (ngi != null) {
          fc = Utils.getColor(ngi.getFillColor());
@@ -130,9 +123,7 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       if (fc == null) {
          fc = GraphUtilities.getGraphController().getGraphSettings().getStartEventColor();
          if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END) {
-            fc = GraphUtilities.getGraphController()
-               .getGraphSettings()
-               .getEndEventColor();
+            fc = GraphUtilities.getGraphController().getGraphSettings().getEndEventColor();
          }
       }
 
@@ -140,13 +131,15 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
    }
 
    /**
-    * Paints the label below the Event type activity "box".
+    * Paints the label for the Event type activity "box".
     * 
     * @param g Graphics object.
     * @param label Label text to paint.
+    * @param actW The width of activity "box".
     * @param actH The height of activity "box".
+    * @param labelPosition The position (Left/Right/Top/Bottom)
     */
-   protected void paintLabel(Graphics g, String label, int actH) {
+   protected void paintLabel(Graphics g, String label, int actW, int actH, int labelPosition) {
       // Rectangle rb = ((GraphArtifactViewInterface)view).getOriginalBounds();
       // view.setBounds(new Rectangle((int)rb.getX()-50, (int)rb.getY(),
       // (int)rb.getWidth()+100, (int)rb.getHeight()+50));
@@ -154,25 +147,39 @@ public class DefaultGraphEventActivityRenderer extends VertexRenderer implements
       // setSize((int)rb.getWidth()+100, (int)rb.getHeight()+50);
       Graphics2D g2 = (Graphics2D) g;
       g2.setStroke(new BasicStroke(1));
-      g.setFont(getFont());
+      Font f = GraphConstants.getFont(view.getAllAttributes());
+      g.setFont(f);
       if (label != null && label.length() > 0) {
          Dimension d = getLabelDimension((GraphActivityViewInterface) view);
          int w = (int) g.getClipBounds().getWidth();
-         Font f = getFont();
          FontMetrics metrics = getFontMetrics(f);
          int sh = metrics.getHeight();
          g.setFont(f);
          g.setColor(getBackground());
          g.setColor(Color.BLACK);
-         g.drawString(label, d.width < w ? (w - d.width) / 2 : 0, actH + sh - 3);
+
+         int xpos = 0;
+         int ypos = actH + sh - 3;
+         if (labelPosition == GraphEAConstants.LABEL_POSITION_LEFT || labelPosition == GraphEAConstants.LABEL_POSITION_RIGHT) {
+            ypos = (int) (actH / 2 + 3);
+            if (labelPosition == GraphEAConstants.LABEL_POSITION_RIGHT) {
+               xpos = actW + 5;
+            }
+         } else {
+            xpos = d.width < w ? (w - d.width) / 2 : 0;
+            if (labelPosition == GraphEAConstants.LABEL_POSITION_TOP) {
+               ypos -= actH;
+            }
+         }
+
+         g.drawString(label, xpos, ypos);
       }
    }
 
    public Dimension getLabelDimension(GraphActivityViewInterface view) {
       GraphActivityInterface gact = (GraphActivityInterface) view.getCell();
       Activity act = (Activity) gact.getUserObject();
-      if ((act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE
-           || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START)
+      if ((act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_ROUTE || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START)
           && !act.getName().trim().equals("")) {
          String label = act.getName();
          Font f = getFont();

@@ -120,16 +120,11 @@ public class JaWEGraphUI extends BasicGraphUI {
    protected boolean startEditing(Object cell, MouseEvent event) {
       if (cell instanceof WorkflowElement) {
          XMLElement el = ((WorkflowElement) cell).getPropertyObject();
-         if (el instanceof FreeTextExpressionParticipant
-             || el instanceof CommonExpressionParticipant) {
+         if (el instanceof FreeTextExpressionParticipant || el instanceof CommonExpressionParticipant) {
             return true;
          }
 
-         JaWEManager.getInstance()
-            .getJaWEController()
-            .getJaWEActions()
-            .getAction(JaWEActions.EDIT_PROPERTIES_ACTION)
-            .actionPerformed(null);
+         JaWEManager.getInstance().getJaWEController().getJaWEActions().getAction(JaWEActions.EDIT_PROPERTIES_ACTION).actionPerformed(null);
          return true;
       }
       return false;
@@ -162,10 +157,7 @@ public class JaWEGraphUI extends BasicGraphUI {
             // find where was clicked...
             int s = graph.getTolerance();
 
-            Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s,
-                                                           e.getY() - s,
-                                                           2 * s,
-                                                           2 * s));
+            Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s, e.getY() - s, 2 * s, 2 * s));
             focus = (focus != null && focus.intersects(graph, r)) ? focus : null;
             Point2D point = graph.fromScreen(new Point(e.getPoint()));
 
@@ -196,8 +188,7 @@ public class JaWEGraphUI extends BasicGraphUI {
                   if (e.getClickCount() == 2) {
                      startEditing(cell.getCell(), e);
                   } else {
-                     if (graph.isCellSelected(cell.getCell())
-                         && !e.isControlDown() && graph.getSelectionCells().length > 1) {
+                     if (graph.isCellSelected(cell.getCell()) && !e.isControlDown() && graph.getSelectionCells().length > 1) {
                         selectOnRelease = true;
                      } else {
                         if (!graph.isCellSelected(cell.getCell()) || e.isControlDown()) {
@@ -209,37 +200,28 @@ public class JaWEGraphUI extends BasicGraphUI {
                         if (el instanceof Activity) {
                            Activity act = (Activity) el;
                            boolean descendAction = false;
-                           if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_SUBFLOW
-                               || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
+                           if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_SUBFLOW || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
                               Point p = e.getPoint();
                               Graph g = ((GraphMarqueeHandler) marquee).getGraph();
 
                               Rectangle rct = g.getGraphManager().getCBounds(cell.getCell(), null);
-                              Rectangle r1 = new Rectangle((int) (rct.getMinX()
-                                                                  + rct.getWidth() / 2 - 7),
-                                                           (int) (rct.getMaxY() - 16),
-                                                           15,
-                                                           15);
+                              Rectangle r1 = new Rectangle((int) (rct.getMinX() + rct.getWidth() / 2 - 7), (int) (rct.getMaxY() - 16), 15, 15);
                               Rectangle r2 = new Rectangle(p);
                               if (SwingUtilities.isRectangleContainingRectangle(r1, r2)) {
                                  descendAction = true;
                               }
                            }
-                           if (descendAction
-                               && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_SUBFLOW) {
-                              WorkflowProcess wp = XMLUtil.getSubflowProcess(JaWEManager.getInstance()
-                                                                                .getXPDLHandler(),
-                                                                             act);
+                           if (descendAction && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_SUBFLOW) {
+                              WorkflowProcess wp = XMLUtil.getSubflowProcess(JaWEManager.getInstance().getXPDLHandler(), act);
                               if (wp != null)
                                  getGraphController().selectGraphForElement(wp);
-                           } else if (descendAction
-                                      && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
+                           } else if (descendAction && act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK) {
                               ActivitySet as = XMLUtil.getBlockActivitySet(act);
                               if (as != null)
                                  getGraphController().selectGraphForElement(as);
                            }
                         }
-                     } 
+                     }
                      if (handle != null) {
                         handle.mousePressed(e);
                      }
@@ -276,24 +258,21 @@ public class JaWEGraphUI extends BasicGraphUI {
                } else if (status == INSERT_ELEMENT) {
                   ((GraphMarqueeHandler) marquee).insertElement((Point) getGraph().fromScreen(e.getPoint()));
                } else if (status == INSERT_TRANSITION_START) {
-                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(),
-                                                                                             e.getY());
+                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(), e.getY());
                   if (gpvi != null) {
                      if (((GraphMarqueeHandler) marquee).insertTransitionFirstPort(gpvi)) {
                         status = INSERT_TRANSITION_POINTS;
                      }
                   }
                } else if (status == INSERT_ASSOCIATION_START) {
-                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(),
-                                                                                             e.getY());
+                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(), e.getY());
                   if (gpvi != null) {
                      if (((GraphMarqueeHandler) marquee).insertTransitionFirstPort(gpvi)) {
                         status = INSERT_ASSOCIATION_POINTS;
                      }
                   }
                } else if (status == INSERT_TRANSITION_POINTS) {
-                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(),
-                                                                                             e.getY());
+                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(), e.getY());
                   if (gpvi == null) {
                      ((GraphMarqueeHandler) marquee).addPoint(e.getPoint());
                      ((GraphMarqueeHandler) marquee).drawTransition(e);
@@ -304,8 +283,7 @@ public class JaWEGraphUI extends BasicGraphUI {
                      }
                   }
                } else if (status == INSERT_ASSOCIATION_POINTS) {
-                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(),
-                                                                                             e.getY());
+                  GraphPortViewInterface gpvi = (GraphPortViewInterface) graph.getPortViewAt(e.getX(), e.getY());
                   if (gpvi == null) {
                      ((GraphMarqueeHandler) marquee).addPoint(e.getPoint());
                      ((GraphMarqueeHandler) marquee).drawTransition(e);
@@ -326,8 +304,7 @@ public class JaWEGraphUI extends BasicGraphUI {
 
       public void mouseMoved(MouseEvent e) {
          if (status == INSERT_TRANSITION_START
-             || status == INSERT_TRANSITION_POINTS || status == INSERT_ASSOCIATION_START
-             || status == INSERT_ASSOCIATION_POINTS) {
+             || status == INSERT_TRANSITION_POINTS || status == INSERT_ASSOCIATION_START || status == INSERT_ASSOCIATION_POINTS) {
             ((GraphMarqueeHandler) marquee).drawTransition(e);
          }
 
@@ -370,8 +347,7 @@ public class JaWEGraphUI extends BasicGraphUI {
                // graph.clearSelection();
                selectCellForEvent(cell.getCell(), e);
             }
-         } else if (status == MULTIPLE_SELECTION
-                    && graph.isSelectionEnabled() && !aborted) {
+         } else if (status == MULTIPLE_SELECTION && graph.isSelectionEnabled() && !aborted) {
             marquee.mouseReleased(e);
             status = SELECTION;
          }
@@ -420,29 +396,27 @@ public class JaWEGraphUI extends BasicGraphUI {
                activeHandle = null;
             } else if (isMoving && !event.getPoint().equals(start)) {
                if (cachedBounds != null) {
-                  int dx = event.getX() - (int) start.getX();// HM, JGraph3.4.1
-                  int dy = event.getY() - (int) start.getY();// HM, JGraph3.4.1
-                  Point2D tmp = graph.fromScreen(new Point(dx, dy));// HM, JGraph3.4.1
+                  double dx = event.getX() - start.getX();// HM, JGraph3.4.1
+                  double dy = event.getY() - start.getY();// HM, JGraph3.4.1
+                  Point2D tmp = graph.fromScreen(new Point2D.Double(dx, dy));// HM,
+                                                                             // JGraph3.4.1
                   GraphLayoutCache.translateViews(views, tmp.getX(), tmp.getY());// HM,
                                                                                  // JGraph3.4.1
                }
 
                // Harald Meister: snap activities to grid if grid is enabled
-               if (GraphUtilities.getGraphController()
-                  .getGraphSettings()
-                  .shouldShowGrid()
+               if (GraphUtilities.getGraphController().getGraphSettings().shouldShowGrid()
                    && (views[0] instanceof GraphActivityViewInterface || views[0] instanceof GraphActivityRendererInterface)) {
+
                   CellView view = views[0];
                   Rectangle2D rect = view.getBounds();// HM, JGraph3.4.1
-                  int dx = 0;
-                  int dy = 0;
+                  double dx = 0;
+                  double dy = 0;
 
-                  int gridsize = GraphUtilities.getGraphController()
-                     .getGraphSettings()
-                     .getGridSize();
-                  int deltax = (int) rect.getX() % gridsize;
-                  int deltay = (int) rect.getY() % gridsize;
-                  int halfgrid = gridsize / 2;
+                  double gridsize = GraphUtilities.getGraphController().getGraphSettings().getGridSize();
+                  double deltax = (int) rect.getX() % gridsize;
+                  double deltay = (int) rect.getY() % gridsize;
+                  double halfgrid = gridsize / 2;
                   if (deltax > halfgrid) {
                      dx += (gridsize - deltax);
                   } else {
@@ -453,7 +427,8 @@ public class JaWEGraphUI extends BasicGraphUI {
                   } else {
                      dy -= deltay;
                   }
-                  Point2D tmp = graph.fromScreen(new Point(dx, dy));// HM, JGraph3.4.1
+                  Point2D tmp = graph.fromScreen(new Point2D.Double(dx, dy));// HM,
+                                                                             // JGraph3.4.1
                   GraphLayoutCache.translateViews(views, tmp.getX(), tmp.getY());// HM,
                                                                                  // JGraph3.4.1
                }
@@ -509,10 +484,8 @@ public class JaWEGraphUI extends BasicGraphUI {
          }
          Object[] inserted = e.getChange().getInserted();
          if (inserted != null
-             && inserted.length > 0
-             && graphLayoutCache.isSelectsLocalInsertedCells()
-             && !(graphLayoutCache.isSelectsAllInsertedCells() && !graphLayoutCache.isPartial())
-             && graph.isEnabled()) {
+             && inserted.length > 0 && graphLayoutCache.isSelectsLocalInsertedCells()
+             && !(graphLayoutCache.isSelectsAllInsertedCells() && !graphLayoutCache.isPartial()) && graph.isEnabled()) {
             Object[] roots = DefaultGraphModel.getRoots(graphModel, inserted);
             if (roots != null && roots.length > 0) {
                focus = graphLayoutCache.getMapping(roots[0], false);
@@ -567,8 +540,7 @@ public class JaWEGraphUI extends BasicGraphUI {
                graph.updateAutoSize(graphLayoutCache.getMapping(changed[i], false));
          }
          // Select if not partial
-         if (!graphLayoutCache.isPartial()
-             && graphLayoutCache.isSelectsAllInsertedCells() && graph.isEnabled()) {
+         if (!graphLayoutCache.isPartial() && graphLayoutCache.isSelectsAllInsertedCells() && graph.isEnabled()) {
             // Object[] roots = JaWEGraphModel.getRoots(graphModel, inserted);
             // if (roots != null && roots.length > 0) {
             // focus = graphLayoutCache.getMapping(roots[0], false);
@@ -610,7 +582,7 @@ public class JaWEGraphUI extends BasicGraphUI {
             ((GraphMarqueeHandler) marquee).setSelectionMode();
             aborted = true;
          } else if (e.isControlDown() && keyStroke.getKeyCode() == KeyEvent.VK_A) {
-            e.consume();            
+            e.consume();
             Graph g = ((GraphMarqueeHandler) marquee).getGraph();
             List cells = JaWEGraphModel.getAllCellsInModel(g.getModel());
             Iterator it = cells.iterator();

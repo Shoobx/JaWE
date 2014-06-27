@@ -77,276 +77,183 @@ public class GraphSettings extends JaWEComponentSettings {
    public void loadDefault(JaWEComponent comp, Properties properties) {
       arm = new AdditionalResourceManager(properties);
 
-      componentSettings.put("UseLaneChoiceButton",
-                            new Boolean(properties.getProperty("GraphPanel.UseLaneChoiceButton",
-                                                               "true")
-                               .equals("true")));
-      componentSettings.put("UseActivitySetChoiceButton",
-                            new Boolean(properties.getProperty("GraphPanel.UseActivitySetChoiceButton",
-                                                               "true")
-                               .equals("true")));
+      componentSettings.put("UseLaneChoiceButton", new Boolean(properties.getProperty("GraphPanel.UseLaneChoiceButton", "true").equals("true")));
+      componentSettings.put("UseActivitySetChoiceButton", new Boolean(properties.getProperty("GraphPanel.UseActivitySetChoiceButton", "true").equals("true")));
       componentSettings.put("GraphOverview.Class",
-                            properties.getProperty("GraphOverview.Class",
-                                                   "org.enhydra.jawe.components.graph.overviewpanel.GraphOverviewPanel"));
-      componentSettings.put("ShowGraphOverview",
-                            new Boolean(properties.getProperty("GraphOverview.Show",
-                                                               "true").equals("true")));
-      componentSettings.put("NameWrapping",
-                            new Boolean(properties.getProperty("Graph.NameWrapping",
-                                                               "true").equals("true")));
-      componentSettings.put("WordWrapping",
-                            new Boolean(properties.getProperty("Graph.WrappingStyleWordStatus",
-                                                               "true")
-                               .equals("true")));
-      componentSettings.put("ShowGrid",
-                            new Boolean(properties.getProperty("Graph.ShowGrid", "false")
-                               .equals("true")));
-      componentSettings.put("ShowIcons",
-                            new Boolean(properties.getProperty("Graph.ShowIcon", "true")
-                               .equals("true")));
-      componentSettings.put("ShowShadow",
-                            new Boolean(properties.getProperty("Graph.ShowShadow", "true")
-                               .equals("true")));
-      componentSettings.put("ShowTransitionCondition",
-                            new Boolean(properties.getProperty("Graph.ShowTransitionCondition",
-                                                               "false")
-                               .equals("true")));
-      componentSettings.put("ShowTransitionNameForCondition",
-                            new Boolean(properties.getProperty("Graph.ShowTransitionNameForCondition",
-                                                               "false")
-                               .equals("true")));
-      componentSettings.put("ShowArtifacts",
-                            new Boolean(properties.getProperty("Graph.ShowArtifacts",
-                                                               "true")));
+                            properties.getProperty("GraphOverview.Class", "org.enhydra.jawe.components.graph.overviewpanel.GraphOverviewPanel"));
+      componentSettings.put("ShowGraphOverview", new Boolean(properties.getProperty("GraphOverview.Show", "true").equals("true")));
+      componentSettings.put("NameWrapping", new Boolean(properties.getProperty("Graph.NameWrapping", "true").equals("true")));
+      componentSettings.put("WordWrapping", new Boolean(properties.getProperty("Graph.WrappingStyleWordStatus", "true").equals("true")));
+      componentSettings.put("ShowGrid", new Boolean(properties.getProperty("Graph.ShowGrid", "false").equals("true")));
+      componentSettings.put("ShowIcons", new Boolean(properties.getProperty("Graph.ShowIcon", "true").equals("true")));
+      componentSettings.put("ShowShadow", new Boolean(properties.getProperty("Graph.ShowShadow", "true").equals("true")));
+      componentSettings.put("ShowTransitionCondition", new Boolean(properties.getProperty("Graph.ShowTransitionCondition", "false").equals("true")));
+      componentSettings.put("ShowTransitionNameForCondition", new Boolean(properties.getProperty("Graph.ShowTransitionNameForCondition", "false")
+         .equals("true")));
+      componentSettings.put("ShowArtifacts", new Boolean(properties.getProperty("Graph.ShowArtifacts", "true")));
 
-      componentSettings.put("GraphClass",
-                            properties.getProperty("Graph.Class",
-                                                   "org.enhydra.jawe.components.graph.Graph"));
+      componentSettings.put("GraphClass", properties.getProperty("Graph.Class", "org.enhydra.jawe.components.graph.Graph"));
 
-      componentSettings.put("GraphControllerPanel",
-                            properties.getProperty("Graph.ControllerPanel",
-                                                   "org.enhydra.jawe.components.graph.GraphControllerPanel"));
+      componentSettings.put("GraphControllerPanel", properties.getProperty("Graph.ControllerPanel", "org.enhydra.jawe.components.graph.GraphControllerPanel"));
 
-      componentSettings.put("GraphManagerClass",
-                            properties.getProperty("GraphManager.Class",
-                                                   "org.enhydra.jawe.components.graph.GraphManager"));
+      componentSettings.put("GraphManagerClass", properties.getProperty("GraphManager.Class", "org.enhydra.jawe.components.graph.GraphManager"));
       componentSettings.put("GraphMarqueeHandlerClass",
-                            properties.getProperty("GraphMarqueeHandler.Class",
-                                                   "org.enhydra.jawe.components.graph.GraphMarqueeHandler"));
-      componentSettings.put("GraphModelClass",
-                            properties.getProperty("GraphModel.Class",
-                                                   "org.enhydra.jawe.components.graph.JaWEGraphModel"));
+                            properties.getProperty("GraphMarqueeHandler.Class", "org.enhydra.jawe.components.graph.GraphMarqueeHandler"));
+      componentSettings.put("GraphModelClass", properties.getProperty("GraphModel.Class", "org.enhydra.jawe.components.graph.JaWEGraphModel"));
       componentSettings.put("GraphObjectFactoryClass",
-                            properties.getProperty("GraphObjectFactory.Class",
-                                                   "org.enhydra.jawe.components.graph.GraphObjectFactory"));
+                            properties.getProperty("GraphObjectFactory.Class", "org.enhydra.jawe.components.graph.GraphObjectFactory"));
       componentSettings.put("GraphObjectRendererFactoryClass",
-                            properties.getProperty("GraphObjectRendererFactoryClass",
-                                                   "org.enhydra.jawe.components.graph.GraphObjectRendererFactory"));
-      componentSettings.put("DefaultTransitionStyle",
-                            properties.getProperty("Graph.DefaultTransitionStyle",
-                                                   "NO_ROUTING_SPLINE"));
+                            properties.getProperty("GraphObjectRendererFactoryClass", "org.enhydra.jawe.components.graph.GraphObjectRendererFactory"));
+      componentSettings.put("DefaultTransitionStyle", properties.getProperty("Graph.DefaultTransitionStyle", "NO_ROUTING_SPLINE"));
 
-      componentSettings.put("GridSize",
-                            new Integer(properties.getProperty("Graph.GridSize", "10")));
-      componentSettings.put("ShadowWidth",
-                            new Integer(properties.getProperty("Graph.ShadowWidth", "3")));
-      componentSettings.put("GraphFontSize",
-                            new Integer(properties.getProperty("Graph.FontSize", "11")));
-      componentSettings.put("ActivityHeight",
-                            new Integer(properties.getProperty("Graph.ActivityHeight",
-                                                               "60")));
-      componentSettings.put("ActivityWidth",
-                            new Integer(properties.getProperty("Graph.ActivityWidth",
-                                                               "90")));
-      componentSettings.put("DataObjectHeight",
-                            new Integer(properties.getProperty("Graph.DataObjectHeight",
-                                                               "40")));
-      componentSettings.put("DataObjectWidth",
-                            new Integer(properties.getProperty("Graph.DataObjectWidth",
-                                                               "30")));
-      componentSettings.put("AnnotationHeight",
-                            new Integer(properties.getProperty("Graph.AnnotationHeight",
-                                                               "35")));
-      componentSettings.put("AnnotationWidth",
-                            new Integer(properties.getProperty("Graph.AnnotationWidth",
-                                                               "120")));
-      componentSettings.put("GatewayHeight",
-                            new Integer(properties.getProperty("Graph.GatewayHeight",
-                                                               "43")));
-      componentSettings.put("GatewayWidth",
-                            new Integer(properties.getProperty("Graph.GatewayWidth", "43")));
-      componentSettings.put("EventRadius",
-                            new Integer(properties.getProperty("Graph.EventRadius", "15")));
-      componentSettings.put("LaneNameWidth",
-                            new Integer(properties.getProperty("Graph.LaneNameWidth",
-                                                               "35")));
-      componentSettings.put("MinLaneWidth",
-                            new Integer(properties.getProperty("Graph.LaneMinWidth",
-                                                               "800")));
-      componentSettings.put("MinLaneHeight",
-                            new Integer(properties.getProperty("Graph.LaneMinHeight",
-                                                               "150")));
-      componentSettings.put("AdditionalToolbar",
-                            new Boolean(properties.getProperty("Graph.AdditionalToolbar",
-                                                               "false")));
+      componentSettings.put("GridSize", new Integer(properties.getProperty("Graph.GridSize", "10")));
+      componentSettings.put("ShadowWidth", new Integer(properties.getProperty("Graph.ShadowWidth", "3")));
+      componentSettings.put("GraphFontSize", new Integer(properties.getProperty("Graph.FontSize", "11")));
+      componentSettings.put("ActivityHeight", new Integer(properties.getProperty("Graph.ActivityHeight", "60")));
+      componentSettings.put("ActivityWidth", new Integer(properties.getProperty("Graph.ActivityWidth", "90")));
+      componentSettings.put("DataObjectHeight", new Integer(properties.getProperty("Graph.DataObjectHeight", "40")));
+      componentSettings.put("DataObjectWidth", new Integer(properties.getProperty("Graph.DataObjectWidth", "30")));
+      componentSettings.put("AnnotationHeight", new Integer(properties.getProperty("Graph.AnnotationHeight", "35")));
+      componentSettings.put("AnnotationWidth", new Integer(properties.getProperty("Graph.AnnotationWidth", "120")));
+      componentSettings.put("GatewayHeight", new Integer(properties.getProperty("Graph.GatewayHeight", "43")));
+      componentSettings.put("GatewayWidth", new Integer(properties.getProperty("Graph.GatewayWidth", "43")));
+      componentSettings.put("EventRadius", new Integer(properties.getProperty("Graph.EventRadius", "15")));
+      componentSettings.put("LaneNameWidth", new Integer(properties.getProperty("Graph.LaneNameWidth", "35")));
+      componentSettings.put("MinLaneWidth", new Integer(properties.getProperty("Graph.LaneMinWidth", "800")));
+      componentSettings.put("MinLaneHeight", new Integer(properties.getProperty("Graph.LaneMinHeight", "150")));
+      componentSettings.put("AdditionalToolbar", new Boolean(properties.getProperty("Graph.AdditionalToolbar", "false")));
 
-      componentSettings.put("Graph.HistoryManager.Class",
-                            properties.getProperty("Graph.HistoryManager.Class",
-                                                   "org.enhydra.jawe.historymgr.HistoryMgr"));
-      componentSettings.put("Graph.HistorySize",
-                            new Integer(properties.getProperty("Graph.HistorySize", "15")));
+      componentSettings.put("Graph.HistoryManager.Class", properties.getProperty("Graph.HistoryManager.Class", "org.enhydra.jawe.historymgr.HistoryMgr"));
+      componentSettings.put("Graph.HistorySize", new Integer(properties.getProperty("Graph.HistorySize", "15")));
 
       Color color;
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.ActivitySelectedColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.ActivitySelectedColor"));
       } catch (Exception e) {
          color = Utils.getColor("R=248,G=242,B=14");
       }
       componentSettings.put("ActivitySelectedColor", color);
 
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.StartEventColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.StartEventColor"));
       } catch (Exception e) {
          color = Utils.getColor("R=102, G=204, B=51");
       }
       componentSettings.put("StartEventColor", color);
 
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.EndEventColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.EndEventColor"));
       } catch (Exception e) {
          color = Utils.getColor("R=236, G=120, B=98");
       }
       componentSettings.put("EndEventColor", color);
 
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.BackgroundColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.BackgroundColor"));
       } catch (Exception e) {
-//         color = Utils.getColor("R=255,G=255,B=215");
+         // color = Utils.getColor("R=255,G=255,B=215");
          color = Color.WHITE;
       }
       componentSettings.put("BackgroundColor", color);
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.GridColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.GridColor"));
       } catch (Exception e) {
          color = Utils.getColor("R=187,G=247,B=190");
       }
       componentSettings.put("GridColor", color);
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.TextColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.TextColor"));
       } catch (Exception e) {
          color = Utils.getColor("SystemColor.textText");
       }
       componentSettings.put("TextColor", color);
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.LaneBorderColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.LaneBorderColor"));
       } catch (Exception e) {
          color = Utils.getColor("SystemColor.textText");
       }
       componentSettings.put("LaneBorderColor", color);
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.LaneFreeTextExpressionColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.LaneFreeTextExpressionColor"));
       } catch (Exception e) {
          color = Utils.getColor("R=255,G=255,B=215");
       }
       componentSettings.put("LaneFreeTextExpressionColor", color);
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.LaneCommonExpressionColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.LaneCommonExpressionColor"));
       } catch (Exception e) {
          color = Utils.getColor("R=255,G=255,B=215");
       }
       componentSettings.put("LaneCommonExpressionColor", color);
 
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.HandleColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.HandleColor"));
       } catch (Exception e) {
          color = Utils.getColor("Color.pink");
       }
       componentSettings.put("HandleColor", color);
       try {
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "Graph.MarqueeColor"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "Graph.MarqueeColor"));
       } catch (Exception e) {
          color = Utils.getColor("SystemColor.textHighlight");
       }
       componentSettings.put("MarqueeColor", color);
 
       ImageIcon cicon;
-      URL iconURL = ResourceManager.getResource(properties,
-                                                "Graph.XPDLElement.Image.Default");
+      URL iconURL = ResourceManager.getResource(properties, "Graph.XPDLElement.Image.Default");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/genericactivity.gif"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/genericactivity.gif"));
       componentSettings.put("DefaultActivityIcon", cicon);
 
       iconURL = ResourceManager.getResource(properties, "Graph.XPDLElement.Image.Start");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/start.gif"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/start.gif"));
       componentSettings.put("Start", cicon);
 
       iconURL = ResourceManager.getResource(properties, "Graph.XPDLElement.Image.End");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/end.gif"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/end.gif"));
       componentSettings.put("End", cicon);
 
-      iconURL = ResourceManager.getResource(properties,
-                                            "Graph.XPDLElement.Image.FreeTextLane");
+      iconURL = ResourceManager.getResource(properties, "Graph.XPDLElement.Image.FreeTextLane");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/freetextlane.png"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/freetextlane.png"));
       componentSettings.put("FreeTextLane", cicon);
 
-      iconURL = ResourceManager.getResource(properties,
-                                            "Graph.XPDLElement.Image.CommonExpresionLane");
+      iconURL = ResourceManager.getResource(properties, "Graph.XPDLElement.Image.CommonExpresionLane");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/commonexplane.png"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/commonexplane.png"));
       componentSettings.put("CommonExpresionLane", cicon);
 
       iconURL = ResourceManager.getResource(properties, "GraphPanel.Image.Lanes");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/lanesselect.gif"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/lanesselect.gif"));
       componentSettings.put("Lanes", cicon);
 
-      iconURL = ResourceManager.getResource(properties,
-                                            "GraphPanel.Image.ActivitySetSelect");
+      iconURL = ResourceManager.getResource(properties, "GraphPanel.Image.ActivitySetSelect");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/activitysetselect.gif"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/activitysetselect.gif"));
       componentSettings.put("ActivitySetSelect", cicon);
 
       iconURL = ResourceManager.getResource(properties, "GraphPanel.Image.Selection");
       if (iconURL != null)
          cicon = new ImageIcon(iconURL);
       else
-         cicon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/select.gif"));
+         cicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/select.gif"));
       componentSettings.put("Selection", cicon);
 
       // menus, toolbars and actions
@@ -361,10 +268,15 @@ public class GraphSettings extends JaWEComponentSettings {
                             "jaweAction_Cut jaweAction_Copy jaweAction_Delete jaweAction_EditProperties - ActivityReferredDocument SelectConnectingTransitionsForSelectedActivities SelectConnectingAssociationsForSelectedActivities - SetToDefaultColor SetToDefaultSize SetElementsColor SetElementsSize");
       componentSettings.put("ACTIVITY_BLOCKMenu", "DescendInto");
       componentSettings.put("ACTIVITY_SUBFLOWMenu", "DescendInto");
+      componentSettings.put("ACTIVITY_ROUTEMenu", "*SetLabelLocation");
+      componentSettings.put("ACTIVITY_STARTMenu", "*SetLabelLocation");
+      componentSettings.put("ACTIVITY_ENDMenu", "*SetLabelLocation");
       componentSettings.put("ARTIFACTMenu",
-      "jaweAction_Cut jaweAction_Copy jaweAction_Delete jaweAction_EditProperties - SelectConnectingAssociationsForSelectedArtifacts - SetToDefaultColor SetToDefaultSize SetElementsColor SetElementsSize");
-      componentSettings.put("LANEMenu",
-                            "RemoveLane jaweAction_Delete jaweAction_EditProperties - MoveUpLane MoveDownLane - SetToDefaultColor SetElementsColor");
+                            "jaweAction_Cut jaweAction_Copy jaweAction_Delete jaweAction_EditProperties - SelectConnectingAssociationsForSelectedArtifacts - SetToDefaultColor SetToDefaultSize SetElementsColor SetElementsSize");
+      componentSettings.put("ARTIFACT_DATA_OBJECTMenu", "*SetLabelLocation");
+      componentSettings.put("SetLabelLocationMenu", "SetLabelLocationTop SetLabelLocationBottom SetLabelLocationLeft SetLabelLocationRight");
+      componentSettings.put("SetLabelLocationLangName", "SetLabelLocation");
+      componentSettings.put("LANEMenu", "RemoveLane jaweAction_Delete jaweAction_EditProperties - MoveUpLane MoveDownLane - SetToDefaultColor SetElementsColor");
       componentSettings.put("SELECTMenu", "GraphPaste");
       componentSettings.put("TRANSITIONMenu",
                             "jaweAction_Cut jaweAction_Copy jaweAction_Delete jaweAction_EditProperties - AddPoint RemovePoint *SetTransitionStyle - SetToDefaultColor SetElementsColor");
@@ -396,8 +308,7 @@ public class GraphSettings extends JaWEComponentSettings {
             });
          } catch (Exception e) {
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/commonexplanesetexp.png"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/commonexplanesetexp.png"));
          langDepName = "SetPerformerExpression";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -414,8 +325,7 @@ public class GraphSettings extends JaWEComponentSettings {
             });
          } catch (Exception e) {
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/freetextlane.png"));                                                  
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/freetextlane.png"));
          langDepName = "SetLanesName";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -423,16 +333,14 @@ public class GraphSettings extends JaWEComponentSettings {
       }
       // ActualSize
       action = new ActualSize(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/actualsize.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/actualsize.gif"));
       langDepName = "ActualSize";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // ActivityReferredDocument
       action = new ActivityReferredDocument(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/referred_document.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/referred_document.png"));
       langDepName = "ActivityReferredDocument";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -492,8 +400,7 @@ public class GraphSettings extends JaWEComponentSettings {
 
       // AddPoint
       action = new AddPoint(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/addpoint.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/addpoint.gif"));
       langDepName = "AddPoint";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -506,80 +413,70 @@ public class GraphSettings extends JaWEComponentSettings {
 
       // GraphPaste
       action = new GraphPaste(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/paste.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/paste.gif"));
       langDepName = "Paste";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // InsertActivitySet
       action = new InsertActivitySet(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activitysetnew.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/activitysetnew.gif"));
       langDepName = "InsertActivitySet";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // MoveDownLane
       action = new MoveDownLane(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/lanedownright.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/lanedownright.gif"));
       langDepName = "MoveDownLane";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // MoveUpLane
       action = new MoveUpLane(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/laneupleft.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/laneupleft.gif"));
       langDepName = "MoveUpLane";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // NextGraph
       action = new NextGraph(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/nav_right_red.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/nav_right_red.png"));
       langDepName = "NextGraph";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // PreviousGraph
       action = new PreviousGraph(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/nav_left_red.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/nav_left_red.png"));
       langDepName = "PreviousGraph";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // InsertMissingStartAndEndEvents
       action = new InsertMissingStartAndEndEvents(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/startend.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/startend.gif"));
       langDepName = "InsertMissingStartAndEndEvents";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // RemoveStartAndEndEvents
       action = new RemoveStartAndEndEvents(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/startend_remove.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/startend_remove.gif"));
       langDepName = "RemoveStartAndEndEvents";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // RemoveLane
       action = new RemoveLane(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/laneremove.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/laneremove.png"));
       langDepName = "RemoveLane";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // RemovePoint
       action = new RemovePoint(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/removepoint.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/removepoint.gif"));
       langDepName = "RemovePoint";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -596,8 +493,7 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/showtransitioncondition.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/showtransitioncondition.gif"));
          langDepName = "ShowTransitionCondition";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -616,8 +512,7 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/hidetransitioncondition.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/hidetransitioncondition.gif"));
          langDepName = "HideTransitionCondition";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -636,8 +531,7 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/hideartifacts.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/hideartifacts.gif"));
          langDepName = "HideArtifacts";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -656,8 +550,7 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/showartifacts.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/showartifacts.gif"));
          langDepName = "ShowArtifacts";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -676,8 +569,7 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/settodefaultcolor.png"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/settodefaultcolor.png"));
          langDepName = "SetToDefaultColor";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -696,8 +588,7 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/settodefaultsize.png"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/settodefaultsize.png"));
          langDepName = "SetToDefaultSize";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -716,14 +607,13 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/setelementscolor.png"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/setelementscolor.png"));
          langDepName = "SetElementsColor";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
       } catch (Exception ex) {
       }
-      
+
       // SetElementsColor
       try {
          String clsName = "org.enhydra.jawe.components.graph.actions.SetElementsSize";
@@ -736,9 +626,81 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/setelementssize.png"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/setelementssize.png"));
          langDepName = "SetElementsSize";
+         ja = new JaWEAction(action, icon, langDepName);
+         componentAction.put(langDepName, ja);
+      } catch (Exception ex) {
+      }
+
+      // SetLabelLocationTop
+      try {
+         String clsName = "org.enhydra.jawe.components.graph.actions.SetLabelLocationTop";
+         try {
+            action = (ActionBase) Class.forName(clsName).getConstructor(new Class[] {
+               JaWEComponent.class
+            }).newInstance(new Object[] {
+               comp
+            });
+         } catch (Exception e) {
+            action = null;
+         }
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/setlabellocationtop.gif"));
+         langDepName = "SetLabelLocationTop";
+         ja = new JaWEAction(action, icon, langDepName);
+         componentAction.put(langDepName, ja);
+      } catch (Exception ex) {
+      }
+      // SetLabelLocationBottom
+      try {
+         String clsName = "org.enhydra.jawe.components.graph.actions.SetLabelLocationBottom";
+         try {
+            action = (ActionBase) Class.forName(clsName).getConstructor(new Class[] {
+               JaWEComponent.class
+            }).newInstance(new Object[] {
+               comp
+            });
+         } catch (Exception e) {
+            action = null;
+         }
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/setlabellocationbottom.gif"));
+         langDepName = "SetLabelLocationBottom";
+         ja = new JaWEAction(action, icon, langDepName);
+         componentAction.put(langDepName, ja);
+      } catch (Exception ex) {
+      }
+      // SetLabelLocationLeft
+      try {
+         String clsName = "org.enhydra.jawe.components.graph.actions.SetLabelLocationLeft";
+         try {
+            action = (ActionBase) Class.forName(clsName).getConstructor(new Class[] {
+               JaWEComponent.class
+            }).newInstance(new Object[] {
+               comp
+            });
+         } catch (Exception e) {
+            action = null;
+         }
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/setlabellocationleft.gif"));
+         langDepName = "SetLabelLocationLeft";
+         ja = new JaWEAction(action, icon, langDepName);
+         componentAction.put(langDepName, ja);
+      } catch (Exception ex) {
+      }
+      // SetLabelLocationRight
+      try {
+         String clsName = "org.enhydra.jawe.components.graph.actions.SetLabelLocationRight";
+         try {
+            action = (ActionBase) Class.forName(clsName).getConstructor(new Class[] {
+               JaWEComponent.class
+            }).newInstance(new Object[] {
+               comp
+            });
+         } catch (Exception e) {
+            action = null;
+         }
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/setlabellocationright.gif"));
+         langDepName = "SetLabelLocationRight";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
       } catch (Exception ex) {
@@ -756,8 +718,7 @@ public class GraphSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/process_rotate.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/process_rotate.gif"));
          langDepName = "RotateProcess";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(langDepName, ja);
@@ -766,16 +727,14 @@ public class GraphSettings extends JaWEComponentSettings {
 
       // SimpleGraphLayout
       action = new SimpleGraphLayout(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/graph_layout.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/graph_layout.png"));
       langDepName = "SimpleGraphLayout";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // SaveAsJPG
       action = new SaveAsJPG(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/saveasjpg.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/saveasjpg.gif"));
       langDepName = "SaveAsJPG";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -789,8 +748,7 @@ public class GraphSettings extends JaWEComponentSettings {
          }).newInstance(new Object[] {
             comp
          });
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/saveassvg.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/saveassvg.gif"));
          langDepName = "SaveAsSVG";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(action.getValue(Action.NAME), ja);
@@ -805,8 +763,7 @@ public class GraphSettings extends JaWEComponentSettings {
          }).newInstance(new Object[] {
             comp
          });
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/saveaspdf.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/saveaspdf.gif"));
          langDepName = "SaveAsPDF";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put(action.getValue(Action.NAME), ja);
@@ -815,48 +772,42 @@ public class GraphSettings extends JaWEComponentSettings {
 
       // SetTransitionStyleNoRoutingBezier
       action = new SetTransitionStyleNoRoutingBezier(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionbezier.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionbezier.gif"));
       langDepName = "SetTransitionStyleNoRoutingBezier";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // SetTransitionStyleNoRoutingOrthogonal
       action = new SetTransitionStyleNoRoutingOrthogonal(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionortogonal.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionortogonal.gif"));
       langDepName = "SetTransitionStyleNoRoutingOrthogonal";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // SetTransitionStyleNoRoutingSpline
       action = new SetTransitionStyleNoRoutingSpline(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionspline.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionspline.gif"));
       langDepName = "SetTransitionStyleNoRoutingSpline";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // SetTransitionStyleSimpleRoutingBezier
       action = new SetTransitionStyleNoRoutingBezier(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionbeziersr.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionbeziersr.gif"));
       langDepName = "SetTransitionStyleSimpleRoutingBezier";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // SetTransitionStyleSimpleRoutingOrthogonal
       action = new SetTransitionStyleSimpleRoutingOrthogonal(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionortogonalsr.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionortogonalsr.gif"));
       langDepName = "SetTransitionStyleSimpleRoutingOrthogonal";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // SetTransitionStyleSimpleRoutingSpline
       action = new SetTransitionStyleSimpleRoutingSpline(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionsplinesr.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionsplinesr.gif"));
       langDepName = "SetTransitionStyleSimpleRoutingSpline";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -916,16 +867,14 @@ public class GraphSettings extends JaWEComponentSettings {
 
       // ZoomIn
       action = new ZoomIn(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/zoomin.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/zoomin.gif"));
       langDepName = "ZoomIn";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 
       // ZoomOut
       action = new ZoomOut(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/zoomout.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/zoomout.gif"));
       langDepName = "ZoomOut";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -1166,9 +1115,9 @@ public class GraphSettings extends JaWEComponentSettings {
    public boolean hasAdditionalToolbar() {
       return ((Boolean) componentSettings.get("AdditionalToolbar")).booleanValue();
    }
-   
-   public boolean shouldShowArtifacts () {      
+
+   public boolean shouldShowArtifacts() {
       return ((Boolean) componentSettings.get("ShowArtifacts")).booleanValue();
    }
-   
+
 }

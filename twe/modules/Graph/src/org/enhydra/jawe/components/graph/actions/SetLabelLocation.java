@@ -27,27 +27,34 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.components.graph.Graph;
+import org.enhydra.jawe.components.graph.GraphActivityInterface;
+import org.enhydra.jawe.components.graph.GraphArtifactInterface;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
 import org.enhydra.jawe.components.graph.GraphUtilities;
-import org.enhydra.jxpdl.elements.Transition;
+import org.enhydra.jxpdl.XMLCollectionElement;
+import org.enhydra.jxpdl.XPDLConstants;
+import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.Artifact;
+import org.jgraph.graph.DefaultGraphCell;
 
 /**
- * Class that realizes <B>SetTransitionType</B> action.
+ * Sets the performer expression for all the activities contained inside selected
+ * CommonExpressionParticipant.
  * 
  * @author Sasa Bojanic
  */
-public abstract class SetTransitionStyle extends ActionBase {
+public class SetLabelLocation extends ActionBase {
 
-   protected String style;
+   protected int location = -1;
 
-   public SetTransitionStyle(JaWEComponent jawecomponent) {
+   public SetLabelLocation(JaWEComponent jawecomponent) {
       super(jawecomponent);
    }
 
-   public SetTransitionStyle(JaWEComponent jawecomponent, String style) {
+   public SetLabelLocation(JaWEComponent jawecomponent, int location) {
       super(jawecomponent);
-      this.style = style;
+      this.location = location;
    }
 
    public void enableDisableAction() {
@@ -58,7 +65,7 @@ public abstract class SetTransitionStyle extends ActionBase {
          Object[] sc = g.getSelectionCells();
          boolean en = sc != null && sc.length > 0;
          for (Object object : sc) {
-            if (!(object instanceof GraphTransitionInterface)) {
+            if (!checkObject(object)) {
                en = false;
                break;
             }
@@ -73,20 +80,38 @@ public abstract class SetTransitionStyle extends ActionBase {
       GraphController gc = (GraphController) jawecomponent;
       Graph graph = gc.getSelectedGraph();
       Object[] cells = graph.getSelectionCells();
-      JaWEController jc = JaWEManager.getInstance().getJaWEController();
-      gc.setUpdateInProgress(true);
-      jc.startUndouableChange();
       List toSelect = new ArrayList();
+      JaWEController jc = JaWEManager.getInstance().getJaWEController();
+      jc.startUndouableChange();
+      gc.setUpdateInProgress(true);
       for (Object cell : cells) {
-         if (cell instanceof GraphTransitionInterface) {
-            GraphTransitionInterface gtra = (GraphTransitionInterface) cell;
-            Transition tra = (Transition) gtra.getUserObject();
-            GraphUtilities.setStyle(tra, style);
-            graph.getGraphManager().updateStyle(gtra);
-            toSelect.add(tra);
+         if (checkObject(cell)) {
+            XMLCollectionElement actOrArtif = (XMLCollectionElement) ((DefaultGraphCell) cell).getUserObject();
+            GraphUtilities.setLabelLocation(actOrArtif, location);
+            toSelect.add(actOrArtif);
          }
       }
       JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);
       gc.setUpdateInProgress(false);
+      graph.refresh();
+   }
+
+   private boolean checkObject(Object cell) {
+      boolean ok = false;
+      if (cell instanceof GraphArtifactInterface || cell instanceof GraphActivityInterface) {
+         XMLCollectionElement actOrArtif = (XMLCollectionElement) ((DefaultGraphCell) cell).getUserObject();
+         if (actOrArtif instanceof Artifact) {
+            if (((Artifact) actOrArtif).getArtifactType().equals(XPDLConstants.ARTIFACT_TYPE_DATAOBJECT)) {
+               ok = true;
+            }
+         } else {
+            int actType = ((Activity) actOrArtif).getActivityType();
+            if (actType == XPDLConstants.ACTIVITY_TYPE_EVENT_START
+                || actType == XPDLConstants.ACTIVITY_TYPE_EVENT_END || actType == XPDLConstants.ACTIVITY_TYPE_ROUTE) {
+               ok = true;
+            }
+         }
+      }
+      return ok;
    }
 }

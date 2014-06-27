@@ -26,7 +26,6 @@ import java.util.Set;
 import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.components.graph.Graph;
-import org.enhydra.jawe.components.graph.GraphActivityInterface;
 import org.enhydra.jawe.components.graph.GraphCommonInterface;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;

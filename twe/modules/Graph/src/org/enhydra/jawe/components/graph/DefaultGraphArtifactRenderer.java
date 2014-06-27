@@ -103,7 +103,10 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
          g2.drawPolygon(x, y, 6);
          g2.drawPolygon(x2, y2, 4);
          String label = gact.toString();
-         paintLabel(g, label, new Point(0, rg.height));
+         if (!label.trim().equals("")) {
+            paintLabel(g, label, actW, actH, GraphUtilities.getLabelLocation(art));
+         }
+         
       } else {
          // drawing panel
          super.setOpaque(false);
@@ -132,21 +135,43 @@ public class DefaultGraphArtifactRenderer extends MultiLinedRenderer implements
    }
 
    /**
-    * Paints the label below the artifact "box".
+    * Paints the label for the artifact "box".
     * 
     * @param g Graphics object.
     * @param label Label text to paint.
-    * @param middle The point of artifact necessary to calculate label position.
+    * @param actW The width of activity "box".
+    * @param actH The height of activity "box".
+    * @param labelPosition The position (Left/Right/Top/Bottom)
     */
-   protected void paintLabel(Graphics g, String label, Point middle) {
+   protected void paintLabel(Graphics g, String label, int actW, int actH, int labelPosition) {
       Graphics2D g2 = (Graphics2D) g;
       g2.setStroke(new BasicStroke(1));
-      g.setFont(GraphConstants.getFont(view.getAllAttributes()));
+      Font f = GraphConstants.getFont(view.getAllAttributes());
+      g.setFont(f);
       if (label != null && label.length() > 0) {
          Dimension d = getLabelDimension((GraphArtifactViewInterface) view);
+         int w = (int) g.getClipBounds().getWidth();
+         FontMetrics metrics = getFontMetrics(f);
+         int sh = metrics.getHeight();
+         g.setFont(f);
          g.setColor(getBackground());
          g.setColor(Color.BLACK);
-         g.drawString(label, middle.x, middle.y + d.height);
+         
+         int xpos = 0;
+         int ypos = actH + sh - 3;
+         if (labelPosition == GraphEAConstants.LABEL_POSITION_LEFT || labelPosition == GraphEAConstants.LABEL_POSITION_RIGHT) {
+            ypos = (int) (actH / 2 + 3);
+            if (labelPosition == GraphEAConstants.LABEL_POSITION_RIGHT) {
+               xpos = actW + 5;
+            }
+         } else {
+            xpos = d.width < w ? (w - d.width) / 2 : 0;
+            if (labelPosition == GraphEAConstants.LABEL_POSITION_TOP) {
+               ypos -= actH;
+            }
+         }
+         
+         g.drawString(label, xpos, ypos);
       }
    }
 

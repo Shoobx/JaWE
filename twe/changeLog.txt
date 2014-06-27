@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-06-27 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to position artifact/gateway/start/end labels to the top/bottom/left/right location. Information stored in XPDL.
+
 2014-06-23 Sasa Bojanic <sasaboy@together.at>
    # Fix: transition condition label was not always fully shown 
    # Fix: scrollbars were missing when Zoom In action was performed and then activity was moved

@@ -51,9 +51,11 @@ public class AddPoint extends ActionBase {
       Graph g=gc.getSelectedGraph();
       if (getPackage() == jc.getMainPackage() && g!=null) {
          Object[] sc=g.getSelectionCells();
+         boolean en = false;
          if (sc!=null && sc.length==1 && sc[0] instanceof GraphTransitionInterface) {
-            setEnabled(true);
+            en = true;
          }
+         setEnabled(en);
       } else {      
          setEnabled(false);
       }

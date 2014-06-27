@@ -37,8 +37,7 @@ import org.jgraph.graph.VertexView;
 /**
  * Represents a view for a model's Artifact object.
  */
-public class DefaultGraphArtifactView extends VertexView implements
-                                                        GraphArtifactViewInterface {
+public class DefaultGraphArtifactView extends VertexView implements GraphArtifactViewInterface {
 
    /** Map of renderers for different types of artifacts. */
    protected static Map renderers = new HashMap();
@@ -75,19 +74,29 @@ public class DefaultGraphArtifactView extends VertexView implements
       GraphArtifactInterface gact = (GraphArtifactInterface) getCell();
       Artifact art = (Artifact) gact.getUserObject();
       String mn = Utils.getCallerMethodName(0);
-      if (art.getArtifactType().equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION)
-          || mthlst.contains(mn)) {
+      if (art.getArtifactType().equals(XPDLConstants.ARTIFACT_TYPE_ANNOTATION) || mthlst.contains(mn)) {
          // System.out.println("MN=" + mn + " - b=" + bounds);
          return bounds;
       }
-      Dimension d = ((GraphArtifactRendererInterface) getRenderer()).getLabelDimension(this);
 
-      int dx = d.getWidth() > bounds.getWidth() ? (int) (d.getWidth() - bounds.getWidth()) / 2
-                                               : 0;
-      Rectangle2D rect = new Rectangle((int) (bounds.getX() - dx),
-                                       (int) (bounds.getY() + bounds.getHeight()),
-                                       (int) d.getWidth(),
-                                       (int) d.getHeight());
+      int lp = GraphUtilities.getLabelLocation(art);
+      Dimension d = ((GraphArtifactRendererInterface) getRenderer()).getLabelDimension(this);
+      int dx = 0;
+      int dy = (int) bounds.getHeight();
+      if (lp == GraphEAConstants.LABEL_POSITION_LEFT || lp == GraphEAConstants.LABEL_POSITION_RIGHT) {
+         dy = (int) (bounds.getHeight() / 2 - d.getHeight() / 2);
+         dx = (int) d.getWidth() + 5;
+         if (lp == GraphEAConstants.LABEL_POSITION_RIGHT) {
+            dx = -dx - (int) bounds.getWidth();
+         }
+      } else {
+         dx = d.getWidth() > bounds.getWidth() ? (int) (d.getWidth() - bounds.getWidth()) / 2 : 0;
+         if (lp == GraphEAConstants.LABEL_POSITION_TOP) {
+            dy = -(int)d.getHeight();
+         }
+      } 
+      Rectangle2D rect = new Rectangle((int) (bounds.getX() - dx), (int) (bounds.getY() + dy), (int) d.getWidth(), (int) d.getHeight());
+      
       if (rect != null)
          Rectangle2D.union(bounds, rect, rect);
       // System.out.println("MN=" + mn + " - r=" + rect);
@@ -109,9 +118,7 @@ public class DefaultGraphArtifactView extends VertexView implements
     * @return Renderer object.
     */
    protected GraphArtifactRendererInterface createRenderer(Artifact art) {
-      return GraphUtilities.getGraphController()
-         .getGraphObjectRendererFactory()
-         .createArtifactRenderer(art);
+      return GraphUtilities.getGraphController().getGraphObjectRendererFactory().createArtifactRenderer(art);
    }
 
    public Point2D getPerimeterPoint(EdgeView edge, Point2D source, Point2D p) {

@@ -21,7 +21,6 @@
  */
 package org.enhydra.jawe.components.graph.actions;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,21 +28,12 @@ import java.util.List;
 import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphController;
-import org.enhydra.jawe.components.graph.GraphEAConstants;
 import org.enhydra.jawe.components.graph.GraphUtilities;
-import org.enhydra.jawe.components.graph.JaWEGraphModel;
-import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
-import org.enhydra.jxpdl.elements.Activity;
-import org.enhydra.jxpdl.elements.Artifact;
-import org.enhydra.jxpdl.elements.Association;
-import org.enhydra.jxpdl.elements.Transition;
-import org.jgraph.graph.DefaultGraphCell;
 
 /**
  * @author Miroslav Popov

@@ -176,7 +176,7 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
       }
       String label = act.getName();
       if (!label.trim().equals("")) {
-         paintLabel(g, label, d.height);
+         paintLabel(g, label, actW, actH, GraphUtilities.getLabelLocation(act));
       }
    }
 
@@ -250,13 +250,15 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
    }
 
    /**
-    * Paints the label below the Route type activity "box".
+    * Paints the label for Route type activity "box".
     * 
     * @param g Graphics object.
     * @param label Label text to paint.
+    * @param actW The width of activity "box".
     * @param actH The height of activity "box".
+    * @param labelPosition The position (Left/Right/Top/Bottom)
     */
-   protected void paintLabel(Graphics g, String label, int actH) {
+   protected void paintLabel(Graphics g, String label, int actW, int actH, int labelPosition) {
       // Rectangle rb = ((GraphArtifactViewInterface)view).getOriginalBounds();
       // view.setBounds(new Rectangle((int)rb.getX()-50, (int)rb.getY(),
       // (int)rb.getWidth()+100, (int)rb.getHeight()+50));
@@ -274,7 +276,22 @@ public class DefaultGraphActivityRenderer extends MultiLinedRenderer implements
          g.setFont(f);
          g.setColor(getBackground());
          g.setColor(Color.BLACK);
-         g.drawString(label, d.width < w ? (w - d.width) / 2 : 0, actH + sh - 3);
+         
+         int xpos = 0;
+         int ypos = actH + sh - 3;
+         if (labelPosition == GraphEAConstants.LABEL_POSITION_LEFT || labelPosition == GraphEAConstants.LABEL_POSITION_RIGHT) {
+            ypos = (int) (actH / 2 + 3);
+            if (labelPosition == GraphEAConstants.LABEL_POSITION_RIGHT) {
+               xpos = actW + 5;
+            }
+         } else {
+            xpos = d.width < w ? (w - d.width) / 2 : 0;
+            if (labelPosition == GraphEAConstants.LABEL_POSITION_TOP) {
+               ypos -= actH;
+            }
+         }
+         
+         g.drawString(label, xpos, ypos);
       }
    }
 

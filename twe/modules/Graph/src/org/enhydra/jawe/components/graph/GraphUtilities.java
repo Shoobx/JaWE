@@ -483,6 +483,25 @@ public class GraphUtilities {
       }
    }
 
+   public static int getLabelLocation(XMLCollectionElement actOrArtif) {
+      int lp = GraphEAConstants.LABEL_POSITION_BOTTOM;
+      NodeGraphicsInfo ea = JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(actOrArtif);
+      if (ea != null) {
+         try {
+            lp = Integer.parseInt(ea.getShape());
+         } catch (Exception ex) {
+         }
+      }
+      return lp;
+   }
+   
+   public static void setLabelLocation(XMLCollectionElement actOrArtif, int location) {
+      NodeGraphicsInfo ea = JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(actOrArtif);
+      if (ea != null) {
+         ea.setShape(String.valueOf(location));
+      }      
+   }
+
    protected static NodeGraphicsInfo createNodeGraphicsInfo(XMLCollectionElement actOrArtif, Point val, String laneId, boolean addToCollection) {
       NodeGraphicsInfos eas = (NodeGraphicsInfos) actOrArtif.get("NodeGraphicsInfos");
       NodeGraphicsInfo ea = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(eas, "", false);
