@@ -30,6 +30,7 @@ import org.enhydra.jawe.components.graph.Graph;
 import org.enhydra.jawe.components.graph.GraphController;
 import org.enhydra.jawe.components.graph.GraphTransitionInterface;
 import org.enhydra.jawe.components.graph.GraphUtilities;
+import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.elements.Transition;
 
 /**
@@ -80,10 +81,10 @@ public abstract class SetTransitionStyle extends ActionBase {
       for (Object cell : cells) {
          if (cell instanceof GraphTransitionInterface) {
             GraphTransitionInterface gtra = (GraphTransitionInterface) cell;
-            Transition tra = (Transition) gtra.getUserObject();
-            GraphUtilities.setStyle(tra, style);
+            XMLCollectionElement traOrAsoc = (XMLCollectionElement) gtra.getUserObject();
+            GraphUtilities.setStyle(traOrAsoc, style);
             graph.getGraphManager().updateStyle(gtra);
-            toSelect.add(tra);
+            toSelect.add(traOrAsoc);
          }
       }
       JaWEManager.getInstance().getJaWEController().endUndouableChange(toSelect);

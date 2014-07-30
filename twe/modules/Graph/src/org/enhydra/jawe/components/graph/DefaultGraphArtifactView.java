@@ -48,7 +48,7 @@ public class DefaultGraphArtifactView extends VertexView implements GraphArtifac
     * returned, the "full" bounds are returned otherwise.
     */
    protected static List mthlst = Arrays.asList(new String[] {
-         "intersection", "getPerimeterPoint", "getCenterPoint", "paintPort", "getCBounds"
+         "intersection", "getPerimeterPoint", "getCenterPoint", "paintPort", "getCBounds", "getLocation"
    });
 
    /**

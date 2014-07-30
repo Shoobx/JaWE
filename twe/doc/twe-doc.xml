@@ -10467,6 +10467,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Fix: SetTransitionStyle action didn't work for
+          associations</para>
+        </listitem>
+
+        <listitem>
           <para>Linux tar.gz distributions now built under windows</para>
         </listitem>
 

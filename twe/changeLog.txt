@@ -1,4 +1,8 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-07-30 Sasa Bojanic <sasaboy@together.at>
+   # Fix: orthogonal-no-routing transitions were not orthogonal after setting port property allowPortMagic to false. Now it is fixed for all but Start/End events
+   # Fix: SetTransitionStyle action didn't work for associations
+
 2014-06-27 Sasa Bojanic <sasaboy@together.at>
    # Added possibility to position artifact/gateway/start/end labels to the top/bottom/left/right location. Information stored in XPDL.
 

@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.enhydra.jawe.Utils;
-import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.elements.Activity;
 import org.jgraph.graph.CellViewRenderer;
 import org.jgraph.graph.EdgeView;
