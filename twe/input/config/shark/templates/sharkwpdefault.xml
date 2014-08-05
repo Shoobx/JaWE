@@ -16,6 +16,13 @@
     along with this program. If not, see http://www.gnu.org/licenses
 -->
 <WorkflowProcess>
+   <DataFields>
+      <DataField Id="category" IsArray="false" Name="Outlook Category">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+      </DataField>
+   </DataFields>
    <ExtendedAttributes>
       <ExtendedAttribute Name="ALLOW_UNDEFINED_VARIABLES" Value="true"/>
       <ExtendedAttribute Name="DYNAMIC_VARIABLE_HANDLING" Value="false"/>

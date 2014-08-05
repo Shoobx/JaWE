@@ -21,6 +21,13 @@
       <Vendor>Together Teamsolutions Co., Ltd.</Vendor>
    </PackageHeader>
    <Script Type="text/javascript"/>
+   <DataFields>
+      <DataField Id="category" IsArray="false" Name="Outlook Category">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+      </DataField>
+   </DataFields>
    <ExtendedAttributes>
       <ExtendedAttribute Name="ALLOW_UNDEFINED_VARIABLES" Value="false"/>
       <ExtendedAttribute Name="DYNAMIC_VARIABLE_HANDLING" Value="false"/>

@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-08-05 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: category variable is now represented as Package/Workflow process attribute
+
 2014-07-30 Sasa Bojanic <sasaboy@together.at>
    # Fix: orthogonal-no-routing transitions were not orthogonal after setting port property allowPortMagic to false. Now it is fixed for all but Start/End events
    # Fix: SetTransitionStyle action didn't work for associations

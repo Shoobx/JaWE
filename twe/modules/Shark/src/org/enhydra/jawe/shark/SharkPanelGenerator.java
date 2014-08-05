@@ -657,6 +657,15 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(DataField el) {
+      if (el.getId().equals(SharkConstants.SHARK_VARIABLE_CATEGORY)) {
+         return new XMLTextPanel(getPanelContainer(),
+                                 el.get("InitialValue"),
+                                 getPanelContainer().getLanguageDependentString("CategoryKey"),
+                                 false,
+                                 false,
+                                 JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                 null);
+      }
       XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el);
       ExtendedAttributes eas = el.getExtendedAttributes();
       ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MIN_LENGTH);
@@ -777,6 +786,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (!hidden.contains(el.get("Name"))) {
             panelElements.add(el.get("Name"));
          }
+
+         DataField cat = el.getDataField(SharkConstants.SHARK_VARIABLE_CATEGORY);
+         if (cat != null) {
+            panelElements.add(cat);
+         }
+         
          if (!hidden.contains(el.getConformanceClass())) {
             panelElements.add(el.getConformanceClass());
          }
@@ -941,6 +956,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (!hidden.contains(el.get("Name"))) {
             panelElements.add(el.get("Name"));
          }
+
+         DataField cat = el.getDataField(SharkConstants.SHARK_VARIABLE_CATEGORY);
+         if (cat != null) {
+            panelElements.add(cat);
+         }
+
          if (!hidden.contains(el.getAccessLevelAttribute())) {
             panelElements.add(el.getAccessLevelAttribute());
          }

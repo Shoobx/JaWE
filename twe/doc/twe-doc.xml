@@ -10382,8 +10382,13 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>Shark mode: support for new extended attribute
+          <para>Shark mode: </para>
+
+          <para>- support for new extended attribute
           "IS_ACTIVITY_SCOPE_ONLY"</para>
+
+          <para>- category variable is now represented as Package/Workflow
+          process attribute</para>
         </listitem>
 
         <listitem>

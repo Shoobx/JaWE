@@ -486,6 +486,8 @@ public class SharkConstants {
 
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE = "shark_activity_error_stacktrace";
 
+   public static final String SHARK_VARIABLE_CATEGORY = "category";
+   
    public static final String[] POSSIBLE_SYSTEM_VARIABLES = new String[] {
          SharkConstants.SHARK_PROCESS_DEFINITION_ID,
          SharkConstants.SHARK_PROCESS_DEFINITION_NAME,
