@@ -45,9 +45,9 @@ import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
+import org.enhydra.jawe.base.panel.panels.XMLTablePanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jawe.shark.business.DeadlineHandlerConfigurationElement;
 import org.enhydra.jawe.shark.business.EmailConfigurationElement;
@@ -59,6 +59,7 @@ import org.enhydra.jawe.shark.business.WfAttachments;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLAttribute;
+import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
@@ -69,6 +70,7 @@ import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.Condition;
 import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.Deadline;
 import org.enhydra.jxpdl.elements.ExpressionType;
@@ -791,7 +793,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (cat != null) {
             panelElements.add(cat);
          }
-         
+
          if (!hidden.contains(el.getConformanceClass())) {
             panelElements.add(el.getConformanceClass());
          }
@@ -1326,6 +1328,30 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                      true,
                                      hasTitle,
                                      hasEmptyBorder);
+   }
+
+   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl, boolean hasTitle, boolean hasEmptyBorder, boolean miniDim, boolean useBasicToolbar) {
+      if (cl instanceof DataFields) {
+         List elementsToShow = cl.toElements();
+         Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLTablePanel", cl);
+         elementsToShow.removeAll(hidden);
+         List columnsToShow = PanelUtilities.getColumnsToShow(getPanelContainer(), "XMLTablePanel", cl);
+         return new SharkTablePanelForVariables((InlinePanel) getPanelContainer(),
+                                                cl,
+                                                columnsToShow,
+                                                elementsToShow,
+                                                JaWEManager.getInstance().getLabelGenerator().getLabel(cl)
+                                                      + ", " + (cl.size() - hidden.size()) + " "
+                                                      + getPanelContainer().getLanguageDependentString("ElementsKey"),
+                                                hasTitle,
+                                                hasEmptyBorder,
+                                                false,
+                                                miniDim,
+                                                true,
+                                                true);
+
+      }
+      return super.generateStandardTablePanel(cl, hasTitle, hasEmptyBorder, miniDim, useBasicToolbar);
    }
 
    protected List getPossibleVariableChoices(Map vars, ExtendedAttribute eac) {

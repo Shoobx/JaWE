@@ -74,7 +74,7 @@ public class SharkConstants {
    public static final String EA_CHECK_FOR_COMPLETION = "CHECK_FOR_COMPLETION";
 
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL = "XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL";
-   
+
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR = "XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR";
 
    public static final String CONFIGURE_SMTP_EVENT_AUDIT_MANAGER = "ConfigureEmail";
@@ -134,7 +134,7 @@ public class SharkConstants {
    public static final String EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT";
 
    public static final String EA_NEWPROC_ERROR_HANDLER_DO_CREATE = "NEWPROC_ERROR_HANDLER_DO_CREATE";
-   
+
    public static final String EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE = "FILESYSLOG_ERROR_HANDLER_DO_WRITE";
 
    public static final String EA_ERROR_HANDLER_RETURN_CODE = "ERROR_HANDLER_RETURN_CODE";
@@ -487,7 +487,7 @@ public class SharkConstants {
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE = "shark_activity_error_stacktrace";
 
    public static final String SHARK_VARIABLE_CATEGORY = "category";
-   
+
    public static final String[] POSSIBLE_SYSTEM_VARIABLES = new String[] {
          SharkConstants.SHARK_PROCESS_DEFINITION_ID,
          SharkConstants.SHARK_PROCESS_DEFINITION_NAME,
@@ -538,5 +538,38 @@ public class SharkConstants {
    public static final String CONFIG_STRING_PLACEHOLDER_PREFIX = "config_string:";
 
    public static final String PROCESS_VARIABLE_PLACEHOLDER_PREFIX = "process_variable:";
+
+   public static final String OUTLOOK_VARIABLE_STATUS = "OUTLOOK_VARIABLE_VariableStatus";
+
+   public static final String OUTLOOK_VARIABLE_BILLING_INFORMATION = "OUTLOOK_VARIABLE_BillingInformation";
+
+   public static final String OUTLOOK_VARIABLE_COMPANY = "OUTLOOK_VARIABLE_Company";
+
+   public static final String OUTLOOK_VARIABLE_MILEAGE = "OUTLOOK_VARIABLE_Mileage";
+
+   public static final String OUTLOOK_VARIABLE_TOTAL_WORK = "OUTLOOK_VARIABLE_TotalWork";
+
+   public static final String OUTLOOK_VARIABLE_ACTUAL_WORK = "OUTLOOK_VARIABLE_ActualWork";
+
+   public static final String OUTLOOK_VARIABLE_DATE_COMPLETED = "OUTLOOK_VARIABLE_DateCompleted";
+
+   public static final String OUTLOOK_VARIABLE_CATEGORY = "OUTLOOK_VARIABLE_Category";
+
+   public static final String OUTLOOK_VARIABLE_COMPLETE_PERCENT = "OUTLOOK_VARIABLE_CompletePercent";
+
+   public static final String OUTLOOK_VARIABLE_START_DATE = "OUTLOOK_VARIABLE_StartDate";
+
+   public static final String[] POSSIBLE_OUTLOOK_VARIABLES = new String[] {
+         OUTLOOK_VARIABLE_ACTUAL_WORK,
+         OUTLOOK_VARIABLE_BILLING_INFORMATION,
+         OUTLOOK_VARIABLE_CATEGORY,
+         OUTLOOK_VARIABLE_COMPANY,
+         OUTLOOK_VARIABLE_COMPLETE_PERCENT,
+         OUTLOOK_VARIABLE_DATE_COMPLETED,
+         OUTLOOK_VARIABLE_MILEAGE,
+         OUTLOOK_VARIABLE_START_DATE,
+         OUTLOOK_VARIABLE_STATUS,
+         OUTLOOK_VARIABLE_TOTAL_WORK
+   };
 
 }

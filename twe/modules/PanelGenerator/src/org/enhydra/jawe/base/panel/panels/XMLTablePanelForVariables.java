@@ -274,7 +274,9 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
          panel.add(buttonDuplicate);
          panel.add(Box.createRigidArea(new Dimension(3, 3)));
          panel.add(buttonReferences);
-         panel.add(buttonConvert);
+         if (!(myOwner.getParent() instanceof org.enhydra.jxpdl.elements.Package)) {
+            panel.add(buttonConvert);
+         }
       }
       panel.add(Box.createHorizontalGlue());
       return panel;
