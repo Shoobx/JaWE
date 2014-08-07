@@ -18,22 +18,16 @@
 
 package org.enhydra.jawe.shark;
 
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.enhydra.jawe.BarFactory;
-import org.enhydra.jawe.ButtonPropertyChangedListener;
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.jawe.ResourceManager;
-import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.controller.JaWESelectionManager;
 import org.enhydra.jawe.base.panel.InlinePanel;
@@ -44,7 +38,7 @@ import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 
 public class SharkTablePanelForVariables extends XMLTablePanelForVariables {
-   public static final String CREATE_OUTLOOK_VARS_ACTION = "CreateOutlookVars";
+   public static final String CREATE_OUTLOOK_VARIABLES_ACTION = "CreateOutlookVariables";
 
    protected Action createOutlookVarsAction;
 
@@ -99,7 +93,7 @@ public class SharkTablePanelForVariables extends XMLTablePanelForVariables {
    protected JPanel createToolbar(boolean useBasicToolbar) {
       JPanel panel = super.createToolbar(useBasicToolbar);
       if (!useBasicToolbar) {
-         createOutlookVarsAction = new AbstractAction(CREATE_OUTLOOK_VARS_ACTION) {
+         createOutlookVarsAction = new AbstractAction(CREATE_OUTLOOK_VARIABLES_ACTION) {
             public void actionPerformed(ActionEvent ae) {
                JaWESelectionManager sm = JaWEManager.getInstance().getJaWEController().getSelectionManager();
                ipc.getJaWEComponent().setUpdateInProgress(true);
@@ -117,43 +111,13 @@ public class SharkTablePanelForVariables extends XMLTablePanelForVariables {
             }
          };
 
-         JButton buttonOutlookVars = createToolbarButton(ipc.getSettings(), createOutlookVarsAction, "outlook_small.gif");
+         JButton buttonOutlookVars = createToolbarButton(ipc.getSettings(), createOutlookVarsAction, "org/enhydra/jawe/shark/images/outlook_small.gif");
 
          buttonOutlookVars.setRolloverEnabled(true);
          panel.add(buttonOutlookVars, panel.getComponentCount() - 1);
       }
 
       return panel;
-   }
-
-   public static JButton createToolbarButton(Settings s, Action a, String imageName) {
-      if (a == null)
-         return null;
-
-      String actionName = (String) a.getValue(Action.NAME);
-      JButton b = null;
-
-      ImageIcon curIc = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/" + imageName));
-
-      b = new JButton(curIc) {
-         public float getAlignmentY() {
-            return 0.5f;
-         }
-      };
-
-      b.setName(actionName);
-      b.setMargin(new Insets(1, 1, 1, 1));
-      b.setRequestFocusEnabled(false);
-
-      b.addActionListener(a);
-      a.addPropertyChangeListener(new ButtonPropertyChangedListener(b));
-
-      String tip = s.getLanguageDependentString(actionName + BarFactory.TOOLTIP_POSTFIX);
-      if (tip != null) {
-         b.setToolTipText(tip);
-      }
-
-      return b;
    }
 
    protected void adjustActions() {

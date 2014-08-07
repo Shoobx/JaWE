@@ -68,17 +68,7 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
                                     boolean miniDimension,
                                     final boolean colors,
                                     final boolean showArrows) {
-      super(ipc,
-            myOwner,
-            columnsToShow,
-            elementsToShow,
-            title,
-            hasBorder,
-            hasEmptyBorder,
-            automaticWidth,
-            miniDimension,
-            colors,
-            showArrows);
+      super(ipc, myOwner, columnsToShow, elementsToShow, title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, colors, showArrows);
 
    }
 
@@ -94,9 +84,7 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
             fp = ((WorkflowProcess) el.getParent().getParent()).getFormalParameters();
          else
             fp = new FormalParameters((WorkflowProcess) el.getParent().getParent());
-         FormalParameter newFormalParam = JaWEManager.getInstance()
-            .getXPDLObjectFactory()
-            .createXPDLObject(fp, "", true);
+         FormalParameter newFormalParam = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(fp, "", true);
          DataField df = (DataField) el;
          newFormalParam.setId(df.getId());
          newFormalParam.setName(df.getName());
@@ -105,39 +93,23 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
          newFormalParam.setIsArray(df.getIsArray());
          newFormalParam.setLength(df.getLength());
          XMLElement choosen = df.getDataType().getDataTypes().getChoosen();
-         if (choosen instanceof BasicType
-             && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_STRING))
+         if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_STRING))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_FLOAT))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_FLOAT))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeFLOAT();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_INTEGER))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_INTEGER))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeINTEGER();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_DATETIME))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_DATETIME))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_DATE))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_DATE))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeDATE();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_TIME))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_TIME))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeTIME();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_BOOLEAN))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_BOOLEAN))
             newFormalParam.getDataType().getDataTypes().getBasicType().setTypeBOOLEAN();
          else if (choosen instanceof DeclaredType) {
             newFormalParam.getDataType().getDataTypes().setDeclaredType();
-            newFormalParam.getDataType()
-               .getDataTypes()
-               .getDeclaredType()
-               .setId(((DeclaredType) choosen).getId());
+            newFormalParam.getDataType().getDataTypes().getDeclaredType().setId(((DeclaredType) choosen).getId());
          } else if (choosen instanceof SchemaType)
             newFormalParam.getDataType().getDataTypes().setSchemaType();
 
@@ -154,9 +126,7 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
             df = ((WorkflowProcess) el.getParent().getParent()).getDataFields();
          else
             df = new DataFields((WorkflowProcess) el.getParent().getParent());
-         DataField newDataField = JaWEManager.getInstance()
-            .getXPDLObjectFactory()
-            .createXPDLObject(df, "", true);
+         DataField newDataField = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(df, "", true);
          FormalParameter fp = (FormalParameter) el;
          newDataField.setId(fp.getId());
          newDataField.setName(fp.getName());
@@ -166,31 +136,19 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
          newDataField.setLength(fp.getLength());
 
          XMLElement choosen = fp.getDataType().getDataTypes().getChoosen();
-         if (choosen instanceof BasicType
-             && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_STRING))
+         if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_STRING))
             newDataField.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_FLOAT))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_FLOAT))
             newDataField.getDataType().getDataTypes().getBasicType().setTypeFLOAT();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_INTEGER))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_INTEGER))
             newDataField.getDataType().getDataTypes().getBasicType().setTypeINTEGER();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_DATETIME))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_DATETIME))
             newDataField.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
-         else if (choosen instanceof BasicType
-                  && ((BasicType) choosen).getType()
-                     .equals(XPDLConstants.BASIC_TYPE_BOOLEAN))
+         else if (choosen instanceof BasicType && ((BasicType) choosen).getType().equals(XPDLConstants.BASIC_TYPE_BOOLEAN))
             newDataField.getDataType().getDataTypes().getBasicType().setTypeBOOLEAN();
          else if (choosen instanceof DeclaredType) {
             newDataField.getDataType().getDataTypes().setDeclaredType();
-            newDataField.getDataType()
-               .getDataTypes()
-               .getDeclaredType()
-               .setId(((DeclaredType) choosen).getId());
+            newDataField.getDataType().getDataTypes().getDeclaredType().setId(((DeclaredType) choosen).getId());
          } else if (choosen instanceof SchemaType)
             newDataField.getDataType().getDataTypes().setSchemaType();
 
@@ -212,9 +170,7 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
 
             if (editElement != null) {
                XMLElement parent = editElement.getParent();
-               JaWESelectionManager sm = JaWEManager.getInstance()
-                  .getJaWEController()
-                  .getSelectionManager();
+               JaWESelectionManager sm = JaWEManager.getInstance().getJaWEController().getSelectionManager();
                ipc.getJaWEComponent().setUpdateInProgress(true);
 
                allItems.clearSelection();
@@ -242,24 +198,17 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
 
       panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
-      JButton buttonNew = PanelUtilities.createToolbarButton(ipc.getSettings(),
-                                                             newElementAction,
-                                                             this);
+      JButton buttonNew = PanelUtilities.createToolbarButton(ipc.getSettings(), newElementAction, this);
       buttonNew.setRolloverEnabled(true);
-      JButton buttonEdit = PanelUtilities.createToolbarButton(ipc.getSettings(),
-                                                              editElementAction);
+      JButton buttonEdit = PanelUtilities.createToolbarButton(ipc.getSettings(), editElementAction);
       buttonEdit.setRolloverEnabled(true);
-      JButton buttonReferences = PanelUtilities.createToolbarButton(ipc.getSettings(),
-                                                                    referencesElementAction);
+      JButton buttonReferences = PanelUtilities.createToolbarButton(ipc.getSettings(), referencesElementAction);
       buttonReferences.setRolloverEnabled(true);
-      JButton buttonDelete = PanelUtilities.createToolbarButton(ipc.getSettings(),
-                                                                deleteElementAction);
+      JButton buttonDelete = PanelUtilities.createToolbarButton(ipc.getSettings(), deleteElementAction);
       buttonDelete.setRolloverEnabled(true);
-      JButton buttonDuplicate = PanelUtilities.createToolbarButton(ipc.getSettings(),
-                                                                   duplicateElementAction);
+      JButton buttonDuplicate = PanelUtilities.createToolbarButton(ipc.getSettings(), duplicateElementAction);
       buttonDuplicate.setRolloverEnabled(true);
-      JButton buttonConvert = createToolbarButtonConvert(ipc.getSettings(),
-                                                         convertElementAction);
+      JButton buttonConvert = createToolbarButton(ipc.getSettings(), convertElementAction, "org/enhydra/jawe/images/convert_small.gif");
 
       buttonConvert.setRolloverEnabled(true);
 
@@ -282,15 +231,14 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
       return panel;
    }
 
-   public static JButton createToolbarButtonConvert(Settings s, Action a) {
+   public static JButton createToolbarButton(Settings s, Action a, String imagePath) {
       if (a == null)
          return null;
 
       String actionName = (String) a.getValue(Action.NAME);
       JButton b = null;
 
-      ImageIcon curIc = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/convert_small.gif"));
+      ImageIcon curIc = new ImageIcon(ResourceManager.class.getClassLoader().getResource(imagePath));
 
       b = new JButton(curIc) {
          public float getAlignmentY() {
