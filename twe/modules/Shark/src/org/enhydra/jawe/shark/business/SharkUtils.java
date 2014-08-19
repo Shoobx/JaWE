@@ -148,7 +148,7 @@ public class SharkUtils {
                   for (int i = 0; i < varl.size(); i++) {
                      val += ((WfVariable) varl.get(i)).getId();
                      if (i < varl.size() - 1) {
-                        val += ",";
+                        val += vare.getTokenizer();
                      }
                   }
                }
@@ -160,7 +160,7 @@ public class SharkUtils {
                   for (int i = 0; i < varl.size(); i++) {
                      val += ((WfAttachment) varl.get(i)).get(subName).toValue();
                      if (i < varl.size() - 1) {
-                        val += ",";
+                        val += vare.getTokenizer();
                      }
                   }
                }

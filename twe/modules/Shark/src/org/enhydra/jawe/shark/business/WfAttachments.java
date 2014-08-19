@@ -74,5 +74,9 @@ public class WfAttachments extends XMLCollection {
    public XMLElement generateNewElement() {
       return new WfAttachment(this, filterContentVariable, filterNameVariableOrExpression);
    }
+
+   public String getTokenizer () {
+      return tokenizer;
+   }
    
 }

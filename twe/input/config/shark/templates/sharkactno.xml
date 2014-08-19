@@ -20,5 +20,9 @@
       <No/>
    </Implementation>
    <ExtendedAttributes>
+      <ExtendedAttribute Name="CHECK_FOR_COMPLETION" Value="false"/>
+      <ExtendedAttribute Name="CHECK_FOR_CONTINUATION" Value="false"/>
+      <ExtendedAttribute Name="CHOOSE_NEXT_PERFORMER" Value="false"/>
+      <ExtendedAttribute Name="ENABLE_REASSIGNMENT" Value="false"/>
    </ExtendedAttributes>
 </Activity>

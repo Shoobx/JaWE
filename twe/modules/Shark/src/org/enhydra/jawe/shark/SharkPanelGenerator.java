@@ -54,6 +54,7 @@ import org.enhydra.jawe.shark.business.EmailConfigurationElement;
 import org.enhydra.jawe.shark.business.ErrorHandlerConfigurationElement;
 import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jawe.shark.business.SharkUtils;
+import org.enhydra.jawe.shark.business.WebClientConfigurationElement;
 import org.enhydra.jawe.shark.business.WfAttachment;
 import org.enhydra.jawe.shark.business.WfAttachments;
 import org.enhydra.jawe.shark.business.WfVariable;
@@ -375,14 +376,121 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       });
    }
 
+   public XMLPanel getPanel(WebClientConfigurationElement el) {
+      boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
+      List tgp = new ArrayList();
+
+      // DataField df = new DataField(wp.getDataFields());
+      // df.setId(" ");
+      // choices.add(0, df);
+
+      if (el.isForActivity()) {
+         ExtendedAttributesWrapper eaw = el.getVariablesElement();
+         XMLPanel vp = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
+                                                    eaw,
+                                                    JaWEManager.getInstance().getLabelGenerator().getLabel(eaw)
+                                                          + ", " + eaw.size() + " " + getPanelContainer().getLanguageDependentString("ElementsKey"),
+                                                    true,
+                                                    false,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                    true,
+                                                    true);
+         tgp.add(vp);
+         XMLPanel xfpnl = getPanel(el.getXFormsFileAttribute());
+         tgp.add(xfpnl);
+         XMLPanel cfcmppnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForCompletionAttribute(), null, false, enableEditing, false, null);
+         tgp.add(cfcmppnl);
+      } else {
+         XMLPanel rapepnl = getPanel(el.getRedirectAfterProcessEndAttribute());
+         tgp.add(rapepnl);
+         XMLPanel cffapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForFirstActivityAttribute(), null, false, enableEditing, false, null);
+         tgp.add(cffapnl);         
+         XMLPanel dvhpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDynamicVariableHandlingAttribute(), null, false, enableEditing, false, null);
+         tgp.add(dvhpnl);         
+      }
+      XMLPanel cfcntpnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForContinuationAttribute(), null, false, enableEditing, false, null);
+      tgp.add(cfcntpnl);
+      XMLPanel cnppnl = new XMLCheckboxPanel(getPanelContainer(), el.getChooseNextPerformerAttribute(), null, false, enableEditing, false, null);
+      tgp.add(cnppnl);
+      XMLPanel erpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEnableReassignmentAttribute(), null, false, enableEditing, false, null);
+      tgp.add(erpnl);
+      XMLPanel hdppnl = new XMLListPanel((InlinePanel) getPanelContainer(),
+                                         el.getHideDynamicPropertiesElement(),
+                                         el.getHideDynamicPropertiesElement().toElements(),
+                                         getPanelContainer().getLanguageDependentString(el.getHideDynamicPropertiesElement().toName() + "Key"),
+                                         true,
+                                         false,
+                                         enableEditing,
+                                         true,
+                                         true,
+                                         true,
+                                         null);
+      tgp.add(hdppnl);
+      XMLPanel roppnl = new XMLListPanel((InlinePanel) getPanelContainer(),
+                                         el.getReadOnlyDynamicPropertiesElement(),
+                                         el.getReadOnlyDynamicPropertiesElement().toElements(),
+                                         getPanelContainer().getLanguageDependentString(el.getReadOnlyDynamicPropertiesElement().toName() + "Key"),
+                                         true,
+                                         false,
+                                         enableEditing,
+                                         true,
+                                         true,
+                                         true,
+                                         null);
+      tgp.add(roppnl);
+      XMLPanel hcpnl = new XMLListPanel((InlinePanel) getPanelContainer(),
+                                        el.getHideControlsElement(),
+                                        el.getHideControlsElement().toElements(),
+                                        getPanelContainer().getLanguageDependentString(el.getHideControlsElement().toName() + "Key"),
+                                        true,
+                                        false,
+                                        enableEditing,
+                                        true,
+                                        true,
+                                        true,
+                                        null);
+      tgp.add(hcpnl);
+      XMLPanel tofpnl = new XMLListPanel((InlinePanel) getPanelContainer(),
+                                         el.getTurnOffFeaturesElement(),
+                                         el.getTurnOffFeaturesElement().toElements(),
+                                         getPanelContainer().getLanguageDependentString(el.getTurnOffFeaturesElement().toName() + "Key"),
+                                         true,
+                                         false,
+                                         enableEditing,
+                                         true,
+                                         true,
+                                         true,
+                                         null);
+      tgp.add(tofpnl);
+
+      XMLPanel wcpanel = new SharkModeGroupPanel(getPanelContainer(),
+                                                 el,
+                                                 tgp,
+                                                 getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
+                                                 true,
+                                                 true,
+                                                 false);
+      if (!el.isPersisted()) {
+         getPanelContainer().panelChanged(wcpanel, null);
+      }
+
+      return wcpanel;
+   }
+
    public XMLPanel getPanel(WfVariable el) {
-      SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(),
-                                                       el,
-                                                       el.toElements(),
-                                                       getPanelContainer().getLanguageDependentString("DMAttachmentKey"),
-                                                       true,
-                                                       false,
-                                                       true);
+      String title = getPanelContainer().getLanguageDependentString("DMAttachmentKey");
+      if (el.getParent().toName().equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES)) {
+         title = getPanelContainer().getLanguageDependentString("HideDynamicPropertyKey");
+      } else if (el.getParent().toName().equals(SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES)) {
+         title = getPanelContainer().getLanguageDependentString("ReadOnlyDynamicPropertyKey");
+      } else if (el.getParent().toName().equals(SharkConstants.EA_HIDE_CONTROLS)) {
+         title = getPanelContainer().getLanguageDependentString("HideControlPropertyKey");
+      } else if (el.getParent().toName().equals(SharkConstants.EA_TURN_OFF_FEATURES)) {
+         title = getPanelContainer().getLanguageDependentString("TurnOffFeatureKey");
+      }
+      SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(), el, el.toElements(), title, true, false, true);
       return gp;
    }
 
@@ -464,12 +572,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          case 1:
             XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el, no, hidden);
 
-            XMLPanel xfpnl = getPanel(new ExtendedAttributeWrapper(eas, SharkConstants.EA_XFORMS_FILE, false));
-            gp.addToGroup(xfpnl);
-
-            XMLPanel acpnl = getPanel(new ExtendedAttributeWrapper(eas, SharkConstants.EA_CHECK_FOR_COMPLETION, true));
-            gp.addToGroup(acpnl);
-
             ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
             if (ea != null) {
                XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
@@ -495,18 +597,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             p = gp;
             break;
          case 5:
-            ExtendedAttributesWrapper eaw = new ExtendedAttributesWrapper(eas);
-            p = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
-                                             eaw,
-                                             JaWEManager.getInstance().getLabelGenerator().getLabel(eaw)
-                                                   + ", " + eaw.size() + " " + getPanelContainer().getLanguageDependentString("ElementsKey"),
-                                             true,
-                                             false,
-                                             false,
-                                             true,
-                                             true,
-                                             true,
-                                             true);
+            p = getPanel(new WebClientConfigurationElement(eas, true));
             break;
          case 6:
             p = getPanel(new EmailConfigurationElement(eas, true, false, false, false, null));
@@ -699,13 +790,26 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             gp.addToGroup(cbp);
          }
       }
-      ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
+      // TODO: implement logic for URLVariable ext. attrib
+      ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_URL_VARIABLE, true);
+      // if (!eaw.isPersisted()) {
+      // eaw.setVValue("false");
+      // getPanelContainer().panelChanged(null, null);
+      // }
+      XMLPanel cbp = getPanel(eaw);
+      int insertAt = gp.getPanelPositionForElement(el.get("Description"));
+      // if (insertAt > 0) {
+      // gp.addToGroup(cbp, insertAt - 1);
+      // } else {
+      // gp.addToGroup(cbp);
+      // }
+      eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
       if (!eaw.isPersisted()) {
          eaw.setVValue("false");
          getPanelContainer().panelChanged(null, null);
       }
-      XMLPanel cbp = getPanel(eaw);
-      int insertAt = gp.getPanelPositionForElement(el.get("Description"));
+      cbp = getPanel(eaw);
+      insertAt = gp.getPanelPositionForElement(el.get("Description"));
       if (insertAt > 0) {
          gp.addToGroup(cbp, insertAt - 1);
       } else {
@@ -774,7 +878,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLPanel getPanel(Package el, int no, Set hidden) {
-      if ((no != 1 && no < 14) || no > 20) {
+      if ((no != 1 && no < 14) || no > 21) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
@@ -811,18 +915,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          XMLPanel pnl = getPanel(eaw);
          ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
@@ -843,18 +935,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DELETE_FINISHED, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
@@ -940,12 +1020,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), true, false, true, false, null));
       } else if (no == 19 || no == 20) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 20), false, false, true, null));
+      } else if (no == 21) {
+         p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
       }
       return p;
    }
 
    public XMLPanel getPanel(WorkflowProcess el, int no, Set hidden) {
-      if ((no != 1 && no < 11) || no > 17) {
+      if ((no != 1 && no < 11) || no > 18) {
          return super.getPanel(el, no, hidden);
       }
       XMLPanel p = null;
@@ -977,18 +1059,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          XMLPanel pnl = getPanel(eaw);
          ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
@@ -1009,18 +1079,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          pnl = getPanel(eaw);
          ealist.add(pnl);
          eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DELETE_FINISHED, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, true);
          if (!eaw.isPersisted()) {
             getPanelContainer().panelChanged(null, null);
          }
@@ -1097,6 +1155,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), true, false, true, false, null));
       } else if (no == 16 || no == 17) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 17), false, false, true, null));
+      } else if (no == 18) {
+         p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
       }
       return p;
    }
@@ -1117,11 +1177,94 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             .canModifyElement(el));
 
       } else if (el.getParent() instanceof WfVariable || el.getParent() instanceof WfAttachment) {
-         Map chm = XMLUtil.getPossibleVariables(el);
+         Map chm = new SequencedHashMap();
+         String title = null;
+         if (el.getParent() instanceof WfVariable) {
+            if (el.getParent().getParent().toName().equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES)) {
+               createDummyDataFields(chm, new String[] {
+                     "Id", "Name", "Priority", "Description"
+               }, true);
+               title = getPanelContainer().getLanguageDependentString("PropertyKey");
+            } else if (el.getParent().getParent().toName().equals(SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES)) {
+               createDummyDataFields(chm, new String[] {
+                     "Name", "Priority", "Description"
+               }, true);
+               title = getPanelContainer().getLanguageDependentString("PropertyKey");
+            } else if (el.getParent().getParent().toName().equals(SharkConstants.EA_HIDE_CONTROLS)) {
+               createDummyDataFields(chm, new String[] {
+                     "NewTask",
+                     "NewSubtask",
+                     "DeleteAllTasks",
+                     "NewTaskList",
+                     "RestoreDeleted",
+                     "ImportTaskLists",
+                     "EditTask",
+                     "ChangeOwner",
+                     "EditTaskList",
+                     "ShowFields",
+                     "PreviewTask",
+                     "Delete",
+                     "DeleteTaskList",
+                     "RemoveImportedTaskList",
+                     "RenameTask",
+                     "RenameTaskList",
+                     "ConnectToOutlook",
+                     "ProperSyncConnection",
+                     "Refresh",
+                     "Copy",
+                     "Child",
+                     "Sibling",
+                     "TableStyle",
+                     "MemoStyle",
+                     "Set10",
+                     "Set25",
+                     "Set50",
+                     "Set100",
+                     "BlueCategory",
+                     "ClearCategories",
+                     "GreenCategory",
+                     "PurpleCategory",
+                     "OrangeCategory",
+                     "RedCategory",
+                     "YellowCategory",
+                     "RefreshTaskList",
+                     "Today",
+                     "Tomorrow",
+                     "This",
+                     "Next",
+                     "In",
+                     "NoDate",
+                     "Custom",
+                     "MarkComplete",
+                     "MarkInProgress",
+                     "MarkNotStarted",
+                     "FollowUpMarkComplete",
+                     "FollowUpDelete",
+                     "GroupBy",
+                     "ViewPlain",
+                     "ViewSubtasks",
+                     "SortAsc",
+                     "SortDesc",
+                     "toolboxRow",
+                     "titleRow",
+                     "quickCreateRow"
+               }, false);
+               title = getPanelContainer().getLanguageDependentString("ControlKey");
+            } else if (el.getParent().getParent().toName().equals(SharkConstants.EA_TURN_OFF_FEATURES)) {
+               createDummyDataFields(chm, new String[] {
+                     "New", "Delete", "Rename", "SetDueDate", "MarkComplete", "MarkInProgress", "MarkNotStarted", "MarkWaiting", "MarkDeferred"
+               }, false);
+               title = getPanelContainer().getLanguageDependentString("FeatureKey");
+            } else {
+               chm = XMLUtil.getPossibleVariables(el);
+               title = getPanelContainer().getLanguageDependentString("IdListVariableNameKey");
+            }
+         } else {
+            chm = XMLUtil.getPossibleVariables(el);
+         }
          List varIds = new ArrayList();
          List filter = null;
          boolean editable = false;
-         String title = null;
          if (el.getParent() instanceof WfVariable) {
             WfVariable var = (WfVariable) el.getParent();
             List l = ((WfVariables) var.getParent()).toElements();
@@ -1129,7 +1272,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                varIds.add(((WfVariable) l.get(i)).getId());
             }
             filter = var.getFilter();
-            title = getPanelContainer().getLanguageDependentString("IdListVariableNameKey");
          } else {
             WfAttachment var = (WfAttachment) el.getParent();
             List l = ((WfAttachments) var.getParent()).toElements();
@@ -1163,10 +1305,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          List choices = PanelUtilities.getPossibleVariableChoices(new ArrayList(chm.values()), Arrays.asList(new String[] {
             XPDLConstants.BASIC_TYPE_STRING
          }), 1, false);
-         DataField df = new DataField(null);
-         df.setId(" ");
-         df.getDataType().getDataTypes().setBasicType();
-         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         DataField df = createDummyDataField(" ", false);
          choices.add(0, df);
          return new XMLComboPanel(getPanelContainer(),
                                   el,
@@ -1316,6 +1455,23 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return super.getPanel(el);
    }
 
+   protected DataField createDummyDataField(String id, boolean useTranslationForName) {
+      DataField df = new DataField(null);
+      df.setId(id);
+      if (useTranslationForName) {
+         df.setName(getPanelContainer().getLanguageDependentString(id + "Key"));
+      }
+      df.getDataType().getDataTypes().setBasicType();
+      df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+      return df;
+   }
+
+   protected void createDummyDataFields(Map putIn, String[] ids, boolean useTranslationForName) {
+      for (int i = 0; i < ids.length; i++) {
+         putIn.put(ids[i], createDummyDataField(ids[i], useTranslationForName));
+      }
+   }
+
    protected XMLGroupPanel generateSharkModeGroupPanel(XMLComplexElement cel, boolean hasTitle, boolean hasEmptyBorder) {
       List toShow = getStandardGroupPanelComponents(cel);
       if ((cel instanceof ExpressionType && !(cel.getParent() instanceof Condition)) || cel instanceof Condition) {
@@ -1375,10 +1531,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List<String> csc = SharkPanelGenerator.getConfigStringChoices();
       for (int i = 0; i < csc.size(); i++) {
          String id = csc.get(i);
-         DataField df = new DataField(null);
-         df.setId(id);
-         df.getDataType().getDataTypes().setBasicType();
-         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         DataField df = createDummyDataField(id, false);
          l.add(df);
       }
       boolean isForActivity = XMLUtil.getActivity(el) != null || XMLUtil.getApplication(el) != null;
@@ -1390,13 +1543,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString) {
             continue;
          }
-         DataField df = new DataField(null);
-         df.setId(id);
+         DataField df = createDummyDataField(id, false);
          if (!SharkConstants.SHARK_SESSION_HANDLE.equals(id)) {
-            df.getDataType().getDataTypes().setBasicType();
-            if (!id.endsWith("_time")) {
-               df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-            } else {
+            if (id.endsWith("_time")) {
                df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
             }
          } else {
@@ -1425,13 +1574,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString && !canBeDynamicScript) {
             continue;
          }
-         DataField df = new DataField(null);
-         df.setId(id);
+         DataField df = createDummyDataField(id, false);
          if (!SharkConstants.SHARK_SESSION_HANDLE.equals(id)) {
-            df.getDataType().getDataTypes().setBasicType();
-            if (!id.endsWith("_time")) {
-               df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-            } else {
+            if (id.endsWith("_time")) {
                df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
             }
          } else {
@@ -1449,10 +1594,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          List<String> csc = SharkPanelGenerator.getConfigStringChoices();
          for (int i = 0; i < csc.size(); i++) {
             String id = csc.get(i);
-            DataField df = new DataField(null);
-            df.setId(id);
-            df.getDataType().getDataTypes().setBasicType();
-            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            DataField df = createDummyDataField(id, false);
             l.add(df);
          }
          mc.add(l);
@@ -1461,10 +1603,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          List<String> xpdlsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el, true).stringPropertyNames());
          for (int i = 0; i < xpdlsc.size(); i++) {
             String id = xpdlsc.get(i);
-            DataField df = new DataField(null);
-            df.setId(id);
-            df.getDataType().getDataTypes().setBasicType();
-            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            DataField df = createDummyDataField(id, false);
             l.add(df);
          }
          mc.add(l);

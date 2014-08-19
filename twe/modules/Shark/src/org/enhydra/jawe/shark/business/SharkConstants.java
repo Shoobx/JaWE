@@ -59,6 +59,14 @@ public class SharkConstants {
 
    public static final String EA_CHOOSE_NEXT_PERFORMER = "CHOOSE_NEXT_PERFORMER";
 
+   public static final String EA_HIDE_DYNAMIC_PROPERTIES = "ActivityDetails.HideDynamicProperties";
+
+   public static final String EA_READ_ONLY_DYNAMIC_PROPERTIES = "ActivityDetails.ReadOnlyDynamicProperties";
+   
+   public static final String EA_HIDE_CONTROLS = "TaskManagement.hideControls";
+
+   public static final String EA_TURN_OFF_FEATURES = "TaskManagement.turnOffFeatures";
+
    public static final String EA_MAX_ASSIGNMENTS = "MAX_ASSIGNMENTS";
 
    public static final String EA_WORKLOAD_FACTOR = "WORKLOAD_FACTOR";
@@ -73,6 +81,8 @@ public class SharkConstants {
 
    public static final String EA_CHECK_FOR_COMPLETION = "CHECK_FOR_COMPLETION";
 
+   public static final String EA_ENABLE_REASSIGNMENT = "ENABLE_REASSIGNMENT";
+   
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL = "XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL";
 
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR = "XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR";
@@ -198,6 +208,8 @@ public class SharkConstants {
    public static final String EA_DYNAMICSCRIPT = "DYNAMICSCRIPT";
 
    public static final String EA_IS_ACTIVITY_SCOPE_ONLY = "IS_ACTIVITY_SCOPE_ONLY";
+
+   public static final String EA_URL_VARIABLE = "URLVariable";
 
    public static final String VTP_UPDATE = "VariableToProcess_UPDATE";
 

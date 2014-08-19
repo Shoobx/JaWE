@@ -67,4 +67,7 @@ public class WfVariables extends XMLCollection {
       return new WfVariable(this, filter);
    }
 
+   public String getTokenizer () {
+      return tokenizer;
+   }
 }
