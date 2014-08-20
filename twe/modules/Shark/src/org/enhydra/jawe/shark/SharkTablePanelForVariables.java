@@ -126,7 +126,7 @@ public class SharkTablePanelForVariables extends XMLTablePanelForVariables {
       JaWESelectionManager sm = jc.getSelectionManager();
 
       convertElementAction.setEnabled((getSelectedElement() != null && sm.canDuplicate()));
-      createOutlookVarsAction.setEnabled(hasMissingOutlookVars());
+      createOutlookVarsAction.setEnabled(hasMissingOutlookVars() && !myOwner.isReadOnly());
    }
 
    protected boolean hasMissingOutlookVars() {
