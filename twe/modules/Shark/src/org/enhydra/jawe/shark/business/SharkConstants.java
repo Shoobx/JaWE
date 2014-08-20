@@ -45,11 +45,27 @@ public class SharkConstants {
 
    public static final String EA_MAIL_TOOL_AGENT_SEND_EXECUTION_MODE = "MAIL_TOOL_AGENT_SEND_EXECUTION_MODE";
 
+   public static final String EA_UNSATISFIED_SPLIT_CONDITION_HANDLING_MODE = "UNSATISFIED_SPLIT_CONDITION_HANDLING_MODE";
+
    public static final String EA_ALLOW_UNDEFINED_VARIABLES = "ALLOW_UNDEFINED_VARIABLES";
 
    public static final String EA_USE_PROCESS_CONTEXT_ONLY = "USE_PROCESS_CONTEXT_ONLY";
 
    public static final String EA_CREATE_ASSIGNMENTS = "CREATE_ASSIGNMENTS";
+
+   public static final String EA_HANDLE_ALL_ASSIGNMENTS = "HANDLE_ALL_ASSIGNMENTS";
+
+   public static final String EA_CREATE_DEFAULT_ASSIGNMENT = "CREATE_DEFAULT_ASSIGNMENT";
+
+   public static final String EA_ACCEPT_SINGLE_ASSIGNMENT = "ACCEPT_SINGLE_ASSIGNMENT";
+
+   public static final String EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER = "REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER";
+
+   public static final String EA_DELETE_OTHER_ASSIGNMENTS = "DELETE_OTHER_ASSIGNMENTS";
+
+   public static final String EA_ASSIGNMENT_MANAGER_PLUGIN = "ASSIGNMENT_MANAGER_PLUGIN";
+
+   public static final String EA_OVERRIDE_PROCESS_CONTEXT = "OVERRIDE_PROCESS_CONTEXT";
 
    public static final String EA_TRANSIENT = "TRANSIENT";
 
@@ -62,7 +78,7 @@ public class SharkConstants {
    public static final String EA_HIDE_DYNAMIC_PROPERTIES = "ActivityDetails.HideDynamicProperties";
 
    public static final String EA_READ_ONLY_DYNAMIC_PROPERTIES = "ActivityDetails.ReadOnlyDynamicProperties";
-   
+
    public static final String EA_HIDE_CONTROLS = "TaskManagement.hideControls";
 
    public static final String EA_TURN_OFF_FEATURES = "TaskManagement.turnOffFeatures";
@@ -82,7 +98,7 @@ public class SharkConstants {
    public static final String EA_CHECK_FOR_COMPLETION = "CHECK_FOR_COMPLETION";
 
    public static final String EA_ENABLE_REASSIGNMENT = "ENABLE_REASSIGNMENT";
-   
+
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL = "XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL";
 
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR = "XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR";

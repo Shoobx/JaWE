@@ -57,6 +57,7 @@ import org.enhydra.jawe.shark.business.SharkUtils;
 import org.enhydra.jawe.shark.business.WebClientConfigurationElement;
 import org.enhydra.jawe.shark.business.WfAttachment;
 import org.enhydra.jawe.shark.business.WfAttachments;
+import org.enhydra.jawe.shark.business.WfConfigurationElement;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLAttribute;
@@ -93,11 +94,15 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    protected static final String CONFIG_STRING_CHOICES_FILE = "shkconfigstringchoices.properties";
 
+   public static final String ASS_MGR_CHOICES_FILE = "shkassmgrchoices.properties";
+
    protected static List<String> appDefChoices = null;
+
+   protected static List<String> assMgrChoices = null;
 
    protected static List<String> configStringChoices = null;
 
-   public static List<String> getAppDefChoices() {
+   protected static List<String> getAppDefChoices() {
       if (appDefChoices == null) {
          appDefChoices = new ArrayList();
          try {
@@ -113,6 +118,24 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
       }
       return new ArrayList<String>(appDefChoices);
+   }
+
+   protected static List<String> getAssMgrChoices() {
+      if (assMgrChoices == null) {
+         assMgrChoices = new ArrayList();
+         try {
+            Properties props = new Properties();
+            String cch = System.getProperty(JaWEConstants.JAWE_CURRENT_CONFIG_HOME);
+            Utils.manageProperties(props, cch, ASS_MGR_CHOICES_FILE);
+            Iterator it = props.keySet().iterator();
+            while (it.hasNext()) {
+               String chk = (String) it.next();
+               assMgrChoices.add(chk.substring(0, chk.length() - 3));
+            }
+         } catch (Exception ex) {
+         }
+      }
+      return new ArrayList<String>(assMgrChoices);
    }
 
    public static List<String> getConfigStringChoices() {
@@ -379,11 +402,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    public XMLPanel getPanel(WebClientConfigurationElement el) {
       boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
       List tgp = new ArrayList();
-
-      // DataField df = new DataField(wp.getDataFields());
-      // df.setId(" ");
-      // choices.add(0, df);
       List ealist = new ArrayList();
+
       if (el.isForActivity()) {
          ExtendedAttributesWrapper eaw = el.getVariablesElement();
          XMLPanel vp = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
@@ -406,9 +426,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel rapepnl = getPanel(el.getRedirectAfterProcessEndAttribute());
          tgp.add(rapepnl);
          XMLPanel cffapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForFirstActivityAttribute(), null, false, enableEditing, false, null);
-         ealist.add(cffapnl);         
+         ealist.add(cffapnl);
          XMLPanel dvhpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDynamicVariableHandlingAttribute(), null, false, enableEditing, false, null);
-         ealist.add(dvhpnl);         
+         ealist.add(dvhpnl);
       }
       XMLPanel cfcntpnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForContinuationAttribute(), null, false, enableEditing, false, null);
       ealist.add(cfcntpnl);
@@ -416,7 +436,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       ealist.add(cnppnl);
       XMLPanel erpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEnableReassignmentAttribute(), null, false, enableEditing, false, null);
       ealist.add(erpnl);
-      
+
       if (ealist.size() > 2) {
          for (int i = 0; i < ealist.size(); i += 2) {
             List subpanels = new ArrayList();
@@ -435,7 +455,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          tgp.addAll(ealist);
       }
 
-      
       XMLPanel hdppnl = new XMLListPanel((InlinePanel) getPanelContainer(),
                                          el.getHideDynamicPropertiesElement(),
                                          el.getHideDynamicPropertiesElement().toElements(),
@@ -485,18 +504,109 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          null);
       tgp.add(tofpnl);
 
-      XMLPanel wcpanel = new SharkModeGroupPanel(getPanelContainer(),
-                                                 el,
-                                                 tgp,
-                                                 getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
-                                                 true,
-                                                 true,
-                                                 false);
+      XMLPanel wccpanel = new SharkModeGroupPanel(getPanelContainer(),
+                                                  el,
+                                                  tgp,
+                                                  getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
+                                                  true,
+                                                  true,
+                                                  false);
       if (!el.isPersisted()) {
-         getPanelContainer().panelChanged(wcpanel, null);
+         getPanelContainer().panelChanged(wccpanel, null);
       }
 
-      return wcpanel;
+      return wccpanel;
+   }
+
+   public XMLPanel getPanel(WfConfigurationElement el) {
+      boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
+      List tgp = new ArrayList();
+
+      XMLAttribute ampiattr = el.getAssignmentManagerPlugInAttribute();
+      String choosen = ampiattr.toValue();
+      List choices = SharkPanelGenerator.getAssMgrChoices();
+      choices.add(0, "");
+      if (!choices.contains(choosen)) {
+         choices.add(0, choosen);
+      }
+      if (!el.isForActivity()) {
+         XMLPanel uschmpnl = getPanel(el.getUnsatisfiedSplitConditionHandlingModeAttribute());
+         tgp.add(uschmpnl);
+         XMLPanel auvpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAllowUndefinedVariablesAttribute(), null, false, enableEditing, false, null);
+         tgp.add(auvpnl);
+         XMLPanel tpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTransientAttribute(), null, false, enableEditing, false, null);
+         tgp.add(tpnl);
+         XMLPanel dfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteFinishedAttribute(), null, false, enableEditing, false, null);
+         tgp.add(dfpnl);
+      }
+      XMLPanel capnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateAssignmentsAttribute(), null, false, enableEditing, false, null);
+      tgp.add(capnl);
+      XMLPanel cdapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateDefaultAssignmentAttribute(), null, false, enableEditing, false, null);
+      tgp.add(cdapnl);
+      XMLPanel haapnl = new XMLCheckboxPanel(getPanelContainer(), el.getHandleAllAssignmentsAttribute(), null, false, enableEditing, false, null);
+      tgp.add(haapnl);
+      XMLPanel asapnl = new XMLCheckboxPanel(getPanelContainer(), el.getAcceptSingleAssignmentAttribute(), null, false, enableEditing, false, null);
+      tgp.add(asapnl);
+      XMLPanel rwutsupnl = new XMLCheckboxPanel(getPanelContainer(),
+                                                el.getReassignWithUnacceptanceToSingleUserAttribute(),
+                                                null,
+                                                false,
+                                                enableEditing,
+                                                false,
+                                                null);
+      tgp.add(rwutsupnl);
+      XMLPanel doapnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteOtherAssignmentsAttribute(), null, false, enableEditing, false, null);
+      tgp.add(doapnl);
+      XMLPanel upcopnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseProcessContextOnlyAttribute(), null, false, enableEditing, false, null);
+      tgp.add(upcopnl);
+
+      XMLPanel ampipnl = new XMLComboPanel(getPanelContainer(), ampiattr, null, choices, true, true, false, true, enableEditing, true, true, null);
+      tgp.add(ampipnl);
+
+      List pplist = new ArrayList();
+      XMLPanel mapnl = getPanel(el.getMaxAssignmentsAttribute());
+      pplist.add(mapnl);
+      XMLPanel wlfpnl = getPanel(el.getWorkloadFactorAttribute());
+      pplist.add(wlfpnl);
+      XMLGroupPanel gpp = new XMLGroupPanel(getPanelContainer(),
+                                            el,
+                                            pplist,
+                                            getPanelContainer().getLanguageDependentString("org.enhydra.shark.assignment.workloadrelated.WorkloadRelatedAssignmentManagerKey"),
+                                            true,
+                                            true,
+                                            true,
+                                            null);
+      tgp.add(gpp);
+
+      if (!el.isForActivity()) {
+         pplist.clear();
+         XMLPanel lxwfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getLogXPILWhenFinishedAttribute(), null, false, enableEditing, false, null);
+         pplist.add(lxwfpnl);
+         XMLPanel xlfvpnl = getPanel(el.getXPILLogFilenameVarAttribute());
+         pplist.add(xlfvpnl);
+         
+         gpp = new XMLGroupPanel(getPanelContainer(),
+                                               el,
+                                               pplist,
+                                               getPanelContainer().getLanguageDependentString("XPILLogKey"),
+                                               true,
+                                               true,
+                                               true,
+                                               null);
+         tgp.add(gpp);
+      }
+      XMLPanel wfcpanel = new SharkModeGroupPanel(getPanelContainer(),
+                                                  el,
+                                                  tgp,
+                                                  getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
+                                                  true,
+                                                  true,
+                                                  false);
+      if (!el.isPersisted()) {
+         getPanelContainer().panelChanged(wfcpanel, null);
+      }
+
+      return wfcpanel;
    }
 
    public XMLPanel getPanel(WfVariable el) {
@@ -552,8 +662,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
-      if (no >= 3)
-         no++;
+      if (no == 4) {
+         return null;
+      }
       if (!(el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION)) {
          hidden.add(el.get("StartMode"));
          hidden.add(el.get("FinishMode"));
@@ -566,55 +677,40 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
           || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_END || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_EVENT_START) {
          hidden.add(el.get("Deadlines"));
       }
-      boolean isManual = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
-                         || ((el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) && (el.getStartMode()
-                            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
-      boolean isAutomatic = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
-                            || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT;
-      if (!isManual && !isAutomatic) {
-         if (no >= 5 && no < 8) {
-            return null;
+      if (no != 1) {
+         boolean isManual = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
+                            || ((el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) && (el.getStartMode()
+                               .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
+         boolean isAutomatic = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
+                               || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT;
+         if (!isManual && !isAutomatic) {
+            if ((no >= 5 && no < 8) || no == 3) {
+               return null;
+            }
+            if (!((no == 8 || no == 9) && (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_SUBFLOW))) {
+               return super.getPanel(el, no, hidden);
+            }
          }
-         if (!((no == 8 || no == 9) && (el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_BLOCK || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_SUBFLOW))) {
+         if (!isManual && no < 5 && no != 3)
             return super.getPanel(el, no, hidden);
-         }
+         if (!isManual && no < 7)
+            return null;
+         if (!isAutomatic && no == 7)
+            return null;
       }
-      if (!isManual && no < 5)
-         return super.getPanel(el, no, hidden);
-      if (!isManual && no < 7)
-         return null;
-      if (!isAutomatic && no == 7)
-         return null;
-
       XMLPanel p = null;
       ExtendedAttributes eas = el.getExtendedAttributes();
       switch (no) {
          case 1:
             XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el, no, hidden);
-
-            ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
-            if (ea != null) {
-               XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                               ea.get("Value"),
-                                               getPanelContainer().getLanguageDependentString(ea.getName() + "Key"),
-                                               false,
-                                               false,
-                                               JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
-                                               null);
-               gp.addToGroup(pnl);
-            }
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
-            if (ea != null) {
-               XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                               ea.get("Value"),
-                                               getPanelContainer().getLanguageDependentString(ea.getName() + "Key"),
-                                               false,
-                                               false,
-                                               JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
-                                               null);
+            if (!hidden.contains(el.getExtendedAttributes())) {
+               XMLPanel pnl = this.getPanel(el.getExtendedAttributes());
                gp.addToGroup(pnl);
             }
             p = gp;
+            break;
+         case 3:
+            p = getPanel(new WfConfigurationElement(eas, true));
             break;
          case 5:
             p = getPanel(new WebClientConfigurationElement(eas, true));
@@ -898,8 +994,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLPanel getPanel(Package el, int no, Set hidden) {
-      if ((no != 1 && no < 14) || no > 21) {
-         return super.getPanel(el, no, hidden);
+      if ((no > 3 && no < 16) || no > 22) {
+         return super.getPanel(el, no - (no < 16 ? 2 : 0), hidden);
       }
       XMLPanel p = null;
 
@@ -925,130 +1021,34 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             panelElements.add(getPanel(el.getScript(), true));
          }
 
-         List ealist = new ArrayList();
-         List pplist = new ArrayList();
-         ExtendedAttributes eas = el.getExtendedAttributes();
-         ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, true);
-         if (!eaw.isPersisted()) {
-            eaw.setVValue("true");
-            getPanelContainer().panelChanged(null, null);
-         }
-         XMLPanel pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CREATE_ASSIGNMENTS, true);
-         if (!eaw.isPersisted()) {
-            eaw.setVValue("true");
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DELETE_FINISHED, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL, true);
-         if (!eaw.isPersisted()) {
-            eaw.setVValue("false");
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-
-         if (ealist.size() > 2) {
-            for (int i = 0; i < ealist.size(); i += 2) {
-               List subpanels = new ArrayList();
-               subpanels.add(ealist.get(i));
-               subpanels.add(Box.createHorizontalGlue());
-               if ((i + 1) < ealist.size()) {
-                  subpanels.add(ealist.get(i + 1));
-               }
-               subpanels.add(Box.createHorizontalGlue());
-               if ((i + 1) < ealist.size()) {
-                  subpanels.add(ealist.get(i + 1));
-               }
-               pplist.add(new XMLGroupPanelGL(getPanelContainer(), el, subpanels, "", false, false, true, null));
-            }
-         } else {
-            pplist.addAll(ealist);
-         }
-
-         XMLPanel xpilfnPnl = getPanel(new ExtendedAttributeWrapper(eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR, false));
-         pplist.add(xpilfnPnl);
-         XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, false));
-         pplist.add(rapePnl);
-         XMLGroupPanel gpp = new XMLGroupPanel(getPanelContainer(),
-                                               el,
-                                               pplist,
-                                               getPanelContainer().getLanguageDependentString("DefaultAttributesForProcessesKey"),
-                                               true,
-                                               true,
-                                               true,
-                                               null);
-         panelElements.add(gpp);
-
-         ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
-         if (ea != null) {
-            pnl = new XMLTextPanel(getPanelContainer(),
-                                   ea.get("Value"),
-                                   getPanelContainer().getLanguageDependentString(ea.getName() + "Key"),
-                                   false,
-                                   false,
-                                   JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
-                                   null);
-            panelElements.add(pnl);
-         }
-         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
-         if (ea != null) {
-            pnl = new XMLTextPanel(getPanelContainer(),
-                                   ea.get("Value"),
-                                   getPanelContainer().getLanguageDependentString(ea.getName() + "Key"),
-                                   false,
-                                   false,
-                                   JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
-                                   null);
-            panelElements.add(pnl);
-         }
-
          if (!hidden.contains(el.getExtendedAttributes())) {
             panelElements.add(el.getExtendedAttributes());
          }
          if (panelElements.size() > 0) {
             p = new XMLGroupPanel(getPanelContainer(), el, panelElements, getPanelContainer().getLanguageDependentString("GeneralKey"), true, false, true, null);
          }
-      } else if (no == 14) {
+      } else if (no == 2) {
+         p = getPanel(new WfConfigurationElement(el.getExtendedAttributes(), false));
+      } else if (no == 3) {
+         p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
+      } else if (no == 16) {
          XPDLStringVariables eaw = new XPDLStringVariables(el.getExtendedAttributes());
          p = getPanel(eaw);
-      } else if (no == 15 || no == 16) {
-         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 16), false, false, false, null));
-      } else if (no == 17) {
+      } else if (no == 17 || no == 18) {
+         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 18), false, false, false, null));
+      } else if (no == 19) {
          p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
-      } else if (no == 18) {
+      } else if (no == 20) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), true, false, true, false, null));
-      } else if (no == 19 || no == 20) {
-         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 20), false, false, true, null));
-      } else if (no == 21) {
-         p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
+      } else if (no == 21 || no == 22) {
+         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 22), false, false, true, null));
       }
       return p;
    }
 
    public XMLPanel getPanel(WorkflowProcess el, int no, Set hidden) {
-      if ((no != 1 && no < 11) || no > 18) {
-         return super.getPanel(el, no, hidden);
+      if ((no > 3 && no < 13) || no > 19) {
+         return super.getPanel(el, no - (no < 13 ? 2 : 0), hidden);
       }
       XMLPanel p = null;
 
@@ -1070,113 +1070,27 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             panelElements.add(el.getAccessLevelAttribute());
          }
 
-         List ealist = new ArrayList();
-         ExtendedAttributes eas = el.getExtendedAttributes();
-         ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, true);
-         if (!eaw.isPersisted()) {
-            eaw.setVValue("true");
-            getPanelContainer().panelChanged(null, null);
-         }
-         XMLPanel pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_CREATE_ASSIGNMENTS, true);
-         if (!eaw.isPersisted()) {
-            eaw.setVValue("true");
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DELETE_FINISHED, true);
-         if (!eaw.isPersisted()) {
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-         eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL, true);
-         if (!eaw.isPersisted()) {
-            eaw.setVValue("false");
-            getPanelContainer().panelChanged(null, null);
-         }
-         pnl = getPanel(eaw);
-         ealist.add(pnl);
-
-         if (ealist.size() > 2) {
-            for (int i = 0; i < ealist.size(); i += 2) {
-               List subpanels = new ArrayList();
-               subpanels.add(ealist.get(i));
-               subpanels.add(Box.createHorizontalGlue());
-               if ((i + 1) < ealist.size()) {
-                  subpanels.add(ealist.get(i + 1));
-               }
-               subpanels.add(Box.createHorizontalGlue());
-               if ((i + 1) < ealist.size()) {
-                  subpanels.add(ealist.get(i + 1));
-               }
-               panelElements.add(new XMLGroupPanelGL(getPanelContainer(), el, subpanels, "", false, false, true, null));
-            }
-         } else {
-            panelElements.addAll(ealist);
-         }
-
-         XMLPanel xpilfnPnl = getPanel(new ExtendedAttributeWrapper(eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR, false));
-         panelElements.add(xpilfnPnl);
-         XMLPanel rapePnl = getPanel(new ExtendedAttributeWrapper(eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, false));
-         panelElements.add(rapePnl);
-
-         ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
-         if (ea != null) {
-            pnl = new XMLTextPanel(getPanelContainer(),
-                                   ea.get("Value"),
-                                   getPanelContainer().getLanguageDependentString(ea.getName() + "Key"),
-                                   false,
-                                   false,
-                                   JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
-                                   null);
-            panelElements.add(pnl);
-         }
-         ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
-         if (ea != null) {
-            pnl = new XMLTextPanel(getPanelContainer(),
-                                   ea.get("Value"),
-                                   getPanelContainer().getLanguageDependentString(ea.getName() + "Key"),
-                                   false,
-                                   false,
-                                   JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
-                                   null);
-            panelElements.add(pnl);
-         }
-
          if (!hidden.contains(el.getExtendedAttributes())) {
             panelElements.add(el.getExtendedAttributes());
          }
          if (panelElements.size() > 0) {
             p = new XMLGroupPanel(getPanelContainer(), el, panelElements, getPanelContainer().getLanguageDependentString("GeneralKey"), true, false, true, null);
          }
-      } else if (no == 11) {
+      } else if (no == 2) {
+         p = getPanel(new WfConfigurationElement(el.getExtendedAttributes(), false));
+      } else if (no == 3) {
+         p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
+      } else if (no == 13) {
          XPDLStringVariables eaw = new XPDLStringVariables(el.getExtendedAttributes());
          p = getPanel(eaw);
-      } else if (no == 12 || no == 13) {
-         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 13), false, false, false, null));
-      } else if (no == 14) {
+      } else if (no == 14 || no == 15) {
+         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 15), false, false, false, null));
+      } else if (no == 16) {
          p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
-      } else if (no == 15) {
+      } else if (no == 17) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), true, false, true, false, null));
-      } else if (no == 16 || no == 17) {
-         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 17), false, false, true, null));
-      } else if (no == 18) {
-         p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
+      } else if (no == 18 || no == 19) {
+         p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 19), false, false, true, null));
       }
       return p;
    }
@@ -1320,7 +1234,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (el.toName().equals("Value")
                  && el.getParent() instanceof ExtendedAttribute
                  && ((ExtendedAttribute) el.getParent()).getName().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
-                 || el.toName().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR) && el.getParent() instanceof ExtendedAttributeWrapper) {
+                 || el.toName().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR) && el.getParent() instanceof WfConfigurationElement) {
          Map chm = XMLUtil.getPossibleVariables(el);
          List choices = PanelUtilities.getPossibleVariableChoices(new ArrayList(chm.values()), Arrays.asList(new String[] {
             XPDLConstants.BASIC_TYPE_STRING

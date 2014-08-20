@@ -39,7 +39,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
    protected boolean isForAct = false;
 
    public WebClientConfigurationElement(ExtendedAttributes eas, boolean isForAct) {
-      super(eas.getParent(), "WebClient", true);
+      super(eas.getParent(), "WebClientConfiguration", true);
       this.eas = eas;
       this.isForAct = isForAct;
       notifyMainListeners = false;
@@ -53,6 +53,10 @@ public class WebClientConfigurationElement extends XMLComplexElement {
          if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_XFORMS_FILE, null, null, true, false);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_COMPLETION, null, null, false, false);
+         } else {
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, false, false);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, null, null, true, false);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, false, false);            
          }
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, null, null, false, false);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, null, null, false, false);
@@ -61,12 +65,6 @@ public class WebClientConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES, null, null, true, false);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_CONTROLS, null, null, true, false);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TURN_OFF_FEATURES, null, null, true, false);
-
-         if (!isForAct) {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, false, false);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, null, null, true, false);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, false, false);
-         }
       } else {
          if (isReadOnly) {
             throw new RuntimeException("Can't set the value of read only element!");
