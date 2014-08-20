@@ -216,7 +216,8 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
          jb.setContentAreaFilled(false);
          jb.setEnabled(appName != null);
          jb.setToolTipText(getPanelContainer().getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip"));
-
+         jb.setEnabled(isEnabled);
+         
          jb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                PanelContainer pc = getPanelContainer();

@@ -1,5 +1,6 @@
 ###### TWE 5.1-1 RELEASED ######
 2014-08-20 Sasa Bojanic <sasaboy@together.at>
+   # Fix: "Edit expression in associated application" action was not disabled when element is read-only
    # Shark mode: 
        - support for 7 new Shark kernel extended attributes
        - improved GUI
