@@ -191,7 +191,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
             String eaval = ea.getVValue();
             if (eaname.equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES)
                 || eaname.equals(SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES) || eaname.equals(SharkConstants.EA_HIDE_CONTROLS)
-                || eaname.equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES)) {
+                || eaname.equals(SharkConstants.EA_TURN_OFF_FEATURES)) {
                ((WfVariables) attr).createStructure(eaval);
             } else {
                if (eaname.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)

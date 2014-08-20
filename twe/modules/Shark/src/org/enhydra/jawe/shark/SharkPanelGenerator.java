@@ -383,7 +383,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       // DataField df = new DataField(wp.getDataFields());
       // df.setId(" ");
       // choices.add(0, df);
-
+      List ealist = new ArrayList();
       if (el.isForActivity()) {
          ExtendedAttributesWrapper eaw = el.getVariablesElement();
          XMLPanel vp = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
@@ -401,21 +401,41 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel xfpnl = getPanel(el.getXFormsFileAttribute());
          tgp.add(xfpnl);
          XMLPanel cfcmppnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForCompletionAttribute(), null, false, enableEditing, false, null);
-         tgp.add(cfcmppnl);
+         ealist.add(cfcmppnl);
       } else {
          XMLPanel rapepnl = getPanel(el.getRedirectAfterProcessEndAttribute());
          tgp.add(rapepnl);
          XMLPanel cffapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForFirstActivityAttribute(), null, false, enableEditing, false, null);
-         tgp.add(cffapnl);         
+         ealist.add(cffapnl);         
          XMLPanel dvhpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDynamicVariableHandlingAttribute(), null, false, enableEditing, false, null);
-         tgp.add(dvhpnl);         
+         ealist.add(dvhpnl);         
       }
       XMLPanel cfcntpnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForContinuationAttribute(), null, false, enableEditing, false, null);
-      tgp.add(cfcntpnl);
+      ealist.add(cfcntpnl);
       XMLPanel cnppnl = new XMLCheckboxPanel(getPanelContainer(), el.getChooseNextPerformerAttribute(), null, false, enableEditing, false, null);
-      tgp.add(cnppnl);
+      ealist.add(cnppnl);
       XMLPanel erpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEnableReassignmentAttribute(), null, false, enableEditing, false, null);
-      tgp.add(erpnl);
+      ealist.add(erpnl);
+      
+      if (ealist.size() > 2) {
+         for (int i = 0; i < ealist.size(); i += 2) {
+            List subpanels = new ArrayList();
+            subpanels.add(ealist.get(i));
+            subpanels.add(Box.createHorizontalGlue());
+            if ((i + 1) < ealist.size()) {
+               subpanels.add(ealist.get(i + 1));
+            }
+            subpanels.add(Box.createHorizontalGlue());
+            if ((i + 1) < ealist.size()) {
+               subpanels.add(ealist.get(i + 1));
+            }
+            tgp.add(new XMLGroupPanelGL(getPanelContainer(), el, subpanels, "", false, false, true, null));
+         }
+      } else {
+         tgp.addAll(ealist);
+      }
+
+      
       XMLPanel hdppnl = new XMLListPanel((InlinePanel) getPanelContainer(),
                                          el.getHideDynamicPropertiesElement(),
                                          el.getHideDynamicPropertiesElement().toElements(),
@@ -948,8 +968,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          pnl = getPanel(eaw);
          ealist.add(pnl);
 
-         if (ealist.size() > 3) {
-            for (int i = 0; i < ealist.size(); i += 3) {
+         if (ealist.size() > 2) {
+            for (int i = 0; i < ealist.size(); i += 2) {
                List subpanels = new ArrayList();
                subpanels.add(ealist.get(i));
                subpanels.add(Box.createHorizontalGlue());
@@ -957,8 +977,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                   subpanels.add(ealist.get(i + 1));
                }
                subpanels.add(Box.createHorizontalGlue());
-               if ((i + 2) < ealist.size()) {
-                  subpanels.add(ealist.get(i + 2));
+               if ((i + 1) < ealist.size()) {
+                  subpanels.add(ealist.get(i + 1));
                }
                pplist.add(new XMLGroupPanelGL(getPanelContainer(), el, subpanels, "", false, false, true, null));
             }
@@ -1092,8 +1112,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          pnl = getPanel(eaw);
          ealist.add(pnl);
 
-         if (ealist.size() > 3) {
-            for (int i = 0; i < ealist.size(); i += 3) {
+         if (ealist.size() > 2) {
+            for (int i = 0; i < ealist.size(); i += 2) {
                List subpanels = new ArrayList();
                subpanels.add(ealist.get(i));
                subpanels.add(Box.createHorizontalGlue());
@@ -1101,8 +1121,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                   subpanels.add(ealist.get(i + 1));
                }
                subpanels.add(Box.createHorizontalGlue());
-               if ((i + 2) < ealist.size()) {
-                  subpanels.add(ealist.get(i + 2));
+               if ((i + 1) < ealist.size()) {
+                  subpanels.add(ealist.get(i + 1));
                }
                panelElements.add(new XMLGroupPanelGL(getPanelContainer(), el, subpanels, "", false, false, true, null));
             }
