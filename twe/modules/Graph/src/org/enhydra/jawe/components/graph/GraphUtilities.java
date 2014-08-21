@@ -1663,6 +1663,7 @@ public class GraphUtilities {
       List types = new ArrayList();
       types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_NO));
       types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION));
+      types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT));
 
       Iterator it = JaWEManager.getInstance().getXPDLUtils().getActivities(acts, types).iterator();
       while (it.hasNext()) {

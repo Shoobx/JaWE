@@ -1540,7 +1540,7 @@ public class StandardPanelGenerator implements PanelGenerator {
          groupsToShow.add(g2);
       }
       if (g1 != null && g2 != null) {
-         XMLGroupPanel gp = new XMLGroupPanel(getPanelContainer(), el, groupsToShow, "", false, false, true, true, null);
+         XMLGroupPanel gp = new XMLGroupPanel(getPanelContainer(), el, groupsToShow, "", false, false, true, true, true, null);
          groupsToShow.clear();
          groupsToShow.add(gp);
       }

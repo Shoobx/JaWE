@@ -54,11 +54,10 @@ public class XMLGroupPanel extends XMLBasicPanel {
 
       boolean isRightAllignment = false;
       if (pc != null) {
-         isRightAllignment = pc.getSettings()
-            .getSettingBoolean("XMLBasicPanel.RightAllignment");
+         isRightAllignment = pc.getSettings().getSettingBoolean("XMLBasicPanel.RightAllignment");
       }
 
-      initPanel(isVertical, isRightAllignment, elements);
+      initPanel(isVertical, isRightAllignment, true, elements);
    }
 
    public XMLGroupPanel(PanelContainer pc,
@@ -69,19 +68,20 @@ public class XMLGroupPanel extends XMLBasicPanel {
                         boolean hasBorder,
                         boolean hasEmptyBorder,
                         boolean isRightAllignment,
+                        boolean addGlue,
                         String tooltip) {
 
       super(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder, tooltip);
 
-      initPanel(isVertical, isRightAllignment, elements);
+      initPanel(isVertical, isRightAllignment, addGlue, elements);
    }
 
-   protected void initPanel(boolean isVertical, boolean isRightAllignment, List elements) {
-      initTopLeft(isVertical, isRightAllignment);
+   protected void initPanel(boolean isVertical, boolean isRightAllignment, boolean addGlue, List elements) {
+      initTopLeft(isVertical, isRightAllignment, addGlue);
 
       initElements(elements, isVertical);
 
-      initBottomRight(isVertical, isRightAllignment);
+      initBottomRight(isVertical, isRightAllignment, addGlue);
    }
 
    protected void initElements(List elements, boolean isVertical) {
@@ -91,8 +91,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
          if (el instanceof XMLElement) {
             dtdp = pc.getPanelGenerator().getPanel((XMLElement) el);
          } else if (el instanceof String) {
-            dtdp = pc.getPanelGenerator()
-               .getPanel(((XMLComplexElement) myOwner).get((String) el));
+            dtdp = pc.getPanelGenerator().getPanel(((XMLComplexElement) myOwner).get((String) el));
          } else if (el instanceof XMLPanel) {
             dtdp = (XMLPanel) el;
          }
@@ -105,33 +104,38 @@ public class XMLGroupPanel extends XMLBasicPanel {
       }
    }
 
-   protected void initTopLeft(boolean isVertical, boolean isRightAllignment) {
+   protected void initTopLeft(boolean isVertical, boolean isRightAllignment, boolean addGlue) {
       if (isVertical) {
          add(Box.createVerticalStrut(5));
          hasDummyStartEl = true;
       } else {
          if (!isRightAllignment) {
-            add(Box.createHorizontalGlue());
-            hasDummyStartEl = true;
+            if (addGlue) {
+               add(Box.createHorizontalGlue());
+               hasDummyStartEl = true;
+            }
          }
       }
    }
 
-   protected void initBottomRight(boolean isVertical, boolean isRightAllignment) {
+   protected void initBottomRight(boolean isVertical, boolean isRightAllignment, boolean addGlue) {
       if (isVertical) {
-         add(Box.createVerticalGlue());
-         hasDummyEndEl = true;
+         if (addGlue) {
+            add(Box.createVerticalGlue());
+            hasDummyEndEl = true;
+         }
       } else {
          if (isRightAllignment) {
-            add(Box.createHorizontalGlue());
-            hasDummyEndEl = true;
+            if (addGlue) {
+               add(Box.createHorizontalGlue());
+               hasDummyEndEl = true;
+            }
          }
       }
    }
 
    public int howManyPanels() {
-      return getComponentCount()
-             - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
+      return getComponentCount() - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
    }
 
    public XMLPanel getPanel(int no) {
@@ -150,8 +154,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
       if (newEl instanceof XMLElement) {
          newPanel = pc.getPanelGenerator().getPanel((XMLElement) newEl);
       } else if (newEl instanceof String) {
-         newPanel = pc.getPanelGenerator()
-            .getPanel(((XMLComplexElement) myOwner).get((String) newEl));
+         newPanel = pc.getPanelGenerator().getPanel(((XMLComplexElement) myOwner).get((String) newEl));
       } else if (newEl instanceof XMLPanel) {
          newPanel = (XMLPanel) newEl;
       } else {
@@ -166,21 +169,16 @@ public class XMLGroupPanel extends XMLBasicPanel {
    }
 
    public void addToGroup(Object newEl, int where) {
-      int gps = getComponentCount()
-                - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
+      int gps = getComponentCount() - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
       if (where >= gps || where < 0) {
-         throw new RuntimeException("Invalid position "
-                                    + where
-                                    + " for adding element into the XMLGroupPanel with size "
-                                    + gps);
+         throw new RuntimeException("Invalid position " + where + " for adding element into the XMLGroupPanel with size " + gps);
 
       }
       XMLPanel newPanel = null;
       if (newEl instanceof XMLElement) {
          newPanel = pc.getPanelGenerator().getPanel((XMLElement) newEl);
       } else if (newEl instanceof String) {
-         newPanel = pc.getPanelGenerator()
-            .getPanel(((XMLComplexElement) myOwner).get((String) newEl));
+         newPanel = pc.getPanelGenerator().getPanel(((XMLComplexElement) myOwner).get((String) newEl));
       } else if (newEl instanceof XMLPanel) {
          newPanel = (XMLPanel) newEl;
       } else {
@@ -193,8 +191,7 @@ public class XMLGroupPanel extends XMLBasicPanel {
    }
 
    public void removeFromGroup(int no) {
-      int gps = getComponentCount()
-                - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
+      int gps = getComponentCount() - ((hasDummyStartEl) ? 1 : 0) - ((hasDummyEndEl) ? 1 : 0);
       if (no >= gps) {
          throw new RuntimeException("There's no element at position " + no);
       }

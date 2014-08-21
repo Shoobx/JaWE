@@ -87,6 +87,18 @@ public class SharkConstants {
 
    public static final String EA_WORKLOAD_FACTOR = "WORKLOAD_FACTOR";
 
+   public static final String EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES = "ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES";
+
+   public static final String EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES = "ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES";
+
+   public static final String EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING = "ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING";
+
+   public static final String EA_ASSIGN_TO_ORIGINAL_PERFORMER = "AssignToOriginalPerformer";
+
+   public static final String EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY = "AssignToPerformerOfActivity";
+
+   public static final String EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY = "DoNotAssignToPerformerOfActivity";
+
    public static final String EA_XFORMS_FILE = "XFORMS_FILE";
 
    public static final String EA_CHECK_FOR_FIRST_ACTIVITY = "CHECK_FOR_FIRST_ACTIVITY";

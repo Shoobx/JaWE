@@ -1,4 +1,10 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-08-21 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - natively supporting ext. attribs for Standard and History related assignment manager
+      - checkbox to specify if WebClient and Engine configuration should be defined      
+   # XMLGroupPanel: new constructor to be able to specify if empty space should be added to the end of the group or not
+
 2014-08-20 Sasa Bojanic <sasaboy@together.at>
    # Fix: "Create outlook variables" action was not disabled when element is read-only
    # Fix: "Edit expression in associated application" action was not disabled when element is read-only

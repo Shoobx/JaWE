@@ -38,6 +38,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
 
    protected boolean isForAct = false;
 
+   protected ExtendedAttributesWrapper eaw = null;
    public WebClientConfigurationElement(ExtendedAttributes eas, boolean isForAct) {
       super(eas.getParent(), "WebClientConfiguration", true);
       this.eas = eas;
@@ -45,26 +46,28 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       notifyMainListeners = false;
       notifyListeners = false;
       handleStructure();
-      setReadOnly(eas.isReadOnly());
+      eaw = new ExtendedAttributesWrapper((ExtendedAttributes) ((XMLComplexElement) this.parent).get("ExtendedAttributes"));
+      setReadOnly(eas.isReadOnly() || !isConfigurable());
    }
 
    public void setValue(String v) {
       if (v == null) {
+         boolean removeUnconditionally = !isConfigurable();
          if (isForAct) {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_XFORMS_FILE, null, null, true, false);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_COMPLETION, null, null, false, false);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_XFORMS_FILE, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_COMPLETION, null, null, false, removeUnconditionally);
          } else {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, false, false);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, null, null, true, false);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, false, false);            
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, false, removeUnconditionally);            
          }
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, null, null, false, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, null, null, false, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ENABLE_REASSIGNMENT, null, null, false, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES, null, null, true, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES, null, null, true, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_CONTROLS, null, null, true, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TURN_OFF_FEATURES, null, null, true, false);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ENABLE_REASSIGNMENT, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_CONTROLS, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TURN_OFF_FEATURES, null, null, true, removeUnconditionally);
       } else {
          if (isReadOnly) {
             throw new RuntimeException("Can't set the value of read only element!");
@@ -73,8 +76,22 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       }
    }
 
+   public void setReadOnly(boolean ro) {
+      super.setReadOnly(ro);
+      if (!eas.isReadOnly()) {
+         getConfigureAttribute().setReadOnly(false);
+      }
+      if (eaw!=null) {
+         eaw.setReadOnly(eas.isReadOnly());
+      }
+   }
+   
+   public XMLAttribute getConfigureAttribute() {
+      return (XMLAttribute) get("ConfigureWebClient");
+   }
+
    public ExtendedAttributesWrapper getVariablesElement() {
-      return (ExtendedAttributesWrapper) get("Variables");
+      return eaw;
    }
 
    public XMLAttribute getXFormsFileAttribute() {
@@ -126,7 +143,14 @@ public class WebClientConfigurationElement extends XMLComplexElement {
    }
 
    protected void fillStructure() {
-      ExtendedAttributesWrapper eaw = new ExtendedAttributesWrapper((ExtendedAttributes) ((XMLComplexElement) this.parent).get("ExtendedAttributes"));
+      XMLAttribute attrConfigure = new XMLAttribute(this,
+                                                         "ConfigureWebClient",
+                                                         false,
+                                                         new String[] {
+                                                               "true", "false"
+                                                         },
+                                                         1);
+
       XMLAttribute attrXFormsFile = new XMLAttribute(this, SharkConstants.EA_XFORMS_FILE, false);
 
       XMLAttribute attrCheckForCompletion = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_COMPLETION, false, new String[] {
@@ -163,7 +187,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
             "true", "false"
       }, 1);
 
-      add(eaw);
+      add(attrConfigure);
       add(attrXFormsFile);
       add(attrCheckForCompletion);
       add(attrCheckForContinuation);
@@ -181,6 +205,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
    protected void handleStructure() {
       int pc = 0;
       Iterator it = eas.toElements().iterator();
+      boolean hasAny = false;
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          String eaname = ea.getName();
@@ -203,8 +228,11 @@ public class WebClientConfigurationElement extends XMLComplexElement {
                }
                attr.setValue(eaval);
             }
+            hasAny = true;            
          }
       }
+      getConfigureAttribute().setValue(String.valueOf(hasAny));
+      
       int toCompNo = (isForAct ? 4 : 5);
       isPersisted = pc >= toCompNo;
    }
@@ -215,6 +243,14 @@ public class WebClientConfigurationElement extends XMLComplexElement {
 
    public void setPersisted(boolean isPersisted) {
       this.isPersisted = isPersisted;
+   }
+
+   public boolean isConfigurable() {
+      return getConfigureAttribute().toValue().equalsIgnoreCase("true");
+   }
+
+   public void setConfigurable(boolean isConfigurable) {
+      getConfigureAttribute().setValue(String.valueOf(isConfigurable));
    }
 
    public boolean isForActivity() {

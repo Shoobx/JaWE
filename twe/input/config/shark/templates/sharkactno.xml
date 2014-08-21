@@ -19,17 +19,4 @@
    <Implementation>
       <No/>
    </Implementation>
-   <ExtendedAttributes>
-      <ExtendedAttribute Name="CREATE_ASSIGNMENTS" Value="true"/>   
-      <ExtendedAttribute Name="CREATE_DEFAULT_ASSIGNMENT" Value="true"/>
-      <ExtendedAttribute Name="HANDLE_ALL_ASSIGNMENTS" Value="false"/>
-      <ExtendedAttribute Name="ACCEPT_SINGLE_ASSIGNMENT" Value="false"/>
-      <ExtendedAttribute Name="REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER" Value="false"/>
-      <ExtendedAttribute Name="DELETE_OTHER_ASSIGNMENTS" Value="false"/>
-      <ExtendedAttribute Name="USE_PROCESS_CONTEXT_ONLY" Value="false"/>
-      <ExtendedAttribute Name="CHECK_FOR_COMPLETION" Value="false"/>
-      <ExtendedAttribute Name="CHECK_FOR_CONTINUATION" Value="false"/>
-      <ExtendedAttribute Name="CHOOSE_NEXT_PERFORMER" Value="false"/>
-      <ExtendedAttribute Name="ENABLE_REASSIGNMENT" Value="false"/>
-   </ExtendedAttributes>
 </Activity>
