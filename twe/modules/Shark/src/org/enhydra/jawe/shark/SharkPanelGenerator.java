@@ -56,6 +56,8 @@ import org.enhydra.jawe.shark.business.WebClientConfigurationElement;
 import org.enhydra.jawe.shark.business.WfAttachment;
 import org.enhydra.jawe.shark.business.WfAttachments;
 import org.enhydra.jawe.shark.business.WfConfigurationElement;
+import org.enhydra.jawe.shark.business.WfNameValue;
+import org.enhydra.jawe.shark.business.WfNameValues;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLAttribute;
@@ -604,6 +606,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLPanel doapnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteOtherAssignmentsAttribute(), null, false, enableEditing, false, null);
       pplist.add(doapnl);
 
+      if (el.isForActivity()) {
+         XMLPanel opcpnl = generateStandardTablePanel(el.getOverrideProcessContextElement(), true, true, true, true);
+         pplist.add(opcpnl);
+      }
+
       XMLPanel ampipnl = new XMLComboPanel(getPanelContainer(), ampiattr, null, choices, true, true, false, true, enableEditing, true, true, null);
       pplist.add(ampipnl);
 
@@ -753,6 +760,17 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                        el,
                                                        el.toElements(),
                                                        getPanelContainer().getLanguageDependentString("AttachmentKey"),
+                                                       true,
+                                                       false,
+                                                       true);
+      return gp;
+   }
+
+   public XMLPanel getPanel(WfNameValue el) {
+      SharkModeGroupPanel gp = new SharkModeGroupPanel(getPanelContainer(),
+                                                       el,
+                                                       el.toElements(),
+                                                       getPanelContainer().getLanguageDependentString("OverrideProcessVariableKey"),
                                                        true,
                                                        false,
                                                        true);
@@ -1234,7 +1252,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             .getJaWEController()
             .canModifyElement(el));
 
-      } else if (el.getParent() instanceof WfVariable || el.getParent() instanceof WfAttachment) {
+      } else if (el.getParent() instanceof WfVariable
+                 || el.getParent() instanceof WfAttachment
+                 || (el.getParent() instanceof WfNameValue && el.toName().equals(((WfNameValue) el.getParent()).getNamePartLabelKey()))) {
          Map chm = new SequencedHashMap();
          String title = null;
          boolean editable = false;
@@ -1340,7 +1360,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                varIds.add(((WfVariable) l.get(i)).getId());
             }
             filter = var.getFilter();
-         } else {
+         } else if (el.getParent() instanceof WfAttachment) {
             WfAttachment var = (WfAttachment) el.getParent();
             List l = ((WfAttachments) var.getParent()).toElements();
             for (int i = 0; i < l.size(); i++) {
@@ -1353,6 +1373,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             } else {
                filter = var.getFilterNameVariableOrExpression();
                editable = true;
+            }
+         } else {
+            WfNameValue var = (WfNameValue) el.getParent();
+            List l = ((WfNameValues) var.getParent()).toElements();
+            for (int i = 0; i < l.size(); i++) {
+               varIds.add(((WfNameValue) l.get(i)).getNamePart());
             }
          }
          List choices = PanelUtilities.getPossibleVariableChoices(SharkUtils.getPossibleVariableChoices(chm, varIds, el.toValue()), filter, 2, false);

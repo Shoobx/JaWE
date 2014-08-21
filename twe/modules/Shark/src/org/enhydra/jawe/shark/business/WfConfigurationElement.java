@@ -101,9 +101,12 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                   false,
                                                   removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES, null, null, true, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY, null, null, true, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY, null, null, true, removeUnconditionally);
+         if (isForActivity()) {
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, null, null, true, removeUnconditionally);
+         }
       } else {
          if (isReadOnly) {
             throw new RuntimeException("Can't set the value of read only element!");
@@ -211,6 +214,10 @@ public class WfConfigurationElement extends XMLComplexElement {
       return (XMLAttribute) get(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY);
    }
 
+   public WfNameValues getOverrideProcessContextElement() {
+      return (WfNameValues) get(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT);
+   }
+   
    protected void fillStructure() {
       XMLAttribute attrConfigure = new XMLAttribute(this, "ConfigureWorkflowEngine", false, new String[] {
             "true", "false"
@@ -295,6 +302,8 @@ public class WfConfigurationElement extends XMLComplexElement {
       XMLAttribute attrAssignToPerformerOfActivity = new XMLAttribute(this, SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY, false);
       XMLAttribute attrDoNotAssignToPerformerOfActivity = new XMLAttribute(this, SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY, false);
 
+      WfNameValues elOverrideProcessContext = new WfNameValues(this, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, ",", ":", "Variable", "OverrideExpression", false);
+
       add(attrConfigure);
       add(attrUnsatisfiedSplitConditionHandlingMode);
       add(attrAllowUndefinedVariables);
@@ -318,6 +327,7 @@ public class WfConfigurationElement extends XMLComplexElement {
       add(attrAssignToOriginalPerformer);
       add(attrAssignToPerformerOfActivity);
       add(attrDoNotAssignToPerformerOfActivity);
+      add(elOverrideProcessContext);
    }
 
    protected void handleStructure() {
@@ -332,6 +342,8 @@ public class WfConfigurationElement extends XMLComplexElement {
             String eaval = ea.getVValue();
             if (eaname.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES)) {
                ((WfVariables) attr).createStructure(eaval);
+            } else if (eaname.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
+                  ((WfNameValues) attr).createStructure(eaval);
             } else {
                if (eaname.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
                    || eaname.equals(SharkConstants.EA_CREATE_ASSIGNMENTS)

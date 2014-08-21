@@ -50,8 +50,7 @@ public class SharkUtils {
       return l;
    }
 
-   public static Properties getPossibleXPDLStringVariables(XMLElement el,
-                                                            boolean allLevels) {
+   public static Properties getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
       Properties ret = new Properties();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       ExtendedAttributes eas = null;
@@ -60,9 +59,7 @@ public class SharkUtils {
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
             if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               ret.setProperty(ea.getName()
-                                  .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
-                               ea.getVValue());
+               ret.setProperty(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
             }
          }
       }
@@ -71,12 +68,9 @@ public class SharkUtils {
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
             if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               String realName = ea.getName()
-                  .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+               String realName = ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
                if (!ret.containsKey(realName)) {
-                  ret.setProperty(ea.getName()
-                                     .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
-                                  ea.getVValue());
+                  ret.setProperty(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
                }
             }
          }
@@ -85,8 +79,7 @@ public class SharkUtils {
       return ret;
    }
 
-   public static Map getPossibleXPDLStringVariablesEAValues(XMLElement el,
-                                                             boolean allLevels) {
+   public static Map getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
       Map ret = new HashMap();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       ExtendedAttributes eas = null;
@@ -95,9 +88,7 @@ public class SharkUtils {
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
             if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               ret.put(ea.getName()
-                          .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
-                       ea.get("Value"));
+               ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.get("Value"));
             }
          }
       }
@@ -106,12 +97,9 @@ public class SharkUtils {
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
             if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               String realName = ea.getName()
-                  .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+               String realName = ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
                if (!ret.containsKey(realName)) {
-                  ret.put(ea.getName()
-                             .substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()),
-                          ea.get("Value"));
+                  ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.get("Value"));
                }
             }
          }
@@ -161,6 +149,19 @@ public class SharkUtils {
                      val += ((WfAttachment) varl.get(i)).get(subName).toValue();
                      if (i < varl.size() - 1) {
                         val += vare.getTokenizer();
+                     }
+                  }
+               }
+            } else if (el instanceof WfNameValues) {
+               WfNameValues vare = (WfNameValues) el;
+               val = "";
+               if (vare.size() > 0) {
+                  List varl = vare.toElements();
+                  for (int i = 0; i < varl.size(); i++) {
+                     WfNameValue nv = (WfNameValue)varl.get(i);
+                     val += nv.getNamePart()+vare.getNameValueTokenizer()+nv.getValuePart();
+                     if (i < varl.size() - 1) {
+                        val += vare.getListTokenizer();
                      }
                   }
                }

@@ -25,6 +25,8 @@ import org.enhydra.jawe.shark.business.EmailConfigurationElement;
 import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jawe.shark.business.WfAttachment;
 import org.enhydra.jawe.shark.business.WfAttachments;
+import org.enhydra.jawe.shark.business.WfNameValue;
+import org.enhydra.jawe.shark.business.WfNameValues;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLElement;
@@ -42,9 +44,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       super(settings);
    }
 
-   public ExtendedAttribute createXPDLObject(ExtendedAttributesWrapper eas,
-                                             String type,
-                                             boolean addToCollection) {
+   public ExtendedAttribute createXPDLObject(ExtendedAttributesWrapper eas, String type, boolean addToCollection) {
       ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
       if (addToCollection) {
          eas.add(ea);
@@ -52,9 +52,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       return ea;
    }
 
-   public XPDLStringVariable createXPDLObject(XPDLStringVariables eas,
-                                                               String type,
-                                                               boolean addToCollection) {
+   public XPDLStringVariable createXPDLObject(XPDLStringVariables eas, String type, boolean addToCollection) {
       XPDLStringVariable ea = (XPDLStringVariable) eas.generateNewElement();
       if (addToCollection) {
          eas.add(ea);
@@ -62,9 +60,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       return ea;
    }
 
-   public WfVariable createXPDLObject(WfVariables sps,
-                                      String type,
-                                      boolean addToCollection) {
+   public WfVariable createXPDLObject(WfVariables sps, String type, boolean addToCollection) {
       WfVariable sp = (WfVariable) sps.generateNewElement();
 
       adjustXPDLObject(sp, type);
@@ -75,9 +71,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       return sp;
    }
 
-   public WfAttachment createXPDLObject(WfAttachments sps,
-                                        String type,
-                                        boolean addToCollection) {
+   public WfAttachment createXPDLObject(WfAttachments sps, String type, boolean addToCollection) {
       WfAttachment sp = (WfAttachment) sps.generateNewElement();
 
       adjustXPDLObject(sp, type);
@@ -88,9 +82,18 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
       return sp;
    }
 
-   public EmailConfigurationElement createXPDLObject(DeadlineEmailConfigurationElements eces,
-                                        String type,
-                                        boolean addToCollection) {
+   public WfNameValue createXPDLObject(WfNameValues nvs, String type, boolean addToCollection) {
+      WfNameValue nv = (WfNameValue) nvs.generateNewElement();
+
+      adjustXPDLObject(nv, type);
+
+      if (addToCollection) {
+         nvs.add(nv);
+      }
+      return nv;
+   }
+
+   public EmailConfigurationElement createXPDLObject(DeadlineEmailConfigurationElements eces, String type, boolean addToCollection) {
       EmailConfigurationElement ece = (EmailConfigurationElement) eces.generateNewElement();
 
       adjustXPDLObject(ece, type);

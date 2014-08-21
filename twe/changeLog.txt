@@ -2,6 +2,7 @@
 2014-08-21 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - natively supporting ext. attribs for Standard and History related assignment manager
+      - natively supporting kernel ext. attrib for overriding process context when instantiating activity
       - checkbox to specify if WebClient and Engine configuration should be defined      
    # XMLGroupPanel: new constructor to be able to specify if empty space should be added to the end of the group or not
 
