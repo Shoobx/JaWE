@@ -48,7 +48,6 @@
 	<classpathentry kind="lib" path="tools/jna/jna.jar"/>
 	<classpathentry kind="lib" path="tools/xerces/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="tools/xml-commons/xml-apis.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/jxpdl"/>
 	<classpathentry kind="output" path="classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>

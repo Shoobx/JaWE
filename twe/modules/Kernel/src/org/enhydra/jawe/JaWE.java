@@ -130,7 +130,7 @@ public class JaWE {
       // Setting AppUserModelID
       String OS = System.getProperty("os.name");
       boolean isWindows = OS.startsWith("Windows");
-      if (isWindows) {
+      if (isWindows  && Integer.parseInt(System.getProperty("os.version").replace(".","")) > 60) {
          // AppUsermodelID_Start
          final Map<String, Object> WIN32API_OPTIONS = new HashMap<String, Object>() {
             {

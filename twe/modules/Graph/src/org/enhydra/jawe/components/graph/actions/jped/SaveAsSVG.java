@@ -100,7 +100,6 @@ public class SaveAsSVG extends ActionBase {
 		   graph.setDoubleBuffered(false);
 		   RepaintManager mng = RepaintManager.currentManager(graph);
 		   boolean doubleBuffer = mng.isDoubleBufferingEnabled();
-		   System.out.println("saving as svg");
 //		   Create an instance of the SVG Generator
 		   SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
 		   ctx.setPrecision(4);
