@@ -31,6 +31,7 @@ import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
@@ -106,96 +107,104 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
 
    public void adjustXPDLObject(XMLElement el, String type) {
       super.adjustType(el, type);
+      
+      // do not use this feature
+      if (true) {
+         return;
+      }
+      
+      // inherit Package ext. attrib. values for new WorkflowProcess
       if (el instanceof WorkflowProcess) {
          ExtendedAttributes peas = XMLUtil.getPackage(el).getExtendedAttributes();
          ExtendedAttributes eas = ((WorkflowProcess) el).getExtendedAttributes();
-         ExtendedAttribute pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
-         ExtendedAttribute ea = null;
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MAX_ASSIGNMENTS);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_WORKLOAD_FACTOR);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CREATE_ASSIGNMENTS);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TRANSIENT);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_DELETE_FINISHED);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_CONTINUATION);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_CHECK_FOR_CONTINUATION);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
-         pea = peas.getFirstExtendedAttributeForName(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END);
-         if (pea != null) {
-            ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END);
-            if (ea != null) {
-               ea.setVValue(pea.getVValue());
-            }
-         }
 
+         // inherit kernel's ext. attribs
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_UNSATISFIED_SPLIT_CONDITION_HANDLING_MODE);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_TRANSIENT);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_DELETE_FINISHED);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_CREATE_ASSIGNMENTS);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN);
+         
+         // inherit plugin's ext. attribs
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_MAX_ASSIGNMENTS);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_WORKLOAD_FACTOR);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR);
+         
+         // web client's ext. attribs
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ENABLE_REASSIGNMENT);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_HIDE_CONTROLS);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_TURN_OFF_FEATURES);
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END);         
+      }
+      if (el instanceof Activity) {
+         ExtendedAttributes peas1 = XMLUtil.getWorkflowProcess(el).getExtendedAttributes();
+         ExtendedAttributes peas2 = XMLUtil.getPackage(el).getExtendedAttributes();
+         ExtendedAttributes eas = ((Activity) el).getExtendedAttributes();         
+
+         // inherit kernel's ext. attribs
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_CREATE_ASSIGNMENTS);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN);
+         
+         // inherit plugin's ext. attribs
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_MAX_ASSIGNMENTS);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_WORKLOAD_FACTOR);
+         
+         // web client's ext. attribs
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_CHECK_FOR_COMPLETION);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ENABLE_REASSIGNMENT);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_HIDE_CONTROLS);
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_TURN_OFF_FEATURES);         
       }
    }
 
+   protected void handleExtendedAttrib(ExtendedAttributes eassrc1, ExtendedAttributes eassrc2, ExtendedAttributes eastrgt, String eaname) {
+      ExtendedAttribute pea = eassrc1.getFirstExtendedAttributeForName(eaname);
+      if (pea == null) {
+         pea = eassrc2.getFirstExtendedAttributeForName(eaname);
+      }
+      if (pea != null) {
+         ExtendedAttribute ea = eastrgt.getFirstExtendedAttributeForName(eaname);
+         if (ea == null) {
+            ea = (ExtendedAttribute) eastrgt.generateNewElement();
+            ea.setName(eaname);
+            eastrgt.add(ea);
+         }
+         if (ea != null) {
+            ea.setVValue(pea.getVValue());
+         }
+      }
+   }
+   
 }

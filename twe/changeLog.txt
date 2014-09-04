@@ -1,4 +1,10 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-09-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - better support for kernel ext. attrib. for overriding process context when instantiating activity (variables recognizing when referenced by this ext. attrib.)
+      - when creating new ext. attrib. for some entity, list of possible ext. attribs. excludes the shark specific ones
+      - turned-off feature for inheriting ext. attribs from package->workflow process->activity
+      
 2014-08-27 Sasa Bojanic <sasaboy@together.at>
 	# Supporting windows XP (patch by Vjecheslav)
 

@@ -61,11 +61,8 @@ public class SharkXPDLUtils extends XPDLUtils {
       return getExtendedAttributeReferences(eaparent, referenced, referenced.getName());
    }
 
-   public List getExtendedAttributeReferences(XMLComplexElement eaparent,
-                                              ExtendedAttribute ea,
-                                              String referencedName) {
-      if (ea instanceof XPDLStringVariable
-          || referencedName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+   public List getExtendedAttributeReferences(XMLComplexElement eaparent, ExtendedAttribute ea, String referencedName) {
+      if (ea instanceof XPDLStringVariable || referencedName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
          if (referencedName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
             referencedName = referencedName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
          }
@@ -76,15 +73,10 @@ public class SharkXPDLUtils extends XPDLUtils {
       return super.getExtendedAttributeReferences(eaparent, ea, referencedName);
    }
 
-   protected List getXPDLStringEAReferences(XMLComplexElement el,
-                                            ExtendedAttribute ea,
-                                            String referencedName,
-                                            List references) {
-      String fullReferencedName = SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX
-                                  + referencedName;
+   protected List getXPDLStringEAReferences(XMLComplexElement el, ExtendedAttribute ea, String referencedName, List references) {
+      String fullReferencedName = SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX + referencedName;
       ExtendedAttribute eal = ((ExtendedAttributes) (el.get("ExtendedAttributes"))).getFirstExtendedAttributeForName(fullReferencedName);
-      if (el instanceof WorkflowProcess
-          && eal != null && XMLUtil.getWorkflowProcess(ea) == null) {
+      if (el instanceof WorkflowProcess && eal != null && XMLUtil.getWorkflowProcess(ea) == null) {
          return references;
       }
 
@@ -92,10 +84,7 @@ public class SharkXPDLUtils extends XPDLUtils {
       if (el instanceof Package) {
          Iterator it = ((Package) el).getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
-            references.addAll(getXPDLStringEAReferences((WorkflowProcess) it.next(),
-                                                        ea,
-                                                        referencedName,
-                                                        references));
+            references.addAll(getXPDLStringEAReferences((WorkflowProcess) it.next(), ea, referencedName, references));
          }
       } else if (el instanceof WorkflowProcess) {
          Iterator it = ((WorkflowProcess) el).getActivities().toElements().iterator();
@@ -117,16 +106,13 @@ public class SharkXPDLUtils extends XPDLUtils {
       return references;
    }
 
-   protected List getXPDLStringEAReferences(XMLComplexElement el,
-                                            ExtendedAttribute ea2s,
-                                            String referencedName) {
+   protected List getXPDLStringEAReferences(XMLComplexElement el, ExtendedAttribute ea2s, String referencedName) {
       List references = new ArrayList();
 
       String postfixProc = "_PROCESS";
       String postfixAct = "_ACTIVITY";
 
-      Iterator it = ((ExtendedAttributes) el.get("ExtendedAttributes")).toElements()
-         .iterator();
+      Iterator it = ((ExtendedAttributes) el.get("ExtendedAttributes")).toElements().iterator();
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          if (ea == ea2s) {
@@ -134,78 +120,46 @@ public class SharkXPDLUtils extends XPDLUtils {
          }
          boolean canref = false;
          if (el instanceof Activity) {
-            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                    + postfixAct)
-                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                || ea.getName()
-                   .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                || ea.getName()
-                   .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                       + postfixAct)) {
+            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT) || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)) {
                canref = true;
             }
          } else if (el instanceof WorkflowProcess) {
-            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                    + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                       + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                       + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                       + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                       + postfixAct)
+            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT) || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT) || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
                 || ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
                canref = true;
             }
          } else if (el instanceof Package) {
-            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                    + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                       + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                       + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                       + postfixProc)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                       + postfixAct)
-                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                       + postfixAct)
+            if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT) || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT) || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
                 || ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
                canref = true;
             }
          }
          if (canref) {
-            if (XMLUtil.getUsingPositions(ea.getVValue(),
-                                          "{"
-                                                + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
-                                                + referencedName + "}",
-                                          new HashMap(),
-                                          false)
+            if (XMLUtil.getUsingPositions(ea.getVValue(), "{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + referencedName + "}", new HashMap(), false)
                .size() > 0) {
                references.add(ea.get("Value"));
             }
@@ -215,9 +169,7 @@ public class SharkXPDLUtils extends XPDLUtils {
       return references;
    }
 
-   public void updateExtendedAttributeReferences(List refsEAValues,
-                                                 String oldEAName,
-                                                 String newEAName) {
+   public void updateExtendedAttributeReferences(List refsEAValues, String oldEAName, String newEAName) {
       Iterator it = refsEAValues.iterator();
       while (it.hasNext()) {
          XMLElement easmtpv = (XMLElement) it.next();
@@ -225,19 +177,14 @@ public class SharkXPDLUtils extends XPDLUtils {
             XMLAttribute a = (XMLAttribute) easmtpv;
             String expr = easmtpv.toValue();
             String searchValue = "{"
-                                 + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
-                                 + oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
+                                 + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
                                  + "}";
             String replaceValue = "{"
-                                  + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
-                                  + newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
+                                  + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
                                   + "}";
             int varLengthDiff = replaceValue.length() - searchValue.length();
 
-            List positions = XMLUtil.getUsingPositions(expr,
-                                                       searchValue,
-                                                       new HashMap(),
-                                                       false);
+            List positions = XMLUtil.getUsingPositions(expr, searchValue, new HashMap(), false);
             for (int i = 0; i < positions.size(); i++) {
                int pos = ((Integer) positions.get(i)).intValue();
                int realPos = pos + varLengthDiff * i;
@@ -265,8 +212,7 @@ public class SharkXPDLUtils extends XPDLUtils {
    }
 
    public List getReferences(Package pkg, Participant referenced) {
-      if (XMLUtil.getPackage(referenced) != pkg
-          && pkg.getParticipant(referenced.getId()) != null) {
+      if (XMLUtil.getPackage(referenced) != pkg && pkg.getParticipant(referenced.getId()) != null) {
          return new ArrayList();
       }
 
@@ -293,13 +239,11 @@ public class SharkXPDLUtils extends XPDLUtils {
    }
 
    public List getReferences(WorkflowProcess wp, Participant referenced) {
-      if (XMLUtil.getWorkflowProcess(referenced) == null
-          && wp.getParticipant(referenced.getId()) != null) {
+      if (XMLUtil.getWorkflowProcess(referenced) == null && wp.getParticipant(referenced.getId()) != null) {
          return new ArrayList();
       }
       Package pkg = XMLUtil.getPackage(wp);
-      if (XMLUtil.getPackage(referenced) != pkg
-          && pkg.getParticipant(referenced.getId()) != null) {
+      if (XMLUtil.getPackage(referenced) != pkg && pkg.getParticipant(referenced.getId()) != null) {
          return new ArrayList();
       }
 
@@ -322,32 +266,25 @@ public class SharkXPDLUtils extends XPDLUtils {
       return references;
    }
 
-   protected List tGetParticipantReferences(XMLComplexElement pkgOrWpOrAs,
-                                            String referencedId) {
+   protected List tGetParticipantReferences(XMLComplexElement pkgOrWpOrAs, String referencedId) {
       List references = XMLUtil.tGetParticipantReferences(pkgOrWpOrAs, referencedId);
 
       String postfixProc = "_PROCESS";
       String postfixAct = "_ACTIVITY";
 
       if (!(pkgOrWpOrAs instanceof Package)) {
-         Iterator it = ((Activities) pkgOrWpOrAs.get("Activities")).toElements()
-            .iterator();
+         Iterator it = ((Activities) pkgOrWpOrAs.get("Activities")).toElements().iterator();
          while (it.hasNext()) {
             Activity act = (Activity) it.next();
             int type = act.getActivityType();
             // special extended attributes for shark client applications
-            if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
-                || type == XPDLConstants.ACTIVITY_TYPE_NO) {
+            if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || type == XPDLConstants.ACTIVITY_TYPE_NO) {
                List eas = act.getExtendedAttributes().toElements();
                for (int i = 0; i < eas.size(); i++) {
                   ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-                  if (ea.getName()
-                     .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
-                      || ea.getName()
-                         .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
-                      || ea.getName()
-                         .equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT
-                                 + postfixAct)) {
+                  if (ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
+                      || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
+                      || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixAct)) {
                      if (ea.getVValue().equals(referencedId)) {
                         references.add(ea.get("Value"));
                      }
@@ -360,16 +297,10 @@ public class SharkXPDLUtils extends XPDLUtils {
          List eas = ((ExtendedAttributes) pkgOrWpOrAs.get("ExtendedAttributes")).toElements();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName()
-               .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
-                || ea.getName()
-                   .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
-                || ea.getName()
-                   .equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT
-                           + postfixProc)
-                || ea.getName()
-                   .equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT
-                           + postfixAct)) {
+            if (ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
+                || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixProc)
+                || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixAct)) {
                if (ea.getVValue().equals(referencedId)) {
                   references.add(ea.get("Value"));
                }
@@ -414,8 +345,7 @@ public class SharkXPDLUtils extends XPDLUtils {
    }
 
    public List getReferences(WorkflowProcess wp, DataField referenced) {
-      if (XMLUtil.getWorkflowProcess(referenced) == null
-          && (wp.getDataField(referenced.getId()) != null || wp.getFormalParameter(referenced.getId()) != null)) {
+      if (XMLUtil.getWorkflowProcess(referenced) == null && (wp.getDataField(referenced.getId()) != null || wp.getFormalParameter(referenced.getId()) != null)) {
          return new ArrayList();
       }
 
@@ -480,77 +410,50 @@ public class SharkXPDLUtils extends XPDLUtils {
          Activity act = (Activity) it.next();
          int type = act.getActivityType();
          // special extended attributes for shark client applications
-         if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
-             || type == XPDLConstants.ACTIVITY_TYPE_NO) {
+         if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || type == XPDLConstants.ACTIVITY_TYPE_NO) {
             List eas = act.getExtendedAttributes().toElements();
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-               if (ea.getName().equals(SharkConstants.VTP_UPDATE)
-                   || ea.getName().equals(SharkConstants.VTP_VIEW)) {
+               if (ea.getName().equals(SharkConstants.VTP_UPDATE) || ea.getName().equals(SharkConstants.VTP_VIEW)) {
                   if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {
                      references.add(ea.get("Value"));
                   }
-               } else if (ea.getName()
-                  .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                          + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                     + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                     + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                          || ea.getName()
-                             .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                          || ea.getName()
-                             .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                          || ea.getName()
-                             .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                          || ea.getName()
-                             .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                          || ea.getName()
-                             .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                                     + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                     + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                                     + postfixAct)) {
+               } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixAct)
+                          || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixAct)
+                          || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixAct)
+                          || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                          || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
+                          || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
+                          || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
+                          || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
+                          || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
+                          || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixAct)
+                          || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixAct)
+                          || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)) {
                   WfVariables vars = new WfVariables(act, ea.getName(), null, ",", false);
                   vars.createStructure(ea.getVValue());
                   if (vars.getCollectionElement(dfOrFpId) != null) {
                      references.add(ea.get("Value"));
                   }
-               } else if (ea.getName()
-                  .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                     + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                          || ea.getName()
-                             .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                          || ea.getName()
-                             .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                          || ea.getName()
-                             .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                     + postfixAct)
-                          || ea.getName()
-                             .equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                     + postfixAct)) {
-                  if (XMLUtil.getUsingPositions(ea.getVValue(),
-                                                "{"
-                                                      + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX
-                                                      + dfOrFpId + "}",
-                                                allVars,
-                                                false)
+               } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                          || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                          || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                          || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                          || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                          || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                          || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                          || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)) {
+                  if (XMLUtil.getUsingPositions(ea.getVValue(), "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + dfOrFpId + "}", allVars, false)
                      .size() > 0) {
+                     references.add(ea.get("Value"));
+                  }
+               } else if (ea.getName().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
+                  List<Integer> ups = XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId + ":", allVars, false);
+                  if (ups.size() > 0 && ups.get(0).intValue() == 0) {
+                     references.add(ea.get("Value"));
+                  }
+                  ups = XMLUtil.getUsingPositions(ea.getVValue(), "," + dfOrFpId + ":", allVars, false);
+                  if (ups.size() > 0) {
                      references.add(ea.get("Value"));
                   }
                }
@@ -561,96 +464,46 @@ public class SharkXPDLUtils extends XPDLUtils {
       List eas = wp.getExtendedAttributes().toElements();
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea.getName()
-            .equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)) {
+         if (ea.getName().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {
                references.add(ea.get("Value"));
             }
-         } else if (ea.getName()
-            .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                    + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                               + postfixProc)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                           + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                               + postfixAct)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                           + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                               + postfixAct)) {
+         } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixAct)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)) {
             WfVariables vars = new WfVariables(wp, ea.getName(), null, ",", false);
             vars.createStructure(ea.getVValue());
             if (vars.getCollectionElement(dfOrFpId) != null) {
                references.add(ea.get("Value"));
             }
-         } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                        + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                               + postfixAct)
-                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                           + postfixProc)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                           + postfixProc)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                           + postfixAct)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                           + postfixAct)
-                    || ea.getName()
-                       .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-            if (XMLUtil.getUsingPositions(ea.getVValue(),
-                                          "{"
-                                                + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX
-                                                + dfOrFpId + "}",
-                                          allVars,
-                                          false)
-               .size() > 0) {
+         } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT) || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
+                    || ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+            if (XMLUtil.getUsingPositions(ea.getVValue(), "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + dfOrFpId + "}", allVars, false).size() > 0) {
                references.add(ea.get("Value"));
             }
          }
@@ -659,96 +512,46 @@ public class SharkXPDLUtils extends XPDLUtils {
       eas = pkg.getExtendedAttributes().toElements();
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea.getName()
-            .equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)) {
+         if (ea.getName().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {
                references.add(ea.get("Value"));
             }
-         } else if (ea.getName()
-            .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                    + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                               + postfixProc)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                           + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                               + postfixAct)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                           + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                               + postfixAct)) {
+         } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixAct)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)) {
             WfVariables vars = new WfVariables(wp, ea.getName(), null, ",", false);
             vars.createStructure(ea.getVValue());
             if (vars.getCollectionElement(dfOrFpId) != null) {
                references.add(ea.get("Value"));
             }
-         } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                        + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                               + postfixProc)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                               + postfixAct)
-                    || ea.getName()
-                       .equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                               + postfixAct)
-                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                    || ea.getName()
-                       .equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                           + postfixProc)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                           + postfixProc)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                           + postfixAct)
-                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                           + postfixAct)
-                    || ea.getName()
-                       .startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-            if (XMLUtil.getUsingPositions(ea.getVValue(),
-                                          "{"
-                                                + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX
-                                                + dfOrFpId + "}",
-                                          allVars,
-                                          false)
-               .size() > 0) {
+         } else if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT) || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                    || ea.getName().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
+                    || ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+            if (XMLUtil.getUsingPositions(ea.getVValue(), "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + dfOrFpId + "}", allVars, false).size() > 0) {
                references.add(ea.get("Value"));
             }
          }
@@ -769,269 +572,101 @@ public class SharkXPDLUtils extends XPDLUtils {
          if (pp instanceof XMLComplexElement && eaName.equals(JaWEEAHandler.EA_JAWE_TYPE)) {
             continue;
          }
+         if (pp instanceof Package || pp instanceof WorkflowProcess || pp instanceof Activity) {
+            if (eaName.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
+                || eaName.equals(SharkConstants.EA_CREATE_ASSIGNMENTS) || eaName.equals(SharkConstants.EA_CREATE_ASSIGNMENTS)
+                || eaName.equals(SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT) || eaName.equals(SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS)
+                || eaName.equals(SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT) || eaName.equals(SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER)
+                || eaName.equals(SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS) || eaName.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN)
+                || eaName.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES)
+                || eaName.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING)
+                || eaName.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES) || eaName.equals(SharkConstants.EA_MAX_ASSIGNMENTS)
+                || eaName.equals(SharkConstants.EA_WORKLOAD_FACTOR) || eaName.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
+                || eaName.equals(SharkConstants.EA_CHOOSE_NEXT_PERFORMER) || eaName.equals(SharkConstants.EA_ENABLE_REASSIGNMENT)
+                || eaName.equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES) || eaName.equals(SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES)
+                || eaName.equals(SharkConstants.EA_HIDE_CONTROLS) || eaName.equals(SharkConstants.EA_TURN_OFF_FEATURES)
+                || eaName.equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_EXECUTION_MODE)
+                || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_MODE)
+                || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
+                || eaName.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE) || eaName.equals(SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS) || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY) || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixAct) || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)) {
+
+               continue;
+            }
+         }
+
+         if (pp instanceof Package || pp instanceof WorkflowProcess) {
+            if (eaName.equals(SharkConstants.EA_UNSATISFIED_SPLIT_CONDITION_HANDLING_MODE)
+                || eaName.equals(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES) || eaName.equals(SharkConstants.EA_TRANSIENT)
+                || eaName.equals(SharkConstants.EA_DELETE_FINISHED) || eaName.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL)
+                || eaName.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR) || eaName.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY)
+                || eaName.equals(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING) || eaName.equals(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
+                || eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+               continue;
+            }
+         }
+
          if (pp instanceof Package
              && (eaName.equals(JaWEEAHandler.EA_EDITING_TOOL)
-                 || eaName.equals(JaWEEAHandler.EA_EDITING_TOOL_VERSION)
-                 || eaName.equals(JaWEEAHandler.EA_JAWE_CONFIGURATION)
-                 || eaName.equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)
-                 || eaName.equals(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES)
-                 || eaName.equals(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING)
-                 || eaName.equals(SharkConstants.EA_CHOOSE_NEXT_PERFORMER)
-                 || eaName.equals(SharkConstants.EA_MAX_ASSIGNMENTS)
-                 || eaName.equals(SharkConstants.EA_WORKLOAD_FACTOR)
-                 || eaName.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
-                 || eaName.equals(SharkConstants.EA_CREATE_ASSIGNMENTS)
-                 || eaName.equals(SharkConstants.EA_TRANSIENT)
-                 || eaName.equals(SharkConstants.EA_DELETE_FINISHED)
-                 || eaName.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY)
-                 || eaName.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
-                 || eaName.equals(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_EXECUTION_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                 || eaName.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE)
-                 || eaName.equals(SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE)
-                 || eaName.equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                  + postfixAct) || eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))
-             || eaName.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
-             || eaName.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL)) {
+                 || eaName.equals(JaWEEAHandler.EA_EDITING_TOOL_VERSION) || eaName.equals(JaWEEAHandler.EA_JAWE_CONFIGURATION) || eaName.equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID))) {
             continue;
          }
          if (pp instanceof WorkflowProcess
              && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK)
-                 || eaName.equals(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES)
-                 || eaName.equals(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING)
-                 || eaName.equals(SharkConstants.EA_CHOOSE_NEXT_PERFORMER)
-                 || eaName.equals(SharkConstants.EA_MAX_ASSIGNMENTS)
-                 || eaName.equals(SharkConstants.EA_WORKLOAD_FACTOR)
-                 || eaName.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
-                 || eaName.equals(SharkConstants.EA_CREATE_ASSIGNMENTS)
-                 || eaName.equals(SharkConstants.EA_TRANSIENT)
-                 || eaName.equals(SharkConstants.EA_DELETE_FINISHED)
-                 || eaName.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY)
-                 || eaName.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
-                 || eaName.equals(SharkConstants.EA_REDIRECT_AFTER_PROCESS_END)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_EXECUTION_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                 || eaName.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE)
-                 || eaName.equals(SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE)
-                 || eaName.equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                  + postfixProc)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                  + postfixAct) || eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))
-             || eaName.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
-             || eaName.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL)) {
+                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
+                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_WORKFLOW) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_BLOCK) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_END_OF_BLOCK))) {
 
             continue;
          }
          if (pp instanceof Activity
              && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET)
-                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID)
-                 || eaName.equals(SharkConstants.EA_MAX_ASSIGNMENTS)
-                 || eaName.equals(SharkConstants.EA_WORKLOAD_FACTOR)
-                 || eaName.equals(SharkConstants.VTP_UPDATE)
-                 || eaName.equals(SharkConstants.VTP_VIEW)
-                 || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
-                 || eaName.equals(SharkConstants.EA_XFORMS_FILE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_EXECUTION_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_MODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                 || eaName.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE)
-                 || eaName.equals(SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE)
-                 || eaName.equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE)
-                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
-                                  + postfixAct)
-                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
-                                  + postfixAct) || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                                                 + postfixAct))) {
+                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) || eaName.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER)
+                 || eaName.equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || eaName.equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)
+                 || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.VTP_UPDATE)
+                 || eaName.equals(SharkConstants.VTP_VIEW) || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaName.equals(SharkConstants.EA_XFORMS_FILE))) {
             continue;
          }
          if (pp instanceof Transition
@@ -1039,9 +674,7 @@ public class SharkXPDLUtils extends XPDLUtils {
             continue;
          }
          if (pp instanceof DataField
-             && (eaName.equals(SharkConstants.EA_TRANSIENT)
-                 || eaName.equals(SharkConstants.EA_DYNAMICSCRIPT)
-                 || eaName.equals(SharkConstants.EA_MIN_LENGTH) || eaName.equals(SharkConstants.EA_IS_MANDATORY))) {
+             && (eaName.equals(SharkConstants.EA_TRANSIENT) || eaName.equals(SharkConstants.EA_DYNAMICSCRIPT) || eaName.equals(SharkConstants.EA_MIN_LENGTH) || eaName.equals(SharkConstants.EA_IS_MANDATORY))) {
             continue;
          }
          eaNames.add(eaName);
@@ -1050,9 +683,7 @@ public class SharkXPDLUtils extends XPDLUtils {
 
    }
 
-   public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlConds,
-                                        String oldDfOrFpId,
-                                        String newDfOrFpId) {
+   public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlConds, String oldDfOrFpId, String newDfOrFpId) {
       String postfixProc = "_PROCESS";
       String postfixAct = "_ACTIVITY";
 
@@ -1064,40 +695,53 @@ public class SharkXPDLUtils extends XPDLUtils {
             boolean isAct = a.getParent().getParent().getParent() instanceof Activity;
             if (a.toName().equals("Value")) {
                if (a.getParent() instanceof ExtendedAttribute
-                   && (isAct
-                       || a.getParent().getParent().getParent() instanceof WorkflowProcess || a.getParent()
-                      .getParent()
-                      .getParent() instanceof Package)) {
+                   && (isAct || a.getParent().getParent().getParent() instanceof WorkflowProcess || a.getParent().getParent().getParent() instanceof Package)) {
                   String eaName = ((ExtendedAttribute) a.getParent()).getName();
-                  if (eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                    + postfixProc)
-                      || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                       + postfixProc)
-                      || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                       + postfixAct)
-                      || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                       + postfixAct)
-                      || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                      || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                      || (isAct && (eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT) || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)))
-                      || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                      || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                      || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                       + postfixProc)
-                      || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                       + postfixProc)
-                      || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT
-                                       + postfixAct)
-                      || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
-                                       + postfixAct)
-                      || (!(a.getParent().getParent().getParent() instanceof Activity) && eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
+                  if (isAct && eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
                      String expr = easmtpv.toValue();
-                     String searchValue = "{"
-                                          + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX
-                                          + oldDfOrFpId + "}";
-                     String replaceValue = "{"
-                                           + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX
-                                           + newDfOrFpId + "}";
+                     String searchValue = oldDfOrFpId + ":";
+                     String replaceValue = newDfOrFpId + ":";
+                     int varLengthDiff = replaceValue.length() - searchValue.length();
+
+                     Map vars = XMLUtil.getWorkflowProcess(easmtpv).getAllVariables();
+                     List<Integer> positions = XMLUtil.getUsingPositions(expr, searchValue, vars, false);
+                     if (positions.size() > 0 && positions.get(0).intValue() == 0) {
+                        int pos = 0;
+                        int realPos = pos + varLengthDiff;
+                        String pref = expr.substring(0, realPos);
+                        String suff = expr.substring(realPos + searchValue.length());
+                        expr = pref + replaceValue + suff;
+                     }
+                     searchValue = "," + searchValue;
+                     replaceValue = "," + replaceValue;
+                     positions = XMLUtil.getUsingPositions(expr, searchValue, vars, false);
+                     for (int i = 0; i < positions.size(); i++) {
+                        int pos = ((Integer) positions.get(i)).intValue();
+                        int realPos = pos + varLengthDiff * i;
+                        String pref = expr.substring(0, realPos);
+                        String suff = expr.substring(realPos + searchValue.length());
+                        expr = pref + replaceValue + suff;
+                        // System.out.println("Pref="+pref+", suff="+suff+", expr="+expr);
+                     }
+                     easmtpv.setValue(expr);
+                     it.remove();
+                  } else if (eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
+                             || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
+                             || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                             || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                             || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                             || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                             || (isAct && (eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT) || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)))
+                             || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                             || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                             || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
+                             || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
+                             || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                             || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
+                             || (!(a.getParent().getParent().getParent() instanceof Activity) && eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
+                     String expr = easmtpv.toValue();
+                     String searchValue = "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + oldDfOrFpId + "}";
+                     String replaceValue = "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + newDfOrFpId + "}";
                      int varLengthDiff = replaceValue.length() - searchValue.length();
 
                      Map vars = null;
@@ -1106,10 +750,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                      } else {
                         vars = XMLUtil.getPossibleVariables(easmtpv);
                      }
-                     List positions = XMLUtil.getUsingPositions(expr,
-                                                                searchValue,
-                                                                vars,
-                                                                false);
+                     List positions = XMLUtil.getUsingPositions(expr, searchValue, vars, false);
                      for (int i = 0; i < positions.size(); i++) {
                         int pos = ((Integer) positions.get(i)).intValue();
                         int realPos = pos + varLengthDiff * i;
@@ -1125,8 +766,6 @@ public class SharkXPDLUtils extends XPDLUtils {
             }
          }
       }
-      super.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds,
-                                     oldDfOrFpId,
-                                     newDfOrFpId);
+      super.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds, oldDfOrFpId, newDfOrFpId);
    }
 }
