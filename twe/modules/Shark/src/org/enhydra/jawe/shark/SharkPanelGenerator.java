@@ -1019,35 +1019,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       }
       XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el);
       ExtendedAttributes eas = el.getExtendedAttributes();
-      ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_MIN_LENGTH);
-      if (ea != null) {
-         XMLPanel pnl = new XMLTextPanel(getPanelContainer(),
-                                         ea.get("Value"),
-                                         getPanelContainer().getLanguageDependentString(ea.getName() + "Key"),
-                                         false,
-                                         false,
-                                         JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
-                                         null);
-         int insertAt = gp.getPanelPositionForElement(el.get("Length"));
-         if (insertAt >= 0) {
-            gp.addToGroup(pnl, insertAt);
-         } else {
-            gp.addToGroup(pnl);
-         }
-      }
-      ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_IS_MANDATORY);
-      if (ea != null) {
-         String n = getPanelContainer().getLanguageDependentString(ea.getName() + "Key");
-         XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(), ea.get("Value"), n, false, JaWEManager.getInstance()
-            .getJaWEController()
-            .canModifyElement(ea.get("Value")), false, null);
-         int insertAt = gp.getPanelPositionForElement(el.get("Length"));
-         if (insertAt >= 0 && gp.getComponentCount() >= ++insertAt) {
-            gp.addToGroup(cbp, insertAt);
-         } else {
-            gp.addToGroup(cbp);
-         }
-      }      
       ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
       if (!eaw.isPersisted()) {
          eaw.setVValue("false");

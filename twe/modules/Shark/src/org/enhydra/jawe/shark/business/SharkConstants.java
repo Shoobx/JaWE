@@ -229,10 +229,6 @@ public class SharkConstants {
 
    public static final String SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT";
 
-   public static final String EA_IS_MANDATORY = "IS_MANDATORY";
-
-   public static final String EA_MIN_LENGTH = "MIN_LENGTH";
-
    public static final String EA_DYNAMICSCRIPT = "DYNAMICSCRIPT";
 
    public static final String EA_IS_ACTIVITY_SCOPE_ONLY = "IS_ACTIVITY_SCOPE_ONLY";
