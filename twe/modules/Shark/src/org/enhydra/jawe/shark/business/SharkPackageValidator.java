@@ -96,7 +96,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          String postfixProc = "_PROCESS";
          String postfixAct = "_ACTIVITY";
          if (el.toName().equals("Name")) {
-            if (((el.toValue().equals(SharkConstants.VTP_UPDATE) || el.toValue().equals(SharkConstants.VTP_VIEW)) && isAct)
+            if (((el.toValue().equals(SharkConstants.VTP_UPDATE) || el.toValue().equals(SharkConstants.VTP_VIEW) || el.toValue()
+               .equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) && isAct)
                 || (!isAct && (el.toValue().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
@@ -182,6 +183,20 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                   sysvals = getPossiblePlaceholderVariables(ea.getVValue(), "");
                   csvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX);
                   xpdlsvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX);
+               } else if (ea.getName().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)){
+                  WfNameValues elOverrideProcessContext = new WfNameValues((XMLComplexElement) parent.getParent().getParent(),
+                                                                           SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT,
+                                                                           ",",
+                                                                           ":",
+                                                                           "Variable",
+                                                                           "OverrideExpression",
+                                                                           false);
+                  elOverrideProcessContext.createStructure(ea.getVValue());
+                  List els = elOverrideProcessContext.toElements();
+                  for (int i = 0; i < els.size(); i++) {
+                     WfNameValue v = (WfNameValue) els.get(i);
+                     vals.add(v.getNamePart());
+                  }
                } else {
                   vals.add(ea.getVValue());
                }
