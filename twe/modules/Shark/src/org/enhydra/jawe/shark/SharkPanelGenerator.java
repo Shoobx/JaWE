@@ -1047,27 +1047,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          } else {
             gp.addToGroup(cbp);
          }
-      }
-      // TODO: implement logic for URLVariable ext. attrib
-      ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_URL_VARIABLE, true);
-      // if (!eaw.isPersisted()) {
-      // eaw.setVValue("false");
-      // getPanelContainer().panelChanged(null, null);
-      // }
-      XMLPanel cbp = getPanel(eaw);
-      int insertAt = gp.getPanelPositionForElement(el.get("Description"));
-      // if (insertAt > 0) {
-      // gp.addToGroup(cbp, insertAt - 1);
-      // } else {
-      // gp.addToGroup(cbp);
-      // }
-      eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
+      }      
+      ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
       if (!eaw.isPersisted()) {
          eaw.setVValue("false");
          getPanelContainer().panelChanged(null, null);
       }
-      cbp = getPanel(eaw);
-      insertAt = gp.getPanelPositionForElement(el.get("Description"));
+      XMLPanel cbp = getPanel(eaw);
+      int insertAt = gp.getPanelPositionForElement(el.get("Description"));
       if (insertAt > 0) {
          gp.addToGroup(cbp, insertAt - 1);
       } else {
@@ -1097,6 +1084,15 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          gp.addToGroup(dsp);
       }
 
+      eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_URL_VARIABLE, false);
+      cbp = getPanel(eaw);
+      insertAt = gp.getPanelPositionForElement(el.get("Description"));
+      if (insertAt > 0) {
+         gp.addToGroup(cbp, insertAt - 1);
+      } else {
+         gp.addToGroup(cbp);
+      }
+      
       return gp;
    }
 
@@ -1522,15 +1518,23 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                               prepareExpressionChoicesTooltips(el.getParent()));
 
          return value;
-      } else if (el.getParent() instanceof ExtendedAttributeWrapper && ((ExtendedAttributeWrapper) el.getParent()).isDecisionAttribute()) {
-
-         return new XMLCheckboxPanel(getPanelContainer(),
-                                     el,
-                                     getPanelContainer().getLanguageDependentString(el.getParent().toName() + "Key"),
-                                     false,
-                                     JaWEManager.getInstance().getJaWEController().canModifyElement(el),
-                                     false,
-                                     null);
+      } else if (el.getParent() instanceof ExtendedAttributeWrapper) {
+         if (((ExtendedAttributeWrapper) el.getParent()).isDecisionAttribute()) {
+            return new XMLCheckboxPanel(getPanelContainer(),
+                                        el,
+                                        getPanelContainer().getLanguageDependentString(el.getParent().toName() + "Key"),
+                                        false,
+                                        JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                        false,
+                                        null);
+         } else if (((ExtendedAttributeWrapper) el.getParent()).toName().equals(SharkConstants.EA_URL_VARIABLE)) {
+            String choosen = el.toValue();
+            List<String> choices = new ArrayList<String>();
+            choices.add("");
+            choices.add(SharkConstants.EA_URL_VARIABLE_VALUE_SAME_WINDOW);
+            choices.add(SharkConstants.EA_URL_VARIABLE_VALUE_NEW_WINDOW);
+            return new XMLComboPanel(getPanelContainer(), el, getPanelContainer().getLanguageDependentString(el.getParent().toName() + "Key"), choices, true, true, false, false, JaWEManager.getInstance().getJaWEController().canModifyElement(el), true, true, null);
+         }
       } else if (el.getParent() instanceof ExtendedAttribute && el.toName().equals("Value")) {
          ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
          XMLElement parentObj = ea.getParent().getParent();

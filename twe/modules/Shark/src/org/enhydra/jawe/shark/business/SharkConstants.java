@@ -239,6 +239,10 @@ public class SharkConstants {
 
    public static final String EA_URL_VARIABLE = "URLVariable";
 
+   public static final String EA_URL_VARIABLE_VALUE_SAME_WINDOW = "SameWindow";
+
+   public static final String EA_URL_VARIABLE_VALUE_NEW_WINDOW = "NewWindow";
+
    public static final String VTP_UPDATE = "VariableToProcess_UPDATE";
 
    public static final String VTP_VIEW = "VariableToProcess_VIEW";

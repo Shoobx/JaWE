@@ -5,6 +5,7 @@
       - when creating new ext. attrib. for some entity, list of possible ext. attribs. excludes the shark specific ones
       - turned-off feature for inheriting ext. attribs from package->workflow process->activity
       - added validation for OVERRIDE_PROCESS_CONTEXT ext. attrib.
+      - now natively supporting DataField ext. attrib URLVariable
       
 2014-08-27 Sasa Bojanic <sasaboy@together.at>
 	# Supporting windows XP (patch by Vjecheslav)
