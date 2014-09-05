@@ -302,7 +302,7 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                                     new String[] {
                                                                           "true", "false"
                                                                     },
-                                                                    1);
+                                                                    0);
       WfVariables elDefaultAssignees = new WfVariables(this, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES, Arrays.asList(new String[] {
          XPDLConstants.BASIC_TYPE_STRING
       }), ",", false);

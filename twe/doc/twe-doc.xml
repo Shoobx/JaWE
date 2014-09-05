@@ -9836,6 +9836,16 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     provide validation which forces you to comply to the shark rules. All in
     all, the editing of XPDL for shark workflow engine becomes much more easy
     and less error-prone.</para>
+
+    <para>To better understand Shark configuration one should read <link
+    xlink:href="http://www.together.at/prod/workflow/tws/manual"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+    Manual</link>, especially the chapter <emphasis>XPDL Extended Attributes
+    Usage</emphasis>.</para>
+
+    <para>Here we'll explain the specifics of Shark configuration by comparing
+    a different property dialogs generated in this configuration to the ones
+    generated in the Default configuration.</para>
   </chapter>
 
   <chapter>
