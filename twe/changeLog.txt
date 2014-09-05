@@ -1,4 +1,10 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-09-05 Sasa Bojanic <sasaboy@together.at>
+   # XMLTextPanel now supports new parameter to specify if only numbers can be entered in the text field
+   # Shark mode:
+      - workload related "number" attributes now using new feature of XMLTextPanel to allow entering only numbers in the text field
+      - hidding href and namespace attributes of ExternalReference element (because they are not used by Shark)
+      
 2014-09-04 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - better support for kernel ext. attrib. for overriding process context when instantiating activity (variables recognizing when referenced by this ext. attrib.)

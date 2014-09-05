@@ -47,13 +47,9 @@ public class XMLTextPanel extends XMLBasicPanel {
 
    protected JTextField jtf;
 
-   public XMLTextPanel(PanelContainer pc,
-                       XMLElement myOwnerL,
-                       boolean isVertical,
-                       boolean isPasswordField,
-                       boolean isEnabled) {
+   public XMLTextPanel(PanelContainer pc, XMLElement myOwnerL, boolean isVertical, boolean isPasswordField, boolean isEnabled) {
 
-      this(pc, myOwnerL, null, isVertical, isPasswordField, isEnabled, null);
+      this(pc, myOwnerL, null, isVertical, isPasswordField, false, isEnabled, null);
    }
 
    public XMLTextPanel(PanelContainer pc,
@@ -61,6 +57,7 @@ public class XMLTextPanel extends XMLBasicPanel {
                        String label,
                        boolean isVertical,
                        boolean isPasswordField,
+                       final boolean isNumberField,
                        boolean isEnabled,
                        String tooltip) {
 
@@ -76,8 +73,7 @@ public class XMLTextPanel extends XMLBasicPanel {
 
          rightAllignment = settings.getSettingBoolean("XMLBasicPanel.RightAllignment");
 
-         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
-                                 settings.getSettingInt("SimplePanelTextHeight"));
+         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
 
          if (settings instanceof PanelSettings) {
             bkgCol = ((PanelSettings) settings).getBackgroundColor();
@@ -129,7 +125,28 @@ public class XMLTextPanel extends XMLBasicPanel {
       final XMLPanel p = this;
       // add key listener
       jtf.addKeyListener(new KeyAdapter() {
+         public void keyTyped(KeyEvent e) {
+            if (isNumberField) {
+               if (!(Character.isDigit(e.getKeyChar())
+                     || e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT
+                     || e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_END
+                     || e.getKeyCode() == KeyEvent.VK_HOME || e.getKeyCode() == KeyEvent.VK_DELETE)) {
+                  e.consume();
+               }
+            }
+            super.keyTyped(e);
+         }
+
          public void keyPressed(KeyEvent e) {
+            if (isNumberField) {
+               if (!(Character.isDigit(e.getKeyChar())
+                     || e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT
+                     || e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_END
+                     || e.getKeyCode() == KeyEvent.VK_HOME || e.getKeyCode() == KeyEvent.VK_DELETE)) {
+                  e.consume();
+                  return;
+               }
+            }
             if (getPanelContainer() == null)
                return;
             if (PanelUtilities.isModifyingEvent(e)) {

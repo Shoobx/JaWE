@@ -1014,6 +1014,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                  getPanelContainer().getLanguageDependentString("CategoryKey"),
                                  false,
                                  false,
+                                 false,
                                  JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                  null);
       }
@@ -1308,6 +1309,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                        getPanelContainer().getLanguageDependentString("userKey"),
                                        false,
                                        false,
+                                       false,
                                        JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                        null);
             } else {
@@ -1394,6 +1396,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   true,
                                   true,
                                   null);
+      } else if ((el.toName().equals(SharkConstants.EA_WORKLOAD_FACTOR) || el.toName()
+            .equals(SharkConstants.EA_MAX_ASSIGNMENTS)) && el.getParent() instanceof WfConfigurationElement) {
+         return new XMLTextPanel(getPanelContainer(),
+                                 el,
+                                 null,
+                                 false,
+                                 false,
+                                 true,
+                                 JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                 null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement && el.toName().equals("Script")) {
          int noOfLines = 15;
          // try {
@@ -1433,6 +1445,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             return new XMLTextPanel(getPanelContainer(),
                                     el,
                                     getPanelContainer().getLanguageDependentString(name + "Key"),
+                                    false,
                                     false,
                                     false,
                                     JaWEManager.getInstance().getJaWEController().canModifyElement(el),

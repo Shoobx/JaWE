@@ -54,7 +54,6 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       if (v == null) {
          boolean removeUnconditionally = !isConfigurable();
          if (isForAct) {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_XFORMS_FILE, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_COMPLETION, null, null, false, removeUnconditionally);
          } else {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, false, removeUnconditionally);
@@ -68,6 +67,9 @@ public class WebClientConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_CONTROLS, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TURN_OFF_FEATURES, null, null, true, removeUnconditionally);
+         if (isForAct) {
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_XFORMS_FILE, null, null, true, removeUnconditionally);
+         }
       } else {
          if (isReadOnly) {
             throw new RuntimeException("Can't set the value of read only element!");

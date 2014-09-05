@@ -67,10 +67,10 @@
       published by the Free Software Foundation; with the Invariant Sections
       being <remark>"Introduction", "Installation Guide", "User Interface",
       "Dialogs and Property Panels", "XPDL Elements","XPDL from Scratch",
-      "Configuration", "Customization", "Extended Attribute Reference", "Build
-      Guide", "Release Notes", and with the Front-Cover Texts. A copy of the
-      license is included in the section entitled "GNU Free Documentation
-      License"</remark>.</holder>
+      "Configuration", "Customization", "Shark configuration", "Extended
+      Attribute Reference", "Build Guide", "Release Notes", and with the
+      Front-Cover Texts. A copy of the license is included in the section
+      entitled "GNU Free Documentation License"</remark>.</holder>
     </copyright>
 
     <legalnotice>
@@ -8781,7 +8781,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     </figure>
   </chapter>
 
-  <chapter>
+  <chapter xml:id="configuration">
     <title>Configuration</title>
 
     <para condition="demo-details">TWE is very configurable in a sense that
@@ -9767,6 +9767,75 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
       </itemizedlist>
     </sect1>
+  </chapter>
+
+  <chapter>
+    <title>Shark configuration</title>
+
+    <para>As described in previous chapter, it is often a good idea to
+    customize TWE in a way to support the specifics of workflow engine where
+    XPDL will be deployed.</para>
+
+    <para>Shark configuration is customization that is targeting specifics of
+    Shark engine (<link xlink:href="http://www.together.at/prod/workflow/tws"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow
+    Server</link>) where a certain XPDL restrictions are applied, special
+    property panels for easy editing of shark specific extended attributes are
+    provided, shark specific XPDL validation is present, etc. </para>
+
+    <para>Configuration differences between "Default" and "Shark"
+    configuration are done in two ways. First are differences done only by
+    changing configuration in property files (as described in <xref
+    linkend="configuration"/>), and the second are the differences done both
+    by changing property file configuration and writting additional/extending
+    existing Java code.</para>
+
+    <para>Differences by changing the property file entries only are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Different L&amp;F background color (achieved by changing
+        <emphasis>BackgroundColor</emphasis> property in all the property
+        files for GUI components - we use yellow background instead of default
+        white)</para>
+      </listitem>
+
+      <listitem>
+        <para>Hidding of XPDL elements that are not supported/used by Shark
+        (achieved by adding/editing
+        <emphasis>detailedpackagenavigator.properties</emphasis>,
+        <emphasis>propertiespanelcomponent.properties</emphasis> and
+        <emphasis>togweeditor.properties</emphasis> files).</para>
+
+        <note>
+          <para>Here we are also hidding shark specific extended attributes
+          not to be visible in the property panel table or in the tree-view.
+          This is because we are showing this attributes as they are native
+          properties of corresponding elements (Activity, DataField,
+          WorkflowProcess, Package)</para>
+        </note>
+      </listitem>
+    </itemizedlist>
+
+    <para>All other differences are done by both editing property files and
+    adding/extending java code. Main changes related to property files are in
+    togwebasic.properties where different (shark related) implemenations for
+    different plug-in components are defined to be used. Next are the changes
+    in jawetypes.properties where speciifc XML templates for different
+    workflow elements and new application types (corresponding to Shark's tool
+    agents) are defined. And finally, jawelanguagemisc.properties file is
+    filled-in with necessary language dependent keys/values.</para>
+
+    <para>There is a special Java package <emphasis
+    role="bold">org.enhydra.jawe.shark</emphasis> which contains different
+    Java classes and resources (images). These classes together with
+    configuration in property files are providing shark specific GUI which
+    represents extended attributes in a way intuitive for the XPDL modeler.
+    They are also providing many additional things like inserting shark
+    specific variables into different kind of expressions, and finally, they
+    provide validation which forces you to comply to the shark rules. All in
+    all, the editing of XPDL for shark workflow engine becomes much more easy
+    and less error-prone.</para>
   </chapter>
 
   <chapter>

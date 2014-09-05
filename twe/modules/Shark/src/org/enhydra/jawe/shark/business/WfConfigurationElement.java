@@ -58,9 +58,41 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                      null,
                                                      true,
                                                      removeUnconditionally);
+         }
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, null, null, false, removeUnconditionally);
+         if (!isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, null, null, false, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TRANSIENT, null, null, false, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_FINISHED, null, null, false, removeUnconditionally);
+         }
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_ASSIGNMENTS, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER,
+                                                  null,
+                                                  null,
+                                                  false,
+                                                  removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS, null, null, false, removeUnconditionally);
+         if (isForAct) {
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, null, null, true, removeUnconditionally);
+         }
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING,
+                                                  null,
+                                                  null,
+                                                  false,
+                                                  removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_MAX_ASSIGNMENTS, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_WORKLOAD_FACTOR, null, null, true, removeUnconditionally);
+         if (!isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
                                                      SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL,
@@ -75,33 +107,7 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                      null,
                                                      true,
                                                      removeUnconditionally);
-         }
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_ASSIGNMENTS, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this,
-                                                  eas,
-                                                  SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER,
-                                                  null,
-                                                  null,
-                                                  false,
-                                                  removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN, null, null, true, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_MAX_ASSIGNMENTS, null, null, true, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_WORKLOAD_FACTOR, null, null, true, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this,
-                                                  eas,
-                                                  SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING,
-                                                  null,
-                                                  null,
-                                                  false,
-                                                  removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES, null, null, true, removeUnconditionally);
-         if (isForActivity()) {
+         } else {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER, null, null, false, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this,
@@ -111,7 +117,6 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                      null,
                                                      true,
                                                      removeUnconditionally);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, null, null, true, removeUnconditionally);
          }
       } else {
          if (isReadOnly) {
