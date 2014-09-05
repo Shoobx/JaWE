@@ -167,7 +167,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       }, 1);
       XMLAttribute attrEnableReassignment = new XMLAttribute(this, SharkConstants.EA_ENABLE_REASSIGNMENT, false, new String[] {
             "true", "false"
-      }, 1);
+      }, 0);
       WfVariables elHideDynamicProperties = new WfVariables(this, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES, Arrays.asList(new String[] {
          XPDLConstants.BASIC_TYPE_STRING
       }), "|", false);
