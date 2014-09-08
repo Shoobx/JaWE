@@ -9846,6 +9846,130 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     <para>Here we'll explain the specifics of Shark configuration by comparing
     a different property dialogs generated in this configuration to the ones
     generated in the Default configuration.</para>
+
+    <sect1 condition="demo-emptytext">
+      <title>Difference in property dialog for Package element</title>
+
+      <para>The first difference is representation of Script type element. In
+      default configuration it is a text box where you can enter what ever you
+      like. However, shark configuration uses combo-box which limits the
+      options to 3 possible predefined types supported by Shark engine.</para>
+
+      <figure>
+        <title>Differences in property dialog for Package element</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-general.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Next, shark configuration has 8 additional sections for
+      representing extended attributes in an intuitive way, easy for
+      editing.</para>
+
+      <sect2>
+        <title>Workflow engine configuration section </title>
+
+        <para>In this section, one can edit extended attributes for shark
+        workflow engine kernel configuration and some of the plug-in
+        configuration. In the picture below, left side shows extended
+        attributes in Default configuration, and right side shows how are they
+        represented in Shark configuration. </para>
+
+        <figure>
+          <title>Workfow engine configuration section</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/sharkmode-comparison-package-workflowengineconfiguration.png"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>There are 19 extended attributes in this section. The first
+        (top-left) check-box, when un-checked removes all of them, and when
+        checked allows you to edit their values in user-friendly way.</para>
+
+        <para>E.g. instead of (when using Default configuration) pressing
+        button to create new extended attribute with name
+        <emphasis>UNSATISFIED_SPLIT_CONDITION_HANDLING_MODE</emphasis> and
+        typing the value that has to be either
+        <emphasis>FINISH_IF_POSSIBLE</emphasis>, <emphasis>IGNORE</emphasis>
+        or <emphasis>ROLLBACK</emphasis> (which can be very error-prone) one
+        can simply select the desired value (which is displayed in the
+        language he is using) from the combo-box next to the label
+        <emphasis>Unsatisfied split condition handling mode</emphasis>.
+        </para>
+
+        <para>The similar is for true/false value extended attributes like:
+        USE_PROCESS_CONTEXT_ONLY, ALLOW_UNDEFINED_VARIABLES, TRANSIENT,
+        DELETE_FINISHED, etc. Instead of writting attribute name and putting
+        true or false for its value in Default configuration, in Shark
+        configuration one just checks/un-checks appropriate check-box. </para>
+
+        <para>For the <emphasis>ASSIGNMENT_MANAGER_PLUGIN</emphasis> extended
+        attribute, the approach is to have edibable combo-box where you can
+        chose the name of one of existing shark's assignment manger plug-ins
+        (delivered with project) or you can enter the full class name of your
+        own assignment manager. For the existing ones, combo-box entry
+        contains friendly name (defined in shkassmgrchoices.properties mapping
+        property file in shark configuration folder) and as you can see on the
+        left side of the picture (for the default mode), this friendly name is
+        mapped to the full class name.</para>
+
+        <para>For the
+        <emphasis>ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES</emphasis> extended
+        attribute, in Shark configuration one can add/remove the entries in
+        the <emphasis>Default assignees</emphasis> list control, whilest in
+        Default configuration one should type the name of the extended
+        attribute and then comma-separated values of entries.</para>
+
+        <para>The description for the meaning of extended attributes for Shark
+        engine can be found in <link
+        xlink:href="http://www.together.at/prod/workflow/tws/manual"
+        xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server
+        User Manual</link> in the following places:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>for <emphasis>Kernel configuration</emphasis> part - in the
+            chapter <emphasis>XPDL Extended Attributes Usage</emphasis>
+            section <emphasis>Server-side (kernel) extended
+            attributes</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>for <emphasis>Standard assignment manager
+            configuration</emphasis> part - in the chapter <emphasis>Plug-In
+            Components</emphasis>, section <emphasis>Assignment Manager
+            plug-ins</emphasis>, sub-section <emphasis>Standard Assignment
+            Manager plug-in</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>for <emphasis>Workload related assignment manager
+            configuration</emphasis> part - in the chapter <emphasis>Plug-In
+            Components</emphasis>, section <emphasis>Assignment Manager
+            plug-ins</emphasis>, sub-section <emphasis>Workload Related
+            Assignment Manager plug-in</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>for <emphasis>XPIL Log event audit manager
+            configuration</emphasis> part - in the chapter <emphasis>Plug-In
+            Components</emphasis>, section <emphasis>Event Audit
+            plug-ins</emphasis>, sub-section <emphasis>XPIL Log Event Audit
+            Manager</emphasis></para>
+          </listitem>
+        </itemizedlist>
+      </sect2>
+    </sect1>
   </chapter>
 
   <chapter>
