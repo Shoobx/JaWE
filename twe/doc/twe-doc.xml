@@ -9893,7 +9893,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </figure>
 
         <para>There are 19 extended attributes in this section. The first
-        (top-left) check-box <emphasis>Configure workflow engine?</emphasis>,
+        (top-left) check-box <emphasis>Configure workflow engine?</emphasis>
         when un-checked removes all of them, and when checked allows you to
         edit their values in user-friendly way.</para>
 
@@ -10000,7 +10000,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </figure>
 
         <para>There are 10 extended attributes in this section. The first
-        (top-left) check-box <emphasis>Configure web client?</emphasis>, when
+        (top-left) check-box <emphasis>Configure web client?</emphasis> when
         un-checked removes all of them, and when checked allows you to edit
         their values in user-friendly way.</para>
 
@@ -10056,7 +10056,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </figure>
 
         <para>There are 9 extended attributes in this section. The first
-        (top-left) check-box <emphasis>Configure email?</emphasis>, when
+        (top-left) check-box <emphasis>Configure email?</emphasis> when
         un-checked removes all of them, and when checked allows you to edit
         their values in user-friendly way.</para>
 
@@ -10067,11 +10067,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         value in Default configuration, in Shark configuration one just
         checks/un-checks appropriate check-box.</para>
 
-        <para>For the <emphasis>SMTP_DEADLINE_HANDLER_SUBJECT and
+        <para>For the SMTP_DEADLINE_HANDLER_SUBJECT and
         SMTP_DEADLINE_HANDLER_CONTENT extended attributes, Shark configuration
         provides 4 special choice buttons on the right where one can use
-        system variables, variables, configuration strings and xpdl strings
-        </emphasis>by just clicking and selecting one.</para>
+        system variables, variables, configuration strings and xpdl strings by
+        just clicking and selecting one.</para>
 
         <para>For the SMTP_DEADLINE_HANDLER_ATTACHMENTS,
         SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES,
@@ -10125,7 +10125,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </figure>
 
         <para>There are 9 extended attributes in this section. The first
-        (top-left) check-box <emphasis>Configure email?</emphasis>, when
+        (top-left) check-box <emphasis>Configure email?</emphasis> when
         un-checked removes all of them, and when checked allows you to edit
         their values in user-friendly way.</para>
 
@@ -10137,11 +10137,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         for its value in Default configuration, in Shark configuration one
         just checks/un-checks appropriate check-box.</para>
 
-        <para>For the <emphasis>SMTP_LIMIT_HANDLER_SUBJECT_ACTIVITY and
+        <para>For the SMTP_LIMIT_HANDLER_SUBJECT_ACTIVITY and
         SMTP_LIMIT_HANDLER_CONTENT_ACTIVITY extended attributes, Shark
         configuration provides 4 special choice buttons on the right where one
         can use system variables, variables, configuration strings and xpdl
-        strings </emphasis>by just clicking and selecting one.</para>
+        strings by just clicking and selecting one.</para>
 
         <para>For the SMTP_LIMIT_HANDLER_ATTACHMENTS_ACTIVITY,
         SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES_ACTIVITY,
@@ -10172,6 +10172,75 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         <para>All 9 extended attributes from this section can be overriden by
         the same ones defined at WorkflowProcess level and Activity
         level.</para>
+      </sect2>
+
+      <sect2>
+        <title>Default process limit email configuration section</title>
+
+        <para>In this section, one can edit extended attributes used by
+        SMTPLimitHandler client implementation related to sending emails when
+        process limit has been exceeded . In the picture below, left side
+        shows extended attributes in Default configuration, and right side
+        shows how are they represented in Shark configuration.</para>
+
+        <figure>
+          <title>Default deadline email configuration section</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/sharkmode-comparison-package-limitemailprocess.png"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>There are 8 extended attributes in this section. The first
+        (top-left) check-box <emphasis>Configure email?</emphasis> when
+        un-checked removes all of them, and when checked allows you to edit
+        their values in user-friendly way.</para>
+
+        <para>For the true/false type value extended attributes
+        SMTP_LIMIT_HANDLER_MODE_PROCESS,
+        SMTP_LIMIT_HANDLER_EXECUTION_MODE_PROCESS instead of writting
+        attribute name and putting true or false (asynchronous/synchronous)
+        for its value in Default configuration, in Shark configuration one
+        just checks/un-checks appropriate check-box.</para>
+
+        <para>For the SMTP_LIMIT_HANDLER_SUBJECT_PROCESS and
+        SMTP_LIMIT_HANDLER_CONTENT_PROCESS extended attributes, Shark
+        configuration provides 4 special choice buttons on the right where one
+        can use system variables, variables, configuration strings and xpdl
+        strings by just clicking and selecting one.</para>
+
+        <para>For the SMTP_LIMIT_HANDLER_ATTACHMENTS_PROCESS,
+        SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES_PROCESS,
+        SMTP_LIMIT_HANDLER_DM_ATTACHMENTS_PROCESS one can add/remove/edit
+        entries in table/list control. The entries for the attachment's
+        content variable are limited to String and Schema type variables which
+        are not already added. The ones for attachment's "name variable or
+        expression", it is limited to String variables and one can also enter
+        the expression (typically hard-coded string value). The ones for DM
+        attachments are limited to String type variables which are not already
+        added.</para>
+
+        <para>In Shark configuration mode there is a powerful validation of
+        these extended attributes. E.g. it is validated if all the variables
+        referenced really exist and if their type is correct. Then also, if
+        variable id changes, that change is automatically reflected in the
+        content of extended attribute.</para>
+
+        <para>The description for the meaning of extended attributes described
+        in this section can be found in <link
+        xlink:href="http://www.together.at/prod/workflow/tws/manual"
+        xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server
+        User Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+        Usage</emphasis> section <emphasis>Client side extended
+        attributes</emphasis>, sub-section <emphasis>SMTPLimitHandler related
+        extended attributes</emphasis>.</para>
+
+        <para>All 8 extended attributes from this section can be overriden by
+        the same ones defined at WorkflowProcess level.</para>
       </sect2>
     </sect1>
   </chapter>
