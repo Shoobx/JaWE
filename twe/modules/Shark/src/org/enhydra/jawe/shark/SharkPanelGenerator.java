@@ -78,12 +78,15 @@ import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.Deadline;
+import org.enhydra.jxpdl.elements.DeadlineCondition;
+import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.InitialValue;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
+import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.Script;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
@@ -1687,7 +1690,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       mc.add(getBasicExpressionChoices(el));
 
-      if (!(el instanceof InitialValue)) {
+      if (!(el instanceof ExpressionType || el instanceof Performer || el instanceof Condition)) {
          l = new ArrayList();
          List<String> csc = SharkPanelGenerator.getConfigStringChoices();
          for (int i = 0; i < csc.size(); i++) {
@@ -1716,7 +1719,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       mct.add(getSettings().getLanguageDependentString("InsertSystemVariableKey"));
       mct.add(getSettings().getLanguageDependentString("InsertVariableKey"));
 
-      if (!(el instanceof InitialValue)) {
+      if (!(el instanceof ExpressionType || el instanceof Performer || el instanceof Condition)) {
          mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
          mct.add(getSettings().getLanguageDependentString("InsertXPDLStringVariableKey"));
       }

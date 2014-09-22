@@ -10868,6 +10868,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- added create outlook variables action in Workflow Variables
           table GUI</para>
+
+          <para>- fix: not offering XPDL String and Configuration string
+          variables for Performer, Deadline, Actual parameter and Transition
+          condition expressions</para>
         </listitem>
 
         <listitem>
