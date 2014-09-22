@@ -16,7 +16,7 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.shark.business;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,8 +30,6 @@ import java.util.Set;
 import org.enhydra.jawe.JaWEEAHandler;
 import org.enhydra.jawe.XPDLUtils;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
-import org.enhydra.jawe.shark.business.SharkConstants;
-import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;

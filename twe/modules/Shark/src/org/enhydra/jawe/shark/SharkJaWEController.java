@@ -19,6 +19,7 @@ package org.enhydra.jawe.shark;
 
 import org.enhydra.jawe.base.controller.ControllerSettings;
 import org.enhydra.jawe.base.controller.JaWEController;
+import org.enhydra.jawe.shark.business.XPDLStringVariable;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLElement;
 

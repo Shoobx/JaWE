@@ -25,6 +25,7 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.editor.XPDLElementEditor;
+import org.enhydra.jawe.shark.business.XPDLStringVariables;
 
 
 /**

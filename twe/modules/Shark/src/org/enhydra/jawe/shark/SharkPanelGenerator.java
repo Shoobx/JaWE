@@ -60,6 +60,8 @@ import org.enhydra.jawe.shark.business.WfNameValue;
 import org.enhydra.jawe.shark.business.WfNameValues;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.WfVariables;
+import org.enhydra.jawe.shark.business.XPDLStringVariable;
+import org.enhydra.jawe.shark.business.XPDLStringVariables;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLCollectionElement;

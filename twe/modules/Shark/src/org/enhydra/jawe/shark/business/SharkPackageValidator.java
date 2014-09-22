@@ -183,7 +183,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                   sysvals = getPossiblePlaceholderVariables(ea.getVValue(), "");
                   csvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX);
                   xpdlsvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX);
-               } else if (ea.getName().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)){
+               } else if (ea.getName().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
                   WfNameValues elOverrideProcessContext = new WfNameValues((XMLComplexElement) parent.getParent().getParent(),
                                                                            SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT,
                                                                            ",",
@@ -448,6 +448,24 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    public void validateElement(ExpressionType el, List existingErrors, boolean fullCheck) {
       if (!el.getScriptType().equals("")) {
          validateScript(el, existingErrors, fullCheck);
+      }
+   }
+
+   public void validateElement(ExtendedAttribute el, List existingErrors, boolean fullCheck) {
+      validateStandard(el, existingErrors, fullCheck);
+      boolean validateVariableUsage = properties.getProperty(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES, "false").equals("true");
+      if (validateVariableUsage && (fullCheck || existingErrors.size() == 0)) {
+         if (el.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+            SharkXPDLUtils sxpdlutils = new SharkXPDLUtils();
+            if (sxpdlutils.getReferences((XMLComplexElement) el.getParent().getParent(), el).size() == 0) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_WARNING,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                XPDLValidationErrorIds.WARNING_UNUSED_VARIABLE,
+                                                                el.getName(),
+                                                                el);
+               existingErrors.add(verr);
+            }
+         }
       }
    }
 

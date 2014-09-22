@@ -16,9 +16,8 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.shark.business;
 
-import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 
 public class XPDLStringVariable extends ExtendedAttribute {// XMLComplexElement {

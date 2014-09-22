@@ -25,6 +25,8 @@ import org.enhydra.jawe.base.panel.StandardPanelValidator;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.shark.business.WfVariable;
+import org.enhydra.jawe.shark.business.XPDLStringVariable;
+import org.enhydra.jawe.shark.business.XPDLStringVariables;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XPDLValidationErrorIds;
 

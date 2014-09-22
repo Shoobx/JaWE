@@ -16,11 +16,10 @@
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
-package org.enhydra.jawe.shark;
+package org.enhydra.jawe.shark.business;
 
 import java.util.Iterator;
 
-import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLElementChangeInfo;

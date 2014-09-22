@@ -10925,6 +10925,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Now displaying warning if XPDL String variable is not
+          used</para>
+        </listitem>
+
+        <listitem>
           <para>Fix: Now properly rendering transition's diamond on the tail
           (it was not properly rendered when transition expression was set and
           then removed)</para>

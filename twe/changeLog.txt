@@ -1,4 +1,7 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-09-22 Sasa Bojanic <sasaboy@together.at>
+   # Now displaying warning if XPDL String variable is not used
+
 2014-09-05 Sasa Bojanic <sasaboy@together.at>
    # XMLTextPanel now supports new parameter to specify if only numbers can be entered in the text field
    # Shark mode:
