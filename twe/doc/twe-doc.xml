@@ -9917,7 +9917,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         configuration one just checks/un-checks appropriate check-box.</para>
 
         <para>For the <emphasis>ASSIGNMENT_MANAGER_PLUGIN</emphasis> extended
-        attribute, the approach is to have edibable combo-box where you can
+        attribute, the approach is to have editable combo-box where you can
         chose the name of one of existing shark's assignment manger plug-ins
         (delivered with project) or you can enter the full class name of your
         own assignment manager. For the existing ones, combo-box entry
@@ -10763,6 +10763,47 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         Package/Workflow process layer (when you define values there it
         logically overrides the ones from Package/Workflow Process).</para>
       </sect2>
+    </sect1>
+
+    <sect1>
+      <title>Difference in property dialog for DataField element</title>
+
+      <para>The difference is that in Shark configuration we are hidding
+      Script version and Script grammar attributes and that 4 extended
+      attributes are represented as normal attributes of the element (like Id
+      or Name).</para>
+
+      <figure>
+        <title>Differences in property dialog for DataField element</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-datafield.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>For the true/false type value extended attributes TRANSIENT,
+      DYNAMICSCRIPT and IS_ACTIVITY_SCOPE_ONLY instead of writting attribute
+      name and putting true or false for its value in Default configuration,
+      in Shark configuration one just checks/un-checks appropriate
+      check-box.</para>
+
+      <para>For URLVariable extended attribute, instead of defining an
+      attribute and typing the value that has to be either
+      <emphasis>NewWindow</emphasis> or <emphasis>SameWindow</emphasis> (which
+      can be very error-prone) one can simply select the desired value (which
+      is displayed in the language he is using) from the combo-box next to the
+      label <emphasis>Render and handle as browser link.</emphasis></para>
+
+      <para><emphasis>The description for the meaning of extended attributes
+      for Shark's Web Client application can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+      Usage.</emphasis></emphasis></para>
     </sect1>
   </chapter>
 
