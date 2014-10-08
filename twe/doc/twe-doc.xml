@@ -10204,11 +10204,11 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <sect2>
         <title>Default process email configuration section</title>
 
-        <para>In this section, one can edit extended attributes used by
-        SMTPLimitHandler client implementation related to sending emails when
-        process limit has been exceeded . In the picture below, left side
-        shows extended attributes in Default configuration, and right side
-        shows how are they represented in Shark configuration.</para>
+        <para>In this section, one can edit extended attributes used by SMTP
+        Event Audit implementation related to sending emails when new process
+        is instantiated. In the picture below, left side shows extended
+        attributes in Default configuration, and right side shows how are they
+        represented in Shark configuration.</para>
 
         <figure>
           <title>Default process email configuration section</title>
@@ -10560,7 +10560,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       Next, shark configuration has 9 additional sections for representing
       extended attributes in an intuitive way, easy for editing. We already
       described these sections for the Package element - the same description
-      can be applied here. </para>
+      can be applied here.</para>
 
       <figure>
         <title>Differences in property dialog for WorkflowProcess
@@ -10570,6 +10570,45 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <imageobject>
             <imagedata contentdepth="100%"
                        fileref="Images/sharkmode-comparison-workflowprocess-general.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </sect1>
+
+    <sect1 condition="demo-emptytext">
+      <title>Difference in property dialog for Activity element</title>
+
+      <para>The property dialog for the activiteis depend on the activity
+      type. </para>
+
+      <para>The following picture shows the difference for manual
+      activity:</para>
+
+      <figure>
+        <title>Differences in property dialog for Activity element (manual
+        activity)</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-activity-manual-general.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>And the following picture shows the difference for automatic
+      (toolagent) activity:</para>
+
+      <figure>
+        <title>Differences in property dialog for Activity element (automatic
+        activity)</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-activity-automatic-general.png"
                        scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
