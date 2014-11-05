@@ -646,6 +646,9 @@ public class GraphManager implements Serializable {
       tra.setFrom(source.getPropertyObject().get("Id").toValue());
       tra.setTo(target.getPropertyObject().get("Id").toValue());
 
+      GraphUtilities.setStyle(tra,
+                              getGraphController().getGraphSettings()
+                                 .getDefaultTransitionStyle());
       return insertTransitionOrAssociation(tra);
    }
 
