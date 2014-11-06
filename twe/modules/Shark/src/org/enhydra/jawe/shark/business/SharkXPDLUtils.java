@@ -664,7 +664,8 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) || eaName.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER)
                  || eaName.equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || eaName.equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)
                  || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.VTP_UPDATE)
-                 || eaName.equals(SharkConstants.VTP_VIEW) || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaName.equals(SharkConstants.EA_XFORMS_FILE))) {
+                 || eaName.equals(SharkConstants.VTP_VIEW) || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
+                 || eaName.equals(SharkConstants.EA_HTML5FORM_FILE) || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED))) {
             continue;
          }
          if (pp instanceof Transition

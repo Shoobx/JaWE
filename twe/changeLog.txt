@@ -1,4 +1,9 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-11-06 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - ext. attribute XFORMS_FILE changed to HTML5FORM_FILE
+      - supported new WebClient ext. attrib. HTML5FORM_EMBEDDED
+   
 2014-09-22 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Fix: not offering XPDL String and Configuration string variables for Performer, Deadline, Actual parameter and Transition condition expressions
    # Now displaying warning if XPDL String variable is not used

@@ -99,7 +99,9 @@ public class SharkConstants {
 
    public static final String EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY = "DoNotAssignToPerformerOfActivity";
 
-   public static final String EA_XFORMS_FILE = "XFORMS_FILE";
+   public static final String EA_HTML5FORM_FILE = "HTML5FORM_FILE";
+   
+   public static final String EA_HTML5FORM_EMBEDDED = "HTML5FORM_EMBEDDED";
 
    public static final String EA_CHECK_FOR_FIRST_ACTIVITY = "CHECK_FOR_FIRST_ACTIVITY";
 

@@ -78,8 +78,6 @@ import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.Deadline;
-import org.enhydra.jxpdl.elements.DeadlineCondition;
-import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
@@ -511,8 +509,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       tgp.add(tofpnl);
 
       if (el.isForActivity()) {
-         XMLPanel xfpnl = getPanel(el.getXFormsFileAttribute());
+         XMLPanel xfpnl = getPanel(el.getHTML5FormFileAttribute());
          tgp.add(xfpnl);
+         XMLPanel xfepnl = getPanel(el.getHTML5FormEmbeddedAttribute());
+         tgp.add(xfepnl);
       } else {
          XMLPanel rapepnl = getPanel(el.getRedirectAfterProcessEndAttribute());
          tgp.add(rapepnl);
@@ -1069,7 +1069,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else {
          gp.addToGroup(cbp);
       }
-      
+
       return gp;
    }
 
@@ -1211,6 +1211,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(XMLAttribute el) {
+      if (el.getParent() instanceof ExtendedAttribute) {
+         System.out.println("EAN=" + ((ExtendedAttribute) el.getParent()).getName());
+         System.out.println("EAPP=" + ((ExtendedAttribute) el.getParent()).getParent().getParent());
+      } else {
+         System.out.println("EN-" + el.toName() + ", EP=" + el.getParent());
+      }
       if ((el.getParent() instanceof Script && el.toName().equals("Type")) || (el.getParent() instanceof ExpressionType && el.toName().equals("ScriptType"))) {
          List choices = new ArrayList();
          choices.add(SharkConstants.SCRIPT_VALUE_JAVASCRIPT);
@@ -1401,16 +1407,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   true,
                                   true,
                                   null);
-      } else if ((el.toName().equals(SharkConstants.EA_WORKLOAD_FACTOR) || el.toName()
-            .equals(SharkConstants.EA_MAX_ASSIGNMENTS)) && el.getParent() instanceof WfConfigurationElement) {
-         return new XMLTextPanel(getPanelContainer(),
-                                 el,
-                                 null,
-                                 false,
-                                 false,
-                                 true,
-                                 JaWEManager.getInstance().getJaWEController().canModifyElement(el),
-                                 null);
+      } else if ((el.toName().equals(SharkConstants.EA_WORKLOAD_FACTOR) || el.toName().equals(SharkConstants.EA_MAX_ASSIGNMENTS))
+                 && el.getParent() instanceof WfConfigurationElement) {
+         return new XMLTextPanel(getPanelContainer(), el, null, false, false, true, JaWEManager.getInstance().getJaWEController().canModifyElement(el), null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement && el.toName().equals("Script")) {
          int noOfLines = 15;
          // try {
@@ -1522,7 +1521,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             choices.add("");
             choices.add(SharkConstants.EA_URL_VARIABLE_VALUE_SAME_WINDOW);
             choices.add(SharkConstants.EA_URL_VARIABLE_VALUE_NEW_WINDOW);
-            return new XMLComboPanel(getPanelContainer(), el, getPanelContainer().getLanguageDependentString(el.getParent().toName() + "Key"), choices, true, true, false, false, JaWEManager.getInstance().getJaWEController().canModifyElement(el), true, true, null);
+            return new XMLComboPanel(getPanelContainer(),
+                                     el,
+                                     getPanelContainer().getLanguageDependentString(el.getParent().toName() + "Key"),
+                                     choices,
+                                     true,
+                                     true,
+                                     false,
+                                     false,
+                                     JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                     true,
+                                     true,
+                                     null);
          }
       } else if (el.getParent() instanceof ExtendedAttribute && el.toName().equals("Value")) {
          ExtendedAttribute ea = (ExtendedAttribute) el.getParent();
@@ -1552,6 +1562,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                return value;
             }
          }
+      } else if (el.toName().equals(SharkConstants.EA_HTML5FORM_EMBEDDED)
+                 && el.getParent() instanceof WebClientConfigurationElement && ((WebClientConfigurationElement) el.getParent()).isForActivity()) {
+         XMLPanel panel = generateStandardMultiLineTextPanel(el, true, 2, true);
+         return panel;
       }
       return super.getPanel(el);
    }

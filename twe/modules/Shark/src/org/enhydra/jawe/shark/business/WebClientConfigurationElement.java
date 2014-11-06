@@ -68,7 +68,8 @@ public class WebClientConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_CONTROLS, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TURN_OFF_FEATURES, null, null, true, removeUnconditionally);
          if (isForAct) {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_XFORMS_FILE, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_FILE, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_EMBEDDED, null, null, true, removeUnconditionally);
          }
       } else {
          if (isReadOnly) {
@@ -96,8 +97,12 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       return eaw;
    }
 
-   public XMLAttribute getXFormsFileAttribute() {
-      return (XMLAttribute) get(SharkConstants.EA_XFORMS_FILE);
+   public XMLAttribute getHTML5FormFileAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_HTML5FORM_FILE);
+   }
+
+   public XMLAttribute getHTML5FormEmbeddedAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_HTML5FORM_EMBEDDED);
    }
 
    public XMLAttribute getCheckForCompletionAttribute() {
@@ -153,7 +158,8 @@ public class WebClientConfigurationElement extends XMLComplexElement {
                                                          },
                                                          1);
 
-      XMLAttribute attrXFormsFile = new XMLAttribute(this, SharkConstants.EA_XFORMS_FILE, false);
+      XMLAttribute attrHTML5FormFile = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_FILE, false);
+      XMLAttribute attrHTML5FormEmbedded = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_EMBEDDED, false);
 
       XMLAttribute attrCheckForCompletion = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_COMPLETION, false, new String[] {
             "true", "false"
@@ -190,7 +196,8 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       }, 1);
 
       add(attrConfigure);
-      add(attrXFormsFile);
+      add(attrHTML5FormFile);
+      add(attrHTML5FormEmbedded);
       add(attrCheckForCompletion);
       add(attrCheckForContinuation);
       add(attrChooseNextPerformer);
