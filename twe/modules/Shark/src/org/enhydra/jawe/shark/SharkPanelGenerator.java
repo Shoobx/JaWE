@@ -53,12 +53,14 @@ import org.enhydra.jawe.shark.business.ErrorHandlerConfigurationElement;
 import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jawe.shark.business.SharkUtils;
 import org.enhydra.jawe.shark.business.WebClientConfigurationElement;
+import org.enhydra.jawe.shark.business.WebClientVariableConfigurationElement;
 import org.enhydra.jawe.shark.business.WfAttachment;
 import org.enhydra.jawe.shark.business.WfAttachments;
 import org.enhydra.jawe.shark.business.WfConfigurationElement;
 import org.enhydra.jawe.shark.business.WfNameValue;
 import org.enhydra.jawe.shark.business.WfNameValues;
 import org.enhydra.jawe.shark.business.WfVariable;
+import org.enhydra.jawe.shark.business.WfVariableConfigurationElement;
 import org.enhydra.jawe.shark.business.WfVariables;
 import org.enhydra.jawe.shark.business.XPDLStringVariable;
 import org.enhydra.jawe.shark.business.XPDLStringVariables;
@@ -743,6 +745,76 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       });
    }
 
+   public XMLPanel getPanel(WfVariableConfigurationElement el) {
+      final XMLGroupPanel ltPanel = new SharkModeGroupPanel(getPanelContainer(),
+                                                            el,
+                                                            new ArrayList(),
+                                                            getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
+                                                            false,
+                                                            true,
+                                                            false);
+
+      boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
+      List tgp = new ArrayList();
+
+      XMLPanel tpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTransientAttribute(), null, false, enableEditing, false, null);
+      tgp.add(tpnl);
+      List ealist = new ArrayList();
+      XMLPanel dspnl = new XMLCheckboxPanel(getPanelContainer(), el.getDynamicScriptAttribute(), null, false, enableEditing, false, null);
+      ealist.add(dspnl);
+      XMLPanel iaspnl = new XMLCheckboxPanel(getPanelContainer(), el.getIsActivityScopeOnlyAttribute(), null, false, enableEditing, false, null);
+      ealist.add(iaspnl);
+
+      tgp.add(new XMLGroupPanel(getPanelContainer(), el, ealist, "", true, true, true, null));
+
+      for (int i = 0; i < tgp.size(); i++) {
+         ltPanel.addToGroup(tgp.get(i));
+      }
+
+      if (!el.isPersisted()) {
+         getPanelContainer().panelChanged(ltPanel, null);
+      }
+
+      return ltPanel;
+   }
+
+   public XMLPanel getPanel(WebClientVariableConfigurationElement el) {
+      final XMLGroupPanel ltPanel = new SharkModeGroupPanel(getPanelContainer(),
+                                                            el,
+                                                            new ArrayList(),
+                                                            getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
+                                                            true,
+                                                            true,
+                                                            false);
+
+      boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
+      List tgp = new ArrayList();
+
+      XMLPanel uvpnl = new XMLComboPanel(getPanelContainer(),
+                                         el.getURLVariableAttribute(),
+                                         getPanelContainer().getLanguageDependentString(el.getURLVariableAttribute().toName() + "Key"),
+                                         null,
+                                         true,
+                                         true,
+                                         false,
+                                         false,
+                                         JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                         true,
+                                         true,
+                                         null);
+
+      tgp.add(uvpnl);
+
+      XMLPanel rhpnl = new XMLCheckboxPanel(getPanelContainer(), el.getRenderingHintAttribute(), null, false, enableEditing, false, null);
+      tgp.add(rhpnl);
+
+      for (int i = 0; i < tgp.size(); i++) {
+         ltPanel.addToGroup(tgp.get(i));
+      }
+
+      return ltPanel;
+   }
+
    public XMLPanel getPanel(WfVariable el) {
       String title = getPanelContainer().getLanguageDependentString("DMAttachmentKey");
       if (el.getParent().toName().equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES)) {
@@ -1024,50 +1096,15 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                  null);
       }
       XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el);
-      ExtendedAttributes eas = el.getExtendedAttributes();
-      ExtendedAttributeWrapper eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_TRANSIENT, true);
-      if (!eaw.isPersisted()) {
-         eaw.setVValue("false");
-         getPanelContainer().panelChanged(null, null);
-      }
-      XMLPanel cbp = getPanel(eaw);
+      XMLPanel wfvp = getPanel(new WfVariableConfigurationElement(el.getExtendedAttributes()));
+      XMLPanel wcvp = getPanel(new WebClientVariableConfigurationElement(el.getExtendedAttributes()));
       int insertAt = gp.getPanelPositionForElement(el.get("Description"));
       if (insertAt > 0) {
-         gp.addToGroup(cbp, insertAt - 1);
+         gp.addToGroup(wcvp, insertAt - 1);
+         gp.addToGroup(wfvp, insertAt - 1);
       } else {
-         gp.addToGroup(cbp);
-      }
-
-      eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_DYNAMICSCRIPT, true);
-      if (!eaw.isPersisted()) {
-         eaw.setVValue("false");
-         getPanelContainer().panelChanged(null, null);
-      }
-      cbp = getPanel(eaw);
-      eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_IS_ACTIVITY_SCOPE_ONLY, true);
-      if (!eaw.isPersisted()) {
-         eaw.setVValue("false");
-         getPanelContainer().panelChanged(null, null);
-      }
-      XMLPanel cbp2 = getPanel(eaw);
-      List pnls = new ArrayList();
-      pnls.add(cbp);
-      pnls.add(cbp2);
-      XMLGroupPanel dsp = new XMLGroupPanel(getPanelContainer(), eas, pnls, "", true, true, false, null);
-      insertAt = gp.getPanelPositionForElement(el.get("Description"));
-      if (insertAt > 0) {
-         gp.addToGroup(dsp, insertAt - 1);
-      } else {
-         gp.addToGroup(dsp);
-      }
-
-      eaw = new ExtendedAttributeWrapper(eas, SharkConstants.EA_URL_VARIABLE, false);
-      cbp = getPanel(eaw);
-      insertAt = gp.getPanelPositionForElement(el.get("Description"));
-      if (insertAt > 0) {
-         gp.addToGroup(cbp, insertAt - 1);
-      } else {
-         gp.addToGroup(cbp);
+         gp.addToGroup(wfvp);
+         gp.addToGroup(wcvp);
       }
 
       return gp;
@@ -1515,24 +1552,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                         JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                         false,
                                         null);
-         } else if (((ExtendedAttributeWrapper) el.getParent()).toName().equals(SharkConstants.EA_URL_VARIABLE)) {
-            String choosen = el.toValue();
-            List<String> choices = new ArrayList<String>();
-            choices.add("");
-            choices.add(SharkConstants.EA_URL_VARIABLE_VALUE_SAME_WINDOW);
-            choices.add(SharkConstants.EA_URL_VARIABLE_VALUE_NEW_WINDOW);
-            return new XMLComboPanel(getPanelContainer(),
-                                     el,
-                                     getPanelContainer().getLanguageDependentString(el.getParent().toName() + "Key"),
-                                     choices,
-                                     true,
-                                     true,
-                                     false,
-                                     false,
-                                     JaWEManager.getInstance().getJaWEController().canModifyElement(el),
-                                     true,
-                                     true,
-                                     null);
          }
       } else if (el.getParent() instanceof ExtendedAttribute && el.toName().equals("Value")) {
          ExtendedAttribute ea = (ExtendedAttribute) el.getParent();

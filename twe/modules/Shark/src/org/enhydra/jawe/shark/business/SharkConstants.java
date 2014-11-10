@@ -237,6 +237,8 @@ public class SharkConstants {
 
    public static final String EA_URL_VARIABLE = "URLVariable";
 
+   public static final String EA_RENDERING_HINT = "RENDERING_HINT";
+
    public static final String EA_URL_VARIABLE_VALUE_SAME_WINDOW = "SameWindow";
 
    public static final String EA_URL_VARIABLE_VALUE_NEW_WINDOW = "NewWindow";

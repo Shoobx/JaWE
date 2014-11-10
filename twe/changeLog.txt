@@ -1,4 +1,9 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-11-10 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - supported RENDERING_HINT extended attribute for variable
+      - improved/re-factored code regarding variable's extended attributes
+
 2014-11-06 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - ext. attribute XFORMS_FILE changed to HTML5FORM_FILE
