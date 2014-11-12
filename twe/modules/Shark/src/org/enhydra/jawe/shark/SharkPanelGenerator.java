@@ -405,43 +405,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(final WebClientConfigurationElement el) {
-      final XMLGroupPanel ltPanel = new SharkModeGroupPanel(getPanelContainer(),
-                                                            el,
-                                                            new ArrayList(),
-                                                            getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
-                                                            true,
-                                                            false,
-                                                            false);
-      populateWebClientConfigPanel(el, ltPanel);
-      if (!el.isPersisted() && el.isConfigurable()) {
-         getPanelContainer().panelChanged(ltPanel, null);
-      }
-
-      return ltPanel;
-   }
-
-   protected void populateWebClientConfigPanel(final WebClientConfigurationElement el, final XMLGroupPanel ltPanel) {
       boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
 
       List tgp = new ArrayList();
       List ealist = new ArrayList();
+      List<XMLPanel> panels = new ArrayList<XMLPanel>();
 
-      final XMLCheckboxPanel configWC = new XMLCheckboxPanel(getPanelContainer(), el.getConfigureAttribute(), null, false, !el.getConfigureAttribute()
-         .isReadOnly(), false, null);
       if (el.isForActivity()) {
-         ExtendedAttributesWrapper eaw = el.getVariablesElement();
-         XMLPanel vp = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
-                                                    eaw,
-                                                    JaWEManager.getInstance().getLabelGenerator().getLabel(eaw)
-                                                          + ", " + eaw.size() + " " + getPanelContainer().getLanguageDependentString("ElementsKey"),
-                                                    true,
-                                                    false,
-                                                    false,
-                                                    false,
-                                                    true,
-                                                    true,
-                                                    true);
-         tgp.add(vp);
          XMLPanel cfcmppnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForCompletionAttribute(), null, false, enableEditing, false, null);
          ealist.add(cfcmppnl);
       } else {
@@ -450,7 +420,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel dvhpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDynamicVariableHandlingAttribute(), null, false, enableEditing, false, null);
          ealist.add(dvhpnl);
       }
-      tgp.add(configWC);
 
       XMLPanel cfcntpnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForContinuationAttribute(), null, false, enableEditing, false, null);
       ealist.add(cfcntpnl);
@@ -472,7 +441,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          true,
                                          true,
                                          null);
-      tgp.add(hdppnl);
+      if (el.isForActivity()) {
+         panels.add(hdppnl);
+      } else {
+         tgp.add(hdppnl);
+      }
       XMLPanel roppnl = new XMLListPanel((InlinePanel) getPanelContainer(),
                                          el.getReadOnlyDynamicPropertiesElement(),
                                          el.getReadOnlyDynamicPropertiesElement().toElements(),
@@ -484,7 +457,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          true,
                                          true,
                                          null);
-      tgp.add(roppnl);
+      if (el.isForActivity()) {
+         panels.add(roppnl);
+      } else {
+         tgp.add(roppnl);
+      }
       XMLPanel hcpnl = new XMLListPanel((InlinePanel) getPanelContainer(),
                                         el.getHideControlsElement(),
                                         el.getHideControlsElement().toElements(),
@@ -496,7 +473,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                         true,
                                         true,
                                         null);
-      tgp.add(hcpnl);
+      if (el.isForActivity()) {
+         panels.add(hcpnl);
+      } else {
+         tgp.add(hcpnl);
+      }
       XMLPanel tofpnl = new XMLListPanel((InlinePanel) getPanelContainer(),
                                          el.getTurnOffFeaturesElement(),
                                          el.getTurnOffFeaturesElement().toElements(),
@@ -510,41 +491,85 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                          null);
       tgp.add(tofpnl);
 
-      if (el.isForActivity()) {
-         XMLPanel xfpnl = getPanel(el.getHTML5FormFileAttribute());
-         tgp.add(xfpnl);
-         XMLPanel xfepnl = getPanel(el.getHTML5FormEmbeddedAttribute());
-         tgp.add(xfepnl);
-      } else {
+      if (!el.isForActivity()) {
          XMLPanel rapepnl = getPanel(el.getRedirectAfterProcessEndAttribute());
          tgp.add(rapepnl);
+      } else {
+         XMLPanel badpnl = getPanel(el.getBackActivityDefinitionAttribute());
+         tgp.add(badpnl);
       }
 
-      for (int i = 0; i < tgp.size(); i++) {
-         ltPanel.addToGroup(tgp.get(i));
+      XMLGroupPanel ltPanel = null;
+      if (el.isForActivity()) {
+         ltPanel = new XMLGroupPanel(getPanelContainer(), el, tgp, getPanelContainer().getLanguageDependentString("BehaviorKey"), true, false, false, null);
+      } else {
+         ltPanel = new SharkModeGroupPanel(getPanelContainer(),
+                                           el,
+                                           tgp,
+                                           getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
+                                           true,
+                                           false,
+                                           false);
       }
-      final JCheckBox jcb = configWC.getCheckBox();
-      jcb.addItemListener(new ItemListener() {
-         public void itemStateChanged(ItemEvent e) {
-            configWC.setElements();
-            el.setReadOnly(!el.isReadOnly());
-            while (true) {
-               try {
-                  ltPanel.removeFromGroup(0);
-               } catch (Exception ex) {
-                  break;
-               }
-            }
-            populateWebClientConfigPanel(el, ltPanel);
-            ltPanel.repaint();
-            if (ltPanel.getParent() != null) {
-               ltPanel.getParent().repaint();
-               if (ltPanel.getParent().getParent() != null) {
-                  ltPanel.getParent().getParent().repaint();
-               }
-            }
-         }
-      });
+      if (!el.isPersisted()) {
+         getPanelContainer().panelChanged(ltPanel, null);
+      }
+
+      if (el.isForActivity()) {
+         XMLPanel iwdvpnl = new XMLCheckboxPanel(getPanelContainer(), el.getIsWebDAVForActivityVisibleAttribute(), null, false, enableEditing, false, null);
+         panels.add(0, iwdvpnl);
+
+         ExtendedAttributesWrapper eaw = el.getVariablesElement();
+         XMLPanel vp = new ExtAttrWrapperTablePanel((InlinePanel) getPanelContainer(),
+                                                    eaw,
+                                                    JaWEManager.getInstance().getLabelGenerator().getLabel(eaw)
+                                                          + ", " + eaw.size() + " " + getPanelContainer().getLanguageDependentString("ElementsKey"),
+                                                    true,
+                                                    false,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                    true,
+                                                    true);
+         panels.add(0, vp);
+         XMLGroupPanel dggp = new XMLGroupPanel(getPanelContainer(),
+                                                el,
+                                                panels,
+                                                getPanelContainer().getLanguageDependentString("DefaultGUIKey"),
+                                                true,
+                                                false,
+                                                true,
+                                                null);
+
+         panels.clear();
+         XMLPanel xfpnl = getPanel(el.getHTML5FormFileAttribute());
+         XMLPanel xfepnl = getPanel(el.getHTML5FormEmbeddedAttribute());
+         XMLPanel xfvpnl = getPanel(el.getHTMLVariableAttribute());
+         XMLPanel xfxpnl = getPanel(el.getHTML5FormXSLAttribute());
+
+         panels.add(xfpnl);
+         panels.add(xfepnl);
+         panels.add(xfvpnl);
+         panels.add(xfxpnl);
+         XMLGroupPanel cggp = new XMLGroupPanel(getPanelContainer(),
+                                                el,
+                                                panels,
+                                                getPanelContainer().getLanguageDependentString("CustomGUIKey"),
+                                                true,
+                                                false,
+                                                true,
+                                                null);
+
+         panels.clear();
+
+         panels.add(ltPanel);
+         panels.add(dggp);
+         panels.add(cggp);
+         return new SharkModeTabbedPanel(getPanelContainer(), el, panels, JaWEManager.getInstance().getLabelGenerator().getLabel(el), false, null);
+      }
+
+      return ltPanel;
+
    }
 
    public XMLPanel getPanel(final WfConfigurationElement el) {
@@ -1248,12 +1273,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(XMLAttribute el) {
-      if (el.getParent() instanceof ExtendedAttribute) {
-         System.out.println("EAN=" + ((ExtendedAttribute) el.getParent()).getName());
-         System.out.println("EAPP=" + ((ExtendedAttribute) el.getParent()).getParent().getParent());
-      } else {
-         System.out.println("EN-" + el.toName() + ", EP=" + el.getParent());
-      }
       if ((el.getParent() instanceof Script && el.toName().equals("Type")) || (el.getParent() instanceof ExpressionType && el.toName().equals("ScriptType"))) {
          List choices = new ArrayList();
          choices.add(SharkConstants.SCRIPT_VALUE_JAVASCRIPT);
@@ -1431,11 +1450,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   true,
                                   null);
       } else if ((el.toName().equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || el.toName()
-         .equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)) && el.getParent() instanceof WfConfigurationElement) {
+         .equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY))
+                 && el.getParent() instanceof WfConfigurationElement
+                 || el.toName().equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION) && el.getParent() instanceof WebClientConfigurationElement) {
          return new XMLComboPanel(getPanelContainer(),
                                   el,
                                   null,
-                                  getHistoryRelatedManagerActivityChoices(el),
+                                  getHistoryRelatedManagerOrBackActivityChoices(el),
                                   false,
                                   true,
                                   false,
@@ -1759,7 +1780,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return mct;
    }
 
-   public List<Activity> getHistoryRelatedManagerActivityChoices(XMLElement el) {
+   public List<Activity> getHistoryRelatedManagerOrBackActivityChoices(XMLElement el) {
       Activity act = XMLUtil.getActivity(el);
       List types = new ArrayList();
       types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_NO));

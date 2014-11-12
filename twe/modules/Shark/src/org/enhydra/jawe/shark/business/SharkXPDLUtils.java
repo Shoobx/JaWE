@@ -558,6 +558,36 @@ public class SharkXPDLUtils extends XPDLUtils {
       return references;
    }
 
+   public List getReferences(Activity act) {
+      return getActivityReferences((XMLCollectionElement) act.getParent().getParent(), act.getId());
+   }
+
+   public List getActivityReferences(XMLCollectionElement wpOrAs, String referencedId) {
+      List references = XMLUtil.getActivityReferences(wpOrAs, referencedId);
+
+      Iterator it = ((Activities) wpOrAs.get("Activities")).toElements().iterator();
+      while (it.hasNext()) {
+         Activity act = (Activity) it.next();
+         int type = act.getActivityType();
+         // special extended attributes for shark client applications
+         if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || type == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT || type == XPDLConstants.ACTIVITY_TYPE_NO) {
+            List eas = act.getExtendedAttributes().toElements();
+            for (int i = 0; i < eas.size(); i++) {
+               ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
+               if (ea.getName().equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION)
+                   || ea.getName().equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY)
+                   || ea.getName().equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)) {
+                  if (ea.getVValue().equals(referencedId)) {
+                     references.add(ea.get("Value"));
+                  }
+               }
+            }
+         }
+      }
+
+      return references;
+   }
+
    public Set getAllExtendedAttributeNames(Collection extAttribs) {
       Set eaNames = new HashSet();
       Iterator it = extAttribs.iterator();
@@ -665,7 +695,9 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || eaName.equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)
                  || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.VTP_UPDATE)
                  || eaName.equals(SharkConstants.VTP_VIEW) || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
-                 || eaName.equals(SharkConstants.EA_HTML5FORM_FILE) || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED))) {
+                 || eaName.equals(SharkConstants.EA_HTML5FORM_FILE) || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED)
+                 || eaName.equals(SharkConstants.EA_HTML5FORM_XSL) || eaName.equals(SharkConstants.EA_HTML_VARIABLE)
+                 || eaName.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE) || eaName.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION))) {
             continue;
          }
          if (pp instanceof Transition
@@ -767,4 +799,5 @@ public class SharkXPDLUtils extends XPDLUtils {
       }
       super.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds, oldDfOrFpId, newDfOrFpId);
    }
+
 }

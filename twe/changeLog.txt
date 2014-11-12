@@ -1,4 +1,9 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-11-12 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - supported HTML_VARIABLE, HTML5FORM_XSL, IS_WEBDAV_FOR_ACTIVITY_VISIBLE and BACK_ACTIVITY_DEFINITION extended attributes for activity
+      - improved GUI and validation
+
 2014-11-10 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - supported RENDERING_HINT extended attribute for variable

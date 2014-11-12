@@ -39,6 +39,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
    protected boolean isForAct = false;
 
    protected ExtendedAttributesWrapper eaw = null;
+
    public WebClientConfigurationElement(ExtendedAttributes eas, boolean isForAct) {
       super(eas.getParent(), "WebClientConfiguration", true);
       this.eas = eas;
@@ -47,18 +48,18 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       notifyListeners = false;
       handleStructure();
       eaw = new ExtendedAttributesWrapper((ExtendedAttributes) ((XMLComplexElement) this.parent).get("ExtendedAttributes"));
-      setReadOnly(eas.isReadOnly() || !isConfigurable());
+      setReadOnly(eas.isReadOnly());
    }
 
    public void setValue(String v) {
       if (v == null) {
-         boolean removeUnconditionally = !isConfigurable();
+         boolean removeUnconditionally = false;
          if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_COMPLETION, null, null, false, removeUnconditionally);
          } else {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, false, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, null, null, true, removeUnconditionally);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, false, removeUnconditionally);            
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, false, removeUnconditionally);
          }
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, null, null, false, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, null, null, false, removeUnconditionally);
@@ -68,8 +69,12 @@ public class WebClientConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_CONTROLS, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TURN_OFF_FEATURES, null, null, true, removeUnconditionally);
          if (isForAct) {
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_BACK_ACTIVITY_DEFINITION, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, null, null, false, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_FILE, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_EMBEDDED, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML_VARIABLE, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_XSL, null, null, true, removeUnconditionally);
          }
       } else {
          if (isReadOnly) {
@@ -81,16 +86,9 @@ public class WebClientConfigurationElement extends XMLComplexElement {
 
    public void setReadOnly(boolean ro) {
       super.setReadOnly(ro);
-      if (!eas.isReadOnly()) {
-         getConfigureAttribute().setReadOnly(false);
-      }
-      if (eaw!=null) {
+      if (eaw != null) {
          eaw.setReadOnly(eas.isReadOnly());
       }
-   }
-   
-   public XMLAttribute getConfigureAttribute() {
-      return (XMLAttribute) get("ConfigureWebClient");
    }
 
    public ExtendedAttributesWrapper getVariablesElement() {
@@ -103,6 +101,22 @@ public class WebClientConfigurationElement extends XMLComplexElement {
 
    public XMLAttribute getHTML5FormEmbeddedAttribute() {
       return (XMLAttribute) get(SharkConstants.EA_HTML5FORM_EMBEDDED);
+   }
+
+   public XMLAttribute getHTMLVariableAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_HTML_VARIABLE);
+   }
+
+   public XMLAttribute getHTML5FormXSLAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_HTML5FORM_XSL);
+   }
+
+   public XMLAttribute getIsWebDAVForActivityVisibleAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE);
+   }
+
+   public XMLAttribute getBackActivityDefinitionAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_BACK_ACTIVITY_DEFINITION);
    }
 
    public XMLAttribute getCheckForCompletionAttribute() {
@@ -150,17 +164,14 @@ public class WebClientConfigurationElement extends XMLComplexElement {
    }
 
    protected void fillStructure() {
-      XMLAttribute attrConfigure = new XMLAttribute(this,
-                                                         "ConfigureWebClient",
-                                                         false,
-                                                         new String[] {
-                                                               "true", "false"
-                                                         },
-                                                         1);
-
       XMLAttribute attrHTML5FormFile = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_FILE, false);
       XMLAttribute attrHTML5FormEmbedded = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_EMBEDDED, false);
-
+      XMLAttribute attrHTMLVariable = new XMLAttribute(this, SharkConstants.EA_HTML_VARIABLE, false);
+      XMLAttribute attrHTML5FormXSL = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_XSL, false);
+      XMLAttribute attrIsWebDAVForActivityVisible = new XMLAttribute(this, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, false, new String[] {
+            "true", "false"
+      }, 0);
+      XMLAttribute attrBackActivityDefinition = new XMLAttribute(this, SharkConstants.EA_BACK_ACTIVITY_DEFINITION, false);
       XMLAttribute attrCheckForCompletion = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_COMPLETION, false, new String[] {
             "true", "false"
       }, 1);
@@ -195,9 +206,12 @@ public class WebClientConfigurationElement extends XMLComplexElement {
             "true", "false"
       }, 1);
 
-      add(attrConfigure);
       add(attrHTML5FormFile);
       add(attrHTML5FormEmbedded);
+      add(attrHTMLVariable);
+      add(attrHTML5FormXSL);
+      add(attrIsWebDAVForActivityVisible);
+      add(attrBackActivityDefinition);
       add(attrCheckForCompletion);
       add(attrCheckForContinuation);
       add(attrChooseNextPerformer);
@@ -226,7 +240,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
                 || eaname.equals(SharkConstants.EA_TURN_OFF_FEATURES)) {
                ((WfVariables) attr).createStructure(eaval);
             } else {
-               if (eaname.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
+               if ((eaname.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaname.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE))
                    && parent instanceof Activity
                    || eaname.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
                    || eaname.equals(SharkConstants.EA_CHOOSE_NEXT_PERFORMER)
@@ -237,12 +251,11 @@ public class WebClientConfigurationElement extends XMLComplexElement {
                }
                attr.setValue(eaval);
             }
-            hasAny = true;            
+            hasAny = true;
          }
       }
-      getConfigureAttribute().setValue(String.valueOf(hasAny));
-      
-      int toCompNo = (isForAct ? 4 : 5);
+
+      int toCompNo = (isForAct ? 5 : 5);
       isPersisted = pc >= toCompNo;
    }
 
@@ -252,14 +265,6 @@ public class WebClientConfigurationElement extends XMLComplexElement {
 
    public void setPersisted(boolean isPersisted) {
       this.isPersisted = isPersisted;
-   }
-
-   public boolean isConfigurable() {
-      return getConfigureAttribute().toValue().equalsIgnoreCase("true");
-   }
-
-   public void setConfigurable(boolean isConfigurable) {
-      getConfigureAttribute().setValue(String.valueOf(isConfigurable));
    }
 
    public boolean isForActivity() {

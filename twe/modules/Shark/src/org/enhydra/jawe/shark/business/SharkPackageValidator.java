@@ -36,6 +36,7 @@ import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XMLValidationError;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.XPDLValidationErrorIds;
+import org.enhydra.jxpdl.elements.Activities;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ArrayType;
@@ -295,6 +296,36 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      return;
                   }
                }
+            } else if ((el.toValue().equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION)
+                        || el.toValue().equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || el.toValue()
+               .equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)) && isAct) {
+               ExtendedAttribute ea = (ExtendedAttribute) parent;
+               Activity act = (Activity) parent.getParent().getParent();
+               List types = new ArrayList();
+               types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_NO));
+               types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION));
+               types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT));
+               List acts = XMLUtil.getActivities((Activities) act.getParent(), types);
+               acts.remove(act);
+               Iterator it = acts.iterator();
+               while (it.hasNext()) {
+                  Activity a = (Activity) it.next();
+                  if (a.getId().equals(ea.getVValue())) {
+                     boolean isManual = a.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
+                                        || ((a.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || a.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) && (a.getStartMode()
+                                           .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || a.getFinishMode().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
+                     if (isManual) {
+                        return;
+                     }
+                  }
+               }
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                XPDLValidationErrorIds.ERROR_NON_EXISTING_ACTIVITY_REFERENCE,
+                                                                ea.getVValue(),
+                                                                ea.get("Value"));
+               existingErrors.add(verr);
+
             } else if (el.toValue().equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE)) {
                ExtendedAttribute ea = (ExtendedAttribute) parent;
                if (!Arrays.asList(new String[] {

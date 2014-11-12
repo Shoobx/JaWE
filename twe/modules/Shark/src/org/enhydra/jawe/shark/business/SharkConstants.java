@@ -103,6 +103,14 @@ public class SharkConstants {
    
    public static final String EA_HTML5FORM_EMBEDDED = "HTML5FORM_EMBEDDED";
 
+   public static final String EA_HTML_VARIABLE = "HTML_VARIABLE";
+   
+   public static final String EA_HTML5FORM_XSL = "HTML5FORM_XSL";
+   
+   public static final String EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE = "IS_WEBDAV_FOR_ACTIVITY_VISIBLE";
+   
+   public static final String EA_BACK_ACTIVITY_DEFINITION = "BACK_ACTIVITY_DEFINITION";
+
    public static final String EA_CHECK_FOR_FIRST_ACTIVITY = "CHECK_FOR_FIRST_ACTIVITY";
 
    public static final String EA_CHECK_FOR_CONTINUATION = "CHECK_FOR_CONTINUATION";

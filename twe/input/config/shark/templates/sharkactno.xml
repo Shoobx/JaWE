@@ -19,4 +19,11 @@
    <Implementation>
       <No/>
    </Implementation>
+   <ExtendedAttributes>
+      <ExtendedAttribute Name="CHECK_FOR_COMPLETION" Value="false"/>
+      <ExtendedAttribute Name="CHECK_FOR_CONTINUATION" Value="false"/>
+      <ExtendedAttribute Name="CHOOSE_NEXT_PERFORMER" Value="false"/>
+      <ExtendedAttribute Name="ENABLE_REASSIGNMENT" Value="true"/>
+      <ExtendedAttribute Name="IS_WEBDAV_FOR_ACTIVITY_VISIBLE" Value="false"/>
+   </ExtendedAttributes>
 </Activity>
