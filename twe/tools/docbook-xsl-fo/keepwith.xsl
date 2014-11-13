@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <!--
-    Common Design Style
+    Common DocBook Style
     Copyright (C) 2014 Together Teamsolutions Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify

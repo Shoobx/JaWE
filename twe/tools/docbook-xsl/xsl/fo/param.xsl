@@ -114,7 +114,7 @@
 
 <xsl:param name="body.margin.top">48mm</xsl:param> 
 
-<xsl:param name="body.margin.bottom">40mm</xsl:param>
+<xsl:param name="body.margin.bottom">21mm</xsl:param>
 
 <xsl:param name="body.TableOfContent.margin.bottom">21mm</xsl:param>
 
@@ -689,7 +689,7 @@ set       toc,title
 <xsl:attribute-set name="list.item.spacing">
   <xsl:attribute name="space-before.optimum">1em</xsl:attribute>
   <xsl:attribute name="space-before.minimum">0.8em</xsl:attribute>
-  <xsl:attribute name="space-before.maximum">1.2em</xsl:attribute>
+  <!-- <xsl:attribute name="space-before.maximum">1.2em</xsl:attribute> -->
 </xsl:attribute-set>
 
 <xsl:attribute-set name="list.of.figures.titlepage.recto.style">

@@ -1717,7 +1717,7 @@
             <tr>
               <td width="40%" align="{$direction.align.start}" valign="top">
                 <xsl:if test="$navig.showtitles != 0">
-                  <xsl:apply-templates select="$prev" mode="object.title.markup"/>
+                  <xsl:apply-templates select="$prev" mode="object.title.markup.textonly"/>
                 </xsl:if>
                 <xsl:text>&#160;</xsl:text>
               </td>
@@ -1761,7 +1761,7 @@
               <td width="40%" align="{$direction.align.end}" valign="top">
                 <xsl:text>&#160;</xsl:text>
                 <xsl:if test="$navig.showtitles != 0">
-                  <xsl:apply-templates select="$next" mode="object.title.markup"/>
+                  <xsl:apply-templates select="$next" mode="object.title.markup.textonly"/>
                 </xsl:if>
               </td>
             </tr>
