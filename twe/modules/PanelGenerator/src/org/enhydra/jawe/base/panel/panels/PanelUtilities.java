@@ -179,7 +179,7 @@ public class PanelUtilities {
          int kc = e.getKeyCode();
          if (kc == KeyEvent.VK_ESCAPE
              || kc == KeyEvent.VK_LEFT || kc == KeyEvent.VK_RIGHT || kc == KeyEvent.VK_UP
-             || kc == KeyEvent.VK_DOWN) {
+             || kc == KeyEvent.VK_DOWN || kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_END) {
             return false;
          }
          return true;
