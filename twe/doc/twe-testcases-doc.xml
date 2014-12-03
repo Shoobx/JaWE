@@ -36,7 +36,7 @@
 
     <authorgroup>
       <author>
-        <personname>Together Teamsolutions Co., Ltd.</personname>
+        <personname><firstname>Together Teamsolutions Co., Ltd.</firstname></personname>
       </author>
     </authorgroup>
 
@@ -1602,4 +1602,7 @@ The operator of an MMC Site may republish an MMC contained in the site
 under CC-BY-SA on the same site at any time before August 1, 2009,
 provided the MMC is eligible for relicensing.</programlisting>
   </appendix>
+  <colophon>
+    <para>Together Teamsolutions Co., Ltd.</para>
+  </colophon>
 </book>

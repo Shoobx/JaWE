@@ -36,7 +36,7 @@
 
     <authorgroup>
       <author>
-        <personname>Together Teamsolutions Co., Ltd. in Thailand.</personname>
+        <personname><firstname>Together Teamsolutions Co., Ltd. in Thailand.</firstname></personname>
       </author>
     </authorgroup>
 
@@ -13874,4 +13874,7 @@ free software license, such as the GNU General Public License,
 to permit their use in free software.
 </programlisting></para>
   </appendix>
+  <colophon>
+    <para>Together Teamsolutions Co., Ltd.</para>
+  </colophon>
 </book>
