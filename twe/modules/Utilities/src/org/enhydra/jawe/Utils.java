@@ -1144,7 +1144,7 @@ public class Utils {
          if (filename == null) {
             filename = jc.getPackageFilename(jc.getMainPackageId());
          }
-         jc.tryToClosePackage(jc.getMainPackageId(), true);
+         jc.tryToClosePackage(jc.getMainPackageId(), true, false);
 
          ws.show(null, "", jc.getSettings().getLanguageDependentString("ReconfiguringKey"));
 

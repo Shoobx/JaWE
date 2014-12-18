@@ -44,7 +44,7 @@ public class Open extends ActionBase {
       String fn=jc.getPackageFilename(jc.getMainPackageId());
       String name = jc.openDialog(jc.getSettings().getLanguageDependentString("Open" + BarFactory.LABEL_POSTFIX),fn);
       if (name==null) return;
-      if (jc.tryToClosePackage(jc.getMainPackageId(), false)) {
+      if (jc.tryToClosePackage(jc.getMainPackageId(), false, true)) {
          jc.openPackageFromFile(name);
       }
       

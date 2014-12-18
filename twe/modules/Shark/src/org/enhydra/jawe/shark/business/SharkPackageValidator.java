@@ -50,10 +50,12 @@ import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.InitialValue;
+import org.enhydra.jxpdl.elements.Limit;
 import org.enhydra.jxpdl.elements.ListType;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.Priority;
 import org.enhydra.jxpdl.elements.RecordType;
 import org.enhydra.jxpdl.elements.SchemaType;
 import org.enhydra.jxpdl.elements.UnionType;
@@ -208,7 +210,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                             || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
                             || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES) || ea.getName()
                          .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES)) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
-                     boolean allowUndefinedVariables = allowsUndefinedVariables(wp, false);
+                     boolean allowUndefinedVariables = allowFlag(wp, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, false);
                      boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
 
                      XMLValidationError verr = new XMLValidationError((isWarning || allowUndefinedVariables || !isWPLevel) ? XMLValidationError.TYPE_WARNING
@@ -500,6 +502,16 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       }
    }
 
+   public void validateElement(Limit el, List existingErrors, boolean fullCheck) {
+      boolean isAct = XMLUtil.getActivity(el) != null;
+      boolean allowPriorityAsExpression = allowFlag(el, isAct ? SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY
+                                                             : SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false);
+
+      if (!allowPriorityAsExpression) {
+         super._validateElement(el, existingErrors, fullCheck, true, XPDLValidationErrorIds.ERROR_LIMIT_INVALID_VALUE);
+      }
+   }
+
    public void validateElement(ListType el, List existingErrors, boolean fullCheck) {
       XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                        XMLValidationError.SUB_TYPE_LOGIC,
@@ -545,6 +557,16 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          }
       }
 
+   }
+
+   public void validateElement(Priority el, List existingErrors, boolean fullCheck) {
+      boolean isAct = XMLUtil.getActivity(el) != null;
+      boolean allowPriorityAsExpression = allowFlag(el, isAct ? SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY
+                                                             : SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, false);
+
+      if (!allowPriorityAsExpression) {
+         super._validateElement(el, existingErrors, fullCheck, true, XPDLValidationErrorIds.ERROR_PRIORITY_INVALID_VALUE);
+      }
    }
 
    public void validateElement(RecordType el, List existingErrors, boolean fullCheck) {
@@ -1449,20 +1471,28 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       }
    }
 
-   protected boolean allowsUndefinedVariables(XMLElement el, boolean defaultValue) {
+   protected boolean allowFlag(XMLElement el, String eaname, boolean defaultValue) {
+      Activity act = XMLUtil.getActivity(el);
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       Package pkg = XMLUtil.getPackage(el);
 
       ExtendedAttribute ea = null;
       Boolean allow = new Boolean(defaultValue);
-      if (wp != null) {
-         ea = wp.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
+
+      if (act != null) {
+         ea = act.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
+         if (ea != null) {
+            allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
+         }
+      }
+      if (ea == null && wp != null) {
+         ea = wp.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
          if (ea != null) {
             allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
          }
       }
       if (ea == null && pkg != null) {
-         ea = XMLUtil.getPackage(wp).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
+         ea = XMLUtil.getPackage(wp).getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
          if (ea != null) {
             allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
          }

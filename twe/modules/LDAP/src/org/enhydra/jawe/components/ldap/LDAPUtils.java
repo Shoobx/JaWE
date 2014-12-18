@@ -134,7 +134,8 @@ public class LDAPUtils {
          env.put(Context.SECURITY_PRINCIPAL, ldapUser);
          env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
       }
-
+      env.put("com.sun.jndi.ldap.trace.ber", System.err);
+      
       int cl = 0;
       try {
          cl = Integer.parseInt(ldc.get("LDAPCountLimit").toValue());

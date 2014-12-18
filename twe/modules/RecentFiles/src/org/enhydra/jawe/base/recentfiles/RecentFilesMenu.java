@@ -112,7 +112,7 @@ public class RecentFilesMenu extends JMenu implements JaWEComponentView, ActionL
    
    public void actionPerformed(ActionEvent ae) {
       String filename = ae.getActionCommand().substring(2);
-      if (JaWEManager.getInstance().getJaWEController().tryToClosePackage(null, false)) {
+      if (JaWEManager.getInstance().getJaWEController().tryToClosePackage(null, false, true)) {
          JaWEManager.getInstance().getJaWEController().openPackageFromFile(filename);
       }
    }

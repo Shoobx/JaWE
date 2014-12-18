@@ -1,4 +1,9 @@
 ###### TWE 5.1-1 RELEASED ######
+2014-12-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - validating Priority and Limits depending on new extended attributes (EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY, EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY)
+   # when re-configuring/changing language, Cancel option is not allowed if XPDL is changed
+      
 2014-11-12 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - supported HTML_VARIABLE, HTML5FORM_XSL, IS_WEBDAV_FOR_ACTIVITY_VISIBLE and BACK_ACTIVITY_DEFINITION extended attributes for activity

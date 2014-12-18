@@ -44,7 +44,7 @@ public class NewPackage extends NewActionBase {
    public void actionPerformed(ActionEvent e) {
       if (!(e.getSource() instanceof JaWETypeChoiceButton)) {
          JaWEController jc = JaWEManager.getInstance().getJaWEController();
-         if (jc.tryToClosePackage(jc.getMainPackageId(), false)) {
+         if (jc.tryToClosePackage(jc.getMainPackageId(), false, true)) {
             jc.newPackage(jc.getJaWETypes().getDefaultType(Package.class,null));
          }
       }

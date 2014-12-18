@@ -45,7 +45,7 @@ public class Close extends ActionBase {
    
    public void actionPerformed(ActionEvent e) {
       JaWEController jc=JaWEManager.getInstance().getJaWEController();
-      jc.tryToClosePackage(jc.getMainPackageId(), false);
+      jc.tryToClosePackage(jc.getMainPackageId(), false, true);
    }
 
 }

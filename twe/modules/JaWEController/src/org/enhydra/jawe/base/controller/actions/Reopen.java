@@ -57,7 +57,7 @@ public class Reopen extends ActionBase {
          jc.message(msg,JOptionPane.WARNING_MESSAGE);
          return;
       }
-      if (jc.tryToClosePackage(jc.getMainPackageId(), false)) {
+      if (jc.tryToClosePackage(jc.getMainPackageId(), false, true)) {
          jc.openPackageFromFile(name);
       }
    }

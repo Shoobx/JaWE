@@ -41,7 +41,7 @@ public class Exit extends ActionBase {
    
    public void actionPerformed(ActionEvent e) {
       JaWEController jc=JaWEManager.getInstance().getJaWEController();
-      if (jc.tryToClosePackage(jc.getMainPackageId(), false)) {
+      if (jc.tryToClosePackage(jc.getMainPackageId(), false, true)) {
          System.exit(0);
       }
    }

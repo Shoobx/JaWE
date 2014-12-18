@@ -109,4 +109,7 @@ public final class SharkValidationErrorIds {
 
    public static final String ERROR_INVALID_ERROR_HANDLER_RETURN_CODE = "ERROR_INVALID_ERROR_HANDLER_RETURN_CODE";
 
+   public static final String WARNING_EXPRESSION_POSSIBLY_INVALID = "WARNING_EXPRESSION_POSSIBLY_INVALID";
+   
+   
 }

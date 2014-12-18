@@ -63,7 +63,7 @@ public class Download extends ActionBase {
       DefInfo el = panel.getSelectedDefInfo();
       if (el!=null && el.getDefinitionKey()!=null) {
          JaWEController jc=JaWEManager.getInstance().getJaWEController();
-         if (jc.tryToClosePackage(jc.getMainPackageId(), false)) {
+         if (jc.tryToClosePackage(jc.getMainPackageId(), false, true)) {
          
             WaitScreen ws=new WaitScreen(jc.getJaWEFrame());
             boolean err=false;

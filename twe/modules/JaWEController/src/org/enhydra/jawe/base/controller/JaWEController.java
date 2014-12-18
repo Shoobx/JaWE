@@ -142,10 +142,7 @@ import org.w3c.dom.Node;
 /**
  * Used to handle main JaWE functionalities.
  */
-public class JaWEController extends Observable implements
-                                              Observer,
-                                              JaWEComponent,
-                                              ChoiceButtonListener {
+public class JaWEController extends Observable implements Observer, JaWEComponent, ChoiceButtonListener {
 
    /** The settings for this controller. */
    protected ControllerSettings settings;
@@ -233,17 +230,12 @@ public class JaWEController extends Observable implements
    // ********************** Observer
    public void update(Observable o, Object arg) {
       if (updateInProgress) {
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .warn("JaWEController -> this is nested event dispatch, because another one is in progress!");
+         JaWEManager.getInstance().getLoggingManager().warn("JaWEController -> this is nested event dispatch, because another one is in progress!");
          Thread.dumpStack();
          return;
       }
-      if (!(arg instanceof XMLElementChangeInfo)
-          || ((XMLElementChangeInfo) arg).getChangedElement() == null) {
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .error("JaWEController -> Invalid arg " + arg + " or element");
+      if (!(arg instanceof XMLElementChangeInfo) || ((XMLElementChangeInfo) arg).getChangedElement() == null) {
+         JaWEManager.getInstance().getLoggingManager().error("JaWEController -> Invalid arg " + arg + " or element");
          Thread.dumpStack();
          return;
       }
@@ -254,9 +246,7 @@ public class JaWEController extends Observable implements
          info = (XPDLElementChangeInfo) arg;
       }
       if (arg instanceof XPDLElementChangeInfo && info.getSource() == this) {
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .error("JaWEController -> Aborting update because JaWEController is a source!");
+         JaWEManager.getInstance().getLoggingManager().error("JaWEController -> Aborting update because JaWEController is a source!");
          Thread.dumpStack();
          return;
       }
@@ -265,13 +255,9 @@ public class JaWEController extends Observable implements
 
       XMLElement chel = info.getChangedElement();
       if (chel != null && chel.getParent() instanceof Package) {
-         if (action == XMLElementChangeInfo.UPDATED
-             && chel instanceof XMLAttribute && chel.toName().equals("Id")
-             || chel.toName().equals("Name")) {
+         if (action == XMLElementChangeInfo.UPDATED && chel instanceof XMLAttribute && chel.toName().equals("Id") || chel.toName().equals("Name")) {
             if (chel.toName().equals("Id")) {
-               changePackageId((Package) chel.getParent(),
-                               (String) info.getOldValue(),
-                               (String) info.getNewValue());
+               changePackageId((Package) chel.getParent(), (String) info.getOldValue(), (String) info.getNewValue());
             }
             updateTitle();
          }
@@ -280,20 +266,14 @@ public class JaWEController extends Observable implements
       if (isUndoOrRedoInProgress()) {
          JaWEManager.getInstance()
             .getLoggingManager()
-            .debug("JaWEController -> event "
-                   + info
-                   + " won't be taken into account while processing undo/redo actions!");
+            .debug("JaWEController -> event " + info + " won't be taken into account while processing undo/redo actions!");
          return;
       }
       if (undoableChangeInProgress) {
-         if (!(action == XMLElementChangeInfo.INSERTED
-               || action == XMLElementChangeInfo.REMOVED
-               || action == XMLElementChangeInfo.UPDATED || action == XMLElementChangeInfo.REPOSITIONED)) {
+         if (!(action == XMLElementChangeInfo.INSERTED || action == XMLElementChangeInfo.REMOVED || action == XMLElementChangeInfo.UPDATED || action == XMLElementChangeInfo.REPOSITIONED)) {
             JaWEManager.getInstance()
                .getLoggingManager()
-               .error("JaWEController -> event "
-                      + info
-                      + " won't be taken into account while processing undoable change action!");
+               .error("JaWEController -> event " + info + " won't be taken into account while processing undoable change action!");
             return;
          }
 
@@ -302,22 +282,16 @@ public class JaWEController extends Observable implements
       }
 
       if (updateSpecialInProgress) {
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .warn("JaWEController -> this is nested event dispatch, because another special update is in progress!");
+         JaWEManager.getInstance().getLoggingManager().warn("JaWEController -> this is nested event dispatch, because another special update is in progress!");
          Thread.dumpStack();
          return;
       }
 
       updateInProgress = true;
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> normal update for event " + arg + " started ...");
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> normal update for event " + arg + " started ...");
 
       if (action == XPDLElementChangeInfo.SELECTED) {
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .error("JaWEController -> SELECTION event not sent from JaWEController! ");
+         JaWEManager.getInstance().getLoggingManager().error("JaWEController -> SELECTION event not sent from JaWEController! ");
          Thread.dumpStack();
          return;
       }
@@ -326,18 +300,14 @@ public class JaWEController extends Observable implements
       setChanged();
       notifyObservers(info);
 
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> normal update ended");
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> normal update ended");
       updateTitle();
       adjustActions();
       updateInProgress = false;
 
       if (isDesignTimeValidation()) {
          if (getMainPackage() != null
-             && (action == XMLElementChangeInfo.INSERTED
-                 || action == XMLElementChangeInfo.REMOVED
-                 || action == XMLElementChangeInfo.UPDATED || action == XMLElementChangeInfo.REPOSITIONED)) {
+             && (action == XMLElementChangeInfo.INSERTED || action == XMLElementChangeInfo.REMOVED || action == XMLElementChangeInfo.UPDATED || action == XMLElementChangeInfo.REPOSITIONED)) {
             checkValidity(getMainPackage(), true, false, true);
          }
       }
@@ -368,14 +338,9 @@ public class JaWEController extends Observable implements
    }
 
    public boolean adjustXPDL(Package pkg) {
-      boolean changed = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .correctSplitsAndJoins(pkg);
+      boolean changed = JaWEManager.getInstance().getXPDLUtils().correctSplitsAndJoins(pkg);
 
-      if (JaWEManager.getInstance()
-         .getXPDLHandler()
-         .getXPDLRepositoryHandler()
-         .isXPDLPrefixEnabled()) {
+      if (JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().isXPDLPrefixEnabled()) {
          List l = pkg.getNamespaces().toElements();
          boolean hasxpdlns = false;
          for (int i = 0; i < l.size(); i++) {
@@ -397,10 +362,7 @@ public class JaWEController extends Observable implements
             changed = true;
          }
       }
-      Iterator comps = JaWEManager.getInstance()
-         .getComponentManager()
-         .getComponents()
-         .iterator();
+      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
       while (comps.hasNext()) {
          JaWEComponent jc = (JaWEComponent) comps.next();
          if (jc != this) {
@@ -411,18 +373,17 @@ public class JaWEController extends Observable implements
       // configuration ext. attribute
       if (!JaWEEAHandler.getJaWEConfig(pkg).equals(getCurrentConfig())) {
          JaWEEAHandler.setJaWEConfig(pkg, getCurrentConfig());
-//         changed = true;
+         // changed = true;
       }
 
-      String verInfo = BuildInfo.getVersion()
-                       + "-" + BuildInfo.getRelease() + "-" + BuildInfo.getBuildNo();
+      String verInfo = BuildInfo.getVersion() + "-" + BuildInfo.getRelease() + "-" + BuildInfo.getBuildNo();
       if (!JaWEEAHandler.getEditingToolVersion(pkg).equals(verInfo)) {
          JaWEEAHandler.setEditingToolVersion(pkg, verInfo);
-//         changed = true;
+         // changed = true;
       }
       if (!JaWEEAHandler.getEditingTool(pkg).equals(JaWEManager.getInstance().getName())) {
          JaWEEAHandler.setEditingTool(pkg, JaWEManager.getInstance().getName());
-//         changed = true;
+         // changed = true;
       }
 
       if (JaWEEAHandler.removeOldPackageEAs(pkg)) {
@@ -437,24 +398,15 @@ public class JaWEController extends Observable implements
       return changed;
    }
 
-   public boolean checkValidity(Package el,
-                                boolean fullCheck,
-                                boolean specNotif,
-                                boolean initialOrDesignTimeValidation) {
+   public boolean checkValidity(Package el, boolean fullCheck, boolean specNotif, boolean initialOrDesignTimeValidation) {
       // configure validator
       // System.err.println("Checking validity for
       // "+((XMLComplexElement)el).get("Id").toValue());
-      StandardPackageValidator xpdlValidator = JaWEManager.getInstance()
-         .getXPDLValidator();
-      xpdlValidator.init(JaWEManager.getInstance().getXPDLHandler(),
-                         XMLUtil.getPackage(el),
-                         !specNotif,
-                         settings.getEncoding(),
-                         JaWEManager.getInstance().getStartingLocale());
+      StandardPackageValidator xpdlValidator = JaWEManager.getInstance().getXPDLValidator();
+      xpdlValidator.init(JaWEManager.getInstance().getXPDLHandler(), XMLUtil.getPackage(el), !specNotif, settings.getEncoding(), JaWEManager.getInstance()
+         .getStartingLocale());
       List l = checkValidity(el, fullCheck);
-      XPDLElementChangeInfo info = createInfo(el,
-                                              l,
-                                              XPDLElementChangeInfo.VALIDATION_ERRORS);
+      XPDLElementChangeInfo info = createInfo(el, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
       info.setNewValue(new Boolean(specNotif));
       info.setOldValue(new Boolean(initialOrDesignTimeValidation));
       sendEvent(info);
@@ -462,8 +414,7 @@ public class JaWEController extends Observable implements
    }
 
    public List checkValidity(XMLElement el, boolean fullCheck) {
-      StandardPackageValidator xpdlValidator = JaWEManager.getInstance()
-         .getXPDLValidator();
+      StandardPackageValidator xpdlValidator = JaWEManager.getInstance().getXPDLValidator();
 
       if (el == null)
          return null;
@@ -480,10 +431,7 @@ public class JaWEController extends Observable implements
 
       List vers = new ArrayList();
       if (isValid || fullCheck) {
-         Iterator comps = JaWEManager.getInstance()
-            .getComponentManager()
-            .getComponents()
-            .iterator();
+         Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
          while (comps.hasNext()) {
             JaWEComponent jc = (JaWEComponent) comps.next();
             if (jc != this) {
@@ -533,8 +481,7 @@ public class JaWEController extends Observable implements
    // ********************** ChoiceButtonListener
    public void selectionChanged(ChoiceButton cbutton, Object change) {
       if (cbutton instanceof JaWETypeChoiceButton
-          && ((JaWETypeChoiceButton) cbutton).getXPDLChoiceType() != null
-          && cbutton.getChoiceType().equals(JaWEType.class)) {
+          && ((JaWETypeChoiceButton) cbutton).getXPDLChoiceType() != null && cbutton.getChoiceType().equals(JaWEType.class)) {
          JaWEType jtype = (JaWEType) change;
 
          String typeId = null;
@@ -544,7 +491,7 @@ public class JaWEController extends Observable implements
 
          Class xpdlClass = ((JaWETypeChoiceButton) cbutton).getXPDLChoiceType();
          if (xpdlClass == Package.class) {
-            if (tryToClosePackage(getMainPackageId(), false)) {
+            if (tryToClosePackage(getMainPackageId(), false, true)) {
                newPackage(typeId);
             }
          } else {
@@ -555,102 +502,67 @@ public class JaWEController extends Observable implements
                ActivitySet as = selectionMng.getWorkingActivitySet();
                WorkflowProcess wp = selectionMng.getWorkingProcess();
                if (as != null && !as.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(as.getActivities(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(as.getActivities(), typeId, true);
                } else if (wp != null && !wp.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(wp.getActivities(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(wp.getActivities(), typeId, true);
                }
             } else if (xpdlClass == ActivitySet.class || xpdlClass == ActivitySets.class) {
                WorkflowProcess wp = selectionMng.getWorkingProcess();
                if (wp != null && !wp.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(wp.getActivitySets(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(wp.getActivitySets(), typeId, true);
                }
             } else if (xpdlClass == Application.class || xpdlClass == Applications.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getApplications(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getApplications(), typeId, true);
                }
             } else if (xpdlClass == DataField.class || xpdlClass == DataFields.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getDataFields(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getDataFields(), typeId, true);
                }
-            } else if (xpdlClass == ExtendedAttribute.class
-                       || xpdlClass == ExtendedAttributes.class) {
+            } else if (xpdlClass == ExtendedAttribute.class || xpdlClass == ExtendedAttributes.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getExtendedAttributes(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getExtendedAttributes(), typeId, true);
                }
-            } else if (xpdlClass == FormalParameter.class
-                       || xpdlClass == FormalParameters.class) {
+            } else if (xpdlClass == FormalParameter.class || xpdlClass == FormalParameters.class) {
                WorkflowProcess wp = selectionMng.getWorkingProcess();
                if (wp != null && !wp.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(wp.getFormalParameters(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(wp.getFormalParameters(), typeId, true);
                }
             } else if (xpdlClass == Namespace.class || xpdlClass == Namespaces.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getNamespaces(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getNamespaces(), typeId, true);
                }
             } else if (xpdlClass == Participant.class || xpdlClass == Participants.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getParticipants(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getParticipants(), typeId, true);
                }
             } else if (xpdlClass == Responsible.class || xpdlClass == Responsibles.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getRedefinableHeader()
-                                          .getResponsibles(),
-                                       typeId,
-                                       true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getRedefinableHeader().getResponsibles(), typeId, true);
                }
             } else if (xpdlClass == Transition.class || xpdlClass == Transitions.class) {
                ActivitySet as = selectionMng.getWorkingActivitySet();
                WorkflowProcess wp = selectionMng.getWorkingProcess();
                if (as != null && !as.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(as.getTransitions(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(as.getTransitions(), typeId, true);
                } else if (wp != null && !wp.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(wp.getTransitions(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(wp.getTransitions(), typeId, true);
                }
-            } else if (xpdlClass == TypeDeclaration.class
-                       || xpdlClass == TypeDeclarations.class) {
+            } else if (xpdlClass == TypeDeclaration.class || xpdlClass == TypeDeclarations.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getTypeDeclarations(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getTypeDeclarations(), typeId, true);
                }
-            } else if (xpdlClass == WorkflowProcess.class
-                       || xpdlClass == WorkflowProcesses.class) {
+            } else if (xpdlClass == WorkflowProcess.class || xpdlClass == WorkflowProcesses.class) {
                Package workingPkg = selectionMng.getWorkingPKG();
                if (workingPkg != null && !workingPkg.isReadOnly()) {
-                  newEl = JaWEManager.getInstance()
-                     .getXPDLObjectFactory()
-                     .createXPDLObject(workingPkg.getWorkflowProcesses(), typeId, true);
+                  newEl = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(workingPkg.getWorkflowProcesses(), typeId, true);
                }
             }
             if (newEl != null) {
@@ -710,14 +622,10 @@ public class JaWEController extends Observable implements
          jtypeResolver = (JaWETypeResolver) c.newInstance(new Object[] {
             this
          });
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .info("JaWEController -> Working with '" + className + "' as type resolver");
+         JaWEManager.getInstance().getLoggingManager().info("JaWEController -> Working with '" + className + "' as type resolver");
       } catch (Throwable ex) {
          ex.printStackTrace();
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .info("JaweManager -> Problems while instantiating type resolver! Using default!");
+         JaWEManager.getInstance().getLoggingManager().info("JaweManager -> Problems while instantiating type resolver! Using default!");
          jtypeResolver = new JaWETypeResolver(this);
       }
 
@@ -801,9 +709,7 @@ public class JaWEController extends Observable implements
       Iterator it = xpdlListenerObservables.iterator();
       while (it.hasNext()) {
          XPDLListenerAndObservable xpdl = (XPDLListenerAndObservable) it.next();
-         if (xpdl.getPackage() != null
-             && !xpdl.getPackage().isReadOnly()
-             && xpdl.getPackage().getId().equals(xpdlId)) {
+         if (xpdl.getPackage() != null && !xpdl.getPackage().isReadOnly() && xpdl.getPackage().getId().equals(xpdlId)) {
             return xpdl.isModified();
          }
       }
@@ -811,9 +717,7 @@ public class JaWEController extends Observable implements
    }
 
    public Package getMainPackage() {
-      return JaWEManager.getInstance()
-         .getXPDLHandler()
-         .getPackageById(getMainPackageId());
+      return JaWEManager.getInstance().getXPDLHandler().getPackageById(getMainPackageId());
    }
 
    public String getMainPackageId() {
@@ -850,9 +754,7 @@ public class JaWEController extends Observable implements
       clearAll();
 
       XPDLHandler xpdlhandler = JaWEManager.getInstance().getXPDLHandler();
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> creating new XPDL, type=" + type);
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> creating new XPDL, type=" + type);
 
       Package pkg = JaWEManager.getInstance().getXPDLObjectFactory().createPackage(type);
       xpdlhandler.registerPackage(pkg);
@@ -862,25 +764,19 @@ public class JaWEController extends Observable implements
       notifyObservers(createInfo(pkg, XMLElementChangeInfo.INSERTED));
       selectionMng.setSelection(pkg, true);
 
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> new package with Id " + pkg.getId() + " is created");
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> new package with Id " + pkg.getId() + " is created");
       // xpdlhandler.printDebug();
       updateTitle();
       adjustActions();
    }
 
    public Package openPackageFromFile(String filename) {
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> opening package from file " + filename);
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> opening package from file " + filename);
       return openPackage(filename, null);
    }
 
    public Package openPackageFromStream(byte[] xpdlStream) {
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> opening package from stream ");
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> opening package from stream ");
       return openPackage(null, xpdlStream);
    }
 
@@ -894,8 +790,7 @@ public class JaWEController extends Observable implements
          if (jaweFrameShown && filename != null && xpdlStream == null) {
             ws.show(null, "", settings.getLanguageDependentString("OpeningFile"));
          }
-         xpdlh = JaWEManager.getInstance()
-            .createXPDLHandler(xpdlhandler.getXPDLRepositoryHandler());
+         xpdlh = JaWEManager.getInstance().createXPDLHandler(xpdlhandler.getXPDLRepositoryHandler());
 
          try {
             if (filename != null) {
@@ -912,9 +807,7 @@ public class JaWEController extends Observable implements
             clearAll();
             xpdlh.closeAllPackages();
             ws.setVisible(false);
-            message(settings.getLanguageDependentString("ErrorCannotOpenXPDL")
-                          + "\n"
-                          + ((ex.getMessage() != null) ? "\n" + ex.getMessage() : ""),
+            message(settings.getLanguageDependentString("ErrorCannotOpenXPDL") + "\n" + ((ex.getMessage() != null) ? "\n" + ex.getMessage() : ""),
                     JOptionPane.INFORMATION_MESSAGE);
             return pkg;
          }
@@ -969,9 +862,7 @@ public class JaWEController extends Observable implements
                   selectionMng.setSelection(pkg, true);
                }
 
-               JaWEManager.getInstance()
-                  .getLoggingManager()
-                  .info("JaWEController -> opened package " + pkg.getId());
+               JaWEManager.getInstance().getLoggingManager().info("JaWEController -> opened package " + pkg.getId());
                if (settings.isInitialXPDLValidationEnabled()) {
                   checkValidity(pkg, true, true, true);
                }
@@ -979,14 +870,12 @@ public class JaWEController extends Observable implements
                if ((mainChanged) && jaweFrameShown) {
                   if (mainChanged) {
                      ws.setVisible(false);
-                     message(settings.getLanguageDependentString("InformationTogWEHasAutomaticallyAdjustedSomeXPDLParts"),
-                             JOptionPane.INFORMATION_MESSAGE);
+                     message(settings.getLanguageDependentString("InformationTogWEHasAutomaticallyAdjustedSomeXPDLParts"), JOptionPane.INFORMATION_MESSAGE);
                   }
                }
 
             } else {
-               message(settings.getLanguageDependentString("InformationPackageCannotBeOpened"),
-                       JOptionPane.INFORMATION_MESSAGE);
+               message(settings.getLanguageDependentString("InformationPackageCannotBeOpened"), JOptionPane.INFORMATION_MESSAGE);
             }
          } else {
             clearAll();
@@ -1006,8 +895,7 @@ public class JaWEController extends Observable implements
                }
             }
             ws.setVisible(false);
-            message(settings.getLanguageDependentString("ErrorCannotOpenXPDL")
-                    + ((msg != null) ? "\n" + msg : ""), JOptionPane.INFORMATION_MESSAGE);
+            message(settings.getLanguageDependentString("ErrorCannotOpenXPDL") + ((msg != null) ? "\n" + msg : ""), JOptionPane.INFORMATION_MESSAGE);
          }
          // xpdlhandler.printDebug();
          updateTitle();
@@ -1027,10 +915,7 @@ public class JaWEController extends Observable implements
          doSwitchMode = false;
       }
       if (doSwitchMode) {
-         Set availableConfigs = JaWEManager.getInstance()
-            .getJaWEController()
-            .getConfigInfo()
-            .keySet();
+         Set availableConfigs = JaWEManager.getInstance().getJaWEController().getConfigInfo().keySet();
          String ccfg = JaWEManager.getInstance().getJaWEController().getCurrentConfig();
          Element xpdldoc = XMLUtil.getDocumentFromFile(filename).getDocumentElement();
          String cn = XMLUtil.getNameSpacePrefix(xpdldoc) + "ExtendedAttributes";
@@ -1059,8 +944,7 @@ public class JaWEController extends Observable implements
       XPDLHandler xpdlh = null;
       if (filename != null && filename.length() > 0) {
          try {
-            xpdlh = JaWEManager.getInstance()
-               .createXPDLHandler(xpdlhmain.getXPDLRepositoryHandler());
+            xpdlh = JaWEManager.getInstance().createXPDLHandler(xpdlhmain.getXPDLRepositoryHandler());
             Package pkg = xpdlh.openPackage(filename, true);
             // do not allow insertion if package has the same Id as the main one,
             // or as some of its external packages
@@ -1074,11 +958,8 @@ public class JaWEController extends Observable implements
                canInsert = checkInsertion(xpdlhmain, xpdlh, mainPkg.getId());
             }
             if (canInsert) {
-               List l = XMLUtil.getAllExternalPackageIds(xpdlhmain,
-                                                         mainPkg,
-                                                         new HashSet());
-               if (!l.contains(pkg.getId())
-                   && xpdlhmain.getPackageById(pkg.getId()) != null) {
+               List l = XMLUtil.getAllExternalPackageIds(xpdlhmain, mainPkg, new HashSet());
+               if (!l.contains(pkg.getId()) && xpdlhmain.getPackageById(pkg.getId()) != null) {
                   canInsert = false;
                }
             }
@@ -1087,9 +968,7 @@ public class JaWEController extends Observable implements
                Set pkgIdsToInsert = new HashSet(xpdlh.getAllPackageIds());
                Set otherEPIds = new HashSet(mainPkg.getExternalPackageIds());
                Set allOtherEPIds = new HashSet(otherEPIds);
-               List l = XMLUtil.getAllExternalPackageIds(xpdlhmain,
-                                                         mainPkg,
-                                                         new HashSet());
+               List l = XMLUtil.getAllExternalPackageIds(xpdlhmain, mainPkg, new HashSet());
                List ids = new ArrayList(xpdlhmain.getAllPackageIds());
                ids.removeAll(l);
                allOtherEPIds.addAll(ids);
@@ -1097,9 +976,7 @@ public class JaWEController extends Observable implements
                while (it.hasNext()) {
                   String pkgId = (String) it.next();
                   Package p = xpdlhmain.getPackageById(pkgId);
-                  allOtherEPIds.addAll(XMLUtil.getAllExternalPackageIds(xpdlhmain,
-                                                                        p,
-                                                                        new HashSet()));
+                  allOtherEPIds.addAll(XMLUtil.getAllExternalPackageIds(xpdlhmain, p, new HashSet()));
                }
                pkgIdsToInsert.removeAll(allOtherEPIds);
 
@@ -1122,9 +999,7 @@ public class JaWEController extends Observable implements
                Path newPath = new Path(parentF);
                String eppath = xpdlhmain.getAbsoluteFilePath(realPkg);
                String relativePath = Path.getRelativePath(new Path(eppath), newPath);
-               ep = JaWEManager.getInstance()
-                  .getXPDLObjectFactory()
-                  .createXPDLObject(eps, "", false);
+               ep = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(eps, "", false);
                ep.setHref(relativePath);
                ep.setId(realPkg.getId());
                mainPkg.addExternalPackageMapping(relativePath, realPkg.getId());
@@ -1146,9 +1021,7 @@ public class JaWEController extends Observable implements
                }
 
                setChanged();
-               notifyObservers(createInfo(mainPkg,
-                                          new ArrayList(pkgsToInsert),
-                                          XMLElementChangeInfo.INSERTED));
+               notifyObservers(createInfo(mainPkg, new ArrayList(pkgsToInsert), XMLElementChangeInfo.INSERTED));
 
                if (ep != null) {
                   getSelectionManager().setSelection(ep, true);
@@ -1167,14 +1040,12 @@ public class JaWEController extends Observable implements
                // }
 
             } else {
-               message(settings.getLanguageDependentString("InformationExternalPackageCannotBeInserted"),
-                       JOptionPane.INFORMATION_MESSAGE);
+               message(settings.getLanguageDependentString("InformationExternalPackageCannotBeInserted"), JOptionPane.INFORMATION_MESSAGE);
                xpdlh.closeAllPackages();
             }
          } catch (Exception ex) {
             ex.printStackTrace();
-            message(settings.getLanguageDependentString("InformationExternalPackageCannotBeInserted"),
-                    JOptionPane.INFORMATION_MESSAGE);
+            message(settings.getLanguageDependentString("InformationExternalPackageCannotBeInserted"), JOptionPane.INFORMATION_MESSAGE);
             if (xpdlh != null) {
                xpdlh.closeAllPackages();
             }
@@ -1190,9 +1061,7 @@ public class JaWEController extends Observable implements
 
       Set pkgIdsToRemove = new HashSet();
       pkgIdsToRemove.add(toRemove.getId());
-      pkgIdsToRemove.addAll(XMLUtil.getAllExternalPackageIds(xpdlh,
-                                                             toRemove,
-                                                             new HashSet()));
+      pkgIdsToRemove.addAll(XMLUtil.getAllExternalPackageIds(xpdlh, toRemove, new HashSet()));
 
       Set otherEPIds = new HashSet(mainPkg.getExternalPackageIds());
       otherEPIds.remove(toRemove.getId());
@@ -1225,9 +1094,7 @@ public class JaWEController extends Observable implements
          it = pkgsToRemove.iterator();
          while (it.hasNext()) {
             Package tRem = (Package) it.next();
-            List refs = JaWEManager.getInstance()
-               .getXPDLUtils()
-               .getReferences(mainPkg, tRem);
+            List refs = JaWEManager.getInstance().getXPDLUtils().getReferences(mainPkg, tRem);
             if (refs.size() > 0) {
                warningMessage = true;
                break;
@@ -1258,9 +1125,7 @@ public class JaWEController extends Observable implements
                xpdlh.closePackageVersion(pkg.getId(), pkg.getInternalVersion());
             }
             setChanged();
-            notifyObservers(createInfo(mainPkg,
-                                       new ArrayList(pkgsToRemove),
-                                       XMLElementChangeInfo.REMOVED));
+            notifyObservers(createInfo(mainPkg, new ArrayList(pkgsToRemove), XMLElementChangeInfo.REMOVED));
          }
          if (ep != null) {
             eps.remove(ep);
@@ -1284,8 +1149,7 @@ public class JaWEController extends Observable implements
 
       } catch (Exception ex) {
          ex.printStackTrace();
-         message(settings.getLanguageDependentString("ErrorCannotRemoveExternalPackage"),
-                 JOptionPane.INFORMATION_MESSAGE);
+         message(settings.getLanguageDependentString("ErrorCannotRemoveExternalPackage"), JOptionPane.INFORMATION_MESSAGE);
       }
       // xpdlh.printDebug();
    }
@@ -1299,8 +1163,7 @@ public class JaWEController extends Observable implements
       if (filename != null && filename.length() > 0) {
          boolean added = addTransientPackage(filename);
          if (!added) {
-            message(settings.getLanguageDependentString("InformationTransientPackageCannotBeInserted"),
-                    JOptionPane.INFORMATION_MESSAGE);
+            message(settings.getLanguageDependentString("InformationTransientPackageCannotBeInserted"), JOptionPane.INFORMATION_MESSAGE);
          }
       }
    }
@@ -1310,8 +1173,7 @@ public class JaWEController extends Observable implements
       XPDLHandler xpdlh = null;
       if (filename != null && filename.length() > 0) {
          try {
-            xpdlh = JaWEManager.getInstance()
-               .createXPDLHandler(xpdlhmain.getXPDLRepositoryHandler());
+            xpdlh = JaWEManager.getInstance().createXPDLHandler(xpdlhmain.getXPDLRepositoryHandler());
             Package pkg = xpdlh.openPackage(filename, false);
             // do not allow insertion if package has the same Id as the main one,
             // or as some of its external packages
@@ -1333,18 +1195,14 @@ public class JaWEController extends Observable implements
 
                Package realPkg = xpdlhmain.getPackageById(pkg.getId());
                adjustXPDL(realPkg);
-               XPDLListenerAndObservable xpdl = createNewXPDLListenerObservable(realPkg,
-                                                                                false,
-                                                                                false);
+               XPDLListenerAndObservable xpdl = createNewXPDLListenerObservable(realPkg, false, false);
                realPkg.setReadOnly(true);
                xpdl.setModified(false);
 
                List pkgsToInsert = new ArrayList();
                pkgsToInsert.add(realPkg);
                setChanged();
-               notifyObservers(createInfo(realPkg,
-                                          new ArrayList(pkgsToInsert),
-                                          XMLElementChangeInfo.INSERTED));
+               notifyObservers(createInfo(realPkg, new ArrayList(pkgsToInsert), XMLElementChangeInfo.INSERTED));
 
                return true;
             }
@@ -1376,15 +1234,12 @@ public class JaWEController extends Observable implements
          getSelectionManager().setSelection(getMainPackage(), true);
       } catch (Exception ex) {
          ex.printStackTrace();
-         message(settings.getLanguageDependentString("ErrorCannotRemoveTransientPackage"),
-                 JOptionPane.INFORMATION_MESSAGE);
+         message(settings.getLanguageDependentString("ErrorCannotRemoveTransientPackage"), JOptionPane.INFORMATION_MESSAGE);
       }
       // xpdlh.printDebug();
    }
 
-   protected boolean checkInsertion(XPDLHandler xpdlhmain,
-                                    XPDLHandler xpdlh,
-                                    String mainPkgId) {
+   protected boolean checkInsertion(XPDLHandler xpdlhmain, XPDLHandler xpdlh, String mainPkgId) {
       boolean canInsert = true;
       Collection allPackages = xpdlh.getAllPackages();
       Iterator it = allPackages.iterator();
@@ -1418,13 +1273,9 @@ public class JaWEController extends Observable implements
       if (xpdlId == null && mainPackage != null) {
          xpdlId = mainPackage.getId();
       }
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> closing package " + xpdlId);
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> closing package " + xpdlId);
       if (mainPackage != null && mainPackage.getId().equals(xpdlId)) {
-         String filePath = JaWEManager.getInstance()
-            .getXPDLHandler()
-            .getAbsoluteFilePath(mainPackage);
+         String filePath = JaWEManager.getInstance().getXPDLHandler().getAbsoluteFilePath(mainPackage);
          List allPackages = new ArrayList(xpdlhandler.getAllPackages());
          List notToClose = new ArrayList();
          for (int i = 0; i < allPackages.size(); i++) {
@@ -1437,16 +1288,12 @@ public class JaWEController extends Observable implements
          }
          allPackages.removeAll(notToClose);
          setChanged();
-         XPDLElementChangeInfo info = createInfo(mainPackage,
-                                                 allPackages,
-                                                 XMLElementChangeInfo.REMOVED);
+         XPDLElementChangeInfo info = createInfo(mainPackage, allPackages, XMLElementChangeInfo.REMOVED);
          info.setOldValue(filePath);
          notifyObservers(info);
          clearXPDLListenerObservables(closeTransient);
       }
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .info("JaWEController -> package " + xpdlId + " closed");
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> package " + xpdlId + " closed");
       // xpdlhandler.printDebug();
       updateTitle();
       if (getJaWEFrame() != null) {
@@ -1484,9 +1331,7 @@ public class JaWEController extends Observable implements
          // change ExternalPackage's relative paths
          boolean isNewFile = !filename.equals(oldFilename);
          if (oldFilename != null && isNewFile) {
-            boolean crossRefs = JaWEManager.getInstance()
-               .getXPDLUtils()
-               .doesCrossreferenceExist(pkg);
+            boolean crossRefs = JaWEManager.getInstance().getXPDLUtils().doesCrossreferenceExist(pkg);
             int r = JOptionPane.YES_OPTION;
             if (crossRefs) {
                r = JOptionPane.showConfirmDialog(getJaWEFrame(),
@@ -1546,10 +1391,7 @@ public class JaWEController extends Observable implements
          }
 
          // Here we get all document elements set
-         JaWEManager.getInstance()
-            .getXPDLHandler()
-            .getXPDLRepositoryHandler()
-            .toXML(document, pkg);
+         JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().toXML(document, pkg);
 
          // Use a Transformer for output
          TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -1592,12 +1434,10 @@ public class JaWEController extends Observable implements
          // } catch (Exception ex) {}
       } catch (NonWritableChannelException nwcex) {
          nwcex.printStackTrace();
-         message(settings.getLanguageDependentString("ErrorCannotSaveReadOnlyFile"),
-                 JOptionPane.ERROR_MESSAGE);
+         message(settings.getLanguageDependentString("ErrorCannotSaveReadOnlyFile"), JOptionPane.ERROR_MESSAGE);
       } catch (Exception ex) {
          ex.printStackTrace();
-         message(settings.getLanguageDependentString("ErrorCannotSaveDocument"),
-                 JOptionPane.ERROR_MESSAGE);
+         message(settings.getLanguageDependentString("ErrorCannotSaveDocument"), JOptionPane.ERROR_MESSAGE);
          // ex.printStackTrace();
       } finally {
          if (os != null) {
@@ -1618,7 +1458,7 @@ public class JaWEController extends Observable implements
     * Method for closing document. Returns true if the user really wants to close. Gives
     * chance to save work.
     */
-   public boolean tryToClosePackage(String xpdlId, boolean closeTransient) {
+   public boolean tryToClosePackage(String xpdlId, boolean closeTransient, boolean allowCancel) {
       if (xpdlId == null)
          xpdlId = getMainPackageId();
       if (xpdlId == null)
@@ -1630,14 +1470,12 @@ public class JaWEController extends Observable implements
          r = JOptionPane.showConfirmDialog(getJaWEFrame(),
                                            settings.getLanguageDependentString("DialogSaveChanges"),
                                            getAppTitle(),
-                                           JOptionPane.YES_NO_CANCEL_OPTION);
+                                           allowCancel ? JOptionPane.YES_NO_CANCEL_OPTION : JOptionPane.YES_NO_OPTION);
       }
       if (r == JOptionPane.YES_OPTION) {
-         String dialogTitle = settings.getLanguageDependentString("Save"
-                                                                  + BarFactory.LABEL_POSTFIX);
+         String dialogTitle = settings.getLanguageDependentString("Save" + BarFactory.LABEL_POSTFIX);
          if (filename == null) {
-            dialogTitle = settings.getLanguageDependentString("SaveAs"
-                                                              + BarFactory.LABEL_POSTFIX);
+            dialogTitle = settings.getLanguageDependentString("SaveAs" + BarFactory.LABEL_POSTFIX);
          }
 
          if (filename == null) {
@@ -1657,9 +1495,7 @@ public class JaWEController extends Observable implements
       return true;
    }
 
-   protected XPDLListenerAndObservable createNewXPDLListenerObservable(Package pkg,
-                                                                       boolean receiveEvents,
-                                                                       boolean modified) {
+   protected XPDLListenerAndObservable createNewXPDLListenerObservable(Package pkg, boolean receiveEvents, boolean modified) {
       XPDLListenerAndObservable xpdl = new XPDLListenerAndObservable(pkg, receiveEvents);
       xpdl.setModified(modified);
       xpdlListenerObservables.add(xpdl);
@@ -1705,16 +1541,14 @@ public class JaWEController extends Observable implements
          ExternalPackage ep = (ExternalPackage) eps.next();
          String oldRelativePath = ep.getHref();
          try {
-            Package extP = xpdlhandler.getExternalPackageByRelativeFilePath(oldRelativePath,
-                                                                            pkg);
+            Package extP = xpdlhandler.getExternalPackageByRelativeFilePath(oldRelativePath, pkg);
             String oldFullPath = xpdlhandler.getAbsoluteFilePath(extP);
             String relativePath = Path.getRelativePath(new Path(oldFullPath), newPath);
             // System.out.println("RP="+relativePath);
             ep.setHref(XMLUtil.replaceBackslashesWithSlashes(relativePath));
          } catch (Exception ex) {
             System.err.println("Failed to update old external package's relative path "
-                               + oldRelativePath + " for main package " + pkg.getId()
-                               + " with a new filename " + newFilename);
+                               + oldRelativePath + " for main package " + pkg.getId() + " with a new filename " + newFilename);
             // ex.printStackTrace();
          }
       }
@@ -1744,27 +1578,20 @@ public class JaWEController extends Observable implements
          return false;
       }
       if (col instanceof TransitionRestrictions
-          || col instanceof TransitionRefs || col instanceof ExternalPackages
-          || col instanceof Pools || col instanceof Lanes || col instanceof NestedLanes
-          || col instanceof Performers || col instanceof NodeGraphicsInfos
-          || col instanceof ConnectorGraphicsInfos || col instanceof Artifacts
+          || col instanceof TransitionRefs || col instanceof ExternalPackages || col instanceof Pools || col instanceof Lanes || col instanceof NestedLanes
+          || col instanceof Performers || col instanceof NodeGraphicsInfos || col instanceof ConnectorGraphicsInfos || col instanceof Artifacts
           || col instanceof Associations) {
          return false;
       }
 
       if (col instanceof Responsibles) {
-         Map m = JaWEManager.getInstance()
-            .getXPDLUtils()
-            .getPossibleResponsibles((Responsibles) col, null);
+         Map m = JaWEManager.getInstance().getXPDLUtils().getPossibleResponsibles((Responsibles) col, null);
          if (m.size() == 0) {
             return false;
          }
       }
 
-      Iterator comps = JaWEManager.getInstance()
-         .getComponentManager()
-         .getComponents()
-         .iterator();
+      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
       while (comps.hasNext()) {
          JaWEComponent jc = (JaWEComponent) comps.next();
          if (jc != this) {
@@ -1782,25 +1609,17 @@ public class JaWEController extends Observable implements
          return false;
       }
       if (col instanceof TransitionRestrictions
-          || col instanceof TransitionRefs || col instanceof ExternalPackages
-          || col instanceof Pools || col instanceof Lanes || col instanceof NestedLanes
-          || col instanceof Performers || col instanceof NodeGraphicsInfos
-          || col instanceof ConnectorGraphicsInfos || col instanceof Artifacts
+          || col instanceof TransitionRefs || col instanceof ExternalPackages || col instanceof Pools || col instanceof Lanes || col instanceof NestedLanes
+          || col instanceof Performers || col instanceof NodeGraphicsInfos || col instanceof ConnectorGraphicsInfos || col instanceof Artifacts
           || col instanceof Associations) {
          return false;
-      } else if (col instanceof ExtendedAttributes
-                 && col.getParent() instanceof ExternalPackage) {
-         if (el != null
-             && ((ExtendedAttribute) el).getName()
-                .equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
+      } else if (col instanceof ExtendedAttributes && col.getParent() instanceof ExternalPackage) {
+         if (el != null && ((ExtendedAttribute) el).getName().equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
             return false;
          }
       }
 
-      Iterator comps = JaWEManager.getInstance()
-         .getComponentManager()
-         .getComponents()
-         .iterator();
+      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
       while (comps.hasNext()) {
          JaWEComponent jc = (JaWEComponent) comps.next();
          if (jc != this) {
@@ -1818,16 +1637,14 @@ public class JaWEController extends Observable implements
          return false;
       }
       if (XMLUtil.getParentElement(TransitionRef.class, el) != null
-          || XMLUtil.getParentElement(NestedLane.class, el) != null
-          || XMLUtil.getParentElement(NodeGraphicsInfo.class, el) != null
+          || XMLUtil.getParentElement(NestedLane.class, el) != null || XMLUtil.getParentElement(NodeGraphicsInfo.class, el) != null
           || XMLUtil.getParentElement(ConnectorGraphicsInfo.class, el) != null) {
          return false;
       } else if (XMLUtil.getParentElement(ExternalPackage.class, el) != null) {
          if (el.toName().equals("href")) {
             return false;
          }
-         ExtendedAttribute ea = (ExtendedAttribute) XMLUtil.getParentElement(ExtendedAttribute.class,
-                                                                             el);
+         ExtendedAttribute ea = (ExtendedAttribute) XMLUtil.getParentElement(ExtendedAttribute.class, el);
          if (ea != null) {
             if (ea.getName().equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
                return false;
@@ -1838,8 +1655,7 @@ public class JaWEController extends Observable implements
             return false;
          }
       }
-      if ((el.getParent() instanceof Split || el.getParent() instanceof Join)
-          && el.toName().equals("Type")) {
+      if ((el.getParent() instanceof Split || el.getParent() instanceof Join) && el.toName().equals("Type")) {
          // if (el.getParent() instanceof Split) {
          // Set ogt = XMLUtil.getOutgoingTransitions(XMLUtil.getActivity(el));
          // if (ogt.size() <= 1) {
@@ -1854,10 +1670,7 @@ public class JaWEController extends Observable implements
          return false;
       }
 
-      Iterator comps = JaWEManager.getInstance()
-         .getComponentManager()
-         .getComponents()
-         .iterator();
+      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
       while (comps.hasNext()) {
          JaWEComponent jc = (JaWEComponent) comps.next();
          if (jc != this) {
@@ -1875,10 +1688,8 @@ public class JaWEController extends Observable implements
          return false;
       }
       if (col instanceof TransitionRestrictions
-          || col instanceof TransitionRefs || col instanceof Pools
-          || col instanceof Lanes || col instanceof NestedLanes
-          || col instanceof Performers || col instanceof NodeGraphicsInfos
-          || col instanceof ConnectorGraphicsInfos) {
+          || col instanceof TransitionRefs || col instanceof Pools || col instanceof Lanes || col instanceof NestedLanes || col instanceof Performers
+          || col instanceof NodeGraphicsInfos || col instanceof ConnectorGraphicsInfos) {
          return false;
       } else if (col instanceof ExternalPackages) {
          if (el != null) {
@@ -1889,19 +1700,13 @@ public class JaWEController extends Observable implements
                return false;
             }
          }
-      } else if (col instanceof ExtendedAttributes
-                 && col.getParent() instanceof ExternalPackage) {
-         if (el != null
-             && ((ExtendedAttribute) el).getName()
-                .equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
+      } else if (col instanceof ExtendedAttributes && col.getParent() instanceof ExternalPackage) {
+         if (el != null && ((ExtendedAttribute) el).getName().equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
             return false;
          }
       }
 
-      Iterator comps = JaWEManager.getInstance()
-         .getComponentManager()
-         .getComponents()
-         .iterator();
+      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
       while (comps.hasNext()) {
          JaWEComponent jc = (JaWEComponent) comps.next();
          if (jc != this) {
@@ -1914,33 +1719,22 @@ public class JaWEController extends Observable implements
       return true;
    }
 
-   public boolean canDuplicateElement(XMLCollection col,
-                                      XMLElement el,
-                                      boolean checkReadOnly) {
+   public boolean canDuplicateElement(XMLCollection col, XMLElement el, boolean checkReadOnly) {
       if (checkReadOnly && col.isReadOnly()) {
          return false;
       }
       if (el instanceof TransitionRestriction
-          || el instanceof TransitionRef || el instanceof Member
-          || el instanceof EnumerationValue || el instanceof ExternalPackage
-          || el instanceof Responsible || el instanceof Transition || el instanceof Lane
-          || el instanceof Pool || col instanceof NestedLanes
-          || col instanceof Performers || col instanceof NodeGraphicsInfos
-          || col instanceof ConnectorGraphicsInfos) {
+          || el instanceof TransitionRef || el instanceof Member || el instanceof EnumerationValue || el instanceof ExternalPackage
+          || el instanceof Responsible || el instanceof Transition || el instanceof Lane || el instanceof Pool || col instanceof NestedLanes
+          || col instanceof Performers || col instanceof NodeGraphicsInfos || col instanceof ConnectorGraphicsInfos) {
          return false;
-      } else if (col instanceof ExtendedAttributes
-                 && col.getParent() instanceof ExternalPackage) {
-         if (el != null
-             && ((ExtendedAttribute) el).getName()
-                .equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
+      } else if (col instanceof ExtendedAttributes && col.getParent() instanceof ExternalPackage) {
+         if (el != null && ((ExtendedAttribute) el).getName().equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
             return false;
          }
       }
 
-      Iterator comps = JaWEManager.getInstance()
-         .getComponentManager()
-         .getComponents()
-         .iterator();
+      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
       while (comps.hasNext()) {
          JaWEComponent jc = (JaWEComponent) comps.next();
          if (jc != this) {
@@ -1953,24 +1747,16 @@ public class JaWEController extends Observable implements
       return true;
    }
 
-   public boolean canRepositionElement(XMLCollection col,
-                                       XMLElement el,
-                                       boolean checkReadOnly) {
+   public boolean canRepositionElement(XMLCollection col, XMLElement el, boolean checkReadOnly) {
       if (checkReadOnly && col.isReadOnly()) {
          return false;
-      } else if (col instanceof ExtendedAttributes
-                 && col.getParent() instanceof ExternalPackage) {
-         if (el != null
-             && ((ExtendedAttribute) el).getName()
-                .equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
+      } else if (col instanceof ExtendedAttributes && col.getParent() instanceof ExternalPackage) {
+         if (el != null && ((ExtendedAttribute) el).getName().equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID)) {
             return false;
          }
       }
 
-      Iterator comps = JaWEManager.getInstance()
-         .getComponentManager()
-         .getComponents()
-         .iterator();
+      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
       while (comps.hasNext()) {
          JaWEComponent jc = (JaWEComponent) comps.next();
          if (jc != this) {
@@ -1992,8 +1778,7 @@ public class JaWEController extends Observable implements
       // "+undoSelectionEvent.getChangedSubElements().size()+",
       // sel="+undoSelectionEvent.getChangedSubElements()+",
       // main="+undoSelectionEvent.getChangedElement());
-      XPDLElementChangeInfo ucInfo = createInfo(mainPkg,
-                                                XPDLElementChangeInfo.UNDOABLE_ACTION_STARTED);
+      XPDLElementChangeInfo ucInfo = createInfo(mainPkg, XPDLElementChangeInfo.UNDOABLE_ACTION_STARTED);
       ucInfo.setChangedSubElements(xpdlInfoList);
       setChanged();
       notifyObservers(ucInfo);
@@ -2009,8 +1794,7 @@ public class JaWEController extends Observable implements
          handleEvent(info);
       }
 
-      XPDLElementChangeInfo ucInfo = createInfo(mainPkg,
-                                                XPDLElementChangeInfo.ADJUST_UNDOABLE_ACTION);
+      XPDLElementChangeInfo ucInfo = createInfo(mainPkg, XPDLElementChangeInfo.ADJUST_UNDOABLE_ACTION);
       ucInfo.setChangedSubElements(xpdlInfoList);
       setChanged();
       notifyObservers(ucInfo);
@@ -2039,9 +1823,7 @@ public class JaWEController extends Observable implements
          undoHistoryManager.registerEvents(xpdlInfoList, undoSelectionEvent);
       }
       getSettings().adjustActions();
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("All events after undoable change:\n" + xpdlInfoList);
+      JaWEManager.getInstance().getLoggingManager().debug("All events after undoable change:\n" + xpdlInfoList);
       xpdlInfoList.clear();
       undoableChangeInProgress = false;
 
@@ -2067,9 +1849,7 @@ public class JaWEController extends Observable implements
    public void handleEvent(XPDLElementChangeInfo info) {
       XMLElement changedElement = info.getChangedElement();
 
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("INFO: handleEvenet(): " + info);
+      JaWEManager.getInstance().getLoggingManager().debug("INFO: handleEvenet(): " + info);
 
       int action = info.getAction();
 
@@ -2080,12 +1860,8 @@ public class JaWEController extends Observable implements
             if (action == XMLElementChangeInfo.REMOVED) {
                if (info.getChangedSubElements() != null) {
                   updateSpecialInProgress = true;
-                  JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .removeArtifactAndAssociationsForProcessesOrActivitySets(info.getChangedSubElements());
-                  JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .removePoolsForProcesses(info.getChangedSubElements());
+                  JaWEManager.getInstance().getXPDLUtils().removeArtifactAndAssociationsForProcessesOrActivitySets(info.getChangedSubElements());
+                  JaWEManager.getInstance().getXPDLUtils().removePoolsForProcesses(info.getChangedSubElements());
                   selectionMng.removeFromSelection(info.getChangedSubElements());
                   updateSpecialInProgress = false;
                   Iterator it = info.getChangedSubElements().iterator();
@@ -2103,12 +1879,8 @@ public class JaWEController extends Observable implements
             if (action == XMLElementChangeInfo.REMOVED) {
                if (info.getChangedSubElements() != null) {
                   updateSpecialInProgress = true;
-                  JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .removeArtifactAndAssociationsForProcessesOrActivitySets(info.getChangedSubElements());
-                  JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .removePoolsForActivitySets(info.getChangedSubElements());
+                  JaWEManager.getInstance().getXPDLUtils().removeArtifactAndAssociationsForProcessesOrActivitySets(info.getChangedSubElements());
+                  JaWEManager.getInstance().getXPDLUtils().removePoolsForActivitySets(info.getChangedSubElements());
                   selectionMng.removeFromSelection(info.getChangedSubElements());
                   updateSpecialInProgress = false;
                   Iterator it = info.getChangedSubElements().iterator();
@@ -2125,17 +1897,12 @@ public class JaWEController extends Observable implements
          }
       }
 
-      if (action == XMLElementChangeInfo.INSERTED
-          && (changedElement instanceof WorkflowProcesses || changedElement instanceof ActivitySets)) {
+      if (action == XMLElementChangeInfo.INSERTED && (changedElement instanceof WorkflowProcesses || changedElement instanceof ActivitySets)) {
          updateSpecialInProgress = true;
          if (changedElement instanceof WorkflowProcesses) {
-            JaWEManager.getInstance()
-               .getXPDLUtils()
-               .createPoolsForProcesses(info.getChangedSubElements());
+            JaWEManager.getInstance().getXPDLUtils().createPoolsForProcesses(info.getChangedSubElements());
          } else {
-            JaWEManager.getInstance()
-               .getXPDLUtils()
-               .createPoolsForActivitySets(info.getChangedSubElements());
+            JaWEManager.getInstance().getXPDLUtils().createPoolsForActivitySets(info.getChangedSubElements());
          }
          selectionMng.removeFromSelection(info.getChangedSubElements());
          updateSpecialInProgress = false;
@@ -2147,35 +1914,24 @@ public class JaWEController extends Observable implements
       updateTitle();
       adjustActions();
 
-      if (action == XMLElementChangeInfo.REMOVED
-          || action == XMLElementChangeInfo.INSERTED) {
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .info("JaWEController -> performing appropriate actions on inserting/removing");
+      if (action == XMLElementChangeInfo.REMOVED || action == XMLElementChangeInfo.INSERTED) {
+         JaWEManager.getInstance().getLoggingManager().info("JaWEController -> performing appropriate actions on inserting/removing");
          if (changedElement instanceof Lanes && action == XMLElementChangeInfo.REMOVED) {
             updateSpecialInProgress = true;
-            JaWEManager.getInstance()
-               .getXPDLUtils()
-               .removeNestedLanesForLanes(info.getChangedSubElements());
+            JaWEManager.getInstance().getXPDLUtils().removeNestedLanesForLanes(info.getChangedSubElements());
             selectionMng.removeFromSelection(info.getChangedSubElements());
             updateSpecialInProgress = false;
 
-         } else if (changedElement instanceof Activities
-                    && action == XMLElementChangeInfo.REMOVED) {
+         } else if (changedElement instanceof Activities && action == XMLElementChangeInfo.REMOVED) {
             // for removing connected Transitions
             updateSpecialInProgress = true;
-            JaWEManager.getInstance()
-               .getXPDLUtils()
-               .removeTransitionsAndAssociationsForActivities(info.getChangedSubElements());
+            JaWEManager.getInstance().getXPDLUtils().removeTransitionsAndAssociationsForActivities(info.getChangedSubElements());
             selectionMng.removeFromSelection(info.getChangedSubElements());
             updateSpecialInProgress = false;
-         } else if (changedElement instanceof Artifacts
-                    && action == XMLElementChangeInfo.REMOVED) {
+         } else if (changedElement instanceof Artifacts && action == XMLElementChangeInfo.REMOVED) {
             // for removing connected Transitions
             updateSpecialInProgress = true;
-            JaWEManager.getInstance()
-               .getXPDLUtils()
-               .removeAssociationsForArtifacts(info.getChangedSubElements());
+            JaWEManager.getInstance().getXPDLUtils().removeAssociationsForArtifacts(info.getChangedSubElements());
             selectionMng.removeFromSelection(info.getChangedSubElements());
             updateSpecialInProgress = false;
          } else if (changedElement instanceof Transitions) {
@@ -2183,16 +1939,12 @@ public class JaWEController extends Observable implements
             Activities acts = (Activities) ((XMLCollectionElement) changedElement.getParent()).get("Activities");
 
             updateSpecialInProgress = true;
-            JaWEManager.getInstance()
-               .getXPDLUtils()
-               .correctSplitsAndJoins(acts.toElements());
+            JaWEManager.getInstance().getXPDLUtils().correctSplitsAndJoins(acts.toElements());
             updateSpecialInProgress = false;
             if (action == XMLElementChangeInfo.REMOVED)
                selectionMng.removeFromSelection(info.getChangedSubElements());
          }
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .info("JaWEController -> finished performing appropriate actions on inserting/removing");
+         JaWEManager.getInstance().getLoggingManager().info("JaWEController -> finished performing appropriate actions on inserting/removing");
       } else if (action == XMLElementChangeInfo.UPDATED) {
          XMLElement parent = changedElement.getParent();
          if (changedElement.toName().equals("Name")
@@ -2201,9 +1953,7 @@ public class JaWEController extends Observable implements
             if (parent instanceof Participant) {
                List prefs = JaWEManager.getInstance()
                   .getXPDLUtils()
-                  .getParticipantReferences((XMLComplexElement) parent.getParent()
-                                               .getParent(),
-                                            ((Participant) parent).getId());
+                  .getParticipantReferences((XMLComplexElement) parent.getParent().getParent(), ((Participant) parent).getId());
                Iterator it = prefs.iterator();
                while (it.hasNext()) {
                   XMLElement pOrR = (XMLElement) it.next();
@@ -2215,8 +1965,7 @@ public class JaWEController extends Observable implements
             } else if (parent instanceof WorkflowProcess) {
                List wrefs = JaWEManager.getInstance()
                   .getXPDLUtils()
-                  .getWorkflowProcessReferences((Package) parent.getParent().getParent(),
-                                                ((WorkflowProcess) parent).getId());
+                  .getWorkflowProcessReferences((Package) parent.getParent().getParent(), ((WorkflowProcess) parent).getId());
                Iterator it = wrefs.iterator();
                while (it.hasNext()) {
                   XMLElement pOrSub = (XMLElement) it.next();
@@ -2229,8 +1978,7 @@ public class JaWEController extends Observable implements
                   .getXPDLUtils()
                   .updateExtendedAttributeReferences(JaWEManager.getInstance()
                                                         .getXPDLUtils()
-                                                        .getExtendedAttributeReferences((XMLComplexElement) parent.getParent()
-                                                                                           .getParent(),
+                                                        .getExtendedAttributeReferences((XMLComplexElement) parent.getParent().getParent(),
                                                                                         (ExtendedAttribute) parent,
                                                                                         (String) info.getOldValue()),
                                                      (String) info.getOldValue(),
@@ -2239,31 +1987,19 @@ public class JaWEController extends Observable implements
             updateSpecialInProgress = false;
          }
          if ((changedElement.toName().equals("Id") && (parent instanceof WorkflowProcess
-                                                       || parent instanceof ActivitySet
-                                                       || parent instanceof Application
-                                                       || parent instanceof Artifact
-                                                       || parent instanceof Participant
-                                                       || parent instanceof DataField
-                                                       || parent instanceof FormalParameter
-                                                       || parent instanceof Activity
-                                                       || parent instanceof Transition
-                                                       || parent instanceof TypeDeclaration || parent instanceof Lane))
-             || ((changedElement.toName().equals("From") || changedElement.toName()
-                .equals("To")) && parent instanceof Transition)
+                                                       || parent instanceof ActivitySet || parent instanceof Application || parent instanceof Artifact
+                                                       || parent instanceof Participant || parent instanceof DataField || parent instanceof FormalParameter
+                                                       || parent instanceof Activity || parent instanceof Transition || parent instanceof TypeDeclaration || parent instanceof Lane))
+             || ((changedElement.toName().equals("From") || changedElement.toName().equals("To")) && parent instanceof Transition)
              || ((parent instanceof Split || parent instanceof Join) && changedElement instanceof XMLAttribute)) {
 
-            if (parent instanceof Activity
-                || parent instanceof Transition || parent instanceof Split
-                || parent instanceof Join) {
+            if (parent instanceof Activity || parent instanceof Transition || parent instanceof Split || parent instanceof Join) {
                XMLCollectionElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(parent);
                if (parent instanceof Activity) {
                   updateSpecialInProgress = true;
                   JaWEManager.getInstance()
                      .getXPDLUtils()
-                     .updateActivityReferences(JaWEManager.getInstance()
-                                                  .getXPDLUtils()
-                                                  .getActivityReferences(wpOrAs,
-                                                                         (String) info.getOldValue()),
+                     .updateActivityReferences(JaWEManager.getInstance().getXPDLUtils().getActivityReferences(wpOrAs, (String) info.getOldValue()),
                                                (String) info.getOldValue(),
                                                (String) info.getNewValue());
                   updateSpecialInProgress = false;
@@ -2308,8 +2044,7 @@ public class JaWEController extends Observable implements
                   .getXPDLUtils()
                   .updateArtifactReferences(JaWEManager.getInstance()
                                                .getXPDLUtils()
-                                               .getArtifactReferences(XMLUtil.getPackage(parent),
-                                                                      (String) info.getOldValue()),
+                                               .getArtifactReferences(XMLUtil.getPackage(parent), (String) info.getOldValue()),
                                             (String) info.getOldValue(),
                                             (String) info.getNewValue());
                updateSpecialInProgress = false;
@@ -2319,8 +2054,7 @@ public class JaWEController extends Observable implements
                   .getXPDLUtils()
                   .updateTypeDeclarationReferences(JaWEManager.getInstance()
                                                       .getXPDLUtils()
-                                                      .getTypeDeclarationReferences(XMLUtil.getPackage(parent),
-                                                                                    (String) info.getOldValue()),
+                                                      .getTypeDeclarationReferences(XMLUtil.getPackage(parent), (String) info.getOldValue()),
                                                    (String) info.getNewValue());
                updateSpecialInProgress = false;
             } else if (parent instanceof WorkflowProcess) {
@@ -2329,8 +2063,7 @@ public class JaWEController extends Observable implements
                   .getXPDLUtils()
                   .updateWorkflowProcessReferences(JaWEManager.getInstance()
                                                       .getXPDLUtils()
-                                                      .getWorkflowProcessReferences(XMLUtil.getPackage(parent),
-                                                                                    (String) info.getOldValue()),
+                                                      .getWorkflowProcessReferences(XMLUtil.getPackage(parent), (String) info.getOldValue()),
                                                    (String) info.getNewValue());
                updateSpecialInProgress = false;
             } else if (parent instanceof ActivitySet) {
@@ -2339,8 +2072,7 @@ public class JaWEController extends Observable implements
                   .getXPDLUtils()
                   .updateActivitySetReferences(JaWEManager.getInstance()
                                                   .getXPDLUtils()
-                                                  .getActivitySetReferences(XMLUtil.getWorkflowProcess(parent),
-                                                                            (String) info.getOldValue()),
+                                                  .getActivitySetReferences(XMLUtil.getWorkflowProcess(parent), (String) info.getOldValue()),
                                                (String) info.getNewValue());
                updateSpecialInProgress = false;
             } else if (parent instanceof Application) {
@@ -2349,9 +2081,7 @@ public class JaWEController extends Observable implements
                   .getXPDLUtils()
                   .updateApplicationReferences(JaWEManager.getInstance()
                                                   .getXPDLUtils()
-                                                  .getApplicationReferences((XMLComplexElement) parent.getParent()
-                                                                               .getParent(),
-                                                                            (String) info.getOldValue()),
+                                                  .getApplicationReferences((XMLComplexElement) parent.getParent().getParent(), (String) info.getOldValue()),
                                                (String) info.getNewValue());
                updateSpecialInProgress = false;
             } else if (parent instanceof Participant) {
@@ -2360,64 +2090,39 @@ public class JaWEController extends Observable implements
                   .getXPDLUtils()
                   .updateParticipantReferences(JaWEManager.getInstance()
                                                   .getXPDLUtils()
-                                                  .getParticipantReferences((XMLComplexElement) parent.getParent()
-                                                                               .getParent(),
-                                                                            (String) info.getOldValue()),
+                                                  .getParticipantReferences((XMLComplexElement) parent.getParent().getParent(), (String) info.getOldValue()),
                                                (String) info.getNewValue());
                updateSpecialInProgress = false;
-            } else if (parent instanceof DataField
-                       || (parent instanceof FormalParameter && parent.getParent()
-                          .getParent() instanceof WorkflowProcess)) {
+            } else if (parent instanceof DataField || (parent instanceof FormalParameter && parent.getParent().getParent() instanceof WorkflowProcess)) {
                updateSpecialInProgress = true;
-               XMLComplexElement pkgOrWp = (XMLComplexElement) parent.getParent()
-                  .getParent();
+               XMLComplexElement pkgOrWp = (XMLComplexElement) parent.getParent().getParent();
                List refs = null;
                if (parent instanceof DataField) {
-                  refs = JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .getDataFieldReferences(pkgOrWp, (String) info.getOldValue());
+                  refs = JaWEManager.getInstance().getXPDLUtils().getDataFieldReferences(pkgOrWp, (String) info.getOldValue());
                } else {
-                  refs = JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .getFormalParameterReferences((WorkflowProcess) pkgOrWp,
-                                                   (String) info.getOldValue());
+                  refs = JaWEManager.getInstance().getXPDLUtils().getFormalParameterReferences((WorkflowProcess) pkgOrWp, (String) info.getOldValue());
                }
-               JaWEManager.getInstance()
-                  .getXPDLUtils()
-                  .updateVariableReferences(refs,
-                                            (String) info.getOldValue(),
-                                            (String) info.getNewValue());
+               JaWEManager.getInstance().getXPDLUtils().updateVariableReferences(refs, (String) info.getOldValue(), (String) info.getNewValue());
                updateSpecialInProgress = false;
             } else if (parent instanceof Lane) {
                updateSpecialInProgress = true;
                JaWEManager.getInstance()
                   .getXPDLUtils()
-                  .updateLaneReferences(JaWEManager.getInstance()
-                                           .getXPDLUtils()
-                                           .getLaneReferences(XMLUtil.getPackage(parent),
-                                                              (String) info.getOldValue()),
+                  .updateLaneReferences(JaWEManager.getInstance().getXPDLUtils().getLaneReferences(XMLUtil.getPackage(parent), (String) info.getOldValue()),
                                         (String) info.getNewValue());
                updateSpecialInProgress = false;
             }
          }
-         if (changedElement instanceof ActivityTypes
-             || changedElement instanceof ImplementationTypes
-             || changedElement instanceof TaskTypes) {
-            System.out.println("OV="
-                               + info.getOldValue() + ",NV=" + info.getNewValue()
-                               + ",CSUB=" + info.getChangedSubElements());
+         if (changedElement instanceof ActivityTypes || changedElement instanceof ImplementationTypes || changedElement instanceof TaskTypes) {
+            System.out.println("OV=" + info.getOldValue() + ",NV=" + info.getNewValue() + ",CSUB=" + info.getChangedSubElements());
             Activity act = XMLUtil.getActivity(changedElement);
             Performer perf = act.getFirstPerformerObj();
-            if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
-                || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+            if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
                if (perf == null) {
                   perf = act.createFirstPerformerObj();
                   String lId = JaWEManager.getInstance().getXPDLUtils().getLaneId(act);
                   if (lId != null) {
-                     Pool p = JaWEManager.getInstance()
-                        .getXPDLUtils()
-                        .getPoolForProcessOrActivitySet((XMLCollectionElement) act.getParent()
-                           .getParent());
+                     Pool p = JaWEManager.getInstance().getXPDLUtils().getPoolForProcessOrActivitySet((XMLCollectionElement) act.getParent().getParent());
                      if (p != null) {
                         Lane l = p.getLanes().getLane(lId);
                         if (l != null) {
@@ -2457,13 +2162,10 @@ public class JaWEController extends Observable implements
       if (val != null) {
          val.clearCache();
       }
-      if (JaWEManager.getInstance().getXPDLElementEditor() != null
-          && JaWEManager.getInstance().getXPDLElementEditor().getWindow() != null) {
+      if (JaWEManager.getInstance().getXPDLElementEditor() != null && JaWEManager.getInstance().getXPDLElementEditor().getWindow() != null) {
          JaWEManager.getInstance().getXPDLElementEditor().close();
       }
-      XPDLElementChangeInfo info = createInfo(null,
-                                              new ArrayList(),
-                                              XPDLElementChangeInfo.VALIDATION_ERRORS);
+      XPDLElementChangeInfo info = createInfo(null, new ArrayList(), XPDLElementChangeInfo.VALIDATION_ERRORS);
       info.setNewValue(new Boolean(false));
       sendEvent(info);
       info = createInfo(null, new ArrayList(), XPDLElementChangeInfo.REFERENCES);
@@ -2511,9 +2213,7 @@ public class JaWEController extends Observable implements
 
    public void sendEvent(XPDLElementChangeInfo info) {
       setChanged();
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("Controller sending event: " + info);
+      JaWEManager.getInstance().getLoggingManager().debug("Controller sending event: " + info);
       notifyObservers(info);
       updateTitle();
       adjustActions();
@@ -2531,9 +2231,7 @@ public class JaWEController extends Observable implements
             selectionOwner = selectionOwner.getParent();
          }
       }
-      XPDLElementChangeInfo selectionEvent = createInfo(selectionOwner,
-                                                        currentSelection,
-                                                        XPDLElementChangeInfo.SELECTED);
+      XPDLElementChangeInfo selectionEvent = createInfo(selectionOwner, currentSelection, XPDLElementChangeInfo.SELECTED);
       return selectionEvent;
    }
 
@@ -2555,29 +2253,22 @@ public class JaWEController extends Observable implements
             XMLElement el = (XMLElement) sel.get(i);
             if (el instanceof Activity) {
                if (!notToAsk.contains(el.toName())) {
-                  refs.addAll(JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .getReferences((Activity) el));
+                  refs.addAll(JaWEManager.getInstance().getXPDLUtils().getReferences((Activity) el));
                }
             } else if (el instanceof Transition) {
                if (!notToAsk.contains(el.toName())) {
-                  refs.addAll(JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .getReferences((Transition) el));
+                  refs.addAll(JaWEManager.getInstance().getXPDLUtils().getReferences((Transition) el));
                }
             } else if (el instanceof XMLComplexElement) {
                if (!notToAsk.contains(el.toName())) {
-                  refs.addAll(JaWEManager.getInstance()
-                     .getXPDLUtils()
-                     .getReferences(pkgOrWPOrEAsParent, (XMLComplexElement) el));
+                  refs.addAll(JaWEManager.getInstance().getXPDLUtils().getReferences(pkgOrWPOrEAsParent, (XMLComplexElement) el));
                }
             }
          }
       }
 
       int yn = JOptionPane.YES_OPTION;
-      if (getControllerSettings().shoudAskOnDeletion()
-          || getControllerSettings().shouldAskOnDeletionOfReferencedElements()) {
+      if (getControllerSettings().shoudAskOnDeletion() || getControllerSettings().shouldAskOnDeletionOfReferencedElements()) {
          if (refs.size() == 0) {
             if (getControllerSettings().shoudAskOnDeletion()) {
                yn = JOptionPane.showConfirmDialog(getJaWEFrame(),
@@ -2661,14 +2352,7 @@ public class JaWEController extends Observable implements
          pkgVer = getMainPackage().getRedefinableHeader().getVersion();
       }
 
-      String title = parseTitleString(titleString,
-                                      filename,
-                                      pkgId,
-                                      pkgName,
-                                      pkgVer,
-                                      appName,
-                                      appVer,
-                                      appConfig).trim();
+      String title = parseTitleString(titleString, filename, pkgId, pkgName, pkgVer, appName, appVer, appConfig).trim();
       while (title.startsWith("-")) {
          title = title.substring(1);
          title = title.trim();
@@ -2708,9 +2392,7 @@ public class JaWEController extends Observable implements
             ret = ret.replace("{pkgId}", strVal);
          }
          if (-1 != template.indexOf("{pkgName}")) {
-            String strVal = pkgName != null && !pkgName.equals("") ? pkgName
-                                                                  : (pkgId != null ? pkgId
-                                                                                  : "");
+            String strVal = pkgName != null && !pkgName.equals("") ? pkgName : (pkgId != null ? pkgId : "");
             ret = ret.replace("{pkgName}", strVal);
          }
          if (-1 != template.indexOf("{pkgVer}")) {
@@ -2726,10 +2408,7 @@ public class JaWEController extends Observable implements
             ret = ret.replace("{appVer}", strVal);
          }
          if (-1 != template.indexOf("{appConfig}")) {
-            String strVal = appConfig != null ? appConfig
-                                                + " "
-                                                + getSettings().getLanguageDependentString("ConfigurationKey")
-                                             : "";
+            String strVal = appConfig != null ? appConfig + " " + getSettings().getLanguageDependentString("ConfigurationKey") : "";
             ret = ret.replace("{appConfig}", strVal);
          }
       }
@@ -2843,8 +2522,7 @@ public class JaWEController extends Observable implements
             props.load(fis);
             return props.getProperty(JaWEConstants.JAWE_CONFIG_NAME, configFolder);
          } catch (Exception ex) {
-            throw new Error("Something went wrong while reading external component properties !!!",
-                            ex);
+            throw new Error("Something went wrong while reading external component properties !!!", ex);
          } finally {
             try {
                fis.close();
