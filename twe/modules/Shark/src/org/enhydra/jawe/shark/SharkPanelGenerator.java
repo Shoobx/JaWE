@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.swing.Box;
 import javax.swing.JCheckBox;
 
 import org.enhydra.jawe.JaWEConstants;
@@ -42,6 +43,7 @@ import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanelWithReferenceLink;
 import org.enhydra.jawe.base.panel.panels.XMLDataTypesPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
+import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
@@ -596,6 +598,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          .isReadOnly(), false, null);
       tgp.add(configWC);
 
+      List ealist = new ArrayList();
       List pplist = new ArrayList();
 
       XMLAttribute ampiattr = el.getAssignmentManagerPlugInAttribute();
@@ -610,23 +613,23 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          pplist.add(uschmpnl);
       }
       XMLPanel upcopnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseProcessContextOnlyAttribute(), null, false, enableEditing, false, null);
-      pplist.add(upcopnl);
+      ealist.add(upcopnl);
       if (!el.isForActivity()) {
          XMLPanel auvpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAllowUndefinedVariablesAttribute(), null, false, enableEditing, false, null);
-         pplist.add(auvpnl);
+         ealist.add(auvpnl);
          XMLPanel tpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTransientAttribute(), null, false, enableEditing, false, null);
-         pplist.add(tpnl);
+         ealist.add(tpnl);
          XMLPanel dfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteFinishedAttribute(), null, false, enableEditing, false, null);
-         pplist.add(dfpnl);
+         ealist.add(dfpnl);
       }
       XMLPanel capnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateAssignmentsAttribute(), null, false, enableEditing, false, null);
-      pplist.add(capnl);
+      ealist.add(capnl);
       XMLPanel cdapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateDefaultAssignmentAttribute(), null, false, enableEditing, false, null);
-      pplist.add(cdapnl);
+      ealist.add(cdapnl);
       XMLPanel haapnl = new XMLCheckboxPanel(getPanelContainer(), el.getHandleAllAssignmentsAttribute(), null, false, enableEditing, false, null);
-      pplist.add(haapnl);
+      ealist.add(haapnl);
       XMLPanel asapnl = new XMLCheckboxPanel(getPanelContainer(), el.getAcceptSingleAssignmentAttribute(), null, false, enableEditing, false, null);
-      pplist.add(asapnl);
+      ealist.add(asapnl);
       XMLPanel rwutsupnl = new XMLCheckboxPanel(getPanelContainer(),
                                                 el.getReassignWithUnacceptanceToSingleUserAttribute(),
                                                 null,
@@ -634,10 +637,47 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 enableEditing,
                                                 false,
                                                 null);
-      pplist.add(rwutsupnl);
+      ealist.add(rwutsupnl);
       XMLPanel doapnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteOtherAssignmentsAttribute(), null, false, enableEditing, false, null);
-      pplist.add(doapnl);
+      ealist.add(doapnl);
 
+      if (!el.isForActivity()) {
+         XMLPanel epnpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessNameAsExpression(), null, false, enableEditing, false, null);
+         ealist.add(epnpnl);         
+         XMLPanel epdpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessDescriptionAsExpression(), null, false, enableEditing, false, null);
+         ealist.add(epdpnl);         
+         XMLPanel eplpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessLimitAsExpression(), null, false, enableEditing, false, null);
+         ealist.add(eplpnl);         
+         XMLPanel epppnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessPriorityAsExpression(), null, false, enableEditing, false, null);
+         ealist.add(epppnl);         
+      }
+      XMLPanel eanpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityNameAsExpression(), null, false, enableEditing, false, null);
+      ealist.add(eanpnl);         
+      XMLPanel eadpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityDescriptionAsExpression(), null, false, enableEditing, false, null);
+      ealist.add(eadpnl);         
+      XMLPanel ealpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityLimitAsExpression(), null, false, enableEditing, false, null);
+      ealist.add(ealpnl);         
+      XMLPanel eappnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityPriorityAsExpression(), null, false, enableEditing, false, null);
+      ealist.add(eappnl);         
+      
+      
+      for (int i = 0; i < ealist.size(); i += 2) {
+         List subpanels = new ArrayList();
+         subpanels.add(ealist.get(i));
+         subpanels.add(Box.createHorizontalGlue());
+         if ((i + 1) < ealist.size()) {
+            subpanels.add(ealist.get(i + 1));
+         }
+         pplist.add(new XMLGroupPanelGL(getPanelContainer(),
+                                        el,
+                                        subpanels,
+                                        "",
+                                        false,
+                                        false,
+                                        true,
+                                        null));
+      }
+      
       if (el.isForActivity()) {
          XMLPanel opcpnl = generateStandardTablePanel(el.getOverrideProcessContextElement(), true, true, true, true);
          pplist.add(opcpnl);
@@ -789,13 +829,13 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       ealist.add(dspnl);
       XMLPanel iaspnl = new XMLCheckboxPanel(getPanelContainer(), el.getIsActivityScopeOnlyAttribute(), null, false, enableEditing, false, null);
       ealist.add(iaspnl);
-
+      tgp.add(Box.createHorizontalGlue());
       tgp.add(new XMLGroupPanel(getPanelContainer(), el, ealist, "", true, true, true, null));
+      tgp.add(Box.createHorizontalGlue());
 
-      for (int i = 0; i < tgp.size(); i++) {
-         ltPanel.addToGroup(tgp.get(i));
-      }
-
+      XMLGroupPanel gpnl = new XMLGroupPanel(getPanelContainer(), el, tgp, "", false, false, true, null);
+      ltPanel.addToGroup(gpnl);
+      
       if (!el.isPersisted()) {
          getPanelContainer().panelChanged(ltPanel, null);
       }

@@ -77,9 +77,50 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                   false,
                                                   removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS, null, null, false, removeUnconditionally);
+         if (!isForAct) {
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this,
+                                                     eas,
+                                                     SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS,
+                                                     null,
+                                                     null,
+                                                     false,
+                                                     removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this,
+                                                     eas,
+                                                     SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS,
+                                                     null,
+                                                     null,
+                                                     false,
+                                                     removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this,
+                                                     eas,
+                                                     SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS,
+                                                     null,
+                                                     null,
+                                                     false,
+                                                     removeUnconditionally);
+         }
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY,
+                                                  null,
+                                                  null,
+                                                  false,
+                                                  removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY,
+                                                  null,
+                                                  null,
+                                                  false,
+                                                  removeUnconditionally);
          if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, null, null, true, removeUnconditionally);
          }
+
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES, null, null, false, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
@@ -229,6 +270,38 @@ public class WfConfigurationElement extends XMLComplexElement {
       return (WfNameValues) get(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT);
    }
 
+   public XMLAttribute getEvaluateProcessNameAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS);
+   }
+
+   public XMLAttribute getEvaluateProcessDescriptionAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS);
+   }
+
+   public XMLAttribute getEvaluateProcessLimitAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS);
+   }
+
+   public XMLAttribute getEvaluateProcessPriorityAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS);
+   }
+
+   public XMLAttribute getEvaluateActivityNameAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY);
+   }
+
+   public XMLAttribute getEvaluateActivityDescriptionAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY);
+   }
+
+   public XMLAttribute getEvaluateActivityLimitAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY);
+   }
+
+   public XMLAttribute getEvaluateActivityPriorityAsExpression() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY);
+   }
+
    protected void fillStructure() {
       XMLAttribute attrConfigure = new XMLAttribute(this, "ConfigureWorkflowEngine", false, new String[] {
             "true", "false"
@@ -321,6 +394,31 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                                "OverrideExpression",
                                                                false);
 
+      XMLAttribute attrEvaluateProcessName = new XMLAttribute(this, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, false, new String[] {
+            "true", "false"
+      }, 1);
+      XMLAttribute attrEvaluateProcessDescription = new XMLAttribute(this, SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS, false, new String[] {
+            "true", "false"
+      }, 1);
+      XMLAttribute attrEvaluateProcessLimit = new XMLAttribute(this, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false, new String[] {
+            "true", "false"
+      }, 1);
+      XMLAttribute attrEvaluateProcessPriority = new XMLAttribute(this, SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, false, new String[] {
+            "true", "false"
+      }, 1);
+      XMLAttribute attrEvaluateActivityName = new XMLAttribute(this, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY, false, new String[] {
+            "true", "false"
+      }, 1);
+      XMLAttribute attrEvaluateActivityDescription = new XMLAttribute(this, SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY, false, new String[] {
+            "true", "false"
+      }, 1);
+      XMLAttribute attrEvaluateActivityLimit = new XMLAttribute(this, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY, false, new String[] {
+            "true", "false"
+      }, 1);
+      XMLAttribute attrEvaluateActivityPriority = new XMLAttribute(this, SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY, false, new String[] {
+            "true", "false"
+      }, 1);
+
       add(attrConfigure);
       add(attrUnsatisfiedSplitConditionHandlingMode);
       add(attrAllowUndefinedVariables);
@@ -345,6 +443,14 @@ public class WfConfigurationElement extends XMLComplexElement {
       add(attrAssignToPerformerOfActivity);
       add(attrDoNotAssignToPerformerOfActivity);
       add(elOverrideProcessContext);
+      add(attrEvaluateProcessName);
+      add(attrEvaluateProcessDescription);
+      add(attrEvaluateProcessLimit);
+      add(attrEvaluateProcessPriority);
+      add(attrEvaluateActivityName);
+      add(attrEvaluateActivityDescription);
+      add(attrEvaluateActivityLimit);
+      add(attrEvaluateActivityPriority);
    }
 
    protected void handleStructure() {
@@ -373,8 +479,15 @@ public class WfConfigurationElement extends XMLComplexElement {
                    || eaname.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES)
                    || eaname.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING)
                    || (eaname.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL)
-                       || eaname.equals(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES) || eaname.equals(SharkConstants.EA_TRANSIENT) || eaname.equals(SharkConstants.EA_DELETE_FINISHED)
-                                                                                                                                      && !(parent instanceof Activity))
+                       || eaname.equals(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES) || eaname.equals(SharkConstants.EA_TRANSIENT)
+                       || eaname.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY)
+                       || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY)
+                       || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY)
+                       || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY) || (eaname.equals(SharkConstants.EA_DELETE_FINISHED)
+                                                                                                        || eaname.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS)
+                                                                                                        || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS)
+                                                                                                        || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS) || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS))
+                                                                                                       && !(parent instanceof Activity))
                    || (eaname.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER) && (parent instanceof Activity))) {
                   pc++;
                }
@@ -384,7 +497,7 @@ public class WfConfigurationElement extends XMLComplexElement {
          }
       }
       getConfigureAttribute().setValue(String.valueOf(hasAny));
-      int toCompNo = (isForAct ? 10 : 13);
+      int toCompNo = (isForAct ? 14 : 21);
       isPersisted = pc >= toCompNo;
    }
 

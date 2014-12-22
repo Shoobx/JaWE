@@ -36,7 +36,8 @@
 
     <authorgroup>
       <author>
-        <personname><firstname>Together Teamsolutions Co., Ltd. in Thailand.</firstname></personname>
+        <personname><firstname>Together Teamsolutions Co., Ltd. in
+        Thailand.</firstname></personname>
       </author>
     </authorgroup>
 
@@ -10719,7 +10720,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           and when checked allows you to edit their values in user-friendly
           way.</para>
 
-          <para> See <xref linkend="packagewebclientconfig"/> for
+          <para>See <xref linkend="packagewebclientconfig"/> for
           explanations.</para>
 
           <para>The description for the meaning of extended attributes for
@@ -11422,8 +11423,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Shark mode:</para>
 
-          <para>- support for new extended attribute
-          "IS_ACTIVITY_SCOPE_ONLY"</para>
+          <para>- support for many new shark related extended
+          attributes</para>
 
           <para>- category variable is now represented as Package/Workflow
           process attribute</para>
@@ -11532,6 +11533,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
         <listitem>
           <para>Improvement regarding silent uninstallation</para>
+        </listitem>
+
+        <listitem>
+          <para>Improvement: supporting Windows XP (patch by
+          Vjecheslav)</para>
         </listitem>
       </itemizedlist>
     </section>
@@ -13874,6 +13880,7 @@ free software license, such as the GNU General Public License,
 to permit their use in free software.
 </programlisting></para>
   </appendix>
+
   <colophon>
     <para>Together Teamsolutions Co., Ltd.</para>
   </colophon>
