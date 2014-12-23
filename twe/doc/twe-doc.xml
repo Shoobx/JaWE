@@ -9896,7 +9896,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           </mediaobject>
         </figure>
 
-        <para>There are 19 extended attributes in this section. The first
+        <para>There are 27 extended attributes in this section. The first
         (top-left) check-box <emphasis>Configure workflow engine?</emphasis>
         when un-checked removes all of them, and when checked allows you to
         edit their values in user-friendly way.</para>
@@ -10690,46 +10690,110 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
           <title>Web client configuration section</title>
 
           <para>This section is slightly different than the ones for
-          Package/Workflow Process. First, there is a part for defining
-          <emphasis>Variables</emphasis> that will be shown in activity
-          details form and then there are some attributes are not there and
-          there are some new attributes. The attributes defined here logically
-          override the same ones defined for Package/Workflow Process. In this
-          section, one can edit extended attributes used by shark's Web Client
-          application. In the picture below, left side shows extended
-          attributes in Default configuration, and right side shows how are
-          they represented in Shark configuration.</para>
+          Package/Workflow Process. It is separated into three sub-sections.
+          The first sub-section are for attributes which are affecting Web
+          client application behavior, the second sub-section is for defining
+          default activity GUI and third sub-section for defining custom
+          activity GUI.</para>
 
-          <figure>
-            <title>Web client configuration section</title>
+          <sect4>
+            <title>Behavior sub-section</title>
 
-            <mediaobject>
-              <imageobject>
-                <imagedata contentdepth="100%"
-                           fileref="Images/sharkmode-comparison-activity-webclient.png"
-                           scalefit="1" width="100%"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
+            <para>In this sub-section there are 6 extended attributes that
+            affect the behavior of shark's Web Client application. In the
+            picture below, left side shows extended attributes in Default
+            configuration, and right side shows how are they represented in
+            this section of Shark configuration.</para>
 
-          <para>Beside attributes for the variables, there are 9 other
-          extended attributes in this section. The first (top-left) check-box
-          bellow <emphasis>Variables</emphasis> section <emphasis>Configure
-          web client?</emphasis> when un-checked removes all of extended
-          attributes except the ones for the <emphasis>Variables</emphasis>,
-          and when checked allows you to edit their values in user-friendly
-          way.</para>
+            <figure>
+              <title>Workfow engine configuration section - Behavior
+              sub-section</title>
 
-          <para>See <xref linkend="packagewebclientconfig"/> for
-          explanations.</para>
+              <mediaobject>
+                <imageobject>
+                  <imagedata contentdepth="100%"
+                             fileref="Images/sharkmode-comparison-activity-webclient-behavior.png"
+                             scalefit="1" width="100%"/>
+                </imageobject>
+              </mediaobject>
+            </figure>
 
-          <para>The description for the meaning of extended attributes for
-          Shark's Web Client application can be found in <link
-          xlink:href="http://www.together.at/prod/workflow/tws/manual"
-          xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server
-          User Manual</link> in the chapter <emphasis>XPDL Extended Attributes
-          Usage</emphasis> section <emphasis>Client side extended
-          attributes</emphasis>.</para>
+            <para>The description for the meaning of extended attributes for
+            Shark's Web Client application can be found in <link
+            xlink:href="http://www.together.at/prod/workflow/tws/manual"
+            xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow
+            Server User Manual</link> in the chapter <emphasis>XPDL Extended
+            Attributes Usage</emphasis> section <emphasis>Client side extended
+            attributes</emphasis>.</para>
+          </sect4>
+
+          <sect4>
+            <title>Default GUI sub-section</title>
+
+            <para>This sub-section defines attributes that are affecting
+            default activity GUI. In this sub-section first there is a part
+            for defining <emphasis>Variables</emphasis> that will be shown in
+            the default activity details form. The following is attribute that
+            can be defined only on activity level and then there are three
+            attributes that when defined logically override the same ones
+            defined for Package/Workflow Process. In the picture below, left
+            side shows extended attributes in Default configuration, and right
+            side shows how are they represented in Shark configuration.</para>
+
+            <figure>
+              <title>Workfow engine configuration section - Default GUI
+              sub-section</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata contentdepth="100%"
+                             fileref="Images/sharkmode-comparison-activity-webclient-defaultgui.png"
+                             scalefit="1" width="100%"/>
+                </imageobject>
+              </mediaobject>
+            </figure>
+
+            <para>The description for the meaning of extended attributes for
+            Shark's Web Client application can be found in <link
+            xlink:href="http://www.together.at/prod/workflow/tws/manual"
+            xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow
+            Server User Manual</link> in the chapter <emphasis>XPDL Extended
+            Attributes Usage</emphasis> section <emphasis>Client side extended
+            attributes</emphasis>.</para>
+          </sect4>
+
+          <sect4>
+            <title>Custom GUI sub-section</title>
+
+            <para>In this sub-section one can define extended attributes that
+            affect the GUI for the activity detail form in shark's Web client
+            application. If any of these attributes is defined, the default
+            GUI will be replaced by the custom one.. In the picture below,
+            left side shows extended attributes in Default configuration, and
+            right side shows how are they represented in this section of Shark
+            configuration.</para>
+
+            <figure>
+              <title>Workfow engine configuration section - Custom GUI
+              sub-section</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata contentdepth="100%"
+                             fileref="Images/sharkmode-comparison-activity-webclient-customgui.png"
+                             scalefit="1" width="100%"/>
+                </imageobject>
+              </mediaobject>
+            </figure>
+
+            <para>The description for the meaning of extended attributes for
+            Shark's Web Client application can be found in <link
+            xlink:href="http://www.together.at/prod/workflow/tws/manual"
+            xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow
+            Server User Manual</link> in the chapter <emphasis>XPDL Extended
+            Attributes Usage</emphasis> section <emphasis>Client side extended
+            attributes</emphasis>.</para>
+          </sect4>
         </sect3>
       </sect2>
 
@@ -10770,7 +10834,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       <title>Difference in property dialog for DataField element</title>
 
       <para>The difference is that in Shark configuration we are hidding
-      Script version and Script grammar attributes and that 4 extended
+      Script version and Script grammar attributes and that 5 extended
       attributes are represented as normal attributes of the element (like Id
       or Name).</para>
 
@@ -10786,11 +10850,20 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </mediaobject>
       </figure>
 
-      <para>For the true/false type value extended attributes TRANSIENT,
-      DYNAMICSCRIPT and IS_ACTIVITY_SCOPE_ONLY instead of writting attribute
-      name and putting true or false for its value in Default configuration,
-      in Shark configuration one just checks/un-checks appropriate
-      check-box.</para>
+      <para>First group of attributes is for shark workflow engine kernel
+      configuration. For these true/false type value extended attributes
+      TRANSIENT, DYNAMICSCRIPT and IS_ACTIVITY_SCOPE_ONLY instead of writting
+      attribute name and putting true or false for its value in Default
+      configuration, in Shark configuration one just checks/un-checks
+      appropriate check-box.</para>
+
+      <para>The description for the meaning of extended attributes from
+      Workflow engine configuration section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+      Usage</emphasis> section <emphasis>Server-side (kernel) extended
+      attributes</emphasis>:</para>
 
       <para>For URLVariable extended attribute, instead of defining an
       attribute and typing the value that has to be either
@@ -10799,12 +10872,18 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       is displayed in the language he is using) from the combo-box next to the
       label <emphasis>Render and handle as browser link.</emphasis></para>
 
-      <para><emphasis>The description for the meaning of extended attributes
-      for Shark's Web Client application can be found in <link
+      <para>For RENDERING_HINT extended attribute, instead of typing the word
+      LARGE (in the case user wants that Web Client application display
+      variable content inside text area) in Default configuration, in Shark
+      configuration one just checks/un-checks appropriate check-box.</para>
+
+      <para>The description for the meaning of extended attributes from Web
+      client configuration section can be found in <link
       xlink:href="http://www.together.at/prod/workflow/tws/manual"
       xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
       Manual</link> in the chapter <emphasis>XPDL Extended Attributes
-      Usage.</emphasis></emphasis></para>
+      Usage</emphasis> section <emphasis>Client side extended
+      attributes</emphasis>.</para>
     </sect1>
   </chapter>
 

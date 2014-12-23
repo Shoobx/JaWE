@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.panel;
 
@@ -75,6 +75,8 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
 
    protected Map lastActiveTabs = new HashMap();
 
+   protected Map lastActiveSubTabs = new HashMap();
+
    protected HistoryManager hm;
 
    public void configure() {
@@ -95,14 +97,13 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
 
       ClassLoader cl = getClass().getClassLoader();
       try {
-         this.panelGenerator = (PanelGenerator) cl.loadClass(JaWEManager.getInstance().getPanelGeneratorClassName())
-               .newInstance();
+         this.panelGenerator = (PanelGenerator) cl.loadClass(JaWEManager.getInstance().getPanelGeneratorClassName()).newInstance();
       } catch (Exception ex) {
          String msg = "InlinePanel -> Problems while instantiating Panel Generator class '"
-            + JaWEManager.getInstance().getPanelGeneratorClassName() + "' - using default implementation!";
+                      + JaWEManager.getInstance().getPanelGeneratorClassName() + "' - using default implementation!";
 
          JaWEManager.getInstance().getLoggingManager().error(msg, ex);
-         this.panelGenerator=new StandardPanelGenerator();
+         this.panelGenerator = new StandardPanelGenerator();
       }
       this.panelGenerator.setPanelContainer(this);
 
@@ -113,7 +114,7 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
             hm.init(getPanelSettings().historySize());
          }
       } catch (Exception ex) {
-         System.err.println("Failed to instantiate history manager - my controller is "+controller);
+         System.err.println("Failed to instantiate history manager - my controller is " + controller);
       }
 
       getPanelSettings().adjustActions();
@@ -203,7 +204,7 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
          }
          for (int i = 0; i < l.size(); i++) {
             XMLElement el = (XMLElement) l.get(i);
-            if (el==current || XMLUtil.isParentsChild(el, current)) {
+            if (el == current || XMLUtil.isParentsChild(el, current)) {
                setActiveElement(null);
             }
             removedElements.add(el);
@@ -228,7 +229,7 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
          XMLElement el = panel.getOwner();
          String t = "";
          if (el != null) {
-//            t = " " + getLabelGenerator().getLabel(el);
+            // t = " " + getLabelGenerator().getLabel(el);
             t = " " + panel.getTitle();
          }
          title.setText(t);
@@ -268,9 +269,9 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
    public boolean canApplyChanges() {
       if (getViewPanel() != null) {
          XMLPanel p = getViewPanel();
-//         System.err.println("CAAAAAAAACCCCCCCC for "+p);
+         // System.err.println("CAAAAAAAACCCCCCCC for "+p);
          if (p.validateEntry()) {
-//            System.err.println("ENTRY IS VALID FOR "+p);
+            // System.err.println("ENTRY IS VALID FOR "+p);
             return JaWEManager.getInstance().getPanelValidator().validatePanel(p.getOwner(), p);
          }
       }
@@ -362,8 +363,8 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
       if (el != null) {
          setActiveElement(el);
          JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection(el, true);
-         if (getJaWEComponent() instanceof JDialog && ((JDialog)getJaWEComponent()).isModal()) {
-            ((JDialog)getJaWEComponent()).setTitle(JaWEManager.getInstance().getLabelGenerator().getLabel(el));
+         if (getJaWEComponent() instanceof JDialog && ((JDialog) getJaWEComponent()).isModal()) {
+            ((JDialog) getJaWEComponent()).setTitle(JaWEManager.getInstance().getLabelGenerator().getLabel(el));
          }
       }
    }
@@ -376,6 +377,9 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
          Class ec = previousElement.getClass();
          int activeTab = tp.getActiveTab();
          lastActiveTabs.put(ec, new Integer(activeTab));
+         if (tp.getTabbedPanel(activeTab) instanceof XMLTabbedPanel) {
+            lastActiveSubTabs.put(ec, new Integer(((XMLTabbedPanel) tp.getTabbedPanel(activeTab)).getActiveTab()));
+         }
       }
 
       // MUST BE SET BEFORE GENERATING NEW PANEL BECAUSE PANELGENERATOR
@@ -399,6 +403,19 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
                lastActiveTabs.put(el.getClass(), new Integer(atno));
             }
             tp.setActiveTab(atno);
+            Component ct = tp.getTabbedPanel(atno);
+            if (ct instanceof XMLTabbedPanel) {
+               Integer ast = (Integer) lastActiveSubTabs.get(el.getClass());
+               if (ast != null) {
+                  int astno = ast.intValue();
+                  XMLTabbedPanel stp = (XMLTabbedPanel) ct;
+                  if (stp.getTabCount() <= ast.intValue()) {
+                     astno = stp.getTabCount() - 1;
+                     lastActiveSubTabs.put(el.getClass(), new Integer(astno));
+                  }
+                  stp.setActiveTab(astno);
+               }
+            }
          }
       }
       getPanelSettings().adjustActions();
@@ -408,7 +425,7 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
    }
 
    public void setActiveElement(XMLElement el) {
-      if (hm!=null) {
+      if (hm != null) {
          XMLElement current = getActiveElement();
          hm.addToHistory(current, el);
       }
@@ -417,7 +434,8 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
    }
 
    public void displayPreviousElement() {
-      if (hm==null) return;
+      if (hm == null)
+         return;
 
       if (isModified()) {
          int sw = showModifiedWarning();
@@ -433,7 +451,8 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
    }
 
    public void displayNextElement() {
-      if (hm==null) return;
+      if (hm == null)
+         return;
 
       if (isModified()) {
          int sw = showModifiedWarning();
@@ -453,8 +472,9 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
       if (!getPanelSettings().shouldShowModifiedWarning())
          return JOptionPane.NO_OPTION;
       int option = JOptionPane.showConfirmDialog(JaWEManager.getInstance().getJaWEController().getJaWEFrame(),
-            getPanelSettings().getLanguageDependentString("WarningElementChanged"), getPanelSettings()
-                  .getLanguageDependentString("DialogTitle"), JOptionPane.YES_NO_CANCEL_OPTION);
+                                                 getPanelSettings().getLanguageDependentString("WarningElementChanged"),
+                                                 getPanelSettings().getLanguageDependentString("DialogTitle"),
+                                                 JOptionPane.YES_NO_CANCEL_OPTION);
       if (option == JOptionPane.YES_OPTION) {
          applySpecial();
       }
@@ -475,14 +495,15 @@ public class InlinePanel extends JPanel implements JaWEComponentView, PanelConta
    }
 
    public void cleanup() {
-      if (hm!=null) {
+      if (hm != null) {
          hm.cleanHistory();
       }
       getPanelSettings().adjustActions();
    }
 
    public void panelChanged(XMLPanel panel, EventObject ev) {
-      // PREVENT focusLost events (java.awt.AWTEventMulticaster.focusLost) to adjust actions      
+      // PREVENT focusLost events (java.awt.AWTEventMulticaster.focusLost) to adjust
+      // actions
       if (!Utils.hasCallerMethod("java.awt.AWTEventMulticaster", "focusLost")) {
          isModified = true;
          // enableApplyAction(isModified);

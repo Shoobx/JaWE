@@ -643,24 +643,23 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       if (!el.isForActivity()) {
          XMLPanel epnpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessNameAsExpression(), null, false, enableEditing, false, null);
-         ealist.add(epnpnl);         
+         ealist.add(epnpnl);
          XMLPanel epdpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessDescriptionAsExpression(), null, false, enableEditing, false, null);
-         ealist.add(epdpnl);         
+         ealist.add(epdpnl);
          XMLPanel eplpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessLimitAsExpression(), null, false, enableEditing, false, null);
-         ealist.add(eplpnl);         
+         ealist.add(eplpnl);
          XMLPanel epppnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessPriorityAsExpression(), null, false, enableEditing, false, null);
-         ealist.add(epppnl);         
+         ealist.add(epppnl);
       }
       XMLPanel eanpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityNameAsExpression(), null, false, enableEditing, false, null);
-      ealist.add(eanpnl);         
+      ealist.add(eanpnl);
       XMLPanel eadpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityDescriptionAsExpression(), null, false, enableEditing, false, null);
-      ealist.add(eadpnl);         
+      ealist.add(eadpnl);
       XMLPanel ealpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityLimitAsExpression(), null, false, enableEditing, false, null);
-      ealist.add(ealpnl);         
+      ealist.add(ealpnl);
       XMLPanel eappnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityPriorityAsExpression(), null, false, enableEditing, false, null);
-      ealist.add(eappnl);         
-      
-      
+      ealist.add(eappnl);
+
       for (int i = 0; i < ealist.size(); i += 2) {
          List subpanels = new ArrayList();
          subpanels.add(ealist.get(i));
@@ -668,16 +667,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          if ((i + 1) < ealist.size()) {
             subpanels.add(ealist.get(i + 1));
          }
-         pplist.add(new XMLGroupPanelGL(getPanelContainer(),
-                                        el,
-                                        subpanels,
-                                        "",
-                                        false,
-                                        false,
-                                        true,
-                                        null));
+         pplist.add(new XMLGroupPanelGL(getPanelContainer(), el, subpanels, "", false, false, true, null));
       }
-      
+
       if (el.isForActivity()) {
          XMLPanel opcpnl = generateStandardTablePanel(el.getOverrideProcessContextElement(), true, true, true, true);
          pplist.add(opcpnl);
@@ -835,7 +827,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       XMLGroupPanel gpnl = new XMLGroupPanel(getPanelContainer(), el, tgp, "", false, false, true, null);
       ltPanel.addToGroup(gpnl);
-      
+
       if (!el.isPersisted()) {
          getPanelContainer().panelChanged(ltPanel, null);
       }
@@ -1646,6 +1638,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                  && el.getParent() instanceof WebClientConfigurationElement && ((WebClientConfigurationElement) el.getParent()).isForActivity()) {
          XMLPanel panel = generateStandardMultiLineTextPanel(el, true, 2, true);
          return panel;
+      } else if (el.toName().equals(SharkConstants.EA_HTML_VARIABLE)
+                 && el.getParent() instanceof WebClientConfigurationElement && ((WebClientConfigurationElement) el.getParent()).isForActivity()) {
+         SequencedHashMap chm = XMLUtil.getPossibleVariables(el);
+         List filter = Arrays.asList(new String[] {
+            "byte<>"
+         });
+         List choices = PanelUtilities.getPossibleVariableChoices(SharkUtils.getPossibleVariableChoices(chm, new ArrayList(), el.toValue()), filter, 2, false);
+         DataField df = createDummyDataField(" ", false);
+         choices.add(0, df);
+         return new XMLComboPanel(getPanelContainer(), el, null, choices, false, true, false, false, JaWEManager.getInstance()
+            .getJaWEController()
+            .canModifyElement(el), true, true, null);
       }
       return super.getPanel(el);
    }

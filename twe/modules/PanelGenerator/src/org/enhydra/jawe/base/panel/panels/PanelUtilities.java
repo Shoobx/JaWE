@@ -67,9 +67,7 @@ import org.enhydra.jxpdl.elements.TypeDeclaration;
 
 public class PanelUtilities {
 
-   public static List toXMLElementViewList(PanelContainer pc,
-                                           Collection c,
-                                           boolean lDepStr) {
+   public static List toXMLElementViewList(PanelContainer pc, Collection c, boolean lDepStr) {
       List vec = new ArrayList();
       Iterator it = c.iterator();
       while (it.hasNext()) {
@@ -89,9 +87,7 @@ public class PanelUtilities {
       return createToolbarButton(s, a, null);
    }
 
-   public static JButton createToolbarButton(Settings s,
-                                             Action a,
-                                             ChoiceButtonListener cbl) {
+   public static JButton createToolbarButton(Settings s, Action a, ChoiceButtonListener cbl) {
       if (a == null)
          return null;
 
@@ -99,11 +95,7 @@ public class PanelUtilities {
       JButton b = null;
       ImageIcon curIc = (ImageIcon) s.getSetting("DefaultAction.Icon." + actionName);
       if (a instanceof NewActionBase && cbl != null) {
-         b = new JaWETypeChoiceButton(JaWEType.class,
-                                      ((NewActionBase) a).getXPDLTypeClass(),
-                                      ((NewActionBase) a).getXPDLTypeClassParentForEA(),
-                                      cbl,
-                                      curIc);
+         b = new JaWETypeChoiceButton(JaWEType.class, ((NewActionBase) a).getXPDLTypeClass(), ((NewActionBase) a).getXPDLTypeClassParentForEA(), cbl, curIc);
       } else {
          b = new JButton(curIc) {
             public float getAlignmentY() {
@@ -169,17 +161,15 @@ public class PanelUtilities {
    }
 
    public static boolean isModifyingEvent(KeyEvent e) {
-      if (e.isShiftDown()
-          && (e.getKeyCode() == KeyEvent.VK_SHIFT || e.getKeyCode() == KeyEvent.VK_HOME))
+      if (e.isShiftDown() && (e.getKeyCode() == KeyEvent.VK_SHIFT || e.getKeyCode() == KeyEvent.VK_HOME))
          return false;
       if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X)
          return true;
-      if ((!e.isAltDown() && !e.isControlDown() && !e.isAltGraphDown())
-          || (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V)) {
+      if ((!e.isAltDown() && !e.isControlDown() && !e.isAltGraphDown()) || (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V)) {
          int kc = e.getKeyCode();
          if (kc == KeyEvent.VK_ESCAPE
-             || kc == KeyEvent.VK_LEFT || kc == KeyEvent.VK_RIGHT || kc == KeyEvent.VK_UP
-             || kc == KeyEvent.VK_DOWN || kc==KeyEvent.VK_HOME || kc==KeyEvent.VK_END) {
+             || kc == KeyEvent.VK_LEFT || kc == KeyEvent.VK_RIGHT || kc == KeyEvent.VK_UP || kc == KeyEvent.VK_DOWN || kc == KeyEvent.VK_HOME
+             || kc == KeyEvent.VK_END) {
             return false;
          }
          return true;
@@ -188,18 +178,13 @@ public class PanelUtilities {
       return false;
    }
 
-   public static Set getHiddenElements(PanelContainer pc,
-                                       String panelName,
-                                       XMLCollection col) {
+   public static Set getHiddenElements(PanelContainer pc, String panelName, XMLCollection col) {
       Set hidden = new HashSet();
-      String elAttr = pc.getSettings().getSettingString("HideElements."
-                                                        + panelName + "." + col.toName());
+      String elAttr = pc.getSettings().getSettingString("HideElements." + panelName + "." + col.toName());
       String[] els = XMLUtil.tokenize(elAttr, " ");
       for (int k = 0; k < els.length; k++) {
          String key = els[k];
-         String hstr = pc.getSettings().getSettingString("HideElements."
-                                                         + panelName + "." + col.toName()
-                                                         + "." + key);
+         String hstr = pc.getSettings().getSettingString("HideElements." + panelName + "." + col.toName() + "." + key);
          String[] hstra = XMLUtil.tokenize(hstr, " ");
          if (hstra != null) {
             for (int i = 0; i < hstra.length; i++) {
@@ -218,9 +203,7 @@ public class PanelUtilities {
                      if (el instanceof XMLComplexElement) {
                         XMLElement sel = ((XMLComplexElement) el).get(key);
                         if (sel != null) {
-                           if (sel.toValue().equals(hstra[i])
-                               || (sel.toName().equals("Name") && sel.toValue()
-                                  .startsWith(hstra[i]))) {
+                           if (sel.toValue().equals(hstra[i]) || (sel.toName().equals("Name") && sel.toValue().startsWith(hstra[i]))) {
                               hidden.add(el);
                            }
                         }
@@ -236,13 +219,10 @@ public class PanelUtilities {
       return hidden;
    }
 
-   public static Set getHiddenElements(PanelContainer pc,
-                                       String panelName,
-                                       XMLComplexElement cel) {
+   public static Set getHiddenElements(PanelContainer pc, String panelName, XMLComplexElement cel) {
       Set hidden = new HashSet();
 
-      String hstr = pc.getSettings().getSettingString("HideSubElements."
-                                                      + panelName + "." + cel.toName());
+      String hstr = pc.getSettings().getSettingString("HideSubElements." + panelName + "." + cel.toName());
 
       String[] hstra = XMLUtil.tokenize(hstr, " ");
       if (hstra != null) {
@@ -273,14 +253,11 @@ public class PanelUtilities {
       return hidden;
    }
 
-   public static List getColumnsToShow(PanelContainer pc,
-                                       String panelName,
-                                       XMLCollection col) {
+   public static List getColumnsToShow(PanelContainer pc, String panelName, XMLCollection col) {
       XMLElement el = col.generateNewElement();
       List toShow = new ArrayList();
       if (el instanceof XMLComplexElement) {
-         String hstr = pc.getSettings()
-            .getSettingString("ShowColumns." + panelName + "." + col.toName());
+         String hstr = pc.getSettings().getSettingString("ShowColumns." + panelName + "." + col.toName());
          // System.err.println("CTS for col "+col+" is "+hstr);
          String[] hstra = XMLUtil.tokenize(hstr, " ");
          if (hstra.length > 0) {
@@ -293,16 +270,14 @@ public class PanelUtilities {
       return toShow;
    }
 
-   // filterType: 0-only declared types, 1-only basic and schema types, 2-both declared
+   // filterType: 0-only declared and external reference types, 1-only basic and schema
+   // types, 2-both declared/external refernce
    // and basic and schema,
-   // 3-any declared and specified basic and schema types
+   // 3-any declared/external reference and specified basic and schema types
    // if getIdList is set to true, the list of Strings representing variable Ids will be
    // returned,
    // otherwise it will return a list of DataField or FormalParameter objects
-   public static List getPossibleVariableChoices(List choices,
-                                                 List tds,
-                                                 int filterType,
-                                                 boolean getIdList) {
+   public static List getPossibleVariableChoices(List choices, List tds, int filterType, boolean getIdList) {
       if (tds == null || tds.size() == 0) {
          return new ArrayList(choices);
       }
@@ -323,7 +298,7 @@ public class PanelUtilities {
          } else {
             chn = ((FormalParameter) dfOrFP).getDataType().getDataTypes().getChoosen();
          }
-         if ((filterType == 0 || filterType >= 2) && chn instanceof DeclaredType) {
+         if ((filterType == 0 || filterType >= 2) && (chn instanceof DeclaredType || chn instanceof ExternalReference)) {
             if (filterType == 3) {
                if (getIdList) {
                   filteredChoices.add(dfOrFP.getId());
@@ -331,30 +306,34 @@ public class PanelUtilities {
                   filteredChoices.add(dfOrFP);
                }
             } else {
-               String dtId = ((DeclaredType) chn).getId();
-               TypeDeclaration td = XMLUtil.getPackage(dfOrFP).getTypeDeclaration(dtId);
-               if (td != null) {
-                  XMLElement chndt = td.getDataTypes().getChoosen();
-                  if (chndt instanceof ExternalReference) {
-                     String loc = ((ExternalReference) chndt).getLocation();
-                     for (int j = 0; j < tds.size(); j++) {
-                        if ((((String) tds.get(j)).equals("<>") && loc.endsWith("<>"))
-                            || loc.endsWith("." + tds.get(j).toString())) {
-                           if (getIdList) {
-                              filteredChoices.add(dfOrFP.getId());
-                           } else {
-                              filteredChoices.add(dfOrFP);
-                           }
-                           break;
-                        }
+               String loc = "";
+               if (chn instanceof DeclaredType) {
+                  String dtId = ((DeclaredType) chn).getId();
+                  TypeDeclaration td = XMLUtil.getPackage(dfOrFP).getTypeDeclaration(dtId);
+                  if (td != null) {
+                     XMLElement chndt = td.getDataTypes().getChoosen();
+                     if (chndt instanceof ExternalReference) {
+                        loc = ((ExternalReference) chndt).getLocation();
                      }
                   }
+               } else {
+                  loc = ((ExternalReference) chn).getLocation();
                }
+               for (int j = 0; j < tds.size(); j++) {
+                  if (tds.get(j).equals(loc) || (((String) tds.get(j)).equals("<>") && loc.endsWith("<>")) || loc.endsWith("." + tds.get(j).toString())) {
+                     if (getIdList) {
+                        filteredChoices.add(dfOrFP.getId());
+                     } else {
+                        filteredChoices.add(dfOrFP);
+                     }
+                     break;
+                  }
+               }
+
             }
          }
          if ((filterType > 0) && (chn instanceof BasicType || chn instanceof SchemaType)) {
-            String t = (chn instanceof BasicType) ? ((BasicType) chn).getType()
-                                                 : XMLUtil.getShortClassName(SchemaType.class.getName());
+            String t = (chn instanceof BasicType) ? ((BasicType) chn).getType() : XMLUtil.getShortClassName(SchemaType.class.getName());
             for (int j = 0; j < tds.size(); j++) {
                if (t.endsWith(tds.get(j).toString())) {
                   if (getIdList) {
