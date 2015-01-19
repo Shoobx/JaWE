@@ -83,6 +83,8 @@
 
 <xsl:param name="axf.extensions" select="0"/>
 
+<xsl:param name="back.image.filename">images/templates/backpage.jpg</xsl:param>
+
 <xsl:param name="biblioentry.item.separator">. </xsl:param>
 
 <xsl:attribute-set name="biblioentry.properties" use-attribute-sets="normal.para.spacing">
@@ -114,13 +116,13 @@
 
 <xsl:param name="body.margin.top">48mm</xsl:param> 
 
-<xsl:param name="body.margin.bottom">21mm</xsl:param>
+<xsl:param name="body.margin.bottom">27mm</xsl:param>
 
-<xsl:param name="body.TableOfContent.margin.bottom">21mm</xsl:param>
+<xsl:param name="body.TableOfContent.margin.bottom">27mm</xsl:param>
 
-<xsl:param name="body.margin.inner">0</xsl:param>
+<xsl:param name="body.margin.inner">12mm</xsl:param>
 
-<xsl:param name="body.margin.outer">0</xsl:param>
+<xsl:param name="body.margin.outer">12mm</xsl:param>
 
 <xsl:param name="body.start.indent">
   <xsl:choose>
@@ -132,67 +134,80 @@
 
 <xsl:param name="body.end.indent">0pt</xsl:param>
 
+<xsl:attribute-set name="book.colophon.table.info.cell">
+  <xsl:attribute name="margin">0</xsl:attribute>
+  <xsl:attribute name="padding">0</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="book.colophon.table.info.row">
+  <xsl:attribute name="margin">0</xsl:attribute>
+  <xsl:attribute name="padding">0</xsl:attribute>
+  <xsl:attribute name="height">192mm</xsl:attribute>
+  <xsl:attribute name="display-align">after</xsl:attribute>
+</xsl:attribute-set>
+ 
+<xsl:attribute-set name="book.colophon.table.info">
+  <xsl:attribute name="table-layout">fixed</xsl:attribute>
+  <xsl:attribute name="font-size">10.0pt</xsl:attribute>
+  <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="width">186mm</xsl:attribute>
+  <xsl:attribute name="margin">0</xsl:attribute>
+  <xsl:attribute name="padding">0</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="book.colophon.table.info.company">
+  <xsl:attribute name="font-size">14pt</xsl:attribute>
+  <xsl:attribute name="color">#005aa1</xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:attribute-set name="book.titlepage.recto.content.style">
   <xsl:attribute name="block-progression-dimension">auto</xsl:attribute>
   <xsl:attribute name="font-family"><xsl:value-of select="$title.fontset"/></xsl:attribute>
   <xsl:attribute name="font-weight">normal</xsl:attribute>
   <xsl:attribute name="font-style">normal</xsl:attribute>
-  <xsl:attribute name="color">white</xsl:attribute>
-  <xsl:attribute name="text-align">left</xsl:attribute>
+  <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="text-align">center</xsl:attribute>
+  <xsl:attribute name="width">210mm</xsl:attribute>
+  <xsl:attribute name="display-align">after</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="book.titlepage.title">
   <xsl:attribute name="font-size">28.0pt</xsl:attribute>
-  <xsl:attribute name="margin-left">16mm</xsl:attribute>
-  <xsl:attribute name="margin-top">97mm</xsl:attribute>
+  <xsl:attribute name="color">#fd6a0a</xsl:attribute> <!-- orange -->
 </xsl:attribute-set>
 
 <xsl:attribute-set name="book.titlepage.version">
   <xsl:attribute name="font-size">14.0pt</xsl:attribute>
-  <xsl:attribute name="margin-left">16mm</xsl:attribute>
   <xsl:attribute name="margin-top">2mm</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="book.titlepage.subtitle">
   <xsl:attribute name="font-size">14.0pt</xsl:attribute>
-  <xsl:attribute name="margin-left">16mm</xsl:attribute>
   <xsl:attribute name="margin-top">2mm</xsl:attribute>
+  <xsl:attribute name="padding">0</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="book.titlepage.author">
   <xsl:attribute name="font-size">14.0pt</xsl:attribute>
-  <xsl:attribute name="margin-left">16mm</xsl:attribute>
   <xsl:attribute name="margin-top">2mm</xsl:attribute>
 </xsl:attribute-set>
 
-<xsl:attribute-set name="book.titlepage.table.info">
+<xsl:attribute-set name="book.titlepage.table.title">
   <xsl:attribute name="table-layout">fixed</xsl:attribute>
-  <xsl:attribute name="font-size">10.0pt</xsl:attribute>
   <xsl:attribute name="color">black</xsl:attribute>
-  <xsl:attribute name="width">200pt</xsl:attribute>
-  <xsl:attribute name="margin-bottom">0</xsl:attribute>
-  <xsl:attribute name="margin-left">117.5mm</xsl:attribute> 
   <xsl:attribute name="padding">0</xsl:attribute>
 </xsl:attribute-set>
 
-<xsl:attribute-set name="book.titlepage.table.info.row">
-  <xsl:attribute name="margin-top">0</xsl:attribute>
-  <xsl:attribute name="margin-bottom">0</xsl:attribute>
-  <xsl:attribute name="margin-left">0</xsl:attribute>
+<xsl:attribute-set name="book.titlepage.table.title.row">
+  <xsl:attribute name="margin">0</xsl:attribute>
   <xsl:attribute name="padding">0</xsl:attribute>
-  <xsl:attribute name="height">149.5mm</xsl:attribute>
+  <xsl:attribute name="height">240mm</xsl:attribute>
   <xsl:attribute name="display-align">after</xsl:attribute>
 </xsl:attribute-set>
  
-<xsl:attribute-set name="book.titlepage.table.info.cell">
-  <xsl:attribute name="margin-bottom">0</xsl:attribute>
-  <xsl:attribute name="margin-left">0</xsl:attribute>
+<xsl:attribute-set name="book.titlepage.table.title.cell">
+  <xsl:attribute name="margin">0</xsl:attribute>
   <xsl:attribute name="padding">0</xsl:attribute>
-</xsl:attribute-set>
-
-<xsl:attribute-set name="book.titlepage.table.info.company">
-  <xsl:attribute name="font-size">14pt</xsl:attribute>
-  <xsl:attribute name="color"><xsl:value-of select="$title.font.color"/></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:param name="bookmarks.collapse" select="1"/>
@@ -238,6 +253,17 @@
 
 <xsl:param name="collect.xref.targets">no</xsl:param>
 
+<xsl:attribute-set name="colophon.titlepage.recto.style">
+  <xsl:attribute name="block-progression-dimension">auto</xsl:attribute>
+  <xsl:attribute name="font-family"><xsl:value-of select="$title.fontset"/></xsl:attribute>
+  <xsl:attribute name="font-weight">normal</xsl:attribute>
+  <xsl:attribute name="font-style">normal</xsl:attribute>
+  <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="text-align">center</xsl:attribute>
+  <xsl:attribute name="width">186mm</xsl:attribute>
+  <xsl:attribute name="display-align">after</xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:param name="column.count.back" select="1"/>
 
 <xsl:param name="column.count.body" select="1"/>
@@ -265,7 +291,7 @@
 <xsl:attribute-set name="compact.list.item.spacing">
   <xsl:attribute name="space-before.optimum">0em</xsl:attribute>
   <xsl:attribute name="space-before.minimum">0em</xsl:attribute>
-  <xsl:attribute name="space-before.maximum">0.2em</xsl:attribute>
+  <xsl:attribute name="space-before.maximum">0em<!--0.2em--></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:param name="component.label.includes.part.label" select="0"/>
@@ -367,9 +393,10 @@
 
 <xsl:attribute-set name="footer.content.properties">
   <xsl:attribute name="font-family"><xsl:value-of select="$body.fontset"/></xsl:attribute>
+  <xsl:attribute name="font-size">8pt</xsl:attribute>
   <!-- <xsl:attribute name="margin-left"><xsl:value-of select="$title.margin.left"/></xsl:attribute> -->
-  <xsl:attribute name="margin-left">0</xsl:attribute>
-  <xsl:attribute name="margin-right">0</xsl:attribute>
+  <xsl:attribute name="margin-left">12mm</xsl:attribute>
+  <xsl:attribute name="margin-right">12mm</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:param name="footer.rule" select="1"/>
@@ -380,13 +407,18 @@
 
 <xsl:param name="footer.table.row1.height">0</xsl:param>
 
-<xsl:param name="footer.table.row2.height"><xsl:value-of select="$region.after.extent"/></xsl:param>
+<xsl:param name="footer.table.row2.height">0</xsl:param>
 
 <xsl:param name="footer.tableOfContent.table.row1.height">0</xsl:param>
 
 <xsl:attribute-set name="footer.table.properties">
   <xsl:attribute name="table-layout">fixed</xsl:attribute>
   <xsl:attribute name="width">100%</xsl:attribute>
+  <xsl:attribute name="margin-bottom">8.5mm</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="footer.table.properties.cell">
+  <xsl:attribute name="margin">0</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:param name="footer.image.filename">images/templates/footer.jpg</xsl:param>
@@ -548,13 +580,15 @@ set       toc,title
   </xsl:attribute> 
 -->
   <xsl:attribute name="font-size">28pt</xsl:attribute>
+  <xsl:attribute name="margin-left">0</xsl:attribute>
+  <xsl:attribute name="margin-right">0</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:param name="header.rule" select="1"/>
 
 <xsl:param name="header.column.widths">1 0 0</xsl:param>
 
-<xsl:param name="header.image.width">188mm</xsl:param>
+<xsl:param name="header.image.width"><!--188mm--></xsl:param>
 
 <xsl:param name="header.table.height">114pt</xsl:param>
 
@@ -643,9 +677,14 @@ set       toc,title
 </xsl:attribute-set>
 
 <xsl:attribute-set name="itemizedlist.properties" use-attribute-sets="list.block.properties">
+  <xsl:attribute name="text-indent">6mm</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="itemizedlist.label.properties">
+</xsl:attribute-set>
+
+<xsl:attribute-set name="itemizedlist.itemsymbol.properties">
+	<xsl:attribute name="color">#fd6a0a</xsl:attribute> <!-- orange -->
 </xsl:attribute-set>
 
 <xsl:param name="itemizedlist.label.width">1.0em</xsl:param>
@@ -793,7 +832,7 @@ set       toc,title
   <xsl:attribute name="font-weight">normal</xsl:attribute>
   <xsl:attribute name="font-style">normal</xsl:attribute>
   <xsl:attribute name="font-size">28pt</xsl:attribute>
-  <xsl:attribute name="color">white</xsl:attribute>
+  <xsl:attribute name="color">black</xsl:attribute>
   <xsl:attribute name="margin-top">25mm</xsl:attribute>
   <xsl:attribute name="margin-left">20.5mm</xsl:attribute>
 </xsl:attribute-set>
@@ -868,21 +907,21 @@ set       toc,title
   </xsl:choose>
 </xsl:param>
 
-<xsl:param name="page.margin.top">6mm</xsl:param> <!-- 0.39in -->
+<xsl:param name="page.margin.top">0mm<!--6mm--></xsl:param> <!-- 0.39in -->
 
-<xsl:param name="page.margin.bottom">5mm</xsl:param> <!-- 0.16in -->
+<xsl:param name="page.margin.bottom">0mm<!--5mm--></xsl:param> <!-- 0.16in -->
 
 <xsl:param name="page.margin.inner">
   <xsl:choose>
-    <xsl:when test="$double.sided != 0">10mm</xsl:when>  <!-- 0.57 -->
-    <xsl:otherwise>10mm</xsl:otherwise>  <!-- 0.57 -->
+    <xsl:when test="$double.sided != 0">0mm</xsl:when>  <!-- 0.57 -->
+    <xsl:otherwise>0mm</xsl:otherwise>  <!-- 0.57 -->
   </xsl:choose>
 </xsl:param>
 
 <xsl:param name="page.margin.outer">
   <xsl:choose>
-    <xsl:when test="$double.sided != 0">12mm</xsl:when>  <!-- 0.57 -->
-    <xsl:otherwise>12mm</xsl:otherwise>  <!-- 0.57 -->
+    <xsl:when test="$double.sided != 0">0mm</xsl:when> <!---12mm-->
+    <xsl:otherwise>0mm</xsl:otherwise> <!---12mm-->
   </xsl:choose>
 </xsl:param>
 
@@ -1113,11 +1152,11 @@ set       toc,title
 
 <xsl:param name="refclass.suppress" select="0"/>
 
-<xsl:param name="region.after.extent">19mm</xsl:param>
+<xsl:param name="region.after.extent">24mm</xsl:param>
 
-<xsl:param name="region.tableOfContent.after.extent">19mm</xsl:param>
+<xsl:param name="region.tableOfContent.after.extent">26mm</xsl:param>
 
-<xsl:param name="region.before.extent">1.75in</xsl:param>
+<xsl:param name="region.before.extent">0<!--1.75in--></xsl:param>
 
 <xsl:param name="region.inner.extent">0</xsl:param>
 
@@ -1200,36 +1239,37 @@ set       toc,title
 
 <xsl:attribute-set name="section.title.level1.properties">
   <xsl:attribute name="font-size">13pt</xsl:attribute>
+  <xsl:attribute name="color">#005aa1</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="section.title.level2.properties">
   <xsl:attribute name="font-size">11pt</xsl:attribute>
-  <xsl:attribute name="font-weight">bold</xsl:attribute>
   <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="section.title.level3.properties">
   <xsl:attribute name="font-size">11pt</xsl:attribute>
-  <xsl:attribute name="font-weight">bold</xsl:attribute>
   <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="section.title.level4.properties">
   <xsl:attribute name="font-size">11pt</xsl:attribute>
-  <xsl:attribute name="font-weight">bold</xsl:attribute>
   <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="section.title.level5.properties">
   <xsl:attribute name="font-size">11pt</xsl:attribute>
-  <xsl:attribute name="font-weight">bold</xsl:attribute>
   <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="section.title.level6.properties">
   <xsl:attribute name="font-size">11pt</xsl:attribute>
-  <xsl:attribute name="font-weight">bold</xsl:attribute>
   <xsl:attribute name="color">black</xsl:attribute>
+  <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="section.title.properties">
@@ -1330,6 +1370,17 @@ set       toc,title
 
 <xsl:param name="table.frame.border.thickness">0.5pt</xsl:param>
 
+<xsl:attribute-set name="table.thead.properties">
+  <xsl:attribute name="start-indent">0pt</xsl:attribute>
+  <xsl:attribute name="end-indent">0pt</xsl:attribute>
+  <xsl:attribute name="background-color">#005aa1</xsl:attribute> <!-- blue color -->
+  <xsl:attribute name="color">white</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:param name="table.row.even.color">white</xsl:param>
+
+<xsl:param name="table.row.odd.color">#bfbfbf</xsl:param> <!-- grey color-->
+
 <xsl:attribute-set name="table.of.contents.titlepage.recto.style">
   <xsl:attribute name="font-family"><xsl:value-of select="$title.fontset"/></xsl:attribute>
   <xsl:attribute name="font-weight">normal</xsl:attribute>
@@ -1386,17 +1437,25 @@ set       toc,title
 
 <xsl:param name="title.image.filename">images/templates/titlepage.jpg</xsl:param>
 
-<xsl:param name="title.font.color">#005AA1</xsl:param>
+<xsl:param name="title.sub.image.filename">images/templates/titlepage_sub.jpg</xsl:param>
 
-<xsl:param name="titlepage.margin.left">8mm</xsl:param>
+<xsl:param name="title.font.color">#fd6a0a</xsl:param> <!-- orange -->
 
-<xsl:param name="titlepage.margin.top">5.5mm</xsl:param>
+<xsl:param name="titlepage.margin.left">0mm<!-- 8mm--></xsl:param>
 
-<xsl:param name="titlepage.width">201mm</xsl:param>
+<xsl:param name="titlepage.margin.top">0mm<!-- 5.5mm--></xsl:param>
 
-<xsl:param name="titlepage.height">288mm</xsl:param>
+<xsl:param name="titlepage.width">210mm <!--201mm--></xsl:param>
 
-<xsl:param name="toc.indent.width">24</xsl:param>
+<xsl:param name="titlepage.height">297mm<!-- 288mm--></xsl:param>
+
+<xsl:param name="toc.indent.width">0</xsl:param>
+
+<xsl:param name="toc.inner.indent.width.level1">5mm</xsl:param>
+
+<xsl:param name="toc.inner.indent.width.level2">12mm</xsl:param>
+
+<xsl:param name="toc.inner.indent.width.level3">9mm</xsl:param>
 
 <!-- inconsistant point specification? -->
 <xsl:attribute-set name="toc.line.properties">
@@ -1404,6 +1463,11 @@ set       toc,title
   <xsl:attribute name="text-align">start</xsl:attribute>
   <xsl:attribute name="end-indent"><xsl:value-of select="concat($toc.indent.width, 'pt')"/></xsl:attribute>
   <xsl:attribute name="last-line-end-indent"><xsl:value-of select="concat('-', $toc.indent.width, 'pt')"/></xsl:attribute>
+  <xsl:attribute name="font-size">11pt</xsl:attribute>
+  <!--
+  <xsl:attribute name="margin-{$direction.align.start}">3em</xsl:attribute>
+  <xsl:attribute name="text-indent">-3em</xsl:attribute>
+  -->
 </xsl:attribute-set>
 
 <xsl:attribute-set name="toc.margin.properties">

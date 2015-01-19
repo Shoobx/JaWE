@@ -1602,7 +1602,17 @@ The operator of an MMC Site may republish an MMC contained in the site
 under CC-BY-SA on the same site at any time before August 1, 2009,
 provided the MMC is eligible for relicensing.</programlisting>
   </appendix>
+
   <colophon>
     <para>Together Teamsolutions Co., Ltd.</para>
+    <address>
+	  <otheraddr>330/30 Moo 12 Pratamnak Soi 5</otheraddr>
+      <otheraddr>Nongprue Banglamung Pattaya</otheraddr>
+      <otheraddr>20260 Chonburi Thailand</otheraddr>
+      <phone>Tel. +66 38 252802</phone>
+      <fax>Fax +43 720 347872</fax>
+      <email>office@togetherteam.co.th</email>
+      <link xlink:href="www.togetherteam.co.th" xmlns:xlink="http://www.w3.org/1999/xlink">www.togetherteam.co.th</link>
+    </address>
   </colophon>
 </book>

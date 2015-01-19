@@ -125,7 +125,7 @@
 
   <xsl:variable name="item.contents">
     <fo:list-item-label end-indent="label-end()" xsl:use-attribute-sets="itemizedlist.label.properties">
-      <fo:block>
+      <fo:block xsl:use-attribute-sets="itemizedlist.itemsymbol.properties">
         <xsl:call-template name="itemizedlist.label.markup">
           <xsl:with-param name="itemsymbol">
             <xsl:call-template name="list.itemsymbol">

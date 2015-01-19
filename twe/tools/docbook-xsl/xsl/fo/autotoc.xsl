@@ -203,7 +203,32 @@
           <xsl:copy-of select="$label"/>
           <xsl:value-of select="$autotoc.label.separator"/>
         </xsl:if>
-        <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+
+        <xsl:variable name="depth.level">
+          <xsl:value-of select="count(ancestor::*)"/>
+        </xsl:variable>
+<!--
+        <xsl:variable name="depthAll">
+          <xsl:value-of select="concat($depth*$toc.inner.indent.width, 'pt')"/>
+        </xsl:variable>
+-->
+        <xsl:variable name="toc.inner.depth">
+          <xsl:choose>
+            <xsl:when test="$depth.level = 1">
+              <xsl:value-of select="$toc.inner.indent.width.level1" />
+            </xsl:when>
+			<xsl:when test="$depth.level = 2">
+              <xsl:value-of select="$toc.inner.indent.width.level2" />
+            </xsl:when>
+            <xsl:when test="$depth.level = 3">
+              <xsl:value-of select="$toc.inner.indent.width.level3" />
+            </xsl:when>
+          </xsl:choose>
+        </xsl:variable>
+
+        <fo:inline padding-left="{$toc.inner.depth}">
+          <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+        </fo:inline>
       </fo:basic-link>
     </fo:inline>
     <fo:inline keep-together.within-line="always">
@@ -339,11 +364,7 @@
     <xsl:apply-templates select="." mode="label.markup"/>
   </xsl:variable>
 
-  <fo:block xsl:use-attribute-sets="toc.line.properties"
-            end-indent="{$toc.indent.width}pt"
-            last-line-end-indent="-{$toc.indent.width}pt">
-    <xsl:attribute name="margin-{$direction.align.start}">3em</xsl:attribute>
-    <xsl:attribute name="text-indent">-3em</xsl:attribute>
+  <fo:block xsl:use-attribute-sets="toc.line.properties">
     <fo:inline keep-with-next.within-line="always">
       <fo:basic-link internal-destination="{$id}">
         <xsl:if test="$label != ''">
@@ -758,7 +779,6 @@
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
-
 
 <xsl:template match="section" mode="toc">
   <xsl:param name="toc-context" select="."/>

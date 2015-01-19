@@ -671,7 +671,7 @@
 <xsl:template match="thead">
   <xsl:variable name="tgroup" select="parent::*"/>
 
-  <fo:table-header start-indent="0pt" end-indent="0pt">
+  <fo:table-header xsl:use-attribute-sets="table.thead.properties">
     <xsl:choose>
       <!-- Use recursion if @morerows is used -->
       <xsl:when test="row/entry/@morerows|row/entrytbl/@morerows">
@@ -851,11 +851,30 @@
     <xsl:call-template name="pi.dbfo_bgcolor"/>
   </xsl:variable>
 
-  <xsl:if test="$bgcolor != ''">
-    <xsl:attribute name="background-color">
-      <xsl:value-of select="$bgcolor"/>
-    </xsl:attribute>
-  </xsl:if>
+  <xsl:choose>
+    <xsl:when test="$bgcolor != ''">
+      <xsl:attribute name="background-color">
+        <xsl:value-of select="$bgcolor"/>
+      </xsl:attribute>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:choose>
+        <xsl:when test="not(ancestor::thead)">
+          <xsl:variable name="rownum">
+            <xsl:number from="tgroup" count="row"/>
+          </xsl:variable>
+          <xsl:choose>
+            <xsl:when test="$rownum mod 2 != 0">
+               <xsl:attribute name="background-color"><xsl:value-of select="$table.row.odd.color"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:attribute name="background-color"><xsl:value-of select="$table.row.even.color"/></xsl:attribute> 
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:otherwise>
+  </xsl:choose>
 
   <!-- Keep header row with next row -->
   <xsl:if test="ancestor::thead">

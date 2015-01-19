@@ -340,7 +340,7 @@
                 xsl:use-attribute-sets="component.titlepage.properties">
         <xsl:call-template name="colophon.titlepage"/>
       </fo:block>
-      <xsl:apply-templates/>
+      <!-- <xsl:apply-templates/> -->
     </fo:flow>
   </fo:page-sequence>
 </xsl:template>

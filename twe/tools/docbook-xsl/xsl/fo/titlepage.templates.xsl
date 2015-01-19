@@ -418,103 +418,32 @@
 
 <xsl:template name="book.titlepage.recto">
 	<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.content.style">
-		<!-- Title -->
-		<fo:block xsl:use-attribute-sets="book.titlepage.title">
-			<xsl:value-of select="ancestor-or-self::book/titleabbrev" />	
-		</fo:block>
-		<!-- Version -->
-		<fo:block xsl:use-attribute-sets="book.titlepage.version">
-			@buildid@
-		</fo:block>
-		<!-- Sub title -->
-		<fo:block xsl:use-attribute-sets="book.titlepage.subtitle">
-			<xsl:value-of select="ancestor-or-self::book/bookinfo/subtitle" />
-		</fo:block>
-		<!-- Author name -->
-		<fo:block xsl:use-attribute-sets="book.titlepage.author">
-			<xsl:variable name="honorific.text"><xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/honorific" /></xsl:variable>
-			<xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/honorific" /><xsl:if test="$honorific.text != ''">.&#160;</xsl:if><xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/firstname" />&#160;<xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/surname" />
-		</fo:block>
-			<fo:table xsl:use-attribute-sets="book.titlepage.table.info">
-				<fo:table-body>
-					<fo:table-row xsl:use-attribute-sets="book.titlepage.table.info.row">
-						<fo:table-cell xsl:use-attribute-sets="book.titlepage.table.info.cell">
-							<!-- Company name -->
-							<fo:block xsl:use-attribute-sets="book.titlepage.table.info.company">
-								<xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/orgname" />
-							</fo:block>
-							<!-- Organize division -->
-							<fo:block><xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/orgdiv" /></fo:block>
-							<!-- Address, Street -->
-							<fo:block>
-							<xsl:for-each select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/city">
-								<xsl:value-of select="." />
-							</xsl:for-each>
-							<xsl:for-each select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/street">
-								<xsl:value-of select="." />
-							</xsl:for-each>
-							</fo:block>
-							<xsl:for-each select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/otheraddr">
-								<fo:block><xsl:value-of select="." /></fo:block>
-							</xsl:for-each>
-							<!-- Phone -->
-							<xsl:for-each select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/phone">
-								<fo:block><xsl:value-of select="." /></fo:block>
-							</xsl:for-each>
-							<!-- Fax -->
-							<xsl:for-each select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/fax">
-								<fo:block><xsl:value-of select="." /></fo:block>
-							</xsl:for-each>
-							<!-- Email -->
-							<xsl:for-each select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/email">
-								<fo:block><xsl:value-of select="." /></fo:block>
-							</xsl:for-each>
-							<!-- URL -->
-							<xsl:for-each select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/ulink">
-								<fo:block><xsl:value-of select="." /></fo:block>
-							</xsl:for-each>
-							<!-- <fo:block>	<xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/link@xlink:href" xmlns:xlink="http://www.w3.org/1999/xlink" /></fo:block> -->
-							<!-- Publish date -->
-							<!-- <fo:block><xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/pubdate" /></fo:block> -->
-						</fo:table-cell>
-					</fo:table-row>
-				</fo:table-body>
-			</fo:table>
+		<fo:table xsl:use-attribute-sets="book.titlepage.table.title">
+			<fo:table-body>
+				<fo:table-row xsl:use-attribute-sets="book.titlepage.table.title.row">
+					<fo:table-cell xsl:use-attribute-sets="book.titlepage.table.title.cell">
+						<!-- Title -->
+						<fo:block xsl:use-attribute-sets="book.titlepage.title">
+							<xsl:value-of select="ancestor-or-self::book/titleabbrev" />	
+						</fo:block>
+						<!-- Version -->
+						<fo:block xsl:use-attribute-sets="book.titlepage.version">
+							@buildid@
+						</fo:block>
+						<!-- Sub title -->
+						<fo:block xsl:use-attribute-sets="book.titlepage.subtitle">
+							<xsl:value-of select="ancestor-or-self::book/bookinfo/subtitle" />
+						</fo:block>
+						<!-- Author name -->
+						<fo:block xsl:use-attribute-sets="book.titlepage.author">
+							<xsl:variable name="honorific.text"><xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/honorific" /></xsl:variable>
+							<xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/honorific" /><xsl:if test="$honorific.text != ''">.&#160;</xsl:if><xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/firstname" />&#160;<xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/personname/surname" />
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
 	</fo:block-container>
-
-  <!-- <xsl:choose>
-    <xsl:when test="bookinfo/title">
-      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/title"/>
-    </xsl:when>
-    <xsl:when test="info/title">
-      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/title"/>
-    </xsl:when>
-    <xsl:when test="title">
-      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="title"/>
-    </xsl:when>
-  </xsl:choose>
-
-  <xsl:choose>
-    <xsl:when test="bookinfo/subtitle">
-      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/subtitle"/>
-    </xsl:when>
-    <xsl:when test="info/subtitle">
-      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/subtitle"/>
-    </xsl:when>
-    <xsl:when test="subtitle">
-      <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="subtitle"/>
-    </xsl:when>
-  </xsl:choose>
-
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/corpauthor"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/corpauthor"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/authorgroup"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/authorgroup"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/author"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/author"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="bookinfo/itermset"/>
-  <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="info/itermset"/>
--->
 </xsl:template>
 
 <xsl:template name="book.titlepage.verso">
@@ -4738,28 +4667,43 @@
 </xsl:template>
 
 <xsl:template name="colophon.titlepage.recto">
-  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="colophon.titlepage.recto.style" margin-left="{$title.margin.left}" font-size="24.8832pt" font-family="{$title.fontset}" font-weight="bold">
-<xsl:call-template name="component.title">
-<xsl:with-param name="node" select="ancestor-or-self::colophon[1]"/>
-</xsl:call-template></fo:block>
-  <xsl:choose>
-    <xsl:when test="colophoninfo/subtitle">
-      <xsl:apply-templates mode="colophon.titlepage.recto.auto.mode" select="colophoninfo/subtitle"/>
-    </xsl:when>
-    <xsl:when test="docinfo/subtitle">
-      <xsl:apply-templates mode="colophon.titlepage.recto.auto.mode" select="docinfo/subtitle"/>
-    </xsl:when>
-    <xsl:when test="info/subtitle">
-      <xsl:apply-templates mode="colophon.titlepage.recto.auto.mode" select="info/subtitle"/>
-    </xsl:when>
-    <xsl:when test="subtitle">
-      <xsl:apply-templates mode="colophon.titlepage.recto.auto.mode" select="subtitle"/>
-    </xsl:when>
-  </xsl:choose>
-
-  <xsl:apply-templates mode="colophon.titlepage.recto.auto.mode" select="colophoninfo/itermset"/>
-  <xsl:apply-templates mode="colophon.titlepage.recto.auto.mode" select="docinfo/itermset"/>
-  <xsl:apply-templates mode="colophon.titlepage.recto.auto.mode" select="info/itermset"/>
+	<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="colophon.titlepage.recto.style">
+		<fo:table xsl:use-attribute-sets="book.colophon.table.info">
+				<fo:table-body>
+					<fo:table-row xsl:use-attribute-sets="book.colophon.table.info.row">
+						<fo:table-cell xsl:use-attribute-sets="book.colophon.table.info.cell">
+							<!-- Company name -->
+							<fo:block xsl:use-attribute-sets="book.colophon.table.info.company"><xsl:value-of select="ancestor-or-self::book/colophon/para[1]" /></fo:block>
+							<!-- Organize division -->
+							<fo:block><xsl:value-of select="ancestor-or-self::book/colophon/para[2]" /></fo:block>
+							<!-- Address -->
+							<xsl:for-each select="ancestor-or-self::book/colophon/address/otheraddr">
+								<fo:block><xsl:value-of select="." /></fo:block>
+							</xsl:for-each>
+							<!-- Phone -->
+							<xsl:for-each select="ancestor-or-self::book/colophon/address/phone">
+								<fo:block><xsl:value-of select="." /></fo:block>
+							</xsl:for-each>
+							<!-- Fax -->
+							<xsl:for-each select="ancestor-or-self::book/colophon/address/fax">
+								<fo:block><xsl:value-of select="." /></fo:block>
+							</xsl:for-each>
+							<!-- Email -->
+							<xsl:for-each select="ancestor-or-self::book/colophon/address/email">
+								<fo:block><xsl:value-of select="." /></fo:block>
+							</xsl:for-each>
+							<!-- URL -->
+							<xsl:for-each select="ancestor-or-self::book/colophon/address/ulink">
+								<fo:block><xsl:value-of select="." /></fo:block>
+							</xsl:for-each>
+							<!-- <fo:block>	<xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/address/link@xlink:href" xmlns:xlink="http://www.w3.org/1999/xlink" /></fo:block> -->
+							<!-- Publish date -->
+							<!-- <fo:block><xsl:value-of select="ancestor-or-self::book/bookinfo/authorgroup/author/affiliation/pubdate" /></fo:block> -->
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+	</fo:block-container>
 </xsl:template>
 
 <xsl:template name="colophon.titlepage.verso">
