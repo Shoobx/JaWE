@@ -36,68 +36,42 @@
 
     <authorgroup>
       <author>
-        <personname><firstname>Together Teamsolutions Co., Ltd. in
-        Thailand.</firstname></personname>
+        <personname><firstname>Together Teamsolutions Co.,
+        Ltd.</firstname></personname>
       </author>
     </authorgroup>
 
-    <!--    
-    <publisher>
-      <publishername>to be determined</publishername>
-
-      <address><city>some City</city>xxxx</address>
-    </publisher>
-
-    <printhistory>
-      <para>xxxx 2007: First Edition</para>
-    </printhistory>
-
-    <isbn>xxxxxx-xxx-x</isbn>
-
-    <releaseinfo>Version 2.1-2</releaseinfo>
-
-    <pubdate>2007-xx-xx</pubdate>
--->
-
     <copyright>
-      <year>2011</year>
+      <year>2015</year>
 
-      <holder>Together Teamsolutions Co., Ltd. in Thailand. Permission is
-      granted to copy, distribute and/or modify this document under the terms
-      of the GNU Free Documentation License, Version 1.3 or any later version
-      published by the Free Software Foundation; with the Invariant Sections
-      being <remark>"Introduction", "Installation Guide", "User Interface",
-      "Dialogs and Property Panels", "XPDL Elements","XPDL from Scratch",
-      "Configuration", "Customization", "Shark configuration", "Extended
-      Attribute Reference", "Build Guide", "Release Notes", and with the
-      Front-Cover Texts. A copy of the license is included in the section
-      entitled "GNU Free Documentation License"</remark>.</holder>
+      <holder>Together Teamsolutions Co., Ltd.</holder>
     </copyright>
 
     <legalnotice>
-      <para>Together Teamsolutions Co., Ltd DISCLAIMS ALL WARRANTIES, EXPRESS
+      <para>Permission is granted to copy, distribute and/or modify this
+      document under the terms of the GNU Free Documentation License, Version
+      1.3 or any later version published by the Free Software Foundation; with
+      the invariant sections being "Introduction", "Installation Guide", "User
+      Interface", "Dialogs and Property Panels", "XPDL Elements", "XPDL from
+      Scratch", "Configuration", "Customization", "Shark configuration",
+      "Extended Attribute Reference", "Build Guide", "Release Notes",
+      "Appendix A. GNU Free Documentation License", the front-cover and
+      back-cover texts. A copy of the license is included in the section
+      entitled "GNU Free Documentation License".</para>
+
+      <para>Together Teamsolutions Co., Ltd. DISCLAIMS ALL WARRANTIES, EXPRESS
       OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF
       THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
       WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR
       PURPOSE.</para>
 
       <para>While every precaution has been taken in the preparation of this
-      book, the publisher assumes no responsibility for errors or omissions,
-      or for damages resulting from the use of the information contained in
-      this book.</para>
+      document, the publisher assumes no responsibility for errors or
+      omissions, or for damages resulting from the use of the information
+      contained in this document.</para>
 
       <para>The Together logos are registered trademarks of GrECo
-      International Holding AG in Austria / Europe. Java and all Java-based
-      trademarks or logos are trademarks or registered trademarks of Oracle
-      Corporation, in the United States States and other countries. Together
-      Teamsolutions Co., Ltd. is independent of Oracle Corporation.</para>
-
-      <para>In this document parts of the original XPDL 2.1 specification -
-      <link
-      xlink:href="http://www.wfmc.org/Download-document/WFMC-TC-1025-Oct-10-08-A-Final-XPDL-2.1-Specification.html"
-      xmlns:xlink="http://www.w3.org/1999/xlink">WfMC XPDL 2.1
-      Specification</link> are used. The Workflow Management Coalition and its
-      members are the owners of the copyright of this specification.</para>
+      International Holding AG.</para>
     </legalnotice>
   </info>
 
@@ -13962,6 +13936,7 @@ to permit their use in free software.
 
   <colophon>
     <para>Together Teamsolutions Co., Ltd.</para>
+
     <address>
 	  <otheraddr>330/30 Moo 12 Pratamnak Soi 5</otheraddr>
       <otheraddr>Nongprue Banglamung Pattaya</otheraddr>
@@ -13969,7 +13944,8 @@ to permit their use in free software.
       <phone>Tel. +66 38 252802</phone>
       <fax>Fax +43 720 347872</fax>
       <email>office@togetherteam.co.th</email>
-      <link xlink:href="www.togetherteam.co.th" xmlns:xlink="http://www.w3.org/1999/xlink">www.togetherteam.co.th</link>
+      <link xlink:href="www.togetherteam.co.th"
+        xmlns:xlink="http://www.w3.org/1999/xlink">www.togetherteam.co.th</link>
     </address>
   </colophon>
 </book>
