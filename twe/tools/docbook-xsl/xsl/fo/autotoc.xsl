@@ -205,7 +205,14 @@
         </xsl:if>
 
         <xsl:variable name="depth.level">
-          <xsl:value-of select="count(ancestor::*)"/>
+			<xsl:choose>
+				<xsl:when test="name(self::*) = 'figure' or name(self::*) = 'table'">
+					<xsl:text>1</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="count(ancestor::*)"/>
+				</xsl:otherwise>
+			</xsl:choose>
         </xsl:variable>
 <!--
         <xsl:variable name="depthAll">
