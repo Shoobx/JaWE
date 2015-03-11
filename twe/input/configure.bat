@@ -107,7 +107,7 @@ echo.
 echo.
 echo Examples :
 echo.
-echo configure -jdkhome C:/jdk1.6.0_20
+echo configure -jdkhome C:/jdk1.7.0_67
 echo.
 goto end
 

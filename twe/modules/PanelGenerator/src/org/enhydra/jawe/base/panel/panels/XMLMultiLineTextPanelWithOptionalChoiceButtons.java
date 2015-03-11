@@ -80,13 +80,13 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          String labelKey,
                                                          boolean isFalseRequired,
                                                          boolean isVertical,
-                                                         int type,
+                                                         int noOfLines,
                                                          boolean wrapLines,
                                                          List<List> choices,
                                                          List<String> chTooltips,
                                                          boolean isEnabled,
                                                          String tooltip) {
-      this(pc, myOwner, labelKey, isFalseRequired, isVertical, type, wrapLines, choices, chTooltips, isEnabled, null, tooltip, null);
+      this(pc, myOwner, labelKey, isFalseRequired, isVertical, noOfLines, wrapLines, choices, chTooltips, isEnabled, null, tooltip, null);
    }
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
@@ -94,7 +94,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          String labelKey,
                                                          boolean isFalseRequired,
                                                          boolean isVertical,
-                                                         int type,
+                                                         int noOfLines,
                                                          boolean wrapLines,
                                                          List<List> choices,
                                                          List<String> chTooltips,
@@ -279,17 +279,17 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
       jsp.setAlignmentY(Component.TOP_ALIGNMENT);
 
       double scale = 1.3;
-      if (type <= 0) {
-         type = 1;
+      if (noOfLines <= 0) {
+         noOfLines = 1;
       }
-      if (type == 1) {
+      if (noOfLines == 1) {
          scale = 2.5;
-      } else if (type <= 3) {
+      } else if (noOfLines <= 3) {
          scale = 1.6;
       }
 
       int fm = (int) (getFontMetrics(getFont()).getHeight() * scale);
-      Dimension dim = new Dimension(600, fm * type);
+      Dimension dim = new Dimension(600, fm * noOfLines);
       // jta.setMinimumSize(new Dimension(dim.width - 5, dim.height - 5));
       // jta.setPreferredSize(new Dimension(dim.width - 5, dim.height - 5));
 

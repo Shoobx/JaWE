@@ -1,4 +1,10 @@
-###### TWE 5.1-1 RELEASED ######
+###### TWE 5.2-1 RELEASED ######
+2015-03-11 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - improved support for extended attributes that allow evaluation of priority/limit/description/name of activity/process
+        (update of expressions when Id of used variable is changing, GUI support with multi-line text editor)
+
+###### TWE 5.1-1 RELEASED (2015-02-17) ######
 2014-12-23 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - better support for HTML_VARIABLE extended attribute

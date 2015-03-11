@@ -210,7 +210,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                             || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
                             || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES) || ea.getName()
                          .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES)) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
-                     boolean allowUndefinedVariables = allowFlag(wp, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, false);
+                     boolean allowUndefinedVariables = SharkUtils.allowFlag(wp, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, false);
                      boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
 
                      XMLValidationError verr = new XMLValidationError((isWarning || allowUndefinedVariables || !isWPLevel) ? XMLValidationError.TYPE_WARNING
@@ -504,10 +504,10 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
 
    public void validateElement(Limit el, List existingErrors, boolean fullCheck) {
       boolean isAct = XMLUtil.getActivity(el) != null;
-      boolean allowPriorityAsExpression = allowFlag(el, isAct ? SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY
-                                                             : SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false);
+      boolean allowLimitAsExpression = SharkUtils.allowFlag(el, isAct ? SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY
+                                                                        : SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false);
 
-      if (!allowPriorityAsExpression) {
+      if (!allowLimitAsExpression) {
          super._validateElement(el, existingErrors, fullCheck, true, XPDLValidationErrorIds.ERROR_LIMIT_INVALID_VALUE);
       }
    }
@@ -561,8 +561,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
 
    public void validateElement(Priority el, List existingErrors, boolean fullCheck) {
       boolean isAct = XMLUtil.getActivity(el) != null;
-      boolean allowPriorityAsExpression = allowFlag(el, isAct ? SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY
-                                                             : SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, false);
+      boolean allowPriorityAsExpression = SharkUtils.allowFlag(el, isAct ? SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY
+                                                                        : SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, false);
 
       if (!allowPriorityAsExpression) {
          super._validateElement(el, existingErrors, fullCheck, true, XPDLValidationErrorIds.ERROR_PRIORITY_INVALID_VALUE);
@@ -1469,35 +1469,6 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             }
          }
       }
-   }
-
-   protected boolean allowFlag(XMLElement el, String eaname, boolean defaultValue) {
-      Activity act = XMLUtil.getActivity(el);
-      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
-      Package pkg = XMLUtil.getPackage(el);
-
-      ExtendedAttribute ea = null;
-      Boolean allow = new Boolean(defaultValue);
-
-      if (act != null) {
-         ea = act.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
-         if (ea != null) {
-            allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
-         }
-      }
-      if (ea == null && wp != null) {
-         ea = wp.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
-         if (ea != null) {
-            allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
-         }
-      }
-      if (ea == null && pkg != null) {
-         ea = XMLUtil.getPackage(wp).getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
-         if (ea != null) {
-            allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
-         }
-      }
-      return allow.booleanValue();
    }
 
    protected List<String> getPossiblePlaceholderVariables(String eav, String typePrefix) {

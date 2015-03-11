@@ -408,7 +408,28 @@ public class SharkXPDLUtils extends XPDLUtils {
          Activity act = (Activity) it.next();
          int type = act.getActivityType();
          // special extended attributes for shark client applications
-         if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || type == XPDLConstants.ACTIVITY_TYPE_NO) {
+         if (type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || type == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT || type == XPDLConstants.ACTIVITY_TYPE_NO) {
+            if (SharkUtils.allowFlag(act, SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY, false)) {
+               if (XMLUtil.getUsingPositions(act.getDescription(), dfOrFpId, allVars).size() > 0) {
+                  references.add(act.get("Description"));
+               }
+            }
+            if (SharkUtils.allowFlag(act, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY, false)) {
+               if (XMLUtil.getUsingPositions(act.getLimit(), dfOrFpId, allVars).size() > 0) {
+                  references.add(act.get("Limit"));
+               }
+            }
+            if (SharkUtils.allowFlag(act, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY, false)) {
+               if (XMLUtil.getUsingPositions(act.getName(), dfOrFpId, allVars).size() > 0) {
+                  references.add(act.get("Name"));
+               }
+            }
+            if (SharkUtils.allowFlag(act, SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY, false)) {
+               if (XMLUtil.getUsingPositions(act.getPriority(), dfOrFpId, allVars).size() > 0) {
+                  references.add(act.get("Priority"));
+               }
+            }
+
             List eas = act.getExtendedAttributes().toElements();
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
@@ -461,6 +482,27 @@ public class SharkXPDLUtils extends XPDLUtils {
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(wpOrAs);
       List eas = wp.getExtendedAttributes().toElements();
       for (int i = 0; i < eas.size(); i++) {
+         if (SharkUtils.allowFlag(wp, SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS, false)) {
+            if (XMLUtil.getUsingPositions(wp.getProcessHeader().getDescription(), dfOrFpId, allVars).size() > 0) {
+               references.add(wp.getProcessHeader().get("Description"));
+            }
+         }
+         if (SharkUtils.allowFlag(wp, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false)) {
+            if (XMLUtil.getUsingPositions(wp.getProcessHeader().getLimit(), dfOrFpId, allVars).size() > 0) {
+               references.add(wp.getProcessHeader().get("Limit"));
+            }
+         }
+         if (SharkUtils.allowFlag(wp, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, false)) {
+            if (XMLUtil.getUsingPositions(wp.getName(), dfOrFpId, allVars).size() > 0) {
+               references.add(wp.get("Name"));
+            }
+         }
+         if (SharkUtils.allowFlag(wp, SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, false)) {
+            if (XMLUtil.getUsingPositions(wp.getProcessHeader().getPriority(), dfOrFpId, allVars).size() > 0) {
+               references.add(wp.getProcessHeader().get("Priority"));
+            }
+         }
+
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
          if (ea.getName().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)) {
             if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {

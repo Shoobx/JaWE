@@ -11414,7 +11414,22 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     <title>Release Notes</title>
 
     <section>
-      <title>Release5.1-1</title>
+      <title>Release 5.2-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Shark mode:</para>
+
+          <para> - improved support for extended attributes that allow
+          evaluation of priority/limit/description/name of activity/process
+          (update of expressions when Id of used variable is changing, GUI
+          support with multi-line text editor)</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Release 5.1-1</title>
 
       <itemizedlist>
         <listitem>
@@ -11596,7 +11611,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     </section>
 
     <section>
-      <title>Release5.0-1</title>
+      <title>Release 5.0-1</title>
 
       <itemizedlist>
         <listitem>

@@ -28,8 +28,10 @@ import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
+import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
+import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
@@ -158,8 +160,8 @@ public class SharkUtils {
                if (vare.size() > 0) {
                   List varl = vare.toElements();
                   for (int i = 0; i < varl.size(); i++) {
-                     WfNameValue nv = (WfNameValue)varl.get(i);
-                     val += nv.getNamePart()+vare.getNameValueTokenizer()+nv.getValuePart();
+                     WfNameValue nv = (WfNameValue) varl.get(i);
+                     val += nv.getNamePart() + vare.getNameValueTokenizer() + nv.getValuePart();
                      if (i < varl.size() - 1) {
                         val += vare.getListTokenizer();
                      }
@@ -175,6 +177,29 @@ public class SharkUtils {
             ea.setVValue(val);
          }
       }
+   }
+
+   public static boolean allowFlag(XMLElement el, String eaname, boolean defaultValue) {
+      Activity act = XMLUtil.getActivity(el);
+      WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+      Package pkg = XMLUtil.getPackage(el);
+
+      ExtendedAttribute ea = null;
+      Boolean allow = new Boolean(defaultValue);
+
+      if (act != null) {
+         ea = act.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
+      }
+      if (ea == null && wp != null) {
+         ea = wp.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
+      }
+      if (ea == null && pkg != null) {
+         ea = XMLUtil.getPackage(wp).getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
+      }
+      if (ea!=null) {
+         allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
+      }
+      return allow.booleanValue();
    }
 
 }
