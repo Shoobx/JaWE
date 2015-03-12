@@ -1,0 +1,412 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<!-- ======================================================================= -->
+<!-- ANT-Makefile for TWE                                                    -->
+<!-- ======================================================================= -->
+<project name="TogWE-doc" default="buildDoc" basedir=".">
+
+   <!-- ==================================================================== -->
+   <!-- Init target                                                          -->
+   <!-- ==================================================================== -->
+   <target name="init">
+
+      <!--Set the global variables-->
+      <property name="docbook.name" value="twe-doc" />
+      <property name="testcase.name" value="twe-testcases-doc" /> 
+      <property name="doc.title" value="Together Workflow Editor" />
+      <property name="version" value="4.0" />
+      <property name="release" value="1" />
+
+      <property name="project.name" value="TWE" />
+      <property name="app.name" value="twe" />
+
+      <!-- Operating system  -->
+      <condition property="os" value="windows">
+         <os family="windows" />
+      </condition>
+      <condition property="os" value="unix">
+         <os family="unix" />
+      </condition>
+
+      <condition property="path.separator" value=";">
+         <os family="windows" />
+      </condition>
+      <condition property="path.separator" value=":">
+         <os family="unix" />
+      </condition>
+
+      <condition property="executable.extension" value=".exe">
+         <os family="windows" />
+      </condition>
+      <condition property="executable.extension" value="">
+         <os family="unix" />
+      </condition>
+
+      <!-- Set directories -->
+      <property name="project.dir" location="${basedir}/.." />
+      <property name="doc.dir" location="${basedir}" />
+      <property name="tmp.dir" location="${basedir}/tmp" />
+      <property name="modules.dir" location="${project.dir}/modules" />
+
+      <property name="docbook.xsl.dir" location="${tools.dir}/docbook-xsl" />
+      <property name="docbook.dtd.dir" location="${tools.dir}/docbook-dtd" />
+		<property name="ant.lib.dir" location="${project.dir}/tools/ant" />
+		<property name="fop.lib.dir" location="${project.dir}/tools/fop" />
+		<property name="xalan.lib.dir" location="${project.dir}/tools/xalan" />
+		<property name="jgraph.lib.dir" location="${project.dir}/tools/jgraph" />
+		<property name="jeditsyntax.lib.dir" location="${project.dir}/tools/jeditsyntax" />
+		<property name="jna.lib.dir" location="${project.dir}/tools/jna" />
+		<property name="itext.lib.dir" location="${project.dir}/tools/itext5" />
+		<property name="javahelp.lib.dir" location="${project.dir}/tools/javahelp" />
+		<property name="txm.lib.dir" location="${project.dir}/tools/txm" />
+
+      <!--Classes directory-->
+      <property name="sources.dir" location="${modules.dir}/sources" />
+
+      <!--Set the main classpath-->
+      <path id="classpath">
+         <pathelement location="${jgraph.lib.dir}/jgraph.jar" />
+         <pathelement location="${jna.lib.dir}/jna.jar" />
+         <pathelement location="${javahelp.lib.dir}/jhall.jar" />
+         <pathelement location="${tools.dir}/batik/batik.jar" />
+         <pathelement location="${tools.dir}/xerces/xercesImpl.jar" />
+         <pathelement location="${tools.dir}/xml-commons/xml-apis.jar" />
+         <pathelement location="${jeditsyntax.lib.dir}/jEdit-syntax.jar" />
+         <pathelement location="${itext.lib.dir}/itext.jar" />
+         <pathelement location="${txm.lib.dir}/jxpdl.jar" />
+      </path>
+
+      <!--Set the classpath for docbook-->
+      <path id="xalan-classpath">
+         <fileset dir="${xalan.lib.dir}">
+            <include name="*.jar" />
+         </fileset>
+      </path>
+   	
+	<path id="fop-classpath">
+		<fileset dir="${tools.dir}/avalon-framework">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/batik">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/commons-io">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/commons-logging">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/fop">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tools.dir}/xmlgraphics-commons">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+      <property name="docbook.fo.xsl" location="${tools.dir}/docbook-xsl-fo/docbookx.xsl" />
+      <property name="docbook.pdf.classpath" location="${fop.lib.dir}/fop.jar${path.separator}${tools.dir}/batik/batik.jar${path.separator}${tools.dir}/avalon-framework/avalon-framework.jar${path.separator}${tools.dir}/commons-io/commons-io.jar${path.separator}${tools.dir}/xmlgraphics-commons/xmlgraphics-commons.jar${path.separator}${tools.dir}/commons-logging/commons-logging.jar" />
+
+      <!-- Setting IF task -->
+      <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
+         <classpath>
+            <fileset dir="${tools.dir}/antcontrib">
+               <include name="antcontrib.jar" />
+            </fileset>
+         </classpath>
+      </taskdef>
+      <!-- Setting FOP task -->
+      <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+         <classpath>
+            <fileset dir="${fop.lib.dir}">
+               <include name="*.jar" />
+            </fileset>
+            <fileset dir="${tools.dir}/commons-logging">
+               <include name="*.jar" />
+            </fileset>
+         </classpath>
+      </taskdef>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Prepare output                                                       -->
+   <!-- ==================================================================== -->
+   <target name="prepare" depends="init">
+      <mkdir dir="${output.doc.dir}" />
+      <mkdir dir="${tmp.dir}" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Content output                                                       -->
+   <!-- ==================================================================== -->
+	<target name="content" depends="prepare">
+      <copy todir="${tmp.dir}/Images">
+         <fileset dir="${doc.dir}/Images" />
+      </copy>
+		<copy todir="${tmp.dir}/Images/templates">
+			<fileset dir="${tools.dir}/tds" includes="*.jpg" />
+		</copy>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Create java API - javadoc                                            -->
+   <!-- ==================================================================== -->
+   <target name="javadoc" depends="prepare">
+      <mkdir dir="${output.doc.dir}/api" />
+      <!--Create Javadoc-->
+      <property name="doctitle" value="${project.name} - Together Workflow Editor ${version}-${release} API" />
+      <property name="header" value="${project.name} ${version}-${release} API" />
+      <javadoc 
+         sourcepath="${sources.dir}"
+         destdir="${output.doc.dir}/api" 
+         classpathref="classpath" 
+         packagenames="org.enhydra.jawe.*" 
+         doctitle="${doctitle}" 
+         windowtitle="${doctitle}" 
+         header="${header}" 
+         splitindex="yes" 
+         access="private" 
+         encoding="ISO-8859-1" 
+         failonerror="true"
+         additionalparam="-J-Xmx128m -breakiterator -quiet"/>
+   </target>
+
+   <target name="docbook.check">
+      <uptodate property="docbook.notRequired" targetfile="${tmp.dir}/${app.name}-current.doc.pdf">
+         <srcfiles dir="${doc.dir}" includes="${docbook.name}.xml" />
+      </uptodate>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- DocBook Documentation                                                -->
+   <!-- ==================================================================== -->
+   <target name="docbook" depends="prepareDocbook">
+      <copy todir="${output.doc.dir}">
+         <fileset dir="${tmp.dir}">
+            <include name="**/Images/**" />
+            <include name="*.pdf" />
+            <include name="${app.name}-current.doc.html" />
+         </fileset>
+      </copy>
+      <copy file="${docbook.xsl.dir}/css/html.css" todir="${output.doc.dir}" />
+   </target>
+
+   <target name="rebranding">
+      <copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
+      <copy file="${doc.dir}/${testcase.name}.xml" tofile="${tmp.dir}/${testcase.name}.xml" />
+      <copy todir="${tmp.dir}/docbook">
+         <fileset dir="${docbook.dtd.dir}/dtd"/>
+      </copy>
+      <replace file="${tmp.dir}/${docbook.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
+      <replace file="${tmp.dir}/${testcase.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="${basedir}/../branding" target="copyDoc" inheritAll="true" inheritRefs="true"/>
+            <touch file="${doc.dir}/${docbook.name}.xml" />
+         </then>
+      </if>
+   </target>
+	
+	<target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
+		<echo message="compile docbook with javahelp.xsl" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param ignore.image.scaling 1" />
+			<arg line="-xsl '${docbook.xsl.dir}/xsl/javahelp/javahelp.xsl'" />
+			<arg line="-in '${docbook.name}.xml'" />
+		</java>
+		<replace file="${tmp.dir}/jhelptoc.xml" token="text=&quot;&quot;" value="text=&quot;${doc.title}&quot;" />
+		
+		<echo message="compile docbook with chunk.xsl" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param ignore.image.scaling 1" />
+			<arg line="-xsl '${docbook.xsl.dir}/xsl/html/chunk.xsl'" />
+			<arg line="-in '${docbook.name}.xml'" />
+			<arg line="-out '${app.name}-current.doc.html'" />
+		</java>
+		
+		<echo message="compile docbook with docbook.xsl" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param ignore.image.scaling 1" />
+			<arg line="-xsl '${docbook.xsl.dir}/xsl/html/docbook.xsl'" />
+			<arg line="-in '${docbook.name}.xml'" />
+			<arg line="-out '${app.name}-current.doc.html'" />
+		</java>
+
+		<echo message="docbook to ${docbook.name}.fo" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param section.autolabel 1" />
+			<arg line="-param section.label.includes.component.label 1 " />
+			<arg line="-param section.autolabel.max.depth 8" />
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param body.start.indent 0pt" />
+			<arg line="-param ulink.footnotes 1" />
+			<arg line="-param paper.type A4" />
+			<arg line="-xsl '${docbook.fo.xsl}'" />
+			<arg line="-in '${docbook.name}.xml'" />
+			<arg line="-out '${docbook.name}.fo'" />
+			<!-- 
+                    -param page.margin.inner 0.5in 
+                    -param page.margin.outer 0.5in 
+                    -param page.margin.top 0.1in 
+                    -param region.before.extent 0.1in 
+                    -param body.margin.top 0.2in 
+                    -param region.after.extent 0.1in 
+                    -param page.margin.bottom 0.1in 
+                    -param body.margin.bottom 0.2in 
+                    -->
+		</java>
+		<!--ADD-->
+		<replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />   
+		<replace file="${tmp.dir}/${docbook.name}.fo" encoding="utf-8" token="@buildid@"  value="Version: ${version}-${release} - ${build.timestamp}" />
+		<!--/ADD-->		  
+
+		<echo message="docbook to PDF ${tmp.dir}/${docbook.name}.xml" />
+      <!--exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+         <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${app.name}-current.doc.pdf'" />
+      </exec-->
+		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
+			<arg line="-c ${tools.dir}/fop/userconfig.xml" />
+			<arg line="-fo '${docbook.name}.fo'" />
+			<arg line="-pdf '${app.name}-current.doc.pdf'" />
+		</java>
+		<delete file="${tmp.dir}/${docbook.name}.fo" quiet="true" />
+		<delete file="${tmp.dir}/${docbook.name}.xml" quiet="true" />
+		
+		<echo message="docbook to ${testcase.name}.fo" />
+		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
+			<arg line="-param section.autolabel 1" />
+			<arg line="-param section.label.includes.component.label 1 " />
+			<arg line="-param section.autolabel.max.depth 8" />
+			<arg line="-param html.stylesheet html.css" />
+			<arg line="-param body.start.indent 0pt" />
+			<arg line="-param ulink.footnotes 1" />
+			<arg line="-param paper.type A4" />
+			<arg line="-xsl '${docbook.fo.xsl}'" />
+			<arg line="-in '${testcase.name}.xml'" />
+			<arg line="-out '${testcase.name}.fo'" />
+                       <!-- 
+                       -param page.margin.inner 0.5in 
+                       -param page.margin.outer 0.5in 
+                       -param page.margin.top 0.1in 
+                       -param region.before.extent 0.1in 
+                       -param body.margin.top 0.2in 
+                       -param region.after.extent 0.1in 
+                       -param page.margin.bottom 0.1in 
+                       -param body.margin.bottom 0.2in 
+                       -->
+		</java>
+		<!--ADD-->
+		<replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@doctitle@" value="${doc.title}" />
+		<replace file="${tmp.dir}/${testcase.name}.fo" encoding="utf-8" token="@buildid@" value="Version: ${version}-${release} - ${build.timestamp}" />
+		<!--/ADD-->	
+
+		<echo message="docbook to PDF ${tmp.dir}/${testcase.name}.xml" />
+      <!--exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
+         <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${testcase.name}.fo' '${app.name}-${version}-${release}.test.pdf'" />
+      </exec-->
+		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
+			<arg line="-c ${tools.dir}/fop/userconfig.xml" />
+			<arg line="-fo '${testcase.name}.fo'" />
+			<arg line="-pdf '${app.name}-current.test.pdf'" />
+		</java>
+		
+		<delete file="${tmp.dir}/${testcase.name}.fo" quiet="true" />
+		<delete file="${tmp.dir}/${testcase.name}.xml" quiet="true" />
+	</target>
+
+   <target name="generate-pdf" description="Generates a single PDF file">
+      <fop format="application/pdf" fofile="${tmp.dir}/${docbook.name}.fo" outfile="${tmp.dir}/${app.name}-current.doc.pdf" logfiles="log.txt" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Create doc jar archive                                               -->
+   <!-- ==================================================================== -->
+
+   <target name="buildDocJar" depends="docbook, replace_jhelpsetDot_hs">
+      <delete file="${output.lib.dir}/${app.name}doc.jar" />
+      <if>
+         <equals arg1="${build.debug}" arg2="on" />
+         <then>
+            <property name="build.type" value="debug"/>
+         </then>
+         <else>
+            <property name="build.type" value="release"/>         
+         </else>
+      </if>      
+      <jar destfile="${output.lib.dir}/${app.name}doc.jar">
+         <fileset dir="${tmp.dir}" excludes="**/${docbook.name}.*, **/*.pdf, **/${app.name}-current.doc.html, **/api/**, **/docbook/**" />
+         <manifest>
+            <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
+            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Version" value="${version}-${release}" />
+            <attribute name="Build-Id" value="${build.timestamp}" />
+            <attribute name="Build-Type" value="${build.type}" />
+            <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
+         </manifest>
+      </jar>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- DocBook Documentation output                                         -->
+   <!-- ==================================================================== -->
+   <target name="buildDoc" depends="init">
+      <echo message="Documentation Build" />
+      <ant target="docbook" />
+      <ant target="javadoc" />
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Cleans everything                                                    -->
+   <!-- ==================================================================== -->
+   <target name="clean" depends="init">
+      <delete dir="${output.doc.dir}" />
+      <delete>
+         <fileset dir="${basedir}" includes="log.txt,${docbook.name}.xml~,${testcase.name}.xml~" defaultexcludes="false"/>
+      </delete>
+      <delete dir="${basedir}/tmp" />      
+   </target>
+
+	<!-- Support tog Icon for javahelp -->
+	<target name="replace_jhelpsetDot_hs" depends="init">
+      <replace file="${tmp.dir}/jhelpmap.jhm">
+         <replacetoken><![CDATA[</map>]]></replacetoken>
+         <!-- Key for search -->
+         <replacevalue>
+            <!-- Value for replace -->
+            <![CDATA[<mapID target="jaweicon" url="Images/twe16.png" />
+         </map>]]>
+         </replacevalue>
+      </replace>
+      <replace file="${tmp.dir}/jhelpset.hs">
+         <replacetoken><![CDATA[</maps>]]></replacetoken>
+         <replacevalue>
+            <![CDATA[</maps>
+            <presentation default="true">
+               <name>mainwindow</name>
+               <image>jaweicon</image>
+            </presentation>]]>
+            </replacevalue>
+      </replace>
+   </target>
+   
+</project>
+
