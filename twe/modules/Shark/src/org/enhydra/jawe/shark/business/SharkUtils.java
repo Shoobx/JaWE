@@ -194,7 +194,7 @@ public class SharkUtils {
          ea = wp.getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
       }
       if (ea == null && pkg != null) {
-         ea = XMLUtil.getPackage(wp).getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
+         ea = XMLUtil.getPackage(el).getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
       }
       if (ea!=null) {
          allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
