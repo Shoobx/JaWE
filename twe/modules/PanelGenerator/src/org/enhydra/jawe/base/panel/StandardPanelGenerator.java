@@ -51,7 +51,6 @@ import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLHighlightPanelWithReferenceLink;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLLocationPanel;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLRadioPanel;
@@ -1318,6 +1317,27 @@ public class StandardPanelGenerator implements PanelGenerator {
          .canModifyElement(el), null, null);
    }
 
+   protected XMLMultiLineTextPanelWithOptionalChoiceButtons generateStandardMultiLineTextPanelWithChoices(XMLElement el, boolean isVertical, int size, boolean wrapLines) {
+      String ext = "txt";
+      String scriptType = XMLUtil.getPackage(el).getScript().getType();
+      if (!scriptType.equals("")) {
+         ext = Utils.getFileExtension(scriptType);
+      }
+      return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
+                                                                el,
+                                                                el.toName(),
+                                                                el.isRequired(),
+                                                                isVertical,
+                                                                3,
+                                                                wrapLines,
+                                                                prepareExpressionChoices(el.getParent().getParent()),
+                                                                prepareExpressionChoicesTooltips(el.getParent().getParent()),
+                                                                JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                                                null,
+                                                                null,
+                                                                ext);
+   }
+
    protected XMLTextPanel generateStandardTextPanel(XMLElement el, boolean isVertical) {
       return new XMLTextPanel(getPanelContainer(), el, isVertical, false, JaWEManager.getInstance().getJaWEController().canModifyElement(el));
 
@@ -1378,7 +1398,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                               true,
                               false,
                               true,
-                              false,
+                              cl instanceof Deadlines,
                               false,
                               false,
                               null);

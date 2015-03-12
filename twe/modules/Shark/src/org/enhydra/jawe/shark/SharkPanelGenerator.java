@@ -82,13 +82,16 @@ import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.Deadline;
+import org.enhydra.jxpdl.elements.Description;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.InitialValue;
+import org.enhydra.jxpdl.elements.Limit;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.Performer;
+import org.enhydra.jxpdl.elements.Priority;
 import org.enhydra.jxpdl.elements.Script;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
@@ -979,8 +982,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       switch (no) {
          case 1:
             XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el, no, hidden);
-            if (!hidden.contains(el.getExtendedAttributes())) {
-               XMLPanel pnl = this.getPanel(el.getExtendedAttributes());
+            if (!hidden.contains(eas)) {
+               XMLPanel pnl = this.getPanel(eas);
                gp.addToGroup(pnl);
             }
             p = gp;
@@ -1038,8 +1041,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          groupsToShow.add(canBeRemoved);
       }
 
-      ExtendedAttributes eas = el.getExtendedAttributes();
-      ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+      ExtendedAttribute ea = el.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
       boolean specTA = false;
       if (ea != null) {
          String taName = ea.getVValue();
@@ -1182,6 +1184,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          .canModifyElement(el), null);
    }
 
+   public XMLPanel getPanel(Description el) {
+      if (SharkUtils.allowFlag(el, el.getParent() instanceof Activity ? SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY
+                                                                     : SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS, false)) {
+         return generateStandardMultiLineTextPanelWithChoices(el, true, 3, false);
+      }
+      return super.getPanel(el);
+   }
+
    public XMLPanel getPanel(ExtendedAttribute el) {
       if (el.getParent().getParent() instanceof Activity && (el.getName().equals(SharkConstants.VTP_UPDATE) || el.getName().equals(SharkConstants.VTP_VIEW))) {
          // boolean roVar = false;
@@ -1198,6 +1208,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
 
          return new ExtAttribPanel(getPanelContainer(), el, chs, false, false, JaWEManager.getInstance().getJaWEController().canModifyElement(el), true, null);
+      }
+      return super.getPanel(el);
+   }
+
+   public XMLPanel getPanel(Limit el) {
+      if (SharkUtils.allowFlag(el, el.getParent() instanceof Activity ? SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY
+                                                                     : SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false)) {
+         return generateStandardMultiLineTextPanelWithChoices(el, true, 3, false);
       }
       return super.getPanel(el);
    }
@@ -1253,6 +1271,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 22), false, false, true, null));
       }
       return p;
+   }
+
+   public XMLPanel getPanel(Priority el) {
+      if (SharkUtils.allowFlag(el, el.getParent() instanceof Activity ? SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY
+                                                                     : SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, false)) {
+         return generateStandardMultiLineTextPanelWithChoices(el, true, 3, false);
+      }
+      return super.getPanel(el);
    }
 
    public XMLPanel getPanel(WorkflowProcess el, int no, Set hidden) {
@@ -1650,6 +1676,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          return new XMLComboPanel(getPanelContainer(), el, null, choices, false, true, false, false, JaWEManager.getInstance()
             .getJaWEController()
             .canModifyElement(el), true, true, null);
+      } else if (el.getParent() instanceof Activity || el.getParent() instanceof WorkflowProcess) {
+         if (el.toName().equals("Name")) {
+            if (SharkUtils.allowFlag(el, el.getParent() instanceof Activity ? SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY
+                                                                           : SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, false)) {
+               return generateStandardMultiLineTextPanelWithChoices(el, true, 3, false);
+            }
+            return super.getPanel(el);
+         }
       }
       return super.getPanel(el);
    }
@@ -1849,4 +1883,5 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       return acts;
    }
+
 }
