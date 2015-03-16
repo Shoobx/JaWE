@@ -1317,7 +1317,10 @@ public class StandardPanelGenerator implements PanelGenerator {
          .canModifyElement(el), null, null);
    }
 
-   protected XMLMultiLineTextPanelWithOptionalChoiceButtons generateStandardMultiLineTextPanelWithChoices(XMLElement el, boolean isVertical, int size, boolean wrapLines) {
+   protected XMLMultiLineTextPanelWithOptionalChoiceButtons generateStandardMultiLineTextPanelWithChoices(XMLElement el,
+                                                                                                          boolean isVertical,
+                                                                                                          int size,
+                                                                                                          boolean wrapLines) {
       String ext = "txt";
       String scriptType = XMLUtil.getPackage(el).getScript().getType();
       if (!scriptType.equals("")) {
@@ -1364,7 +1367,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                               false,
                                               miniDim,
                                               true,
-                                              true);
+                                              true,
+                                              allowInPlaceEditing(cl));
 
       } else {
          return new XMLTablePanel((InlinePanel) getPanelContainer(),
@@ -1382,7 +1386,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                   true,
                                   useBasicToolbar,
                                   false,
-                                  null);
+                                  null,
+                                  allowInPlaceEditing(cl));
       }
    }
 
@@ -1655,4 +1660,7 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    }
 
+   protected boolean allowInPlaceEditing (XMLCollection el) {
+      return true;
+   }
 }

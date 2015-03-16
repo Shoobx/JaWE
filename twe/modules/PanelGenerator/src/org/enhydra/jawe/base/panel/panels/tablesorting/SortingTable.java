@@ -51,9 +51,10 @@ public class SortingTable extends JTable {
 
    XMLTablePanel owner;
 
-   public SortingTable(XMLTablePanel p,Vector data, Vector names) {
-      super(new SortingTableModel((XMLCollection)p.getOwner(),data, names));
+   public SortingTable(XMLTablePanel p,Vector data, Vector names, InlinePanel ipc) {
+      super(new SortingTableModel(ipc, (XMLCollection)p.getOwner(),data, names));
       this.owner=p;
+      this.ipc = ipc;
 
       JTableHeader h = getTableHeader();
       h.setDefaultRenderer(new SHRenderer());
@@ -65,11 +66,6 @@ public class SortingTable extends JTable {
       };
       h.addMouseListener(ml);
       
-   }
-   
-   public SortingTable(XMLTablePanel p,Vector data, Vector names, InlinePanel ipc) {
-	   this(p, data,  names);
-	   this.ipc = ipc;
    }
 
    public int getSortedColumnIndex() {

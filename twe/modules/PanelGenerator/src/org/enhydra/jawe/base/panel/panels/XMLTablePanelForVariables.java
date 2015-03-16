@@ -67,8 +67,20 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
                                     boolean automaticWidth,
                                     boolean miniDimension,
                                     final boolean colors,
-                                    final boolean showArrows) {
-      super(ipc, myOwner, columnsToShow, elementsToShow, title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, colors, showArrows);
+                                    final boolean showArrows,
+                                    boolean allowInplaceEditing) {
+      super(ipc,
+            myOwner,
+            columnsToShow,
+            elementsToShow,
+            title,
+            hasBorder,
+            hasEmptyBorder,
+            automaticWidth,
+            miniDimension,
+            colors,
+            showArrows,
+            allowInplaceEditing);
 
    }
 

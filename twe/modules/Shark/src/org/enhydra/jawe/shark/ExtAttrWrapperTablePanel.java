@@ -76,7 +76,8 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
             showArrows,
             useBasicToolBar,
             false,
-            null);
+            null,
+            false);
 
    }
 
@@ -121,7 +122,7 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
    }
 
    protected JTable createTable(final boolean colors) {
-      JTable jt = new SortingTable(this, new Vector(), columnNames) {
+      JTable jt = new SortingTable(this, new Vector(), columnNames, ipc) {
 
          public boolean isCellEditable(int row, int col) {
             if (col == 2) {
