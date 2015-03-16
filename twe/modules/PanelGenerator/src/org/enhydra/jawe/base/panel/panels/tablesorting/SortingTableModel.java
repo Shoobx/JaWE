@@ -24,6 +24,7 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLElement;
@@ -32,9 +33,12 @@ public class SortingTableModel extends DefaultTableModel {
 
    XMLCollection owner;
 
-   public SortingTableModel(XMLCollection c,Vector data, Vector names) {
+   InlinePanel ipc;
+   
+   public SortingTableModel(InlinePanel ipc, XMLCollection c,Vector data, Vector names) {
       super(data, names);
       this.owner=c;
+      this.ipc=ipc;
    }
 
    public void sortByColumn(int col, boolean ascending) {

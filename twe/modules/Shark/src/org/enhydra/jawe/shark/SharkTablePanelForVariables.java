@@ -53,7 +53,7 @@ public class SharkTablePanelForVariables extends XMLTablePanelForVariables {
                                       boolean miniDimension,
                                       final boolean colors,
                                       final boolean showArrows) {
-      super(ipc, myOwner, columnsToShow, elementsToShow, title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, colors, showArrows);
+      super(ipc, myOwner, columnsToShow, elementsToShow, title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, colors, showArrows, true);
 
    }
 

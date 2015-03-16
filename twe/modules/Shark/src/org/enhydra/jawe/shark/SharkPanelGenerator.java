@@ -1884,4 +1884,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return acts;
    }
 
+   protected boolean allowInPlaceEditing(XMLCollection el) {
+      if (el instanceof ExtendedAttributes && el.getClass() != ExtendedAttributes.class) {
+         return false;
+      }
+      return true;
+   }
+
 }

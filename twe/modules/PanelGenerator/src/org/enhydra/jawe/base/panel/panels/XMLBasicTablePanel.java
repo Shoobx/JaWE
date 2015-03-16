@@ -408,7 +408,7 @@ public class XMLBasicTablePanel extends XMLBasicPanel implements XMLElementChang
    }
 
    protected JTable createTable(final boolean colors) {
-      JTable t = new BasicSortingTable(this, new Vector(), columnNames) {
+      JTable t = new BasicSortingTable(this, new Vector(), columnNames, ipc) {
 
          public boolean isCellEditable(int row, int col) {
             return false;

@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
+import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.panels.XMLBasicTablePanel;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLElement;
@@ -39,10 +40,12 @@ public class BasicSortingTable extends JTable {
    protected boolean ascending = true;
 
    XMLBasicTablePanel owner;
-
-   public BasicSortingTable(XMLBasicTablePanel p,Vector data, Vector names) {
-      super(new SortingTableModel((XMLCollection)p.getOwner(),data, names));
+   InlinePanel ipc;
+   
+   public BasicSortingTable(XMLBasicTablePanel p,Vector data, Vector names, InlinePanel ipc) {
+      super(new SortingTableModel(ipc,(XMLCollection)p.getOwner(),data, names));
       this.owner=p;
+      this.ipc = ipc;
 
       JTableHeader h = getTableHeader();
       h.setDefaultRenderer(new SHRenderer());
