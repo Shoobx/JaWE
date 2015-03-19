@@ -1,0 +1,31 @@
+# Together Workflow Editor 
+# Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses
+#
+#######################################################################
+
+   Documents that you can find in this folder are here to show the JaWE ability
+to support external package cross-references. Packages contained within these
+documents have no other meaning but to show external package cross-references.
+
+   Open any of these documents (M1 - M8) and notice that the every branch of
+package hierarchy tree is expanding until it comes to the package already
+contained in that branch.
+
+   Also, because of cross-referenced external packages, if you enter the
+applications or participants item from package menu or toolbar of main package
+or any of external packages, you will see that it displays applications (
+or participants) from all packages.
+
