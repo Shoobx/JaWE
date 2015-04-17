@@ -438,6 +438,10 @@ public class SharkConstants {
    public static final String TOOL_AGENT_USERGROUP_METHOD_getUserAttribute = "getUserAttribute";
 
    public static final String TOOL_AGENT_USERGROUP_METHOD_getGroupAttribute = "getGroupAttribute";
+   
+   public static final String TOOL_AGENT_USERGROUP_METHOD_getUserByEMailAddress = "getUserByEMailAddress";
+   
+   public static final String TOOL_AGENT_USERGROUP_METHOD_getGroupByEMailAddress = "getGroupByEMailAddress";
 
    public static final String TOOL_AGENT_USERGROUP_METHOD_getObjects = "getObjects";
 
@@ -462,6 +466,7 @@ public class SharkConstants {
          TOOL_AGENT_USERGROUP_METHOD_getGroupEMailAddress,
          TOOL_AGENT_USERGROUP_METHOD_getGroupName,
          TOOL_AGENT_USERGROUP_METHOD_getGroups,
+         TOOL_AGENT_USERGROUP_METHOD_getGroupByEMailAddress,
          TOOL_AGENT_USERGROUP_METHOD_getObjects,
          TOOL_AGENT_USERGROUP_METHOD_getUserAttribute,
          TOOL_AGENT_USERGROUP_METHOD_getUserEMailAddress,
@@ -469,6 +474,7 @@ public class SharkConstants {
          TOOL_AGENT_USERGROUP_METHOD_getUserLastName,
          TOOL_AGENT_USERGROUP_METHOD_getUserPassword,
          TOOL_AGENT_USERGROUP_METHOD_getUserRealName,
+         TOOL_AGENT_USERGROUP_METHOD_getUserByEMailAddress,
          TOOL_AGENT_USERGROUP_METHOD_validateUser
    };
 

@@ -1,4 +1,8 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-04-17 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - better support for UserGroupToolAgent (added possibility to use getGroupByEMailAddress and getUserByEMailAddress methods)
+
 2015-03-16 Sasa Bojanic <sasaboy@together.at>
    # Allowed in-place editing of Id, Name and Value attributes in tables
 
