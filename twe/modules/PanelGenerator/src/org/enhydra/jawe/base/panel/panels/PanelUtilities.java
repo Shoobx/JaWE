@@ -293,10 +293,13 @@ public class PanelUtilities {
             }
             continue;
          }
+         boolean isArray = false;
          if (dfOrFP instanceof DataField) {
             chn = ((DataField) dfOrFP).getDataType().getDataTypes().getChoosen();
+            isArray = ((DataField)dfOrFP).getIsArray();
          } else {
             chn = ((FormalParameter) dfOrFP).getDataType().getDataTypes().getChoosen();
+            isArray = ((FormalParameter)dfOrFP).getIsArray();
          }
          if ((filterType == 0 || filterType >= 2) && (chn instanceof DeclaredType || chn instanceof ExternalReference)) {
             if (filterType == 3) {
@@ -333,9 +336,14 @@ public class PanelUtilities {
             }
          }
          if ((filterType > 0) && (chn instanceof BasicType || chn instanceof SchemaType)) {
-            String t = (chn instanceof BasicType) ? ((BasicType) chn).getType() : XMLUtil.getShortClassName(SchemaType.class.getName());
+            String t = (chn instanceof BasicType) ? ((BasicType) chn).getType() : XMLUtil.getShortClassName(SchemaType.class.getName());            
             for (int j = 0; j < tds.size(); j++) {
-               if (t.endsWith(tds.get(j).toString())) {
+               String tdsj = tds.get(j).toString();
+               boolean isArr = tdsj.endsWith("[]");
+               if (isArr) {
+                  tdsj = tdsj.substring(0, tdsj.length()-2);
+               }
+               if (t.endsWith(tdsj) && isArr==isArray) {
                   if (getIdList) {
                      filteredChoices.add(dfOrFP.getId());
                   } else {

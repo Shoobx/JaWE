@@ -42,6 +42,7 @@ import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.DataType;
 import org.enhydra.jxpdl.elements.EnumerationType;
 import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExpressionType;
@@ -277,20 +278,29 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                        || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixProc)
                        || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixAct)) {
                ExtendedAttribute ea = (ExtendedAttribute) parent;
-               XMLComplexElement pkgOrWp = XMLUtil.getWorkflowProcess(el);
-               Map choices = null;
-               if (pkgOrWp == null) {
-                  pkgOrWp = XMLUtil.getPackage(el);
-                  choices = XMLUtil.getPossibleParticipants((Package) pkgOrWp, xmlInterface);
-               } else {
-                  choices = XMLUtil.getPossibleParticipants((WorkflowProcess) pkgOrWp, xmlInterface);
-               }
-
-               if (!choices.containsKey(ea.getVValue())) {
+               if (!checkRecipientParticipant(ea, true)) {
                   isWarning = el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
                   XMLValidationError verr = new XMLValidationError(isWarning ? XMLValidationError.TYPE_WARNING : XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    XPDLValidationErrorIds.ERROR_NON_EXISTING_PARTICIPANT_REFERENCE,
+                                                                   ea.getVValue(),
+                                                                   ea.get("Value"));
+                  existingErrors.add(verr);
+                  if (!fullCheck) {
+                     return;
+                  }
+               }
+            } else if (el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE)
+                       || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE)
+                       || (isAct && el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE))
+                       || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixProc)
+                       || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixAct)) {
+               ExtendedAttribute ea = (ExtendedAttribute) parent;
+               if (!checkRecipientVariable(ea, true)) {
+                  isWarning = el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
+                  XMLValidationError verr = new XMLValidationError(isWarning ? XMLValidationError.TYPE_WARNING : XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
                                                                    ea.getVValue(),
                                                                    ea.get("Value"));
                   existingErrors.add(verr);
@@ -505,7 +515,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    public void validateElement(Limit el, List existingErrors, boolean fullCheck) {
       boolean isAct = XMLUtil.getActivity(el) != null;
       boolean allowLimitAsExpression = SharkUtils.allowFlag(el, isAct ? SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY
-                                                                        : SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false);
+                                                                     : SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false);
 
       if (!allowLimitAsExpression) {
          super._validateElement(el, existingErrors, fullCheck, true, XPDLValidationErrorIds.ERROR_LIMIT_INVALID_VALUE);
@@ -1504,5 +1514,56 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    protected abstract List<String> getPossibleXPDLStringVariableNames(XMLElement el, boolean allLevels);
 
    protected abstract List<String> getConfigStringChoices();
+
+   protected boolean checkRecipientParticipant(ExtendedAttribute ea, boolean checkVar) {
+      XMLComplexElement pkgOrWp = XMLUtil.getWorkflowProcess(ea);
+      Map choices = null;
+      if (pkgOrWp == null) {
+         pkgOrWp = XMLUtil.getPackage(ea);
+         choices = XMLUtil.getPossibleParticipants((Package) pkgOrWp, xmlInterface);
+      } else {
+         choices = XMLUtil.getPossibleParticipants((WorkflowProcess) pkgOrWp, xmlInterface);
+      }
+
+      if (!choices.containsKey(ea.getVValue())) {
+         if (checkVar) {
+            String ean = ea.getName();
+            String ean4var = ean.replace("PARTICIPANT", "VARIABLE");
+            ExtendedAttribute ea4var = ((ExtendedAttributes) ea.getParent()).getFirstExtendedAttributeForName(ean4var);
+            if (ea4var != null) {
+               return checkRecipientVariable(ea4var, false);
+            }
+         }
+         return false;
+      }
+      return true;
+   }
+
+   protected boolean checkRecipientVariable(ExtendedAttribute ea, boolean checkPar) {
+      Map chm = XMLUtil.getPossibleVariables(ea);
+
+      XMLCollectionElement dforfp = (XMLCollectionElement) chm.get(ea.getVValue());
+      if (dforfp != null) {
+         boolean isArray = new Boolean(dforfp.get("IsArray").toValue()).booleanValue();
+         if (!isArray) {
+            Object chn = ((DataType) dforfp.get("DataType")).getDataTypes().getChoosen();
+            if (chn instanceof BasicType) {
+               if (((BasicType) chn).getType().equals(XPDLConstants.BASIC_TYPE_STRING)) {
+                  return true;
+               }
+            }
+         }
+      }
+
+      if (checkPar) {
+         String ean = ea.getName();
+         String ean4par = ean.replace("VARIABLE", "PARTICIPANT");
+         ExtendedAttribute ea4par = ((ExtendedAttributes) ea.getParent()).getFirstExtendedAttributeForName(ean4par);
+         if (ea4par != null) {
+            return checkRecipientParticipant(ea4par, false);
+         }
+      }
+      return false;
+   }
 
 }

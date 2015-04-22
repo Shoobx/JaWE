@@ -61,7 +61,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
    protected JLabel jl;
 
    protected JPanel jspAndOpt;
-   
+
    protected boolean falseRequiredForCC = false;
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
@@ -148,7 +148,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
       jta = new JTextArea();
 
       jta.setTabSize(4);
-      if (initText!=null) {
+      if (initText != null) {
          jta.setText(initText);
       } else {
          jta.setText(myOwner.toValue());
@@ -182,11 +182,16 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
             if (chTooltips != null && chTooltips.size() >= i) {
                chTooltip = chTooltips.get(i);
             }
-            XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
-                                                                           list,
-                                                                           ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
-                                                                           ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon(),
-                                                                           chTooltip);
+            ImageIcon ivdi = null;
+            ImageIcon ivpi = null;
+            if (pc != null) {
+               ivdi = ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon();
+               ivpi = ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon();
+            } else {
+               ivdi = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_right2.png"));
+               ivpi = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_down2.png"));
+            }
+            XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this, list, ivdi, ivpi, chTooltip);
             // Dimension di=new Dimension(18,18);
             // optBtn.setMinimumSize(new Dimension(di));
             // optBtn.setMaximumSize(new Dimension(di));
@@ -215,12 +220,30 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
          jb.setPreferredSize(new Dimension(fileButtonDimension));
          jb.setContentAreaFilled(false);
          jb.setEnabled(appName != null);
-         jb.setToolTipText(getPanelContainer().getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip"));
+         String eeaat = null;
+         if (pc != null) {
+            eeaat = pc.getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip");
+         } else {
+            eeaat = ResourceManager.getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip");
+         }
+         jb.setToolTipText(eeaat);
          jb.setEnabled(isEnabled);
-         
+
          jb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
+               String emk = null;
+               String ewoeeak = null;
+               String adnock = null;
                PanelContainer pc = getPanelContainer();
+               if (pc != null) {
+                  emk = pc.getSettings().getLanguageDependentString("ErrorMessageKey");
+                  ewoeeak = pc.getSettings().getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey");
+                  adnock = pc.getSettings().getLanguageDependentString("ApplicationDidntOpenCorrectlyKey");
+               } else {
+                  emk = ResourceManager.getLanguageDependentString("ErrorMessageKey");
+                  ewoeeak = ResourceManager.getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey");
+                  adnock = ResourceManager.getLanguageDependentString("ApplicationDidntOpenCorrectlyKey");
+               }
                String dirName = JaWEConstants.JAWE_USER_HOME + "/tmp";
                new File(dirName).mkdirs();
                String filename = dirName + "/tmp-" + System.currentTimeMillis() + (extension != null ? ("." + extension) : "");
@@ -230,8 +253,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                   os.write(jta.getText().getBytes());
                   os.flush();
                } catch (Exception ex) {
-                  XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
-                     .getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey"));
+                  XMLBasicPanel.errorMessage(getWindow(), emk, "", ewoeeak);
                   ex.printStackTrace();
                   return;
                } finally {
@@ -254,8 +276,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                   boolean nochange = jta.getText().equals(fc);
                   if ((t2 - t1) < 2500 && nochange) {
                      f.delete();
-                     XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
-                        .getLanguageDependentString("ApplicationDidntOpenCorrectlyKey"));
+                     XMLBasicPanel.errorMessage(getWindow(), emk, "", adnock);
                   } else {
                      if (!nochange) {
                         jta.setText(fc);
@@ -265,8 +286,7 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                      f.delete();
                   }
                } catch (Exception ex) {
-                  XMLBasicPanel.errorMessage(getWindow(), pc.getSettings().getLanguageDependentString("ErrorMessageKey"), "", pc.getSettings()
-                     .getLanguageDependentString("ErrorWhileOpeningExternalEditorApplicationKey"));
+                  XMLBasicPanel.errorMessage(getWindow(), emk, "", ewoeeak);
                   ex.printStackTrace();
                }
             }

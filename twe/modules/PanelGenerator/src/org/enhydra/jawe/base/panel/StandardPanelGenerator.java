@@ -1331,7 +1331,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 el.toName(),
                                                                 el.isRequired(),
                                                                 isVertical,
-                                                                3,
+                                                                size,
                                                                 wrapLines,
                                                                 prepareExpressionChoices(el.getParent().getParent()),
                                                                 prepareExpressionChoicesTooltips(el.getParent().getParent()),
