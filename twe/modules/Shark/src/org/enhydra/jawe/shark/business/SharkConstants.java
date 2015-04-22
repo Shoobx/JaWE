@@ -160,6 +160,8 @@ public class SharkConstants {
    public static final String SMTP_DM_ATTACHMENTS = "SMTP_DM_ATTACHMENTS";
 
    public static final String SMTP_RECIPIENT_PARTICIPANT = "SMTP_RECIPIENT_PARTICIPANT";
+   
+   public static final String SMTP_RECIPIENT_VARIABLE = "SMTP_RECIPIENT_VARIABLE";
 
    public static final String SMTP_EVENT_AUDIT_MANAGER_MODE = "SMTP_EVENT_AUDIT_MANAGER_MODE";
 
@@ -196,6 +198,8 @@ public class SharkConstants {
    public static final String EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS = "SMTP_ERROR_HANDLER_DM_ATTACHMENTS";
 
    public static final String EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT";
+   
+   public static final String EA_SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE = "SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE";
 
    public static final String EA_NEWPROC_ERROR_HANDLER_DO_CREATE = "NEWPROC_ERROR_HANDLER_DO_CREATE";
 
@@ -220,6 +224,8 @@ public class SharkConstants {
    public static final String EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS = "SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS";
 
    public static final String EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT";
+   
+   public static final String EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE = "SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE";
 
    public static final String[] SMTP_DEADLINE_HANDLER_POSSIBLE_EAS = new String[] {
          EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES,
@@ -230,6 +236,7 @@ public class SharkConstants {
          EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY,
          EA_SMTP_DEADLINE_HANDLER_MODE,
          EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT,
+         EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE,
          EA_SMTP_DEADLINE_HANDLER_SUBJECT
    };
 
@@ -254,6 +261,8 @@ public class SharkConstants {
    public static final String SMTP_LIMIT_HANDLER_DM_ATTACHMENTS = "SMTP_LIMIT_HANDLER_DM_ATTACHMENTS";
 
    public static final String SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT";
+   
+   public static final String SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE = "SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE";
 
    public static final String EA_DYNAMICSCRIPT = "DYNAMICSCRIPT";
 
@@ -355,7 +364,7 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_LDAP_METHOD_getAllUserEntriesForGroup = "getAllUserEntriesForGroup";
 
-   public static final String TOOL_AGENT_LDAP_METHOD_getAllImmediateUserEntries = "getAllImmediateUserEntries";
+   public static final String TOOL_AGENT_LDAP_METHOD_getAllImmediateUserEntriesForGroup = "getAllImmediateUserEntriesForGroup";
 
    public static final String TOOL_AGENT_LDAP_METHOD_getAllSubOrganizationalUnitEntries = "getAllSubOrganizationalUnitEntries";
 
@@ -367,13 +376,15 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_LDAP_METHOD_doesGroupExist = "doesGroupExist";
 
+   public static final String TOOL_AGENT_LDAP_METHOD_doesUserExist = "doesUserExist";
+
    public static final String TOOL_AGENT_LDAP_METHOD_doesGroupBelongToGroup = "doesGroupBelongToGroup";
 
    public static final String TOOL_AGENT_LDAP_METHOD_doesUserBelongToGroup = "doesUserBelongToGroup";
 
-   public static final String TOOL_AGENT_LDAP_METHOD_doesUserExist = "doesUserExist";
-
    public static final String TOOL_AGENT_LDAP_METHOD_getUserByEmail = "getUserByEmail";
+   
+   public static final String TOOL_AGENT_LDAP_METHOD_getGroupByEmail = "getGroupByEmail";
 
    public static final String TOOL_AGENT_LDAP_METHOD_checkPassword = "checkPassword";
 
@@ -385,12 +396,13 @@ public class SharkConstants {
          TOOL_AGENT_LDAP_METHOD_doesUserExist,
          TOOL_AGENT_LDAP_METHOD_getAllGroupEntries,
          TOOL_AGENT_LDAP_METHOD_getAllImmediateSubOrganizationalUnitEntries,
-         TOOL_AGENT_LDAP_METHOD_getAllImmediateUserEntries,
+         TOOL_AGENT_LDAP_METHOD_getAllImmediateUserEntriesForGroup,
          TOOL_AGENT_LDAP_METHOD_getAllOrganizationalUnitEntries,
          TOOL_AGENT_LDAP_METHOD_getAllSubOrganizationalUnitEntries,
          TOOL_AGENT_LDAP_METHOD_getAllUserEntries,
          TOOL_AGENT_LDAP_METHOD_getAllUserEntriesForGroup,
          TOOL_AGENT_LDAP_METHOD_getGroupAttribute,
+         TOOL_AGENT_LDAP_METHOD_getGroupByEmail,
          TOOL_AGENT_LDAP_METHOD_getUserAttribute,
          TOOL_AGENT_LDAP_METHOD_getUserByEmail
    };

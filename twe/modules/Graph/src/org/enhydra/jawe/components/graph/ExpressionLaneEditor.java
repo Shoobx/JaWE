@@ -43,16 +43,19 @@ import javax.swing.WindowConstants;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
+import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
+import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ActivitySet;
 import org.enhydra.jxpdl.elements.Lane;
+import org.enhydra.jxpdl.elements.Pool;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
@@ -359,17 +362,32 @@ public class ExpressionLaneEditor {
       List toShow = new ArrayList();
       if (elementToEdit instanceof Lane) {
          if (elementToEdit.getPerformers().size() > 0) {
+            Pool p = (Pool)elementToEdit.getParent().getParent();
+            XMLCollectionElement wpOrAs = JaWEManager.getInstance().getXPDLUtils().getProcessForPool(p);
+            String ext = "txt";
+            String scriptType = XMLUtil.getPackage(elementToEdit).getScript().getType();
+            if (!scriptType.equals("")) {
+               ext = Utils.getFileExtension(scriptType);
+            }
+            List<List> mc = new ArrayList<List>();
+            mc.add(new ArrayList(XMLUtil.getPossibleVariables(wpOrAs).values()));
+            List<String> tc = new ArrayList<String>();
+            tc.add(ResourceManager.getLanguageDependentString("InsertVariableKey"));
+
             pIdPanel = new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
                                                                           elementToEdit.getPerformers()
-                                                                             .get(0),
-                                                                          "Expression",
-                                                                          false,
-                                                                          true,
-                                                                          5,
-                                                                          false,
-                                                                          null,
-                                                                          null,
-                                                                          !elementToEdit.isReadOnly(), null);
+                                                                          .get(0),
+                                                                      "Expression",
+                                                                      false,
+                                                                      true,
+                                                                      5,
+                                                                      false,
+                                                                      mc,
+                                                                      tc,
+                                                                      !elementToEdit.isReadOnly(),
+                                                                      null,
+                                                                      null,
+                                                                      ext);                                    
          } else {
             pIdPanel = new XMLTextPanel(null,
                                         elementToEdit.get("Name"),

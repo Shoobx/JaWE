@@ -311,6 +311,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLGroupPanel cbPanel = new XMLGroupPanel(getPanelContainer(), el, cbp, "", false, false, false, null);
 
       XMLPanel recipientParticipant = null;
+      XMLPanel recipientUser = null;
       if (el.isForDeadlineHandling() || el.isForLimitHandling() || el.isForErrorHandling()) {
          SequencedHashMap choicesForPar = null;
          XMLComplexElement pkgOrWp = XMLUtil.getWorkflowProcess(el);
@@ -334,19 +335,59 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          if (choosen != null) {
             choicesForPar.put(choosen.getId(), choosen);
+            Participant dp = new Participant(null);
+            dp.setId(" ");
+            choicesForPar.put(" ", dp);
          }
 
          SpecialChoiceElement cc = new SpecialChoiceElement(el.getRecipientParticipantAttribute(),
                                                             "",
                                                             new ArrayList(choicesForPar.values()),
                                                             choosen,
-                                                            false,
+                                                            true,
                                                             "Id",
                                                             el.getRecipientParticipantAttribute().toName(),
                                                             el.getRecipientParticipantAttribute().isRequired());
          cc.setReadOnly(el.isReadOnly());
 
          recipientParticipant = new XMLComboPanelWithReferenceLink(getPanelContainer(), cc, null, true, false, false, enableEditing, null);
+         
+         
+         Map chm = XMLUtil.getPossibleVariables(el);
+         List choicesForVar = PanelUtilities.getPossibleVariableChoices(new ArrayList(chm.values()), Arrays.asList(new String[] {
+            XPDLConstants.BASIC_TYPE_STRING
+         }), 1, false);
+         
+         XMLCollectionElement choosenVar = null;
+         String vId = el.getRecipientUserAttribute().toValue();
+         if (!vId.equals("")) {
+            Iterator it = choicesForVar.iterator();
+            while (it.hasNext()) {
+               XMLCollectionElement dforfp = (XMLCollectionElement) it.next();
+               if (vId.equals(dforfp.getId())) {
+                  choosenVar = dforfp;
+                  break;
+               }
+            }
+         }
+
+         if (choosenVar != null) {
+            DataField df = createDummyDataField(" ", false);
+            choicesForVar.add(0, df);
+         }
+         
+         SpecialChoiceElement cu = new SpecialChoiceElement(el.getRecipientUserAttribute(),
+                                                            "",
+                                                            choicesForVar,
+                                                            choosenVar,
+                                                            false,
+                                                            "Id",
+                                                            el.getRecipientUserAttribute().toName(),
+                                                            el.getRecipientUserAttribute().isRequired());
+         cu.setReadOnly(el.isReadOnly());
+
+         recipientUser = new XMLComboPanelWithReferenceLink(getPanelContainer(), cu, null, true, false, false, enableEditing, null);
+
       }
 
       List<List> mc = prepareExpressionChoices(el);
@@ -377,6 +418,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       tgp.add(cbPanel);
       if (recipientParticipant != null) {
          tgp.add(recipientParticipant);
+      }
+      if (recipientUser != null) {
+         tgp.add(recipientUser);
       }
       tgp.add(subject);
       tgp.add(content);
