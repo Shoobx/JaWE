@@ -1,4 +1,10 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-05-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Added support for ExecuteSql tool agent
+      - Allowed usage of config string and xpdl string variables in Performer, Deadline, Transition condition and ActualParameter expressions
+      - Improved validation
+
 2015-04-22 Sasa Bojanic <sasaboy@together.at>
    # Improved Expression Lane Editor - now possible to use variables when editing expressions
    # Filtering of variables by type in PanelUtilities.getPossibleVariableChoices() now makes a distinction if variable is array or not

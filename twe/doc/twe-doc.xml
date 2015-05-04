@@ -11450,6 +11450,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Deadline, Limit and Error emails now supports extended
           attribute(s) for specifying recipient variable
           (SMTP_xxx_HANDLER_RECIPIENT_VARIABLE)</para>
+
+          <para>- Added support for ExecuteSql tool agent</para>
+
+          <para>- Allowed usage of config string and xpdl string variables in
+          Performer, Deadline, Transition condition and ActualParameter
+          expressions</para>
+
+          <para>- Improved validation</para>
         </listitem>
       </itemizedlist>
     </section>

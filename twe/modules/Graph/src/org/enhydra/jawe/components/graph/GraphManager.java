@@ -531,16 +531,16 @@ public class GraphManager implements Serializable {
       }
 
       // JaWEManager.getInstance().getLoggingManager().debug("Updating label position for transition: "+points);
-      if (lp!=null) {
+      if (lp != null) {
          GraphConstants.setLabelPosition(map, lp);
-         if (lpo!=null) {
+         if (lpo != null) {
             GraphConstants.setOffset(map, lpo);
          }
       } else {
          int center = GraphConstants.PERMILLE / 2;
          Point labelPosition = new Point(center, GraphConstants.PERMILLE / 100);
          GraphConstants.setLabelPosition(map, labelPosition);
-         GraphConstants.setOffset(map, new Point(0,0));
+         GraphConstants.setOffset(map, new Point(0, 0));
       }
    }
 
@@ -646,9 +646,7 @@ public class GraphManager implements Serializable {
       tra.setFrom(source.getPropertyObject().get("Id").toValue());
       tra.setTo(target.getPropertyObject().get("Id").toValue());
 
-      GraphUtilities.setStyle(tra,
-                              getGraphController().getGraphSettings()
-                                 .getDefaultTransitionStyle());
+      GraphUtilities.setStyle(tra, getGraphController().getGraphSettings().getDefaultTransitionStyle());
       return insertTransitionOrAssociation(tra);
    }
 
@@ -2814,9 +2812,10 @@ public class GraphManager implements Serializable {
 
    public Dimension getGraphsPreferredSize() {
       if (!isGraphRotated()) {
-         return new Dimension((int)(graph.getScale()*getRootParticipantWidth(null, null)) + 50, (int)(graph.getScale()*getNewRootParYPos(null, null)) + 50);
+         return new Dimension((int) (graph.getScale() * getRootParticipantWidth(null, null)) + 50,
+                              (int) (graph.getScale() * getNewRootParYPos(null, null)) + 50);
       }
-      return new Dimension((int)(graph.getScale()*getNewRootParXPos(null, null)) + 50, (int)(graph.getScale()*getRootParticipantHeight(null, null)) + 50);
+      return new Dimension((int) (graph.getScale() * getNewRootParXPos(null, null)) + 50, (int) (graph.getScale() * getRootParticipantHeight(null, null)) + 50);
    }
 
    protected List getPoints(GraphTransitionInterface cell, Map propertyMap) {// HM,
@@ -3157,7 +3156,9 @@ public class GraphManager implements Serializable {
                Activity end = JaWEManager.getInstance()
                   .getXPDLObjectFactory()
                   .createXPDLObject((Activities) wpOrAs.get("Activities"), JaWEConstants.ACTIVITY_TYPE_END, true);
-               Point op = GraphManager.getStartOrEndEventOffsetPointForInsertion(GraphUtilities.getOffsetPoint(act), false, defActDim, isGraphRotated());
+               Rectangle ab = getCBounds(gact, null);
+               Dimension da = new Dimension(ab.width, ab.height);
+               Point op = GraphManager.getStartOrEndEventOffsetPointForInsertion(GraphUtilities.getOffsetPoint(act), false, da, isGraphRotated());
                // if (!isGraphRotated()) {
                op.x += (aw - 0.6 * ah) / 2;
                op.y += ah / 5;
