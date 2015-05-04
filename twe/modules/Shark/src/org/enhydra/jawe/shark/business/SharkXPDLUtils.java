@@ -122,7 +122,7 @@ public class SharkXPDLUtils extends XPDLUtils {
    protected List getXPDLStringEAReferences(XMLComplexElement el, ExtendedAttribute ea2s, String referencedName) {
       List references = new ArrayList();
 
-      if (el instanceof Activity) {
+      if (!(el instanceof Transition)) {
          String postfixProc = "_PROCESS";
          String postfixAct = "_ACTIVITY";
 
@@ -182,7 +182,9 @@ public class SharkXPDLUtils extends XPDLUtils {
             }
 
          }
-         Activity act = (Activity)el;
+      }
+      if (el instanceof Activity) {
+         Activity act = (Activity) el;
          Map allVars = XMLUtil.getWorkflowProcess(act).getAllVariables();
          int type = act.getActivityType();
          // actual parameter (can be expression containing variable, or direct variable
@@ -271,7 +273,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                String suff = expr.substring(realPos + searchValue.length());
                expr = pref + replaceValue + suff;
             }
-            easmtpvOrApOrPerfOrCondOrDlCond.setValue(expr);            
+            easmtpvOrApOrPerfOrCondOrDlCond.setValue(expr);
          }
       }
       super.updateExtendedAttributeReferences(refsEAValues, oldEAName, newEAName);
