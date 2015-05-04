@@ -2,10 +2,6 @@ package org.enhydra.jawe.shark;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +9,6 @@ import java.util.Map;
 
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.PanelGenerator;
-import org.enhydra.jawe.base.panel.panels.PanelUtilities;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;

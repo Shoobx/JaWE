@@ -11417,7 +11417,6 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <title>Release 5.1-3</title>
 
       <itemizedlist>
-      
         <listitem>
           <para>Improved Expression Lane Editor - now possible to use
           variables when editing expressions</para>
@@ -11428,20 +11427,27 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           PanelUtilities.getPossibleVariableChoices() now makes a distinction
           if variable is array or not</para>
         </listitem>
-      
+
         <listitem>
           <para>Shark mode:</para>
 
           <para>- better support for UserGroupToolAgent (added possibility to
           use getGroupByEMailAddress and getUserByEMailAddress methods)</para>
-	  
-	  <para>- updated support for LDAPToolAgent according to the changes
+
+          <para>- updated support for LDAPToolAgent according to the changes
           in LDAPClientInterface</para>
 
           <para>- Deadline, Limit and Error emails now supports extended
           attribute(s) for specifying recipient variable
           (SMTP_xxx_HANDLER_RECIPIENT_VARIABLE)</para>
 
+          <para>- Added support for ExecuteSql tool agent</para>
+
+          <para>- Allowed usage of config string and xpdl string variables in
+          Performer, Deadline, Transition condition and ActualParameter
+          expressions</para>
+
+          <para>- Improved validation</para>
         </listitem>
       </itemizedlist>
     </section>

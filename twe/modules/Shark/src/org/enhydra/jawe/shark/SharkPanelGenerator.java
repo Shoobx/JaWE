@@ -90,7 +90,6 @@ import org.enhydra.jxpdl.elements.InitialValue;
 import org.enhydra.jxpdl.elements.Limit;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
-import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.Priority;
 import org.enhydra.jxpdl.elements.Script;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
@@ -1125,6 +1124,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          ret = new ScriptBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_BEAN_SHELL);
       } else if (SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS.equals(taName)) {
          ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS);
+      } else if (SharkConstants.TOOL_AGENT_EXECUTESQL.equals(taName)) {
+         ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_EXECUTESQL);
       } else if (SharkConstants.TOOL_AGENT_JAVACLASS.equals(taName)) {
          ret = new JavaClassToolAgentElement(el, SharkConstants.TOOL_AGENT_JAVACLASS);
       } else if (SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
@@ -1866,7 +1867,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       mc.add(getBasicExpressionChoices(el));
 
-      if (!(el instanceof ExpressionType || el instanceof Performer || el instanceof Condition)) {
+      if (!(el instanceof InitialValue)) {
          l = new ArrayList();
          List<String> csc = SharkPanelGenerator.getConfigStringChoices();
          for (int i = 0; i < csc.size(); i++) {
@@ -1895,7 +1896,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       mct.add(getSettings().getLanguageDependentString("InsertSystemVariableKey"));
       mct.add(getSettings().getLanguageDependentString("InsertVariableKey"));
 
-      if (!(el instanceof ExpressionType || el instanceof Performer || el instanceof Condition)) {
+      if (!(el instanceof InitialValue)) {
          mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
          mct.add(getSettings().getLanguageDependentString("InsertXPDLStringVariableKey"));
       }

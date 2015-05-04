@@ -288,6 +288,8 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_CHECKDOCUMENTFORMATS = "org.enhydra.shark.toolagent.CheckDocumentFormatsToolAgent";
 
+   public static final String TOOL_AGENT_EXECUTESQL = "org.enhydra.shark.toolagent.ExecuteSqlToolAgent";
+   
    public static final String TOOL_AGENT_JAVACLASS = "org.enhydra.shark.toolagent.JavaClassToolAgent";
 
    public static final String TOOL_AGENT_JAVASCRIPT = "org.enhydra.shark.toolagent.JavaScriptToolAgent";
@@ -321,6 +323,20 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_ALLOWED_DOCUMENT_FORMATS = "ALLOWED_DOCUMENT_FORMATS";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_UNSUPPORTED_DOCUMENT_IDS = "UNSUPPORTED_DOCUMENT_IDS";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_STATEMENT = "statement";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_PREPARED_STATEMENT = "prepared_statement";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE = "data_source";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE_URL = "data_source_url";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE_UNAME = "data_source_uname";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE_PASSWD = "data_source_passwd";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_DRIVER_FQCN = "driver_fqcn";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME = "transformer_name";
 
