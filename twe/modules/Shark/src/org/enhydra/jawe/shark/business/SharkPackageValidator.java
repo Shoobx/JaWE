@@ -100,8 +100,9 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          String postfixProc = "_PROCESS";
          String postfixAct = "_ACTIVITY";
          if (el.toName().equals("Name")) {
-            if (((el.toValue().equals(SharkConstants.VTP_UPDATE) || el.toValue().equals(SharkConstants.VTP_VIEW) || el.toValue()
-               .equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) && isAct)
+            if (((el.toValue().equals(SharkConstants.EA_VTP_UPDATE) || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue()
+               .equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue()
+               .equals(SharkConstants.EA_FORM_PAGE_URL)) && isAct)
                 || (!isAct && (el.toValue().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
@@ -140,8 +141,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
                 || (!isAct && el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
 
-               isWarning = el.toValue().equals(SharkConstants.VTP_UPDATE)
-                           || el.toValue().equals(SharkConstants.VTP_VIEW) || el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
+               isWarning = el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
+                           || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
 
                ExtendedAttribute ea = (ExtendedAttribute) parent;
                WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
@@ -201,6 +202,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      WfNameValue v = (WfNameValue) els.get(i);
                      vals.add(v.getNamePart());
                   }
+               } else if (ea.getName().equals(SharkConstants.EA_FORM_PAGE_URL)) {
+                  xpdlsvals.add(ea.getVValue());
                } else {
                   vals.add(ea.getVValue());
                }

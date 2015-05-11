@@ -123,6 +123,8 @@ public class SharkConstants {
    
    public static final String EA_HTML5FORM_XSL = "HTML5FORM_XSL";
    
+   public static final String EA_FORM_PAGE_URL = "FORM_PAGE_URL";
+
    public static final String EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE = "IS_WEBDAV_FOR_ACTIVITY_VISIBLE";
    
    public static final String EA_BACK_ACTIVITY_DEFINITION = "BACK_ACTIVITY_DEFINITION";
@@ -276,9 +278,11 @@ public class SharkConstants {
 
    public static final String EA_URL_VARIABLE_VALUE_NEW_WINDOW = "NewWindow";
 
-   public static final String VTP_UPDATE = "VariableToProcess_UPDATE";
+   public static final String EA_VTP_UPDATE = "VariableToProcess_UPDATE";
 
-   public static final String VTP_VIEW = "VariableToProcess_VIEW";
+   public static final String EA_VTP_VIEW = "VariableToProcess_VIEW";
+   
+   public static final String EA_VTP_FETCH = "VariableToProcess_FETCH";
 
    public static final String EA_VALUE_TRUE = "true";
 
@@ -508,91 +512,217 @@ public class SharkConstants {
 
    public static final List<String> TOOL_AGENT_USERGROUP_POSSIBLE_METHODS_LIST = Collections.unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_USERGROUP_POSSIBLE_METHODS));
 
+   public static final String SYSTEMVARIABLE_PREFIX = "SYSVAR_";
+   public static final String VARIABLE_PREFIX = "VAR_";
+   public static final String ACTIVITY_PREFIX = "ACT_";
+   public static final String PROCESS_PREFIX = "PRO_";
+   public static final String PACKAGE_PREFIX = "PKG_";
+   
+   public static final String NAME_SUFFIX = "_N";
+   public static final String DESCRIPTION_SUFFIX = "_D";
+   public static final String VALUE_SUFFIX = "_V";
+   
+   public static final String TRANSLATED_NAME_SUFFIX = "_NT";
+   public static final String TRANSLATED_DESCRIPTION_SUFFIX = "_DT";
+   public static final String TRANSLATED_VALUE_SUFFIX = "_VT";
+   
    public static final String SHARK_PROCESS_DEFINITION_ID = "shark_process_definition_id";
+   
+   public static final String SHARK_PROCESS_DEFINITION_ID_N = "Process definition Id";
+   
+   public static final String SHARK_PROCESS_DEFINITION_ID_D = "Id of XPDL process definition";
 
    public static final String SHARK_PROCESS_DEFINITION_NAME = "shark_process_definition_name";
 
+   public static final String SHARK_PROCESS_DEFINITION_NAME_N = "Process definition name";
+   public static final String SHARK_PROCESS_DEFINITION_NAME_D = "Name of XPDL process definition";
+
+   public static final String SHARK_PROCESS_DEFINITION_DESCRIPTION = "shark_process_definition_description";
+   
+   public static final String SHARK_PROCESS_DEFINITION_DESCRIPTION_N = "Process definition description";
+   public static final String SHARK_PROCESS_DEFINITION_DESCRIPTION_D = "Description of XPDL process definition";
+
+   public static final String SHARK_PROCESS_DEFINITION_PRIORITY = "shark_process_definition_priority";
+   public static final String SHARK_PROCESS_DEFINITION_PRIORITY_N = "Process definition priority";
+   public static final String SHARK_PROCESS_DEFINITION_PRIORITY_D = "Priority of XPDL process definition";
+
    public static final String SHARK_PROCESS_ID = "shark_process_id";
+   public static final String SHARK_PROCESS_ID_N = "Process Id";
+   public static final String SHARK_PROCESS_ID_D = "Id of process instance";
 
    public static final String SHARK_PROCESS_NAME = "shark_process_name";
+   public static final String SHARK_PROCESS_NAME_N = "Process name";
+   public static final String SHARK_PROCESS_NAME_D = "Name of process instance";
 
    public static final String SHARK_PROCESS_DESCRIPTION = "shark_process_description";
+   public static final String SHARK_PROCESS_DESCRIPTION_N = "Process description";
+   public static final String SHARK_PROCESS_DESCRIPTION_D = "Description of process instance";
 
    public static final String SHARK_PROCESS_PRIORITY = "shark_process_priority";
+   public static final String SHARK_PROCESS_PRIORITY_N = "Process priority";
+   public static final String SHARK_PROCESS_PRIORITY_D = "Priority of process instance";
 
    public static final String SHARK_PROCESS_LIMIT_TIME = "shark_process_limit_time";
+   public static final String SHARK_PROCESS_LIMIT_TIME_N = "Process limit time";
+   public static final String SHARK_PROCESS_LIMIT_TIME_D = "Limit time of process instance";
 
    public static final String SHARK_PROCESS_CREATED_TIME = "shark_process_created_time";
+   public static final String SHARK_PROCESS_CREATED_TIME_N = "Process created at";
+   public static final String SHARK_PROCESS_CREATED_TIME_D = "Date and time when process instance was created";
 
    public static final String SHARK_PROCESS_CREATED_BY = "shark_process_created_by";
+   public static final String SHARK_PROCESS_CREATED_BY_N = "Process created by";
+   public static final String SHARK_PROCESS_CREATED_BY_D = "User that created the process instance";
 
    public static final String SHARK_PROCESS_STARTED_TIME = "shark_process_started_time";
+   public static final String SHARK_PROCESS_STARTED_TIME_N = "Process started at";
+   public static final String SHARK_PROCESS_STARTED_TIME_D = "Date and time when process instance execution was started";
 
    public static final String SHARK_PROCESS_STARTED_BY = "shark_process_started_by";
+   public static final String SHARK_PROCESS_STARTED_BY_N = "Process started by";
+   public static final String SHARK_PROCESS_STARTED_BY_D = "User that started the process instance";
 
    public static final String SHARK_PROCESS_FINISHED_TIME = "shark_process_finished_time";
+   public static final String SHARK_PROCESS_FINISHED_TIME_N = "Process finished at";
+   public static final String SHARK_PROCESS_FINISHED_TIME_D = "Date and time when process instance execution was finished";
 
    public static final String SHARK_PROCESS_FINISHED_BY = "shark_process_finished_by";
+   public static final String SHARK_PROCESS_FINISHED_BY_N = "Process finished by";
+   public static final String SHARK_PROCESS_FINISHED_BY_D = "User that finished the process instance";
+   
 
    public static final String SHARK_PROCESS_STATE = "shark_process_state";
+   public static final String SHARK_PROCESS_STATE_N = "Process state";
+   public static final String SHARK_PROCESS_STATE_D = "The current state of process instance";
 
    public static final String SHARK_ACTIVITY_DEFINITION_ID = "shark_activity_definition_id";
+   public static final String SHARK_ACTIVITY_DEFINITION_ID_N = "Activity definition Id";
+   public static final String SHARK_ACTIVITY_DEFINITION_ID_D = "Id of XPDL activity definition";
 
    public static final String SHARK_ACTIVITY_DEFINITION_NAME = "shark_activity_definition_name";
+   public static final String SHARK_ACTIVITY_DEFINITION_NAME_N = "Activity definition name";
+   public static final String SHARK_ACTIVITY_DEFINITION_NAME_D = "Name of XPDL activity definition";
+   
+
+   public static final String SHARK_ACTIVITY_DEFINITION_DESCRIPTION = "shark_activity_definition_description";
+   public static final String SHARK_ACTIVITY_DEFINITION_DESCRIPTION_N = "Activity definition description";
+   public static final String SHARK_ACTIVITY_DEFINITION_DESCRIPTION_D = "Description of XPDL activity definition";
+
+   public static final String SHARK_ACTIVITY_DEFINITION_PRIORITY = "shark_activity_definition_priority";
+   public static final String SHARK_ACTIVITY_DEFINITION_PRIORITY_N = "Activity definition priority";
+   public static final String SHARK_ACTIVITY_DEFINITION_PRIORITY_D = "Priority of XPDL activity definition";
 
    public static final String SHARK_ACTIVITY_ID = "shark_activity_id";
+   public static final String SHARK_ACTIVITY_ID_N = "Activity Id";
+   public static final String SHARK_ACTIVITY_ID_D = "Id of activity instance";
 
    public static final String SHARK_ACTIVITY_NAME = "shark_activity_name";
+   public static final String SHARK_ACTIVITY_NAME_N = "Activity name";
+   public static final String SHARK_ACTIVITY_NAME_D = "Name of activity instance";
 
    public static final String SHARK_ACTIVITY_TYPE = "shark_activity_type";
+   public static final String SHARK_ACTIVITY_TYPE_N = "Activity type";
+   public static final String SHARK_ACTIVITY_TYPE_D = "Type of activity instance";
 
    public static final String SHARK_ACTIVITY_DESCRIPTION = "shark_activity_description";
+   public static final String SHARK_ACTIVITY_DESCRIPTION_N = "Activity description";
+   public static final String SHARK_ACTIVITY_DESCRIPTION_D = "Description of activity instance";
 
    public static final String SHARK_ACTIVITY_PRIORITY = "shark_activity_priority";
+   public static final String SHARK_ACTIVITY_PRIORITY_N = "Activity priority";
+   public static final String SHARK_ACTIVITY_PRIORITY_D = "Priority of activity instance";
 
    public static final String SHARK_ACTIVITY_LIMIT_TIME = "shark_activity_limit_time";
+   public static final String SHARK_ACTIVITY_LIMIT_TIME_N = "Activity limit time";
+   public static final String SHARK_ACTIVITY_LIMIT_TIME_D = "Limit time of activity instance";
 
    public static final String SHARK_ACTIVITY_CREATED_TIME = "shark_activity_created_time";
+   public static final String SHARK_ACTIVITY_CREATED_TIME_N = "Activity created at";
+   public static final String SHARK_ACTIVITY_CREATED_TIME_D = "Date and time when activity instance was created";
 
    public static final String SHARK_ACTIVITY_STARTED_TIME = "shark_activity_started_time";
+   public static final String SHARK_ACTIVITY_STARTED_TIME_N = "Activity started time";
+   public static final String SHARK_ACTIVITY_STARTED_TIME_D = "Date and time when activity instance execution was started";
 
    public static final String SHARK_ACTIVITY_FINISHED_TIME = "shark_activity_finished_time";
+   public static final String SHARK_ACTIVITY_FINISHED_TIME_N = "Activity finished at";
+   public static final String SHARK_ACTIVITY_FINISHED_TIME_D = "Date and time when activity instance execution was finished";
 
    public static final String SHARK_ACTIVITY_STATE = "shark_activity_state";
+   public static final String SHARK_ACTIVITY_STATE_N = "Activity state";
+   public static final String SHARK_ACTIVITY_STATE_D = "Current state of activity instance";
 
    public static final String SHARK_ACTIVITY_HANDLED_BY = "shark_activity_handled_by";
+   public static final String SHARK_ACTIVITY_HANDLED_BY_N = "Activity handled by";
+   public static final String SHARK_ACTIVITY_HANDLED_BY_D = "User that handled activity";
 
    public static final String SHARK_SESSION_HANDLE = "shark_session_handle";
+   public static final String SHARK_SESSION_HANDLE_N = "Session handle";
+   public static final String SHARK_SESSION_HANDLE_D = "TWS session handle object";
 
    public static final String SHARK_VERSION = "shark_version";
+   public static final String SHARK_VERSION_N = "TWS version number";
+   public static final String SHARK_VERSION_D = "Version number of TWS";
 
    public static final String SHARK_RELEASE = "shark_release";
+   public static final String SHARK_RELEASE_N = "TWS release number";
+   public static final String SHARK_RELEASE_D = "Release number of TWS";
 
    public static final String SHARK_BUILDID = "shark_buildid";
+   public static final String SHARK_BUILDID_N = "TWS build Id";
+   public static final String SHARK_BUILDID_D = "Build Id of TWS";
 
    public static final String SHARK_XPDL_ID = "shark_xpdl_id";
+   public static final String SHARK_XPDL_ID_N = "XPDL Id";
+   public static final String SHARK_XPDL_ID_D = "Id of root (Package) element of XPDL";
+
+   public static final String SHARK_XPDL_NAME = "shark_xpdl_name";
+   public static final String SHARK_XPDL_NAME_N = "XPDL name";
+   public static final String SHARK_XPDL_NAME_D = "Name of root (Package) element of XPDL";
+   
+   public static final String SHARK_XPDL_DESCRIPTION = "shark_xpdl_description";
+   public static final String SHARK_XPDL_DESCRIPTION_N = "XPDL description";
+   public static final String SHARK_XPDL_DESCRIPTION_D = "Description of root (Package) element of XPDL";
 
    public static final String SHARK_XPDL_INTERNAL_VERSION = "shark_xpdl_internal_version";
+   public static final String SHARK_XPDL_INTERNAL_VERSION_N = "XPDL internal version";
+   public static final String SHARK_XPDL_INTERNAL_VERSION_D = "Internal version of XPDL (automatically assigned by TWS)";
 
    public static final String SHARK_XPDL_VERSION = "shark_xpdl_version";
+   public static final String SHARK_XPDL_VERSION_N = "XPDL version";
+   public static final String SHARK_XPDL_VERSION_D = "Version of root (Package) element of XPDL";
 
    public static final String SHARK_XPDL_UPLOAD_TIME = "shark_xpdl_upload_time";
+   public static final String SHARK_XPDL_UPLOAD_TIME_N = "XPDL uploaded at";
+   public static final String SHARK_XPDL_UPLOAD_TIME_D = "Date and time when XPDL was uploaded";
 
    public static final String SHARK_USER = "shark_user";
+   public static final String SHARK_USER_N = "User";
+   public static final String SHARK_USER_D = "If of the user that is executing TWS process/activity";
 
    public static final String SHARK_USERNAME = "shark_username";
+   public static final String SHARK_USERNAME_N = "User full name";
+   public static final String SHARK_USERNAME_D = "Full name of the user that is executing TWS process/activity";
 
    public static final String SHARK_TIME = "shark_time";
+   public static final String SHARK_TIME_N = "Date and time";
+   public static final String SHARK_TIME_D = "Current date and time of execution";
 
    public static final String SHARK_ACTIVITY_ERROR_MESSAGE = "shark_activity_error_message";
+   public static final String SHARK_ACTIVITY_ERROR_MESSAGE_N = "Activity error message";
+   public static final String SHARK_ACTIVITY_ERROR_MESSAGE_D = "Error message for tool agent execution";
 
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE = "shark_activity_error_stacktrace";
+   public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_N = "Activity stack trace";
+   public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_D = "Stack trace for tool agent execution";
 
    public static final String SHARK_VARIABLE_CATEGORY = "category";
 
    public static final String[] POSSIBLE_SYSTEM_VARIABLES = new String[] {
          SharkConstants.SHARK_PROCESS_DEFINITION_ID,
          SharkConstants.SHARK_PROCESS_DEFINITION_NAME,
+         SharkConstants.SHARK_PROCESS_DEFINITION_DESCRIPTION,
+         SharkConstants.SHARK_PROCESS_DEFINITION_PRIORITY,
          SharkConstants.SHARK_PROCESS_ID,
          SharkConstants.SHARK_PROCESS_NAME,
          SharkConstants.SHARK_PROCESS_DESCRIPTION,
@@ -605,6 +735,8 @@ public class SharkConstants {
          SharkConstants.SHARK_PROCESS_CREATED_BY,
          SharkConstants.SHARK_ACTIVITY_DEFINITION_ID,
          SharkConstants.SHARK_ACTIVITY_DEFINITION_NAME,
+         SharkConstants.SHARK_ACTIVITY_DEFINITION_DESCRIPTION,
+         SharkConstants.SHARK_ACTIVITY_DEFINITION_PRIORITY,
          SharkConstants.SHARK_ACTIVITY_ID,
          SharkConstants.SHARK_ACTIVITY_NAME,
          SharkConstants.SHARK_ACTIVITY_TYPE,
@@ -623,6 +755,8 @@ public class SharkConstants {
          SharkConstants.SHARK_RELEASE,
          SharkConstants.SHARK_BUILDID,
          SharkConstants.SHARK_XPDL_ID,
+         SharkConstants.SHARK_XPDL_NAME,
+         SharkConstants.SHARK_XPDL_DESCRIPTION,
          SharkConstants.SHARK_XPDL_INTERNAL_VERSION,
          SharkConstants.SHARK_XPDL_VERSION,
          SharkConstants.SHARK_XPDL_UPLOAD_TIME,

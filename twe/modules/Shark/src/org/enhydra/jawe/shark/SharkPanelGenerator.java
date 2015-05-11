@@ -350,13 +350,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          cc.setReadOnly(el.isReadOnly());
 
          recipientParticipant = new XMLComboPanelWithReferenceLink(getPanelContainer(), cc, null, true, false, false, enableEditing, null);
-         
-         
+
          Map chm = XMLUtil.getPossibleVariables(el);
          List choicesForVar = PanelUtilities.getPossibleVariableChoices(new ArrayList(chm.values()), Arrays.asList(new String[] {
             XPDLConstants.BASIC_TYPE_STRING
          }), 1, false);
-         
+
          XMLCollectionElement choosenVar = null;
          String vId = el.getRecipientUserAttribute().toValue();
          if (!vId.equals("")) {
@@ -374,7 +373,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             DataField df = createDummyDataField(" ", false);
             choicesForVar.add(0, df);
          }
-         
+
          SpecialChoiceElement cu = new SpecialChoiceElement(el.getRecipientUserAttribute(),
                                                             "",
                                                             choicesForVar,
@@ -594,10 +593,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel xfepnl = getPanel(el.getHTML5FormEmbeddedAttribute());
          XMLPanel xfvpnl = getPanel(el.getHTMLVariableAttribute());
          XMLPanel xfxpnl = getPanel(el.getHTML5FormXSLAttribute());
+         XMLPanel xffpnl = getPanel(el.getFormPageURLAttribute());
 
          panels.add(xfpnl);
          panels.add(xfepnl);
          panels.add(xfvpnl);
+         panels.add(xffpnl);
          panels.add(xfxpnl);
          XMLGroupPanel cggp = new XMLGroupPanel(getPanelContainer(),
                                                 el,
@@ -1238,7 +1239,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(ExtendedAttribute el) {
-      if (el.getParent().getParent() instanceof Activity && (el.getName().equals(SharkConstants.VTP_UPDATE) || el.getName().equals(SharkConstants.VTP_VIEW))) {
+      if (el.getParent().getParent() instanceof Activity
+          && (el.getName().equals(SharkConstants.EA_VTP_UPDATE) || el.getName().equals(SharkConstants.EA_VTP_VIEW))) {
          // boolean roVar = false;
          // String vVal = el.getVValue();
          Map vars = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
@@ -1721,6 +1723,20 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          return new XMLComboPanel(getPanelContainer(), el, null, choices, false, true, false, false, JaWEManager.getInstance()
             .getJaWEController()
             .canModifyElement(el), true, true, null);
+      } else if (el.toName().equals(SharkConstants.EA_FORM_PAGE_URL)
+                 && el.getParent() instanceof WebClientConfigurationElement && ((WebClientConfigurationElement) el.getParent()).isForActivity()) {
+         List choices = new ArrayList();
+         List<String> xpdlsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el, true).stringPropertyNames());
+         for (int i = 0; i < xpdlsc.size(); i++) {
+            String id = xpdlsc.get(i);
+            DataField df = createDummyDataField(id, false);
+            choices.add(df);
+         }
+         DataField df = createDummyDataField(" ", false);
+         choices.add(0, df);
+         return new XMLComboPanel(getPanelContainer(), el, null, choices, false, true, false, false, JaWEManager.getInstance()
+            .getJaWEController()
+            .canModifyElement(el), true, true, null);
       } else if (el.getParent() instanceof Activity || el.getParent() instanceof WorkflowProcess) {
          if (el.toName().equals("Name")) {
             if (SharkUtils.allowFlag(el, el.getParent() instanceof Activity ? SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY
@@ -1793,7 +1809,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List l = new ArrayList(vars.values());
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea != eac && (ea.getName().equals(SharkConstants.VTP_VIEW) || ea.getName().equals(SharkConstants.VTP_UPDATE))) {
+         if (ea != eac && (ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_UPDATE))) {
             XMLCollectionElement var = (XMLCollectionElement) vars.get(ea.getVValue());
             if (var != null) {
                l.remove(var);

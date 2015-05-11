@@ -40,7 +40,7 @@ public class ExtendedAttributesWrapper extends XMLCollection implements XMLEleme
       notifyListeners = false;
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea.getName().equals(SharkConstants.VTP_VIEW) || ea.getName().equals(SharkConstants.VTP_UPDATE)) {
+         if (ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
             super.elements.add(ea);
          }
       }
@@ -84,7 +84,7 @@ public class ExtendedAttributesWrapper extends XMLCollection implements XMLEleme
 
    public XMLElement generateNewElement() {
       ExtendedAttribute ea = (ExtendedAttribute) eas.generateNewElement();
-      ea.setName(SharkConstants.VTP_VIEW);
+      ea.setName(SharkConstants.EA_VTP_VIEW);
       ea.setVValue("");
       return ea;
    }
@@ -94,7 +94,7 @@ public class ExtendedAttributesWrapper extends XMLCollection implements XMLEleme
          Iterator it = info.getChangedSubElements().iterator();
          while (it.hasNext()) {
             ExtendedAttribute ea = (ExtendedAttribute) it.next();
-            if (ea.getName().equals(SharkConstants.VTP_VIEW) || ea.getName().equals(SharkConstants.VTP_UPDATE)) {
+            if (ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
                super.remove(ea);
             }
          }

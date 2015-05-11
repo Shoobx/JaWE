@@ -180,7 +180,7 @@ public class ExtAttribPanel extends XMLBasicPanel {
       }
       jchkb = new JCheckBox(pc.getLanguageDependentString("ReadOnlyKey"));
       jchkb.setBorder(BorderFactory.createEmptyBorder());
-      jchkb.setSelected(new Boolean(myOwner.getName().equals(SharkConstants.VTP_VIEW)).booleanValue());
+      jchkb.setSelected(new Boolean(myOwner.getName().equals(SharkConstants.EA_VTP_VIEW)).booleanValue());
       jchkb.setAlignmentX(Component.LEFT_ALIGNMENT);
       jchkb.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       jchkb.setMinimumSize(new Dimension(textDim));
@@ -339,9 +339,9 @@ public class ExtAttribPanel extends XMLBasicPanel {
 
    public Object getCHKBValue() {
       if (jchkb.isSelected()) {
-         return SharkConstants.VTP_VIEW;
+         return SharkConstants.EA_VTP_VIEW;
       }
-      return SharkConstants.VTP_UPDATE;
+      return SharkConstants.EA_VTP_UPDATE;
    }
 
 }
