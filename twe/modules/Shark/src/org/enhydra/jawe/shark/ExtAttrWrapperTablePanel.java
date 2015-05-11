@@ -112,7 +112,7 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
       }
       v.add(name);
       // v.add(new XMLElementView(ipc,var, XMLElementView.TOVALUE));
-      if (ea.getName().equals(SharkConstants.VTP_UPDATE)) {
+      if (ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
          v.add(new Boolean(false));
       } else {
          v.add(new Boolean(true));
@@ -174,9 +174,9 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
             ipc.getJaWEComponent().setUpdateInProgress(true);
             JaWEManager.getInstance().getJaWEController().startUndouableChange();
             if (readOnly.booleanValue()) {
-               ea.setName(SharkConstants.VTP_VIEW);
+               ea.setName(SharkConstants.EA_VTP_VIEW);
             } else {
-               ea.setName(SharkConstants.VTP_UPDATE);
+               ea.setName(SharkConstants.EA_VTP_UPDATE);
             }
             List toSel = new ArrayList();
             toSel.add(ea);

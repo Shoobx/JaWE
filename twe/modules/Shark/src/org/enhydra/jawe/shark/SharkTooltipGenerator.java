@@ -58,14 +58,14 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
       DisplayNameGenerator dng = JaWEManager.getInstance().getDisplayNameGenerator();
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea.getName().equals(SharkConstants.VTP_VIEW)
-             || ea.getName().equals(SharkConstants.VTP_UPDATE)) {
+         if (ea.getName().equals(SharkConstants.EA_VTP_VIEW)
+             || ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
             XMLCollectionElement var = (XMLCollectionElement) vars.get(ea.getVValue());
             if (var != null) {
                putEAKeyValue(dng,
                              toDisplay,
                              var,
-                             ea.getName().equals(SharkConstants.VTP_VIEW));
+                             ea.getName().equals(SharkConstants.EA_VTP_VIEW));
             }
          }
       }

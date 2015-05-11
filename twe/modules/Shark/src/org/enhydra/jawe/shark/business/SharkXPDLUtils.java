@@ -133,6 +133,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                continue;
             }
             boolean canref = false;
+            boolean useplaceholders = true;
             if (el instanceof Activity) {
                if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
                    || ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
@@ -140,8 +141,11 @@ public class SharkXPDLUtils extends XPDLUtils {
                    || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
                    || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
                    || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
-                   || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)) {
+                   || ea.getName().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct) || ea.getName().equals(SharkConstants.EA_FORM_PAGE_URL)) {
                   canref = true;
+                  if (ea.getName().equals(SharkConstants.EA_FORM_PAGE_URL)) {
+                     useplaceholders = false;
+                  }
                }
             } else if (el instanceof WorkflowProcess) {
                if (ea.getName().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
@@ -175,8 +179,11 @@ public class SharkXPDLUtils extends XPDLUtils {
                }
             }
             if (canref) {
-               if (XMLUtil.getUsingPositions(ea.getVValue(), "{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + referencedName + "}", new HashMap(), false)
-                  .size() > 0) {
+               String searchFor = referencedName;
+               if (useplaceholders) {
+                  searchFor = "{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + searchFor + "}";
+               }
+               if (XMLUtil.getUsingPositions(ea.getVValue(), searchFor, new HashMap(), false).size() > 0) {
                   references.add(ea.get("Value"));
                }
             }
@@ -235,7 +242,8 @@ public class SharkXPDLUtils extends XPDLUtils {
       Iterator it = refsEAValues.iterator();
       while (it.hasNext()) {
          XMLElement easmtpvOrApOrPerfOrCondOrDlCond = (XMLElement) it.next();
-         if (easmtpvOrApOrPerfOrCondOrDlCond instanceof XMLAttribute) {
+         if (easmtpvOrApOrPerfOrCondOrDlCond instanceof XMLAttribute
+             && !((ExtendedAttribute) easmtpvOrApOrPerfOrCondOrDlCond.getParent()).getName().equals(SharkConstants.EA_FORM_PAGE_URL)) {
             XMLAttribute a = (XMLAttribute) easmtpvOrApOrPerfOrCondOrDlCond;
             String expr = easmtpvOrApOrPerfOrCondOrDlCond.toValue();
             String searchValue = "{"
@@ -514,7 +522,7 @@ public class SharkXPDLUtils extends XPDLUtils {
             List eas = act.getExtendedAttributes().toElements();
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-               if (ea.getName().equals(SharkConstants.VTP_UPDATE) || ea.getName().equals(SharkConstants.VTP_VIEW)) {
+               if (ea.getName().equals(SharkConstants.EA_VTP_UPDATE) || ea.getName().equals(SharkConstants.EA_VTP_VIEW)) {
                   if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {
                      references.add(ea.get("Value"));
                   }
@@ -824,8 +832,8 @@ public class SharkXPDLUtils extends XPDLUtils {
              && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) || eaName.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER)
                  || eaName.equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || eaName.equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)
-                 || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.VTP_UPDATE)
-                 || eaName.equals(SharkConstants.VTP_VIEW) || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
+                 || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.EA_VTP_UPDATE)
+                 || eaName.equals(SharkConstants.EA_VTP_VIEW) || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
                  || eaName.equals(SharkConstants.EA_HTML5FORM_FILE) || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED)
                  || eaName.equals(SharkConstants.EA_HTML5FORM_XSL) || eaName.equals(SharkConstants.EA_HTML_VARIABLE)
                  || eaName.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE) || eaName.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION))) {

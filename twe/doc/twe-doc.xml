@@ -11458,6 +11458,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           expressions</para>
 
           <para>- Improved validation</para>
+
+          <para>- Supported new activity extended attribute "FORM_PAGE_URL".
+          This attribute is a reference to XPDL_STRING and specifies the URL
+          location of the form to open to see activity details</para>
+
+          <para>- Support for new system variables</para>
+
+          <para>- Introduced constants for the names/description of the system
+          variables</para>
         </listitem>
       </itemizedlist>
     </section>

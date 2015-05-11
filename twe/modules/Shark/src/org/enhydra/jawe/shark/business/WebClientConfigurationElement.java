@@ -75,6 +75,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_EMBEDDED, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML_VARIABLE, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_XSL, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_FORM_PAGE_URL, null, null, true, removeUnconditionally);
          }
       } else {
          if (isReadOnly) {
@@ -109,6 +110,10 @@ public class WebClientConfigurationElement extends XMLComplexElement {
 
    public XMLAttribute getHTML5FormXSLAttribute() {
       return (XMLAttribute) get(SharkConstants.EA_HTML5FORM_XSL);
+   }
+
+   public XMLAttribute getFormPageURLAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_FORM_PAGE_URL);
    }
 
    public XMLAttribute getIsWebDAVForActivityVisibleAttribute() {
@@ -168,6 +173,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       XMLAttribute attrHTML5FormEmbedded = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_EMBEDDED, false);
       XMLAttribute attrHTMLVariable = new XMLAttribute(this, SharkConstants.EA_HTML_VARIABLE, false);
       XMLAttribute attrHTML5FormXSL = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_XSL, false);
+      XMLAttribute attrFormPageURL = new XMLAttribute(this, SharkConstants.EA_FORM_PAGE_URL, false);
       XMLAttribute attrIsWebDAVForActivityVisible = new XMLAttribute(this, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, false, new String[] {
             "true", "false"
       }, 0);
@@ -210,6 +216,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       add(attrHTML5FormEmbedded);
       add(attrHTMLVariable);
       add(attrHTML5FormXSL);
+      add(attrFormPageURL);
       add(attrIsWebDAVForActivityVisible);
       add(attrBackActivityDefinition);
       add(attrCheckForCompletion);

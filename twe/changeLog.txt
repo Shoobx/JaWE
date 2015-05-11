@@ -1,4 +1,11 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-05-09 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Supported new activity extended attribute "FORM_PAGE_URL
+        This attribute is a reference to XPDL_STRING and specifies the URL location of the form to open to see activity details
+      - Support for new system variables
+      - Introduced constants for the names/description of the system variables
+
 2015-05-04 Sasa Bojanic <sasaboy@together.at>
    # Shark mode:
       - Added support for ExecuteSql tool agent
