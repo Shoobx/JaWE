@@ -9802,6 +9802,28 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
     filled-in with necessary shark mode specific language dependent
     keys/values.</para>
 
+    <para>There are also 3 additional configuration propery files in shark
+    mode:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>shkappdefchoices.properties - here you can define possible
+        application definitions (for tool agents) that will be shown as
+        options in the GUI</para>
+      </listitem>
+
+      <listitem>
+        <para>shkassmgrchoices.properties - here you can define possible
+        assignment manager plug-ins that will be shown as options in the
+        GUI</para>
+      </listitem>
+
+      <listitem>
+        <para>shkconfigstringchoices.properties - here you can define possible
+        configuration strings that will be shown as options in the GUI</para>
+      </listitem>
+    </itemizedlist>
+
     <para>There is a special Java package <emphasis
     role="bold">org.enhydra.jawe.shark</emphasis> which contains different
     Java classes and resources (images). These classes together with
