@@ -1,4 +1,8 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-05-22 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+   	- supported changes in SOAPToolAgent
+
 2015-05-19 Sasa Bojanic <sasaboy@together.at>
    # Shark mode:
    	- changed names of some constants

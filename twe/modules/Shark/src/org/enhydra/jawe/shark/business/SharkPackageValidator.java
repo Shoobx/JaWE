@@ -100,8 +100,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          String postfixProc = "_PROCESS";
          String postfixAct = "_ACTIVITY";
          if (el.toName().equals("Name")) {
-            if (((el.toValue().equals(SharkConstants.EA_VTP_UPDATE) || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue()
-               .equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue()
+            if (((el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
+                  || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue()
                .equals(SharkConstants.EA_FORM_PAGE_URL)) && isAct)
                 || (!isAct && (el.toValue().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
@@ -1340,15 +1340,16 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                           "",
                                                           el);
          existingErrors.add(verr);
-      } else if (fps.size() == 0) {
-         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                          XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_MISSING_REQUIRED_PARAMETERS,
-                                                          "",
-                                                          el);
-         existingErrors.add(verr);
       } else {
-         FormalParameter soapmethod = (FormalParameter) fps.get(0);
+         FormalParameter soapmethod = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_OPERATION_NAME);
+         if (soapmethod == null) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_MISSING_REQUIRED_PARAMETERS,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
          handleFPModeError(soapmethod,
                            XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
@@ -1358,6 +1359,21 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                XPDLConstants.BASIC_TYPE_STRING,
                                false,
                                SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_INVALID_SOAP_OPERATION_PARAMETER_TYPE,
+                               existingErrors);
+
+         FormalParameter wsuname = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_UNAME);
+         handleFPDataTypeError(wsuname,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                               existingErrors);
+         FormalParameter wspwd = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_PASSWD);
+         handleFPDataTypeError(wspwd,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                existingErrors);
       }
    }

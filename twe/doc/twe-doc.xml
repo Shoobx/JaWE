@@ -11489,6 +11489,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Introduced constants for the names/description of the system
           variables</para>
+
+          <para>- Supported changes in SOAPToolAgent</para>
         </listitem>
       </itemizedlist>
     </section>
