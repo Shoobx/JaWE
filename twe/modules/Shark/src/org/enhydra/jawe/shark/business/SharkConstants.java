@@ -324,6 +324,8 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RESULT_CL = "Result";
 
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_RESULT_TYPE = "result_type";
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_ALLOWED_DOCUMENT_FORMATS = "ALLOWED_DOCUMENT_FORMATS";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_UNSUPPORTED_DOCUMENT_IDS = "UNSUPPORTED_DOCUMENT_IDS";
@@ -341,6 +343,8 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE_PASSWD = "data_source_passwd";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_DRIVER_FQCN = "driver_fqcn";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_ROW_COUNT = "row_count";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_OPERATION_NAME = "operationName";
 
@@ -381,6 +385,14 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CC_ADDRESSES = "cc_addresses";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_BCC_ADDRESSES = "bcc_addresses";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_XML = "xml";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_XML = "return_xml";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_CODE = "return_code";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_IS_SEND_RECEIVE_OPERATION = "is_send_receive_operation";
 
    public static final String TOOL_AGENT_LDAP_METHOD_getAllGroupEntries = "getAllGroupEntries";
 
