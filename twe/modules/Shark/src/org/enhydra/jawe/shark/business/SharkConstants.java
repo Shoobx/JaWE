@@ -56,7 +56,7 @@ public class SharkConstants {
    public final static String EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS = "EVALUATE_NAME_AS_EXPRESSION_PROCESS";
 
    public final static String EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS = "EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS";
-   
+
    public static final String EA_USE_PROCESS_CONTEXT_ONLY = "USE_PROCESS_CONTEXT_ONLY";
 
    public static final String EA_CREATE_ASSIGNMENTS = "CREATE_ASSIGNMENTS";
@@ -116,17 +116,17 @@ public class SharkConstants {
    public static final String EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY = "DoNotAssignToPerformerOfActivity";
 
    public static final String EA_HTML5FORM_FILE = "HTML5FORM_FILE";
-   
+
    public static final String EA_HTML5FORM_EMBEDDED = "HTML5FORM_EMBEDDED";
 
    public static final String EA_HTML_VARIABLE = "HTML_VARIABLE";
-   
+
    public static final String EA_HTML5FORM_XSL = "HTML5FORM_XSL";
-   
+
    public static final String EA_FORM_PAGE_URL = "FORM_PAGE_URL";
 
    public static final String EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE = "IS_WEBDAV_FOR_ACTIVITY_VISIBLE";
-   
+
    public static final String EA_BACK_ACTIVITY_DEFINITION = "BACK_ACTIVITY_DEFINITION";
 
    public static final String EA_CHECK_FOR_FIRST_ACTIVITY = "CHECK_FOR_FIRST_ACTIVITY";
@@ -162,7 +162,7 @@ public class SharkConstants {
    public static final String SMTP_DM_ATTACHMENTS = "SMTP_DM_ATTACHMENTS";
 
    public static final String SMTP_RECIPIENT_PARTICIPANT = "SMTP_RECIPIENT_PARTICIPANT";
-   
+
    public static final String SMTP_RECIPIENT_VARIABLE = "SMTP_RECIPIENT_VARIABLE";
 
    public static final String SMTP_EVENT_AUDIT_MANAGER_MODE = "SMTP_EVENT_AUDIT_MANAGER_MODE";
@@ -200,7 +200,7 @@ public class SharkConstants {
    public static final String EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS = "SMTP_ERROR_HANDLER_DM_ATTACHMENTS";
 
    public static final String EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT";
-   
+
    public static final String EA_SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE = "SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE";
 
    public static final String EA_NEWPROC_ERROR_HANDLER_DO_CREATE = "NEWPROC_ERROR_HANDLER_DO_CREATE";
@@ -226,7 +226,7 @@ public class SharkConstants {
    public static final String EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS = "SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS";
 
    public static final String EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT";
-   
+
    public static final String EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE = "SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE";
 
    public static final String[] SMTP_DEADLINE_HANDLER_POSSIBLE_EAS = new String[] {
@@ -263,7 +263,7 @@ public class SharkConstants {
    public static final String SMTP_LIMIT_HANDLER_DM_ATTACHMENTS = "SMTP_LIMIT_HANDLER_DM_ATTACHMENTS";
 
    public static final String SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT = "SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT";
-   
+
    public static final String SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE = "SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE";
 
    public static final String EA_DYNAMICSCRIPT = "DYNAMICSCRIPT";
@@ -281,7 +281,7 @@ public class SharkConstants {
    public static final String EA_VTP_UPDATE = "VariableToProcess_UPDATE";
 
    public static final String EA_VTP_VIEW = "VariableToProcess_VIEW";
-   
+
    public static final String EA_VTP_FETCH = "VariableToProcess_FETCH";
 
    public static final String EA_VALUE_TRUE = "true";
@@ -293,7 +293,7 @@ public class SharkConstants {
    public static final String TOOL_AGENT_CHECKDOCUMENTFORMATS = "org.enhydra.shark.toolagent.CheckDocumentFormatsToolAgent";
 
    public static final String TOOL_AGENT_EXECUTESQL = "org.enhydra.shark.toolagent.ExecuteSqlToolAgent";
-   
+
    public static final String TOOL_AGENT_JAVACLASS = "org.enhydra.shark.toolagent.JavaClassToolAgent";
 
    public static final String TOOL_AGENT_JAVASCRIPT = "org.enhydra.shark.toolagent.JavaScriptToolAgent";
@@ -327,20 +327,26 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_ALLOWED_DOCUMENT_FORMATS = "ALLOWED_DOCUMENT_FORMATS";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_UNSUPPORTED_DOCUMENT_IDS = "UNSUPPORTED_DOCUMENT_IDS";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_STATEMENT = "statement";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_PREPARED_STATEMENT = "prepared_statement";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE = "data_source";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE_URL = "data_source_url";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE_UNAME = "data_source_uname";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_DATA_SOURCE_PASSWD = "data_source_passwd";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_DRIVER_FQCN = "driver_fqcn";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_OPERATION_NAME = "operationName";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_WS_UNAME = "webservice_uname";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_WS_PASSWD = "webservice_passwd";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME = "transformer_name";
 
@@ -403,7 +409,7 @@ public class SharkConstants {
    public static final String TOOL_AGENT_LDAP_METHOD_doesUserBelongToGroup = "doesUserBelongToGroup";
 
    public static final String TOOL_AGENT_LDAP_METHOD_getUserByEmail = "getUserByEmail";
-   
+
    public static final String TOOL_AGENT_LDAP_METHOD_getGroupByEmail = "getGroupByEmail";
 
    public static final String TOOL_AGENT_LDAP_METHOD_checkPassword = "checkPassword";
@@ -470,9 +476,9 @@ public class SharkConstants {
    public static final String TOOL_AGENT_USERGROUP_METHOD_getUserAttribute = "getUserAttribute";
 
    public static final String TOOL_AGENT_USERGROUP_METHOD_getGroupAttribute = "getGroupAttribute";
-   
+
    public static final String TOOL_AGENT_USERGROUP_METHOD_getUserByEMailAddress = "getUserByEMailAddress";
-   
+
    public static final String TOOL_AGENT_USERGROUP_METHOD_getGroupByEMailAddress = "getGroupByEMailAddress";
 
    public static final String TOOL_AGENT_USERGROUP_METHOD_getObjects = "getObjects";
@@ -513,199 +519,289 @@ public class SharkConstants {
    public static final List<String> TOOL_AGENT_USERGROUP_POSSIBLE_METHODS_LIST = Collections.unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_USERGROUP_POSSIBLE_METHODS));
 
    public static final String DEFINITION_NAME_SUFFIX = "_DN";
+
    public static final String DEFINITION_DESCRIPTION_SUFFIX = "_DD";
+
    public static final String DEFINITION_NAME_TRANSLATED_SUFFIX = "_DNT";
+
    public static final String DEFINITION_DESCRIPTION_TRANSLATED_SUFFIX = "_DDT";
+
    public static final String TRANSLATED_SUFFIX = "_transl";
-   
+
    public static final String SHARK_PROCESS_DEFINITION_ID = "shark_process_definition_id";
-   
+
    public static final String SHARK_PROCESS_DEFINITION_ID_DN = "Process definition Id";
-   
+
    public static final String SHARK_PROCESS_DEFINITION_ID_DD = "Id of XPDL process definition";
 
    public static final String SHARK_PROCESS_DEFINITION_NAME = "shark_process_definition_name";
 
    public static final String SHARK_PROCESS_DEFINITION_NAME_DN = "Process definition name";
+
    public static final String SHARK_PROCESS_DEFINITION_NAME_DD = "Name of XPDL process definition";
 
    public static final String SHARK_PROCESS_DEFINITION_DESCRIPTION = "shark_process_definition_description";
-   
+
    public static final String SHARK_PROCESS_DEFINITION_DESCRIPTION_DN = "Process definition description";
+
    public static final String SHARK_PROCESS_DEFINITION_DESCRIPTION_DD = "Description of XPDL process definition";
 
    public static final String SHARK_PROCESS_DEFINITION_PRIORITY = "shark_process_definition_priority";
+
    public static final String SHARK_PROCESS_DEFINITION_PRIORITY_DN = "Process definition priority";
+
    public static final String SHARK_PROCESS_DEFINITION_PRIORITY_DD = "Priority of XPDL process definition";
 
    public static final String SHARK_PROCESS_ID = "shark_process_id";
+
    public static final String SHARK_PROCESS_ID_DN = "Process Id";
+
    public static final String SHARK_PROCESS_ID_DD = "Id of process instance";
 
    public static final String SHARK_PROCESS_NAME = "shark_process_name";
+
    public static final String SHARK_PROCESS_NAME_DN = "Process name";
+
    public static final String SHARK_PROCESS_NAME_DD = "Name of process instance";
 
    public static final String SHARK_PROCESS_DESCRIPTION = "shark_process_description";
+
    public static final String SHARK_PROCESS_DESCRIPTION_DN = "Process description";
+
    public static final String SHARK_PROCESS_DESCRIPTION_DD = "Description of process instance";
 
    public static final String SHARK_PROCESS_PRIORITY = "shark_process_priority";
+
    public static final String SHARK_PROCESS_PRIORITY_DN = "Process priority";
+
    public static final String SHARK_PROCESS_PRIORITY_DD = "Priority of process instance";
 
    public static final String SHARK_PROCESS_LIMIT_TIME = "shark_process_limit_time";
+
    public static final String SHARK_PROCESS_LIMIT_TIME_DN = "Process limit time";
+
    public static final String SHARK_PROCESS_LIMIT_TIME_DD = "Limit time of process instance";
 
    public static final String SHARK_PROCESS_CREATED_TIME = "shark_process_created_time";
+
    public static final String SHARK_PROCESS_CREATED_TIME_DN = "Process created at";
+
    public static final String SHARK_PROCESS_CREATED_TIME_DD = "Date and time when process instance was created";
 
    public static final String SHARK_PROCESS_CREATED_BY = "shark_process_created_by";
+
    public static final String SHARK_PROCESS_CREATED_BY_DN = "Process created by";
+
    public static final String SHARK_PROCESS_CREATED_BY_DD = "User that created the process instance";
 
    public static final String SHARK_PROCESS_STARTED_TIME = "shark_process_started_time";
+
    public static final String SHARK_PROCESS_STARTED_TIME_DN = "Process started at";
+
    public static final String SHARK_PROCESS_STARTED_TIME_DD = "Date and time when process instance execution was started";
 
    public static final String SHARK_PROCESS_STARTED_BY = "shark_process_started_by";
+
    public static final String SHARK_PROCESS_STARTED_BY_DN = "Process started by";
+
    public static final String SHARK_PROCESS_STARTED_BY_DD = "User that started the process instance";
 
    public static final String SHARK_PROCESS_FINISHED_TIME = "shark_process_finished_time";
+
    public static final String SHARK_PROCESS_FINISHED_TIME_DN = "Process finished at";
+
    public static final String SHARK_PROCESS_FINISHED_TIME_DD = "Date and time when process instance execution was finished";
 
    public static final String SHARK_PROCESS_FINISHED_BY = "shark_process_finished_by";
+
    public static final String SHARK_PROCESS_FINISHED_BY_DN = "Process finished by";
+
    public static final String SHARK_PROCESS_FINISHED_BY_DD = "User that finished the process instance";
-   
 
    public static final String SHARK_PROCESS_STATE = "shark_process_state";
+
    public static final String SHARK_PROCESS_STATE_DN = "Process state";
+
    public static final String SHARK_PROCESS_STATE_DD = "The current state of process instance";
 
    public static final String SHARK_ACTIVITY_DEFINITION_ID = "shark_activity_definition_id";
+
    public static final String SHARK_ACTIVITY_DEFINITION_ID_DN = "Activity definition Id";
+
    public static final String SHARK_ACTIVITY_DEFINITION_ID_DD = "Id of XPDL activity definition";
 
    public static final String SHARK_ACTIVITY_DEFINITION_NAME = "shark_activity_definition_name";
+
    public static final String SHARK_ACTIVITY_DEFINITION_NAME_DN = "Activity definition name";
+
    public static final String SHARK_ACTIVITY_DEFINITION_NAME_DD = "Name of XPDL activity definition";
-   
 
    public static final String SHARK_ACTIVITY_DEFINITION_DESCRIPTION = "shark_activity_definition_description";
+
    public static final String SHARK_ACTIVITY_DEFINITION_DESCRIPTION_DN = "Activity definition description";
+
    public static final String SHARK_ACTIVITY_DEFINITION_DESCRIPTION_DD = "Description of XPDL activity definition";
 
    public static final String SHARK_ACTIVITY_DEFINITION_PRIORITY = "shark_activity_definition_priority";
+
    public static final String SHARK_ACTIVITY_DEFINITION_PRIORITY_DN = "Activity definition priority";
+
    public static final String SHARK_ACTIVITY_DEFINITION_PRIORITY_DD = "Priority of XPDL activity definition";
 
    public static final String SHARK_ACTIVITY_ID = "shark_activity_id";
+
    public static final String SHARK_ACTIVITY_ID_DN = "Activity Id";
+
    public static final String SHARK_ACTIVITY_ID_DD = "Id of activity instance";
 
    public static final String SHARK_ACTIVITY_NAME = "shark_activity_name";
+
    public static final String SHARK_ACTIVITY_NAME_DN = "Activity name";
+
    public static final String SHARK_ACTIVITY_NAME_DD = "Name of activity instance";
 
    public static final String SHARK_ACTIVITY_TYPE = "shark_activity_type";
+
    public static final String SHARK_ACTIVITY_TYPE_DN = "Activity type";
+
    public static final String SHARK_ACTIVITY_TYPE_DD = "Type of activity instance";
 
    public static final String SHARK_ACTIVITY_DESCRIPTION = "shark_activity_description";
+
    public static final String SHARK_ACTIVITY_DESCRIPTION_DN = "Activity description";
+
    public static final String SHARK_ACTIVITY_DESCRIPTION_DD = "Description of activity instance";
 
    public static final String SHARK_ACTIVITY_PRIORITY = "shark_activity_priority";
+
    public static final String SHARK_ACTIVITY_PRIORITY_DN = "Activity priority";
+
    public static final String SHARK_ACTIVITY_PRIORITY_DD = "Priority of activity instance";
 
    public static final String SHARK_ACTIVITY_LIMIT_TIME = "shark_activity_limit_time";
+
    public static final String SHARK_ACTIVITY_LIMIT_TIME_DN = "Activity limit time";
+
    public static final String SHARK_ACTIVITY_LIMIT_TIME_DD = "Limit time of activity instance";
 
    public static final String SHARK_ACTIVITY_CREATED_TIME = "shark_activity_created_time";
+
    public static final String SHARK_ACTIVITY_CREATED_TIME_DN = "Activity created at";
+
    public static final String SHARK_ACTIVITY_CREATED_TIME_DD = "Date and time when activity instance was created";
 
    public static final String SHARK_ACTIVITY_STARTED_TIME = "shark_activity_started_time";
+
    public static final String SHARK_ACTIVITY_STARTED_TIME_DN = "Activity started time";
+
    public static final String SHARK_ACTIVITY_STARTED_TIME_DD = "Date and time when activity instance execution was started";
 
    public static final String SHARK_ACTIVITY_FINISHED_TIME = "shark_activity_finished_time";
+
    public static final String SHARK_ACTIVITY_FINISHED_TIME_DN = "Activity finished at";
+
    public static final String SHARK_ACTIVITY_FINISHED_TIME_DD = "Date and time when activity instance execution was finished";
 
    public static final String SHARK_ACTIVITY_STATE = "shark_activity_state";
+
    public static final String SHARK_ACTIVITY_STATE_DN = "Activity state";
+
    public static final String SHARK_ACTIVITY_STATE_DD = "Current state of activity instance";
 
    public static final String SHARK_ACTIVITY_HANDLED_BY = "shark_activity_handled_by";
+
    public static final String SHARK_ACTIVITY_HANDLED_BY_DN = "Activity handled by";
+
    public static final String SHARK_ACTIVITY_HANDLED_BY_DD = "User that handled activity";
 
    public static final String SHARK_SESSION_HANDLE = "shark_session_handle";
+
    public static final String SHARK_SESSION_HANDLE_DN = "Session handle";
+
    public static final String SHARK_SESSION_HANDLE_DD = "TWS session handle object";
 
    public static final String SHARK_VERSION = "shark_version";
+
    public static final String SHARK_VERSION_DN = "TWS version number";
+
    public static final String SHARK_VERSION_DD = "Version number of TWS";
 
    public static final String SHARK_RELEASE = "shark_release";
+
    public static final String SHARK_RELEASE_DN = "TWS release number";
+
    public static final String SHARK_RELEASE_DD = "Release number of TWS";
 
    public static final String SHARK_BUILDID = "shark_buildid";
+
    public static final String SHARK_BUILDID_DN = "TWS build Id";
+
    public static final String SHARK_BUILDID_DD = "Build Id of TWS";
 
    public static final String SHARK_XPDL_ID = "shark_xpdl_id";
+
    public static final String SHARK_XPDL_ID_DN = "XPDL Id";
+
    public static final String SHARK_XPDL_ID_DD = "Id of root (Package) element of XPDL";
 
    public static final String SHARK_XPDL_NAME = "shark_xpdl_name";
+
    public static final String SHARK_XPDL_NAME_DN = "XPDL name";
+
    public static final String SHARK_XPDL_NAME_DD = "Name of root (Package) element of XPDL";
-   
+
    public static final String SHARK_XPDL_DESCRIPTION = "shark_xpdl_description";
+
    public static final String SHARK_XPDL_DESCRIPTION_DN = "XPDL description";
+
    public static final String SHARK_XPDL_DESCRIPTION_DD = "Description of root (Package) element of XPDL";
 
    public static final String SHARK_XPDL_INTERNAL_VERSION = "shark_xpdl_internal_version";
+
    public static final String SHARK_XPDL_INTERNAL_VERSION_DN = "XPDL internal version";
+
    public static final String SHARK_XPDL_INTERNAL_VERSION_DD = "Internal version of XPDL (automatically assigned by TWS)";
 
    public static final String SHARK_XPDL_VERSION = "shark_xpdl_version";
+
    public static final String SHARK_XPDL_VERSION_DN = "XPDL version";
+
    public static final String SHARK_XPDL_VERSION_DD = "Version of root (Package) element of XPDL";
 
    public static final String SHARK_XPDL_UPLOAD_TIME = "shark_xpdl_upload_time";
+
    public static final String SHARK_XPDL_UPLOAD_TIME_DN = "XPDL uploaded at";
+
    public static final String SHARK_XPDL_UPLOAD_TIME_DD = "Date and time when XPDL was uploaded";
 
    public static final String SHARK_USER = "shark_user";
+
    public static final String SHARK_USER_DN = "User";
+
    public static final String SHARK_USER_DD = "If of the user that is executing TWS process/activity";
 
    public static final String SHARK_USERNAME = "shark_username";
+
    public static final String SHARK_USERNAME_DN = "User full name";
+
    public static final String SHARK_USERNAME_DD = "Full name of the user that is executing TWS process/activity";
 
    public static final String SHARK_TIME = "shark_time";
+
    public static final String SHARK_TIME_DN = "Date and time";
+
    public static final String SHARK_TIME_DD = "Current date and time of execution";
 
    public static final String SHARK_ACTIVITY_ERROR_MESSAGE = "shark_activity_error_message";
+
    public static final String SHARK_ACTIVITY_ERROR_MESSAGE_DN = "Activity error message";
+
    public static final String SHARK_ACTIVITY_ERROR_MESSAGE_DD = "Error message for tool agent execution";
 
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE = "shark_activity_error_stacktrace";
+
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_DN = "Activity stack trace";
+
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_DD = "Stack trace for tool agent execution";
 
    public static final String SHARK_VARIABLE_CATEGORY = "category";
