@@ -310,6 +310,8 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_SOAP = "org.enhydra.shark.toolagent.SOAPToolAgent";
 
+   public static final String TOOL_AGENT_TXW = "org.enhydra.shark.toolagent.TXWToolAgent";
+
    public static final String TOOL_AGENT_USERGROUP = "org.enhydra.shark.toolagent.UserGroupToolAgent";
 
    public static final String TOOL_AGENT_XPATH = "org.enhydra.shark.toolagent.XPathToolAgent";
@@ -385,6 +387,8 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CC_ADDRESSES = "cc_addresses";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_BCC_ADDRESSES = "bcc_addresses";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_URL = "url";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_XML = "xml";
 

@@ -955,6 +955,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          validateToolAgentRuntimeApplication(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_SOAP)) {
          validateToolAgentSOAP(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_TXW)) {
+         validateToolAgentTXW(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_USERGROUP)) {
          validateToolAgentUserGroup(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_XPATH)) {
@@ -1332,50 +1334,188 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
 
    protected void validateToolAgentSOAP(Application el, List existingErrors, boolean fullCheck) {
       FormalParameters fps = el.getApplicationTypes().getFormalParameters();
-      ExtendedAttribute ea = el.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
-      if (ea == null || ea.getVValue().trim().equals("")) {
+      FormalParameter url = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_URL);
+      FormalParameter soapmethod = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_OPERATION_NAME);
+      if (url == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_APP_NAME_EXTENDED_ATTRIBUTE_REQUIRED,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_MISSING_REQUIRED_PARAMETERS,
                                                           "",
                                                           el);
          existingErrors.add(verr);
-      } else {
-         FormalParameter soapmethod = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_OPERATION_NAME);
-         if (soapmethod == null) {
-            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                             XMLValidationError.SUB_TYPE_LOGIC,
-                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_MISSING_REQUIRED_PARAMETERS,
-                                                             "",
-                                                             el);
-            existingErrors.add(verr);
-         }
-         handleFPModeError(soapmethod,
-                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
-                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
-                           existingErrors);
-         handleFPDataTypeError(soapmethod,
-                               BasicType.class,
-                               XPDLConstants.BASIC_TYPE_STRING,
-                               false,
-                               SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_INVALID_SOAP_OPERATION_PARAMETER_TYPE,
-                               existingErrors);
-
-         FormalParameter wsuname = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_UNAME);
-         handleFPDataTypeError(wsuname,
-                               BasicType.class,
-                               XPDLConstants.BASIC_TYPE_STRING,
-                               false,
-                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
-                               existingErrors);
-         FormalParameter wspwd = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_PASSWD);
-         handleFPDataTypeError(wspwd,
-                               BasicType.class,
-                               XPDLConstants.BASIC_TYPE_STRING,
-                               false,
-                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
-                               existingErrors);
+         return;
       }
+      if (soapmethod == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_SOAP_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+         return;
+      }
+      handleFPModeError(url,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(url,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+      handleFPModeError(soapmethod,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(soapmethod,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+
+      FormalParameter wsuname = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_UNAME);
+      handleFPModeError(wsuname,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(wsuname,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+      FormalParameter wspwd = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_PASSWD);
+      handleFPModeError(wspwd,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(wspwd,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+   }
+
+   protected void validateToolAgentTXW(Application el, List existingErrors, boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter url = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_URL);
+      FormalParameter xml = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_XML);
+      FormalParameter issendreceiveop = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_IS_SEND_RECEIVE_OPERATION);
+      FormalParameter returncode = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RETURN_CODE);
+      if (url == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_TXW_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+         return;
+      }
+      if (xml == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_TXW_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+         return;
+      }
+      if (issendreceiveop == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_TXW_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+         return;
+      }
+      if (returncode == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_TXW_MISSING_REQUIRED_PARAMETERS,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+         return;
+      }
+
+      handleFPModeError(url,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(url,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+      handleFPModeError(xml,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(xml,
+                            SchemaType.class,
+                            null,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                            existingErrors);
+      handleFPModeError(issendreceiveop,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(issendreceiveop,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_BOOLEAN,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_BOOLEAN_REQUIRED,
+                            existingErrors);
+      handleFPModeError(returncode,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_IN,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(returncode,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_INTEGER,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_INTEGER_REQUIRED,
+                            existingErrors);
+
+      FormalParameter wsuname = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_UNAME);
+      handleFPModeError(wsuname,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(wsuname,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+      FormalParameter wspwd = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_WS_PASSWD);
+      handleFPModeError(wspwd,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(wspwd,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+      FormalParameter returnxml = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RETURN_XML);
+      handleFPModeError(returnxml,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_IN,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(returnxml,
+                            SchemaType.class,
+                            null,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                            existingErrors);
    }
 
    protected void validateToolAgentUserGroup(Application el, List existingErrors, boolean fullCheck) {
