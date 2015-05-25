@@ -1,0 +1,66 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<Application Id="txw" Name="TXW">
+   <FormalParameters>
+      <FormalParameter Id="url" Name="URL to TXW Web Service" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing the URL of TXW Web Service operation to execute (e.g. http://localhost:8080/txw/TXWService).</Description>
+      </FormalParameter>
+      <FormalParameter Id="xml" Name="The XML data used to call TXW Web Service" IsArray="false" Mode="IN">
+         <DataType>
+            <SchemaType/>
+         </DataType>
+         <Description>XML Node representing the data for calling TXW Web Service.</Description>
+      </FormalParameter>
+      <FormalParameter Id="is_send_receive_operation" Name="Determines if send/receive operation should be called" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="BOOLEAN"/>
+         </DataType>
+         <Description>Should be set to 'true' if send/receive operation should be called.</Description>
+      </FormalParameter>
+      <FormalParameter Id="webservice_uname" Name="Username for TXW Web Service authentication" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>Username used to authenticate to TXW Web Service.</Description>
+      </FormalParameter>
+      <FormalParameter Id="webservice_passwd" Name="Password for TXW Web Service authentication" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>Password used to authenticate to TXW Web Service.</Description>
+      </FormalParameter>
+      <FormalParameter Id="return_code" Name="TXW return code" IsArray="false" Mode="OUT">
+         <DataType>
+            <BasicType Type="INTEGER"/>
+         </DataType>
+         <Description>Should be set to 'true' if send/receive operation should be called.</Description>
+      </FormalParameter>
+      <FormalParameter Id="return_xml" Name="The XML data received from TXW Web Service call" IsArray="false" Mode="OUT">
+         <DataType>
+            <SchemaType/>
+         </DataType>
+         <Description>XML Node representing the data received from TXW Web Service call.</Description>
+      </FormalParameter>
+   </FormalParameters>
+   <ExtendedAttributes>
+      <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.TXWToolAgent"/>
+    </ExtendedAttributes>
+</Application>

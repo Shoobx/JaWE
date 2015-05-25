@@ -1142,7 +1142,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (SharkConstants.TOOL_AGENT_SCHEDULER.equals(taName)) {
          ret = new ProxyBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_SCHEDULER);
       } else if (SharkConstants.TOOL_AGENT_SOAP.equals(taName)) {
-         ret = new SOAPToolAgentElement(el, SharkConstants.TOOL_AGENT_SOAP);
+         ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_SOAP);
+      } else if (SharkConstants.TOOL_AGENT_TXW.equals(taName)) {
+         ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_TXW);
       } else if (SharkConstants.TOOL_AGENT_USERGROUP.equals(taName)) {
          ret = new LDAPOrUserGroupToolAgentElement(el, SharkConstants.TOOL_AGENT_USERGROUP);
       } else if (SharkConstants.TOOL_AGENT_XPATH.equals(taName)) {

@@ -17,6 +17,12 @@
 -->
 <Application Id="soap" Name="SOAP">
    <FormalParameters>
+      <FormalParameter Id="url" Name="URL to Web Service WSDL" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing the URL to WSDL of the Web Service(e.g. http://localhost:8080/txw/TXWService?wsdl).</Description>
+      </FormalParameter>
       <FormalParameter Id="operationName" Name="The name of Web Service operation" IsArray="false" Mode="IN">
          <DataType>
             <BasicType Type="STRING"/>
@@ -26,6 +32,5 @@
    </FormalParameters>
    <ExtendedAttributes>
       <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.SOAPToolAgent"/>
-      <ExtendedAttribute Name="AppName" Value=""/>
     </ExtendedAttributes>
 </Application>
