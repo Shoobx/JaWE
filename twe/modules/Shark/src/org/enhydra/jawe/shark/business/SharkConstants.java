@@ -143,6 +143,11 @@ public class SharkConstants {
 
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR = "XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR";
 
+   public static final String EA_I18N_XPDL_FOLDER_NAME = "I18N_XPDL_FOLDER_NAME";
+   public static final String EA_I18N_PROCESS_DEFINITION_FILE_NAME = "I18N_PROCESS_DEFINITION_FILE_NAME";
+   public static final String EA_I18N_NAME_TRANSLATION_KEY = "I18N_NAME_TRANSLATION_KEY";
+   public static final String EA_I18N_DESCRIPTION_TRANSLATION_KEY = "I18N_DESCRIPTION_TRANSLATION_KEY";
+   
    public static final String CONFIGURE_SMTP_EVENT_AUDIT_MANAGER = "ConfigureEmail";
 
    public static final String SMTP_MODE = "SMTP_MODE";
@@ -821,6 +826,8 @@ public class SharkConstants {
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_DD = "Stack trace for tool agent execution";
 
    public static final String SHARK_VARIABLE_CATEGORY = "category";
+   
+   public static final String SHARK_VARIABLE_I18N_LANG_CODE = "i18n_lang_code";
 
    public static final String[] POSSIBLE_SYSTEM_VARIABLES = new String[] {
          SharkConstants.SHARK_PROCESS_DEFINITION_ID,
@@ -874,6 +881,10 @@ public class SharkConstants {
    public final static String EA_XPDL_STRING_VARIABLE_PREFIX = "XPDL_STRING_VARIABLE.";
 
    public static final String XPDL_STRING_PLACEHOLDER_PREFIX = "xpdl_string:";
+
+   public final static String EA_I18N_VARIABLE_PREFIX = "I18N_VARIABLE.";
+
+   public static final String I18N_PLACEHOLDER_PREFIX = "i18n:";
 
    public static final String CONFIG_STRING_PLACEHOLDER_PREFIX = "config_string:";
 
