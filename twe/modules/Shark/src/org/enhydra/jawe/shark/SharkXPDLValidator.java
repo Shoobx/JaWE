@@ -68,8 +68,7 @@ public class SharkXPDLValidator extends SharkPackageValidator {
       } else {
          sType = ((ExpressionType) el).getScriptType();
       }
-      if (!(sType.equals(SharkConstants.SCRIPT_VALUE_JAVA)
-            || sType.equals(SharkConstants.SCRIPT_VALUE_JAVASCRIPT) || (sType.equals(SharkConstants.SCRIPT_VALUE_PYTHONSCRIPT) && !(el instanceof TSScript)))) {
+      if (!(sType.equals(SharkConstants.SCRIPT_VALUE_JAVA) || sType.equals(SharkConstants.SCRIPT_VALUE_JAVASCRIPT) || (sType.equals(SharkConstants.SCRIPT_VALUE_PYTHONSCRIPT) && !(el instanceof TSScript)))) {
          XMLValidationError verr = null;
          if (!sType.equals("")) {
             verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
@@ -93,19 +92,16 @@ public class SharkXPDLValidator extends SharkPackageValidator {
       return true;
    }
 
-   protected Map getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
+   protected Map<String, XMLElement> getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
       return SharkUtils.getPossibleXPDLStringVariablesEAValues(el, allLevels);
    }
 
-   protected Properties getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
+   protected Map<String, String> getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
       return SharkUtils.getPossibleXPDLStringVariables(el, allLevels);
    }
 
-   protected List<String> getPossibleXPDLStringVariableNames(XMLElement el,
-                                                             boolean allLevels) {
-      return new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el,
-                                                                             allLevels)
-         .stringPropertyNames());
+   protected List<String> getPossibleXPDLStringVariableNames(XMLElement el, boolean allLevels) {
+      return new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el, allLevels).keySet());
    }
 
    protected List<String> getConfigStringChoices() {

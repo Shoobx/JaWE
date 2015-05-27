@@ -258,7 +258,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      }
                   }
                }
-               Properties psxpdl = getPossibleXPDLStringVariables(el, true);
+               Map<String, String> psxpdl = getPossibleXPDLStringVariables(el, true);
                for (int i = 0; i < xpdlsvals.size(); i++) {
                   String v = xpdlsvals.get(i);
                   if (!psxpdl.containsKey(v)) {
@@ -434,7 +434,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    }
 
    public void validateElement(DataField el, List existingErrors, boolean fullCheck) {
-      if (SharkConstants.SHARK_VARIABLE_CATEGORY.equals(el.getId())) {
+      if (SharkConstants.SHARK_VARIABLE_CATEGORY.equals(el.getId()) || SharkConstants.SHARK_VARIABLE_I18N_LANG_CODE.equals(el.getId())) {
          validateStandard(el, existingErrors, fullCheck);
       } else {
          super.validateElement(el, existingErrors, fullCheck);
@@ -1854,9 +1854,9 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
 
    public abstract boolean isDeadlineHandlerUsed();
 
-   protected abstract Map getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels);
+   protected abstract Map<String, XMLElement> getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels);
 
-   protected abstract Properties getPossibleXPDLStringVariables(XMLElement el, boolean allLevels);
+   protected abstract Map<String, String> getPossibleXPDLStringVariables(XMLElement el, boolean allLevels);
 
    protected abstract List<String> getPossibleXPDLStringVariableNames(XMLElement el, boolean allLevels);
 

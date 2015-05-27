@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
@@ -52,8 +51,8 @@ public class SharkUtils {
       return l;
    }
 
-   public static Properties getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
-      Properties ret = new Properties();
+   public static Map<String, String> getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
+      Map<String, String> ret = new HashMap<String, String>();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       ExtendedAttributes eas = null;
       if (wp != null) {
@@ -61,7 +60,7 @@ public class SharkUtils {
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
             if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               ret.setProperty(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
+               ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
             }
          }
       }
@@ -72,7 +71,7 @@ public class SharkUtils {
             if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
                String realName = ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
                if (!ret.containsKey(realName)) {
-                  ret.setProperty(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
+                  ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
                }
             }
          }
@@ -81,8 +80,8 @@ public class SharkUtils {
       return ret;
    }
 
-   public static Map getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
-      Map ret = new HashMap();
+   public static Map<String, XMLElement> getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
+      Map<String, XMLElement> ret = new HashMap<String, XMLElement>();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       ExtendedAttributes eas = null;
       if (wp != null) {
@@ -196,7 +195,7 @@ public class SharkUtils {
       if (ea == null && pkg != null) {
          ea = XMLUtil.getPackage(el).getExtendedAttributes().getFirstExtendedAttributeForName(eaname);
       }
-      if (ea!=null) {
+      if (ea != null) {
          allow = new Boolean(ea.getVValue().equalsIgnoreCase("true"));
       }
       return allow.booleanValue();

@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.shark;
 
@@ -31,19 +31,27 @@ import org.enhydra.jxpdl.XMLElement;
  */
 public class SharkModeGroupPanel extends XMLGroupPanel {
 
-   public SharkModeGroupPanel(PanelContainer pc,
-                        XMLElement myOwnerL,
-                        List elements,
-                        String title,
-                        boolean isVertical,
-                        boolean hasBorder,
-                        boolean hasEmptyBorder) {
+   public SharkModeGroupPanel(PanelContainer pc, XMLElement myOwnerL, List elements, String title, boolean isVertical, boolean hasBorder, boolean hasEmptyBorder) {
 
       super(pc, myOwnerL, elements, title, isVertical, hasBorder, hasEmptyBorder, null);
+   }
+
+   public SharkModeGroupPanel(PanelContainer pc,
+                              XMLElement myOwnerL,
+                              List elements,
+                              String title,
+                              boolean isVertical,
+                              boolean hasBorder,
+                              boolean hasEmptyBorder,
+                              boolean isRightAllignment,
+                              boolean addGlue,
+                              String tooltip) {
+
+      super(pc, myOwnerL, elements, title, isVertical, hasBorder, hasEmptyBorder, isRightAllignment, addGlue, tooltip);
    }
 
    public void setElements() {
       super.setElements();
       getOwner().setValue(null);
-   }   
+   }
 }

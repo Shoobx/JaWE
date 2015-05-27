@@ -732,7 +732,8 @@ public class SharkXPDLUtils extends XPDLUtils {
             continue;
          }
          if (pp instanceof Package || pp instanceof WorkflowProcess || pp instanceof Activity) {
-            if (eaName.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
+            if (eaName.equals(SharkConstants.EA_I18N_NAME_TRANSLATION_KEY)
+                || eaName.equals(SharkConstants.EA_I18N_DESCRIPTION_TRANSLATION_KEY) || eaName.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
                 || eaName.equals(SharkConstants.EA_CREATE_ASSIGNMENTS) || eaName.equals(SharkConstants.EA_CREATE_ASSIGNMENTS)
                 || eaName.equals(SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT) || eaName.equals(SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS)
                 || eaName.equals(SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT) || eaName.equals(SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER)
@@ -815,12 +816,14 @@ public class SharkXPDLUtils extends XPDLUtils {
          }
 
          if (pp instanceof Package
-             && (eaName.equals(JaWEEAHandler.EA_EDITING_TOOL)
-                 || eaName.equals(JaWEEAHandler.EA_EDITING_TOOL_VERSION) || eaName.equals(JaWEEAHandler.EA_JAWE_CONFIGURATION) || eaName.equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID))) {
+             && (eaName.equals(SharkConstants.EA_I18N_XPDL_FOLDER_NAME)
+                 || eaName.equals(JaWEEAHandler.EA_EDITING_TOOL) || eaName.equals(JaWEEAHandler.EA_EDITING_TOOL_VERSION)
+                 || eaName.equals(JaWEEAHandler.EA_JAWE_CONFIGURATION) || eaName.equals(JaWEEAHandler.EA_JAWE_EXTERNAL_PACKAGE_ID))) {
             continue;
          }
          if (pp instanceof WorkflowProcess
-             && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)
+             && (eaName.equals(SharkConstants.EA_I18N_PROCESS_DEFINITION_FILE_NAME)
+                 || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_BLOCK_PARTICIPANT_ORDER) || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_START_OF_WORKFLOW)
