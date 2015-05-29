@@ -799,7 +799,7 @@ public class SharkConstants {
 
    public static final String SHARK_USER_DN = "User";
 
-   public static final String SHARK_USER_DD = "If of the user that is executing TWS process/activity";
+   public static final String SHARK_USER_DD = "Id of the user that is executing TWS process/activity";
 
    public static final String SHARK_USERNAME = "shark_username";
 
