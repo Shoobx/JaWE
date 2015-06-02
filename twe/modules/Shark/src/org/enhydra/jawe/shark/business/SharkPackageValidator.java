@@ -975,12 +975,25 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          ea = el.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
       }
       if (ea == null || ea.getVValue().trim().equals("")) {
-         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                          XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_BSH_OR_JS_SCRIPT_PARAMETER_REQUIRED,
-                                                          "",
-                                                          el);
-         existingErrors.add(verr);
+         FormalParameter script = fps.getFormalParameter(SharkConstants.EA_SCRIPT);
+         if (script == null) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_BSH_OR_JS_SCRIPT_PARAMETER_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+         handleFPModeError(script,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                           existingErrors);
+         handleFPDataTypeError(script,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                               existingErrors);
       }
 
    }
