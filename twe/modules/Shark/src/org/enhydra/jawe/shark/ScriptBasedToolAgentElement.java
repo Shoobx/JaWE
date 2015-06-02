@@ -38,7 +38,10 @@ public class ScriptBasedToolAgentElement extends ToolAgentElementBase {
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_SCRIPT,
-                                                  null, null, false, false);
+                                                  null,
+                                                  null,
+                                                  true,
+                                                  false);
       } else {
          this.value = v;
       }
@@ -55,12 +58,10 @@ public class ScriptBasedToolAgentElement extends ToolAgentElementBase {
    }
 
    protected void handleStructure() {
-      ExtendedAttribute ea = ((Application) this.getParent()).getExtendedAttributes()
-         .getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+      ExtendedAttribute ea = ((Application) this.getParent()).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
       if (ea != null) {
          getScriptAttribute().setValue(ea.getVValue());
       }
    }
-
 
 }

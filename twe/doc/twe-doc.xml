@@ -11475,14 +11475,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           This attribute is a reference to XPDL_STRING and specifies the URL
           location of the form to open to see activity details</para>
 
-          <para>- Supported new (I18n related) extended attributes: </para>
+          <para>- Supported new (I18n related) extended attributes:</para>
 
-          <para> * I18N_XPDL_FOLDER_NAME (Package level), </para>
+          <para>* I18N_XPDL_FOLDER_NAME (Package level),</para>
 
-          <para> * I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess level),
-          </para>
+          <para>* I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess
+          level),</para>
 
-          <para> * I18N_NAME_TRANSLATION_KEY and
+          <para>* I18N_NAME_TRANSLATION_KEY and
           I18N_DESCRIPTION_TRANSLATION_KEY (Package, WorkflowProcess, Activity
           and DataField level)</para>
 
@@ -11497,6 +11497,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Supported changes in SOAPToolAgent</para>
 
           <para>- Supported new TXWToolAgent</para>
+
+          <para>- Some changes in SharkPackageValidator API method
+          signatures</para>
+
+          <para>- BeanShell and JavaScript tool agent are now allowed to have
+          FormalParameter "Script" which is used to define script to execute
+          in the case extended attributes "AppName" or "Script" are not
+          defined</para>
         </listitem>
       </itemizedlist>
     </section>
