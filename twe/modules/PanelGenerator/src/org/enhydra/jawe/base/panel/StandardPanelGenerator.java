@@ -1595,7 +1595,11 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    public List<String> getBasicExpressionChoicesTooltips(XMLElement el) {
       List<String> tc = new ArrayList<String>();
-      tc.add(getSettings().getLanguageDependentString("InsertVariableKey"));
+      String ldk = "InsertVariableKey";
+      if (el instanceof Application) {
+         ldk = "InsertFormalParameterKey";
+      }
+      tc.add(getSettings().getLanguageDependentString(ldk));
       return tc;
    }
 
@@ -1617,7 +1621,11 @@ public class StandardPanelGenerator implements PanelGenerator {
          return null;
       }
       List<String> tc = new ArrayList<String>();
-      tc.add(getSettings().getLanguageDependentString("InsertVariableKey"));
+      String ldk = "InsertVariableKey";
+      if (el instanceof Application) {
+         ldk = "InsertFormalParameterKey";
+      }
+      tc.add(getSettings().getLanguageDependentString(ldk));
       return tc;
    }
 
@@ -1660,7 +1668,7 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    }
 
-   protected boolean allowInPlaceEditing (XMLCollection el) {
+   protected boolean allowInPlaceEditing(XMLCollection el) {
       return true;
    }
 }
