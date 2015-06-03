@@ -1030,11 +1030,20 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       switch (no) {
          case 1:
             XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el, no, hidden);
-            
+
             List i18npels = new ArrayList();
             i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_NAME_TRANSLATION_KEY, false));
             i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_DESCRIPTION_TRANSLATION_KEY, false));
-            XMLGroupPanel gpi18n = new XMLGroupPanel(getPanelContainer(), el, i18npels, getPanelContainer().getLanguageDependentString("I18NKey"), true, true, true, false, false, null);
+            XMLGroupPanel gpi18n = new XMLGroupPanel(getPanelContainer(),
+                                                     el,
+                                                     i18npels,
+                                                     getPanelContainer().getLanguageDependentString("I18NKey"),
+                                                     true,
+                                                     true,
+                                                     true,
+                                                     false,
+                                                     false,
+                                                     null);
 
             int hmp = gp.howManyPanels();
             int pn = gp.getPanelPositionForElement(el.get("Name"));
@@ -1221,11 +1230,20 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                  null);
       }
       XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el);
-      
+
       List i18npels = new ArrayList();
       i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_NAME_TRANSLATION_KEY, false));
       i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_DESCRIPTION_TRANSLATION_KEY, false));
-      XMLGroupPanel gpi18n = new XMLGroupPanel(getPanelContainer(), el, i18npels, getPanelContainer().getLanguageDependentString("I18NKey"), true, true, true, false, false, null);
+      XMLGroupPanel gpi18n = new XMLGroupPanel(getPanelContainer(),
+                                               el,
+                                               i18npels,
+                                               getPanelContainer().getLanguageDependentString("I18NKey"),
+                                               true,
+                                               true,
+                                               true,
+                                               false,
+                                               false,
+                                               null);
 
       int hmp = gp.howManyPanels();
       int pn = gp.getPanelPositionForElement(el.get("IsArray"));
@@ -1329,9 +1347,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_XPDL_FOLDER_NAME, false));
          i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_NAME_TRANSLATION_KEY, false));
          i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_DESCRIPTION_TRANSLATION_KEY, false));
-         XMLGroupPanel gp = new XMLGroupPanel(getPanelContainer(), el, i18npels, getPanelContainer().getLanguageDependentString("I18NKey"), true, true, true, false, false, null);
+         XMLGroupPanel gp = new XMLGroupPanel(getPanelContainer(),
+                                              el,
+                                              i18npels,
+                                              getPanelContainer().getLanguageDependentString("I18NKey"),
+                                              true,
+                                              true,
+                                              true,
+                                              false,
+                                              false,
+                                              null);
          panelElements.add(gp);
-         
+
          if (!hidden.contains(el.getConformanceClass())) {
             panelElements.add(el.getConformanceClass());
          }
@@ -1400,7 +1427,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_PROCESS_DEFINITION_FILE_NAME, false));
          i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_NAME_TRANSLATION_KEY, false));
          i18npels.add(new ExtendedAttributeWrapper(el.getExtendedAttributes(), SharkConstants.EA_I18N_DESCRIPTION_TRANSLATION_KEY, false));
-         XMLGroupPanel gp = new XMLGroupPanel(getPanelContainer(), el, i18npels, getPanelContainer().getLanguageDependentString("I18NKey"), true, true, true, false, false, null);
+         XMLGroupPanel gp = new XMLGroupPanel(getPanelContainer(),
+                                              el,
+                                              i18npels,
+                                              getPanelContainer().getLanguageDependentString("I18NKey"),
+                                              true,
+                                              true,
+                                              true,
+                                              false,
+                                              false,
+                                              null);
          panelElements.add(gp);
 
          if (!hidden.contains(el.getAccessLevelAttribute())) {
@@ -1938,6 +1974,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       mc.add(getBasicExpressionChoices(el));
 
+      if (el instanceof Application) {
+         Application app = (Application) el;
+
+         ExtendedAttribute ea = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+         if (ea != null) {
+            String taName = ea.getVValue();
+            if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(taName) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
+               mc.add(new ArrayList(XMLUtil.getPossibleVariables(el).values()));
+            }
+         }
+      }
+
       if (!(el instanceof InitialValue)) {
          l = new ArrayList();
          List<String> csc = SharkPanelGenerator.getConfigStringChoices();
@@ -1965,7 +2013,25 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List<String> mct = new ArrayList<String>();
 
       mct.add(getSettings().getLanguageDependentString("InsertSystemVariableKey"));
-      mct.add(getSettings().getLanguageDependentString("InsertVariableKey"));
+
+      String ldk = "InsertVariableKey";
+      String ldk2 = null;
+      if (el instanceof Application) {
+         Application app = (Application) el;
+
+         ExtendedAttribute ea = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+         if (ea != null) {
+            String taName = ea.getVValue();
+            if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(taName) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
+               ldk2 = ldk;
+            }
+         }
+         ldk = "InsertFormalParameterKey";
+      }
+      mct.add(getSettings().getLanguageDependentString(ldk));
+      if (ldk2 != null) {
+         mct.add(getSettings().getLanguageDependentString(ldk2));
+      }
 
       if (!(el instanceof InitialValue)) {
          mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
