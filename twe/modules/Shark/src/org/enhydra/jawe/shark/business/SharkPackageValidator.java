@@ -1416,7 +1416,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       FormalParameters fps = el.getApplicationTypes().getFormalParameters();
       FormalParameter url = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_URL);
       FormalParameter xml = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_XML);
-      FormalParameter issendreceiveop = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_IS_SEND_RECEIVE_OPERATION);
+      FormalParameter text = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TEXT);
       FormalParameter returncode = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RETURN_CODE);
       if (url == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
@@ -1427,16 +1427,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          existingErrors.add(verr);
          return;
       }
-      if (xml == null) {
-         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                          XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_TXW_MISSING_REQUIRED_PARAMETERS,
-                                                          "",
-                                                          el);
-         existingErrors.add(verr);
-         return;
-      }
-      if (issendreceiveop == null) {
+      if (xml == null && text == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
                                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_TXW_MISSING_REQUIRED_PARAMETERS,
@@ -1475,13 +1466,13 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                             false,
                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
                             existingErrors);
-      handleFPModeError(issendreceiveop,
+      handleFPModeError(text,
                         XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
                         SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
                         existingErrors);
-      handleFPDataTypeError(issendreceiveop,
+      handleFPDataTypeError(text,
                             BasicType.class,
-                            XPDLConstants.BASIC_TYPE_BOOLEAN,
+                            XPDLConstants.BASIC_TYPE_STRING,
                             false,
                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_BOOLEAN_REQUIRED,
                             existingErrors);
@@ -1528,6 +1519,17 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                             null,
                             false,
                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                            existingErrors);
+      FormalParameter returntext = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RETURN_TEXT);
+      handleFPModeError(returntext,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_IN,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(returnxml,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                             existingErrors);
    }
 

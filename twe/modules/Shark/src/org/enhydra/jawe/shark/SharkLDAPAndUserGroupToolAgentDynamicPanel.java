@@ -32,10 +32,6 @@ public class SharkLDAPAndUserGroupToolAgentDynamicPanel extends XMLBasicPanel {
 
    protected Map mthds;
 
-   protected Map dplmthds;
-
-   protected String namePrefix;
-
    public SharkLDAPAndUserGroupToolAgentDynamicPanel(PanelContainer pc,
                                                      LDAPOrUserGroupToolAgentElement myOwner,
                                                      String tooltip) {
