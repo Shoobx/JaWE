@@ -1125,6 +1125,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                groupsToShow.add(getPanel(el.getExtendedAttributes()));
             } else if (SharkConstants.TOOL_AGENT_SCHEDULER.equals(taName)) {
                groupsToShow.add(getPanel(el.getExtendedAttributes()));
+            } else if (SharkConstants.TOOL_AGENT_TXW.equals(taName)) {
+               groupsToShow.remove(canBeRemoved);
             } else if (SharkConstants.TOOL_AGENT_USERGROUP.equals(taName)) {
                groupsToShow.remove(canBeRemoved);
             }
@@ -1171,7 +1173,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (SharkConstants.TOOL_AGENT_SOAP.equals(taName)) {
          ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_SOAP);
       } else if (SharkConstants.TOOL_AGENT_TXW.equals(taName)) {
-         ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_TXW);
+         ret = new TXWToolAgentElement(el);
       } else if (SharkConstants.TOOL_AGENT_USERGROUP.equals(taName)) {
          ret = new LDAPOrUserGroupToolAgentElement(el, SharkConstants.TOOL_AGENT_USERGROUP);
       } else if (SharkConstants.TOOL_AGENT_XPATH.equals(taName)) {
@@ -1196,6 +1198,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (el instanceof ToolAgentElementBase) {
          if (el instanceof LDAPOrUserGroupToolAgentElement) {
             return new SharkLDAPAndUserGroupToolAgentDynamicPanel(getPanelContainer(), (LDAPOrUserGroupToolAgentElement) el, null);
+         } else if (el instanceof TXWToolAgentElement) {
+            return new SharkTXWToolAgentDynamicPanel(getPanelContainer(), (TXWToolAgentElement) el, null);
          }
          return generateSharkModeGroupPanel((XMLComplexElement) el, false, false);
       }

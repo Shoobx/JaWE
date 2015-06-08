@@ -1,4 +1,8 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-06-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Improved support to TXWToolAgent
+
 2015-06-03 Sasa Bojanic <sasaboy@together.at>
    # Shark mode:
       - BeanShell and JavaScript tool agent are now allowed to use any process variable

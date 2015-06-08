@@ -144,10 +144,13 @@ public class SharkConstants {
    public static final String EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR = "XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR";
 
    public static final String EA_I18N_XPDL_FOLDER_NAME = "I18N_XPDL_FOLDER_NAME";
+
    public static final String EA_I18N_PROCESS_DEFINITION_FILE_NAME = "I18N_PROCESS_DEFINITION_FILE_NAME";
+
    public static final String EA_I18N_NAME_TRANSLATION_KEY = "I18N_NAME_TRANSLATION_KEY";
+
    public static final String EA_I18N_DESCRIPTION_TRANSLATION_KEY = "I18N_DESCRIPTION_TRANSLATION_KEY";
-   
+
    public static final String CONFIGURE_SMTP_EVENT_AUDIT_MANAGER = "ConfigureEmail";
 
    public static final String SMTP_MODE = "SMTP_MODE";
@@ -397,11 +400,13 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_XML = "xml";
 
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_TEXT = "text";
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_XML = "return_xml";
 
-   public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_CODE = "return_code";
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_TEXT = "return_text";
 
-   public static final String TOOL_AGENT_FORMAL_PARAMETER_IS_SEND_RECEIVE_OPERATION = "is_send_receive_operation";
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_CODE = "return_code";
 
    public static final String TOOL_AGENT_LDAP_METHOD_getAllGroupEntries = "getAllGroupEntries";
 
@@ -455,6 +460,23 @@ public class SharkConstants {
    };
 
    public static final List<String> TOOL_AGENT_LDAP_POSSIBLE_METHODS_LIST = Collections.unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_LDAP_POSSIBLE_METHODS));
+
+   public static final String TOOL_AGENT_TXW_METHOD_handOverXMLDocument = "handOverXMLDocument";
+
+   public static final String TOOL_AGENT_TXW_METHOD_sendReceiveXMLDocument = "sendReceiveXMLDocument";
+
+   public static final String TOOL_AGENT_TXW_METHOD_handOverText = "handOverText";
+
+   public static final String TOOL_AGENT_TXW_METHOD_sendReceiveText = "sendReceiveText";
+
+   public static final String[] TOOL_AGENT_TXW_POSSIBLE_METHODS = new String[] {
+         TOOL_AGENT_TXW_METHOD_handOverXMLDocument,
+         TOOL_AGENT_TXW_METHOD_sendReceiveXMLDocument,
+         TOOL_AGENT_TXW_METHOD_handOverText,
+         TOOL_AGENT_TXW_METHOD_sendReceiveText
+   };
+
+   public static final List<String> TOOL_AGENT_TXW_POSSIBLE_METHODS_LIST = Collections.unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_TXW_POSSIBLE_METHODS));
 
    public static final String TOOL_AGENT_USERGROUP_METHOD_getAllGroups = "getAllGroups";
 
@@ -826,7 +848,7 @@ public class SharkConstants {
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_DD = "Stack trace for tool agent execution";
 
    public static final String SHARK_VARIABLE_CATEGORY = "category";
-   
+
    public static final String SHARK_VARIABLE_I18N_LANG_CODE = "i18n_lang_code";
 
    public static final String[] POSSIBLE_SYSTEM_VARIABLES = new String[] {
