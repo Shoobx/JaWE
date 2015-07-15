@@ -1,4 +1,8 @@
 ###### TWE 5.1-3 RELEASED ######
+2015-07-15 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Added additional constants for i18n support
+
 2015-06-08 Sasa Bojanic <sasaboy@together.at>
    # Shark mode:
       - Improved support to TXWToolAgent
