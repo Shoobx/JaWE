@@ -224,6 +224,12 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
       jb.setRolloverEnabled(true);
       jb.setContentAreaFilled(false);
       jb.setEnabled(!(choosen instanceof XMLEmptyChoiceElement));
+      if (pc!=null) {
+         jb.setToolTipText(pc.getSettings().getLanguageDependentString("ShowReferencedElementKey"));
+      } else {
+         jb.setToolTipText(ResourceManager.getLanguageDependentString("ShowReferencedElementKey"));
+      }
+      
 
       jb.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent ae) {

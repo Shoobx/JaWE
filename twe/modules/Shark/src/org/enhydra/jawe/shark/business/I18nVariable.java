@@ -20,11 +20,11 @@ package org.enhydra.jawe.shark.business;
 
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 
-public class XPDLStringVariable extends ExtendedAttribute {
+public class I18nVariable extends ExtendedAttribute {
 
    protected ExtendedAttribute ea;
 
-   public XPDLStringVariable(XPDLStringVariables parent, ExtendedAttribute ea) {
+   public I18nVariable(I18nVariables parent, ExtendedAttribute ea) {
       super(parent);
       this.ea = ea;
       notifyMainListeners = false;
@@ -38,7 +38,7 @@ public class XPDLStringVariable extends ExtendedAttribute {
          throw new RuntimeException("Can't set the value of read only element!");
       }
       if (v == null) {
-         ea.setName(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX + getName());
+         ea.setName(SharkConstants.EA_I18N_VARIABLE_PREFIX + getName());
          ea.setVValue(getVValue());
       } else {
          this.value = v;
@@ -47,7 +47,7 @@ public class XPDLStringVariable extends ExtendedAttribute {
 
    protected void handleStructure() {
       if (ea != null) {
-         setName(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()));
+         setName(ea.getName().substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length()));
          setVValue(ea.getVValue());
       }
    }

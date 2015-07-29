@@ -70,9 +70,11 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          int noOfLines,
                                                          boolean wrapLines,
                                                          boolean isEnabled,
+                                                         List<String> choicesPrefixes,
                                                          List<List> choices,
-                                                         List<String> chTooltips) {
-      this(pc, myOwner, myOwner.toName(), myOwner.isRequired(), isVertical, noOfLines, wrapLines, choices, chTooltips, isEnabled, null);
+                                                         List<String> chTooltips,
+                                                         List<ImageIcon> chImgs) {
+      this(pc, myOwner, myOwner.toName(), myOwner.isRequired(), isVertical, noOfLines, wrapLines, choicesPrefixes, choices, chTooltips, chImgs, isEnabled, null);
    }
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
@@ -82,11 +84,27 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          boolean isVertical,
                                                          int noOfLines,
                                                          boolean wrapLines,
+                                                         List<String> choicesPrefixes,
                                                          List<List> choices,
                                                          List<String> chTooltips,
+                                                         List<ImageIcon> chImgs,
                                                          boolean isEnabled,
                                                          String tooltip) {
-      this(pc, myOwner, labelKey, isFalseRequired, isVertical, noOfLines, wrapLines, choices, chTooltips, isEnabled, null, tooltip, null);
+      this(pc,
+           myOwner,
+           labelKey,
+           isFalseRequired,
+           isVertical,
+           noOfLines,
+           wrapLines,
+           choicesPrefixes,
+           choices,
+           chTooltips,
+           chImgs,
+           isEnabled,
+           null,
+           tooltip,
+           null);
    }
 
    public XMLMultiLineTextPanelWithOptionalChoiceButtons(PanelContainer pc,
@@ -96,8 +114,10 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                                                          boolean isVertical,
                                                          int noOfLines,
                                                          boolean wrapLines,
+                                                         List<String> choicesPrefixes,
                                                          List<List> choices,
                                                          List<String> chTooltips,
+                                                         List<ImageIcon> chImgs,
                                                          boolean isEnabled,
                                                          String initText,
                                                          String tooltip,
@@ -178,20 +198,28 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
       if (choices != null) {
          for (int i = 0; i < choices.size(); i++) {
             List list = choices.get(i);
+            String chPrefix = null;
+            if (choicesPrefixes != null && choicesPrefixes.size() >= i) {
+               chPrefix = choicesPrefixes.get(i);
+            }
             String chTooltip = null;
             if (chTooltips != null && chTooltips.size() >= i) {
                chTooltip = chTooltips.get(i);
             }
             ImageIcon ivdi = null;
             ImageIcon ivpi = null;
+
+            if (chImgs != null) {
+               ivdi = chImgs.get(i);
+            }
             if (pc != null) {
-               ivdi = ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon();
+               ivdi = ivdi == null ? ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon() : ivdi;
                ivpi = ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon();
             } else {
-               ivdi = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_right2.png"));
+               ivdi = ivdi == null ? new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_right2.png")) : ivdi;
                ivpi = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_down2.png"));
             }
-            XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this, list, ivdi, ivpi, chTooltip);
+            XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this, chPrefix, list, ivdi, ivpi, chTooltip);
             // Dimension di=new Dimension(18,18);
             // optBtn.setMinimumSize(new Dimension(di));
             // optBtn.setMaximumSize(new Dimension(di));
@@ -363,12 +391,16 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
       return jta.getText();
    }
 
-   public void appendText(String txt) {
+   public void appendText(String prefix, String txt) {
       int cp = jta.getCaretPosition();
       String ct = jta.getText();
-      String text = ct.substring(0, cp) + txt + ct.substring(cp);
+      String newText = txt;
+      if (prefix != null) {
+         newText = "{" + prefix + txt + "}";
+      }
+      String text = ct.substring(0, cp) + newText + ct.substring(cp);
       jta.setText(text);
-      jta.setCaretPosition(cp + txt.length());
+      jta.setCaretPosition(cp + newText.length());
       jta.requestFocus();
       if (getPanelContainer() == null)
          return;

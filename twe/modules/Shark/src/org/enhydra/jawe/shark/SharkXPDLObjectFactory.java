@@ -22,6 +22,8 @@ import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactory;
 import org.enhydra.jawe.base.xpdlobjectfactory.XPDLObjectFactorySettings;
 import org.enhydra.jawe.shark.business.DeadlineEmailConfigurationElements;
 import org.enhydra.jawe.shark.business.EmailConfigurationElement;
+import org.enhydra.jawe.shark.business.I18nVariable;
+import org.enhydra.jawe.shark.business.I18nVariables;
 import org.enhydra.jawe.shark.business.SharkConstants;
 import org.enhydra.jawe.shark.business.WfAttachment;
 import org.enhydra.jawe.shark.business.WfAttachments;
@@ -57,6 +59,14 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
 
    public XPDLStringVariable createXPDLObject(XPDLStringVariables eas, String type, boolean addToCollection) {
       XPDLStringVariable ea = (XPDLStringVariable) eas.generateNewElement();
+      if (addToCollection) {
+         eas.add(ea);
+      }
+      return ea;
+   }
+
+   public I18nVariable createXPDLObject(I18nVariables eas, String type, boolean addToCollection) {
+      I18nVariable ea = (I18nVariable) eas.generateNewElement();
       if (addToCollection) {
          eas.add(ea);
       }
@@ -109,12 +119,12 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
 
    public void adjustXPDLObject(XMLElement el, String type) {
       super.adjustType(el, type);
-      
+
       // do not use this feature
       if (true) {
          return;
       }
-      
+
       // inherit Package ext. attrib. values for new WorkflowProcess
       if (el instanceof WorkflowProcess) {
          ExtendedAttributes peas = XMLUtil.getPackage(el).getExtendedAttributes();
@@ -133,7 +143,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN);
-         
+
          // inherit plugin's ext. attribs
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING);
@@ -143,7 +153,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_WORKLOAD_FACTOR);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR);
-         
+
          // web client's ext. attribs
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING);
@@ -154,12 +164,12 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_HIDE_CONTROLS);
          handleExtendedAttrib(peas, null, eas, SharkConstants.EA_TURN_OFF_FEATURES);
-         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END);         
+         handleExtendedAttrib(peas, null, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END);
       }
       if (el instanceof Activity) {
          ExtendedAttributes peas1 = XMLUtil.getWorkflowProcess(el).getExtendedAttributes();
          ExtendedAttributes peas2 = XMLUtil.getPackage(el).getExtendedAttributes();
-         ExtendedAttributes eas = ((Activity) el).getExtendedAttributes();         
+         ExtendedAttributes eas = ((Activity) el).getExtendedAttributes();
 
          // inherit kernel's ext. attribs
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY);
@@ -171,14 +181,14 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN);
-         
+
          // inherit plugin's ext. attribs
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_MAX_ASSIGNMENTS);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_WORKLOAD_FACTOR);
-         
+
          // web client's ext. attribs
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_CHECK_FOR_COMPLETION);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION);
@@ -187,7 +197,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES);
          handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_HIDE_CONTROLS);
-         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_TURN_OFF_FEATURES);         
+         handleExtendedAttrib(peas1, peas2, eas, SharkConstants.EA_TURN_OFF_FEATURES);
       }
    }
 
@@ -208,5 +218,5 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
          }
       }
    }
-   
+
 }

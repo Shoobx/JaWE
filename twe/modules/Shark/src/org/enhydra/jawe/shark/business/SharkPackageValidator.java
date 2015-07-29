@@ -139,7 +139,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
-                || (!isAct && el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
+                || (!isAct && (el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) || el.toValue()
+                   .startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)))) {
 
                isWarning = el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
                            || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
@@ -156,6 +157,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                List<String> sysvals = new ArrayList<String>();
                List<String> csvals = new ArrayList<String>();
                List<String> xpdlsvals = new ArrayList<String>();
+               List<String> i18nvals = new ArrayList<String>();
                if (ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
                    || ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
                    || ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
@@ -183,11 +185,13 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                           || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
                           || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT)
                           || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT)
-                          || (!isAct && ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))) {
+                          || (!isAct && (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) || ea.getName()
+                             .startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)))) {
                   vals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX);
                   sysvals = getPossiblePlaceholderVariables(ea.getVValue(), "");
                   csvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX);
                   xpdlsvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX);
+                  i18nvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.I18N_PLACEHOLDER_PREFIX);
                } else if (ea.getName().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
                   WfNameValues elOverrideProcessContext = new WfNameValues((XMLComplexElement) parent.getParent().getParent(),
                                                                            SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT,
@@ -267,6 +271,23 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                                       XMLValidationError.SUB_TYPE_LOGIC,
                                                                       isWPLevel && !isWarning ? SharkValidationErrorIds.ERROR_NON_EXISTING_XPDL_STRING_VARIABLE_REFERENCE
                                                                                              : SharkValidationErrorIds.WARNING_NON_EXISTING_XPDL_STRING_VARIABLE_REFERENCE,
+                                                                      v,
+                                                                      ea.get("Value"));
+                     existingErrors.add(verr);
+                     if (!fullCheck) {
+                        return;
+                     }
+                  }
+               }
+               Map<String, String> psi18n = getPossibleI18nVariables(el, true);
+               for (int i = 0; i < i18nvals.size(); i++) {
+                  String v = i18nvals.get(i);
+                  if (!psi18n.containsKey(v)) {
+                     boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
+                     XMLValidationError verr = new XMLValidationError(isWPLevel && !isWarning ? XMLValidationError.TYPE_ERROR : XMLValidationError.TYPE_WARNING,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      isWPLevel && !isWarning ? SharkValidationErrorIds.ERROR_NON_EXISTING_I18N_VARIABLE_REFERENCE
+                                                                                             : SharkValidationErrorIds.WARNING_NON_EXISTING_I18N_VARIABLE_REFERENCE,
                                                                       v,
                                                                       ea.get("Value"));
                      existingErrors.add(verr);
@@ -501,7 +522,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       validateStandard(el, existingErrors, fullCheck);
       boolean validateVariableUsage = properties.getProperty(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES, "false").equals("true");
       if (validateVariableUsage && (fullCheck || existingErrors.size() == 0)) {
-         if (el.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+         if (el.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) || el.getName().startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
             SharkXPDLUtils sxpdlutils = new SharkXPDLUtils();
             if (sxpdlutils.getReferences((XMLComplexElement) el.getParent().getParent(), el).size() == 0) {
                XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_WARNING,
@@ -852,6 +873,17 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
             map.put(id, df);
          }
+
+         List<String> i18nvc = getPossibleI18nVariableNames(el, true);
+         for (int i = 0; i < i18nvc.size(); i++) {
+            String id = i18nvc.get(i);
+            DataField df = new DataField(null);
+            df.setId(id);
+            df.getDataType().getDataTypes().setBasicType();
+            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+            map.put(id, df);
+         }
+
       }
 
       boolean isForActivity = XMLUtil.getActivity(el) != null;
@@ -1857,7 +1889,13 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             String varId = eav.substring(posprefix + prefix.length(), pospostfix);
             if (!typePrefix.equals("")
                 || !(placeholdercontent.startsWith(SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX)
-                     || placeholdercontent.startsWith(SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX) || placeholdercontent.startsWith(SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX))) {
+                     || placeholdercontent.startsWith(SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX)
+                     || placeholdercontent.startsWith(SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX)
+                     || placeholdercontent.startsWith(SharkConstants.I18N_PLACEHOLDER_PREFIX)
+                     || placeholdercontent.startsWith(SharkConstants.I18N_NAME_PLACEHOLDER_PREFIX)
+                     || placeholdercontent.startsWith(SharkConstants.I18N_DESCRIPTION_PLACEHOLDER_PREFIX)
+                     || placeholdercontent.startsWith(SharkConstants.I18N_TRANSLATION_PLACEHOLDER_PREFIX)
+                     || placeholdercontent.startsWith(SharkConstants.I18N_PROCESS_VARIABLE_NAME_PLACEHOLDER_PREFIX) || placeholdercontent.startsWith(SharkConstants.I18N_PROCESS_VARIABLE_DESCRIPTION_PLACEHOLDER_PREFIX))) {
                ret.add(varId);
             }
          }
@@ -1874,6 +1912,12 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    protected abstract Map<String, String> getPossibleXPDLStringVariables(XMLElement el, boolean allLevels);
 
    protected abstract List<String> getPossibleXPDLStringVariableNames(XMLElement el, boolean allLevels);
+
+   protected abstract Map<String, XMLElement> getPossibleI18nVariablesEAValues(XMLElement el, boolean allLevels);
+
+   protected abstract Map<String, String> getPossibleI18nVariables(XMLElement el, boolean allLevels);
+
+   protected abstract List<String> getPossibleI18nVariableNames(XMLElement el, boolean allLevels);
 
    protected abstract List<String> getConfigStringChoices();
 

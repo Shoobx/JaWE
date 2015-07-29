@@ -26,11 +26,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import org.enhydra.jawe.JaWEManager;
+import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
@@ -40,22 +42,19 @@ import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
-import org.enhydra.jxpdl.XMLEmptyChoiceElement;
 import org.enhydra.jxpdl.XMLSimpleElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
-import org.jedit.syntax.JEditTextArea;
 
 /**
  * Creates panel with JLabel and JEditPanel.
  * 
  * @author Sinisa Tutus
  */
-public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
-                                                                     XMLAppendChoiceInterface {
+public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements XMLAppendChoiceInterface {
 
    private static Dimension refButDimension = new Dimension(25, 20);
 
@@ -67,8 +66,10 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
    public XMLHighlightPanelWithReferenceLink(PanelContainer pc,
                                              Performer myOwner,
+                                             List<String> choicesPrefixes,
                                              List<List> choices,
                                              List<String> chTooltips,
+                                             List<ImageIcon> chImgs,
                                              boolean hasEmptyBorder,
                                              boolean isVertical,
                                              boolean isEditable,
@@ -107,8 +108,7 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
          }
       }
       if (wp != null) {
-         ch = XMLUtil.getPossibleParticipants(wp, JaWEManager.getInstance()
-            .getXPDLHandler());
+         ch = XMLUtil.getPossibleParticipants(wp, JaWEManager.getInstance().getXPDLHandler());
       }
       participants = new ArrayList(ch.values());
 
@@ -131,12 +131,13 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       mc.add(participants);
       List<String> pttps = new ArrayList<String>();
       pttps.add(pc.getSettings().getLanguageDependentString("InsertParticipantKey"));
+
       int noOfLines = 8;
       try {
-         noOfLines = getPanelContainer().getSettings()
-            .getSettingInt("PreferredNumberOfLinesForExpression");
+         noOfLines = getPanelContainer().getSettings().getSettingInt("PreferredNumberOfLinesForExpression");
       } catch (Exception ex) {
-         System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: " + String.valueOf(noOfLines));
+         System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: "
+                            + String.valueOf(noOfLines));
       }
       String scriptType = XMLUtil.getPackage(myOwner).getScript().getType();
       String ext = "txt";
@@ -144,31 +145,33 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
          ext = Utils.getFileExtension(scriptType);
       }
       panel = new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
-                                                             myOwner,
-                                                             myOwner.toName(),
-                                                             false,
-                                                             true,
-                                                             noOfLines,
-                                                             false,
-                                                             mc,
-                                                             pttps,
-                                                             isEnabled,
-                                                             initText,
-                                                             null,
-                                                             ext);
+                                                                 myOwner,
+                                                                 myOwner.toName(),
+                                                                 false,
+                                                                 true,
+                                                                 noOfLines,
+                                                                 false,
+                                                                 null,
+                                                                 mc,
+                                                                 pttps,
+                                                                 null,
+                                                                 isEnabled,
+                                                                 initText,
+                                                                 null,
+                                                                 ext);
 
       panel.setAlignmentX(Component.LEFT_ALIGNMENT);
       panel.setAlignmentY(Component.TOP_ALIGNMENT);
       panel.setEnabled(isEnabled && panelEnabled);
-//      Iterator it = participants.iterator();
-//      while (it.hasNext()) {
-//         XMLElement el = ((XMLElement) it.next());
-//         if (!(el instanceof XMLEmptyChoiceElement)) {
-//            scriptType = XMLUtil.getPackage(el).getScript().getType();
-//            panel.setHighlightScript(scriptType);
-//            break;
-//         }
-//      }
+      // Iterator it = participants.iterator();
+      // while (it.hasNext()) {
+      // XMLElement el = ((XMLElement) it.next());
+      // if (!(el instanceof XMLEmptyChoiceElement)) {
+      // scriptType = XMLUtil.getPackage(el).getScript().getType();
+      // panel.setHighlightScript(scriptType);
+      // break;
+      // }
+      // }
 
       if (isEditable) {
          panel.jta.addCaretListener(new CaretListener() {
@@ -186,20 +189,36 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       add(panel);
 
       if (wp != null) {
-         if (choices==null) {
+         if (choices == null) {
             choices = new ArrayList<List>();
             choices.add(new ArrayList(XMLUtil.getPossibleVariables(wp).values()));
          }
-         
+
          for (int i = 0; i < choices.size(); i++) {
             List list = choices.get(i);
+            String chPrefix = null;
+            if (choicesPrefixes != null && choicesPrefixes.size() >= i) {
+               chPrefix = choicesPrefixes.get(i);
+            }
             String chTooltip = null;
             if (chTooltips != null && chTooltips.size() >= i) {
                chTooltip = chTooltips.get(i);
             }
+            ImageIcon ivdi = null;
+
+            if (chImgs != null) {
+               ivdi = chImgs.get(i);
+            }
+            if (pc != null) {
+               ivdi = ivdi == null ? ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon() : ivdi;
+            } else {
+               ivdi = ivdi == null ? new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_right2.png")) : ivdi;
+            }
+
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
+                                                                           chPrefix,
                                                                            list,
-                                                                           ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
+                                                                           ivdi,
                                                                            ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon(),
                                                                            chTooltip);
             // Dimension di=new Dimension(18,18);
@@ -219,9 +238,9 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
             panel.jspAndOpt.add(optBtn, 0);
 
-         }         
+         }
       }
-      
+
       if (pc != null) {
          jb = new JButton(((PanelSettings) pc.getSettings()).getArrowRightImageIcon());
       } else {
@@ -236,6 +255,12 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       jb.setRolloverEnabled(true);
       jb.setContentAreaFilled(false);
       jb.setEnabled((getInsertedText() instanceof XMLElement));
+      if (pc != null) {
+         jb.setToolTipText(pc.getSettings().getLanguageDependentString("ShowReferencedElementKey"));
+      } else {
+         jb.setToolTipText(ResourceManager.getLanguageDependentString("ShowReferencedElementKey"));
+      }
+
       jb.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent ae) {
             Object toShow = getInsertedText();
@@ -246,16 +271,16 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
 
       });
 
-//      if (variableList != null) {
-//         variableList.setBorderPainted(false);
-//         variableList.setContentAreaFilled(false);
-//         variableList.setAlignmentX(Component.LEFT_ALIGNMENT);
-//         variableList.setAlignmentY(Component.TOP_ALIGNMENT);
-//         if (!isEnabled || choices.size() == 0)
-//            variableList.setEnabled(false);
-//
-//         panel.jspAndOpt.add(variableList, 0);
-//      }
+      // if (variableList != null) {
+      // variableList.setBorderPainted(false);
+      // variableList.setContentAreaFilled(false);
+      // variableList.setAlignmentX(Component.LEFT_ALIGNMENT);
+      // variableList.setAlignmentY(Component.TOP_ALIGNMENT);
+      // if (!isEnabled || choices.size() == 0)
+      // variableList.setEnabled(false);
+      //
+      // panel.jspAndOpt.add(variableList, 0);
+      // }
       panel.jspAndOpt.add(jb);
    }
 
@@ -344,8 +369,8 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
       return panel.getText();
    }
 
-   public void appendText(String txt) {
-      panel.appendText(txt);
+   public void appendText(String prefix, String txt) {
+      panel.appendText(prefix, txt);
       panel.jta.requestFocus();
    }
 }

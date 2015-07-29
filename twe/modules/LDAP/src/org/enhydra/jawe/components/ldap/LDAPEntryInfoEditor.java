@@ -102,8 +102,7 @@ public class LDAPEntryInfoEditor extends JDialog {
 
          addWindowListener(wl);
 
-         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "OK");
+         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "OK");
          getRootPane().getActionMap().put("OK", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                okl.actionPerformed(e);
@@ -140,30 +139,9 @@ public class LDAPEntryInfoEditor extends JDialog {
       List lst = new ArrayList();
       lst.add(new XMLTextPanel(null, di.get("Id"), false, false, false));
       lst.add(new XMLTextPanel(null, di.get("Name"), false, false, false));
-      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
-                                                                 di.get("Description"),
-                                                                 true,
-                                                                 5,
-                                                                 true,
-                                                                 false,
-                                                                 null,
-                                                                 null));
-      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
-                                                                 di.get("DN"),
-                                                                 true,
-                                                                 2,
-                                                                 true,
-                                                                 false,
-                                                                 null,
-                                                                 null));
-      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
-                                                                 di.get("Details"),
-                                                                 true,
-                                                                 8,
-                                                                 true,
-                                                                 true,
-                                                                 null,
-                                                                 null) {
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null, di.get("Description"), true, 5, true, false, null, null, null, null));
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null, di.get("DN"), true, 2, true, false, null, null, null, null));
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null, di.get("Details"), true, 8, true, true, null, null, null, null) {
          public void setValue(String v) {
          }
       });

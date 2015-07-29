@@ -122,8 +122,7 @@ public class ExpressionLaneEditor {
     */
    public ExpressionLaneEditor(Lane el) {
       elementToEdit = el;
-      dialog = new JDialog(JaWEManager.getInstance().getJaWEController().getJaWEFrame(),
-                           true);
+      dialog = new JDialog(JaWEManager.getInstance().getJaWEController().getJaWEFrame(), true);
       this.title = ResourceManager.getLanguageDependentString(el.toName() + "Key");
 
       initDialog();
@@ -178,9 +177,7 @@ public class ExpressionLaneEditor {
     */
    public void applyChanges() {
       GraphController gc = GraphUtilities.getGraphController();
-      WorkflowProcess wp = JaWEManager.getInstance()
-         .getXPDLUtils()
-         .getProcessForPool(XMLUtil.getPool(elementToEdit));
+      WorkflowProcess wp = JaWEManager.getInstance().getXPDLUtils().getProcessForPool(XMLUtil.getPool(elementToEdit));
       String oldId = GraphUtilities.getLanesFirstPerformer(elementToEdit);
       String newId = null;
       if (oldId != null) {
@@ -197,13 +194,11 @@ public class ExpressionLaneEditor {
             JaWEManager.getInstance().getJaWEController().startUndouableChange();
             GraphUtilities.setLanesFirstPerformer(elementToEdit, newId);
             elementToEdit.setName(newId);
-            acts = GraphUtilities.getAllActivitiesAndArtifactsForLaneId(acts,
-                                                                        elementToEdit.getId());
+            acts = GraphUtilities.getAllActivitiesAndArtifactsForLaneId(acts, elementToEdit.getId());
             for (int i = 0; i < acts.size(); i++) {
                Activity act = (Activity) acts.get(i);
                int type = act.getActivityType();
-               if (type == XPDLConstants.ACTIVITY_TYPE_NO
-                   || type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
+               if (type == XPDLConstants.ACTIVITY_TYPE_NO || type == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
                   act.setFirstPerformer(newId);
                }
             }
@@ -296,9 +291,7 @@ public class ExpressionLaneEditor {
          buttonCancel.addActionListener(cl);
          dialog.addWindowListener(wl);
 
-         dialog.getRootPane()
-            .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "Cancel");
+         dialog.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "Cancel");
          dialog.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                cl.actionPerformed(e);
@@ -362,7 +355,7 @@ public class ExpressionLaneEditor {
       List toShow = new ArrayList();
       if (elementToEdit instanceof Lane) {
          if (elementToEdit.getPerformers().size() > 0) {
-            Pool p = (Pool)elementToEdit.getParent().getParent();
+            Pool p = (Pool) elementToEdit.getParent().getParent();
             XMLCollectionElement wpOrAs = JaWEManager.getInstance().getXPDLUtils().getProcessForPool(p);
             String ext = "txt";
             String scriptType = XMLUtil.getPackage(elementToEdit).getScript().getType();
@@ -375,38 +368,29 @@ public class ExpressionLaneEditor {
             tc.add(ResourceManager.getLanguageDependentString("InsertVariableKey"));
 
             pIdPanel = new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
-                                                                          elementToEdit.getPerformers()
-                                                                          .get(0),
-                                                                      "Expression",
-                                                                      false,
-                                                                      true,
-                                                                      5,
-                                                                      false,
-                                                                      mc,
-                                                                      tc,
-                                                                      !elementToEdit.isReadOnly(),
-                                                                      null,
-                                                                      null,
-                                                                      ext);                                    
+                                                                          elementToEdit.getPerformers().get(0),
+                                                                          "Expression",
+                                                                          false,
+                                                                          true,
+                                                                          5,
+                                                                          false,
+                                                                          null,
+                                                                          mc,
+                                                                          tc,
+                                                                          null,
+                                                                          !elementToEdit.isReadOnly(),
+                                                                          null,
+                                                                          null,
+                                                                          ext);
          } else {
-            pIdPanel = new XMLTextPanel(null,
-                                        elementToEdit.get("Name"),
-                                        false,
-                                        false,
-                                        !elementToEdit.isReadOnly());
+            pIdPanel = new XMLTextPanel(null, elementToEdit.get("Name"), false, false, !elementToEdit.isReadOnly());
          }
          toShow.add(pIdPanel);
          // XMLPanel descPnl=new XMLMultiLineTextPanel(null,
          // elementToEdit.get("Description"),true,XMLMultiLineTextPanel.SIZE_MEDIUM,true,false);
          // toShow.add(descPnl);
       }
-      XMLGroupPanel gp = new XMLGroupPanel(null,
-                                           elementToEdit,
-                                           toShow,
-                                           "",
-                                           true,
-                                           false,
-                                           true, null);
+      XMLGroupPanel gp = new XMLGroupPanel(null, elementToEdit, toShow, "", true, false, true, null);
       return gp;
    }
 

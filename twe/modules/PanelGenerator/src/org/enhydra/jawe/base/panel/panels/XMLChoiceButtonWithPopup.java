@@ -45,9 +45,7 @@ import org.enhydra.jxpdl.utilities.SequencedHashMap;
  * @author Sasa Bojanic
  * @author Miroslav Popov
  */
-public class XMLChoiceButtonWithPopup extends JButton implements
-                                                     ActionListener,
-                                                     PopupMenuListener {
+public class XMLChoiceButtonWithPopup extends JButton implements ActionListener, PopupMenuListener {
 
    protected XMLAppendChoiceInterface parent;
 
@@ -65,12 +63,11 @@ public class XMLChoiceButtonWithPopup extends JButton implements
 
    protected int ITEM_LIMIT = 25;
 
-   public XMLChoiceButtonWithPopup(XMLAppendChoiceInterface parent,
-                                   List choices,
-                                   ImageIcon icon,
-                                   ImageIcon pressedIcon,
-                                   String tooltip) {
+   protected String chPrefix;
+
+   public XMLChoiceButtonWithPopup(XMLAppendChoiceInterface parent, String chPrefix, List choices, ImageIcon icon, ImageIcon pressedIcon, String tooltip) {
       this.parent = parent;
+      this.chPrefix = chPrefix;
       this.defaultIcon = icon;
       this.pressedIcon = pressedIcon;
       setIcon(icon);
@@ -90,9 +87,7 @@ public class XMLChoiceButtonWithPopup extends JButton implements
       if (ae.getSource() == this) {
          if (choiceMap.size() > 0) {
             if (largePopupActivated) {
-               largePopup.show(this.getParent(),
-                               this.getX(),
-                               this.getY() + this.getHeight());
+               largePopup.show(this.getParent(), this.getX(), this.getY() + this.getHeight());
             } else {
                popup.show(this.getParent(), this.getX(), this.getY() + this.getHeight());
             }
@@ -110,9 +105,9 @@ public class XMLChoiceButtonWithPopup extends JButton implements
          }
          Object cel = choiceMap.get(sel);
          if (cel instanceof XMLCollectionElement) {
-            parent.appendText(((XMLCollectionElement) cel).getId());
+            parent.appendText(chPrefix, ((XMLCollectionElement) cel).getId());
          } else {
-            parent.appendText(sel);
+            parent.appendText(chPrefix, sel);
          }
       }
    }
@@ -124,14 +119,10 @@ public class XMLChoiceButtonWithPopup extends JButton implements
             Object item = it.next();
             if (item instanceof XMLElement) {
                XMLElement choice = (XMLElement) item;
-               choiceMap.put(JaWEManager.getInstance()
-                  .getDisplayNameGenerator()
-                  .getDisplayName(choice), choice);
+               choiceMap.put(JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(choice), choice);
             } else if (item instanceof XMLElementView) {
                XMLElementView choice = (XMLElementView) item;
-               choiceMap.put(JaWEManager.getInstance()
-                  .getDisplayNameGenerator()
-                  .getDisplayName(choice.getElement()), choice.getElement());
+               choiceMap.put(JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(choice.getElement()), choice.getElement());
             } else {
                choiceMap.put(item, item);
             }

@@ -32,13 +32,6 @@ import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.PanelContainer;
 import org.enhydra.jawe.base.panel.StandardPanelGenerator;
-import org.enhydra.jawe.base.panel.panels.XMLActualParametersPanel;
-import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
-import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
-import org.enhydra.jawe.base.panel.panels.XMLGroupPanel;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineHighlightPanelWithChoiceButton;
-import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
-import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
@@ -166,8 +159,10 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
                                                                              true,
                                                                              noOfLines,
                                                                              false,
+                                                                             null,
                                                                              ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoices(ap),
                                                                              ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesTooltips(ap),
+                                                                             ((StandardPanelGenerator) getPanelContainer().getPanelGenerator()).prepareExpressionChoicesImages(ap),
                                                                              JaWEManager.getInstance().getJaWEController().canModifyElement(ap),
                                                                              null,
                                                                              null,

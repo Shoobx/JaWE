@@ -24,6 +24,8 @@ import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.base.panel.StandardPanelValidator;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
+import org.enhydra.jawe.shark.business.I18nVariable;
+import org.enhydra.jawe.shark.business.I18nVariables;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.XPDLStringVariable;
 import org.enhydra.jawe.shark.business.XPDLStringVariables;
@@ -54,6 +56,21 @@ public class SharkPanelValidator extends StandardPanelValidator {
             return false;
          }
       }
+      if (ok && el instanceof I18nVariable) {
+
+         XMLPanel idPanel = findPanel(panel, ((I18nVariable) el).get("Name"));
+         String newId = ((String) idPanel.getValue()).trim();
+         I18nVariables i18nVars = (I18nVariables) el.getParent();
+         List xvs = i18nVars.getElementsForName(newId);
+         if (xvs.size() > 0 && !xvs.contains(el)) {
+            XMLBasicPanel.errorMessage(panel.getWindow(),
+                                       ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                       "",
+                                       ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_NON_UNIQUE_ID));
+            idPanel.requestFocus();
+            return false;
+         }
+      }      
       return ok;
    }
 
