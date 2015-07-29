@@ -131,8 +131,7 @@ public class DefInfoEditor extends JDialog {
          buttonCancel.addActionListener(cl);
          addWindowListener(wl);
 
-         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "Cancel");
+         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "Cancel");
          getRootPane().getActionMap().put("Cancel", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                cl.actionPerformed(e);
@@ -189,23 +188,9 @@ public class DefInfoEditor extends JDialog {
       if (di.getDefinitionKey().indexOf("procMgr=") != -1) {
          definitionKeyEnabled = false;
       }
-      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
-                                                                 di.get("DefinitionKey"),
-                                                                 true,
-                                                                 2,
-                                                                 false,
-                                                                 definitionKeyEnabled,
-                                                                 null,
-                                                                 null));
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null, di.get("DefinitionKey"), true, 2, false, definitionKeyEnabled, null, null, null, null));
       lst.add(new XMLTextPanel(null, di.get("Name"), false, false, definitionKeyEnabled));
-      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null,
-                                                                 di.get("Description"),
-                                                                 true,
-                                                                 3,
-                                                                 true,
-                                                                 definitionKeyEnabled,
-                                                                 null,
-                                                                 null));
+      lst.add(new XMLMultiLineTextPanelWithOptionalChoiceButtons(null, di.get("Description"), true, 3, true, definitionKeyEnabled, null, null, null, null));
       lst.add(new XMLTextPanel(null, di.get("Version"), false, false, definitionKeyEnabled));
       lst.add(new XMLTextPanel(null, di.get("Status"), false, false, definitionKeyEnabled));
       XMLGroupPanel gp = new XMLGroupPanel(null, di, lst, "", true, false, true, null);

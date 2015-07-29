@@ -51,7 +51,7 @@ public class SharkUtils {
       return l;
    }
 
-   public static Map<String, String> getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
+   public static Map<String, String> getPossibleXPDLStringOrI18nVariables(XMLElement el, boolean allLevels, boolean isxpdlstr) {
       Map<String, String> ret = new HashMap<String, String>();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       ExtendedAttributes eas = null;
@@ -59,8 +59,10 @@ public class SharkUtils {
          eas = wp.getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
+            if (ea.getName().startsWith(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX : SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
+               ret.put(ea.getName().substring(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()
+                                                       : SharkConstants.EA_I18N_VARIABLE_PREFIX.length()),
+                       ea.getVValue());
             }
          }
       }
@@ -68,10 +70,13 @@ public class SharkUtils {
          eas = XMLUtil.getPackage(el).getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               String realName = ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+            if (ea.getName().startsWith(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX : SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
+               String realName = ea.getName().substring(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()
+                                                                 : SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
                if (!ret.containsKey(realName)) {
-                  ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.getVValue());
+                  ret.put(ea.getName().substring(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()
+                                                          : SharkConstants.EA_I18N_VARIABLE_PREFIX.length()),
+                          ea.getVValue());
                }
             }
          }
@@ -80,7 +85,7 @@ public class SharkUtils {
       return ret;
    }
 
-   public static Map<String, XMLElement> getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
+   public static Map<String, XMLElement> getPossibleXPDLStringOrI18nVariablesEAValues(XMLElement el, boolean allLevels, boolean isxpdlstr) {
       Map<String, XMLElement> ret = new HashMap<String, XMLElement>();
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       ExtendedAttributes eas = null;
@@ -88,8 +93,10 @@ public class SharkUtils {
          eas = wp.getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.get("Value"));
+            if (ea.getName().startsWith(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX : SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
+               ret.put(ea.getName().substring(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()
+                                                       : SharkConstants.EA_I18N_VARIABLE_PREFIX.length()),
+                       ea.get("Value"));
             }
          }
       }
@@ -97,10 +104,13 @@ public class SharkUtils {
          eas = XMLUtil.getPackage(el).getExtendedAttributes();
          for (int i = 0; i < eas.size(); i++) {
             ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-            if (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-               String realName = ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+            if (ea.getName().startsWith(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX : SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
+               String realName = ea.getName().substring(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()
+                                                                 : SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
                if (!ret.containsKey(realName)) {
-                  ret.put(ea.getName().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()), ea.get("Value"));
+                  ret.put(ea.getName().substring(isxpdlstr ? SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()
+                                                          : SharkConstants.EA_I18N_VARIABLE_PREFIX.length()),
+                          ea.get("Value"));
                }
             }
          }

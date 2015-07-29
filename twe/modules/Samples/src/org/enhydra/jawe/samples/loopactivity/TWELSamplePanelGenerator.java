@@ -45,10 +45,7 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
-      JaWEType type = JaWEManager.getInstance()
-         .getJaWEController()
-         .getTypeResolver()
-         .getJaWEType(el);
+      JaWEType type = JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType(el);
       if (!type.getTypeId().equals(TWELSampleConstants.ACTIVITY_TYPE_LOOP)) {
          return super.getPanel(el, no, hidden);
       }
@@ -61,37 +58,21 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
          case 1:
             panelElements.add(el.get("Name"));
             ea = eas.getFirstExtendedAttributeForName(TWELSampleConstants.EA_BACK_TO_POOL);
-            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                                        ea.get("Value"),
-                                                        "Back to pool",
-                                                        false,
-                                                        JaWEManager.getInstance()
-                                                           .getJaWEController()
-                                                           .canModifyElement(ea.get("Value")),
-                                                        false, null);
+            XMLCheckboxPanel cbp = new XMLCheckboxPanel(getPanelContainer(), ea.get("Value"), "Back to pool", false, JaWEManager.getInstance()
+               .getJaWEController()
+               .canModifyElement(ea.get("Value")), false, null);
             panelElements.add(cbp);
 
             ea = eas.getFirstExtendedAttributeForName(TWELSampleConstants.EA_SET_TEMPORARY);
-            cbp = new XMLCheckboxPanel(getPanelContainer(),
-                                       ea.get("Value"),
-                                       "Set temporary",
-                                       false,
-                                       JaWEManager.getInstance()
-                                          .getJaWEController()
-                                          .canModifyElement(ea.get("Value")),
-                                       false, null);
+            cbp = new XMLCheckboxPanel(getPanelContainer(), ea.get("Value"), "Set temporary", false, JaWEManager.getInstance()
+               .getJaWEController()
+               .canModifyElement(ea.get("Value")), false, null);
             panelElements.add(cbp);
 
             panelElements.add(el.getFirstPerformerObj());
             panelElements.add(el.get("Description"));
             panelElements.add(el.getDeadlines());
-            p = new XMLGroupPanel(getPanelContainer(),
-                                  el,
-                                  panelElements,
-                                  getPanelContainer().getLanguageDependentString("GeneralKey"),
-                                  true,
-                                  false,
-                                  true, null);
+            p = new XMLGroupPanel(getPanelContainer(), el, panelElements, getPanelContainer().getLanguageDependentString("GeneralKey"), true, false, true, null);
 
             break;
 
@@ -108,16 +89,9 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
             List chs = new ArrayList();
             chs.add(TWELSampleConstants.EA_LOOP_TYPE_VALUE_DO);
             chs.add(TWELSampleConstants.EA_LOOP_TYPE_VALUE_WHILE);
-            XMLPanel pnl = new XMLComboPanel(getPanelContainer(),
-                                             ea.get("Value"),
-                                             chs,
-                                             false,
-                                             false,
-                                             false,
-                                             false,
-                                             JaWEManager.getInstance()
-                                                .getJaWEController()
-                                                .canModifyElement(ea.get("Value")));
+            XMLPanel pnl = new XMLComboPanel(getPanelContainer(), ea.get("Value"), chs, false, false, false, false, JaWEManager.getInstance()
+               .getJaWEController()
+               .canModifyElement(ea.get("Value")));
             panelElements.add(pnl);
 
             ea = eas.getFirstExtendedAttributeForName(TWELSampleConstants.EA_LOOP_CONDITION);
@@ -130,20 +104,15 @@ public class TWELSamplePanelGenerator extends StandardPanelGenerator {
                                                                      true,
                                                                      5,
                                                                      true,
+                                                                     null,
                                                                      mc,
                                                                      getBasicExpressionChoicesTooltips(el),
-                                                                     JaWEManager.getInstance()
-                                                                        .getJaWEController()
-                                                                        .canModifyElement(ea), null);
+                                                                     null,
+                                                                     JaWEManager.getInstance().getJaWEController().canModifyElement(ea),
+                                                                     null);
             panelElements.add(pnl);
 
-            p = new XMLGroupPanel(getPanelContainer(),
-                                  el,
-                                  panelElements,
-                                  "Loop characteristic",
-                                  true,
-                                  false,
-                                  true, null);
+            p = new XMLGroupPanel(getPanelContainer(), el, panelElements, "Loop characteristic", true, false, true, null);
 
             break;
 

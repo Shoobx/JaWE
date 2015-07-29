@@ -907,16 +907,25 @@ public class SharkConstants {
    public final static String EA_I18N_VARIABLE_PREFIX = "I18N_VARIABLE.";
 
    public static final String I18N_PLACEHOLDER_PREFIX = "i18n:";
-   
+
    public static final String I18N_NAME_PLACEHOLDER_PREFIX_PART = "i18n_name";
-   
+
+   public static final String I18N_NAME_PLACEHOLDER_PREFIX = I18N_NAME_PLACEHOLDER_PREFIX_PART + ":";
+
    public static final String I18N_DESCRIPTION_PLACEHOLDER_PREFIX_PART = "i18n_description";
 
+   public static final String I18N_DESCRIPTION_PLACEHOLDER_PREFIX = I18N_DESCRIPTION_PLACEHOLDER_PREFIX_PART + ":";
+
    public static final String I18N_TRANSLATION_PLACEHOLDER_PREFIX = "i18n_translation:";
-   
+
    public static final String CONFIG_STRING_PLACEHOLDER_PREFIX = "config_string:";
 
    public static final String PROCESS_VARIABLE_PLACEHOLDER_PREFIX = "process_variable:";
+
+   public static final String I18N_PROCESS_VARIABLE_NAME_PLACEHOLDER_PREFIX = I18N_NAME_PLACEHOLDER_PREFIX_PART + "_" + PROCESS_VARIABLE_PLACEHOLDER_PREFIX;
+
+   public static final String I18N_PROCESS_VARIABLE_DESCRIPTION_PLACEHOLDER_PREFIX = I18N_DESCRIPTION_PLACEHOLDER_PREFIX_PART
+                                                                                     + "_" + PROCESS_VARIABLE_PLACEHOLDER_PREFIX;
 
    public static final String OUTLOOK_VARIABLE_STATUS = "OUTLOOK_VARIABLE_VariableStatus";
 

@@ -25,14 +25,14 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.editor.XPDLElementEditor;
-import org.enhydra.jawe.shark.business.XPDLStringVariables;
+import org.enhydra.jawe.shark.business.I18nVariables;
 
 /**
- * Class that implements action to display shark xpdl str on package level.
+ * Class that implements action to display shark i18n vars on package level.
  */
-public class PackageXPDLStringVariables extends ActionBase {
+public class PackageI18nVariables extends ActionBase {
 
-   public PackageXPDLStringVariables(JaWEComponent jawecomponent) {
+   public PackageI18nVariables(JaWEComponent jawecomponent) {
       super(jawecomponent);
    }
 
@@ -47,7 +47,7 @@ public class PackageXPDLStringVariables extends ActionBase {
       if (getPackage() == null)
          return;
       JaWEController jc = (JaWEController) jawecomponent;
-      XPDLStringVariables eaw = new XPDLStringVariables(getPackage().getExtendedAttributes());
+      I18nVariables eaw = new I18nVariables(getPackage().getExtendedAttributes());
       jc.getSelectionManager().setSelection(eaw, false);
       XPDLElementEditor ed = JaWEManager.getInstance().getXPDLElementEditor();
       ed.editXPDLElement(eaw);

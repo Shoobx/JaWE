@@ -26,5 +26,6 @@ public interface XMLAppendChoiceInterface {
 
    String getText();
 
-   void appendText(String txt);
+   void appendText(String prefix, String txt);
+
 }

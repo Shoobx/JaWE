@@ -88,10 +88,11 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
                                                      boolean isVertical,
                                                      int noOfLines,
                                                      boolean wrapLines,
+                                                     List<String> choicesPrefixes,
                                                      List<List> choices,
                                                      List<String> chTooltips,
                                                      boolean isEnabled) {
-      this(pc, myOwner, labelKey, isFalseRequired, isVertical, noOfLines, wrapLines, choices, chTooltips, isEnabled, null, null, null);
+      this(pc, myOwner, labelKey, isFalseRequired, isVertical, noOfLines, wrapLines, choicesPrefixes, choices, chTooltips, isEnabled, null, null, null);
    }
 
    public XMLMultiLineHighlightPanelWithChoiceButton(PanelContainer pc,
@@ -101,6 +102,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
                                                      boolean isVertical,
                                                      int type,
                                                      boolean wrapLines,
+                                                     List<String> choicesPrefixes,
                                                      List<List> choices,
                                                      List<String> chTooltips,
                                                      boolean isEnabled,
@@ -217,11 +219,16 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
       if (choices != null) {
          for (int i = 0; i < choices.size(); i++) {
             List list = choices.get(i);
+            String chPrefix = null;
+            if (choicesPrefixes != null && choicesPrefixes.size() >= i) {
+               chPrefix = choicesPrefixes.get(i);
+            }
             String chTooltip = null;
             if (chTooltips != null && chTooltips.size() >= i) {
                chTooltip = chTooltips.get(i);
             }
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
+                                                                           chPrefix,
                                                                            list,
                                                                            ((PanelSettings) pc.getSettings()).getInsertVariableDefaultIcon(),
                                                                            ((PanelSettings) pc.getSettings()).getInsertVariablePressedIcon(),
@@ -256,7 +263,7 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
          jb.setEnabled(appName != null);
          jb.setToolTipText(getPanelContainer().getLanguageDependentString("EditExpressionInAssociatedApplicationTooltip"));
          jb.setEnabled(isEnabled);
-         
+
          jb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                PanelContainer pc = getPanelContainer();
@@ -384,12 +391,16 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
       return jta.getText();
    }
 
-   public void appendText(String txt) {
+   public void appendText(String prefix, String txt) {
       int cp = jta.getCaretPosition();
       String ct = jta.getText();
-      String text = ct.substring(0, cp) + txt + ct.substring(cp);
+      String newText = txt;
+      if (prefix != null) {
+         newText = "{" + prefix + txt + "}";
+      }
+      String text = ct.substring(0, cp) + newText + ct.substring(cp);
       jta.setText(text);
-      jta.setCaretPosition(cp + txt.length());
+      jta.setCaretPosition(cp + newText.length());
       jta.requestFocus();
       if (getPanelContainer() == null)
          return;

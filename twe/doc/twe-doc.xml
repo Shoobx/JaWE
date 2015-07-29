@@ -11477,14 +11477,16 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Supported new (I18n related) extended attributes:</para>
 
-          <para>* I18N_XPDL_FOLDER_NAME (Package level),</para>
+          <para> * I18N_XPDL_FOLDER_NAME (Package level),</para>
 
-          <para>* I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess
+          <para> * I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess
           level),</para>
 
-          <para>* I18N_NAME_TRANSLATION_KEY and
+          <para> * I18N_NAME_TRANSLATION_KEY and
           I18N_DESCRIPTION_TRANSLATION_KEY (Package, WorkflowProcess, Activity
           and DataField level)</para>
+
+          <para>- Supported i18n variables</para>
 
           <para>- Support for new system variables</para>
 
@@ -11493,6 +11495,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Introduced constants for the names/description of the system
           variables</para>
+
+          <para>- Supported insertion of system variable
+          name/description/translation and process variable name/description
+          when defining XPDL string or email subject/content</para>
 
           <para>- Supported changes in SOAPToolAgent</para>
 
@@ -11507,7 +11513,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           defined</para>
 
           <para>- BeanShell and JavaScript tool agent are now allowed to use
-          any process variable </para>
+          any process variable</para>
         </listitem>
       </itemizedlist>
     </section>

@@ -93,15 +93,27 @@ public class SharkXPDLValidator extends SharkPackageValidator {
    }
 
    protected Map<String, XMLElement> getPossibleXPDLStringVariablesEAValues(XMLElement el, boolean allLevels) {
-      return SharkUtils.getPossibleXPDLStringVariablesEAValues(el, allLevels);
+      return SharkUtils.getPossibleXPDLStringOrI18nVariablesEAValues(el, allLevels, true);
    }
 
    protected Map<String, String> getPossibleXPDLStringVariables(XMLElement el, boolean allLevels) {
-      return SharkUtils.getPossibleXPDLStringVariables(el, allLevels);
+      return SharkUtils.getPossibleXPDLStringOrI18nVariables(el, allLevels, true);
    }
 
    protected List<String> getPossibleXPDLStringVariableNames(XMLElement el, boolean allLevels) {
-      return new ArrayList<String>(SharkUtils.getPossibleXPDLStringVariables(el, allLevels).keySet());
+      return new ArrayList<String>(SharkUtils.getPossibleXPDLStringOrI18nVariables(el, allLevels, true).keySet());
+   }
+
+   protected Map<String, XMLElement> getPossibleI18nVariablesEAValues(XMLElement el, boolean allLevels) {
+      return SharkUtils.getPossibleXPDLStringOrI18nVariablesEAValues(el, allLevels, false);
+   }
+
+   protected Map<String, String> getPossibleI18nVariables(XMLElement el, boolean allLevels) {
+      return SharkUtils.getPossibleXPDLStringOrI18nVariables(el, allLevels, false);
+   }
+
+   protected List<String> getPossibleI18nVariableNames(XMLElement el, boolean allLevels) {
+      return new ArrayList<String>(SharkUtils.getPossibleXPDLStringOrI18nVariables(el, allLevels, false).keySet());
    }
 
    protected List<String> getConfigStringChoices() {

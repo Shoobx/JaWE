@@ -25,15 +25,15 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.base.editor.XPDLElementEditor;
-import org.enhydra.jawe.shark.business.XPDLStringVariables;
+import org.enhydra.jawe.shark.business.I18nVariables;
 
 
 /**
- * Class that implements action to display shark xpdl strings on process level.
+ * Class that implements action to display shark i18n vars on process level.
  */
-public class ProcessXPDLStringVariables extends ActionBase {
+public class ProcessI18nVariables extends ActionBase {
 
-   public ProcessXPDLStringVariables (JaWEComponent jawecomponent) {
+   public ProcessI18nVariables (JaWEComponent jawecomponent) {
       super(jawecomponent);
    }
 
@@ -47,7 +47,7 @@ public class ProcessXPDLStringVariables extends ActionBase {
    public void actionPerformed(ActionEvent e) {
       if (getWorkflowProcess()==null) return;
       JaWEController jc = (JaWEController)jawecomponent;
-      XPDLStringVariables eaw = new XPDLStringVariables(getWorkflowProcess().getExtendedAttributes());
+      I18nVariables eaw = new I18nVariables(getWorkflowProcess().getExtendedAttributes());
       jc.getSelectionManager().setSelection(eaw, false);
       XPDLElementEditor ed=JaWEManager.getInstance().getXPDLElementEditor();
       ed.editXPDLElement(eaw);

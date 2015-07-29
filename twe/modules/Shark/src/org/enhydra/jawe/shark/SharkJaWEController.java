@@ -19,6 +19,7 @@ package org.enhydra.jawe.shark;
 
 import org.enhydra.jawe.base.controller.ControllerSettings;
 import org.enhydra.jawe.base.controller.JaWEController;
+import org.enhydra.jawe.shark.business.I18nVariable;
 import org.enhydra.jawe.shark.business.XPDLStringVariable;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLElement;
@@ -29,10 +30,8 @@ public class SharkJaWEController extends JaWEController {
       super(settings);
    }
 
-   public boolean canDuplicateElement(XMLCollection col,
-                                      XMLElement el,
-                                      boolean checkReadOnly) {
-      if (el instanceof XPDLStringVariable) {
+   public boolean canDuplicateElement(XMLCollection col, XMLElement el, boolean checkReadOnly) {
+      if (el instanceof XPDLStringVariable || el instanceof I18nVariable) {
          return false;
       }
       return super.canDuplicateElement(col, el, checkReadOnly);

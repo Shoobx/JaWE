@@ -374,7 +374,9 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 true,
                                                                 2,
                                                                 false,
+                                                                null,
                                                                 mc,
+                                                                null,
                                                                 null,
                                                                 JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                                                 null);
@@ -611,8 +613,10 @@ public class StandardPanelGenerator implements PanelGenerator {
           || (act != null && (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION))) {
          return new XMLHighlightPanelWithReferenceLink(getPanelContainer(),
                                                        el,
+                                                       null,
                                                        prepareExpressionChoices(el),
                                                        prepareExpressionChoicesTooltips(el),
+                                                       prepareExpressionChoicesImages(el),
                                                        true,
                                                        false,
                                                        true,
@@ -1067,8 +1071,10 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       true,
                                                                       5,
                                                                       false,
+                                                                      null,
                                                                       mc,
                                                                       getBasicExpressionChoicesTooltips(el),
+                                                                      null,
                                                                       JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                                                       null,
                                                                       null,
@@ -1081,6 +1087,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                       true,
                                                                       5,
                                                                       false,
+                                                                      null,
+                                                                      null,
                                                                       null,
                                                                       null,
                                                                       JaWEManager.getInstance().getJaWEController().canModifyElement(el),
@@ -1314,7 +1322,7 @@ public class StandardPanelGenerator implements PanelGenerator {
    protected XMLMultiLineTextPanelWithOptionalChoiceButtons generateStandardMultiLineTextPanel(XMLElement el, boolean isVertical, int size, boolean wrapLines) {
       return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(), el, isVertical, size, wrapLines, JaWEManager.getInstance()
          .getJaWEController()
-         .canModifyElement(el), null, null);
+         .canModifyElement(el), null, null, null, null);
    }
 
    protected XMLMultiLineTextPanelWithOptionalChoiceButtons generateStandardMultiLineTextPanelWithChoices(XMLElement el,
@@ -1333,8 +1341,10 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                 isVertical,
                                                                 size,
                                                                 wrapLines,
+                                                                null,
                                                                 prepareExpressionChoices(el.getParent().getParent()),
                                                                 prepareExpressionChoicesTooltips(el.getParent().getParent()),
+                                                                prepareExpressionChoicesImages(el.getParent().getParent()),
                                                                 JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                                                 null,
                                                                 null,
@@ -1459,8 +1469,10 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                        true,
                                                                        noOfLines,
                                                                        false,
+                                                                       null,
                                                                        prepareExpressionChoices(cel),
                                                                        prepareExpressionChoicesTooltips(cel),
+                                                                       prepareExpressionChoicesImages(cel),
                                                                        JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
                                                                        null,
                                                                        null,
@@ -1478,8 +1490,10 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           true,
                                                                           7,
                                                                           false,
+                                                                          null,
                                                                           mc,
                                                                           getBasicExpressionChoicesTooltips(holder),
+                                                                          null,
                                                                           JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
                                                                           null,
                                                                           null,
@@ -1495,6 +1509,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                           false,
                                                                           null,
                                                                           null,
+                                                                          null,
+                                                                          null,
                                                                           JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
                                                                           null,
                                                                           null,
@@ -1508,6 +1524,8 @@ public class StandardPanelGenerator implements PanelGenerator {
                                                                        true,
                                                                        5,
                                                                        false,
+                                                                       null,
+                                                                       null,
                                                                        null,
                                                                        null,
                                                                        JaWEManager.getInstance().getJaWEController().canModifyElement(cel),
@@ -1629,6 +1647,10 @@ public class StandardPanelGenerator implements PanelGenerator {
       return tc;
    }
 
+   public List<ImageIcon> prepareExpressionChoicesImages(XMLElement el) {
+      return null;
+   }
+   
    public Settings getSettings() {
       return getPanelContainer().getSettings();
    }
