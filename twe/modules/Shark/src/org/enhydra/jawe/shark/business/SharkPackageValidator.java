@@ -873,17 +873,15 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
             map.put(id, df);
          }
-
-         List<String> i18nvc = getPossibleI18nVariableNames(el, true);
-         for (int i = 0; i < i18nvc.size(); i++) {
-            String id = i18nvc.get(i);
-            DataField df = new DataField(null);
-            df.setId(id);
-            df.getDataType().getDataTypes().setBasicType();
-            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-            map.put(id, df);
-         }
-
+      }
+      List<String> i18nvc = getPossibleI18nVariableNames(el, true);
+      for (int i = 0; i < i18nvc.size(); i++) {
+         String id = i18nvc.get(i);
+         DataField df = new DataField(null);
+         df.setId(id);
+         df.getDataType().getDataTypes().setBasicType();
+         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         map.put(id, df);
       }
 
       boolean isForActivity = XMLUtil.getActivity(el) != null;

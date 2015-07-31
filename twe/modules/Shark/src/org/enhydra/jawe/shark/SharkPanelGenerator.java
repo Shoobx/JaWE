@@ -2087,17 +2087,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             l.add(df);
          }
          mc.add(l);
-
-         l = new ArrayList();
-         List<String> i18nsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringOrI18nVariables(el, true, false).keySet());
-         for (int i = 0; i < i18nsc.size(); i++) {
-            String id = i18nsc.get(i);
-            DataField df = createDummyDataField(id, false);
-            l.add(df);
-         }
-         mc.add(l);
-
       }
+      l = new ArrayList();
+      List<String> i18nsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringOrI18nVariables(el, true, false).keySet());
+      for (int i = 0; i < i18nsc.size(); i++) {
+         String id = i18nsc.get(i);
+         DataField df = createDummyDataField(id, false);
+         l.add(df);
+      }
+      mc.add(l);
+      
       return mc;
    }
 
@@ -2142,8 +2141,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (!(el instanceof InitialValue)) {
          mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
          mct.add(getSettings().getLanguageDependentString("InsertXPDLStringVariableKey"));
-         mct.add(getSettings().getLanguageDependentString("InsertI18nVariableKey"));
       }
+      mct.add(getSettings().getLanguageDependentString("InsertI18nVariableKey"));
       return mct;
    }
 
@@ -2191,8 +2190,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       if (!(el instanceof InitialValue)) {
          mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"conf"+imgnsuffix)));
          mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"xpdl"+imgnsuffix)));
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"i18n"+imgnsuffix)));
       }
+      mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"i18n"+imgnsuffix)));
       return mci;
    }
 
