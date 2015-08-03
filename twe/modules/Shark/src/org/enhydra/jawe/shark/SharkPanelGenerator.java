@@ -730,6 +730,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       ealist.add(ealpnl);
       XMLPanel eappnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityPriorityAsExpression(), null, false, enableEditing, false, null);
       ealist.add(eappnl);
+      if (el.isForFullyManualActivity()) {
+         XMLPanel acpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAutoCompletionAttribute(), null, false, enableEditing, false, null);
+         ealist.add(acpnl);
+      }
 
       for (int i = 0; i < ealist.size(); i += 2) {
          List subpanels = new ArrayList();
@@ -1099,7 +1103,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             p = gp;
             break;
          case 3:
-            p = getPanel(new WfConfigurationElement(eas, true));
+            p = getPanel(new WfConfigurationElement(eas, true, el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO));
             break;
          case 5:
             p = getPanel(new WebClientConfigurationElement(eas, true));
@@ -1416,7 +1420,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             p = new XMLGroupPanel(getPanelContainer(), el, panelElements, getPanelContainer().getLanguageDependentString("GeneralKey"), true, false, true, null);
          }
       } else if (no == 2) {
-         p = getPanel(new WfConfigurationElement(el.getExtendedAttributes(), false));
+         p = getPanel(new WfConfigurationElement(el.getExtendedAttributes(), false, false));
       } else if (no == 3) {
          p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
       } else if (no == 16) {
@@ -1496,7 +1500,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             p = new XMLGroupPanel(getPanelContainer(), el, panelElements, getPanelContainer().getLanguageDependentString("GeneralKey"), true, false, true, null);
          }
       } else if (no == 2) {
-         p = getPanel(new WfConfigurationElement(el.getExtendedAttributes(), false));
+         p = getPanel(new WfConfigurationElement(el.getExtendedAttributes(), false, false));
       } else if (no == 3) {
          p = getPanel(new WebClientConfigurationElement(el.getExtendedAttributes(), false));
       } else if (no == 13) {

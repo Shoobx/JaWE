@@ -83,6 +83,8 @@ public class SharkConstants {
 
    public static final String EA_OVERRIDE_PROCESS_CONTEXT = "OVERRIDE_PROCESS_CONTEXT";
 
+   public static final String EA_AUTO_COMPLETION = "AUTO_COMPLETION";
+   
    public static final String EA_TRANSIENT = "TRANSIENT";
 
    public static final String EA_DELETE_FINISHED = "DELETE_FINISHED";

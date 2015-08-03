@@ -36,11 +36,14 @@ public class WfConfigurationElement extends XMLComplexElement {
    protected boolean isPersisted = false;
 
    protected boolean isForAct = false;
+   
+   protected boolean isFullyManualAct = false;
 
-   public WfConfigurationElement(ExtendedAttributes eas, boolean isForAct) {
+   public WfConfigurationElement(ExtendedAttributes eas, boolean isForAct, boolean isFullyManualAct) {
       super(eas.getParent(), "WfConfiguration", true);
       this.eas = eas;
       this.isForAct = isForAct;
+      this.isFullyManualAct = isFullyManualAct;
       notifyMainListeners = false;
       notifyListeners = false;
       handleStructure();
@@ -119,6 +122,9 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                   removeUnconditionally);
          if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, null, null, true, removeUnconditionally);
+            if (isFullyManualAct) {
+               SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_AUTO_COMPLETION, null, null, false, removeUnconditionally);
+            }
          }
 
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN, null, null, true, removeUnconditionally);
@@ -270,6 +276,10 @@ public class WfConfigurationElement extends XMLComplexElement {
       return (WfNameValues) get(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT);
    }
 
+   public XMLAttribute getAutoCompletionAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_AUTO_COMPLETION);
+   }
+
    public XMLAttribute getEvaluateProcessNameAsExpression() {
       return (XMLAttribute) get(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS);
    }
@@ -394,6 +404,8 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                                "OverrideExpression",
                                                                false);
 
+      XMLAttribute attrAutoCompletion = new XMLAttribute(this, SharkConstants.EA_AUTO_COMPLETION, false);
+
       XMLAttribute attrEvaluateProcessName = new XMLAttribute(this, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, false, new String[] {
             "true", "false"
       }, 1);
@@ -443,6 +455,7 @@ public class WfConfigurationElement extends XMLComplexElement {
       add(attrAssignToPerformerOfActivity);
       add(attrDoNotAssignToPerformerOfActivity);
       add(elOverrideProcessContext);
+      add(attrAutoCompletion);
       add(attrEvaluateProcessName);
       add(attrEvaluateProcessDescription);
       add(attrEvaluateProcessLimit);
@@ -488,7 +501,7 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                                                                         || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS)
                                                                                                         || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS) || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS))
                                                                                                        && !(parent instanceof Activity))
-                   || (eaname.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER) && (parent instanceof Activity))) {
+                   || ((eaname.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER) || (eaname.equals(SharkConstants.EA_AUTO_COMPLETION) && isFullyManualAct)) && (parent instanceof Activity))) {
                   pc++;
                }
                attr.setValue(eaval);
@@ -497,7 +510,7 @@ public class WfConfigurationElement extends XMLComplexElement {
          }
       }
       getConfigureAttribute().setValue(String.valueOf(hasAny));
-      int toCompNo = (isForAct ? 14 : 21);
+      int toCompNo = (isForAct ? (isFullyManualAct ? 15 : 14) : 21);
       isPersisted = pc >= toCompNo;
    }
 
@@ -521,6 +534,10 @@ public class WfConfigurationElement extends XMLComplexElement {
       return isForAct;
    }
 
+   public boolean isForFullyManualActivity () {
+      return isForAct && isFullyManualAct;
+   }
+   
    public boolean isForModalDialog() {
       return true;
    }

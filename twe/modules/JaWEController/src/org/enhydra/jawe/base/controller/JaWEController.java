@@ -700,6 +700,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          // frame.init();
          frame.setVisible(true);
          jaweFrameShown = true;
+         frame.adjustFrameSplitSizes();
       }
    }
 

@@ -9132,28 +9132,29 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
-          <para><emphasis>MainDividerLocation</emphasis> - this property is an
-          integer value that defines the initial location for the main frame
-          divider. In the example above, it is the vertical divider that
-          divides the frame into the left and the right part.</para>
+          <para><emphasis>MainDividerLocation</emphasis> - this property is a
+          double value that defines the initial location for the main frame
+          divider as a percentage of JSplitPane's size. In the example above,
+          it is the vertical divider that divides the frame into the left and
+          the right part.</para>
         </listitem>
 
         <listitem>
           <para><emphasis>FirstSmallDividerLocation</emphasis> - this property
-          is an integer value that defines the initial location for the first
-          sub-frame divider. In the example above, it is the horizontal
-          divider that divides the left sub-frame into the upper part
-          <emphasis>special</emphasis> and the lower part
-          <emphasis>tree</emphasis>.</para>
+          is a double value that defines the initial location for the first
+          sub-frame divider as a percentage of JSplitPane's size. In the
+          example above, it is the horizontal divider that divides the left
+          sub-frame into the upper part <emphasis>special</emphasis> and the
+          lower part <emphasis>tree</emphasis>.</para>
         </listitem>
 
         <listitem>
           <para><emphasis>SecondSmallDividerLocation</emphasis> - this
-          property is an integer value that defines the initial location for
-          the second sub-frame divider. In the example above, it is the
-          horizontal divider that divides the right sub-frame into the upper
-          part <emphasis>main</emphasis> and the lower part
-          <emphasis>other</emphasis>.</para>
+          property is a double value that defines the initial location for the
+          second sub-frame divider as a percentage of JSplitPane's size. In
+          the example above, it is the horizontal divider that divides the
+          right sub-frame into the upper part <emphasis>main</emphasis> and
+          the lower part <emphasis>other</emphasis>.</para>
         </listitem>
       </itemizedlist>
 
@@ -11448,6 +11449,13 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>Filtering of variables by type in
           PanelUtilities.getPossibleVariableChoices() now makes a distinction
           if variable is array or not</para>
+        </listitem>
+
+        <listitem>
+          <para>Now configuring JSplitPane's divider positions
+          (MainDividerLocation, FirstSmallDividerLocation and
+          SecondSmallDividerLocation properties) in percentage (not in an
+          absolute values)</para>
         </listitem>
 
         <listitem>
