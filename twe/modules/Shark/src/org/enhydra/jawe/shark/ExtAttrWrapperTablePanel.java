@@ -132,9 +132,7 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
          }
 
          // This table colors elements depending on their owner
-         public Component prepareRenderer(TableCellRenderer renderer,
-                                          int rowIndex,
-                                          int vColIndex) {
+         public Component prepareRenderer(TableCellRenderer renderer, int rowIndex, int vColIndex) {
             Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
             if (!isCellSelected(rowIndex, vColIndex) && colors) {
                c.setBackground(getBackground());
@@ -171,17 +169,20 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
             TableModel model = (TableModel) e.getSource();
             ExtendedAttribute ea = (ExtendedAttribute) model.getValueAt(row, 0);
             Boolean readOnly = (Boolean) model.getValueAt(row, col);
-            ipc.getJaWEComponent().setUpdateInProgress(true);
-            JaWEManager.getInstance().getJaWEController().startUndouableChange();
-            if (readOnly.booleanValue()) {
-               ea.setName(SharkConstants.EA_VTP_VIEW);
-            } else {
-               ea.setName(SharkConstants.EA_VTP_UPDATE);
+            if (readOnly.booleanValue()
+                && !ea.getName().equals(SharkConstants.EA_VTP_VIEW) || !readOnly.booleanValue() && !ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
+               ipc.getJaWEComponent().setUpdateInProgress(true);
+               JaWEManager.getInstance().getJaWEController().startUndouableChange();
+               if (readOnly.booleanValue()) {
+                  ea.setName(SharkConstants.EA_VTP_VIEW);
+               } else {
+                  ea.setName(SharkConstants.EA_VTP_UPDATE);
+               }
+               List toSel = new ArrayList();
+               toSel.add(ea);
+               JaWEManager.getInstance().getJaWEController().endUndouableChange(toSel);
+               ipc.getJaWEComponent().setUpdateInProgress(false);
             }
-            List toSel = new ArrayList();
-            toSel.add(ea);
-            JaWEManager.getInstance().getJaWEController().endUndouableChange(toSel);
-            ipc.getJaWEComponent().setUpdateInProgress(false);
          }
       }
    }
