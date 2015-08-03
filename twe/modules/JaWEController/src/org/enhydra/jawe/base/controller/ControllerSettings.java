@@ -86,187 +86,127 @@ public class ControllerSettings extends JaWEComponentSettings {
       // defaults
       arm = new AdditionalResourceManager(properties);
 
-      componentSettings.put("AllowInvalidPackageSaving",
-                            new Boolean(properties.getProperty("AllowInvalidPackageSaving",
-                                                               "true")
-                               .equals("true")));
-      componentSettings.put("AskOnDeletion",
-                            new Boolean(properties.getProperty("AskOnDeletion", "false")
-                               .equals("true")));
+      componentSettings.put("AllowInvalidPackageSaving", new Boolean(properties.getProperty("AllowInvalidPackageSaving", "true").equals("true")));
+      componentSettings.put("AskOnDeletion", new Boolean(properties.getProperty("AskOnDeletion", "false").equals("true")));
       componentSettings.put("AskOnDeletionOfReferencedElements",
-                            new Boolean(properties.getProperty("AskOnDeletionOfReferencedElements",
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty("AskOnDeletionOfReferencedElements", "true").equals("true")));
       componentSettings.put("DoNotAskOnDeletionOfReferencedElementTypes",
-                            properties.getProperty("DoNotAskOnDeletionOfReferencedElementTypes",
-                                                   "Activity Transition"));
-      componentSettings.put("DesignTimeValidation",
-                            new Boolean(properties.getProperty("DesignTimeValidation",
-                                                               "true").equals("true")));
-      componentSettings.put("InitialXPDLValidation",
-                            new Boolean(properties.getProperty("InitialXPDLValidation",
-                                                               "true").equals("true")));
-      componentSettings.put("StartMaximized",
-                            new Boolean(properties.getProperty("StartMaximized", "true")
-                               .equals("true")));
-      componentSettings.put("ShowTooltip",
-                            new Boolean(properties.getProperty("ShowTooltip", "true")
-                               .equals("true")));
+                            properties.getProperty("DoNotAskOnDeletionOfReferencedElementTypes", "Activity Transition"));
+      componentSettings.put("DesignTimeValidation", new Boolean(properties.getProperty("DesignTimeValidation", "true").equals("true")));
+      componentSettings.put("InitialXPDLValidation", new Boolean(properties.getProperty("InitialXPDLValidation", "true").equals("true")));
+      componentSettings.put("StartMaximized", new Boolean(properties.getProperty("StartMaximized", "true").equals("true")));
+      componentSettings.put("ShowTooltip", new Boolean(properties.getProperty("ShowTooltip", "true").equals("true")));
       componentSettings.put("TitleString", properties.getProperty("TitleString", "{pkgName} {pkgVer} - {appName} {appVer} ({appConfig})"));
-      componentSettings.put("UndoHistoryManager.Class",
-                            properties.getProperty("UndoHistoryManager.Class",
-                                                   "org.enhydra.jawe.undohistorymgr.UndoHistoryMgr"));
-      componentSettings.put("UndoHistorySize",
-                            new Integer(properties.getProperty("UndoHistorySize", "-1")));
+      componentSettings.put("UndoHistoryManager.Class", properties.getProperty("UndoHistoryManager.Class", "org.enhydra.jawe.undohistorymgr.UndoHistoryMgr"));
+      componentSettings.put("UndoHistorySize", new Integer(properties.getProperty("UndoHistorySize", "-1")));
 
       componentSettings.put("Encoding", properties.getProperty("Encoding", "UTF-8"));
-      componentSettings.put("FrameSettings",
-                            properties.getProperty("FrameSettings",
-                                                   "V; special H tree; main H other"));
+      componentSettings.put("FrameSettings", properties.getProperty("FrameSettings", "V; special H tree; main H other"));
       componentSettings.put("DefaultActionsEditOrder",
-                            properties.getProperty("DefaultActions.Edit.ActionOrder",
-                                                   "Undo Redo - Cut Copy Paste Delete - EditProperties"));
-      componentSettings.put("TypeResolverClass",
-                            properties.getProperty("TypeResolverClass",
-                                                   "org.enhydra.jawe.base.controller.JaWETypeResolver"));
+                            properties.getProperty("DefaultActions.Edit.ActionOrder", "Undo Redo - Cut Copy Paste Delete - EditProperties"));
+      componentSettings.put("TypeResolverClass", properties.getProperty("TypeResolverClass", "org.enhydra.jawe.base.controller.JaWETypeResolver"));
 
-      componentSettings.put("MainDividerLocation",
-                            new Integer(properties.getProperty("MainDividerLocation",
-                                                               "230")));
-      componentSettings.put("FirstSmallDividerLocation",
-                            new Integer(properties.getProperty("FirstSmallDividerLocation",
-                                                               "230")));
-      componentSettings.put("SecondSmallDividerLocation",
-                            new Integer(properties.getProperty("SecondSmallDividerLocation",
-                                                               "400")));
+      componentSettings.put("MainDividerLocation", new Double(properties.getProperty("MainDividerLocation", "0.2")));
+      componentSettings.put("FirstSmallDividerLocation", new Double(properties.getProperty("FirstSmallDividerLocation", "0.3")));
+      componentSettings.put("SecondSmallDividerLocation", new Double(properties.getProperty("SecondSmallDividerLocation", "0.75")));
 
       ImageIcon appIcon;
       URL iconURL = ResourceManager.getResource(properties, "ApplicationIcon");
       if (iconURL != null)
          appIcon = new ImageIcon(iconURL);
       else
-         appIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/twe16.png"));
+         appIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe16.png"));
       componentSettings.put("ApplicationIcon", appIcon);
 
       ImageIcon hicon;
-      hicon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/together.gif"));
+      hicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/together.gif"));
       componentSettings.put("Sponsore1Logo", hicon);
 
-      hicon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/Abacus.jpg"));
+      hicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/Abacus.jpg"));
       componentSettings.put("Sponsore2Logo", hicon);
 
       ImageIcon actionIcon;
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.NEW_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.NEW_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/new.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/new.gif"));
       componentSettings.put("DefaultImage" + JaWEActions.NEW_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.DUPLICATE_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.DUPLICATE_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/duplicate.png"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/duplicate.png"));
       componentSettings.put("DefaultImage" + JaWEActions.DUPLICATE_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.REFERENCES);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.REFERENCES);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/references.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/references.gif"));
       componentSettings.put("DefaultImage" + JaWEActions.REFERENCES, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.UNDO_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.UNDO_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/nav_left_blue.png"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/nav_left_blue.png"));
       componentSettings.put("DefaultImage" + JaWEActions.UNDO_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.REDO_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.REDO_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/nav_right_blue.png"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/nav_right_blue.png"));
       componentSettings.put("DefaultImage" + JaWEActions.REDO_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.CUT_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.CUT_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/cut.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/cut.gif"));
       componentSettings.put("DefaultImage" + JaWEActions.CUT_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.COPY_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.COPY_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/copy.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/copy.gif"));
       componentSettings.put("DefaultImage" + JaWEActions.COPY_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.PASTE_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.PASTE_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/paste.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/paste.gif"));
       componentSettings.put("DefaultImage" + JaWEActions.PASTE_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon."
-                                                        + JaWEActions.DELETE_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.DELETE_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/delete.gif"));
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/delete.gif"));
       componentSettings.put("DefaultImage" + JaWEActions.DELETE_ACTION, actionIcon);
 
-      iconURL = ResourceManager.getResource(properties,
-                                            "DefaultAction.Icon."
-                                                  + JaWEActions.EDIT_PROPERTIES_ACTION);
+      iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.EDIT_PROPERTIES_ACTION);
       if (iconURL != null)
          actionIcon = new ImageIcon(iconURL);
       else
-         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/properties.gif"));
-      componentSettings.put("DefaultImage" + JaWEActions.EDIT_PROPERTIES_ACTION,
-                            actionIcon);
+         actionIcon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/properties.gif"));
+      componentSettings.put("DefaultImage" + JaWEActions.EDIT_PROPERTIES_ACTION, actionIcon);
 
       // menus, toolbars and actions
       componentSettings.put("MainMenu",
-                            properties.getProperty("MainMenu.ActionOrder",
-                                                   "*File jawe_editmenu *Search *Package *Process *ExternalPackages *Settings *Help"));
+                            properties.getProperty("MainMenu.ActionOrder", "*File jawe_editmenu *Search *Package *Process *ExternalPackages *Settings *Help"));
 
       loadDefaultMenusToolbarsAndActions(comp);
       componentSettings.putAll(Utils.loadAllMenusAndToolbars(properties));
       componentAction.putAll(Utils.loadActions(properties, comp, componentAction));
 
-      List compAct = ResourceManager.getResourceStrings(properties,
-                                                        "Action.JaWEComponentClass.",
-                                                        false);
+      List compAct = ResourceManager.getResourceStrings(properties, "Action.JaWEComponentClass.", false);
       for (int i = 0; i < compAct.size(); i++) {
-         String className = ResourceManager.getResourceString(properties,
-                                                              "Action.JaWEComponentClass."
-                                                                    + compAct.get(i));
+         String className = ResourceManager.getResourceString(properties, "Action.JaWEComponentClass." + compAct.get(i));
          componentSettings.put(compAct.get(i) + "ClassName", className);
       }
       // ********
@@ -274,8 +214,7 @@ public class ControllerSettings extends JaWEComponentSettings {
 
    protected void loadDefaultMenusToolbarsAndActions(JaWEComponent comp) {
       // menu
-      componentSettings.put("FileMenu",
-                            "NewPackage Open Reopen Close - Save SaveAs - @RecentFiles - Exit");
+      componentSettings.put("FileMenu", "NewPackage Open Reopen Close - Save SaveAs - @RecentFiles - Exit");
       componentSettings.put("FileLangName", "file");
       componentSettings.put("SearchMenu", "Search jaweAction_References");
       componentSettings.put("SearchLangName", "search");
@@ -285,8 +224,7 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("ProcessMenu",
                             "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters - ProcessActivitySetsOverview ProcessActivitiesOverview ProcessTransitionsOverview");
       componentSettings.put("ProcessLangName", "process");
-      componentSettings.put("ExternalPackagesMenu",
-                            "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
+      componentSettings.put("ExternalPackagesMenu", "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
       componentSettings.put("ExternalPackagesLangName", "externalPackage");
       componentSettings.put("SettingsMenu", "@LanguageSwitcher @Reconfigurator");
       componentSettings.put("SettingsLangName", "settings");
@@ -294,17 +232,14 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("HelpLangName", "help");
 
       // toolbar
-      componentSettings.put("defaultToolbarToolbar",
-                            "*filetoolbar jawe_edittoolbar *searchtoolbar *packagetoolbar *externaltoolbar *processtoolbar");
-      componentSettings.put("filetoolbarToolbar",
-                            "NewPackage Open Reopen Close - Save SaveAs - Exit");
+      componentSettings.put("defaultToolbarToolbar", "*filetoolbar jawe_edittoolbar *searchtoolbar *packagetoolbar *externaltoolbar *processtoolbar");
+      componentSettings.put("filetoolbarToolbar", "NewPackage Open Reopen Close - Save SaveAs - Exit");
       componentSettings.put("searchtoolbarToolbar", "Search jaweAction_References");
       componentSettings.put("packagetoolbarToolbar",
                             "PackageCheckValidity StartDesignTimeValidation StopDesignTimeValidation - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData");
       componentSettings.put("processtoolbarToolbar",
                             "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters");
-      componentSettings.put("externaltoolbarToolbar",
-                            "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
+      componentSettings.put("externaltoolbarToolbar", "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
 
       // actions
       ActionBase action;
@@ -314,24 +249,21 @@ public class ControllerSettings extends JaWEComponentSettings {
 
       // Close
       action = new Close(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/close.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/close.gif"));
       langDepName = "Close";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("Close", ja);
 
       // Exit
       action = new Exit(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/exit.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/exit.gif"));
       langDepName = "Exit";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("Exit", ja);
 
       // HelpAbout
       action = new HelpAbout(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe16.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe16.png"));
       langDepName = "HelpAbout";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("HelpAbout", ja);
@@ -348,8 +280,7 @@ public class ControllerSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/manual.gif"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/manual.gif"));
          langDepName = "HelpManual";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put("HelpManual", ja);
@@ -357,59 +288,48 @@ public class ControllerSettings extends JaWEComponentSettings {
       }
 
       // Language Switcher
-      componentSettings.put("LanguageSwitcherClassName",
-                            "org.enhydra.jawe.components.languageswitcher.LanguageSwitcherManager");
-      componentSettings.put("LanguageSwitcherSettingsName",
-                            "org.enhydra.jawe.components.languageswitcher.LanguageSwitcherSettings");
+      componentSettings.put("LanguageSwitcherClassName", "org.enhydra.jawe.components.languageswitcher.LanguageSwitcherManager");
+      componentSettings.put("LanguageSwitcherSettingsName", "org.enhydra.jawe.components.languageswitcher.LanguageSwitcherSettings");
 
       // Reconfigurator
-      componentSettings.put("ReconfiguratorClassName",
-                            "org.enhydra.jawe.components.reconfiguration.ReconfiguratorManager");
-      componentSettings.put("ReconfiguratorSettingsName",
-                            "org.enhydra.jawe.components.reconfiguration.ReconfiguratorSettings");
+      componentSettings.put("ReconfiguratorClassName", "org.enhydra.jawe.components.reconfiguration.ReconfiguratorManager");
+      componentSettings.put("ReconfiguratorSettingsName", "org.enhydra.jawe.components.reconfiguration.ReconfiguratorSettings");
 
       // NewPackage
       action = new NewPackage(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/new.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/new.gif"));
       langDepName = "NewPackage";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("NewPackage", ja);
 
       // Open
       action = new Open(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/open.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/open.gif"));
       langDepName = "Open";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("Open", ja);
 
       // RecentFiles
-      componentSettings.put("RecentFilesClassName",
-                            "org.enhydra.jawe.base.recentfiles.RecentFilesManager");
-      componentSettings.put("RecentFilesSettingsName",
-                            "org.enhydra.jawe.base.recentfiles.RecentFilesSettings");
+      componentSettings.put("RecentFilesClassName", "org.enhydra.jawe.base.recentfiles.RecentFilesManager");
+      componentSettings.put("RecentFilesSettingsName", "org.enhydra.jawe.base.recentfiles.RecentFilesSettings");
 
       // Reopen
       action = new Reopen(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/reopen.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/reopen.gif"));
       langDepName = "Reopen";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("Reopen", ja);
 
       // Save
       action = new Save(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/save.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/save.gif"));
       langDepName = "Save";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("Save", ja);
 
       // SaveAs
       action = new SaveAs(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/saveas.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/saveas.gif"));
       langDepName = "SaveAs";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("SaveAs", ja);
@@ -426,8 +346,7 @@ public class ControllerSettings extends JaWEComponentSettings {
          } catch (Exception e) {
             action = null;
          }
-         icon = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/search.png"));
+         icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/search.png"));
          langDepName = "Search";
          ja = new JaWEAction(action, icon, langDepName);
          componentAction.put("Search", ja);
@@ -437,120 +356,105 @@ public class ControllerSettings extends JaWEComponentSettings {
       // Package
       // PackageApplications
       action = new PackageApplications(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/packageapplications.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/packageapplications.gif"));
       langDepName = "PackageApplications";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageApplications", ja);
 
       // PackageCheckValidity
       action = new PackageCheckValidity(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/packagecheck.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/packagecheck.gif"));
       langDepName = "PackageCheckValidity";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageCheckValidity", ja);
 
       // StartDesignTimeValidation
       action = new StartDesignTimeValidation(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/designtimevalidation-start.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/designtimevalidation-start.gif"));
       langDepName = "StartDesignTimeValidation";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("StartDesignTimeValidation", ja);
 
       // StopDesignTimeValidation
       action = new StopDesignTimeValidation(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/designtimevalidation-stop.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/designtimevalidation-stop.gif"));
       langDepName = "StopDesignTimeValidation";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("StopDesignTimeValidation", ja);
 
       // PackageExternalPackages
       action = new PackageExternalPackages(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalpackages.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/externalpackages.gif"));
       langDepName = "PackageExternalPackages";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageExternalPackages", ja);
 
       // PackageAddExternalPackage
       action = new PackageAddExternalPackage(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalpackagesadd.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/externalpackagesadd.gif"));
       langDepName = "PackageAddExternalPackage";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageAddExternalPackage", ja);
 
       // PackageRemoveExternalPackage
       action = new PackageRemoveExternalPackage(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalpackagesremove.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/externalpackagesremove.gif"));
       langDepName = "PackageRemoveExternalPackage";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageRemoveExternalPackage", ja);
 
       // PackageNamespaces
       action = new PackageNamespaces(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/namespaces.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/namespaces.gif"));
       langDepName = "PackageNamespaces";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageNamespaces", ja);
 
       // PackageNewProcess
       action = new PackageNewProcess(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processnew.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/processnew.gif"));
       langDepName = "PackageNewProcess";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageNewProcess", ja);
 
       // PackageParticipants
       action = new PackageParticipants(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/packageparticipants.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/packageparticipants.gif"));
       langDepName = "PackageParticipants";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageParticipants", ja);
 
       // PackageProcesses
       action = new PackageProcesses(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processes.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/processes.gif"));
       langDepName = "PackageProcesses";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageProcesses", ja);
 
       // PackageProperties
       action = new PackageProperties(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/packageproperties.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/packageproperties.gif"));
       langDepName = "PackageProperties";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageProperties", ja);
 
       // PackageTypeDeclarations
       action = new PackageTypeDeclarations(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/typedeclarations.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/typedeclarations.gif"));
       langDepName = "PackageTypeDeclarations";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageTypeDeclarations", ja);
 
       // PackageWorkflowRelevantData
       action = new PackageWorkflowRelevantData(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/packageworkflowrelevantdata.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/packageworkflowrelevantdata.gif"));
       langDepName = "PackageWorkflowRelevantData";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("PackageWorkflowRelevantData", ja);
 
       // PackageReferredDocument
       action = new PackageReferredDocument(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/referred_document.png"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/referred_document.png"));
       langDepName = "PackageReferredDocument";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
@@ -558,64 +462,56 @@ public class ControllerSettings extends JaWEComponentSettings {
       // Process
       // ProcessActivitiesOverview
       action = new ProcessActivitiesOverview(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activities.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/activities.gif"));
       langDepName = "ProcessActivitiesOverview";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessActivitiesOverview", ja);
 
       // ProcessActivitySetsOverview
       action = new ProcessActivitySetsOverview(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activitysets.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/activitysets.gif"));
       langDepName = "ProcessActivitySetsOverview";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessActivitySetsOverview", ja);
 
       // ProcessApplications
       action = new ProcessApplications(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processapplications.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/processapplications.gif"));
       langDepName = "ProcessApplications";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessApplications", ja);
 
       // ProcessFormalParameters
       action = new ProcessFormalParameters(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processformalparameters.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/processformalparameters.gif"));
       langDepName = "ProcessFormalParameters";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessFormalParameters", ja);
 
       // ProcessParticipants
       action = new ProcessParticipants(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processparticipants.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/processparticipants.gif"));
       langDepName = "ProcessParticipants";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessParticipants", ja);
 
       // ProcessProperties
       action = new ProcessProperties(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processproperties.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/processproperties.gif"));
       langDepName = "ProcessProperties";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessProperties", ja);
 
       // ProcessTransitionsOverview
       action = new ProcessTransitionsOverview(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitions.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/transitions.gif"));
       langDepName = "ProcessTransitionsOverview";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessTransitionsOverview", ja);
 
       // ProcessWorkflowRelevantData
       action = new ProcessWorkflowRelevantData(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processworkflowrelevantdata.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/processworkflowrelevantdata.gif"));
       langDepName = "ProcessWorkflowRelevantData";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ProcessWorkflowRelevantData", ja);
@@ -623,32 +519,28 @@ public class ControllerSettings extends JaWEComponentSettings {
       // External Packages
       // External Applications
       action = new ExternalApplications(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalapplications.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/externalapplications.gif"));
       langDepName = "ExternalApplications";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ExternalApplications", ja);
 
       // External TypeDeclarations
       action = new ExternalTypeDeclarations(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externaltypedeclarations.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/externaltypedeclarations.gif"));
       langDepName = "ExternalTypeDeclarations";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ExternalTypeDeclarations", ja);
 
       // ExternalParticipants
       action = new ExternalParticipants(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalparticipants.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/externalparticipants.gif"));
       langDepName = "ExternalParticipants";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ExternalParticipants", ja);
 
       // ExternalProcesses
       action = new ExternalProcesses(comp);
-      icon = new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalprocesses.gif"));
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/externalprocesses.gif"));
       langDepName = "ExternalProcesses";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("ExternalProcesses", ja);
@@ -722,16 +614,16 @@ public class ControllerSettings extends JaWEComponentSettings {
       return (String) componentSettings.get("DoNotAskOnDeletionOfReferencedElementTypes");
    }
 
-   public int getMainDividerLocation() {
-      return ((Integer) componentSettings.get("MainDividerLocation")).intValue();
+   public double getMainDividerLocation() {
+      return ((Double) componentSettings.get("MainDividerLocation")).doubleValue();
    }
 
-   public int getFirstSmallDividerLocation() {
-      return ((Integer) componentSettings.get("FirstSmallDividerLocation")).intValue();
+   public double getFirstSmallDividerLocation() {
+      return ((Double) componentSettings.get("FirstSmallDividerLocation")).doubleValue();
    }
 
-   public int getSecondSmallDividerLocation() {
-      return ((Integer) componentSettings.get("SecondSmallDividerLocation")).intValue();
+   public double getSecondSmallDividerLocation() {
+      return ((Double) componentSettings.get("SecondSmallDividerLocation")).doubleValue();
    }
 
    public ImageIcon getApplicationIcon() {

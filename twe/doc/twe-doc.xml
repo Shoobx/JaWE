@@ -9132,28 +9132,29 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
         </listitem>
 
         <listitem>
-          <para><emphasis>MainDividerLocation</emphasis> - this property is an
-          integer value that defines the initial location for the main frame
-          divider. In the example above, it is the vertical divider that
-          divides the frame into the left and the right part.</para>
+          <para><emphasis>MainDividerLocation</emphasis> - this property is a
+          double value that defines the initial location for the main frame
+          divider as a percentage of JSplitPane's size. In the example above,
+          it is the vertical divider that divides the frame into the left and
+          the right part.</para>
         </listitem>
 
         <listitem>
           <para><emphasis>FirstSmallDividerLocation</emphasis> - this property
-          is an integer value that defines the initial location for the first
-          sub-frame divider. In the example above, it is the horizontal
-          divider that divides the left sub-frame into the upper part
-          <emphasis>special</emphasis> and the lower part
-          <emphasis>tree</emphasis>.</para>
+          is a double value that defines the initial location for the first
+          sub-frame divider as a percentage of JSplitPane's size. In the
+          example above, it is the horizontal divider that divides the left
+          sub-frame into the upper part <emphasis>special</emphasis> and the
+          lower part <emphasis>tree</emphasis>.</para>
         </listitem>
 
         <listitem>
           <para><emphasis>SecondSmallDividerLocation</emphasis> - this
-          property is an integer value that defines the initial location for
-          the second sub-frame divider. In the example above, it is the
-          horizontal divider that divides the right sub-frame into the upper
-          part <emphasis>main</emphasis> and the lower part
-          <emphasis>other</emphasis>.</para>
+          property is a double value that defines the initial location for the
+          second sub-frame divider as a percentage of JSplitPane's size. In
+          the example above, it is the horizontal divider that divides the
+          right sub-frame into the upper part <emphasis>main</emphasis> and
+          the lower part <emphasis>other</emphasis>.</para>
         </listitem>
       </itemizedlist>
 
@@ -11456,6 +11457,13 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Now configuring JSplitPane's divider positions
+          (MainDividerLocation, FirstSmallDividerLocation and
+          SecondSmallDividerLocation properties) in percentage (not in an
+          absolute values)</para>
+        </listitem>
+
+        <listitem>
           <para>Shark mode:</para>
 
           <para>- improved support for extended attributes that allow
@@ -11487,12 +11495,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Supported new (I18n related) extended attributes:</para>
 
-          <para> * I18N_XPDL_FOLDER_NAME (Package level),</para>
+          <para>* I18N_XPDL_FOLDER_NAME (Package level),</para>
 
-          <para> * I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess
+          <para>* I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess
           level),</para>
 
-          <para> * I18N_NAME_TRANSLATION_KEY and
+          <para>* I18N_NAME_TRANSLATION_KEY and
           I18N_DESCRIPTION_TRANSLATION_KEY (Package, WorkflowProcess, Activity
           and DataField level)</para>
 
@@ -11524,6 +11532,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- BeanShell and JavaScript tool agent are now allowed to use
           any process variable</para>
+
+          <para>- Supported new extended attribute AUTO_COMPLETION</para>
         </listitem>
       </itemizedlist>
     </section>

@@ -844,11 +844,11 @@ public class SharkXPDLUtils extends XPDLUtils {
              && (eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_OFFSET)
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) || eaName.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER)
                  || eaName.equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || eaName.equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)
-                 || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.EA_VTP_UPDATE)
-                 || eaName.equals(SharkConstants.EA_VTP_VIEW) || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION)
-                 || eaName.equals(SharkConstants.EA_HTML5FORM_FILE) || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED)
-                 || eaName.equals(SharkConstants.EA_HTML5FORM_XSL) || eaName.equals(SharkConstants.EA_HTML_VARIABLE)
-                 || eaName.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE) || eaName.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION))) {
+                 || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.EA_AUTO_COMPLETION)
+                 || eaName.equals(SharkConstants.EA_VTP_UPDATE) || eaName.equals(SharkConstants.EA_VTP_VIEW)
+                 || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaName.equals(SharkConstants.EA_HTML5FORM_FILE)
+                 || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED) || eaName.equals(SharkConstants.EA_HTML5FORM_XSL)
+                 || eaName.equals(SharkConstants.EA_HTML_VARIABLE) || eaName.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE) || eaName.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION))) {
             continue;
          }
          if (pp instanceof Transition

@@ -1,4 +1,9 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-08-03 Sasa Bojanic <sasaboy@together.at>
+   # Now configuring JSplitPane's divider positions (MainDividerLocation, FirstSmallDividerLocation and SecondSmallDividerLocation properties) in percentage (not in an absolute values)
+   # Shark mode:
+      - support for AUTO_COMPLETION extended attribute for manual activities
+
 2015-07-31 Sasa Bojanic <sasaboy@together.at>
    # Shark mode:
       - allowing i18n variables to be used when creating variables' InitialValue expression

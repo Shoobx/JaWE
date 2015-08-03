@@ -200,7 +200,8 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       if (controller.getControllerSettings().shoudStartMaximized()) {
          setExtendedState(MAXIMIZED_BOTH);
       }
-
+      adjustFrameSplitSizes();
+      
       ToolTipManager.sharedInstance().setEnabled(controller.getControllerSettings()
          .showTooltip());
    }
@@ -349,11 +350,29 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       }
    }
 
+   public void adjustFrameSplitSizes() {
+      // set divider locations
+      double divLoc1 = controller.getControllerSettings().getFirstSmallDividerLocation();
+      double divLoc2 = controller.getControllerSettings().getSecondSmallDividerLocation();
+      double divLoc3 = controller.getControllerSettings().getMainDividerLocation();
+      if (bigSplit!=null) {
+         if (smallSplit1!=null || smallSplit2!=null) {
+            bigSplit.setDividerLocation(divLoc3);
+            bigSplit.setResizeWeight(0.5);
+         }
+      }
+      if (smallSplit1!=null) {
+         smallSplit1.setDividerLocation(divLoc1);
+         smallSplit1.setResizeWeight(0.5);
+      }
+      if (smallSplit2!=null) {
+         smallSplit2.setDividerLocation(divLoc2);
+         smallSplit2.setResizeWeight(0.5);
+      }
+   }
+   
    public void arrangeFrame() {
       String splitString = controller.getControllerSettings().getFrameSettings();
-      int divLoc1 = controller.getControllerSettings().getFirstSmallDividerLocation();
-      int divLoc2 = controller.getControllerSettings().getSecondSmallDividerLocation();
-      int divLoc3 = controller.getControllerSettings().getMainDividerLocation();
 
       try {
          String[] temp = XMLUtil.tokenize(splitString, ";");
@@ -375,7 +394,6 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
                   splitType = JSplitPane.VERTICAL_SPLIT;
 
                bigSplit = new JSplitPane(splitType, firstC, secondC);
-               bigSplit.setDividerLocation(divLoc1);
             }
             // many splits
          } else {
@@ -396,7 +414,6 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
             smallSplit1.add(firstC);
             if (smallSplit1Data.length != 1) {
                smallSplit1.add(secondC);
-               smallSplit1.setDividerLocation(divLoc1);
             }
 
             String[] smallSplit2Data = XMLUtil.tokenize(smallSplit2String, " ");
@@ -413,7 +430,6 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
             smallSplit2.add(firstC);
             if (smallSplit2Data.length != 1) {
                smallSplit2.add(secondC);
-               smallSplit2.setDividerLocation(divLoc2);
             }
 
             splitType = JSplitPane.HORIZONTAL_SPLIT;
@@ -421,7 +437,6 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
                splitType = JSplitPane.VERTICAL_SPLIT;
 
             bigSplit = new JSplitPane(splitType, smallSplit1, smallSplit2);
-            bigSplit.setDividerLocation(divLoc3);
          }
       } catch (Exception e) {
          JaWEManager.getInstance()
@@ -431,15 +446,15 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
          smallSplit1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                                       specialComponents,
                                       treeComponents);
-         smallSplit1.setDividerLocation(180);
+         smallSplit1.setDividerLocation(230);
 
          smallSplit2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                                       mainComponents,
                                       otherComponents);
-         smallSplit2.setDividerLocation(400);
+         smallSplit2.setDividerLocation(600);
 
          bigSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, smallSplit1, smallSplit2);
-         bigSplit.setDividerLocation(180);
+         bigSplit.setDividerLocation(230);
       }
    }
 
