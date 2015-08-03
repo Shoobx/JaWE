@@ -11522,6 +11522,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- BeanShell and JavaScript tool agent are now allowed to use
           any process variable</para>
+
+          <para>- Supported new extended attribute AUTO_COMPLETION</para>
+
+          <para>- Improved performance and accuracy when moving entries for
+          the Activity's 'Web client configuration-&gt;Default
+          GUI-&gt;Variables'</para>
         </listitem>
       </itemizedlist>
     </section>
