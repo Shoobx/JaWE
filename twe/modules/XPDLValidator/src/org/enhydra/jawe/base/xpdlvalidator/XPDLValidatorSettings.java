@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 /**
  * Miroslav Popov, Dec 13, 2005 miroslav.popov@gmail.com
@@ -45,45 +45,29 @@ public class XPDLValidatorSettings extends JaWEComponentSettings {
 
       componentSettings.putAll(properties);
       componentSettings.put(StandardPackageValidator.VALIDATE_SUBFLOW_REFERENCES,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_SUBFLOW_REFERENCES,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_SUBFLOW_REFERENCES, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_PERFORMER_EXPRESSIONS,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_PERFORMER_EXPRESSIONS,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_PERFORMER_EXPRESSIONS, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES,
-                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES, "true").equals("true")));
+      componentSettings.put(StandardPackageValidator.VALIDATE_UNUSED_APPLICATIONS,
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_UNUSED_APPLICATIONS, "true").equals("true")));
+      componentSettings.put(StandardPackageValidator.VALIDATE_UNUSED_PARTICIPANTS,
+                            new Boolean(properties.getProperty(StandardPackageValidator.VALIDATE_UNUSED_PARTICIPANTS, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.ALLOW_UNDEFINED_START,
-                            new Boolean(properties.getProperty(StandardPackageValidator.ALLOW_UNDEFINED_START,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.ALLOW_UNDEFINED_START, "true").equals("true")));
       componentSettings.put(StandardPackageValidator.ALLOW_UNDEFINED_END,
-                            new Boolean(properties.getProperty(StandardPackageValidator.ALLOW_UNDEFINED_END,
-                                                               "true")
-                               .equals("true")));
+                            new Boolean(properties.getProperty(StandardPackageValidator.ALLOW_UNDEFINED_END, "true").equals("true")));
 
    }
 
@@ -115,6 +99,14 @@ public class XPDLValidatorSettings extends JaWEComponentSettings {
       return ((Boolean) componentSettings.get(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES)).booleanValue();
    }
 
+   public boolean shouldValidateUnusedApplications() {
+      return ((Boolean) componentSettings.get(StandardPackageValidator.VALIDATE_UNUSED_APPLICATIONS)).booleanValue();
+   }
+
+   public boolean shouldValidateUnusedParticipants() {
+      return ((Boolean) componentSettings.get(StandardPackageValidator.VALIDATE_UNUSED_PARTICIPANTS)).booleanValue();
+   }
+
    public boolean shouldValidateConditionByType() {
       return ((Boolean) componentSettings.get(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE)).booleanValue();
    }
@@ -130,36 +122,23 @@ public class XPDLValidatorSettings extends JaWEComponentSettings {
    public Properties getProperties() {
       Properties props = new Properties();
       props.putAll(componentSettings);
-      props.put(StandardPackageValidator.VALIDATE_SUBFLOW_REFERENCES,
-                componentSettings.get(StandardPackageValidator.VALIDATE_SUBFLOW_REFERENCES)
-                   .toString());
-      props.put(StandardPackageValidator.VALIDATE_PERFORMER_EXPRESSIONS,
-                componentSettings.get(StandardPackageValidator.VALIDATE_PERFORMER_EXPRESSIONS)
-                   .toString());
+      props.put(StandardPackageValidator.VALIDATE_SUBFLOW_REFERENCES, componentSettings.get(StandardPackageValidator.VALIDATE_SUBFLOW_REFERENCES).toString());
+      props.put(StandardPackageValidator.VALIDATE_PERFORMER_EXPRESSIONS, componentSettings.get(StandardPackageValidator.VALIDATE_PERFORMER_EXPRESSIONS)
+         .toString());
       props.put(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS,
-                componentSettings.get(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS)
-                   .toString());
-      props.put(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS,
-                componentSettings.get(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS)
-                   .toString());
-      props.put(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS,
-                componentSettings.get(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS)
-                   .toString());
-      props.put(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES,
-                componentSettings.get(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES)
-                   .toString());
-      props.put(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS,
-                componentSettings.get(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS)
-                   .toString());
-      props.put(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE,
-                componentSettings.get(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE)
-                   .toString());
-      props.put(StandardPackageValidator.ALLOW_UNDEFINED_START,
-                componentSettings.get(StandardPackageValidator.ALLOW_UNDEFINED_START)
-                   .toString());
-      props.put(StandardPackageValidator.ALLOW_UNDEFINED_END,
-                componentSettings.get(StandardPackageValidator.ALLOW_UNDEFINED_END)
-                   .toString());
+                componentSettings.get(StandardPackageValidator.VALIDATE_ACTUAL_PARAMETER_EXPRESSIONS).toString());
+      props.put(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS, componentSettings.get(StandardPackageValidator.VALIDATE_INITIAL_VALUE_EXPRESSIONS)
+         .toString());
+      props.put(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS, componentSettings.get(StandardPackageValidator.VALIDATE_DEADLINE_EXPRESSIONS)
+         .toString());
+      props.put(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES, componentSettings.get(StandardPackageValidator.VALIDATE_UNUSED_VARIABLES).toString());
+      props.put(StandardPackageValidator.VALIDATE_UNUSED_APPLICATIONS, componentSettings.get(StandardPackageValidator.VALIDATE_UNUSED_APPLICATIONS).toString());
+      props.put(StandardPackageValidator.VALIDATE_UNUSED_PARTICIPANTS, componentSettings.get(StandardPackageValidator.VALIDATE_UNUSED_PARTICIPANTS).toString());
+      props.put(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS, componentSettings.get(StandardPackageValidator.VALIDATE_CONDITION_EXPRESSIONS)
+         .toString());
+      props.put(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE, componentSettings.get(StandardPackageValidator.VALIDATE_CONDITION_BY_TYPE).toString());
+      props.put(StandardPackageValidator.ALLOW_UNDEFINED_START, componentSettings.get(StandardPackageValidator.ALLOW_UNDEFINED_START).toString());
+      props.put(StandardPackageValidator.ALLOW_UNDEFINED_END, componentSettings.get(StandardPackageValidator.ALLOW_UNDEFINED_END).toString());
       return props;
    }
 

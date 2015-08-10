@@ -1,4 +1,7 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-08-10 Sasa Bojanic <sasaboy@together.at>
+   # Now validating unused applications and participants
+
 2015-08-03 Sasa Bojanic <sasaboy@together.at>
    # Now configuring JSplitPane's divider positions (MainDividerLocation, FirstSmallDividerLocation and SecondSmallDividerLocation properties) in percentage (not in an absolute values)
    # Shark mode:
