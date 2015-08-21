@@ -59,13 +59,14 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
          if (ea.getName().equals(SharkConstants.EA_VTP_VIEW)
-             || ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
-            XMLCollectionElement var = (XMLCollectionElement) vars.get(ea.getVValue());
+             || ea.getName().equals(SharkConstants.EA_VTP_UPDATE) || ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+            String vid = ea.getVValue();
+            if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+               vid = vid.substring(0, vid.indexOf(";"));
+            }
+            XMLCollectionElement var = (XMLCollectionElement) vars.get(vid);
             if (var != null) {
-               putEAKeyValue(dng,
-                             toDisplay,
-                             var,
-                             ea.getName().equals(SharkConstants.EA_VTP_VIEW));
+               putEAKeyValue(dng, toDisplay, var, ea.getName().equals(SharkConstants.EA_VTP_VIEW));
             }
          }
       }
@@ -111,29 +112,21 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
    protected String makeSMTPTooltip(ExtendedAttributes el) {
       String postfix = "_ACTIVITY";
       Map toDisplay = new SequencedHashMap();
-      ExtendedAttribute ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE
-                                                                 + postfix);
+      ExtendedAttribute ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE + postfix);
       makeSMTPEntry(ea, toDisplay);
-      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE
-                                               + postfix);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE + postfix);
       makeSMTPEntry(ea, toDisplay);
-      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY
-                                               + postfix);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY + postfix);
       makeSMTPEntry(ea, toDisplay);
-      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT
-                                               + postfix);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfix);
       makeSMTPEntry(ea, toDisplay);
-      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT
-                                               + postfix);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfix);
       makeSMTPEntry(ea, toDisplay);
-      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS
-                                               + postfix);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfix);
       makeSMTPEntry(ea, toDisplay);
-      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES
-                                               + postfix);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfix);
       makeSMTPEntry(ea, toDisplay);
-      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS
-                                               + postfix);
+      ea = el.getFirstExtendedAttributeForName(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfix);
       makeSMTPEntry(ea, toDisplay);
       if (toDisplay.size() > 0) {
          return super.makeTooltip(el, toDisplay);
@@ -144,7 +137,7 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
 
    protected void makeSMTPEntry(ExtendedAttribute ea, Map toDisplay) {
       if (ea != null) {
-         String lbl = getSettings().getLanguageDependentString(ea.getName().substring(0,ea.getName().lastIndexOf("_ACTIVITY")) + "Key");
+         String lbl = getSettings().getLanguageDependentString(ea.getName().substring(0, ea.getName().lastIndexOf("_ACTIVITY")) + "Key");
          if (lbl == null) {
             lbl = ea.getName();
          }
@@ -155,10 +148,7 @@ public class SharkTooltipGenerator extends StandardTooltipGenerator {
       }
    }
 
-   protected void putEAKeyValue(DisplayNameGenerator dng,
-                                Map toPut,
-                                XMLCollectionElement el,
-                                boolean readOnly) {
+   protected void putEAKeyValue(DisplayNameGenerator dng, Map toPut, XMLCollectionElement el, boolean readOnly) {
       String n = settings.getLanguageDependentString("ReadOnlyKey");
       if (!readOnly) {
          n = settings.getLanguageDependentString("EditKey");

@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe;
 
@@ -44,8 +44,7 @@ import org.enhydra.jxpdl.utilities.SequencedHashMap;
  * @author Sasa Bojanic
  * @author Miroslav Popov
  */
-public class XMLElementChoiceButton2 extends ChoiceButton implements
-                                                         ActionListener {
+public class XMLElementChoiceButton2 extends ChoiceButton implements ActionListener {
 
    protected ChoiceButtonListener parent;
 
@@ -54,6 +53,7 @@ public class XMLElementChoiceButton2 extends ChoiceButton implements
    BasicComboPopup popup;
 
    JComboBox aList;
+
    protected Class choiceType;
 
    public XMLElementChoiceButton2(Class choiceType, ChoiceButtonListener p, ImageIcon icon) {
@@ -61,11 +61,7 @@ public class XMLElementChoiceButton2 extends ChoiceButton implements
       this.choiceType = choiceType;
       aList = new JComboBox();
       aList.setRenderer(new BasicComboBoxRenderer() {
-         public Component getListCellRendererComponent(JList list,
-                                                       Object value,
-                                                       int index,
-                                                       boolean isSelected,
-                                                       boolean cellHasFocus) {
+         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (isSelected) {
                setBackground(list.getSelectionBackground());
                setForeground(list.getSelectionForeground());
@@ -82,10 +78,9 @@ public class XMLElementChoiceButton2 extends ChoiceButton implements
                      ttt = super.getToolTipText();
                   }
                   list.setToolTipText(ttt);
-               
+
                }
-            } 
-            else {
+            } else {
                setBackground(list.getBackground());
                setForeground(list.getForeground());
             }
@@ -95,7 +90,7 @@ public class XMLElementChoiceButton2 extends ChoiceButton implements
          }
 
       });
-      popup = new BasicComboPopup(aList); 
+      popup = new BasicComboPopup(aList);
       aList.addActionListener(this);
 
       setIcon(icon);
@@ -135,16 +130,11 @@ public class XMLElementChoiceButton2 extends ChoiceButton implements
          Iterator it = choices.iterator();
          while (it.hasNext()) {
             XMLElement choice = (XMLElement) it.next();
-            String dispName = " "
-                              + JaWEManager.getInstance()
-                                 .getDisplayNameGenerator()
-                                 .getDisplayName(choice) + " ";
+            String dispName = " " + JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(choice) + " ";
             if (choiceMap.containsKey(dispName)) {
                if (choice instanceof XMLComplexElement) {
                   XMLElement idEl = ((XMLComplexElement) choice).get("Id");
-                  dispName += "["
-                              + ResourceManager.getLanguageDependentString("IdKey") + "="
-                              + idEl.toValue() + "] ";
+                  dispName += "[" + ResourceManager.getLanguageDependentString("IdKey") + "=" + idEl.toValue() + "] ";
                }
             }
             choiceMap.put(dispName, choice);

@@ -37,7 +37,9 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
@@ -72,8 +74,7 @@ public class WfXMLComboPanel extends XMLBasicPanel {
       super(null, null, "", false, false, true, tooltip);
       this.wfxml = wfxml;
 
-      jl = new JLabel(wfxml.getSettings()
-         .getLanguageDependentString("RegistryServiceURL") + ": ");
+      jl = new JLabel(wfxml.getSettings().getLanguageDependentString("RegistryServiceURL") + ": ");
       jl.setAlignmentX(Component.LEFT_ALIGNMENT);
       jl.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       jl.setHorizontalAlignment(SwingConstants.LEFT);
@@ -89,6 +90,11 @@ public class WfXMLComboPanel extends XMLBasicPanel {
          }
       }
 
+      Color bkgCol = new Color(245, 245, 245);
+      if (wfxml.getSettings() instanceof WfXMLSettings) {
+         bkgCol = ((WfXMLSettings) wfxml.getSettings()).getBackgroundColor();
+      }
+      UIManager.put("ComboBox.background", new javax.swing.plaf.ColorUIResource(bkgCol));
       jcb = new JComboBox(new Vector(urls));
 
       if (urls.size() > 0) {
@@ -97,14 +103,11 @@ public class WfXMLComboPanel extends XMLBasicPanel {
       jcb.setEditable(true);
       jcb.setAlignmentX(Component.LEFT_ALIGNMENT);
       jcb.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-      
-      Color bkgCol = new Color(245, 245, 245);
-      if (wfxml.getSettings() instanceof WfXMLSettings) {
-         bkgCol = ((WfXMLSettings) wfxml.getSettings()).getBackgroundColor();
-      }
+
       jcb.setBackground(bkgCol);
       jcb.getEditor().getEditorComponent().setBackground(bkgCol);
-      
+      ((JTextField) jcb.getEditor().getEditorComponent()).setOpaque(true);
+
       add(jl);
       add(Box.createHorizontalGlue());
       add(jcb);

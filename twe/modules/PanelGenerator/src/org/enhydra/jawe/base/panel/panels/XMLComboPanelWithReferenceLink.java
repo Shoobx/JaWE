@@ -36,7 +36,9 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
@@ -102,8 +104,7 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
             }
          }
 
-         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
-                                 settings.getSettingInt("SimplePanelTextHeight"));
+         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
          refButDimension = new Dimension(refButDimension.width, textDim.height);
          textDim.width = textDim.width - refButDimension.width;
 
@@ -113,10 +114,10 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
 
          jl = new JLabel(pc.getLabelGenerator().getLabel(myOwner) + ": ");
       } else {
-         jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName()
-                                                                    + "Key")
-                         + ": ");
+         jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName() + "Key") + ": ");
       }
+      UIManager.put("ComboBox.background", new javax.swing.plaf.ColorUIResource(bkgCol));
+
       jl.setAlignmentX(Component.LEFT_ALIGNMENT);
       jl.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       if (rightAllignment) {
@@ -155,6 +156,7 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
       jcb.setBackground(bkgCol);
       if (isEditable) {
          jcb.getEditor().getEditorComponent().setBackground(bkgCol);
+         ((JTextField) jcb.getEditor().getEditorComponent()).setOpaque(true);
       }
 
       final XMLPanel p = this;
@@ -224,12 +226,11 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
       jb.setRolloverEnabled(true);
       jb.setContentAreaFilled(false);
       jb.setEnabled(!(choosen instanceof XMLEmptyChoiceElement));
-      if (pc!=null) {
+      if (pc != null) {
          jb.setToolTipText(pc.getSettings().getLanguageDependentString("ShowReferencedElementKey"));
       } else {
          jb.setToolTipText(ResourceManager.getLanguageDependentString("ShowReferencedElementKey"));
       }
-      
 
       jb.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent ae) {
@@ -250,9 +251,7 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
       if (selItem != null) {
          // System.err.println("SI="+selItem+", class="+selItem.getClass().getName());
          if (selItem instanceof XMLElement) {
-            if (selItem instanceof XMLSimpleElement
-                || selItem instanceof XMLAttribute
-                || selItem instanceof XMLEmptyChoiceElement) {
+            if (selItem instanceof XMLSimpleElement || selItem instanceof XMLAttribute || selItem instanceof XMLEmptyChoiceElement) {
                siv = ((XMLElement) selItem).toValue();
             } else {
                siv = ((XMLElement) selItem).toName();
@@ -263,8 +262,7 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
       }
       // System.err.println("SIV="+siv);
       // System.err.println("IREQ="+getOwner().isRequired()+", iro="+getOwner().isReadOnly());
-      if ((selItem == null || siv.trim().equals(""))
-          && getOwner().isRequired() && !getOwner().isReadOnly()) {
+      if ((selItem == null || siv.trim().equals("")) && getOwner().isRequired() && !getOwner().isReadOnly()) {
          int cs = ((SpecialChoiceElement) myOwner).getChoices().size();
          Object ec = null;
          if (cs == 1) {

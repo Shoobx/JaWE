@@ -36,7 +36,9 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.ResourceManager;
@@ -98,6 +100,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       boolean comboEnabled = true;
 
       Color bkgCol = new Color(245, 245, 245);
+
       if (pc != null) {
 
          Settings settings = pc.getSettings();
@@ -115,8 +118,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
             }
          }
 
-         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
-                                 settings.getSettingInt("SimplePanelTextHeight"));
+         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
          refButDimension = new Dimension(refButDimension.width, textDim.height);
          textDim.width = textDim.width - refButDimension.width;
 
@@ -126,10 +128,9 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
 
          jl = new JLabel(pc.getLabelGenerator().getLabel(myOwner) + ": ");
       } else {
-         jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName()
-                                                                    + "Key")
-                         + ": ");
+         jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName() + "Key") + ": ");
       }
+      UIManager.put("ComboBox.background", new javax.swing.plaf.ColorUIResource(bkgCol));
       jl.setAlignmentX(Component.LEFT_ALIGNMENT);
       jl.setAlignmentY(Component.BOTTOM_ALIGNMENT);
       if (rightAllignment) {
@@ -169,6 +170,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       jcb.setBackground(bkgCol);
       if (isEditable) {
          jcb.getEditor().getEditorComponent().setBackground(bkgCol);
+         ((JTextField) jcb.getEditor().getEditorComponent()).setOpaque(true);
       }
 
       final XMLPanel p = this;
@@ -176,8 +178,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       jcb.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent ae) {
             Object sel = getSelectedItem();
-            if (!(sel instanceof ToolAgentElementBase)
-                || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
+            if (!(sel instanceof ToolAgentElementBase) || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
                jb.setEnabled(false);
             } else {
                jb.setEnabled(true);
@@ -189,8 +190,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          jcb.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                Object sel = getSelectedItem();
-               if (!(sel instanceof ToolAgentElementBase)
-                   || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
+               if (!(sel instanceof ToolAgentElementBase) || (((ToolAgentElementBase) sel).size() == 0 && !(sel instanceof LDAPOrUserGroupToolAgentElement))) {
                   jb.setEnabled(false);
                } else {
                   jb.setEnabled(true);
@@ -235,12 +235,10 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
             String toShow = ((XMLElement) getSelectedItem()).toName();
             XMLElement taElement = ((SharkPanelGenerator) ((InlinePanel) getPanelContainer()).getPanelGenerator()).getToolAgentElement(XMLUtil.getApplication(((SpecialChoiceElement) getOwner()).getControlledElement()),
                                                                                                                                        toShow);
-            ((InlinePanel) getPanelContainer()).getJaWEComponent()
-               .setUpdateInProgress(true);
+            ((InlinePanel) getPanelContainer()).getJaWEComponent().setUpdateInProgress(true);
             StandardXPDLElementEditor ed = new StandardXPDLElementEditor(true);
             ed.editXPDLElement(taElement);
-            ((InlinePanel) getPanelContainer()).getJaWEComponent()
-               .setUpdateInProgress(false);
+            ((InlinePanel) getPanelContainer()).getJaWEComponent().setUpdateInProgress(false);
 
          }
 
@@ -251,10 +249,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
 
    protected void updateApplication(String taElement) {
       String toShow = ((XMLElement) getSelectedItem()).toName();
-      Application app = (Application) JaWEManager.getInstance()
-         .getJaWEController()
-         .getJaWETypes()
-         .getTemplateElement(toShow);
+      Application app = (Application) JaWEManager.getInstance().getJaWEController().getJaWETypes().getTemplateElement(toShow);
       if (app != null) {
          List<ExtendedAttribute> ealist = app.getExtendedAttributes().toElements();
          Application orig = XMLUtil.getApplication(((SpecialChoiceElement) getOwner()).getControlledElement());
@@ -266,8 +261,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
          List<String> toRemoveNames = new ArrayList<String>();
          while (it.hasNext()) {
             ExtendedAttribute ea = (ExtendedAttribute) it.next();
-            if (!(ea.getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS) || ea.getName()
-               .equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY))) {
+            if (!(ea.getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS) || ea.getName().equals(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY))) {
                boolean toRemove = true;
                for (int i = 0; i < ealist.size(); i++) {
                   ExtendedAttribute eapr = ealist.get(i);
@@ -301,14 +295,11 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
             }
          }
 
-         orig.getApplicationTypes()
-            .getFormalParameters()
-            .makeAs(app.getApplicationTypes().getFormalParameters());
+         orig.getApplicationTypes().getFormalParameters().makeAs(app.getApplicationTypes().getFormalParameters());
          List toSelect = new ArrayList();
          toSelect.add(orig);
          jc.endUndouableChange(toSelect);
-         ((InlinePanel) getPanelContainer()).getJaWEComponent()
-            .setUpdateInProgress(false);
+         ((InlinePanel) getPanelContainer()).getJaWEComponent().setUpdateInProgress(false);
       }
    }
 
@@ -318,9 +309,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       if (selItem != null) {
          // System.err.println("SI="+selItem+", class="+selItem.getClass().getName());
          if (selItem instanceof XMLElement) {
-            if (selItem instanceof XMLSimpleElement
-                || selItem instanceof XMLAttribute
-                || selItem instanceof XMLEmptyChoiceElement) {
+            if (selItem instanceof XMLSimpleElement || selItem instanceof XMLAttribute || selItem instanceof XMLEmptyChoiceElement) {
                siv = ((XMLElement) selItem).toValue();
             } else {
                siv = ((XMLElement) selItem).toName();
@@ -331,8 +320,7 @@ public class XMLComboPanelWithReferenceLinkForTAs extends XMLBasicPanel {
       }
       // System.err.println("SIV="+siv);
       // System.err.println("IREQ="+getOwner().isRequired()+", iro="+getOwner().isReadOnly());
-      if ((selItem == null || siv.trim().equals(""))
-          && getOwner().isRequired() && !getOwner().isReadOnly()) {
+      if ((selItem == null || siv.trim().equals("")) && getOwner().isRequired() && !getOwner().isReadOnly()) {
          int cs = ((SpecialChoiceElement) myOwner).getChoices().size();
          Object ec = null;
          if (cs == 1) {

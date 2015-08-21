@@ -93,6 +93,7 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
       Vector cnames = new Vector();
       cnames.add("Object");
       cnames.add(pc.getLanguageDependentString("NameKey"));
+      cnames.add(pc.getLanguageDependentString("FetchFromKey"));
       cnames.add(pc.getLanguageDependentString("ReadOnlyKey"));
       return cnames;
    }
@@ -102,7 +103,15 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
       ExtendedAttribute ea = (ExtendedAttribute) elem;
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
       String varId = ea.getVValue();
+      String fetchVarId = null;
+      if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+         fetchVarId = varId.substring(varId.indexOf(";") + 1);
+         varId = varId.substring(0, varId.indexOf(";"));
+      }
+
       XMLCollectionElement var = (XMLCollectionElement) wp.getAllVariables().get(varId);
+      XMLCollectionElement fetchVar = (XMLCollectionElement) wp.getAllVariables().get(fetchVarId);
+
       String name = varId;
       if (var != null) {
          name = var.get("Name").toValue();
@@ -111,8 +120,22 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
          }
       }
       v.add(name);
+      
+      if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+         name = fetchVarId;
+         if (fetchVar != null) {
+            name = fetchVar.get("Name").toValue();
+            if (name.equals("")) {
+               name = fetchVarId;
+            }
+         }
+         v.add(name);
+      } else {
+         v.add("");
+      }
+      
       // v.add(new XMLElementView(ipc,var, XMLElementView.TOVALUE));
-      if (ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
+      if (!ea.getName().equals(SharkConstants.EA_VTP_VIEW)) {
          v.add(new Boolean(false));
       } else {
          v.add(new Boolean(true));
@@ -125,7 +148,11 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
       JTable jt = new SortingTable(this, new Vector(), columnNames, ipc) {
 
          public boolean isCellEditable(int row, int col) {
-            if (col == 2) {
+            if (col == 3) {
+               ExtendedAttribute ea = (ExtendedAttribute) getValueAt(row, 0);
+               if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+                  return false;
+               }
                return true;
             }
             return false;
@@ -135,11 +162,21 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
          public Component prepareRenderer(TableCellRenderer renderer, int rowIndex, int vColIndex) {
             Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
             if (!isCellSelected(rowIndex, vColIndex) && colors) {
-               c.setBackground(getBackground());
+               if (vColIndex > 1) {
+                  boolean is3rdCellEditable = isCellEditable(rowIndex, 3);
+                  if ((!is3rdCellEditable && vColIndex == 3) || (is3rdCellEditable && vColIndex == 2)) {
+                     c.setBackground(Color.LIGHT_GRAY);
+                  } else {
+                     c.setBackground(getBackground());
+                  }
+               } else {
+                  c.setBackground(getBackground());
+               }
             }
 
             return c;
          }
+
       };
       new EAWTMListener(jt);
 
@@ -164,13 +201,13 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
 
       public void tableChanged(TableModelEvent e) {
          int col = e.getColumn();
-         if (col == 2) {
+         if (col == 3) {
             int row = e.getFirstRow();
             TableModel model = (TableModel) e.getSource();
             ExtendedAttribute ea = (ExtendedAttribute) model.getValueAt(row, 0);
             Boolean readOnly = (Boolean) model.getValueAt(row, col);
             if (readOnly.booleanValue()
-                && !ea.getName().equals(SharkConstants.EA_VTP_VIEW) || !readOnly.booleanValue() && !ea.getName().equals(SharkConstants.EA_VTP_UPDATE)) {
+                && ea.getName().equals(SharkConstants.EA_VTP_UPDATE) || !readOnly.booleanValue() && ea.getName().equals(SharkConstants.EA_VTP_VIEW)) {
                ipc.getJaWEComponent().setUpdateInProgress(true);
                JaWEManager.getInstance().getJaWEController().startUndouableChange();
                if (readOnly.booleanValue()) {

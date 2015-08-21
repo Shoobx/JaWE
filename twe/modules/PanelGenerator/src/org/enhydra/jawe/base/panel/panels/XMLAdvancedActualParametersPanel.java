@@ -121,7 +121,7 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
             if (!fp.getMode().equals(XPDLConstants.FORMAL_PARAMETER_MODE_IN)) {
                List choices = getChoices(new ArrayList(XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(myOwner)).values()), fp.getDataType()
                   .getDataTypes()
-                  .getChoosen(), true);
+                  .getChoosen(), fp.getIsArray(), true);
                p = new XMLComboPanel(getPanelContainer(),
                                      ap,
                                      fp.getName().equals("") ? fp.getId() : fp.getName(),
@@ -187,17 +187,17 @@ public class XMLAdvancedActualParametersPanel extends XMLActualParametersPanel {
 
    }
 
-   protected List getChoices(List vars, XMLElement dt, boolean doFiltering) {
+   protected List getChoices(List vars, XMLElement dt, boolean isArray, boolean doFiltering) {
       List filter = null;
       if (doFiltering) {
          if (dt instanceof BasicType) {
             filter = Arrays.asList(new String[] {
-               ((BasicType) dt).getType()
+               ((BasicType) dt).getType() + (isArray ? "[]" : "")
             });
 
          } else if (dt instanceof SchemaType) {
             filter = Arrays.asList(new String[] {
-               XMLUtil.getShortClassName(SchemaType.class.getName())
+               XMLUtil.getShortClassName(SchemaType.class.getName()) + (isArray ? "[]" : "")
             });
          }
       }

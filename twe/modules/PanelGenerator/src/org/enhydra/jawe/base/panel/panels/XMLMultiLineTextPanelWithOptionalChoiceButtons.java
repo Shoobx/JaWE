@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.ResourceManager;
@@ -219,6 +220,8 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
                ivdi = ivdi == null ? new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_right2.png")) : ivdi;
                ivpi = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_down2.png"));
             }
+            UIManager.put("ComboBox.background", new javax.swing.plaf.ColorUIResource(bkgCol));
+            UIManager.put("List.background", new javax.swing.plaf.ColorUIResource(bkgCol));
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this, chPrefix, list, ivdi, ivpi, chTooltip);
             // Dimension di=new Dimension(18,18);
             // optBtn.setMinimumSize(new Dimension(di));

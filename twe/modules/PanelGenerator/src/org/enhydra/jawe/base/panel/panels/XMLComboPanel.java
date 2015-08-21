@@ -36,7 +36,9 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
@@ -73,18 +75,7 @@ public class XMLComboPanel extends XMLBasicPanel {
                         boolean isVertical,
                         boolean isEditable,
                         boolean isEnabled) {
-      this(pc,
-           myOwner,
-           null,
-           choices,
-           ldStrChoices,
-           hasEmptyBorder,
-           isVertical,
-           isEditable,
-           isEnabled,
-           true,
-           true,
-           null);
+      this(pc, myOwner, null, choices, ldStrChoices, hasEmptyBorder, isVertical, isEditable, isEnabled, true, true, null);
    }
 
    public XMLComboPanel(PanelContainer pc,
@@ -125,8 +116,7 @@ public class XMLComboPanel extends XMLBasicPanel {
             }
          }
 
-         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
-                                 settings.getSettingInt("SimplePanelTextHeight"));
+         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
          if (title == null) {
             jl = new JLabel(pc.getLabelGenerator().getLabel(myOwner) + ": ");
          } else {
@@ -139,13 +129,12 @@ public class XMLComboPanel extends XMLBasicPanel {
 
       } else {
          if (title == null) {
-            jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName()
-                                                                       + "Key")
-                            + ": ");
+            jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName() + "Key") + ": ");
          } else {
             jl = new JLabel(title + ": ");
          }
       }
+      UIManager.put("ComboBox.background", new javax.swing.plaf.ColorUIResource(bkgCol));
 
       jl.setAlignmentX(Component.LEFT_ALIGNMENT);
       jl.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -187,9 +176,7 @@ public class XMLComboPanel extends XMLBasicPanel {
                   }
                }
                if (chsn == null) {
-                  chsn = new XMLElementView(pc,
-                                            (XMLElement) choices.get(0),
-                                            XMLElementView.TONAME);
+                  chsn = new XMLElementView(pc, (XMLElement) choices.get(0), XMLElementView.TONAME);
                }
             }
          }
@@ -233,6 +220,7 @@ public class XMLComboPanel extends XMLBasicPanel {
       jcb.setBackground(bkgCol);
       if (isEditable) {
          jcb.getEditor().getEditorComponent().setBackground(bkgCol);
+         ((JTextField) jcb.getEditor().getEditorComponent()).setOpaque(true);
       }
 
       final XMLPanel p = this;
@@ -280,9 +268,7 @@ public class XMLComboPanel extends XMLBasicPanel {
       if (selItem != null) {
          // System.err.println("SI="+selItem+", class="+selItem.getClass().getName());
          if (selItem instanceof XMLElement) {
-            if (selItem instanceof XMLSimpleElement
-                || selItem instanceof XMLAttribute
-                || selItem instanceof XMLEmptyChoiceElement) {
+            if (selItem instanceof XMLSimpleElement || selItem instanceof XMLAttribute || selItem instanceof XMLEmptyChoiceElement) {
                siv = ((XMLElement) selItem).toValue();
             } else {
                siv = ((XMLElement) selItem).toName();
@@ -294,9 +280,7 @@ public class XMLComboPanel extends XMLBasicPanel {
       // System.err.println("SIV="+siv);
       // System.err.println("IREQ="+getOwner().isRequired()+",
       // iro="+getOwner().isReadOnly());
-      if ((selItem == null || siv.trim().equals("") || (selItem instanceof XMLCollectionElement && ((XMLCollectionElement) selItem).getId()
-         .trim()
-         .equals("")))
+      if ((selItem == null || siv.trim().equals("") || (selItem instanceof XMLCollectionElement && ((XMLCollectionElement) selItem).getId().trim().equals("")))
           && getOwner().isRequired() && !getOwner().isReadOnly()) {
 
          XMLBasicPanel.defaultErrorMessage(this.getWindow(), jl.getText());

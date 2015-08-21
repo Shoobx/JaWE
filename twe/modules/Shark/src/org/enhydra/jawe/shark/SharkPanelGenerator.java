@@ -180,7 +180,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             false,
                                                             false);
       populateErrorHandlerConfigPanel(el, ltPanel);
-      if (!el.isPersisted() && el.isConfigurable()) {
+      if (!el.isPersisted() && el.isConfigurable() && !el.isReadOnly()) {
          getPanelContainer().panelChanged(ltPanel, null);
       }
 
@@ -264,7 +264,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             el.isForErrorHandling(),
                                                             false);
       populateEmailConfigPanel(el, ltPanel);
-      if (!el.isPersisted() && el.isConfigurable()) {
+      if (!el.isPersisted() && el.isConfigurable() && !el.isReadOnly()) {
          getPanelContainer().panelChanged(ltPanel, null);
       }
 
@@ -582,7 +582,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                            false,
                                            false);
       }
-      if (!el.isPersisted()) {
+      if (!el.isPersisted() && !el.isReadOnly()) {
          getPanelContainer().panelChanged(ltPanel, null);
       }
 
@@ -654,7 +654,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                             false,
                                                             false);
       populateWfConfigPanel(el, ltPanel);
-      if (!el.isPersisted() && el.isConfigurable()) {
+      if (!el.isPersisted() && el.isConfigurable() && !el.isReadOnly()) {
          getPanelContainer().panelChanged(ltPanel, null);
       }
 
@@ -903,7 +903,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLGroupPanel gpnl = new XMLGroupPanel(getPanelContainer(), el, tgp, "", false, false, true, null);
       ltPanel.addToGroup(gpnl);
 
-      if (!el.isPersisted()) {
+      if (!el.isPersisted() && !el.isReadOnly()) {
          getPanelContainer().panelChanged(ltPanel, null);
       }
 
@@ -1339,7 +1339,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public XMLPanel getPanel(ExtendedAttribute el) {
       if (el.getParent().getParent() instanceof Activity
-          && (el.getName().equals(SharkConstants.EA_VTP_UPDATE) || el.getName().equals(SharkConstants.EA_VTP_VIEW))) {
+          && (el.getName().equals(SharkConstants.EA_VTP_UPDATE) || el.getName().equals(SharkConstants.EA_VTP_VIEW) || el.getName()
+             .equals(SharkConstants.EA_VTP_FETCH))) {
          // boolean roVar = false;
          // String vVal = el.getVValue();
          Map vars = XMLUtil.getPossibleVariables(XMLUtil.getWorkflowProcess(el));
@@ -1349,11 +1350,17 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          // } else {
          chs = getPossibleVariableChoices(vars, el);
          // }
-         if (!vars.containsKey(el.toValue()) && !el.getVValue().equals("")) {
-            chs.add(0, el.getVValue());
+         String vid = el.getVValue();
+         if (el.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+            vid = vid.substring(0, vid.indexOf(";"));
+         }
+         if (!vars.containsKey(vid) && !vid.equals("")) {
+            chs.add(0, vid);
          }
 
-         return new ExtAttribPanel(getPanelContainer(), el, chs, false, false, JaWEManager.getInstance().getJaWEController().canModifyElement(el), true, null);
+         return new ExtAttribPanel(getPanelContainer(), el, chs, new ArrayList(vars.values()), false, false, JaWEManager.getInstance()
+            .getJaWEController()
+            .canModifyElement(el), true, null);
       }
       return super.getPanel(el);
    }
@@ -1818,6 +1825,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                              prepareExpressionChoicesImageSufixes(el, true));
 
          return value;
+      } else if (el.getParent() instanceof I18nVariable) {
+         if (el.toName().equals("Name")) {
+            return super.generateStandardTextPanel(el, false);
+         }
       } else if (el.getParent() instanceof ExtendedAttributeWrapper) {
          if (((ExtendedAttributeWrapper) el.getParent()).isDecisionAttribute()) {
             return new XMLCheckboxPanel(getPanelContainer(),
@@ -1960,8 +1971,14 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List l = new ArrayList(vars.values());
       for (int i = 0; i < eas.size(); i++) {
          ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-         if (ea != eac && (ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_UPDATE))) {
-            XMLCollectionElement var = (XMLCollectionElement) vars.get(ea.getVValue());
+         if (ea != eac
+             && (ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_UPDATE) || ea.getName()
+                .equals(SharkConstants.EA_VTP_FETCH))) {
+            String varId = ea.getVValue();
+            if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+               varId = varId.substring(0, varId.indexOf(";"));
+            }
+            XMLCollectionElement var = (XMLCollectionElement) vars.get(varId);
             if (var != null) {
                l.remove(var);
             }
@@ -2012,6 +2029,17 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       List<List> mc = new ArrayList<List>();
 
       List l = new ArrayList();
+      boolean isForApp = el instanceof Application;
+      boolean isForBSHOrJSApp = false;
+      if (isForApp) {
+         ExtendedAttribute ea = XMLUtil.getApplication(el).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+         if (ea != null) {
+            String taName = ea.getVValue();
+            if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(taName) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
+               isForBSHOrJSApp = true;
+            }
+         }
+      }
       boolean isForActivity = XMLUtil.getActivity(el) != null
                               || XMLUtil.getApplication(el) != null
                               || ((el instanceof EmailConfigurationElement) && ((EmailConfigurationElement) el).isForActivity());
@@ -2022,38 +2050,39 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                           || ((el instanceof ExtendedAttribute) && ((ExtendedAttribute) el).getName().startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX));
       boolean canBeDynamicScript = el instanceof InitialValue;
 
-      for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
-         String id = SharkConstants.possibleSystemVariables.get(i);
-         if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString && !isI18nVar && !canBeDynamicScript) {
-            continue;
-         }
-         DataField df = createDummyDataField(id, false);
-         if (!SharkConstants.SHARK_SESSION_HANDLE.equals(id)) {
-            if (id.endsWith("_time")) {
-               df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+      if (!isForApp || isForBSHOrJSApp) {
+         for (int i = 0; i < SharkConstants.possibleSystemVariables.size(); i++) {
+            String id = SharkConstants.possibleSystemVariables.get(i);
+            if (id.startsWith("shark_activity_") && !isForActivity && !isXPDLString && !isI18nVar && !canBeDynamicScript) {
+               continue;
             }
-         } else {
-            df.getDataType().getDataTypes().setExternalReference();
-            df.getDataType().getDataTypes().getExternalReference().setLocation("org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle");
+            DataField df = createDummyDataField(id, false);
+            if (!SharkConstants.SHARK_SESSION_HANDLE.equals(id)) {
+               if (id.endsWith("_time")) {
+                  df.getDataType().getDataTypes().getBasicType().setTypeDATETIME();
+               }
+            } else {
+               df.getDataType().getDataTypes().setExternalReference();
+               df.getDataType().getDataTypes().getExternalReference().setLocation("org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle");
+            }
+            l.add(df);
          }
-         l.add(df);
-      }
-      mc.add(l);
-      if (withPrefixes) {
          mc.add(l);
-         mc.add(l);
-         List<DataField> tvs = new ArrayList<DataField>();
-         DataField df = createDummyDataField(SharkConstants.SHARK_ACTIVITY_DEFINITION_NAME, false);
-         tvs.add(df);
-         df = createDummyDataField(SharkConstants.SHARK_ACTIVITY_DEFINITION_DESCRIPTION, false);
-         tvs.add(df);
-         df = createDummyDataField(SharkConstants.SHARK_PROCESS_DEFINITION_NAME, false);
-         tvs.add(df);
-         df = createDummyDataField(SharkConstants.SHARK_PROCESS_DEFINITION_DESCRIPTION, false);
-         tvs.add(df);
-         mc.add(tvs);
+         if (withPrefixes) {
+            mc.add(l);
+            mc.add(l);
+            List<DataField> tvs = new ArrayList<DataField>();
+            DataField df = createDummyDataField(SharkConstants.SHARK_ACTIVITY_DEFINITION_NAME, false);
+            tvs.add(df);
+            df = createDummyDataField(SharkConstants.SHARK_ACTIVITY_DEFINITION_DESCRIPTION, false);
+            tvs.add(df);
+            df = createDummyDataField(SharkConstants.SHARK_PROCESS_DEFINITION_NAME, false);
+            tvs.add(df);
+            df = createDummyDataField(SharkConstants.SHARK_PROCESS_DEFINITION_DESCRIPTION, false);
+            tvs.add(df);
+            mc.add(tvs);
+         }
       }
-
       List<List> vc = getBasicExpressionChoices(el);
       mc.add(vc);
       if (withPrefixes) {
@@ -2061,19 +2090,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          mc.add(vc);
       }
 
-      if (el instanceof Application) {
-         Application app = (Application) el;
-
-         ExtendedAttribute ea = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
-         if (ea != null) {
-            String taName = ea.getVValue();
-            if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(taName) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
-               mc.add(new ArrayList(XMLUtil.getPossibleVariables(el).values()));
-            }
-         }
+      if (isForBSHOrJSApp) {
+         mc.add(new ArrayList(XMLUtil.getPossibleVariables(el).values()));
       }
 
-      if (!(el instanceof InitialValue)) {
+      if (!(el instanceof InitialValue || isForApp && !isForBSHOrJSApp)) {
          l = new ArrayList();
          List<String> csc = SharkPanelGenerator.getConfigStringChoices();
          for (int i = 0; i < csc.size(); i++) {
@@ -2092,15 +2113,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          mc.add(l);
       }
-      l = new ArrayList();
-      List<String> i18nsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringOrI18nVariables(el, true, false).keySet());
-      for (int i = 0; i < i18nsc.size(); i++) {
-         String id = i18nsc.get(i);
-         DataField df = createDummyDataField(id, false);
-         l.add(df);
+      if (!isForApp || isForBSHOrJSApp) {
+         l = new ArrayList();
+
+         List<String> i18nsc = new ArrayList<String>(SharkUtils.getPossibleXPDLStringOrI18nVariables(el, true, false).keySet());
+         for (int i = 0; i < i18nsc.size(); i++) {
+            String id = i18nsc.get(i);
+            DataField df = createDummyDataField(id, false);
+            l.add(df);
+         }
+         mc.add(l);
       }
-      mc.add(l);
-      
+
       return mc;
    }
 
@@ -2111,24 +2135,31 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    public List<String> prepareExpressionChoicesTooltips(XMLElement el, boolean withPrefixes) {
       List<String> mct = new ArrayList<String>();
 
-      mct.add(getSettings().getLanguageDependentString("InsertSystemVariableKey"));
-      if (withPrefixes) {
-         mct.add(getSettings().getLanguageDependentString("InsertSystemVariableI18nNameKey"));
-         mct.add(getSettings().getLanguageDependentString("InsertSystemVariableI18nDescriptionKey"));
-         mct.add(getSettings().getLanguageDependentString("InsertSystemVariableI18nTranslationKey"));
-      }
-
-      String ldk = "InsertVariableKey";
-      String ldk2 = null;
-      if (el instanceof Application) {
-         Application app = (Application) el;
-
-         ExtendedAttribute ea = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+      boolean isForApp = el instanceof Application;
+      boolean isForBSHOrJSApp = false;
+      if (isForApp) {
+         ExtendedAttribute ea = XMLUtil.getApplication(el).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
          if (ea != null) {
             String taName = ea.getVValue();
             if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(taName) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
-               ldk2 = ldk;
+               isForBSHOrJSApp = true;
             }
+         }
+      }
+
+      if (!isForApp || isForBSHOrJSApp) {
+         mct.add(getSettings().getLanguageDependentString("InsertSystemVariableKey"));
+         if (withPrefixes) {
+            mct.add(getSettings().getLanguageDependentString("InsertSystemVariableI18nNameKey"));
+            mct.add(getSettings().getLanguageDependentString("InsertSystemVariableI18nDescriptionKey"));
+            mct.add(getSettings().getLanguageDependentString("InsertSystemVariableI18nTranslationKey"));
+         }
+      }
+      String ldk = "InsertVariableKey";
+      String ldk2 = null;
+      if (isForApp) {
+         if (isForBSHOrJSApp) {
+            ldk2 = ldk;
          }
          ldk = "InsertFormalParameterKey";
       }
@@ -2142,60 +2173,71 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          mct.add(getSettings().getLanguageDependentString(ldk2));
       }
 
-      if (!(el instanceof InitialValue)) {
+      if (!(el instanceof InitialValue || isForApp && !isForBSHOrJSApp)) {
          mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
          mct.add(getSettings().getLanguageDependentString("InsertXPDLStringVariableKey"));
       }
-      mct.add(getSettings().getLanguageDependentString("InsertI18nVariableKey"));
+      if (!isForApp || isForBSHOrJSApp) {
+         mct.add(getSettings().getLanguageDependentString("InsertI18nVariableKey"));
+      }
       return mct;
    }
 
    public List<ImageIcon> prepareExpressionChoicesImages(XMLElement el) {
       return prepareExpressionChoicesImageSufixes(el, false);
    }
-   
+
    public List<ImageIcon> prepareExpressionChoicesImageSufixes(XMLElement el, boolean withPrefixes) {
       List<ImageIcon> mci = new ArrayList<ImageIcon>();
 
-      String imgnprefix = "org/enhydra/jawe/shark/images/insert-";
-      String imgnsuffix = ".png";
-      
-      mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"sys"+imgnsuffix)));
-      if (withPrefixes) {
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"sysn"+imgnsuffix)));
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"sysd"+imgnsuffix)));
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"syst"+imgnsuffix)));
-      }
-
-      String ldk = "v";
-      String ldk2 = null;
-      if (el instanceof Application) {
-         Application app = (Application) el;
-
-         ExtendedAttribute ea = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+      boolean isForApp = el instanceof Application;
+      boolean isForBSHOrJSApp = false;
+      if (isForApp) {
+         ExtendedAttribute ea = XMLUtil.getApplication(el).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
          if (ea != null) {
             String taName = ea.getVValue();
             if (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(taName) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
-               ldk2 = ldk;
+               isForBSHOrJSApp = true;
             }
+         }
+      }
+
+      String imgnprefix = "org/enhydra/jawe/shark/images/insert-";
+      String imgnsuffix = ".png";
+
+      if (!isForApp || isForBSHOrJSApp) {
+         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "sys" + imgnsuffix)));
+         if (withPrefixes) {
+            mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "sysn" + imgnsuffix)));
+            mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "sysd" + imgnsuffix)));
+            mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "syst" + imgnsuffix)));
+         }
+      }
+      String ldk = "v";
+      String ldk2 = null;
+      if (isForApp) {
+         if (isForBSHOrJSApp) {
+            ldk2 = ldk;
          }
          ldk = "fp";
       }
-      mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+ldk+imgnsuffix)));
+      mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + ldk + imgnsuffix)));
       if (withPrefixes) {
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"vn"+imgnsuffix)));
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"vd"+imgnsuffix)));
+         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "vn" + imgnsuffix)));
+         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "vd" + imgnsuffix)));
       }
 
       if (ldk2 != null) {
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+ldk2+imgnsuffix)));
+         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + ldk2 + imgnsuffix)));
       }
 
-      if (!(el instanceof InitialValue)) {
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"conf"+imgnsuffix)));
-         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"xpdl"+imgnsuffix)));
+      if (!(el instanceof InitialValue || isForApp && !isForBSHOrJSApp)) {
+         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "conf" + imgnsuffix)));
+         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "xpdl" + imgnsuffix)));
       }
-      mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix+"i18n"+imgnsuffix)));
+      if (!isForApp || isForBSHOrJSApp) {
+         mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "i18n" + imgnsuffix)));
+      }
       return mci;
    }
 

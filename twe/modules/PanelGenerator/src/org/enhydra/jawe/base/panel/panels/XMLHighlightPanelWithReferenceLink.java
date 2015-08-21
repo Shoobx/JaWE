@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.base.panel.panels;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
@@ -214,7 +216,9 @@ public class XMLHighlightPanelWithReferenceLink extends XMLBasicPanel implements
             } else {
                ivdi = ivdi == null ? new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/navigate_right2.png")) : ivdi;
             }
-
+            Color bkgCol = ((PanelSettings) pc.getSettings()).getBackgroundColor();
+            UIManager.put("ComboBox.background", new javax.swing.plaf.ColorUIResource(bkgCol));
+            UIManager.put("List.background", new javax.swing.plaf.ColorUIResource(bkgCol));
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
                                                                            chPrefix,
                                                                            list,

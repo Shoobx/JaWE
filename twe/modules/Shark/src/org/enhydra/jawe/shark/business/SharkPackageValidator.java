@@ -101,8 +101,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          String postfixAct = "_ACTIVITY";
          if (el.toName().equals("Name")) {
             if (((el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
-                  || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue()
-               .equals(SharkConstants.EA_FORM_PAGE_URL)) && isAct)
+                  || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_VTP_FETCH)
+                  || el.toValue().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue().equals(SharkConstants.EA_FORM_PAGE_URL)) && isAct)
                 || (!isAct && (el.toValue().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
@@ -143,7 +143,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                    .startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)))) {
 
                isWarning = el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
-                           || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
+                           || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_VTP_FETCH)
+                           || el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
 
                ExtendedAttribute ea = (ExtendedAttribute) parent;
                WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
@@ -209,7 +210,13 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                } else if (ea.getName().equals(SharkConstants.EA_FORM_PAGE_URL)) {
                   xpdlsvals.add(ea.getVValue());
                } else {
-                  vals.add(ea.getVValue());
+                  String vid = ea.getVValue();
+                  if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+                     String varrid = vid.substring(vid.indexOf(";")+1);
+                     vals.add(varrid);
+                     vid = vid.substring(0, vid.indexOf(";"));
+                  }
+                  vals.add(vid);
                }
                for (int i = 0; i < vals.size(); i++) {
                   String v = vals.get(i);

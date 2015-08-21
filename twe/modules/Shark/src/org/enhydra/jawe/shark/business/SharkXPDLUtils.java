@@ -40,13 +40,14 @@ import org.enhydra.jxpdl.elements.Activities;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ActivitySet;
 import org.enhydra.jxpdl.elements.ActualParameter;
+import org.enhydra.jxpdl.elements.Application;
+import org.enhydra.jxpdl.elements.Applications;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.Deadline;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.FormalParameter;
-import org.enhydra.jxpdl.elements.InitialValue;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.TaskApplication;
@@ -92,6 +93,8 @@ public class SharkXPDLUtils extends XPDLUtils {
          while (it.hasNext()) {
             references.addAll(getXPDLStringOrI18nEAReferences((WorkflowProcess) it.next(), ea, referencedName, references, isxpdlstr));
          }
+         references.addAll(getBshJSTAReferences((Package) el, referencedName));
+         references.addAll(getInitialValueReferencesForI18nVariable((Package) el, referencedName));
       } else if (el instanceof WorkflowProcess) {
          Iterator it = ((WorkflowProcess) el).getActivities().toElements().iterator();
          while (it.hasNext()) {
@@ -117,6 +120,8 @@ public class SharkXPDLUtils extends XPDLUtils {
                references.addAll(getXPDLStringOrI18nEAReferences(t, ea, referencedName, isxpdlstr));
             }
          }
+         references.addAll(getBshJSTAReferences((WorkflowProcess) el, referencedName));
+         references.addAll(getInitialValueReferencesForI18nVariable((WorkflowProcess) el, referencedName));
       }
 
       return references;
@@ -242,41 +247,80 @@ public class SharkXPDLUtils extends XPDLUtils {
       return references;
    }
 
+   protected List getInitialValueReferencesForI18nVariable(XMLComplexElement pkgOrWp, String i18nVarId) {
+      List references = new ArrayList();
+
+      DataFields dfs = null;
+      Map allVars = new HashMap();
+      if (pkgOrWp instanceof WorkflowProcess) {
+         dfs = ((WorkflowProcess) pkgOrWp).getDataFields();
+         allVars = ((WorkflowProcess) pkgOrWp).getAllVariables();
+      } else {
+         dfs = ((Package) pkgOrWp).getDataFields();
+         Iterator it = dfs.toElements().iterator();
+         while (it.hasNext()) {
+            DataField df = (DataField) it.next();
+            allVars.put(df.getId(), df);
+         }
+      }
+      Iterator it = dfs.toElements().iterator();
+      while (it.hasNext()) {
+         DataField df = (DataField) it.next();
+         if (XMLUtil.getUsingPositions(df.getInitialValue(), i18nVarId, allVars, true, true).size() > 0) {
+            references.add(df.get("InitialValue"));
+         }
+      }
+      if (pkgOrWp instanceof WorkflowProcess) {
+         it = ((WorkflowProcess) pkgOrWp).getFormalParameters().toElements().iterator();
+         while (it.hasNext()) {
+            FormalParameter fp = (FormalParameter) it.next();
+            if (XMLUtil.getUsingPositions(fp.getInitialValue(), i18nVarId, allVars, true, true).size() > 0) {
+               references.add(fp.get("InitialValue"));
+            }
+         }
+
+      }
+      return references;
+   }
+
    public void updateExtendedAttributeReferences(List refsEAValues, String oldEAName, String newEAName) {
       Iterator it = refsEAValues.iterator();
       while (it.hasNext()) {
-         XMLElement easmtpvOrApOrPerfOrCondOrDlCond = (XMLElement) it.next();
-         if (easmtpvOrApOrPerfOrCondOrDlCond instanceof XMLAttribute
-             && !((ExtendedAttribute) easmtpvOrApOrPerfOrCondOrDlCond.getParent()).getName().equals(SharkConstants.EA_FORM_PAGE_URL)) {
-            XMLAttribute a = (XMLAttribute) easmtpvOrApOrPerfOrCondOrDlCond;
-            String expr = easmtpvOrApOrPerfOrCondOrDlCond.toValue();
-            String searchValue = "{"
-                                 + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
-                                 + "}";
-            String replaceValue = "{"
-                                  + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length())
-                                  + "}";
-            expr = handleReplace(expr, searchValue, replaceValue, new HashMap(), false);
-
-            searchValue = "{" + SharkConstants.I18N_PLACEHOLDER_PREFIX + oldEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length()) + "}";
-            replaceValue = "{" + SharkConstants.I18N_PLACEHOLDER_PREFIX + newEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length()) + "}";
-            expr = handleReplace(expr, searchValue, replaceValue, new HashMap(), false);
-
-            easmtpvOrApOrPerfOrCondOrDlCond.setValue(expr);
+         XMLElement easmtpvOrApOrPerfOrCondOrDlCondOrIV = (XMLElement) it.next();
+         if (easmtpvOrApOrPerfOrCondOrDlCondOrIV instanceof XMLAttribute
+             && !((ExtendedAttribute) easmtpvOrApOrPerfOrCondOrDlCondOrIV.getParent()).getName().equals(SharkConstants.EA_FORM_PAGE_URL)
+             && !((ExtendedAttribute) easmtpvOrApOrPerfOrCondOrDlCondOrIV.getParent()).getName().equals(SharkConstants.EA_SCRIPT)) {
+            String expr = easmtpvOrApOrPerfOrCondOrDlCondOrIV.toValue();
+            if (oldEAName.indexOf(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) != -1) {
+               String searchValue = "{"
+                                    + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
+                                    + oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()) + "}";
+               String replaceValue = "{"
+                                     + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX
+                                     + newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length()) + "}";
+               expr = handleReplace(expr, searchValue, replaceValue, new HashMap(), false);
+            } else if (oldEAName.indexOf(SharkConstants.EA_I18N_VARIABLE_PREFIX) != -1) {
+               String searchValue = "{" + SharkConstants.I18N_PLACEHOLDER_PREFIX + oldEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length()) + "}";
+               String replaceValue = "{" + SharkConstants.I18N_PLACEHOLDER_PREFIX + newEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length()) + "}";
+               expr = handleReplace(expr, searchValue, replaceValue, new HashMap(), false);
+            }
+            easmtpvOrApOrPerfOrCondOrDlCondOrIV.setValue(expr);
             it.remove();
          } else {
-            Map allVars = XMLUtil.getWorkflowProcess(easmtpvOrApOrPerfOrCondOrDlCond).getAllVariables();
-            String expr = easmtpvOrApOrPerfOrCondOrDlCond.toValue();
+            Map allVars = XMLUtil.getWorkflowProcess(easmtpvOrApOrPerfOrCondOrDlCondOrIV).getAllVariables();
+            String expr = easmtpvOrApOrPerfOrCondOrDlCondOrIV.toValue();
 
-            String searchValue = oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
-            String replaceValue = newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
-            expr = handleReplace(expr, searchValue, replaceValue, allVars, true);
+            if (oldEAName.indexOf(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) != -1) {
+               String searchValue = oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+               String replaceValue = newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+               expr = handleReplace(expr, searchValue, replaceValue, allVars, true);
+            } else if (oldEAName.indexOf(SharkConstants.EA_I18N_VARIABLE_PREFIX) != -1) {
+               String searchValue = oldEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
+               String replaceValue = newEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
+               expr = handleReplace(expr, searchValue, replaceValue, allVars, true);
+            }
 
-            searchValue = oldEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
-            replaceValue = newEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
-            expr = handleReplace(expr, searchValue, replaceValue, allVars, true);
-
-            easmtpvOrApOrPerfOrCondOrDlCond.setValue(expr);
+            easmtpvOrApOrPerfOrCondOrDlCondOrIV.setValue(expr);
          }
       }
       super.updateExtendedAttributeReferences(refsEAValues, oldEAName, newEAName);
@@ -428,6 +472,7 @@ public class SharkXPDLUtils extends XPDLUtils {
       }
 
       references.addAll(XMLUtil.getInitialValueReferences(pkg, referencedId));
+      references.addAll(getBshJSTAReferences(pkg, referencedId));
 
       Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
       while (it.hasNext()) {
@@ -494,6 +539,39 @@ public class SharkXPDLUtils extends XPDLUtils {
       return references;
    }
 
+   protected List getBshJSTAReferences(XMLComplexElement pkgOrWp, String dfOrFpId) {
+      List references = new ArrayList();
+
+      Applications apps = null;
+      Map allVars = new HashMap();
+      if (pkgOrWp instanceof WorkflowProcess) {
+         apps = ((WorkflowProcess) pkgOrWp).getApplications();
+         allVars = ((WorkflowProcess) pkgOrWp).getAllVariables();
+      } else {
+         apps = ((Package) pkgOrWp).getApplications();
+         Iterator it = ((Package) pkgOrWp).getDataFields().toElements().iterator();
+         while (it.hasNext()) {
+            DataField df = (DataField) it.next();
+            allVars.put(df.getId(), df);
+         }
+      }
+      Iterator it = apps.toElements().iterator();
+      while (it.hasNext()) {
+         Application app = (Application) it.next();
+         ExtendedAttribute tac = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+         if (tac != null && (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(tac.getVValue()) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(tac.getVValue()))) {
+            ExtendedAttribute eascr = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+            if (eascr != null) {
+               if (XMLUtil.getUsingPositions(eascr.getVValue(), dfOrFpId, allVars, true, true).size() > 0) {
+                  references.add(eascr.get("Value"));
+               }
+            }
+         }
+      }
+      return references;
+
+   }
+
    protected List getVariableReferences(XMLCollectionElement wpOrAs, String dfOrFpId) {
       String postfixProc = "_PROCESS";
       String postfixAct = "_ACTIVITY";
@@ -531,7 +609,8 @@ public class SharkXPDLUtils extends XPDLUtils {
             List eas = act.getExtendedAttributes().toElements();
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
-               if (ea.getName().equals(SharkConstants.EA_VTP_UPDATE) || ea.getName().equals(SharkConstants.EA_VTP_VIEW)) {
+               if (ea.getName().equals(SharkConstants.EA_VTP_UPDATE)
+                   || ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
                   if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {
                      references.add(ea.get("Value"));
                   }
@@ -694,6 +773,9 @@ public class SharkXPDLUtils extends XPDLUtils {
             }
          }
       }
+      if (wpOrAs instanceof WorkflowProcess) {
+         references.addAll(getBshJSTAReferences((WorkflowProcess) wpOrAs, dfOrFpId));
+      }
 
       return references;
    }
@@ -845,7 +927,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(GraphEAConstants.EA_JAWE_GRAPH_PARTICIPANT_ID) || eaName.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER)
                  || eaName.equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || eaName.equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)
                  || eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || eaName.equals(SharkConstants.EA_AUTO_COMPLETION)
-                 || eaName.equals(SharkConstants.EA_VTP_UPDATE) || eaName.equals(SharkConstants.EA_VTP_VIEW)
+                 || eaName.equals(SharkConstants.EA_VTP_UPDATE) || eaName.equals(SharkConstants.EA_VTP_VIEW) || eaName.equals(SharkConstants.EA_VTP_FETCH)
                  || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaName.equals(SharkConstants.EA_HTML5FORM_FILE)
                  || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED) || eaName.equals(SharkConstants.EA_HTML5FORM_XSL)
                  || eaName.equals(SharkConstants.EA_HTML_VARIABLE) || eaName.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE) || eaName.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION))) {
@@ -865,11 +947,11 @@ public class SharkXPDLUtils extends XPDLUtils {
 
    }
 
-   public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlConds, String oldDfOrFpId, String newDfOrFpId) {
+   public void updateVariableReferences(List refAPsOrPerfsOrCondsOrDlCondsOrApps, String oldDfOrFpId, String newDfOrFpId) {
       String postfixProc = "_PROCESS";
       String postfixAct = "_ACTIVITY";
 
-      Iterator it = refAPsOrPerfsOrCondsOrDlConds.iterator();
+      Iterator it = refAPsOrPerfsOrCondsOrDlCondsOrApps.iterator();
       while (it.hasNext()) {
          XMLElement easmtpv = (XMLElement) it.next();
          if (easmtpv instanceof XMLAttribute) {
@@ -877,7 +959,9 @@ public class SharkXPDLUtils extends XPDLUtils {
             boolean isAct = a.getParent().getParent().getParent() instanceof Activity;
             if (a.toName().equals("Value")) {
                if (a.getParent() instanceof ExtendedAttribute
-                   && (isAct || a.getParent().getParent().getParent() instanceof WorkflowProcess || a.getParent().getParent().getParent() instanceof Package)) {
+                   && (isAct || a.getParent().getParent().getParent() instanceof WorkflowProcess || a.getParent().getParent().getParent() instanceof Package || a.getParent()
+                      .getParent()
+                      .getParent() instanceof Application)) {
                   String eaName = ((ExtendedAttribute) a.getParent()).getName();
                   if (isAct && eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
                      String expr = easmtpv.toValue();
@@ -920,10 +1004,12 @@ public class SharkXPDLUtils extends XPDLUtils {
                              || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)
                              || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
                              || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
-                             || (!(a.getParent().getParent().getParent() instanceof Activity) && (eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) || eaName.startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)))) {
+                             || (!(a.getParent().getParent().getParent() instanceof Activity) && eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX))
+                             || (eaName.equals(SharkConstants.EA_SCRIPT) && a.getParent().getParent().getParent() instanceof Application)) {
                      String expr = easmtpv.toValue();
-                     String searchValue = "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + oldDfOrFpId + "}";
-                     String replaceValue = "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + newDfOrFpId + "}";
+                     boolean usePrefixes = !eaName.equals(SharkConstants.EA_SCRIPT);
+                     String searchValue = usePrefixes ? "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + oldDfOrFpId + "}" : oldDfOrFpId;
+                     String replaceValue = usePrefixes ? "{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + newDfOrFpId + "}" : newDfOrFpId;
                      int varLengthDiff = replaceValue.length() - searchValue.length();
 
                      Map vars = null;
@@ -948,7 +1034,7 @@ public class SharkXPDLUtils extends XPDLUtils {
             }
          }
       }
-      super.updateVariableReferences(refAPsOrPerfsOrCondsOrDlConds, oldDfOrFpId, newDfOrFpId);
+      super.updateVariableReferences(refAPsOrPerfsOrCondsOrDlCondsOrApps, oldDfOrFpId, newDfOrFpId);
    }
 
 }

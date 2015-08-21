@@ -43,6 +43,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.PlainDocument;
@@ -227,6 +228,9 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
             if (chTooltips != null && chTooltips.size() >= i) {
                chTooltip = chTooltips.get(i);
             }
+
+            UIManager.put("ComboBox.background", new javax.swing.plaf.ColorUIResource(bkgCol));
+            UIManager.put("List.background", new javax.swing.plaf.ColorUIResource(bkgCol));
             XMLChoiceButtonWithPopup optBtn = new XMLChoiceButtonWithPopup(this,
                                                                            chPrefix,
                                                                            list,
