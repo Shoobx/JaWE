@@ -11556,6 +11556,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Improved: the background color of list panel for selecting
           participants when many now properly set</para>
 
+          <para>- Improved: now considering variable ids in the actual
+          parameter which map to XPath application parameter
+          ResultVariableIds</para>
+
           <para>- Fixed: bug that showed email panel in edit mode even in the
           case package is external or transient</para>
         </listitem>

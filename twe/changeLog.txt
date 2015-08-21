@@ -10,6 +10,7 @@
          * checking and updating I18n variable ids inside InitialValue expression
          * showing text panel instead of editable combo-box for i18n variables
          * not showing system variables/variables/xpdl strings/i18n variables for XSLT tool agent Application definition
+         * now considering variable ids in the actual parameter which map to XPath application parameter ResultVariableIds
       - Fixed:
          * bug that occured sometime when updating i18n varible Id in referencing elements
          * bug that showed email panel in edit mode even in the case package is external or transient

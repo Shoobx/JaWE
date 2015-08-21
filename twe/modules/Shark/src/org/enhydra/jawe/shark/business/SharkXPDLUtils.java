@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.enhydra.jawe.JaWEEAHandler;
+import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.XPDLUtils;
 import org.enhydra.jawe.components.graph.GraphEAConstants;
 import org.enhydra.jxpdl.XMLAttribute;
@@ -40,6 +41,7 @@ import org.enhydra.jxpdl.elements.Activities;
 import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ActivitySet;
 import org.enhydra.jxpdl.elements.ActualParameter;
+import org.enhydra.jxpdl.elements.ActualParameters;
 import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.Applications;
 import org.enhydra.jxpdl.elements.DataField;
@@ -48,6 +50,7 @@ import org.enhydra.jxpdl.elements.Deadline;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.FormalParameters;
 import org.enhydra.jxpdl.elements.Package;
 import org.enhydra.jxpdl.elements.Participant;
 import org.enhydra.jxpdl.elements.TaskApplication;
@@ -605,7 +608,32 @@ public class SharkXPDLUtils extends XPDLUtils {
                   references.add(act.get("Priority"));
                }
             }
+            String appId = act.getActivityTypes().getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskApplication().getId();
+            WorkflowProcess wp = XMLUtil.getWorkflowProcess(act);
+            Application app = XMLUtil.findApplication(JaWEManager.getInstance().getXPDLHandler(), wp, appId);
+            if (app!=null) {
+               String taName = null;
+               ExtendedAttribute eataname = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+               if (eataname != null) {
+                  taName = eataname.getVValue();
+                  if (taName.equals(SharkConstants.TOOL_AGENT_XPATH)) {
+                     FormalParameters fps = app.getApplicationTypes().getFormalParameters();
+                     FormalParameter resultVariableIds = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_VARIABLE_IDS);
+                     int indofrvids = fps.indexOf(resultVariableIds);
+                     if (indofrvids!=-1) {
+                        ActualParameters aps = act.getActivityTypes().getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskApplication().getActualParameters();
+                        if (aps.size()>indofrvids) {
+                           ActualParameter ap = (ActualParameter)aps.get(indofrvids);
+                           if (XMLUtil.getUsingPositions(ap.toValue(), dfOrFpId, allVars).size() > 0) {
+                              references.add(ap);
+                           }                           
+                        }
+                     }
+                  }
+               }
 
+            }
+            
             List eas = act.getExtendedAttributes().toElements();
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
@@ -954,7 +982,30 @@ public class SharkXPDLUtils extends XPDLUtils {
       Iterator it = refAPsOrPerfsOrCondsOrDlCondsOrApps.iterator();
       while (it.hasNext()) {
          XMLElement easmtpv = (XMLElement) it.next();
-         if (easmtpv instanceof XMLAttribute) {
+         if (easmtpv instanceof ActualParameter) {
+            ActualParameter ap = (ActualParameter)easmtpv;
+            String expr = ap.toValue();
+            if (expr.startsWith("\"") && expr.endsWith("\"")) {
+               Map vars = null;
+               if (XMLUtil.getWorkflowProcess(easmtpv) != null) {
+                  vars = XMLUtil.getWorkflowProcess(easmtpv).getAllVariables();
+               } else {
+                  vars = XMLUtil.getPossibleVariables(easmtpv);
+               }
+
+               
+               List positions = XMLUtil.getUsingPositions(expr, oldDfOrFpId, vars);
+               int varLengthDiff = newDfOrFpId.length() - oldDfOrFpId.length();
+               for (int i = 0; i < positions.size(); i++) {
+                  int pos = ((Integer) positions.get(i)).intValue();
+                  int realPos = pos + varLengthDiff * i;
+                  String pref = expr.substring(0, realPos);
+                  String suff = expr.substring(realPos + oldDfOrFpId.length());
+                  expr = pref + newDfOrFpId + suff;
+               }
+               ap.setValue(expr);
+            }
+         } else if (easmtpv instanceof XMLAttribute) {
             XMLAttribute a = (XMLAttribute) easmtpv;
             boolean isAct = a.getParent().getParent().getParent() instanceof Activity;
             if (a.toName().equals("Value")) {
