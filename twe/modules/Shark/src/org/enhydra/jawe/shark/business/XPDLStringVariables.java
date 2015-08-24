@@ -76,9 +76,9 @@ public class XPDLStringVariables extends ExtendedAttributes implements XMLElemen
       this.eas.removeListener(this);
       int realNewPos = newPos;
       XMLElement se = (XMLElement) super.elements.get(newPos);
-      realNewPos = eas.indexOf(se);
-      super.reposition(((XPDLStringVariable) el).getExtendedAttribute(), newPos);
-      boolean ret = eas.reposition(el, realNewPos);
+      realNewPos = eas.indexOf(((XPDLStringVariable)se).getExtendedAttribute());
+      super.reposition(el, newPos);
+      boolean ret = eas.reposition(((XPDLStringVariable)el).getExtendedAttribute(), realNewPos);
       this.eas.addListener(this);
       return ret;
    }

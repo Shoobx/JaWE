@@ -1,4 +1,7 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-08-24 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix: repositioning of XPDLString and I18N variables inside table is now working
+      
 2015-08-21 Sasa Bojanic <sasaboy@together.at>
    # Shark mode:
       - Support for VariableToProcess_FETCH extended attribute

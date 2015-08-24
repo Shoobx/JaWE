@@ -83,7 +83,7 @@ public class ExtAttrWrapperTablePanel extends XMLTablePanel {
 
    public void focusLost(FocusEvent ev) {
       int sc = allItems.getSelectedColumn();
-      if (sc != 2) {
+      if (sc != 3) {
          super.focusLost(ev);
       }
    }

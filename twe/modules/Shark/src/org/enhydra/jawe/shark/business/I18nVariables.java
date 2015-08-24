@@ -76,9 +76,9 @@ public class I18nVariables extends ExtendedAttributes implements XMLElementChang
       this.eas.removeListener(this);
       int realNewPos = newPos;
       XMLElement se = (XMLElement) super.elements.get(newPos);
-      realNewPos = eas.indexOf(se);
-      super.reposition(((I18nVariable) el).getExtendedAttribute(), newPos);
-      boolean ret = eas.reposition(el, realNewPos);
+      realNewPos = eas.indexOf(((I18nVariable)se).getExtendedAttribute());
+      super.reposition(el, newPos);
+      boolean ret = eas.reposition(((I18nVariable)el).getExtendedAttribute(), realNewPos);
       this.eas.addListener(this);
       return ret;
    }
