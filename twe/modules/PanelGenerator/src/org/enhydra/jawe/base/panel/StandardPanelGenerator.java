@@ -19,6 +19,7 @@
 package org.enhydra.jawe.base.panel;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -1312,7 +1313,7 @@ public class StandardPanelGenerator implements PanelGenerator {
       } else if (el instanceof XMLComplexElement) {
          panel = generateStandardGroupPanel((XMLComplexElement) el, false, true);
       } else if (el instanceof XMLCollection) {
-         panel = generateStandardTablePanel((XMLCollection) el, true, false, false, false);
+         panel = generateStandardTablePanel((XMLCollection) el, true, false, null, false, false);
       } else {
          panel = new XMLBasicPanel();
       }
@@ -1356,7 +1357,7 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    }
 
-   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl, boolean hasTitle, boolean hasEmptyBorder, boolean miniDim, boolean useBasicToolbar) {
+   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl, boolean hasTitle, boolean hasEmptyBorder, Dimension dim, boolean miniDim, boolean useBasicToolbar) {
       List elementsToShow = cl.toElements();
       Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLTablePanel", cl);
       elementsToShow.removeAll(hidden);
@@ -1376,6 +1377,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                               hasEmptyBorder,
                                               false,
                                               miniDim,
+                                              new Dimension(800,600),
                                               true,
                                               true,
                                               allowInPlaceEditing(cl));
@@ -1391,7 +1393,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                   hasEmptyBorder,
                                   false,
                                   miniDim,
-                                  null,
+                                  dim,
                                   true,
                                   true,
                                   useBasicToolbar,

@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.shark;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +52,10 @@ public class SharkTablePanelForVariables extends XMLTablePanelForVariables {
                                       boolean hasEmptyBorder,
                                       boolean automaticWidth,
                                       boolean miniDimension,
+                                      Dimension customDim,
                                       final boolean colors,
                                       final boolean showArrows) {
-      super(ipc, myOwner, columnsToShow, elementsToShow, title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, colors, showArrows, true);
+      super(ipc, myOwner, columnsToShow, elementsToShow, title, hasBorder, hasEmptyBorder, automaticWidth, miniDimension, customDim, colors, showArrows, true);
 
    }
 

@@ -18,6 +18,7 @@
 
 package org.enhydra.jawe.shark;
 
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -189,7 +190,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public XMLPanel getPanel(final DeadlineHandlerConfigurationElement el) {
       XMLPanel ece = getPanel(el.getEmailConfigurationElement());
-      XMLPanel eces = generateStandardTablePanel(el.getEmailConfigurationElements(), true, true, true, true);
+      XMLPanel eces = generateStandardTablePanel(el.getEmailConfigurationElements(), true, true, null, true, true);
       List tgp = new ArrayList();
       tgp.add(ece);
       tgp.add(eces);
@@ -417,7 +418,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                             mc,
                                                                             mct,
                                                                             mci);
-      XMLPanel attachments = generateStandardTablePanel(el.getAttachmentsElement(), true, true, true, true);
+      XMLPanel attachments = generateStandardTablePanel(el.getAttachmentsElement(), true, true, null, true, true);
       XMLPanel dmAttachments = new XMLListPanel((InlinePanel) getPanelContainer(),
                                                 el.getDMAttachmentsElement(),
                                                 el.getDMAttachmentsElement().toElements(),
@@ -746,7 +747,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       }
 
       if (el.isForActivity()) {
-         XMLPanel opcpnl = generateStandardTablePanel(el.getOverrideProcessContextElement(), true, true, true, true);
+         XMLPanel opcpnl = generateStandardTablePanel(el.getOverrideProcessContextElement(), true, true, null, true, true);
          pplist.add(opcpnl);
       }
 
@@ -1013,7 +1014,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(I18nVariables el) {
-      return generateStandardTablePanel(el, true, false, false, false);
+      return generateStandardTablePanel(el, true, false, new Dimension(800,600), false, false);
    }
 
    public XMLPanel getPanel(XPDLStringVariable el) {
@@ -1028,7 +1029,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(XPDLStringVariables el) {
-      return generateStandardTablePanel(el, true, false, false, false);
+      return generateStandardTablePanel(el, true, false, new Dimension(800,600),false, false);
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
@@ -1942,7 +1943,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                      hasEmptyBorder);
    }
 
-   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl, boolean hasTitle, boolean hasEmptyBorder, boolean miniDim, boolean useBasicToolbar) {
+   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl, boolean hasTitle, boolean hasEmptyBorder, Dimension dim, boolean miniDim, boolean useBasicToolbar) {
       if (cl instanceof DataFields) {
          List elementsToShow = cl.toElements();
          Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLTablePanel", cl);
@@ -1959,11 +1960,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 hasEmptyBorder,
                                                 false,
                                                 miniDim,
+                                                new Dimension(800,600),
                                                 true,
                                                 true);
 
       }
-      return super.generateStandardTablePanel(cl, hasTitle, hasEmptyBorder, miniDim, useBasicToolbar);
+      return super.generateStandardTablePanel(cl, hasTitle, hasEmptyBorder, dim, miniDim, useBasicToolbar);
    }
 
    protected List getPossibleVariableChoices(Map vars, ExtendedAttribute eac) {

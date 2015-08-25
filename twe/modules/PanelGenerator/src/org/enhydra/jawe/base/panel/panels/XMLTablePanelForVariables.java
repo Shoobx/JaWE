@@ -66,6 +66,7 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
                                     boolean hasEmptyBorder,
                                     boolean automaticWidth,
                                     boolean miniDimension,
+                                    Dimension customDim,
                                     final boolean colors,
                                     final boolean showArrows,
                                     boolean allowInplaceEditing) {
@@ -78,8 +79,12 @@ public class XMLTablePanelForVariables extends XMLTablePanel {
             hasEmptyBorder,
             automaticWidth,
             miniDimension,
+            customDim,
             colors,
             showArrows,
+            false,
+            false,
+            null,
             allowInplaceEditing);
 
    }
