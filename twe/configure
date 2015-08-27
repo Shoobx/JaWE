@@ -25,6 +25,8 @@ function help {
    echo "configure              - Creates build.properties file with default values for all possible parameters."
    echo "                         It can work only if there is a default JAVA registered with the system."
    echo "configure -help        - Displays Help screen"
+   echo "configure -appname     - Sets the short name for the project."
+   echo "configure -appfullname - Sets the full name for the project."
    echo "configure -version     - Sets the version number for the project."
    echo "configure -release     - Sets the release number for the project."
    echo "configure -buildid     - Sets the build id for the project."
@@ -36,8 +38,6 @@ function help {
    echo "configure -brandingdir - Sets the location of the branding folder used when re-branding application."
    echo "configure -language    - Used by NSIS when creating setup (normally used for rebranding)." 
    echo "                         Currently possible values [English/Portuguese/PortugueseBR]."
-   echo "configure -appname     - Sets the short name for the editor (default is twe)."
-   echo "configure -projectname - Sets the name for the editor (default is Together Workflow Editor)."
    echo
    echo "Multiple parameters can be specified at once."
    echo
@@ -72,6 +72,14 @@ if test -r ./build.properties ; then
     rm ./tmp.properties
 fi
 
+if test -r ./project.properties ; then
+#    grep -v ^# ./project.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmpv.properties
+    cp project.properties tmpv.properties
+    dos2unix -n tmpv.properties tmpv.properties
+    . ./tmpv.properties
+    rm ./tmpv.properties
+fi
+
 if test -r ./version.properties ; then
     grep -v ^# ./version.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmpv.properties
 #    cp version.properties tmpv.properties
@@ -99,6 +107,12 @@ do
 		-release | --release)	previous=release;;
 		-release=* | --release=*)	release=$optarg;;
 		
+		-appname | --appname)	previous=app_DOT_name;;
+		-appname=* | --appname=*)	app_DOT_name=$optarg;;
+		
+		-appfullname | --appfullname)	previous=app_DOT_full_DOT_name;;
+		-appfullname=* | --appfullname=*)	app_DOT_full_DOT_name=$optarg;;
+		
 		-buildid | --buildid)	previous=buildid;;
 		-buildid=* | --buildid=*)	buildid=$optarg;;
 
@@ -116,9 +130,6 @@ do
 
 		-language | --language)		previous=language;;
 		-language=* | --language=*)	language=$optarg;;
-
-		-appname | --appname)		previous=app_DOT_name;;
-		-appname=* | --appname=*)	app_DOT_name=$optarg;;
 
 		-projectname | --projectname)		previous=project_DOT_name;;
 		-projectname=* | --projectname=*)	project_DOT_name=$optarg;;
@@ -244,12 +255,17 @@ echo "# Configured on "`uname -n`" at "`date` >build.properties
     echo "branding.dir=$branding_DOT_dir"
     echo "### ----------      language   --------- ###"
     echo "language=$language"
-    echo "### ----------      appname   --------- ###"
-    echo "app.name=$app_DOT_name"
-    echo "### ----------      projectname   --------- ###"
-    echo "project.name=\"$project_DOT_name\""
     echo "#####################"
 )|sed -e 's|_DOT_|\.|g'>>build.properties 
+
+rm -f ./project.properties
+
+(
+    echo "#####################"
+    echo "app.name=$app_DOT_name"
+    echo "app.full.name=$app_DOT_full_DOT_name"
+    echo "#####################"
+)|sed -e 's|_DOT_|\.|g'>>project.properties 
 
 rm -f ./version.properties
 

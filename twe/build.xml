@@ -20,6 +20,13 @@
 <!-- ======================================================================= -->
 <project name="TWE" default="help" basedir=".">
 
+	<scriptdef language="javascript" name="upper">
+		<attribute name="string" />
+		<attribute name="to" />
+    project.setProperty( attributes.get( "to" ),
+                         attributes.get( "string" ).toUpperCase() );
+	</scriptdef>
+
 
    <!-- ==================================================================== -->
    <!-- PROPERTIES                                                           -->
@@ -30,21 +37,20 @@
 
    <replace dir="${basedir}" includes="build.properties" token="\" value="/" />
    <property file="${basedir}/build.properties" />
+   <property file="${basedir}/project.properties" />
    <property file="${basedir}/version.properties" />
    <property file="${basedir}/sign.properties" />
 
-   <property name="project.name" value="Together Workflow Editor" />
-   <property name="app.name" value="twe" />
-
-   <property name="sign.tool" value="" />
-   <property name="sign.alias" value="" />
+   <!--property name="project.name" value="Together Workflow Editor" /-->
+   <property name="project.name" value="${app.full.name}" />
+   <upper string="${app.name}" to="upper.project.short.name" />
+   <!--property name="app.name" value="twe" /-->
 
    <property name="version" value="4.0" />
    <property name="release" value="1" />
 
    <property name="rebranding" value="false" />
    <property name="language" value="English" />
-
 
    <property name="doc.dir" location="${basedir}/doc" />
    <property name="modules.dir" location="${basedir}/modules" />
@@ -64,13 +70,13 @@
    </typedef>
    
    <!-- Setting for IF task -->
-   <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
+   <!--taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
       <classpath>
          <fileset dir="${tools.dir}/antcontrib">
             <include name="antcontrib.jar" />
          </fileset>
       </classpath>
-   </taskdef>
+   </taskdef-->
 
    <filterset id="Filter_input">
       <filter token="JAR_NAME" value="${app.name}" />
@@ -260,27 +266,20 @@
          <fileset dir="${basedir}/licenses" includes="*.*" excludes="*.csv,License-TOG.txt,nsis.txt,MIT-DocBook.txt" />
       </copy>
       <copy todir="${build.dir}/licenses">
-         <fileset dir="${basedir}/licenses" includes="*.*" />
-         <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
+         <fileset dir="${basedir}/licenses" includes="*-includes.csv" />
+         <mapper type="glob" from="*-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
       </copy>
-      <if>
-         <available type="file" file="${basedir}/licenses/${app.name}-patches.csv" />
-         <then>
+
             <copy todir="${build.dir}/licenses">
-               <fileset file="${basedir}/licenses/${app.name}-patches.csv" />
-               <globmapper from="${app.name}-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
+               <fileset dir="${basedir}/licenses" includes="*-patches.csv" />
+               <globmapper from="*-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
             </copy>
-         </then>
-      </if>
-      <if>
-         <available type="file" file="${basedir}/licenses/${app.name}-restrictions.csv" />
-         <then>
+
             <copy todir="${build.dir}/licenses">
-               <fileset file="${basedir}/licenses/${app.name}-restrictions.csv" />
-               <globmapper from="${app.name}-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
+               <fileset dir="${basedir}/licenses" includes="*-restrictions.csv" />
+               <globmapper from="*-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
             </copy>
-         </then>
-      </if>
+
       <mkdir dir="${build.dir}/config/default" />
 
       <if>
@@ -385,15 +384,15 @@
       <echo>
 make                     - Displays Help screen
 make help                - Displays Help screen
-make buildAll            - Builds and configures TWE with documentation
-make buildNoDoc          - Builds and configures TWE without documentation
+make buildAll            - Builds and configures ${upper.project.short.name} with documentation
+make buildNoDoc          - Builds and configures ${upper.project.short.name}  without documentation
 make buildDoc            - Builds documentation only
-make debug               - Builds TWE JAR files with included debug information
-make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
+make debug               - Builds ${upper.project.short.name}  JAR files with included debug information
+make install             - Installs and configures ${upper.project.short.name}  into directory defined by parameter install.dir in build.properties file. 
                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
                            It should be called only after make buildAll target is executed!
 make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
-make distributions       - Builds and configures TWE with all documentations and creates distribution package
+make distributions       - Builds and configures ${upper.project.short.name}  with all documentations and creates distribution package
       </echo>
    </target>
 
@@ -410,7 +409,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
       <!-- Set the directories -->
       <property name="dist.community.dir" location="${dist.dir}/community" />
-      <property name="dist.twe.dir" location="${dist.dir}/twe" />
+      <property name="dist.twe.dir" location="${dist.dir}/${app.name}" />
       <property name="dist.debug.dir" location="${dist.dir}/debug" />
       <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
       <property name="dist.internal.dir" location="${dist.dir}/internal" />
@@ -533,7 +532,10 @@ make distributions       - Builds and configures TWE with all documentations and
                   <property name="sign.tool" value="" />
                   <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
                      <arg line="/V4" />
-                     <arg line="/O..\..\log_${app.name}.txt" />
+                     <arg line="/O..\..\log_nsis.txt" />
+					 <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+					<arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+					<arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
                      <arg line="/DVERSION=${version}" />
                      <arg line="/DRELEASE=${release}" />
                      <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
@@ -567,16 +569,19 @@ make distributions       - Builds and configures TWE with all documentations and
 
                      <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
                         <arg line="/V4" />
-                        <arg line="/O..\..\log_${app.name}.txt" />
+                        <arg line="/O..\..\log_nsis.txt" />
+						<arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+					<arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+					<arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
                         <arg line="/DVERSION=${version}" />
                         <arg line="/DRELEASE=${release}" />
                         <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
                         <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
                         <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
                         <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
-                        <arg line="/DTWE_DIR=${build.dir}" />
+                        <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
                         <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
-                        <arg line="/DLICENSE=${build.dir}/licenses/License.txt" />
+                        <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
                         <arg line="/DLANGUAGE=${language}" />
                         <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
                         <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
@@ -608,9 +613,40 @@ make distributions       - Builds and configures TWE with all documentations and
                                              <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
                                           </not>
                                           <then>
+										  
+												<if>
+													<and>
+														<equals arg1="${sun.arch.data.model}" arg2="32" />
+														<available type="file" file="${tools.dir}/signtool/x86/signtool.exe" />
+													</and>
+													<then>
+														<property name="sign.tool" location="${tools.dir}/signtool/x86/signtool.exe" />
+													</then>
+													<elseif>
+														<and>
+															<equals arg1="${sun.arch.data.model}" arg2="64" />
+															<available type="file" file="${tools.dir}/signtool/x64/signtool.exe" />
+														</and>
+														<then>
+															<property name="sign.tool" location="${tools.dir}/signtool/x64/signtool.exe" />
+														</then>
+													</elseif>
+													<elseif>
+														<available type="file" file="${tools.dir}/signtool/signtool.exe" />
+														<then>
+															<property name="sign.tool" location="${tools.dir}/signtool/signtool.exe" />
+														</then>
+													</elseif>
+													<else>
+														<fail message="This operating system architecture is undefined: '${os.arch}'" />
+													</else>
+												</if>
+												<echo message="SIGN_TOOLS='${sign.tool}'" />
+												
                                              <echo message="Signing with '@{sign.timestamp.url}'" />
                                              <antcallback target="check.timestamp.server" return="server.timeout">
                                                 <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
+												<property name="is.check.timestamp" value="${sign.setup.timestamp}" />
                                              </antcallback>
                                              <if>
                                                 <istrue value="${server.timeout}" />
@@ -623,16 +659,19 @@ make distributions       - Builds and configures TWE with all documentations and
 
                                              <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="false">
                                                 <arg line="/V4" />
-                                                <arg line="/O..\..\log_${app.name}.txt" />
+                                                <arg line="/O..\..\log_nsis.txt" />
+												<arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+												<arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+												<arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
                                                 <arg line="/DVERSION=${version}" />
                                                 <arg line="/DRELEASE=${release}" />
                                                 <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
                                                 <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
                                                 <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
                                                 <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
-                                                <arg line="/DTWE_DIR=${build.dir}" />
+                                                <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
                                                 <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
-                                                <arg line="/DLICENSE=${build.dir}/licenses/License.txt" />
+                                                <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
                                                 <arg line="/DLANGUAGE=${language}" />
                                                 <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
                                                 <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
@@ -728,25 +767,25 @@ make distributions       - Builds and configures TWE with all documentations and
 
    <target name="distOther">
       <copy todir="${dist.screenshots.dir}">
-         <fileset dir="${basedir}/screenshots" includes="${app.name}-screen.zip" />
-         <mapper type="regexp" from="${app.name}-screen.zip" to="${app.name}-${version}-${release}.screens.zip" />
+         <fileset dir="${basedir}/screenshots" includes="*-screen.zip" />
+         <mapper type="glob" from="*.zip" to="${app.name}-${version}-${release}.screens.zip" />
       </copy>
       <copy todir="${dist.community.dir}">
-         <fileset dir="${dist.screenshots.dir}" includes="${app.name}-${version}-${release}.screens.zip" />
+         <fileset dir="${dist.screenshots.dir}" includes="*-${version}-${release}.screens.zip" />
       </copy>
       <copy file="${build.dir}/doc/${app.name}-current.doc.pdf" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.pdf"/>
       <copy file="${build.dir}/doc/${app.name}-current.doc.html" tofile="${build.dir}/doc/${app.name}-${version}-${release}.doc.html"/>
       <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.doc.zip" update="true">
-         <zipfileset dir="${build.dir}/doc" excludes="${app.name}-current.doc.*,${app.name}-${version}-${release}.test.pdf, ${app.name}-current.test.pdf"/>
+         <zipfileset dir="${build.dir}/doc" excludes="*-current.doc.*, *-${version}-${release}.test.pdf, *-current.test.pdf"/>
       </zip>
       <copy todir="${dist.community.dir}">
-         <fileset dir="${build.dir}/doc" includes="${app.name}-current.doc.pdf" />
+         <fileset dir="${build.dir}/doc" includes="*-current.doc.pdf" />
       </copy>      
       <delete quiet="true">
-         <fileset dir="${build.dir}/doc" includes="${app.name}-${version}-${release}.doc.*" />
+         <fileset dir="${build.dir}/doc" includes="*-${version}-${release}.doc.*" />
       </delete>      
       <copy file="${output.doc.dir}/${app.name}-current.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />   
-      <copy todir="${dist.internal.dir}">
+      <!--copy todir="${dist.internal.dir}">
          <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
          <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
       </copy>
@@ -767,15 +806,19 @@ make distributions       - Builds and configures TWE with all documentations and
                <globmapper from="${app.name}-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
             </copy>
          </then>
-      </if>
+      </if-->
+	  <copy todir="${dist.internal.dir}">
+         <fileset dir="${build.dir}/licenses" includes="*.csv" />
+      </copy>
       <copy todir="${dist.internal.dir}">
          <fileset dir="${build.dir}" includes="BuildID.txt" />
       </copy>
       <copy todir="${dist.community.dir}">
          <filterset refid="Filter_input" />
-         <fileset dir="${basedir}/installation/Windows" includes="twe-silent.properties" />
+         <fileset dir="${basedir}/installation/Windows" includes="*-silent.properties" />
+		 <globmapper from="*.properties" to="${app.name}-${version}-${release}.silent.properties.txt" />
       </copy>
-      <move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" />
+      <!--move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" /-->
 
       <if>
          <istrue value="${rebranding}" />
@@ -961,9 +1004,14 @@ make distributions       - Builds and configures TWE with all documentations and
       <!-- Signing a jar files -->
       
       <if>
+		<or>
+			<not>
+				<isset property="sign.alias" />
+			</not>
          <equals arg1="${sign.alias}" arg2="" />
+		</or>
          <then>
-            <signjar alias="Together" keystore="${input.dir}/ws/key/${app.name}key" storepass="together" keypass="together">
+            <signjar alias="Together" keystore="${input.dir}/ws/key/twekey" storepass="together" keypass="together">
                <path>
                   <fileset dir="${dist.community.webstart.dir}/lib" includes="**/*.jar" />
                </path>
@@ -1082,9 +1130,40 @@ make distributions       - Builds and configures TWE with all documentations and
                               <equals arg1="${exe.return.code}" arg2="0" trim="true" />
                            </not>
                            <then>
+						   
+								<if>
+									<and>
+										<equals arg1="${sun.arch.data.model}" arg2="32" />
+										<available type="file" file="${tools.dir}/signtool/x86/signtool.exe" />
+									</and>
+									<then>
+										<property name="sign.tool" location="${tools.dir}/signtool/x86/signtool.exe" />
+									</then>
+									<elseif>
+										<and>
+											<equals arg1="${sun.arch.data.model}" arg2="64" />
+											<available type="file" file="${tools.dir}/signtool/x64/signtool.exe" />
+										</and>
+										<then>
+											<property name="sign.tool" location="${tools.dir}/signtool/x64/signtool.exe" />
+										</then>
+									</elseif>
+									<elseif>
+										<available type="file" file="${tools.dir}/signtool/signtool.exe" />
+										<then>
+											<property name="sign.tool" location="${tools.dir}/signtool/signtool.exe" />
+										</then>
+									</elseif>
+									<else>
+										<fail message="This operating system architecture is undefined: '${os.arch}'" />
+									</else>
+								</if>
+								<echo message="SIGN_TOOLS='${sign.tool}'" />
+								
                               <echo message="Signing with '@{sign.timestamp.url}'" />
                               <antcallback target="check.timestamp.server" return="server.timeout">
                                  <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
+								 <property name="is.check.timestamp" value="${sign.setup.timestamp}" />
                               </antcallback>
                               <if>
                                  <istrue value="${server.timeout}" />
@@ -1146,6 +1225,35 @@ make distributions       - Builds and configures TWE with all documentations and
    </target>
 
    <target name="sign.without.timestamp" unless="${sign.setup.control}">
+   
+		<if>
+			<and>
+				<equals arg1="${sun.arch.data.model}" arg2="32" />
+				<available type="file" file="${tools.dir}/signtool/x86/signtool.exe" />
+			</and>
+			<then>
+				<property name="sign.tool" location="${tools.dir}/signtool/x86/signtool.exe" />
+			</then>
+			<elseif>
+				<and>
+					<equals arg1="${sun.arch.data.model}" arg2="64" />
+					<available type="file" file="${tools.dir}/signtool/x64/signtool.exe" />
+				</and>
+				<then>
+					<property name="sign.tool" location="${tools.dir}/signtool/x64/signtool.exe" />
+				</then>
+			</elseif>
+			<elseif>
+				<available type="file" file="${tools.dir}/signtool/signtool.exe" />
+				<then>
+					<property name="sign.tool" location="${tools.dir}/signtool/signtool.exe" />
+				</then>
+			</elseif>
+			<else>
+				<fail message="This operating system architecture is undefined: '${os.arch}'" />
+			</else>
+		</if>
+		<echo message="SIGN_TOOLS='${sign.tool}'" />
 
       <exec executable="${sign.tool}" resultproperty="exe.return.code" failonerror="false">
          <arg value="sign" />
@@ -1174,7 +1282,7 @@ make distributions       - Builds and configures TWE with all documentations and
 
    </target>   
 
-   <target name="check.timestamp.server">
+   <target name="check.timestamp.server" if="${is.check.timestamp}">
       <propertyregex property="sign.timestamp.url.temp" input="${sign.timestamp.url}" regexp="([h|H][t|T]{2}[p|P][s|S]?\:[/][/])([[\w]*[.]{0,1}[\w]*]*)([:]?)([\d]*)([[/]*[\w]]*)" select="\2" casesensitive="true" />
       <propertyregex property="sign.timestamp.port.temp" input="${sign.timestamp.url}" regexp="([h|H][t|T]{2}[p|P][s|S]?\:[/][/])([[\w]*[.]{0,1}[\w]*]*)([:]?)([\d]*)([[/]*[\w]]*)" select="\4" casesensitive="true" />
       <antcall target="get-current-time" />
@@ -1239,6 +1347,7 @@ make distributions       - Builds and configures TWE with all documentations and
                               <echo message="Signing with '@{sign.timestamp.url}'" />
                               <antcallback target="check.timestamp.server" return="server.timeout">
                                  <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
+								 <property name="is.check.timestamp" value="${sign.jar.timestamp}" />
                               </antcallback>
                               <if>
                                  <istrue value="${server.timeout}" />

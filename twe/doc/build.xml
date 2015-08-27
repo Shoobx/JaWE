@@ -26,14 +26,14 @@
    <target name="init">
 
       <!--Set the global variables-->
-      <property name="docbook.name" value="twe-doc" />
-      <property name="testcase.name" value="twe-testcases-doc" /> 
-      <property name="doc.title" value="Together Workflow Editor" />
+      <property name="docbook.name" value="${app.name}-doc" />
+      <property name="testcase.name" value="${app.name}-testcases-doc" /> 
+      <property name="doc.title" value="${app.full.name}" />
       <property name="version" value="4.0" />
       <property name="release" value="1" />
 
       <property name="project.name" value="TWE" />
-      <property name="app.name" value="twe" />
+      <!--property name="app.name" value="twe" /-->
 
       <!-- Operating system  -->
       <condition property="os" value="windows">
@@ -169,7 +169,7 @@
    <target name="javadoc" depends="prepare">
       <mkdir dir="${output.doc.dir}/api" />
       <!--Create Javadoc-->
-      <property name="doctitle" value="${project.name} - Together Workflow Editor ${version}-${release} API" />
+      <property name="doctitle" value="${project.name} - ${app.full.name} ${version}-${release} API" />
       <property name="header" value="${project.name} ${version}-${release} API" />
       <javadoc 
          sourcepath="${sources.dir}"
@@ -207,11 +207,41 @@
    </target>
 
    <target name="rebranding">
-      <copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
-      <copy file="${doc.dir}/${testcase.name}.xml" tofile="${tmp.dir}/${testcase.name}.xml" />
-      <copy todir="${tmp.dir}/docbook">
+      <!--copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
+      <copy file="${doc.dir}/${testcase.name}.xml" tofile="${tmp.dir}/${testcase.name}.xml" /-->
+	  <copy todir="${tmp.dir}">
+			<fileset dir="${doc.dir}">
+				<include name="*-doc.xml" />
+				<exclude name="*-testcases-doc.xml" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version}" />
+				<filter token="RELEASE" value="${release}" />
+				<filter token="BUILDID" value="${build.timestamp}" />
+				<filter token="JDK" value="${jdk.dir}" />
+				<filter token="PROJECT" value="${project.name}" />
+				<filter token="APPNAME" value="${app.name}" />
+			</filterset>
+			<globmapper from="*.xml" to="${docbook.name}.xml" />
+		</copy>
+
+		<copy todir="${tmp.dir}">
+			<fileset dir="${doc.dir}">
+				<include name="*-testcases-doc.xml" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version}" />
+				<filter token="RELEASE" value="${release}" />
+				<filter token="BUILDID" value="${build.timestamp}" />
+				<filter token="JDK" value="${jdk.dir}" />
+				<filter token="PROJECT" value="${project.name}" />
+				<filter token="APPNAME" value="${app.name}" />
+			</filterset>
+			<globmapper from="*.xml" to="${testcase.name}.xml" />
+		</copy>
+      <!--copy todir="${tmp.dir}/docbook">
          <fileset dir="${docbook.dtd.dir}/dtd"/>
-      </copy>
+      </copy-->
       <replace file="${tmp.dir}/${docbook.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
       <replace file="${tmp.dir}/${testcase.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
       <if>
@@ -284,7 +314,7 @@
          <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${app.name}-current.doc.pdf'" />
       </exec-->
 		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
-			<arg line="-c ${tools.dir}/fop/userconfig.xml" />
+			<arg line="-c '${tools.dir}/fop/userconfig.xml'" />
 			<arg line="-fo '${docbook.name}.fo'" />
 			<arg line="-pdf '${app.name}-current.doc.pdf'" />
 		</java>
@@ -324,7 +354,7 @@
          <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${testcase.name}.fo' '${app.name}-${version}-${release}.test.pdf'" />
       </exec-->
 		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
-			<arg line="-c ${tools.dir}/fop/userconfig.xml" />
+			<arg line="-c '${tools.dir}/fop/userconfig.xml'" />
 			<arg line="-fo '${testcase.name}.fo'" />
 			<arg line="-pdf '${app.name}-current.test.pdf'" />
 		</java>
@@ -356,7 +386,7 @@
          <fileset dir="${tmp.dir}" excludes="**/${docbook.name}.*, **/*.pdf, **/${app.name}-current.doc.html, **/api/**, **/docbook/**" />
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />

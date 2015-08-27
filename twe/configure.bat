@@ -1,24 +1,26 @@
-@echo off   
-rem #    Together Workflow Editor
-rem #    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
-rem #
-rem #    This program is free software: you can redistribute it and/or modify
-rem #    it under the terms of the GNU General Public License as published by
-rem #    the Free Software Foundation, either version 3 of the License, or 
-rem #    (at your option) any later version.
-rem #
-rem #    This program is distributed in the hope that it will be useful, 
-rem #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-rem #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-rem #    GNU General Public License for more details.
-rem # 
-rem #    You should have received a copy of the GNU General Public License
-rem #    along with this program. If not, see http://www.gnu.org/licenses
-rem #-----------------------------------------------------------------------
+::Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+::
+::This program is free software: you can redistribute it and/or modify
+::it under the terms of the GNU General Public License as published by
+::the Free Software Foundation, either version 3 of the License, or
+::(at your option) any later version.
+::
+::This program is distributed in the hope that it will be useful,
+::but WITHOUT ANY WARRANTY; without even the implied warranty of
+::MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+::GNU General Public License for more details.
+::
+::You should have received a copy of the GNU General Public License
+::along with this program. If not, see http://www.gnu.org/licenses
+::
+@echo off
 cls
 rem *********************************************
 rem *  Initialize environment variables
 rem *********************************************
+rem **** initail data ****
+SET APP_NAME=X
+SET APP_FULL_NAME=X
 
 SET SET_VERSION=off
 SET SET_RELEASE=off
@@ -28,22 +30,18 @@ SET SET_INSTALLDIR=off
 SET SET_REBRANDING=off
 SET SET_BRANDINGDIR=off
 SET SET_LANGUAGE=off
-SET SET_APPNAME=off
+::SET SET_APPNAME=off
 SET SET_PROJECTNAME=off
 
 SET BUILDID=
+SET SET_APP_NAME=off
+SET SET_APP_FULL_NAME=off
 SET INSTALLDIR=
 SET REBRANDING=false
 SET BRANDINGDIR=
 SET LANGUAGE=English
-SET APPNAME=twe
-SET PROJECTNAME=Together Workflow Editor
-
-
-if %~1.==. goto skiphelp
-if %~1==-help goto help
-
-:skiphelp
+::SET APPNAME=twe
+::SET PROJECTNAME=Together Workflow Editor
 
 rem ***** init version from version.properties file
 find "version=" < version.properties > version.txt
@@ -54,6 +52,12 @@ rem ***** init release from version.properties file
 find "release=" < version.properties > release.txt
 for /F "tokens=1,2* delims==" %%i in (release.txt) do SET RELEASE=%%j
 del release.txt>nul
+
+
+if %~1.==. goto skiphelp
+if %~1==-help goto help
+
+:skiphelp
 
 if exist build.properties goto init
 goto default
@@ -72,7 +76,8 @@ if %~1==-rebranding goto rebranding
 if %~1==-brandingdir goto brandingdir
 if %~1==-language goto language
 if %~1==-appname goto appname
-if %~1==-projectname goto projectname
+::if %~1==-projectname goto projectname
+if %~1==-appfullname goto appfullname
 goto error
 
 :default
@@ -123,13 +128,13 @@ for /F "tokens=1,2* delims==" %%i in (language.txt) do SET LANGUAGE=%%j
 del language.txt>nul
 
 :initappname
-find "app.name=" < build.properties > appname.txt
-for /F "tokens=1,2* delims==" %%i in (appname.txt) do SET APPNAME=%%j
+find "app.name=" < project.properties > appname.txt
+for /F "tokens=1,2* delims==" %%i in (appname.txt) do SET APP_NAME=%%j
 del appname.txt>nul
 
 :initprojectname
-find "project.name=" < build.properties > projectname.txt
-for /F "tokens=1,2* delims==" %%i in (projectname.txt) do SET PROJECTNAME=%%j
+find "app.full.name=" < project.properties > projectname.txt
+for /F "tokens=1,2* delims==" %%i in (projectname.txt) do SET APP_FULL_NAME=%%j
 del projectname.txt>nul
 
 goto start
@@ -139,19 +144,43 @@ rem *  Edit parameters (build.properties)
 rem *********************************************************
 :make
 if exist build.properties del build.properties
-echo buildid=%BUILDID%>>build.properties
+echo buildid=%BUILDID%>build.properties
 echo jdk.dir=^%JDKHOME%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
 echo rebranding=%REBRANDING%>>build.properties
 echo branding.dir=%BRANDINGDIR%>>build.properties
 echo language=%LANGUAGE%>>build.properties
-echo app.name=%APPNAME%>>build.properties
-echo project.name=%PROJECTNAME%>>build.properties
+::echo app.name=%APPNAME%>>build.properties
+::echo project.name=%PROJECTNAME%>>build.properties
+
+if %SET_VERSION%==off if %SET_RELEASE%==off goto makeProjectProprties
 if exist version.properties del version.properties
-echo #####################>>version.properties
+echo #####################>version.properties
 echo version=^%VERSION%>>version.properties
 echo release=^%RELEASE%>>version.properties
 echo #####################>>version.properties
+
+:makeProjectProprties
+if %SET_APP_NAME%==off if %SET_APP_FULL_NAME%==off goto end
+if exist project.properties del project.properties
+echo # Copyright (C) 2011 Together Teamsolutions Co., Ltd. >project.properties
+echo # >>project.properties
+echo # This program is free software: you can redistribute it and/or modify >>project.properties
+echo # it under the terms of the GNU General Public License as published by >>project.properties
+echo # the Free Software Foundation, either version 3 of the License, or >>project.properties
+echo # (at your option) any later version. >>project.properties
+echo # >>project.properties
+echo # This program is distributed in the hope that it will be useful, >>project.properties
+echo # but WITHOUT ANY WARRANTY; without even the implied warranty of >>project.properties
+echo # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the >>project.properties
+echo # GNU General Public License for more details. >>project.properties
+echo # >>project.properties
+echo # You should have received a copy of the GNU General Public License >>project.properties
+echo # along with this program. If not, see http://www.gnu.org/licenses >>project.properties
+echo # >>project.properties
+echo app.name=^%APP_NAME%>>project.properties
+echo app.full.name=^%APP_FULL_NAME%>>project.properties
+
 goto end
 
 
@@ -174,6 +203,8 @@ echo.
 echo configure              - Creates build.properties file with default values for all possible parameters.
 echo                          It can work only if there is a default JAVA registered with the system.
 echo configure -help        - Displays Help screen
+echo configure -appname     - Sets the short name for the project.
+echo configure -appfullname - Sets the full name for the project.
 echo configure -version     - Sets the version number for the project.
 echo configure -release     - Sets the release number for the project.
 echo configure -buildid     - Sets the build id for the project.
@@ -185,15 +216,13 @@ echo                          Possible values [true/false].
 echo configure -brandingdir - Sets the location of the branding folder used when re-branding application.
 echo configure -language    - Used by NSIS when creating setup (normally used for rebranding). 
 echo                          Currently possible values [English/Portuguese/PortugueseBR].
-echo configure -appname     - Sets the short name for the editor (default is twe).
-echo configure -projectname - Sets the name for the editor (default is Together Workflow Editor).
 echo.
 echo Multiple parameters can be specified at once.
 echo.
 echo.
 echo Example:
 echo.
-echo configure -version 4.5 -release 1 -buildid 20120801-0808 -jdkhome C:/jdk1.7 -instdir C:/JaWE
+echo configure -version %VERSION% -release %RELEASE% -buildid 20120801-0808 -jdkhome C:/jdk1.7 -instdir C:/JaWE
 echo.
 goto end
 
@@ -310,11 +339,24 @@ rem *********************************************************
 rem *  Set APPNAME parameter value
 rem *********************************************************
 :appname
-if %SET_APPNAME%==on goto error
+if %SET_APP_NAME%==on goto error
 shift
 if "X%~1"=="X" goto error
-SET APPNAME=%~1
-SET SET_APPNAME=on
+SET APP_NAME=%~1
+SET SET_APP_NAME=on
+shift
+if "X%~1"=="X" goto make
+goto start
+
+rem *********************************************************
+rem *  Set APP_FULL_NAME parameter value
+rem *********************************************************
+:appfullname
+if %SET_APP_FULL_NAME%==on goto error
+shift
+if "X%~1"=="X" goto error
+SET APP_FULL_NAME=%~1
+SET SET_APP_FULL_NAME=on
 shift
 if "X%~1"=="X" goto make
 goto start

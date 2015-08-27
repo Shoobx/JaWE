@@ -11105,6 +11105,8 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
                          for all possible parameters. It can work only if 
                          there is a default JAVA registered with the system.
 configure -help        - Displays Help screen
+configure -appname     - Sets the short name for the project.
+configure -appfullname - Sets the full name for the project.
 configure -version     - Sets the version number for the project.
 configure -release     - Sets the release number for the project.
 configure -buildid     - Sets the build id for the project.
@@ -11120,9 +11122,6 @@ configure -brandingdir - Sets the location of the branding folder used when
 configure -language    - ONLY FOR WINDOWS. Used by NSIS when creating setup 
                          (normally used for rebranding). 
                          Possible values [English/Portuguese/PortugueseBR].
-configure -appname     - Sets the short name for the editor (default is twe).
-configure -projectname - Sets the name for the editor 
-                        (default is Together Workflow Editor).
 
 Multiple parameters can be specified at once.
 
@@ -11183,14 +11182,12 @@ make distributions   - Builds and configures TWE with all documentations
       role="bold">sign.properties</emphasis> should be placed in the root
       directory of the projects source with the following properties:</para>
 
-      <para><programlisting>sign.tool       - absolute path to the sign tool executable file
-sign.privatekey - absolute path to the private key used for signing
+      <para><programlisting>sign.privatekey - absolute path to the private key used for signing
 sign.pwd        - password for signing
 sign.alias      - sign alias</programlisting>example sign.properties
       file:</para>
 
-      <para><programlisting>sign.tool=D:/signtool/signtool.exe
-sign.privatekey=D:/signtool/privatekey.pfx
+      <para><programlisting>sign.privatekey=D:/signtool/privatekey.pfx
 sign.pwd=agles87t24e25NDwas
 sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       alias can be produced by the usage of Java's keytool by executing the

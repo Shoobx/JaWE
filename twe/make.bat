@@ -1,20 +1,19 @@
+::Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+::
+::This program is free software: you can redistribute it and/or modify
+::it under the terms of the GNU General Public License as published by
+::the Free Software Foundation, either version 3 of the License, or 
+::(at your option) any later version.
+::
+::This program is distributed in the hope that it will be useful, 
+::but WITHOUT ANY WARRANTY; without even the implied warranty of
+::MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+::GNU General Public License for more details.
+::
+::You should have received a copy of the GNU General Public License
+::along with this program. If not, see http://www.gnu.org/licenses
+::
 @echo off
-rem #    Together Workflow Editor
-rem #    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
-rem #
-rem #    This program is free software: you can redistribute it and/or modify
-rem #    it under the terms of the GNU General Public License as published by
-rem #    the Free Software Foundation, either version 3 of the License, or 
-rem #    (at your option) any later version.
-rem #
-rem #    This program is distributed in the hope that it will be useful, 
-rem #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-rem #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-rem #    GNU General Public License for more details.
-rem # 
-rem #    You should have received a copy of the GNU General Public License
-rem #    along with this program. If not, see http://www.gnu.org/licenses
-rem #-----------------------------------------------------------------------
 cls
 
 SET VERSION=4.4
@@ -28,6 +27,16 @@ if not exist build.properties call configure.bat
 find "jdk.dir" < build.properties >javahome.txt
 for /F "tokens=1,2* delims==" %%i in (javahome.txt) do SET JAVA_HOME=%%j
 del javahome.txt>nul
+
+if not exist project.properties call configure.bat
+find "app.name=" < project.properties > appname.txt
+for /F "tokens=1,2* delims==" %%i in (appname.txt) do SET APP_NAME=%%j
+del appname.txt>nul
+
+find "app.full.name=" < project.properties > appfullname.txt
+for /F "tokens=1,2* delims==" %%i in (appfullname.txt) do SET APP_FULL_NAME=%%j
+del appfullname.txt>nul
+
 if "X%JAVA_HOME%"=="X" goto errorjava
 
 find "version" < build.properties >version.txt
@@ -69,17 +78,16 @@ goto end
 echo.
 echo Parameters value for using with make.bat :
 echo.
-echo make                     - Displays Help screen
-echo make help                - Displays Help screen
-echo make buildAll            - Builds and configures TWE with documentation
-echo make buildNoDoc          - Builds and configures TWE without documentation
-echo make buildDoc            - Builds documentation only
-echo make debug               - Builds TWE JAR files with included debug information
-echo make install             - Installs and configures TWE into directory defined by parameter install.dir in build.properties file. 
-echo                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
-echo                            It should be called only after make buildAll target is executed!
-echo make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
-echo make distributions       - Builds and configures TWE with all documentations and creates distribution package
+echo make                     - Displays the Help Information.
+echo make help                - Displays the Help Information.
+echo make buildAll            - Builds and configures %APP_NAME% with documentation.
+echo make buildNoDoc          - Builds and configures %APP_NAME% without documentation.
+echo make buildDoc            - Builds documentation only.
+echo make clean               - Removes the output and the distributions folder (in order to start a new compilation from scratch)
+echo make debug               - Builds %APP_NAME% JAR file(s) with included debug information.
+echo make install             - Installs and configures %APP_NAME% into directory defined by parameter install.dir in the build.properties file. 
+echo                            Which can be set by using command: configure -instdir PATH_TO_DIR. (execute only 'make buildAll').
+echo make distributions       - Builds and configures %APP_NAME% with all documentations and creates distributions package.
 goto end
 
 :errorsystemroot
