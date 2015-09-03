@@ -584,7 +584,7 @@ public class Graph extends JGraph {
    }
 
    /**
-    * Notification from the <code>UIManager</code> that the L&F has changed. Replaces the
+    * Notification from the <code>UIManager</code> that the LF has changed. Replaces the
     * current UI object with the latest version from the <code>UIManager</code>.
     * Subclassers can override this to support different GraphUIs.
     * 

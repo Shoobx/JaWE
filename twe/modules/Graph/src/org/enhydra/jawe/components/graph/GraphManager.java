@@ -655,12 +655,12 @@ public class GraphManager implements Serializable {
    /**
     * Inserts new Participant cell into model. First, the parent of new Participant is
     * searched, and if found, put into ParentMap (it is not inserted into model at ones).
-    * If parent participant isn't found -> root participant will be inserted. After that
+    * If parent participant isn't found - root participant will be inserted. After that
     * model's view is arranged (Participants are moved and translated along with it's
     * children cells) to suite to the new model state - this is done "virtually" which
     * means that changes are not directly applied to view until all changes are made. At
     * the end, all changes are applied to model and view. Such procedure enables compound
-    * undo support. <BR>
+    * undo support.
     * This method is called when inserting new Participant into model.
     */
    public GraphSwimlaneInterface insertParticipantAndArrangeParticipants(Object par, Point whereTo) {
@@ -2103,9 +2103,9 @@ public class GraphManager implements Serializable {
    /**
     * Returns participants that are under or above given yPos, or contains that
     * y-position: <BR>
-    * direction=0 -> under, <BR>
-    * direction=1 -> above, <BR>
-    * direction=2 -> contains. The method checks for bounds of cells within propertyMap.
+    * direction=0 - under, <BR>
+    * direction=1 - above, <BR>
+    * direction=2 - contains. The method checks for bounds of cells within propertyMap.
     * If some of model's participants is entered in parentMap as removed participant, this
     * method doesn't consider that participant.
     */

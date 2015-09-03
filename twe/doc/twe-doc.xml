@@ -11566,6 +11566,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Improvement: increased dimensions of table for displaying
           DataFields, FormalParameters, XPDLStrings and I18NVariables</para>
         </listitem>
+
+        <listitem>
+          <para>Java8 support</para>
+        </listitem>
       </itemizedlist>
     </section>
 
