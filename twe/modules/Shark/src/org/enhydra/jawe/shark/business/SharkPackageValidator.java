@@ -212,7 +212,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                } else {
                   String vid = ea.getVValue();
                   if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
-                     String varrid = vid.substring(vid.indexOf(";")+1);
+                     String varrid = vid.substring(vid.indexOf(";") + 1);
                      vals.add(varrid);
                      vid = vid.substring(0, vid.indexOf(";"));
                   }
@@ -390,7 +390,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       if ((el.toName().equals("StartMode") || el.toName().equals("FinishMode"))
           && el.toValue().equals(XPDLConstants.ACTIVITY_MODE_MANUAL) && parent instanceof Activity) {
          Activity act = (Activity) parent;
-         if (act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT)
+         if ((act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT)
+             || el.toName().equals("FinishMode"))
             return;
 
          String performer = act.getFirstPerformer();
@@ -406,7 +407,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          if (isSystemParticipantPerformer) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
-                                                             SharkValidationErrorIds.ERROR_MANUAL_START_OR_FINISH_MODE_FOR_TOOL_ACTIVITY_WITH_SYSTEM_PARTICIPANT_PERFORMER,
+                                                             SharkValidationErrorIds.ERROR_MANUAL_START_MODE_FOR_TOOL_ACTIVITY_WITH_SYSTEM_PARTICIPANT_PERFORMER,
                                                              act.getId(),
                                                              el);
             existingErrors.add(verr);

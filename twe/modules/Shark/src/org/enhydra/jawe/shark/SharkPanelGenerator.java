@@ -1014,7 +1014,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(I18nVariables el) {
-      return generateStandardTablePanel(el, true, false, new Dimension(800,600), false, false);
+      return generateStandardTablePanel(el, true, false, new Dimension(800, 600), false, false);
    }
 
    public XMLPanel getPanel(XPDLStringVariable el) {
@@ -1029,7 +1029,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(XPDLStringVariables el) {
-      return generateStandardTablePanel(el, true, false, new Dimension(800,600),false, false);
+      return generateStandardTablePanel(el, true, false, new Dimension(800, 600), false, false);
    }
 
    protected XMLPanel getPanel(Activity el, int no, Set hidden) {
@@ -1049,9 +1049,20 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          hidden.add(el.get("Deadlines"));
       }
       if (no != 1) {
+         String performer = el.getFirstPerformer();
+         boolean isSystemParticipantPerformer = false;
+         Participant p = null;
+         p = XMLUtil.findParticipant(JaWEManager.getInstance().getXPDLHandler(), XMLUtil.getWorkflowProcess(el), performer);
+         if (p != null) {
+            String participantType = p.getParticipantType().getType();
+            if (participantType.equals(XPDLConstants.PARTICIPANT_TYPE_SYSTEM)) {
+               isSystemParticipantPerformer = true;
+            }
+         }
          boolean isManual = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
                             || ((el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) && (el.getStartMode()
-                               .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
+                               .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || el.getFinishMode().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)
+                                                                              && !isSystemParticipantPerformer));
          boolean isAutomatic = el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION
                                || el.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT;
          if (!isManual && !isAutomatic) {
@@ -1943,7 +1954,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                      hasEmptyBorder);
    }
 
-   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl, boolean hasTitle, boolean hasEmptyBorder, Dimension dim, boolean miniDim, boolean useBasicToolbar) {
+   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl,
+                                                      boolean hasTitle,
+                                                      boolean hasEmptyBorder,
+                                                      Dimension dim,
+                                                      boolean miniDim,
+                                                      boolean useBasicToolbar) {
       if (cl instanceof DataFields) {
          List elementsToShow = cl.toElements();
          Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLTablePanel", cl);
@@ -1960,7 +1976,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                 hasEmptyBorder,
                                                 false,
                                                 miniDim,
-                                                new Dimension(800,600),
+                                                new Dimension(800, 600),
                                                 true,
                                                 true);
 
