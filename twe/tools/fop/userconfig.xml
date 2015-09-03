@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <fop version="1.0">
 	<!-- Base URL for resolving relative URLs -->
-	<base>.</base>
+	<!--base>.</base-->
 
 	<!-- Information for specific renderers -->
 	<!-- Uses renderer mime type for renderers -->

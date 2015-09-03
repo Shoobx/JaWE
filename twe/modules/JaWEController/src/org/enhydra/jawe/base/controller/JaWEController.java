@@ -916,19 +916,22 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          doSwitchMode = false;
       }
       if (doSwitchMode) {
-         Set availableConfigs = JaWEManager.getInstance().getJaWEController().getConfigInfo().keySet();
-         String ccfg = JaWEManager.getInstance().getJaWEController().getCurrentConfig();
-         Element xpdldoc = XMLUtil.getDocumentFromFile(filename).getDocumentElement();
-         String cn = XMLUtil.getNameSpacePrefix(xpdldoc) + "ExtendedAttributes";
-         Node eascn = XMLUtil.getChildByName(xpdldoc, cn);
-         String eascontent = XMLUtil.getContent(eascn, true);
-         ExtendedAttributes eas = XMLUtil.destringyfyExtendedAttributes(eascontent);
-         if (eas != null) {
-            ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(JaWEEAHandler.EA_JAWE_CONFIGURATION);
-            String cfgm = ea != null ? ea.getVValue() : null;
-            if (cfgm != null && !cfgm.equals(ccfg) && availableConfigs.contains(cfgm)) {
-               return cfgm;
+         try {
+            Set availableConfigs = JaWEManager.getInstance().getJaWEController().getConfigInfo().keySet();
+            String ccfg = JaWEManager.getInstance().getJaWEController().getCurrentConfig();
+            Element xpdldoc = XMLUtil.getDocumentFromFile(filename).getDocumentElement();
+            String cn = XMLUtil.getNameSpacePrefix(xpdldoc) + "ExtendedAttributes";
+            Node eascn = XMLUtil.getChildByName(xpdldoc, cn);
+            String eascontent = XMLUtil.getContent(eascn, true);
+            ExtendedAttributes eas = XMLUtil.destringyfyExtendedAttributes(eascontent);
+            if (eas != null) {
+               ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(JaWEEAHandler.EA_JAWE_CONFIGURATION);
+               String cfgm = ea != null ? ea.getVValue() : null;
+               if (cfgm != null && !cfgm.equals(ccfg) && availableConfigs.contains(cfgm)) {
+                  return cfgm;
+               }
             }
+         } catch (Exception ex) {
          }
       }
       return null;

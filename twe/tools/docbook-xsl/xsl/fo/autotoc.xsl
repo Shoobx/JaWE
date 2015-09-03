@@ -196,6 +196,31 @@
     <xsl:apply-templates select="." mode="label.markup"/>
   </xsl:variable>
 
+  <xsl:variable name="depth.level">
+		<xsl:choose>
+			<xsl:when test="name(self::*) = 'figure' or name(self::*) = 'table'">
+				<xsl:text>1</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="count(ancestor::*)"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+		
+	 <xsl:variable name="toc.inner.depth">
+	  <xsl:choose>
+		<xsl:when test="$depth.level = 1">
+		  <xsl:value-of select="$toc.inner.indent.width.level1" />
+		</xsl:when>
+		<xsl:when test="$depth.level = 2">
+		  <xsl:value-of select="$toc.inner.indent.width.level2" />
+		</xsl:when>
+		<xsl:when test="$depth.level = 3">
+		  <xsl:value-of select="$toc.inner.indent.width.level3" />
+		</xsl:when>
+	  </xsl:choose>
+	</xsl:variable>
+	
   <fo:block xsl:use-attribute-sets="toc.line.properties">
     <fo:inline keep-with-next.within-line="always">
       <fo:basic-link internal-destination="{$id}">
@@ -203,50 +228,18 @@
           <xsl:copy-of select="$label"/>
           <xsl:value-of select="$autotoc.label.separator"/>
         </xsl:if>
-
-        <xsl:variable name="depth.level">
-			<xsl:choose>
-				<xsl:when test="name(self::*) = 'figure' or name(self::*) = 'table'">
-					<xsl:text>1</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="count(ancestor::*)"/>
-				</xsl:otherwise>
-			</xsl:choose>
-        </xsl:variable>
-<!--
-        <xsl:variable name="depthAll">
-          <xsl:value-of select="concat($depth*$toc.inner.indent.width, 'pt')"/>
-        </xsl:variable>
--->
-        <xsl:variable name="toc.inner.depth">
-          <xsl:choose>
-            <xsl:when test="$depth.level = 1">
-              <xsl:value-of select="$toc.inner.indent.width.level1" />
-            </xsl:when>
-			<xsl:when test="$depth.level = 2">
-              <xsl:value-of select="$toc.inner.indent.width.level2" />
-            </xsl:when>
-            <xsl:when test="$depth.level = 3">
-              <xsl:value-of select="$toc.inner.indent.width.level3" />
-            </xsl:when>
-          </xsl:choose>
-        </xsl:variable>
-
         <fo:inline padding-left="{$toc.inner.depth}">
           <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+		  <xsl:text> </xsl:text>
+		  <fo:leader leader-pattern="dots"
+					 leader-pattern-width="3pt"
+					 leader-alignment="reference-area"
+					 keep-with-next.within-line="always"/>
+		  <xsl:text> </xsl:text> 
+		  <fo:basic-link internal-destination="{$id}">
+			<fo:page-number-citation ref-id="{$id}"/>
+		  </fo:basic-link>
         </fo:inline>
-      </fo:basic-link>
-    </fo:inline>
-    <fo:inline keep-together.within-line="always">
-      <xsl:text> </xsl:text>
-      <fo:leader leader-pattern="dots"
-                 leader-pattern-width="3pt"
-                 leader-alignment="reference-area"
-                 keep-with-next.within-line="always"/>
-      <xsl:text> </xsl:text> 
-      <fo:basic-link internal-destination="{$id}">
-        <fo:page-number-citation ref-id="{$id}"/>
       </fo:basic-link>
     </fo:inline>
   </fo:block>
