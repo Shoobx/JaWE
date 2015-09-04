@@ -387,12 +387,22 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             }
          }
       }
-      if ((el.toName().equals("StartMode") || el.toName().equals("FinishMode"))
-          && el.toValue().equals(XPDLConstants.ACTIVITY_MODE_MANUAL) && parent instanceof Activity) {
+      if (el.toName().equals("StartMode") && el.toValue().equals(XPDLConstants.ACTIVITY_MODE_MANUAL) && parent instanceof Activity) {
          Activity act = (Activity) parent;
-         if ((act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT)
-             || el.toName().equals("FinishMode"))
+
+         if ((act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT)) {
             return;
+         }
+
+         if (act.getFinishMode().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_MANUAL_START_AND_FINISH_MODE_FOR_TOOL_ACTIVITY,
+                                                             act.getId(),
+                                                             el);
+            existingErrors.add(verr);
+            return;
+         }
 
          String performer = act.getFirstPerformer();
          boolean isSystemParticipantPerformer = false;

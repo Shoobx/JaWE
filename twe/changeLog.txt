@@ -1,4 +1,7 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-09-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved validation - can't have Tool activities having both start and finish mode set to MANUAL 
+
 2015-09-03 Sasa Bojanic <sasaboy@together.at>
    # Java 8 support
    # Shark mode: Again allowing Tool activities with System participant performer to have MANUAL finish mode (to support Quartz tool agent and similar tool agents)
