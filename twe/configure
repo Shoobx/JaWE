@@ -44,7 +44,7 @@ function help {
    echo
    echo "Example:"
    echo
-   echo "./configure -version 4.5 -release 1 -buildid 20120301-0808 -jdkhome /usr/jdk1.7 -instdir /tmp/JaWE"
+   echo "./configure -version 4.5 -release 1 -buildid 20120301-0808 -jdkhome /usr/jdk1.8 -instdir /tmp/JaWE"
 }
 
 for n in $*

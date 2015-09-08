@@ -97,9 +97,9 @@ cp $PWD/*.properties $RPM_ROOT/BUILD/$name$nameadditional-$version-$release.src
 		then
     while
         echo -e "\n\nPlease enter path to your "\
-            "Java Development Kit - JDK directory [/usr/java/jdk1.7.0_67] \n\n"
+            "Java Development Kit - JDK directory [/usr/java/jdk1.8.0_20] \n\n"
         read jdkdir
-        jdkdir=\${jdkdir:=/usr/java/jdk1.7.0_67}
+        jdkdir=\${jdkdir:=/usr/java/jdk1.8.0_20}
         [ ! -d \$jdkdir ]
     do                                echo "Warning: No such directory: \$jdkdir"
     done
@@ -163,7 +163,7 @@ $prefix/%{name}-%{version}-%{release}
     if
            ! [[ x\$JAVA_HOME != x &&  -d \$JAVA_HOME ]]
     then
-       default_JAVA_HOME=\${default_JAVA_HOME:=/usr/java/jdk1.7.0_67}
+       default_JAVA_HOME=\${default_JAVA_HOME:=/usr/java/jdk1.8.0_20}
        while
             echo -e "\n\nPlease enter path to your "\
             "Java Development Kit - JDK directory [\$default_JAVA_HOME] \c"

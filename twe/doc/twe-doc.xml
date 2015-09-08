@@ -251,7 +251,7 @@
       Microsoft Windows or Linux, although there is nothing about Together
       Workflow Editor that makes it unsuitable for the Mac or any other
       environment of your choice, as long as the defined software
-      prerequisites (basically a JRE - Java Runtime Environment 1.7) are
+      prerequisites (basically a JRE - Java Runtime Environment 1.8) are
       met.</para>
     </sect1>
 
@@ -571,7 +571,7 @@
       <title>Prerequisites</title>
 
       <para>The only prerequisite to be able to run TWE on Windows or Linux
-      system is Java JRE 1.7 installed on the machine.</para>
+      system is Java JRE 1.8 installed on the machine.</para>
     </sect1>
 
     <sect1>
@@ -594,7 +594,7 @@
       without parameters, otherwise it should be called with a parameter
       specifying JAVA_HOME value, e.g:</para>
 
-      <para><emphasis>configure -jdkhome c:\jdk1.7.0_03</emphasis></para>
+      <para><emphasis>configure -jdkhome c:\jdk1.8.0_20</emphasis></para>
 
       <para>This will create proper <emphasis role="bold">run</emphasis>
       script in bin directory that should be used to run TWE.</para>
@@ -620,7 +620,7 @@
 inst.dir=C:\Program Files\twe-4.5-1
 
 # Path to local java installation (obligated - has no default value)
-jdk.dir=C:\Program Files\Java\jdk1.7.0_03
+jdk.dir=C:\Program Files\Java\jdk1.8.0_20
 
 # Startup menu name. (default value - Together Workflow Editor x.y-z)
 startup.menu.name=Together Workflow Editor 4.5-1
@@ -3679,7 +3679,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
       "simple_sync_deadline" from XPDL on path "d:\tmp\deadlineexamples.xpdl"
       into the file "d:\tmp\simple_sync_deadline.jpg"</para>
 
-      <programlisting>"C:/Program Files/Java/jdk1.7.0_40/bin/java" -Xmx512M 
+      <programlisting>"C:/Program Files/Java/jdk1.8.0_20/bin/java" -Xmx512M 
    -DJaWE_HOME="d:/twe-6.0-1" -Djava.ext.dirs="d:/twe-6.0-1/lib" 
    org.enhydra.jawe.JaWE d:\tmp\deadlineexamples.xpdl 
    write_graph_2_file_procdefid=simple_sync_deadline 
@@ -3688,7 +3688,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <note>
         <para>This example assumes Java location is "C:/Program
-        Files/Java/jdk1.7.0_40/bin/java", TWE is installed in "d:\twe-6.0-1"
+        Files/Java/jdk1.8.0_20/bin/java", TWE is installed in "d:\twe-6.0-1"
         and there is XPDL file at "d:\tmp\deadlines.xpdl" that has process
         definition with Id "simple_sync_deadline"</para>
       </note>
@@ -3706,13 +3706,13 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
       <para>Below is an example how to set working directory to d:\tmp:</para>
 
-      <programlisting>"C:/Program Files/Java/jdk1.7.0_40/bin/java" -Xmx512M 
+      <programlisting>"C:/Program Files/Java/jdk1.8.0_20/bin/java" -Xmx512M 
    -DJaWE_HOME="d:/twe-6.0-1" -DJaWE_WORKING_DIR=d:\tmp -Djava.ext.dirs="d:/twe-6.0-1/lib" 
    org.enhydra.jawe.JaWE</programlisting>
 
       <note>
         <para>This example assumes Java location is "C:/Program
-        Files/Java/jdk1.7.0_40/bin/java", TWE is installed in "d:\twe-6.0-1"
+        Files/Java/jdk1.8.0_20/bin/java", TWE is installed in "d:\twe-6.0-1"
         and there is an existing directory at "d:\tmp"</para>
       </note>
     </sect1>
@@ -11128,7 +11128,7 @@ Multiple parameters can be specified at once.
 
 Example:
 
-configure -version 4.5 -release 1 -buildid 20120301-0808 -jdkhome C:/jdk1.7 -instdir C:/JaWE</programlisting>
+configure -version 4.5 -release 1 -buildid 20120301-0808 -jdkhome C:/jdk1.8 -instdir C:/JaWE</programlisting>
 
       <para>The configure script will create/change the build.properties file
       based on the parameters provided. This file can also be manually changed

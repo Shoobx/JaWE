@@ -31,7 +31,7 @@ function help {
 	echo " 
 	jdkhome
 
-	Example: configure -jdkhome /usr/java/jdk1.7.0_67
+	Example: configure -jdkhome /usr/java/jdk1.8.0_20
 
 "
 

@@ -209,11 +209,11 @@
                     <entry>configure -jdkhome</entry>
 
                     <entry>configure -jdkhome C:/Program
-                    Files/Java/jdk1.7.0_11</entry>
+                    Files/Java/jdk1.8.0_20</entry>
 
                     <entry>Sets the "JAVA HOME" location of Java to be used to
                     compile the project. ( In the build.properties &gt;&gt;
-                    jdk.dir = C:/Program Files/Java/jdk1.7.0_11 )</entry>
+                    jdk.dir = C:/Program Files/Java/jdk1.8.0_20 )</entry>
                   </row>
 
                   <row>
@@ -1101,7 +1101,7 @@
 # Startup menu name. (default value - Together Workflow Editor 4.8-1)
 startup.menu.name=Together Workflow Editor 4.8-1
 # Path to local java installation (obligate - has no default value)
-jdk.dir=C:/Program Files/Java/jdk1.7.0_11
+jdk.dir=C:/Program Files/Java/jdk1.8.0_20
 # Create start menu entry (on/off)
 create.startup.menu=on
 # Create quick launch menu icon (on/off)

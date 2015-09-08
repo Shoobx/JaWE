@@ -222,7 +222,7 @@ echo.
 echo.
 echo Example:
 echo.
-echo configure -version %VERSION% -release %RELEASE% -buildid 20120801-0808 -jdkhome C:/jdk1.7 -instdir C:/JaWE
+echo configure -version %VERSION% -release %RELEASE% -buildid 20120801-0808 -jdkhome C:/jdk1.8 -instdir C:/JaWE
 echo.
 goto end
 

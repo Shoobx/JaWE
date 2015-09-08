@@ -33,7 +33,7 @@
    <!-- ==================================================================== -->
 
    <!--Set the global variables-->
-   <property name="targetVM" value="1.7" />
+   <property name="targetVM" value="1.8" />
 
    <replace dir="${basedir}" includes="build.properties" token="\" value="/" />
    <property file="${basedir}/build.properties" />
