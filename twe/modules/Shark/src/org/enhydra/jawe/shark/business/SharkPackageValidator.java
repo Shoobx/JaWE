@@ -139,8 +139,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
                 || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
-                || (!isAct && (el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) || el.toValue()
-                   .startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)))) {
+                || (!isAct && (el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)))) {
 
                isWarning = el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
                            || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_VTP_FETCH)
@@ -186,8 +185,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                           || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
                           || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT)
                           || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT)
-                          || (!isAct && (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) || ea.getName()
-                             .startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)))) {
+                          || (!isAct && (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)))) {
                   vals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX);
                   sysvals = getPossiblePlaceholderVariables(ea.getVValue(), "");
                   csvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX);
@@ -303,6 +301,34 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      }
                   }
                }
+
+               if (el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+                  String xpdlstrvarid = el.toValue().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+                  if (!isIdValid(xpdlstrvarid)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      XPDLValidationErrorIds.ERROR_INVALID_ID,
+                                                                      xpdlstrvarid,
+                                                                      el);
+                     existingErrors.add(verr);
+                     if (!fullCheck) {
+                        return;
+                     }
+                  }
+
+                  if (SharkUtils.doesVariableExist(el, xpdlstrvarid, 0) || getConfigStringChoices().contains(xpdlstrvarid)) {
+                     XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                      XMLValidationError.SUB_TYPE_LOGIC,
+                                                                      XPDLValidationErrorIds.ERROR_NON_UNIQUE_ID,
+                                                                      xpdlstrvarid,
+                                                                      el);
+                     existingErrors.add(verr);
+                     if (!fullCheck) {
+                        return;
+                     }
+                  }
+
+               }
             } else if (el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
                        || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
                        || (isAct && el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT))
@@ -384,7 +410,34 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      return;
                   }
                }
+            } else if (el.toValue().startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
+               String i18nvarid = el.toValue().substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
+               if (!isIdValid(i18nvarid)) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   XPDLValidationErrorIds.ERROR_INVALID_ID,
+                                                                   i18nvarid,
+                                                                   el);
+                  existingErrors.add(verr);
+                  if (!fullCheck) {
+                     return;
+                  }
+               }
+
+               if (SharkUtils.doesVariableExist(el, i18nvarid, 1) || getConfigStringChoices().contains(i18nvarid)) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   XPDLValidationErrorIds.ERROR_NON_UNIQUE_ID,
+                                                                   i18nvarid,
+                                                                   el);
+                  existingErrors.add(verr);
+                  if (!fullCheck) {
+                     return;
+                  }
+               }
+
             }
+
          }
       }
       if (el.toName().equals("StartMode") && el.toValue().equals(XPDLConstants.ACTIVITY_MODE_MANUAL) && parent instanceof Activity) {
@@ -735,15 +788,15 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          return;
       }
       // check circular-references inside Shark XPDL String variables
-      Map<String, String> props = new HashMap(getPossibleXPDLStringVariables(pkgOrWp, false));
-      Map<String, String> placeholderProps = new HashMap<String, String>();
-      Iterator<Map.Entry<String, String>> ite = props.entrySet().iterator();
+      Map<String, String> xpdlstrs = new HashMap(getPossibleXPDLStringVariables(pkgOrWp, false));
+      Map<String, String> placeholderxpdlstrs = new HashMap<String, String>();
+      Iterator<Map.Entry<String, String>> ite = xpdlstrs.entrySet().iterator();
       while (ite.hasNext()) {
          Map.Entry<String, String> me = ite.next();
-         placeholderProps.put("{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + me.getKey() + "}", me.getValue());
+         placeholderxpdlstrs.put("{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + me.getKey() + "}", me.getValue());
       }
       try {
-         XMLUtil.determineVariableEvaluationOrder(placeholderProps);
+         XMLUtil.determineVariableEvaluationOrder(placeholderxpdlstrs);
       } catch (Exception ex) {
          String excMsg = ex.getMessage();
          Map m1 = getPossibleXPDLStringVariablesEAValues(pkgOrWp, false);
@@ -861,7 +914,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       boolean ret = super.isIdUnique(newEl);
       if (newEl instanceof DataField || newEl instanceof FormalParameter) {
          String id = newEl.getId();
-         if (getConfigStringChoices().contains(id) || SharkConstants.possibleSystemVariables.contains(id)) {
+         if (SharkUtils.doesVariableExist(newEl, id, 2) || getConfigStringChoices().contains(id)) {
             ret = false;
          }
       }

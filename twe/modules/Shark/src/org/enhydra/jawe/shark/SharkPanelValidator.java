@@ -18,19 +18,21 @@
 
 package org.enhydra.jawe.shark;
 
-import java.util.List;
-
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.base.panel.StandardPanelValidator;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
 import org.enhydra.jawe.shark.business.I18nVariable;
-import org.enhydra.jawe.shark.business.I18nVariables;
+import org.enhydra.jawe.shark.business.SharkUtils;
 import org.enhydra.jawe.shark.business.WfVariable;
 import org.enhydra.jawe.shark.business.XPDLStringVariable;
-import org.enhydra.jawe.shark.business.XPDLStringVariables;
+import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLValidationErrorIds;
+import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.FormalParameter;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 /**
  * Class used to validate panels for all XPDL entities.
@@ -41,13 +43,24 @@ public class SharkPanelValidator extends StandardPanelValidator {
 
    public boolean standardPanelValidation(XMLElement el, XMLPanel panel) {
       boolean ok = super.standardPanelValidation(el, panel);
-      if (ok && el instanceof XPDLStringVariable) {
-
-         XMLPanel idPanel = findPanel(panel, ((XPDLStringVariable) el).get("Name"));
+      if (ok
+          && (el instanceof XPDLStringVariable || el instanceof I18nVariable || el instanceof DataField || (el instanceof FormalParameter && el.getParent()
+             .getParent() instanceof WorkflowProcess))) {
+         
+         int vartype = el instanceof XPDLStringVariable ? 0 : (el instanceof I18nVariable ? 1 : 2);
+         XMLPanel idPanel = findPanel(panel, ((XMLComplexElement) el).get(vartype < 2 ? "Name" : "Id"));
          String newId = ((String) idPanel.getValue()).trim();
-         XPDLStringVariables xpdlVars = (XPDLStringVariables) el.getParent();
-         List xvs = xpdlVars.getElementsForName(newId);
-         if (xvs.size() > 0 && !xvs.contains(el)) {
+         boolean isValid = XMLUtil.isIdValid(newId);
+         if (!isValid) {
+            XMLBasicPanel.errorMessage(panel.getWindow(),
+                                       ResourceManager.getLanguageDependentString("ErrorMessageKey"),
+                                       "",
+                                       ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_INVALID_ID));
+            idPanel.requestFocus();
+            return false;
+         }         
+
+         if (SharkUtils.doesVariableExist(el, newId, vartype) || SharkPanelGenerator.getConfigStringChoices().contains(newId)) {
             XMLBasicPanel.errorMessage(panel.getWindow(),
                                        ResourceManager.getLanguageDependentString("ErrorMessageKey"),
                                        "",
@@ -56,21 +69,6 @@ public class SharkPanelValidator extends StandardPanelValidator {
             return false;
          }
       }
-      if (ok && el instanceof I18nVariable) {
-
-         XMLPanel idPanel = findPanel(panel, ((I18nVariable) el).get("Name"));
-         String newId = ((String) idPanel.getValue()).trim();
-         I18nVariables i18nVars = (I18nVariables) el.getParent();
-         List xvs = i18nVars.getElementsForName(newId);
-         if (xvs.size() > 0 && !xvs.contains(el)) {
-            XMLBasicPanel.errorMessage(panel.getWindow(),
-                                       ResourceManager.getLanguageDependentString("ErrorMessageKey"),
-                                       "",
-                                       ResourceManager.getLanguageDependentString(XPDLValidationErrorIds.ERROR_NON_UNIQUE_ID));
-            idPanel.requestFocus();
-            return false;
-         }
-      }      
       return ok;
    }
 

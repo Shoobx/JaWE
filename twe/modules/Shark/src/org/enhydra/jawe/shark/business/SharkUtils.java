@@ -211,4 +211,46 @@ public class SharkUtils {
       return allow.booleanValue();
    }
 
+   // vartype: 0 - xpdlstring, 1 - i18nvar, 2 - DataField or FormalParameter
+   public static boolean doesVariableExist(XMLElement el, String id, int vartype) {
+      boolean ret = SharkConstants.possibleSystemVariables.contains(id);
+
+      List xvs = new ArrayList();
+      XMLElement el2check = el;
+      if (vartype == 0) {
+         if (el instanceof XPDLStringVariable) {
+            XPDLStringVariables xpdlVars = (XPDLStringVariables) el.getParent();
+            xvs = xpdlVars.getElementsForName(id);
+         } else {
+            el2check = el.getParent();
+            ExtendedAttributes eas = (ExtendedAttributes) el2check.getParent();
+            xvs = eas.getElementsForName(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX + id);
+         }
+      } else if (vartype == 1) {
+         if (el instanceof I18nVariable) {
+            I18nVariables i18nVars = (I18nVariables) el.getParent();
+            xvs = i18nVars.getElementsForName(id);
+         } else {
+            el2check = el.getParent();
+            ExtendedAttributes eas = (ExtendedAttributes) el2check.getParent();
+            xvs = eas.getElementsForName(SharkConstants.EA_I18N_VARIABLE_PREFIX + id);
+         }
+      }
+      if (!(xvs.size() == 0 || (xvs.size() == 1 && xvs.contains(el2check)))) {
+         ret = true;
+      }
+      ret = ret || vartype != 0 && getPossibleXPDLStringOrI18nVariables(el, true, true).containsKey(id);
+      ret = ret || vartype != 1 && getPossibleXPDLStringOrI18nVariables(el, true, false).containsKey(id);
+
+      if (vartype != 2) {
+         WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
+         if (wp != null) {
+            ret = ret || wp.getAllVariables().containsKey(id);
+         } else {
+            ret = ret || XMLUtil.getPossibleDataFields(XMLUtil.getPackage(el)).containsKey(id);
+         }
+      }
+
+      return ret;
+   }
 }

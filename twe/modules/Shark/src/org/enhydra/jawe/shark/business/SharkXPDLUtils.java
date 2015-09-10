@@ -260,11 +260,7 @@ public class SharkXPDLUtils extends XPDLUtils {
          allVars = ((WorkflowProcess) pkgOrWp).getAllVariables();
       } else {
          dfs = ((Package) pkgOrWp).getDataFields();
-         Iterator it = dfs.toElements().iterator();
-         while (it.hasNext()) {
-            DataField df = (DataField) it.next();
-            allVars.put(df.getId(), df);
-         }
+         allVars = XMLUtil.getPossibleDataFields(pkgOrWp);
       }
       Iterator it = dfs.toElements().iterator();
       while (it.hasNext()) {
@@ -552,11 +548,7 @@ public class SharkXPDLUtils extends XPDLUtils {
          allVars = ((WorkflowProcess) pkgOrWp).getAllVariables();
       } else {
          apps = ((Package) pkgOrWp).getApplications();
-         Iterator it = ((Package) pkgOrWp).getDataFields().toElements().iterator();
-         while (it.hasNext()) {
-            DataField df = (DataField) it.next();
-            allVars.put(df.getId(), df);
-         }
+         allVars = XMLUtil.getPossibleDataFields(pkgOrWp);
       }
       Iterator it = apps.toElements().iterator();
       while (it.hasNext()) {
@@ -611,7 +603,7 @@ public class SharkXPDLUtils extends XPDLUtils {
             String appId = act.getActivityTypes().getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskApplication().getId();
             WorkflowProcess wp = XMLUtil.getWorkflowProcess(act);
             Application app = XMLUtil.findApplication(JaWEManager.getInstance().getXPDLHandler(), wp, appId);
-            if (app!=null) {
+            if (app != null) {
                String taName = null;
                ExtendedAttribute eataname = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
                if (eataname != null) {
@@ -620,20 +612,26 @@ public class SharkXPDLUtils extends XPDLUtils {
                      FormalParameters fps = app.getApplicationTypes().getFormalParameters();
                      FormalParameter resultVariableIds = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_VARIABLE_IDS);
                      int indofrvids = fps.indexOf(resultVariableIds);
-                     if (indofrvids!=-1) {
-                        ActualParameters aps = act.getActivityTypes().getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskApplication().getActualParameters();
-                        if (aps.size()>indofrvids) {
-                           ActualParameter ap = (ActualParameter)aps.get(indofrvids);
+                     if (indofrvids != -1) {
+                        ActualParameters aps = act.getActivityTypes()
+                           .getImplementation()
+                           .getImplementationTypes()
+                           .getTask()
+                           .getTaskTypes()
+                           .getTaskApplication()
+                           .getActualParameters();
+                        if (aps.size() > indofrvids) {
+                           ActualParameter ap = (ActualParameter) aps.get(indofrvids);
                            if (XMLUtil.getUsingPositions(ap.toValue(), dfOrFpId, allVars).size() > 0) {
                               references.add(ap);
-                           }                           
+                           }
                         }
                      }
                   }
                }
 
             }
-            
+
             List eas = act.getExtendedAttributes().toElements();
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
@@ -983,7 +981,7 @@ public class SharkXPDLUtils extends XPDLUtils {
       while (it.hasNext()) {
          XMLElement easmtpv = (XMLElement) it.next();
          if (easmtpv instanceof ActualParameter) {
-            ActualParameter ap = (ActualParameter)easmtpv;
+            ActualParameter ap = (ActualParameter) easmtpv;
             String expr = ap.toValue();
             if (expr.startsWith("\"") && expr.endsWith("\"")) {
                Map vars = null;
@@ -993,7 +991,6 @@ public class SharkXPDLUtils extends XPDLUtils {
                   vars = XMLUtil.getPossibleVariables(easmtpv);
                }
 
-               
                List positions = XMLUtil.getUsingPositions(expr, oldDfOrFpId, vars);
                int varLengthDiff = newDfOrFpId.length() - oldDfOrFpId.length();
                for (int i = 0; i < positions.size(); i++) {

@@ -35,7 +35,6 @@ import javax.swing.JCheckBox;
 
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.JaWEManager;
-import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.InlinePanel;
 import org.enhydra.jawe.base.panel.SpecialChoiceElement;
