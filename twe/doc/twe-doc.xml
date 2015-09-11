@@ -11044,7 +11044,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
 
           <itemizedlist>
             <listitem>
-              <para>Java Development Kit (JDK) version 7 or later</para>
+              <para>Java Development Kit (JDK) version 8 or later</para>
             </listitem>
           </itemizedlist>
         </listitem>
@@ -11070,7 +11070,7 @@ XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
             </listitem>
 
             <listitem>
-              <para>Java Development Kit (JDK) version 7 or later</para>
+              <para>Java Development Kit (JDK) version 8 or later</para>
             </listitem>
           </itemizedlist>
         </listitem>
@@ -11567,7 +11567,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           DataFields, FormalParameters, XPDLStrings and I18NVariables</para>
 
           <para>- Improved validation: can't have Tool activities having both
-          start and finish mode set to MANUAL </para>
+          start and finish mode set to MANUAL</para>
+
+          <para>- Improved validation:</para>
+
+          <para>* can't have the same Ids for xpdl strings/i18n
+          variables/normal variables</para>
+
+          <para>* can't have invalid characters for xpdl string/i18n
+          variables</para>
         </listitem>
 
         <listitem>
