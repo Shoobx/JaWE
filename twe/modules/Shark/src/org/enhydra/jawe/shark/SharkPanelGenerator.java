@@ -2111,7 +2111,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          mc.add(new ArrayList(XMLUtil.getPossibleVariables(el).values()));
       }
 
-      if (!(el instanceof InitialValue || isForApp && !isForBSHOrJSApp)) {
+      if (!(isForApp && !isForBSHOrJSApp)) {
          l = new ArrayList();
          List<String> csc = SharkPanelGenerator.getConfigStringChoices();
          for (int i = 0; i < csc.size(); i++) {
@@ -2190,7 +2190,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          mct.add(getSettings().getLanguageDependentString(ldk2));
       }
 
-      if (!(el instanceof InitialValue || isForApp && !isForBSHOrJSApp)) {
+      if (!(isForApp && !isForBSHOrJSApp)) {
          mct.add(getSettings().getLanguageDependentString("InsertConfigStringVariableKey"));
          mct.add(getSettings().getLanguageDependentString("InsertXPDLStringVariableKey"));
       }
@@ -2248,7 +2248,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + ldk2 + imgnsuffix)));
       }
 
-      if (!(el instanceof InitialValue || isForApp && !isForBSHOrJSApp)) {
+      if (!(isForApp && !isForBSHOrJSApp)) {
          mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "conf" + imgnsuffix)));
          mci.add(new ImageIcon(this.getClass().getClassLoader().getResource(imgnprefix + "xpdl" + imgnsuffix)));
       }

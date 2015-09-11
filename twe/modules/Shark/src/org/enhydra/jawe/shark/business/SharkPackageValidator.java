@@ -726,6 +726,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             }
          }
       }
+
       Iterator<Map.Entry<String, String>> it = vars.entrySet().iterator();
       Map<String, String> dynamicScriptVariablesContext = new HashMap();
       Map<String, String> otherVariablesContext = new HashMap();
@@ -740,11 +741,21 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             otherVariablesContext.put(id, iv);
          }
       }
+
+      Map<String, String> xpdlstrs = new HashMap(getPossibleXPDLStringVariables(pkgOrWp, false));
+
+      Map mapvarwithxpdlstrings = new HashMap(dynamicScriptVariablesContext);
+      mapvarwithxpdlstrings.putAll(SharkUtils.extractProcVarIdsAndXPDLStringIdsFromXPDLStringExpressions(xpdlstrs, vars.keySet()));
+
+      // check circular-references inside dynamic script variables and Shark XPDL String
+      // variables
       try {
-         XMLUtil.determineVariableEvaluationOrder(dynamicScriptVariablesContext);
+         XMLUtil.determineVariableEvaluationOrder(mapvarwithxpdlstrings);
       } catch (Exception ex) {
          String excMsg = ex.getMessage();
-         handleCircularReferenceExceptionMessage(vars, excMsg, existingErrors, true);
+         Map errMap = new HashMap(vars);
+         errMap.putAll(getPossibleXPDLStringVariablesEAValues(pkgOrWp, false));
+         handleCircularReferenceExceptionMessage(errMap, excMsg, existingErrors, true);
       }
       if (!fullCheck && existingErrors.size() > 0) {
          return;
@@ -784,29 +795,29 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          }
       }
 
-      if (!fullCheck && existingErrors.size() > 0) {
-         return;
-      }
-      // check circular-references inside Shark XPDL String variables
-      Map<String, String> xpdlstrs = new HashMap(getPossibleXPDLStringVariables(pkgOrWp, false));
-      Map<String, String> placeholderxpdlstrs = new HashMap<String, String>();
-      Iterator<Map.Entry<String, String>> ite = xpdlstrs.entrySet().iterator();
-      while (ite.hasNext()) {
-         Map.Entry<String, String> me = ite.next();
-         placeholderxpdlstrs.put("{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + me.getKey() + "}", me.getValue());
-      }
-      try {
-         XMLUtil.determineVariableEvaluationOrder(placeholderxpdlstrs);
-      } catch (Exception ex) {
-         String excMsg = ex.getMessage();
-         Map m1 = getPossibleXPDLStringVariablesEAValues(pkgOrWp, false);
-         Map m2 = new HashMap();
-         Iterator<Map.Entry<String, XMLElement>> ite2 = m1.entrySet().iterator();
-         while (ite2.hasNext()) {
-            Map.Entry me = ite2.next();
-            m2.put("{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + me.getKey() + "}", me.getValue());
+      // check if "normal" variable is referencing xpdl string variable - this is
+      // forbidden
+      it = otherVariablesContext.entrySet().iterator();
+      while (it.hasNext()) {
+         Map.Entry<String, String> me = it.next();
+         String id = me.getKey();
+         String iv = me.getValue();
+
+         Iterator<String> it2 = xpdlstrs.keySet().iterator();
+         while (it2.hasNext()) {
+            String dsvid = it2.next();
+            if (XMLUtil.getUsingPositions(iv, dsvid, xpdlstrs, true, true).size() > 0) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_XPDL_STRING_VARIABLE_REFERENCES_NOT_ALLOWED,
+                                                                id,
+                                                                ((XMLCollectionElement) vars.get(id)).get("InitialValue"));
+               existingErrors.add(verr);
+               if (!fullCheck) {
+                  return;
+               }
+            }
          }
-         handleCircularReferenceExceptionMessage(m2, excMsg, existingErrors, false);
       }
 
    }
@@ -816,16 +827,15 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED)) {
          String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_SELF_REFERENCES_NOT_ALLOWED.length()).trim();
          XMLElement eel = (XMLElement) vars.get(varId);
-         if (eel instanceof XMLCollectionElement) {
+         boolean isxpdlstr = !(eel instanceof XMLCollectionElement);
+         if (!isxpdlstr) {
             eel = ((XMLCollectionElement) eel).get("InitialValue");
-         } else {
-            varId = varId.substring(SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX.length() + 1, varId.length() - 1);
          }
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
-                                                          dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_SELF_REFERENCES_NOT_ALLOWED
-                                                                           : ((eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_SELF_REFERENCES_NOT_ALLOWED
-                                                                                                           : SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_SELF_REFERENCES_NOT_ALLOWED),
+                                                          isxpdlstr ? SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_SELF_REFERENCES_NOT_ALLOWED
+                                                                   : (dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_SELF_REFERENCES_NOT_ALLOWED
+                                                                                       : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_SELF_REFERENCES_NOT_ALLOWED),
                                                           varId,
                                                           eel);
          existingErrors.add(verr);
@@ -834,14 +844,15 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          for (int i = 0; i < vids.length; i++) {
             String varId = vids[i].trim();
             XMLElement eel = (XMLElement) vars.get(varId);
-            if (eel instanceof XMLCollectionElement) {
+            boolean isxpdlstr = !(eel instanceof XMLCollectionElement);
+            if (!isxpdlstr) {
                eel = ((XMLCollectionElement) eel).get("InitialValue");
             }
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
-                                                             dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED
-                                                                              : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CIRCULAR_REFERENCES_NOT_ALLOWED
-                                                                                                             : SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED,
+                                                             isxpdlstr ? SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                      : (dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                                          : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_CIRCULAR_REFERENCES_NOT_ALLOWED),
                                                              varId,
                                                              eel);
             existingErrors.add(verr);
@@ -849,18 +860,20 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       } else if (exceptionMessage.startsWith(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED)) {
          String varId = exceptionMessage.substring(XMLUtil.EXCEPTION_PREFIX_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED.length()).trim();
          XMLElement eel = (XMLElement) vars.get(varId);
-         if (eel instanceof XMLCollectionElement) {
+         boolean isxpdlstr = !(eel instanceof XMLCollectionElement);
+         if (!isxpdlstr) {
             eel = ((XMLCollectionElement) eel).get("InitialValue");
          }
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
-                                                          dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
-                                                                           : (eel instanceof InitialValue) ? SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
-                                                                                                          : SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED,
+                                                          isxpdlstr ? SharkValidationErrorIds.ERROR_XPDL_STRING_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                   : (dynamicScriptVars ? SharkValidationErrorIds.ERROR_DYNAMICSCRIPT_VARIABLE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED
+                                                                                       : SharkValidationErrorIds.ERROR_VARIABLE_INITIAL_VALUE_IMPLICIT_CIRCULAR_REFERENCES_NOT_ALLOWED),
                                                           varId,
                                                           eel);
          existingErrors.add(verr);
       }
+
    }
 
    protected boolean isDynamicScriptVariable(XMLCollectionElement dfOrFp, String varId) {
@@ -924,26 +937,24 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    protected Map getExtendedChoices(XMLElement el) {
       SequencedHashMap map = XMLUtil.getPossibleVariables(el);
 
-      if (!(el instanceof InitialValue)) {
-         List<String> csc = getConfigStringChoices();
-         for (int i = 0; i < csc.size(); i++) {
-            String id = csc.get(i);
-            DataField df = new DataField(null);
-            df.setId(id);
-            df.getDataType().getDataTypes().setBasicType();
-            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-            map.put(id, df);
-         }
+      List<String> csc = getConfigStringChoices();
+      for (int i = 0; i < csc.size(); i++) {
+         String id = csc.get(i);
+         DataField df = new DataField(null);
+         df.setId(id);
+         df.getDataType().getDataTypes().setBasicType();
+         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         map.put(id, df);
+      }
 
-         List<String> xpdlsc = getPossibleXPDLStringVariableNames(el, true);
-         for (int i = 0; i < xpdlsc.size(); i++) {
-            String id = xpdlsc.get(i);
-            DataField df = new DataField(null);
-            df.setId(id);
-            df.getDataType().getDataTypes().setBasicType();
-            df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
-            map.put(id, df);
-         }
+      List<String> xpdlsc = getPossibleXPDLStringVariableNames(el, true);
+      for (int i = 0; i < xpdlsc.size(); i++) {
+         String id = xpdlsc.get(i);
+         DataField df = new DataField(null);
+         df.setId(id);
+         df.getDataType().getDataTypes().setBasicType();
+         df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
+         map.put(id, df);
       }
       List<String> i18nvc = getPossibleI18nVariableNames(el, true);
       for (int i = 0; i < i18nvc.size(); i++) {

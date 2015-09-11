@@ -19,9 +19,13 @@
 package org.enhydra.jawe.shark.business;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
@@ -253,4 +257,46 @@ public class SharkUtils {
 
       return ret;
    }
+   
+   public static Map<String, String> extractProcVarIdsAndXPDLStringIdsFromXPDLStringExpressions(Map<String, String> xpdlsvar, Collection<String> procvarids) {
+      Map<String, String> ret = new HashMap<String, String>();
+
+      Iterator<Map.Entry<String, String>> it = xpdlsvar.entrySet().iterator();
+      while (it.hasNext()) {
+         Map.Entry<String, String> me = it.next();
+         ret.put(me.getKey(), extractProcVarIdsAndXPDLStringIdsFromXPDLStringExpression(me.getValue(), procvarids, xpdlsvar.keySet()));
+      }
+      return ret;
+   }
+
+   public static String extractProcVarIdsAndXPDLStringIdsFromXPDLStringExpression(String expr, Collection<String> procvarids, Collection<String> xpdlstrids) {
+      String ret = "";
+
+      Set<String> keepVarIds = new HashSet<String>();
+      Iterator<String> it = procvarids.iterator();
+      while (it.hasNext()) {
+         String key = it.next();
+         if (-1 != expr.indexOf("{" + SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX + key + "}")) {
+            keepVarIds.add(key);
+         }
+      }
+      it = xpdlstrids.iterator();
+      while (it.hasNext()) {
+         String key = it.next();
+         if (-1 != expr.indexOf("{" + SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX + key + "}")) {
+            keepVarIds.add(key);
+         }
+      }
+      Iterator<String> is = keepVarIds.iterator();
+      while (is.hasNext()) {
+         String string = (String) is.next();
+         ret += string + " + ";
+      }
+      if (!ret.equals("")) {
+         ret = ret.substring(0, ret.length() - 3);
+      }
+      return ret;
+   }
+   
+   
 }

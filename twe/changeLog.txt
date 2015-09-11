@@ -1,4 +1,13 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-09-11 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Implemented support (GUI + validation) to reference XPDL_STRING variable from DynamicScript variable
+
+2015-09-10 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Improved validation:
+         * can't have the same Ids for xpdl strings/i18n variables/normal variables
+         * can't have invalid characters for xpdl string/i18n variables
+
 2015-09-04 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Improved validation - can't have Tool activities having both start and finish mode set to MANUAL 
 

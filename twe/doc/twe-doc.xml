@@ -11576,6 +11576,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>* can't have invalid characters for xpdl string/i18n
           variables</para>
+
+          <para>- Implemented support (GUI + validation) to reference
+          XPDL_STRING variable from DynamicScript variable</para>
         </listitem>
 
         <listitem>
