@@ -11579,6 +11579,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Implemented support (GUI + validation) to reference
           XPDL_STRING variable from DynamicScript variable</para>
+
+          <para>- Implemented support for new extended attributes of
+          SMTPNewProcFileSysLogErrorHandler
+          (NEWPROC_ERROR_HANDLER_NEW_PROCESS_PACKAGE_ID and
+          NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)</para>
         </listitem>
 
         <listitem>
