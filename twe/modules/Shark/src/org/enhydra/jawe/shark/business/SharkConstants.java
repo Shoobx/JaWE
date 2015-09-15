@@ -837,17 +837,35 @@ public class SharkConstants {
 
    public static final String SHARK_TIME_DD = "Current date and time of execution";
 
+   public static final String SHARK_PROCESS_ERROR_MESSAGE = "shark_process_error_message";
+
+   public static final String SHARK_PROCESS_ERROR_MESSAGE_DN = "Process error message";
+
+   public static final String SHARK_PROCESS_ERROR_MESSAGE_DD = "Error message for the execution of the last activity that produced an error";
+
+   public static final String SHARK_PROCESS_ERROR_STACKTRACE = "shark_process_error_stacktrace";
+
+   public static final String SHARK_PROCESS_ERROR_STACKTRACE_DN = "Process stack trace";
+
+   public static final String SHARK_PROCESS_ERROR_STACKTRACE_DD = "Stack trace for the execution of the activity that produced an error";
+
+   public static final String SHARK_PROCESS_ERROR_ACTIVITY_ID = "shark_process_error_activity_id";
+
+   public static final String SHARK_PROCESS_ERROR_ACTIVITY_ID_DN = "Process error activity id";
+
+   public static final String SHARK_PROCESS_ERROR_ACTIVITY_ID_DD = "Id of the last activity that produced an error";
+
    public static final String SHARK_ACTIVITY_ERROR_MESSAGE = "shark_activity_error_message";
 
    public static final String SHARK_ACTIVITY_ERROR_MESSAGE_DN = "Activity error message";
 
-   public static final String SHARK_ACTIVITY_ERROR_MESSAGE_DD = "Error message for tool agent execution";
+   public static final String SHARK_ACTIVITY_ERROR_MESSAGE_DD = "Error message for activity execution";
 
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE = "shark_activity_error_stacktrace";
 
    public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_DN = "Activity stack trace";
 
-   public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_DD = "Stack trace for tool agent execution";
+   public static final String SHARK_ACTIVITY_ERROR_STACKTRACE_DD = "Stack trace for activity execution";
 
    public static final String SHARK_VARIABLE_CATEGORY = "category";
 
@@ -868,6 +886,9 @@ public class SharkConstants {
          SharkConstants.SHARK_PROCESS_FINISHED_TIME,
          SharkConstants.SHARK_PROCESS_STATE,
          SharkConstants.SHARK_PROCESS_CREATED_BY,
+         SharkConstants.SHARK_PROCESS_ERROR_MESSAGE,
+         SharkConstants.SHARK_PROCESS_ERROR_STACKTRACE,
+         SharkConstants.SHARK_PROCESS_ERROR_ACTIVITY_ID,
          SharkConstants.SHARK_ACTIVITY_DEFINITION_ID,
          SharkConstants.SHARK_ACTIVITY_DEFINITION_NAME,
          SharkConstants.SHARK_ACTIVITY_DEFINITION_DESCRIPTION,

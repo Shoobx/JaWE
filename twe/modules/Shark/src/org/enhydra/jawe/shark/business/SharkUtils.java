@@ -217,7 +217,7 @@ public class SharkUtils {
 
    // vartype: 0 - xpdlstring, 1 - i18nvar, 2 - DataField or FormalParameter
    public static boolean doesVariableExist(XMLElement el, String id, int vartype) {
-      boolean ret = SharkConstants.possibleSystemVariables.contains(id);
+      boolean ret = SharkConstants.possibleSystemVariables.contains(id) && !id.startsWith("shark_process_error_");
 
       List xvs = new ArrayList();
       XMLElement el2check = el;
@@ -257,7 +257,7 @@ public class SharkUtils {
 
       return ret;
    }
-   
+
    public static Map<String, String> extractProcVarIdsAndXPDLStringIdsFromXPDLStringExpressions(Map<String, String> xpdlsvar, Collection<String> procvarids) {
       Map<String, String> ret = new HashMap<String, String>();
 
@@ -297,6 +297,5 @@ public class SharkUtils {
       }
       return ret;
    }
-   
-   
+
 }

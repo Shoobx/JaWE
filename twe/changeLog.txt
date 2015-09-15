@@ -1,4 +1,8 @@
 ###### TWE 5.2-1 RELEASED ######
+2015-09-15 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Implemented support (GUI + validation) for new system variables for holding information about the last process instance activity 
+                 that failed to execute: shark_process_error_message, shark_process_error_stacktrace and shark_process_error_activity_id
+
 2015-09-11 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Implemented support (GUI + validation) to reference XPDL_STRING variable from DynamicScript variable
 
