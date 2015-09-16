@@ -410,19 +410,6 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      return;
                   }
                }
-            } else if (el.toValue().equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)) {
-               String pdefid = ((ExtendedAttribute) parent).getVValue();
-               if (XMLUtil.getPossibleSubflowProcesses(XMLUtil.getPackage(el), xmlInterface).get(pdefid) == null) {
-                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
-                                                                   XMLValidationError.SUB_TYPE_LOGIC,
-                                                                   XPDLValidationErrorIds.ERROR_NON_EXISTING_WORKFLOW_PROCESS_REFERENCE,
-                                                                   pdefid,
-                                                                   el);
-                  existingErrors.add(verr);
-                  if (!fullCheck) {
-                     return;
-                  }
-               }
             } else if (el.toValue().startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
                String i18nvarid = el.toValue().substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
                if (!isIdValid(i18nvarid)) {

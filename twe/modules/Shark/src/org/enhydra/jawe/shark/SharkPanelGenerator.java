@@ -216,24 +216,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLPanel returnCode = new XMLComboPanel(getPanelContainer(), el.getReturnCodeAttribute(), null, true, true, false, false, enableEditing);
 
       XMLPanel newproc = new XMLCheckboxPanel(getPanelContainer(), el.getDoCreateNewProcAttribute(), null, false, enableEditing, false, null);
-      
-      SequencedHashMap choices = XMLUtil.getPossibleSubflowProcesses(XMLUtil.getPackage(el), JaWEManager.getInstance().getXPDLHandler());
-      WorkflowProcess dummy  = new WorkflowProcess(null);
-      dummy.setId(" ");
-      choices.put(" ", dummy);
-      Object choosen = choices.get(el.getProcessRef().toValue());
-      if (choosen == null) {
-         if (!el.getProcessRef().toValue().equals("")) {
-            choosen = el.getProcessRef().toValue();
-         }
-      }
-      SpecialChoiceElement cc = new SpecialChoiceElement(el.getProcessRef(), "", new ArrayList(choices.values()), choosen, true, "Id", "WorkflowProcess", false);
-      cc.setReadOnly(el.isReadOnly());
-
-      final XMLComboPanelWithReferenceLink cp = new XMLComboPanelWithReferenceLink(getPanelContainer(), cc, null, true, false, true, JaWEManager.getInstance()
-         .getJaWEController()
-         .canModifyElement(el), null);
-
 
       XMLPanel filesyslog = new XMLCheckboxPanel(getPanelContainer(), el.getDoWriteFilesysLogAttribute(), null, false, enableEditing, false, null);
 
@@ -248,8 +230,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLGroupPanel cbPanel = new XMLGroupPanel(getPanelContainer(), el, cbp, "", false, false, false, null);
 
       tgp.add(cbPanel);
-      tgp.add(cp);
-
       tgp.add(getPanel(el.getEmailConfigurationElement()));
       for (int i = 0; i < tgp.size(); i++) {
          ltPanel.addToGroup(tgp.get(i));
@@ -1143,7 +1123,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             p = getPanel(new EmailConfigurationElement(eas, true, false, false, false, null));
             break;
          case 7:
-            p = getPanel(new ErrorHandlerConfigurationElement(JaWEManager.getInstance().getXPDLHandler(), eas));
+            p = getPanel(new ErrorHandlerConfigurationElement(eas));
             break;
          case 8:
             p = getPanel(new DeadlineHandlerConfigurationElement(eas));
@@ -1470,7 +1450,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (no == 18 || no == 19) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 19), false, false, false, null));
       } else if (no == 20) {
-         p = getPanel(new ErrorHandlerConfigurationElement(JaWEManager.getInstance().getXPDLHandler(), el.getExtendedAttributes()));
+         p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
       } else if (no == 21) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), true, false, true, false, null));
       } else if (no == 22 || no == 23) {
@@ -1550,7 +1530,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else if (no == 15 || no == 16) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), (no == 16), false, false, false, null));
       } else if (no == 17) {
-         p = getPanel(new ErrorHandlerConfigurationElement(JaWEManager.getInstance().getXPDLHandler(), el.getExtendedAttributes()));
+         p = getPanel(new ErrorHandlerConfigurationElement(el.getExtendedAttributes()));
       } else if (no == 18) {
          p = getPanel(new EmailConfigurationElement(el.getExtendedAttributes(), true, false, true, false, null));
       } else if (no == 19 || no == 20) {
