@@ -1,4 +1,9 @@
-###### TWE 5.2-1 RELEASED ######
+###### TWE 5.3-1 RELEASED ######
+2015-09-16 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Implemented support for new extended attributes of SMTPNewProcFileSysLogErrorHandler (NEWPROC_ERROR_HANDLER_NEW_PROCESS_PACKAGE_ID and NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)
+
+###### TWE 5.2-1 RELEASED (2015-09-15) ######
 2015-09-15 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Implemented support (GUI + validation) for new system variables for holding information about the last process instance activity 
                  that failed to execute: shark_process_error_message, shark_process_error_stacktrace and shark_process_error_activity_id

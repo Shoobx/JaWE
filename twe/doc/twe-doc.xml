@@ -11434,6 +11434,21 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     <title>Release Notes</title>
 
     <section>
+      <title>Release 5.3-1</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Shark mode:</para>
+
+          <para>- Implemented support for new extended attributes of
+          SMTPNewProcFileSysLogErrorHandler
+          (NEWPROC_ERROR_HANDLER_NEW_PROCESS_PACKAGE_ID and
+          NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 5.2-1</title>
 
       <itemizedlist>
