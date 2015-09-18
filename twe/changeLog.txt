@@ -1,4 +1,8 @@
 ###### TWE 5.3-1 RELEASED ######
+2015-09-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Improved recognition of I18N variables usage inside expressions
+      
 2015-09-16 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - Implemented support for new extended attributes of SMTPNewProcFileSysLogErrorHandler (NEWPROC_ERROR_HANDLER_NEW_PROCESS_PACKAGE_ID and NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)
