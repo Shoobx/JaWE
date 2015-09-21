@@ -25,10 +25,20 @@ import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TooManyListenersException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -93,6 +103,10 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
 
    private Container maxCompParent;
 
+   private DropTarget dropTarget;
+
+   private DropTargetHandler dropTargetHandler;
+
    public JaWEFrame(JaWEController controller) {
       this.controller = controller;
       setLocale(ResourceManager.getChoosenLocale());
@@ -128,6 +142,34 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       workingArea.add(bigSplit, BorderLayout.CENTER);
    }
 
+   protected DropTarget getMyDropTarget() {
+      if (dropTarget == null) {
+         dropTarget = new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, null);
+      }
+      return dropTarget;
+   }
+
+   protected DropTargetHandler getDropTargetHandler() {
+      if (dropTargetHandler == null) {
+         dropTargetHandler = new DropTargetHandler();
+      }
+      return dropTargetHandler;
+   }
+
+   public void addNotify() {
+      super.addNotify();
+      try {
+         getMyDropTarget().addDropTargetListener(getDropTargetHandler());
+      } catch (TooManyListenersException ex) {
+         ex.printStackTrace();
+      }
+   }
+
+   public void removeNotify() {
+      super.removeNotify();
+      getMyDropTarget().removeDropTargetListener(getDropTargetHandler());
+   }
+
    public void init() {
       mainComponents.setName(JaWEComponent.MAIN_COMPONENT);
       specialComponents.setName(JaWEComponent.SPECIAL_COMPONENT);
@@ -141,30 +183,18 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       // Logo
       // setIconImage(controller.getControllerSettings().getApplicationIcon().getImage());
       List<Image> icons = new ArrayList<Image>();
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe16.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe20.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe24.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe32.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe40.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe48.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe60.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe64.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe72.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe80.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe96.png")).getImage());
-      icons.add(new ImageIcon(ResourceManager.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/twe256.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe16.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe20.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe24.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe32.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe40.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe48.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe60.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe64.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe72.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe80.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe96.png")).getImage());
+      icons.add(new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/twe256.png")).getImage());
       setIconImages(icons);
 
       setBackground(Color.lightGray);
@@ -188,22 +218,16 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       addWindowListener(createAppCloser());
       pack();
       // set default location to be centered and size to be almost maximized
-      Dimension screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment()
-         .getDefaultScreenDevice()
-         .getDefaultConfiguration()
-         .getBounds()
-         .getSize();
+      Dimension screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds().getSize();
       int xMinus = 24, yMinus = 50;
-      setBounds(xMinus / 2, yMinus / 2, screenSize.width - xMinus, screenSize.height
-                                                                   - yMinus);
+      setBounds(xMinus / 2, yMinus / 2, screenSize.width - xMinus, screenSize.height - yMinus);
 
       if (controller.getControllerSettings().shoudStartMaximized()) {
          setExtendedState(MAXIMIZED_BOTH);
       }
       adjustFrameSplitSizes();
-      
-      ToolTipManager.sharedInstance().setEnabled(controller.getControllerSettings()
-         .showTooltip());
+
+      ToolTipManager.sharedInstance().setEnabled(controller.getControllerSettings().showTooltip());
    }
 
    public JaWEComponent getJaWEComponent() {
@@ -215,18 +239,10 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void addMainComponent(String name, JComponent c) {
-      String lanName = controller.getSettings()
-         .getLanguageDependentString(name + "Label");
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("Added Main component " + lanName);
-      String tip = controller.getSettings()
-         .getLanguageDependentString("DoubleClickToMaximize")
-                   + " "
-                   + lanName
-                   + ". "
-                   + controller.getSettings()
-                      .getLanguageDependentString("RightClickToAdd");
+      String lanName = controller.getSettings().getLanguageDependentString(name + "Label");
+      JaWEManager.getInstance().getLoggingManager().debug("Added Main component " + lanName);
+      String tip = controller.getSettings().getLanguageDependentString("DoubleClickToMaximize")
+                   + " " + lanName + ". " + controller.getSettings().getLanguageDependentString("RightClickToAdd");
       mainComponents.insertTab(lanName, null, c, tip, mainComponents.getComponentCount());
    }
 
@@ -235,18 +251,10 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void addToTreeComponents(String name, JComponent c) {
-      String lanName = controller.getSettings()
-         .getLanguageDependentString(name + "Label");
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("Added tree component " + lanName);
-      String tip = controller.getSettings()
-         .getLanguageDependentString("DoubleClickToMaximize")
-                   + " "
-                   + lanName
-                   + ". "
-                   + controller.getSettings()
-                      .getLanguageDependentString("RightClickToAdd");
+      String lanName = controller.getSettings().getLanguageDependentString(name + "Label");
+      JaWEManager.getInstance().getLoggingManager().debug("Added tree component " + lanName);
+      String tip = controller.getSettings().getLanguageDependentString("DoubleClickToMaximize")
+                   + " " + lanName + ". " + controller.getSettings().getLanguageDependentString("RightClickToAdd");
       treeComponents.insertTab(lanName, null, c, tip, treeComponents.getComponentCount());
    }
 
@@ -255,23 +263,11 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void addToSpecialComponents(String name, JComponent c) {
-      String lanName = controller.getSettings()
-         .getLanguageDependentString(name + "Label");
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("Added special component " + lanName);
-      String tip = controller.getSettings()
-         .getLanguageDependentString("DoubleClickToMaximize")
-                   + " "
-                   + lanName
-                   + ". "
-                   + controller.getSettings()
-                      .getLanguageDependentString("RightClickToAdd");
-      specialComponents.insertTab(lanName,
-                                  null,
-                                  c,
-                                  tip,
-                                  specialComponents.getComponentCount());
+      String lanName = controller.getSettings().getLanguageDependentString(name + "Label");
+      JaWEManager.getInstance().getLoggingManager().debug("Added special component " + lanName);
+      String tip = controller.getSettings().getLanguageDependentString("DoubleClickToMaximize")
+                   + " " + lanName + ". " + controller.getSettings().getLanguageDependentString("RightClickToAdd");
+      specialComponents.insertTab(lanName, null, c, tip, specialComponents.getComponentCount());
    }
 
    public void removeSpecialComponent(JComponent c) {
@@ -279,23 +275,11 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void addToOtherComponents(String name, JComponent c) {
-      String lanName = controller.getSettings()
-         .getLanguageDependentString(name + "Label");
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("Added other component " + lanName);
-      String tip = controller.getSettings()
-         .getLanguageDependentString("DoubleClickToMaximize")
-                   + " "
-                   + lanName
-                   + ". "
-                   + controller.getSettings()
-                      .getLanguageDependentString("RightClickToAdd");
-      otherComponents.insertTab(lanName,
-                                null,
-                                c,
-                                tip,
-                                otherComponents.getComponentCount());
+      String lanName = controller.getSettings().getLanguageDependentString(name + "Label");
+      JaWEManager.getInstance().getLoggingManager().debug("Added other component " + lanName);
+      String tip = controller.getSettings().getLanguageDependentString("DoubleClickToMaximize")
+                   + " " + lanName + ". " + controller.getSettings().getLanguageDependentString("RightClickToAdd");
+      otherComponents.insertTab(lanName, null, c, tip, otherComponents.getComponentCount());
    }
 
    public void removeOtherComponent(JComponent c) {
@@ -303,11 +287,8 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void addUpperStatusComponent(String name, JComponent c) {
-      String lanName = controller.getSettings()
-         .getLanguageDependentString(name + "Label");
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("Added upper status  component " + lanName);
+      String lanName = controller.getSettings().getLanguageDependentString(name + "Label");
+      JaWEManager.getInstance().getLoggingManager().debug("Added upper status  component " + lanName);
       menubarAndToolbar.add(c, BorderLayout.SOUTH);
    }
 
@@ -316,11 +297,8 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
    }
 
    public void addLowerStatusComponent(String name, JComponent c) {
-      String lanName = controller.getSettings()
-         .getLanguageDependentString(name + "Label");
-      JaWEManager.getInstance()
-         .getLoggingManager()
-         .debug("Added lower status  component " + lanName);
+      String lanName = controller.getSettings().getLanguageDependentString(name + "Label");
+      JaWEManager.getInstance().getLoggingManager().debug("Added lower status  component " + lanName);
       workingArea.add(c, BorderLayout.SOUTH);
    }
 
@@ -341,12 +319,7 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
     */
    public final class AppCloser extends WindowAdapter {
       public void windowClosing(WindowEvent e) {
-         JaWEManager.getInstance()
-            .getJaWEController()
-            .getSettings()
-            .getAction("Exit")
-            .getAction()
-            .actionPerformed(null);
+         JaWEManager.getInstance().getJaWEController().getSettings().getAction("Exit").getAction().actionPerformed(null);
       }
    }
 
@@ -355,22 +328,22 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       double divLoc1 = controller.getControllerSettings().getFirstSmallDividerLocation();
       double divLoc2 = controller.getControllerSettings().getSecondSmallDividerLocation();
       double divLoc3 = controller.getControllerSettings().getMainDividerLocation();
-      if (bigSplit!=null) {
-         if (smallSplit1!=null || smallSplit2!=null) {
+      if (bigSplit != null) {
+         if (smallSplit1 != null || smallSplit2 != null) {
             bigSplit.setDividerLocation(divLoc3);
             bigSplit.setResizeWeight(0.5);
          }
       }
-      if (smallSplit1!=null) {
+      if (smallSplit1 != null) {
          smallSplit1.setDividerLocation(divLoc1);
          smallSplit1.setResizeWeight(0.5);
       }
-      if (smallSplit2!=null) {
+      if (smallSplit2 != null) {
          smallSplit2.setDividerLocation(divLoc2);
          smallSplit2.setResizeWeight(0.5);
       }
    }
-   
+
    public void arrangeFrame() {
       String splitString = controller.getControllerSettings().getFrameSettings();
 
@@ -439,18 +412,12 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
             bigSplit = new JSplitPane(splitType, smallSplit1, smallSplit2);
          }
       } catch (Exception e) {
-         JaWEManager.getInstance()
-            .getLoggingManager()
-            .error("JaWEFrame -> Can't customize frame! Using default!");
+         JaWEManager.getInstance().getLoggingManager().error("JaWEFrame -> Can't customize frame! Using default!");
 
-         smallSplit1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                                      specialComponents,
-                                      treeComponents);
+         smallSplit1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, specialComponents, treeComponents);
          smallSplit1.setDividerLocation(230);
 
-         smallSplit2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                                      mainComponents,
-                                      otherComponents);
+         smallSplit2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainComponents, otherComponents);
          smallSplit2.setDividerLocation(600);
 
          bigSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, smallSplit1, smallSplit2);
@@ -475,16 +442,11 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
       if (occ == 0) {
          otherComponents.getParent().remove(otherComponents);
       }
-      if (tcc==0 && scc==0) {
+      if (tcc == 0 && scc == 0) {
          bigSplit.setDividerLocation(0);
          bigSplit.setEnabled(false);
-      } else if (mcc==0 && occ==0){
-         int sw = (int) GraphicsEnvironment.getLocalGraphicsEnvironment()
-            .getDefaultScreenDevice()
-            .getDefaultConfiguration()
-            .getBounds()
-            .getSize()
-            .getWidth();
+      } else if (mcc == 0 && occ == 0) {
+         int sw = (int) GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds().getSize().getWidth();
          bigSplit.setResizeWeight(1.0);
          bigSplit.setDividerLocation(sw);
          bigSplit.setEnabled(false);
@@ -502,6 +464,79 @@ public class JaWEFrame extends JFrame implements JaWEComponentView {
          return otherComponents;
 
       return null;
+   }
+
+   protected void importFile(File file) {
+      JaWEController jc = JaWEManager.getInstance().getJaWEController();
+      if (jc.tryToClosePackage(jc.getMainPackageId(), false, true)) {
+         jc.openPackageFromFile(file.getAbsolutePath());
+      }
+
+   }
+
+   protected class DropTargetHandler implements DropTargetListener {
+
+      protected void processDrag(DropTargetDragEvent dtde) {
+         boolean acceptDrag = dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
+         if (acceptDrag) {
+            Transferable transferable = dtde.getTransferable();
+            try {
+               List files = (List) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+               if (files == null || files.size() == 0) {
+                  acceptDrag = false;
+               } else {
+                  File f = (File) files.get(0);
+                  if (!f.getName().toLowerCase().endsWith(".xpdl")) {
+                     acceptDrag = false;
+                  }
+               }
+            } catch (Exception ex) {
+               acceptDrag = false;
+               ex.printStackTrace();
+            }
+
+         }
+         if (acceptDrag) {
+            dtde.acceptDrag(DnDConstants.ACTION_COPY);
+         } else {
+            dtde.rejectDrag();
+         }
+      }
+
+      public void dragEnter(DropTargetDragEvent dtde) {
+         processDrag(dtde);
+         repaint();
+      }
+
+      public void dragOver(DropTargetDragEvent dtde) {
+         processDrag(dtde);
+         repaint();
+      }
+
+      public void dropActionChanged(DropTargetDragEvent dtde) {
+      }
+
+      public void dragExit(DropTargetEvent dte) {
+         repaint();
+      }
+
+      public void drop(DropTargetDropEvent dtde) {
+         Transferable transferable = dtde.getTransferable();
+         if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+            dtde.acceptDrop(dtde.getDropAction());
+            try {
+               List files = (List) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+               if (files != null && files.size() > 0) {
+                  importFile((File) files.get(0));
+                  dtde.dropComplete(true);
+               }
+            } catch (Exception ex) {
+               ex.printStackTrace();
+            }
+         } else {
+            dtde.rejectDrop();
+         }
+      }
    }
 
 }

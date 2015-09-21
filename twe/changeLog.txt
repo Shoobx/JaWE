@@ -1,4 +1,7 @@
 ###### TWE 5.3-1 RELEASED ######
+2015-09-21 Sasa Bojanic <sasaboy@together.at>
+   # Implemented possibility to D&D XPDL file
+
 2015-09-18 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: 
       - Improved recognition of I18N variables usage inside expressions
