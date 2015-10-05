@@ -713,6 +713,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel dfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteFinishedAttribute(), null, false, enableEditing, false, null);
          ealist.add(dfpnl);
       }
+      XMLPanel redpnl = new XMLCheckboxPanel(getPanelContainer(), el.getReevaluateDeadlinesAttribute(), null, false, enableEditing, false, null);
+      ealist.add(redpnl);
       XMLPanel capnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateAssignmentsAttribute(), null, false, enableEditing, false, null);
       ealist.add(capnl);
       XMLPanel cdapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateDefaultAssignmentAttribute(), null, false, enableEditing, false, null);

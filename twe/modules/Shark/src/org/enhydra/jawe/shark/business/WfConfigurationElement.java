@@ -36,7 +36,7 @@ public class WfConfigurationElement extends XMLComplexElement {
    protected boolean isPersisted = false;
 
    protected boolean isForAct = false;
-   
+
    protected boolean isFullyManualAct = false;
 
    public WfConfigurationElement(ExtendedAttributes eas, boolean isForAct, boolean isFullyManualAct) {
@@ -68,6 +68,7 @@ public class WfConfigurationElement extends XMLComplexElement {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TRANSIENT, null, null, false, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_FINISHED, null, null, false, removeUnconditionally);
          }
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REEVALUATE_DEADLINES, null, null, false, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_ASSIGNMENTS, null, null, false, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT, null, null, false, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS, null, null, false, removeUnconditionally);
@@ -190,6 +191,10 @@ public class WfConfigurationElement extends XMLComplexElement {
 
    public XMLAttribute getAllowUndefinedVariablesAttribute() {
       return (XMLAttribute) get(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES);
+   }
+
+   public XMLAttribute getReevaluateDeadlinesAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_REEVALUATE_DEADLINES);
    }
 
    public XMLAttribute getCreateAssignmentsAttribute() {
@@ -327,6 +332,9 @@ public class WfConfigurationElement extends XMLComplexElement {
       XMLAttribute attrAllowUndefinedVariables = new XMLAttribute(this, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, false, new String[] {
             "true", "false"
       }, 1);
+      XMLAttribute attrReevaluateDeadlines = new XMLAttribute(this, SharkConstants.EA_REEVALUATE_DEADLINES, false, new String[] {
+            "true", "false"
+      }, 1);
       XMLAttribute attrCreateAssignments = new XMLAttribute(this, SharkConstants.EA_CREATE_ASSIGNMENTS, false, new String[] {
             "true", "false"
       }, 0);
@@ -433,6 +441,7 @@ public class WfConfigurationElement extends XMLComplexElement {
 
       add(attrConfigure);
       add(attrUnsatisfiedSplitConditionHandlingMode);
+      add(attrReevaluateDeadlines);
       add(attrAllowUndefinedVariables);
       add(attrCreateAssignments);
       add(attrCreateDefaultAssignment);
@@ -483,6 +492,7 @@ public class WfConfigurationElement extends XMLComplexElement {
             } else {
                if (eaname.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
                    || eaname.equals(SharkConstants.EA_CREATE_ASSIGNMENTS)
+                   || eaname.equals(SharkConstants.EA_REEVALUATE_DEADLINES)
                    || eaname.equals(SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT)
                    || eaname.equals(SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS)
                    || eaname.equals(SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT)
@@ -510,7 +520,7 @@ public class WfConfigurationElement extends XMLComplexElement {
          }
       }
       getConfigureAttribute().setValue(String.valueOf(hasAny));
-      int toCompNo = (isForAct ? (isFullyManualAct ? 15 : 14) : 21);
+      int toCompNo = (isForAct ? (isFullyManualAct ? 16 : 15) : 22);
       isPersisted = pc >= toCompNo;
    }
 
@@ -534,10 +544,10 @@ public class WfConfigurationElement extends XMLComplexElement {
       return isForAct;
    }
 
-   public boolean isForFullyManualActivity () {
+   public boolean isForFullyManualActivity() {
       return isForAct && isFullyManualAct;
    }
-   
+
    public boolean isForModalDialog() {
       return true;
    }

@@ -11451,6 +11451,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Improved recognition of I18N variables usage inside
           expressions</para>
+
+          <para>- Added support for REEVALUATE_DEADLINES extended
+          attribute</para>
         </listitem>
       </itemizedlist>
     </section>

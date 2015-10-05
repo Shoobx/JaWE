@@ -65,6 +65,8 @@ public class SharkConstants {
 
    public static final String EA_CREATE_DEFAULT_ASSIGNMENT = "CREATE_DEFAULT_ASSIGNMENT";
 
+   public static final String EA_REEVALUATE_DEADLINES = "REEVALUATE_DEADLINES";
+   
    public static final String EA_ACCEPT_SINGLE_ASSIGNMENT = "ACCEPT_SINGLE_ASSIGNMENT";
 
    public final static String EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY = "EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY";
