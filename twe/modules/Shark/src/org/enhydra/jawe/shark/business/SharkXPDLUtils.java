@@ -312,11 +312,11 @@ public class SharkXPDLUtils extends XPDLUtils {
             if (oldEAName.indexOf(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) != -1) {
                String searchValue = oldEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
                String replaceValue = newEAName.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
-               expr = handleReplace(expr, searchValue, replaceValue, allVars, true);
+               expr = handleReplace(expr, searchValue, replaceValue, allVars, false);
             } else if (oldEAName.indexOf(SharkConstants.EA_I18N_VARIABLE_PREFIX) != -1) {
                String searchValue = oldEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
                String replaceValue = newEAName.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
-               expr = handleReplace(expr, searchValue, replaceValue, allVars, true);
+               expr = handleReplace(expr, searchValue, replaceValue, allVars, false);
             }
 
             easmtpvOrApOrPerfOrCondOrDlCondOrIV.setValue(expr);
@@ -557,7 +557,7 @@ public class SharkXPDLUtils extends XPDLUtils {
          if (tac != null && (SharkConstants.TOOL_AGENT_BEAN_SHELL.equals(tac.getVValue()) || SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(tac.getVValue()))) {
             ExtendedAttribute eascr = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
             if (eascr != null) {
-               if (XMLUtil.getUsingPositions(eascr.getVValue(), dfOrFpId, allVars, true, true).size() > 0) {
+               if (XMLUtil.getUsingPositions(eascr.getVValue(), dfOrFpId, allVars, false).size() > 0) {
                   references.add(eascr.get("Value"));
                }
             }

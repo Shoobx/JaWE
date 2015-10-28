@@ -700,7 +700,7 @@ public class StandardPanelGenerator implements PanelGenerator {
    public XMLPanel getPanel(SubFlow el) {
       Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLGroupPanel", el);
       List panelElements = new ArrayList();
-      SequencedHashMap choices = XMLUtil.getPossibleSubflowProcesses(el, JaWEManager.getInstance().getXPDLHandler());
+      SequencedHashMap choices = XMLUtil.getPossibleSubflowProcesses(XMLUtil.getPackage(el), JaWEManager.getInstance().getXPDLHandler());
       Object choosen = choices.get(el.getId());
       if (choosen == null) {
          if (!el.getId().equals("")) {
@@ -1357,7 +1357,12 @@ public class StandardPanelGenerator implements PanelGenerator {
 
    }
 
-   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl, boolean hasTitle, boolean hasEmptyBorder, Dimension dim, boolean miniDim, boolean useBasicToolbar) {
+   protected XMLTablePanel generateStandardTablePanel(XMLCollection cl,
+                                                      boolean hasTitle,
+                                                      boolean hasEmptyBorder,
+                                                      Dimension dim,
+                                                      boolean miniDim,
+                                                      boolean useBasicToolbar) {
       List elementsToShow = cl.toElements();
       Set hidden = PanelUtilities.getHiddenElements(getPanelContainer(), "XMLTablePanel", cl);
       elementsToShow.removeAll(hidden);
@@ -1377,7 +1382,7 @@ public class StandardPanelGenerator implements PanelGenerator {
                                               hasEmptyBorder,
                                               false,
                                               miniDim,
-                                              new Dimension(800,600),
+                                              new Dimension(800, 600),
                                               true,
                                               true,
                                               allowInPlaceEditing(cl));
@@ -1652,7 +1657,7 @@ public class StandardPanelGenerator implements PanelGenerator {
    public List<ImageIcon> prepareExpressionChoicesImages(XMLElement el) {
       return null;
    }
-   
+
    public Settings getSettings() {
       return getPanelContainer().getSettings();
    }
