@@ -1,4 +1,8 @@
 ###### TWE 5.3-1 RELEASED ######
+2015-12-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Added support for TSCToolAgent
+
+###### TWE 5.2-2 RELEASED (2015-11-04) ######
 2015-10-05 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Added support for REEVALUATE_DEADLINES extended attribute
 

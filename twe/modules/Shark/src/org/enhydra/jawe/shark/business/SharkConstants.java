@@ -66,7 +66,7 @@ public class SharkConstants {
    public static final String EA_CREATE_DEFAULT_ASSIGNMENT = "CREATE_DEFAULT_ASSIGNMENT";
 
    public static final String EA_REEVALUATE_DEADLINES = "REEVALUATE_DEADLINES";
-   
+
    public static final String EA_ACCEPT_SINGLE_ASSIGNMENT = "ACCEPT_SINGLE_ASSIGNMENT";
 
    public final static String EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY = "EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY";
@@ -326,6 +326,8 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_SOAP = "org.enhydra.shark.toolagent.SOAPToolAgent";
 
+   public static final String TOOL_AGENT_TSC = "org.enhydra.shark.toolagent.TSCToolAgent";
+
    public static final String TOOL_AGENT_TXW = "org.enhydra.shark.toolagent.TXWToolAgent";
 
    public static final String TOOL_AGENT_USERGROUP = "org.enhydra.shark.toolagent.UserGroupToolAgent";
@@ -415,6 +417,10 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_TEXT = "return_text";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RETURN_CODE = "return_code";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_OUTPUT_TEMPLATE_FILEPATH = "calculation_output_template_filepath";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_FILEPATH = "calculation_filepath";
 
    public static final String TOOL_AGENT_LDAP_METHOD_getAllGroupEntries = "getAllGroupEntries";
 

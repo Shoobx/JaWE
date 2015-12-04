@@ -120,12 +120,12 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
       LabelGenerator lg = JaWEManager.getInstance().getLabelGenerator();
       String disp = lg.getLabel(ch);
       if (ch instanceof BasicType) {
-         disp += " -> "
-                 + settings.getLanguageDependentString(((BasicType) ch).getType() + "Key");
+         disp += " -> " + settings.getLanguageDependentString(((BasicType) ch).getType() + "Key");
+      } else if (ch instanceof ExternalReference) {
+         disp += " -> " + ((ExternalReference) ch).getLocation();
       } else if (ch instanceof DeclaredType) {
          String tdId = ((DeclaredType) ch).getId();
-         TypeDeclaration td = XMLUtil.getTypeDeclaration(JaWEManager.getInstance()
-            .getXPDLHandler(), XMLUtil.getPackage(el), tdId);
+         TypeDeclaration td = XMLUtil.getTypeDeclaration(JaWEManager.getInstance().getXPDLHandler(), XMLUtil.getPackage(el), tdId);
          disp += " -> " + getDisplayName(td);
       }
       return disp;
@@ -222,8 +222,7 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    }
 
    public String getDisplayName(XMLAttribute el) {
-      if (el.getParent() instanceof Transition
-          && (el.toName().equals("From") || el.toName().equals("To"))) {
+      if (el.getParent() instanceof Transition && (el.toName().equals("From") || el.toName().equals("To"))) {
          XMLCollectionElement wpOrAs = XMLUtil.getActivitySetOrWorkflowProcess(el);
          SequencedHashMap pas = getPossibleActivities(wpOrAs);
          Activity act = (Activity) pas.get(el.toValue());
@@ -290,8 +289,7 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
             });
          } catch (Exception ex) {
             if (!(cl == XMLSimpleElement.class
-                  || cl == XMLAttribute.class || cl == XMLComplexChoice.class
-                  || cl == XMLComplexElement.class || cl == XMLCollectionElement.class || cl == XMLCollection.class)) {
+                  || cl == XMLAttribute.class || cl == XMLComplexChoice.class || cl == XMLComplexElement.class || cl == XMLCollectionElement.class || cl == XMLCollection.class)) {
                if (XMLComplexChoice.class.isAssignableFrom(cl)) {
                   cl = XMLComplexChoice.class;
                } else if (XMLAttribute.class.isAssignableFrom(cl)) {
