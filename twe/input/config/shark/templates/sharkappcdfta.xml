@@ -1,0 +1,36 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<Application Id="check_document_formats" Name="Check Document Formats">
+   <FormalParameters>
+      <FormalParameter Id="ALLOWED_DOCUMENT_FORMATS" Name="Allowed document formats" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a comma separated list of allowed document formats.</Description>
+      </FormalParameter>
+      <FormalParameter Id="UNSUPPORTED_DOCUMENT_IDS" Name="Unsupported document Ids" IsArray="false" Mode="OUT">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a comma separated list of Ids of documents that have unsuppored format.</Description>
+      </FormalParameter>
+   </FormalParameters>
+   <ExtendedAttributes>
+        <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.CheckDocumentFormatsToolAgent"/>
+    </ExtendedAttributes>
+</Application>
