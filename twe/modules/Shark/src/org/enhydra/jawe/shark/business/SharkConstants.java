@@ -424,6 +424,8 @@ public class SharkConstants {
    
    public static final String TOOL_AGENT_FORMAL_PARAMETER_VARIABLES = "variables";
 
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_ENCODING = "encoding";
+
    public static final String TOOL_AGENT_LDAP_METHOD_getAllGroupEntries = "getAllGroupEntries";
 
    public static final String TOOL_AGENT_LDAP_METHOD_getAllOrganizationalUnitEntries = "getAllOrganizationalUnitEntries";

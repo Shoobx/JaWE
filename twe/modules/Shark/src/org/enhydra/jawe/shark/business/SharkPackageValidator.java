@@ -1921,6 +1921,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       FormalParameters fps = el.getApplicationTypes().getFormalParameters();
       FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL);
       FormalParameter source = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SOURCE);
+      FormalParameter encoding = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ENCODING);
       if (result == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
@@ -1954,6 +1955,18 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                              "",
                                                              source);
          }
+      }
+      if (encoding != null) {
+         handleFPModeError(encoding,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                           existingErrors);
+         handleFPDataTypeError(encoding,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                               existingErrors);
       }
       if (result != null) {
          if (fps.size() == 1) {
