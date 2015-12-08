@@ -1,6 +1,9 @@
 ###### TWE 5.3-1 RELEASED ######
 
 ###### TWE 5.2-3 RELEASED ######
+2015-12-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved support for TSCToolAgent
+
 2015-12-04 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Added support for TSCToolAgent
 
