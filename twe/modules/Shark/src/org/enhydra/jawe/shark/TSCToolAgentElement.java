@@ -31,5 +31,13 @@ public class TSCToolAgentElement extends ToolAgentElementBase {
    protected void handleStructure() {
 
    }
+   
+   public void setValue(String v) {
+      if (isReadOnly) {
+         throw new RuntimeException("Can't set the value of read only element!");
+      }
+      this.value = v;
+   }
+
 
 }
