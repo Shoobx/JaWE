@@ -11438,7 +11438,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para></para>
+          <para/>
         </listitem>
       </itemizedlist>
     </section>
@@ -11449,6 +11449,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       <itemizedlist>
         <listitem>
           <para>Shark mode: Added support for TSCToolAgent</para>
+        </listitem>
+
+        <listitem>
+          <para>Shark mode: Added support for FOPToolAgent</para>
         </listitem>
       </itemizedlist>
     </section>
