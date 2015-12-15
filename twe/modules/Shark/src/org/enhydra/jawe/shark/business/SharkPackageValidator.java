@@ -1041,7 +1041,9 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       if (fp != null) {
          XMLElement dt = fp.getDataType().getDataTypes().getChoosen();
          boolean firstMatch = dt.getClass() == dataTypeClass;
-         boolean secondMatch = dataTypeClass != BasicType.class || (dt instanceof BasicType && ((BasicType) dt).getType().equals(subType));
+         boolean secondMatch = dataTypeClass != BasicType.class
+                               && dataTypeClass != ExternalReference.class || (dt instanceof BasicType && ((BasicType) dt).getType().equals(subType))
+                               || (dt instanceof ExternalReference && ((ExternalReference) dt).getLocation().equals(subType));
          boolean thirdMatch = new Boolean(fp.getIsArray()).booleanValue() == isArray;
          return firstMatch && secondMatch && thirdMatch;
       }
@@ -1069,6 +1071,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          validateToolAgentCheckDocumentFormats(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_EXECUTESQL)) {
          validateToolAgentExecuteSql(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_FOP)) {
+         validateToolAgentFOP(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_JAVACLASS)) {
          validateToolAgentJavaClass(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_LDAP)) {
@@ -1249,6 +1253,116 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                false,
                                SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                existingErrors);
+      }
+   }
+
+   protected void validateToolAgentFOP(Application el, List existingErrors, boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL);
+      FormalParameter source = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SOURCE);
+      FormalParameter encoding = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ENCODING);
+      if (result == null) {
+         XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                          XMLValidationError.SUB_TYPE_LOGIC,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_OR_FOP_RESULT_PARAMETER_REQUIRED,
+                                                          "",
+                                                          el);
+         existingErrors.add(verr);
+      } else {
+         handleFPModeError(result,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_IN,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                           existingErrors);
+         handleFPDataTypeError(result,
+                               ExternalReference.class,
+                               "byte",
+                               true,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_EXTERNAL_LOCATION_TYPE_BYTE_ARRAY_REQUIRED,
+                               existingErrors);
+      }
+
+      if (source != null) {
+         handleFPModeError(source,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                           existingErrors);
+         if (!compareDataTypes(source, SchemaType.class, null, false)
+             && !compareDataTypes(source, BasicType.class, XPDLConstants.BASIC_TYPE_STRING, false)
+             && !compareDataTypes(source, ExternalReference.class, "byte", true)) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                                                             "",
+                                                             source);
+         }
+      }
+      if (encoding != null) {
+         handleFPModeError(encoding,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                           existingErrors);
+         handleFPDataTypeError(encoding,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                               existingErrors);
+      }
+      if (result != null) {
+         if (fps.size() == 1) {
+            ExtendedAttribute ea = el.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+            if (ea == null || ea.getVValue().trim().equals("")) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_OR_FOP_TRANSFORMER_PARAMETER_REQUIRED,
+                                                                "",
+                                                                el);
+               existingErrors.add(verr);
+            }
+         } else {
+            boolean hasTransformation = false;
+            List l = fps.toElements();
+            for (int i = 0; i < l.size(); i++) {
+               FormalParameter fp = (FormalParameter) l.get(i);
+               if (fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
+                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
+                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
+                  hasTransformation = true;
+                  handleFPModeError(fp,
+                                    XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                                    SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                                    existingErrors);
+                  if (fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
+                     handleFPDataTypeError(fp,
+                                           SchemaType.class,
+                                           null,
+                                           false,
+                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
+                                           existingErrors);
+                  } else if (!fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
+                     handleFPDataTypeError(fp,
+                                           BasicType.class,
+                                           XPDLConstants.BASIC_TYPE_STRING,
+                                           false,
+                                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                           existingErrors);
+                  }
+                  break;
+               }
+            }
+            if (!hasTransformation) {
+               ExtendedAttribute ea = el.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+               if (ea == null || ea.getVValue().trim().equals("")) {
+                  XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                   XMLValidationError.SUB_TYPE_LOGIC,
+                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_OR_FOP_TRANSFORMER_PARAMETER_REQUIRED,
+                                                                   "",
+                                                                   el);
+                  existingErrors.add(verr);
+               }
+            }
+         }
       }
    }
 
@@ -1925,7 +2039,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       if (result == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
-                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_RESULT_PARAMETER_REQUIRED,
+                                                          SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_OR_FOP_RESULT_PARAMETER_REQUIRED,
                                                           "",
                                                           el);
          existingErrors.add(verr);
@@ -1934,7 +2048,9 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                            XPDLConstants.FORMAL_PARAMETER_MODE_IN,
                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
                            existingErrors);
-         if (!compareDataTypes(result, SchemaType.class, null, false) && !compareDataTypes(result, BasicType.class, XPDLConstants.BASIC_TYPE_STRING, false)) {
+         if (!compareDataTypes(result, SchemaType.class, null, false)
+             && !compareDataTypes(result, BasicType.class, XPDLConstants.BASIC_TYPE_STRING, false)
+             && !compareDataTypes(result, ExternalReference.class, "byte", true)) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
                                                              SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
@@ -1948,7 +2064,9 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                            XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
                            existingErrors);
-         if (!compareDataTypes(source, SchemaType.class, null, false) && !compareDataTypes(source, BasicType.class, XPDLConstants.BASIC_TYPE_STRING, false)) {
+         if (!compareDataTypes(source, SchemaType.class, null, false)
+             && !compareDataTypes(source, BasicType.class, XPDLConstants.BASIC_TYPE_STRING, false)
+             && !compareDataTypes(result, ExternalReference.class, "byte", true)) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
                                                              SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
@@ -1974,7 +2092,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             if (ea == null || ea.getVValue().trim().equals("")) {
                XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                                 XMLValidationError.SUB_TYPE_LOGIC,
-                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_TRANSFORMER_PARAMETER_REQUIRED,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_OR_FOP_TRANSFORMER_PARAMETER_REQUIRED,
                                                                 "",
                                                                 el);
                existingErrors.add(verr);
@@ -2016,7 +2134,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                if (ea == null || ea.getVValue().trim().equals("")) {
                   XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
-                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_TRANSFORMER_PARAMETER_REQUIRED,
+                                                                   SharkValidationErrorIds.ERROR_TOOL_AGENT_XSLT_OR_FOP_TRANSFORMER_PARAMETER_REQUIRED,
                                                                    "",
                                                                    el);
                   existingErrors.add(verr);

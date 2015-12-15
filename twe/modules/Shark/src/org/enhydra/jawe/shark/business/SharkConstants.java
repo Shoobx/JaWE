@@ -310,6 +310,8 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_EXECUTESQL = "org.enhydra.shark.toolagent.ExecuteSqlToolAgent";
 
+   public static final String TOOL_AGENT_FOP = "org.enhydra.shark.toolagent.FOPToolAgent";
+   
    public static final String TOOL_AGENT_JAVACLASS = "org.enhydra.shark.toolagent.JavaClassToolAgent";
 
    public static final String TOOL_AGENT_JAVASCRIPT = "org.enhydra.shark.toolagent.JavaScriptToolAgent";

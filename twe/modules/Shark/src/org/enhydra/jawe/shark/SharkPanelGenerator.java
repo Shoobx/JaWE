@@ -1232,6 +1232,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_CHECKDOCUMENTFORMATS);
       } else if (SharkConstants.TOOL_AGENT_EXECUTESQL.equals(taName)) {
          ret = new StandardToolAgentElement(el, SharkConstants.TOOL_AGENT_EXECUTESQL);
+      } else if (SharkConstants.TOOL_AGENT_FOP.equals(taName)) {
+         ret = new ScriptBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_FOP);
       } else if (SharkConstants.TOOL_AGENT_JAVACLASS.equals(taName)) {
          ret = new JavaClassToolAgentElement(el, SharkConstants.TOOL_AGENT_JAVACLASS);
       } else if (SharkConstants.TOOL_AGENT_JAVASCRIPT.equals(taName)) {
@@ -1769,7 +1771,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          // }
          String ext = "txt";
          String taName = ((ScriptBasedToolAgentElement) el.getParent()).toName();
-         if (taName.equals(SharkConstants.TOOL_AGENT_XSLT)) {
+         if (taName.equals(SharkConstants.TOOL_AGENT_XSLT) || taName.equals(SharkConstants.TOOL_AGENT_FOP)) {
             ext = "xsl";
          } else if (taName.equals(SharkConstants.TOOL_AGENT_BEAN_SHELL)) {
             ext = "java";
