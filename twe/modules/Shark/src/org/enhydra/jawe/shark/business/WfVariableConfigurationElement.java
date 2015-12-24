@@ -46,6 +46,7 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TRANSIENT, null, null, false, false);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMICSCRIPT, null, null, false, false);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_IS_ACTIVITY_SCOPE_ONLY, null, null, false, false);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES, null, null, false, false);
       } else {
          if (isReadOnly) {
             throw new RuntimeException("Can't set the value of read only element!");
@@ -66,6 +67,10 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
       return (XMLAttribute) get(SharkConstants.EA_IS_ACTIVITY_SCOPE_ONLY);
    }
 
+   public XMLAttribute getUseInToolAgentActivitiesAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES);
+   }
+
    protected void fillStructure() {
       XMLAttribute attrTransient = new XMLAttribute(this, SharkConstants.EA_TRANSIENT, false, new String[] {
             "true", "false"
@@ -76,10 +81,14 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
       XMLAttribute attrIsActivityScopeOnly = new XMLAttribute(this, SharkConstants.EA_IS_ACTIVITY_SCOPE_ONLY, false, new String[] {
             "true", "false"
       }, 1);
+      XMLAttribute attrUseInToolAgentActivities = new XMLAttribute(this, SharkConstants.EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES, false, new String[] {
+            "true", "false"
+      }, 0);
 
       add(attrTransient);
       add(attrDynamicScript);
       add(attrIsActivityScopeOnly);
+      add(attrUseInToolAgentActivities);
    }
 
    protected void handleStructure() {
@@ -95,7 +104,7 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
             pc++;
          }
       }
-      isPersisted = pc == 3;
+      isPersisted = pc == 4;
    }
 
    public boolean isPersisted() {

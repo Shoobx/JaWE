@@ -286,6 +286,8 @@ public class SharkConstants {
 
    public static final String EA_IS_ACTIVITY_SCOPE_ONLY = "IS_ACTIVITY_SCOPE_ONLY";
 
+   public static final String EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES = "EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES";
+
    public static final String EA_URL_VARIABLE = "URLVariable";
 
    public static final String EA_RENDERING_HINT = "RENDERING_HINT";

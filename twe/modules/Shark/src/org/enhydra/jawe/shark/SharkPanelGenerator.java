@@ -918,6 +918,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       ealist.add(dspnl);
       XMLPanel iaspnl = new XMLCheckboxPanel(getPanelContainer(), el.getIsActivityScopeOnlyAttribute(), null, false, enableEditing, false, null);
       ealist.add(iaspnl);
+      XMLPanel uitapnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseInToolAgentActivitiesAttribute(), null, false, enableEditing, false, null);
+      ealist.add(uitapnl);
       tgp.add(Box.createHorizontalGlue());
       tgp.add(new XMLGroupPanel(getPanelContainer(), el, ealist, "", true, true, true, null));
       tgp.add(Box.createHorizontalGlue());

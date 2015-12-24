@@ -1,6 +1,8 @@
 ###### TWE 5.3-1 RELEASED ######
+2015-12-24 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Added support for new extended attribute "EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES"
 
-###### TWE 5.2-3 RELEASED ######
+###### TWE 5.2-3 RELEASED (2015-12-17) ######
 2015-12-15 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Added support for FOPToolAgent      
 
