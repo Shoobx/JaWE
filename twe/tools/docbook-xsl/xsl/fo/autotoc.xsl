@@ -5,7 +5,7 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: autotoc.xsl 9647 2012-10-26 17:42:03Z bobstayton $
+     $Id: autotoc.xsl 9937 2014-08-29 23:05:25Z bobstayton $
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -30,12 +30,14 @@
     </xsl:call-template>
   </xsl:variable>
 
-  <xsl:variable name="nodes" select="book|set|setindex"/>
+  <xsl:variable name="nodes" select="book|set|setindex|article"/>
 
   <xsl:if test="$nodes">
     <fo:block id="toc...{$id}"
               xsl:use-attribute-sets="toc.margin.properties">
-      <xsl:if test="$axf.extensions != 0">
+      <xsl:if test="$axf.extensions != 0 and 
+                    $xsl1.1.bookmarks = 0 and 
+                    $show.bookmarks != 0">
         <xsl:attribute name="axf:outline-level">1</xsl:attribute>
         <xsl:attribute name="axf:outline-expand">false</xsl:attribute>
         <xsl:attribute name="axf:outline-title">
@@ -77,7 +79,9 @@
   <xsl:if test="$nodes">
     <fo:block id="toc...{$cid}"
               xsl:use-attribute-sets="toc.margin.properties">
-      <xsl:if test="$axf.extensions != 0">
+      <xsl:if test="$axf.extensions != 0 and 
+                    $xsl1.1.bookmarks = 0 and 
+                    $show.bookmarks != 0">
         <xsl:attribute name="axf:outline-level">1</xsl:attribute>
         <xsl:attribute name="axf:outline-expand">false</xsl:attribute>
         <xsl:attribute name="axf:outline-title">
@@ -447,7 +451,7 @@
     <xsl:with-param name="toc-context" select="$toc-context"/>
   </xsl:call-template>
 
-  <xsl:variable name="nodes" select="set|book|setindex"/>
+  <xsl:variable name="nodes" select="set|book|setindex|article"/>
 
   <xsl:variable name="depth.from.context" select="count(ancestor::*)-count($toc-context/ancestor::*)"/>
 
@@ -780,6 +784,7 @@
   </xsl:choose>
 </xsl:template>
 
+
 <xsl:template match="section" mode="toc">
   <xsl:param name="toc-context" select="."/>
 
@@ -858,7 +863,8 @@
   </xsl:variable>
 
   <xsl:if test="$nodes">
-    <fo:block id="lot...{$titles}...{$id}">
+    <fo:block id="lot...{$titles}...{$id}"
+        xsl:use-attribute-sets="toc.margin.properties">
       <xsl:choose>
         <xsl:when test="$titles='table'">
           <xsl:call-template name="list.of.tables.titlepage"/>
