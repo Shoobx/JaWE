@@ -165,7 +165,7 @@ SetDateSave          on
   ; it is invoked, will just write the uninstaller to some location, and then exit.
   ; Be sure to substitute the name of this script here.
    
-  !system "$\"${NSISDIR}\makensis$\" /DINNER /O..\..\log_nsis_inner.txt /DPROJECT_FULL_NAME=$\"${PROJECT_FULL_NAME}$\" /DSHORT_NAME=$\"${SHORT_NAME}$\" /DSHORT_UPPER_NAME=$\"${SHORT_UPPER_NAME}$\" /DVERSION=${VERSION} /DRELEASE=${RELEASE} /DTWE_DIR=$\"${TWE_DIR}$\" /DOUT_DIR=$\"${OUT_DIR}$\" /DLICENSE=$\"${LICENSE}$\" /DLANGUAGE=${LANGUAGE} /DBUILDID=${BUILDID} twe.nsi" = 0
+  !system "$\"${NSISDIR}\makensis$\" /DINNER /O..\..\log_nsis_inner.txt /DPROJECT_FULL_NAME=$\"${PROJECT_FULL_NAME}$\" /DSHORT_NAME=$\"${SHORT_NAME}$\" /DSHORT_UPPER_NAME=$\"${SHORT_UPPER_NAME}$\" /DVERSION=${VERSION} /DRELEASE=${RELEASE} /DTWE_DIR=$\"${TWE_DIR}$\" /DOUT_DIR=$\"${OUT_DIR}$\" /DLICENSE=$\"${LICENSE}$\" /DLANGUAGE=${LANGUAGE} /DBUILDID=${BUILDID} /DTARGET_VM=$\"${TARGET_VM}$\" twe.nsi" = 0
  
   ; So now run that installer we just created as %TEMP%\tempinstaller.exe.  Since it
   ; calls quit the return value isn't zero.
@@ -209,7 +209,7 @@ SetDateSave          on
 ;--------------------------------
 ;Pages Define our own pages
 
-  !insertmacro TOG_CUSTOMPAGE_SETJAVA "${PROJECT_FULL_NAME} ${VERSION}-${RELEASE}" $JAVAHOME ;
+  !insertmacro TOG_CUSTOMPAGE_SETJAVA "${PROJECT_FULL_NAME} ${VERSION}-${RELEASE}" $JAVAHOME "${TARGET_VM}";
   !insertmacro TOG_CUSTOMPAGE_DIRECTORY "${PROJECT_FULL_NAME} ${VERSION}-${RELEASE}" $DefaultDir  ;
   !insertmacro TOG_CUSTOMPAGE_STARTOPTION "${PROJECT_FULL_NAME} ${VERSION}-${RELEASE}" $ADD_STARTMENU $STARTMENU_FOLDER $ENABLE_DESKTOP $ADD_DESKTOP $ENABLE_QUICKLAUNCH $ADD_QUICKLAUNCH $ENABLE_PINTOTASKBAR $ADD_PINTOTASKBAR
   !insertmacro MUI_PAGE_INSTFILES

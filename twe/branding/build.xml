@@ -168,6 +168,9 @@
          <arg line="/DLANGUAGE=${language}" />
          <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
          <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+         <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
+         <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />  
+         <arg line="/DTARGET_VM=&quot;${targetVM}&quot;"/>
          <arg line="${nsis.script}" />
       </exec>
 

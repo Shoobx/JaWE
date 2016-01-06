@@ -11441,6 +11441,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>Shark mode: Added support for new extended attribute
           "EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES"</para>
         </listitem>
+
+        <listitem>
+          <para>Only Java 8 is now offered during installation
+          procedure</para>
+        </listitem>
       </itemizedlist>
     </section>
 

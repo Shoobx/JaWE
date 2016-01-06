@@ -59,13 +59,13 @@ Var TOG_JavaFullVersionSupport ; minimum version of java that our program suppor
 Var TOG_UserJavaHomeVersion    ; user set their java_home to which version 03222012/Kot
 Var TOG_UserHasRightJavaVersion    ; user set their java_home to which version 03222012/Kot
 	
-!macro TOG_CUSTOMPAGE_SETJAVA APP_NAME JAVA_PATH
+!macro TOG_CUSTOMPAGE_SETJAVA APP_NAME JAVA_PATH TARGET_VM
 Page custom create_page_setjava leave_page_setjava
 
 Function create_page_setjava
 
 	# Define minimum version of java that our application support. 03222012/Kot
-	StrCpy $TOG_JavaFullVersionSupport "1.7"
+	StrCpy $TOG_JavaFullVersionSupport "${TARGET_VM}"
 	
     # Insert pre-custom function
     !insertmacro TOG_CUSTOMPAGE_FUNCTION_CUSTOM PRE
@@ -95,7 +95,7 @@ Function create_page_setjava
     ${Else}
         StrCpy $1 "$1 ${TOG_CUSTOMPAGE_SETJAVA_TEXT_EXTB}"
     ${EndIf}
-    System::Call user32::GetWindowText(i$tog.SetJavaCustomPage.Button.Next,t.s,i${NSIS_MAX_STRLEN})
+    System::Call 'user32::GetWindowText(i$tog.SetJavaCustomPage.Button.Next,t.s,i${NSIS_MAX_STRLEN})'
     Pop $0
     ${If} "&Next >" == $0
         StrCpy $1 "$1 ${TOG_CUSTOMPAGE_SETJAVA_TEXT_NEXT}"
@@ -141,7 +141,7 @@ Function create_page_setjava
         ${NSD_CreateText} 40u 122u 55% 12u "$TOG_JavaBrowse"
         Pop $tog.SetJavaCustomPage.UserEdit
         ${NSD_OnChange} $tog.SetJavaCustomPage.UserEdit OnChangeUserEdit
-        System::Call shlwapi::SHAutoComplete(i$tog.SetJavaCustomPage.UserEdit OnChangeUserEdit,i"1")
+        System::Call 'shlwapi::SHAutoComplete(i$tog.SetJavaCustomPage.UserEdit OnChangeUserEdit,i"1")'
         ;(5.3) Create a user-browse button
         ${NSD_CreateBrowseButton} 214u 120u 60u 14u "Browse..."
         Pop $tog.SetJavaCustomPage.UserBrowseButton
@@ -332,6 +332,7 @@ check_java_version_number:
     ${If} $0 S< $TOG_JavaFullVersionSupport
          ;requirement not met.
 		 # show warning to user befor quit install.
+		StrCpy $1 $TOG_JavaFullVersionSupport "" 2
 		MessageBox MB_OK "${APP_NAME} is support for java $TOG_JavaFullVersionSupport or higher version. $\nPlease install Java $TOG_JavaFullVersionSupport or higher version before install ${APP_NAME}." IDOK quit_instaillation
     ${EndIf}
 	
@@ -360,7 +361,7 @@ Function Check_JavaHome
 		${EndIf}
     ${Else}
         ReadRegStr $TOG_JavaHome HKCU "Environment" "JAVA_HOME"
-		ClearErrors
+
         IfFileExists $TOG_JavaHome\bin\javaw.exe 0 +2
             Goto javahome_alive
         Goto javahome_donot_exist
