@@ -43,6 +43,7 @@ import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataType;
+import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.EnumerationType;
 import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExpressionType;
@@ -547,6 +548,20 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       }
    }
 
+   public void validateElement(DeadlineDuration el, List existingErrors, boolean fullCheck) {
+      if (el.getScriptType().equals(SharkConstants.SCRIPT_VALUE_SHARKWF_DEADLINES)) {
+         if (!SharkUtils.isValidSharkDeadlineExpression(el.toValue())) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             XPDLValidationErrorIds.WARNING_DEADLINE_EXPRESSION_POSSIBLY_INVALID,
+                                                             el.toValue(),
+                                                             el);
+         }
+      } else {
+         super.validateElement(el, existingErrors, fullCheck);
+      }
+   }
+   
    public void validateElement(EnumerationType el, List existingErrors, boolean fullCheck) {
       XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                        XMLValidationError.SUB_TYPE_LOGIC,

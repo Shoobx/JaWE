@@ -175,6 +175,10 @@ public class XMLCheckboxPanel extends XMLBasicPanel {
       return "false";
    }
 
+   public void setSelected (boolean sel) {
+      jcb.setSelected(sel);
+   }
+   
    public boolean isEmpty() {
       return considerUncheckedAsEmpty && !getCheckboxStatus();
    }

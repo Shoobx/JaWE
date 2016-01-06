@@ -49,7 +49,7 @@ public class XMLTextPanel extends XMLBasicPanel {
 
    public XMLTextPanel(PanelContainer pc, XMLElement myOwnerL, boolean isVertical, boolean isPasswordField, boolean isEnabled) {
 
-      this(pc, myOwnerL, null, isVertical, isPasswordField, false, isEnabled, null);
+      this(pc, myOwnerL, null, isVertical, isPasswordField, false, isEnabled, null, null);
    }
 
    public XMLTextPanel(PanelContainer pc,
@@ -59,12 +59,12 @@ public class XMLTextPanel extends XMLBasicPanel {
                        boolean isPasswordField,
                        final boolean isNumberField,
                        boolean isEnabled,
+                       Dimension textDim,
                        String tooltip) {
 
       super(pc, myOwnerL, "", isVertical, false, true, tooltip);
 
       boolean rightAllignment = false;
-      Dimension textDim = new Dimension(400, 20);
 
       Color bkgCol = new Color(245, 245, 245);
 
@@ -73,12 +73,17 @@ public class XMLTextPanel extends XMLBasicPanel {
 
          rightAllignment = settings.getSettingBoolean("XMLBasicPanel.RightAllignment");
 
-         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
+         if (textDim==null) {
+            textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
+         }
 
          if (settings instanceof PanelSettings) {
             bkgCol = ((PanelSettings) settings).getBackgroundColor();
          }
-
+      } else {
+         if (textDim == null) {
+            textDim = new Dimension(400, 20);
+         }         
       }
       if (label == null) {
          if (pc != null) {
@@ -178,6 +183,10 @@ public class XMLTextPanel extends XMLBasicPanel {
 
    public String getText() {
       return jtf.getText();
+   }
+
+   public void setText(String text) {
+      jtf.setText(text);
    }
 
    public Object getValue() {

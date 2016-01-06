@@ -32,7 +32,17 @@ public class SharkConstants {
    public static final String SCRIPT_VALUE_JAVA = "text/java";
 
    public static final String SCRIPT_VALUE_PYTHONSCRIPT = "text/pythonscript";
+   
+   public static final String SCRIPT_VALUE_SHARKWF_DEADLINES = "text/sharkwfdeadlines";
 
+   public static final String DEADLINE_EXPRESSION_YEAR = "Y";
+   public static final String DEADLINE_EXPRESSION_MONTH = "M";
+   public static final String DEADLINE_EXPRESSION_DAY = "D";
+   public static final String DEADLINE_EXPRESSION_HOUR = "h";
+   public static final String DEADLINE_EXPRESSION_MINUTE = "m";
+   public static final String DEADLINE_EXPRESSION_SECOND = "s";
+   public static final String DEADLINE_EXPRESSION_WORKDAYS_ONLY = "WDO";
+   
    public static final String EA_TOOL_AGENT_CLASS = "ToolAgentClass";
 
    public static final String EA_TOOL_AGENT_CLASS_PROXY = "ToolAgentClassProxy";

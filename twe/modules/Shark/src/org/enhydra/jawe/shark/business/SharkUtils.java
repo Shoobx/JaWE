@@ -298,4 +298,61 @@ public class SharkUtils {
       return ret;
    }
 
+   public static boolean isValidSharkDeadlineExpression(String expr) {
+      String[] tks = XMLUtil.tokenize(expr, " ");
+      int cntv = 0;
+      for (int i = 0; i < tks.length; i++) {
+         if (tks[i].equals(SharkConstants.DEADLINE_EXPRESSION_WORKDAYS_ONLY)) {
+            cntv++;
+         } else if (tks[i].endsWith(SharkConstants.DEADLINE_EXPRESSION_YEAR)) {
+            String tv = getTimeValue(tks[i], SharkConstants.DEADLINE_EXPRESSION_YEAR);
+            if (!tv.equals("")) {
+               cntv++;
+            }
+         } else if (tks[i].endsWith(SharkConstants.DEADLINE_EXPRESSION_MONTH)) {
+            String tv = getTimeValue(tks[i], SharkConstants.DEADLINE_EXPRESSION_MONTH);
+            if (!tv.equals("")) {
+               cntv++;
+            }
+         } else if (tks[i].endsWith(SharkConstants.DEADLINE_EXPRESSION_DAY)) {
+            String tv = getTimeValue(tks[i], SharkConstants.DEADLINE_EXPRESSION_DAY);
+            if (!tv.equals("")) {
+               cntv++;
+            }
+         } else if (tks[i].endsWith(SharkConstants.DEADLINE_EXPRESSION_HOUR)) {
+            String tv = getTimeValue(tks[i], SharkConstants.DEADLINE_EXPRESSION_HOUR);
+            if (!tv.equals("")) {
+               cntv++;
+            }
+         } else if (tks[i].endsWith(SharkConstants.DEADLINE_EXPRESSION_MINUTE)) {
+            String tv = getTimeValue(tks[i], SharkConstants.DEADLINE_EXPRESSION_MINUTE);
+            if (!tv.equals("")) {
+               cntv++;
+            }
+         } else if (tks[i].endsWith(SharkConstants.DEADLINE_EXPRESSION_SECOND)) {
+            String tv = getTimeValue(tks[i], SharkConstants.DEADLINE_EXPRESSION_SECOND);
+            if (!tv.equals("")) {
+               cntv++;
+            }
+         }
+      }
+
+      return tks != null && cntv == tks.length;
+   }
+
+   public static String getTimeValue(String timewithsuffix, String tsuffix) {
+      String ret = "";
+
+      int indofts = timewithsuffix.indexOf(tsuffix);
+      if (indofts > 0) {
+         String t = timewithsuffix.substring(0, indofts);
+         try {
+            ret = String.valueOf(new Integer(t));
+         } catch (Exception ex) {
+         }
+      }
+
+      return ret;
+   }
+
 }

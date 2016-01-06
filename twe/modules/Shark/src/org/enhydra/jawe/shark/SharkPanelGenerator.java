@@ -86,6 +86,7 @@ import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.DataTypes;
 import org.enhydra.jxpdl.elements.Deadline;
+import org.enhydra.jxpdl.elements.DeadlineDuration;
 import org.enhydra.jxpdl.elements.Description;
 import org.enhydra.jxpdl.elements.ExpressionType;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
@@ -216,9 +217,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       XMLPanel returnCode = new XMLComboPanel(getPanelContainer(), el.getReturnCodeAttribute(), null, true, true, false, false, enableEditing);
 
       XMLPanel newproc = new XMLCheckboxPanel(getPanelContainer(), el.getDoCreateNewProcAttribute(), null, false, enableEditing, false, null);
-      
+
       SequencedHashMap choices = XMLUtil.getPossibleSubflowProcesses(XMLUtil.getPackage(el), JaWEManager.getInstance().getXPDLHandler());
-      WorkflowProcess dummy  = new WorkflowProcess(null);
+      WorkflowProcess dummy = new WorkflowProcess(null);
       dummy.setId(" ");
       choices.put(" ", dummy);
       Object choosen = choices.get(el.getProcessRef().toValue());
@@ -233,7 +234,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       final XMLComboPanelWithReferenceLink cp = new XMLComboPanelWithReferenceLink(getPanelContainer(), cc, null, true, false, true, JaWEManager.getInstance()
          .getJaWEController()
          .canModifyElement(el), null);
-
 
       XMLPanel filesyslog = new XMLCheckboxPanel(getPanelContainer(), el.getDoWriteFilesysLogAttribute(), null, false, enableEditing, false, null);
 
@@ -1313,6 +1313,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                  false,
                                  false,
                                  JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                 null,
                                  null);
       }
       XMLGroupPanel gp = (XMLGroupPanel) super.getPanel(el);
@@ -1364,6 +1365,12 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          choices.add(0, chosen);
       }
       return new XMLDataTypesPanel(getPanelContainer(), el, choices, JaWEManager.getInstance().getLabelGenerator().getLabel(el), JaWEManager.getInstance()
+         .getJaWEController()
+         .canModifyElement(el), null);
+   }
+
+   public XMLPanel getPanel(DeadlineDuration el) {
+      return new DeadlineDurationPanel(getPanelContainer(), el, JaWEManager.getInstance().getLabelGenerator().getLabel(el), JaWEManager.getInstance()
          .getJaWEController()
          .canModifyElement(el), null);
    }
@@ -1673,6 +1680,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                        false,
                                        false,
                                        JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                       null,
                                        null);
             } else {
                editable = false;
@@ -1762,7 +1770,15 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   null);
       } else if ((el.toName().equals(SharkConstants.EA_WORKLOAD_FACTOR) || el.toName().equals(SharkConstants.EA_MAX_ASSIGNMENTS))
                  && el.getParent() instanceof WfConfigurationElement) {
-         return new XMLTextPanel(getPanelContainer(), el, null, false, false, true, JaWEManager.getInstance().getJaWEController().canModifyElement(el), null);
+         return new XMLTextPanel(getPanelContainer(),
+                                 el,
+                                 null,
+                                 false,
+                                 false,
+                                 true,
+                                 JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                 null,
+                                 null);
       } else if (el.getParent() instanceof ScriptBasedToolAgentElement && el.toName().equals("Script")) {
          int noOfLines = 15;
          // try {
@@ -1808,6 +1824,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                     false,
                                     false,
                                     JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                    null,
                                     null);
          } else {
             String choosen = el.toValue();
