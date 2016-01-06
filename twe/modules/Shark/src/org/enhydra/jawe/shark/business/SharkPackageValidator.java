@@ -556,6 +556,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                              XPDLValidationErrorIds.WARNING_DEADLINE_EXPRESSION_POSSIBLY_INVALID,
                                                              el.toValue(),
                                                              el);
+            existingErrors.add(verr);
          }
       } else {
          super.validateElement(el, existingErrors, fullCheck);
