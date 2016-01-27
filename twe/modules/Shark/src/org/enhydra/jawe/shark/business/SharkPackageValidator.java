@@ -562,7 +562,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          super.validateElement(el, existingErrors, fullCheck);
       }
    }
-   
+
    public void validateElement(EnumerationType el, List existingErrors, boolean fullCheck) {
       XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                        XMLValidationError.SUB_TYPE_LOGIC,
@@ -1277,6 +1277,10 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL);
       FormalParameter source = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SOURCE);
       FormalParameter encoding = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ENCODING);
+      FormalParameter configfp = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_CONFIG_FILEPATH);
+      FormalParameter bdfonts = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_BASEDIR_FONTS);
+      FormalParameter bdimgs = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_BASEDIR_IMAGES);
+
       if (result == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                           XMLValidationError.SUB_TYPE_LOGIC,
@@ -1318,6 +1322,42 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
                            existingErrors);
          handleFPDataTypeError(encoding,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                               existingErrors);
+      }
+      if (configfp != null) {
+         handleFPModeError(configfp,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                           existingErrors);
+         handleFPDataTypeError(configfp,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                               existingErrors);
+      }
+      if (bdfonts != null) {
+         handleFPModeError(bdfonts,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                           existingErrors);
+         handleFPDataTypeError(bdfonts,
+                               BasicType.class,
+                               XPDLConstants.BASIC_TYPE_STRING,
+                               false,
+                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                               existingErrors);
+      }
+      if (bdimgs != null) {
+         handleFPModeError(bdimgs,
+                           XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                           SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                           existingErrors);
+         handleFPDataTypeError(bdimgs,
                                BasicType.class,
                                XPDLConstants.BASIC_TYPE_STRING,
                                false,

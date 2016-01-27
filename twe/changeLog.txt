@@ -1,4 +1,5 @@
 ###### TWE 5.4-1 RELEASED ######
+   # Shark mode: supported enhancement of FOPToolAgent
 
 ###### TWE 5.3-1 RELEASED (2016-01-21) ######
 2015-01-06 Sasa Bojanic <sasaboy@together.at>
