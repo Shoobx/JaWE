@@ -11438,7 +11438,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para>Shark mode: supported enhancement of FOPToolAgent</para>
+          <para>Shark mode: </para>
+
+          <para>- Supported enhancement of FOPToolAgent</para>
+
+          <para>- Fixed the logic to display references of Package defined
+          XPDL string variables (duplicated references were counted)</para>
         </listitem>
       </itemizedlist>
     </section>

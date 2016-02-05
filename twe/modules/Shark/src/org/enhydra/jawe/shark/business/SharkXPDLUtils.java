@@ -94,7 +94,7 @@ public class SharkXPDLUtils extends XPDLUtils {
       if (el instanceof Package) {
          Iterator it = ((Package) el).getWorkflowProcesses().toElements().iterator();
          while (it.hasNext()) {
-            references.addAll(getXPDLStringOrI18nEAReferences((WorkflowProcess) it.next(), ea, referencedName, references, isxpdlstr));
+            getXPDLStringOrI18nEAReferences((WorkflowProcess) it.next(), ea, referencedName, references, isxpdlstr);
          }
          references.addAll(getBshJSTAReferences((Package) el, referencedName));
          references.addAll(getInitialValueReferencesForI18nVariable((Package) el, referencedName));
