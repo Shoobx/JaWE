@@ -144,6 +144,10 @@ public class SharkConstants {
    public static final String EA_HTML5FORM_XSL = "HTML5FORM_XSL";
 
    public static final String EA_FORM_PAGE_URL = "FORM_PAGE_URL";
+   
+   public static final String EA_TWF_XML_VARIABLE_TO_HANDLE = "TWF_XML_VARIABLE_TO_HANDLE";
+   
+   public static final String EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES = "TWF_XML_VARIABLE_ITEM_NAME_PREFIXES";
 
    public static final String EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE = "IS_WEBDAV_FOR_ACTIVITY_VISIBLE";
 

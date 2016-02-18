@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-02-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: supported new TWF related extended attributes (TWF_XML_VARIABLE_TO_HANDLE and TWF_XML_VARIABLE_ITEM_NAME_PREFIXES)
+
 2016-02-05 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: fixed the logic to display references of Package defined XPDL string variables (duplicated references were counted)
 
