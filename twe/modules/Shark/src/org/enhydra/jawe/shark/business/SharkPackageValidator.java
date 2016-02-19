@@ -104,7 +104,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          if (el.toName().equals("Name")) {
             if (((el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
                   || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_VTP_FETCH)
-                  || el.toValue().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue().equals(SharkConstants.EA_FORM_PAGE_URL)) && isAct)
+                  || el.toValue().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue().equals(SharkConstants.EA_FORM_PAGE_URL) || el.toValue()
+               .equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)) && isAct)
                 || (!isAct && (el.toValue().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
                                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
@@ -238,6 +239,18 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      existingErrors.add(verr);
                      if (!fullCheck) {
                         return;
+                     }
+                  } else if (m.get(v) != null && ea.getName().equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)) {
+                     XMLCollectionElement dforfp = (XMLCollectionElement) m.get(v);
+                     boolean isArray = new Boolean(dforfp.get("IsArray").toValue()).booleanValue();
+                     Object chn = ((DataType) dforfp.get("DataType")).getDataTypes().getChoosen();
+                     if (isArray || !(chn instanceof SchemaType)) {
+                        XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                         XMLValidationError.SUB_TYPE_LOGIC,
+                                                                         SharkValidationErrorIds.ERROR_INVALID_VARIABLE_TYPE_SCHEMA_TYPE_REQUIRED,
+                                                                         "",
+                                                                         ea.get("Value"));
+                        existingErrors.add(verr);
                      }
                   }
                }
