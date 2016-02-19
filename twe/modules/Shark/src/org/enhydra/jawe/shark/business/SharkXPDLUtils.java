@@ -636,7 +636,8 @@ public class SharkXPDLUtils extends XPDLUtils {
             for (int i = 0; i < eas.size(); i++) {
                ExtendedAttribute ea = (ExtendedAttribute) eas.get(i);
                if (ea.getName().equals(SharkConstants.EA_VTP_UPDATE)
-                   || ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+                   || ea.getName().equals(SharkConstants.EA_VTP_VIEW) || ea.getName().equals(SharkConstants.EA_VTP_FETCH)
+                   || ea.getName().equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)) {
                   if (XMLUtil.getUsingPositions(ea.getVValue(), dfOrFpId, allVars).size() > 0) {
                      references.add(ea.get("Value"));
                   }
@@ -956,7 +957,8 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.equals(SharkConstants.EA_VTP_UPDATE) || eaName.equals(SharkConstants.EA_VTP_VIEW) || eaName.equals(SharkConstants.EA_VTP_FETCH)
                  || eaName.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaName.equals(SharkConstants.EA_HTML5FORM_FILE)
                  || eaName.equals(SharkConstants.EA_HTML5FORM_EMBEDDED) || eaName.equals(SharkConstants.EA_HTML5FORM_XSL)
-                 || eaName.equals(SharkConstants.EA_HTML_VARIABLE) || eaName.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE) || eaName.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION))) {
+                 || eaName.equals(SharkConstants.EA_HTML_VARIABLE) || eaName.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE)
+                 || eaName.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION) || eaName.equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE) || eaName.equals(SharkConstants.EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES))) {
             continue;
          }
          if (pp instanceof Transition
