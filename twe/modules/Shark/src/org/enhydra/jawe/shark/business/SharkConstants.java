@@ -32,17 +32,23 @@ public class SharkConstants {
    public static final String SCRIPT_VALUE_JAVA = "text/java";
 
    public static final String SCRIPT_VALUE_PYTHONSCRIPT = "text/pythonscript";
-   
+
    public static final String SCRIPT_VALUE_SHARKWF_DEADLINES = "text/sharkwfdeadlines";
 
    public static final String DEADLINE_EXPRESSION_YEAR = "Y";
+
    public static final String DEADLINE_EXPRESSION_MONTH = "M";
+
    public static final String DEADLINE_EXPRESSION_DAY = "D";
+
    public static final String DEADLINE_EXPRESSION_HOUR = "h";
+
    public static final String DEADLINE_EXPRESSION_MINUTE = "m";
+
    public static final String DEADLINE_EXPRESSION_SECOND = "s";
+
    public static final String DEADLINE_EXPRESSION_WORKDAYS_ONLY = "WDO";
-   
+
    public static final String EA_TOOL_AGENT_CLASS = "ToolAgentClass";
 
    public static final String EA_TOOL_AGENT_CLASS_PROXY = "ToolAgentClassProxy";
@@ -138,6 +144,10 @@ public class SharkConstants {
    public static final String EA_HTML5FORM_XSL = "HTML5FORM_XSL";
 
    public static final String EA_FORM_PAGE_URL = "FORM_PAGE_URL";
+   
+   public static final String EA_TWF_XML_VARIABLE_TO_HANDLE = "TWF_XML_VARIABLE_TO_HANDLE";
+   
+   public static final String EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES = "TWF_XML_VARIABLE_ITEM_NAME_PREFIXES";
 
    public static final String EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE = "IS_WEBDAV_FOR_ACTIVITY_VISIBLE";
 
@@ -323,7 +333,7 @@ public class SharkConstants {
    public static final String TOOL_AGENT_EXECUTESQL = "org.enhydra.shark.toolagent.ExecuteSqlToolAgent";
 
    public static final String TOOL_AGENT_FOP = "org.enhydra.shark.toolagent.FOPToolAgent";
-   
+
    public static final String TOOL_AGENT_JAVACLASS = "org.enhydra.shark.toolagent.JavaClassToolAgent";
 
    public static final String TOOL_AGENT_JAVASCRIPT = "org.enhydra.shark.toolagent.JavaScriptToolAgent";
@@ -435,10 +445,16 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_OUTPUT_TEMPLATE_FILEPATH = "calculation_output_template_filepath";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_FILEPATH = "calculation_filepath";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_VARIABLES = "variables";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_ENCODING = "encoding";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_CONFIG_FILEPATH = "config_filepath";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_BASEDIR_FONTS = "basedir_fonts";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_BASEDIR_IMAGES = "basedir_images";
 
    public static final String TOOL_AGENT_LDAP_METHOD_getAllGroupEntries = "getAllGroupEntries";
 

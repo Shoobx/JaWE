@@ -639,10 +639,28 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel xfxpnl = getPanel(el.getHTML5FormXSLAttribute());
          XMLPanel xffpnl = getPanel(el.getFormPageURLAttribute());
 
+         XMLPanel xftwfpnl = getPanel(el.getTWFXMLVariableToHandleAttribute());
+         XMLPanel xftwfppnl = new XMLTextPanel((InlinePanel) getPanelContainer(),
+                                               el.getTWFXMLItemNamePrefixesElement(),
+                                               getPanelContainer().getLanguageDependentString(el.getTWFXMLItemNamePrefixesElement().toName() + "Key"),
+                                               false,
+                                               false,
+                                               false,
+                                               enableEditing,
+                                               null,
+                                               null);
+
          panels.add(xfpnl);
          panels.add(xfepnl);
          panels.add(xfvpnl);
-         panels.add(xffpnl);
+
+         XMLGroupPanel extfgp = new XMLGroupPanel(getPanelContainer(), el, panels, "", true, true, false, false, false, null);
+
+         extfgp.add(xffpnl);
+         extfgp.add(xftwfpnl);
+         extfgp.add(xftwfppnl);
+
+         panels.add(extfgp);
          panels.add(xfxpnl);
          XMLGroupPanel cggp = new XMLGroupPanel(getPanelContainer(),
                                                 el,
@@ -1950,6 +1968,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             DataField df = createDummyDataField(id, false);
             choices.add(df);
          }
+         DataField df = createDummyDataField(" ", false);
+         choices.add(0, df);
+         return new XMLComboPanel(getPanelContainer(), el, null, choices, false, true, false, false, JaWEManager.getInstance()
+            .getJaWEController()
+            .canModifyElement(el), true, true, null);
+      } else if (el.toName().equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)
+                 && el.getParent() instanceof WebClientConfigurationElement && ((WebClientConfigurationElement) el.getParent()).isForActivity()) {
+         SequencedHashMap chm = XMLUtil.getPossibleVariables(el);
+         List filter = Arrays.asList(new String[] {
+            "SchemaType"
+         });
+         List choices = PanelUtilities.getPossibleVariableChoices(SharkUtils.getPossibleVariableChoices(chm, new ArrayList(), el.toValue()), filter, 2, false);
          DataField df = createDummyDataField(" ", false);
          choices.add(0, df);
          return new XMLComboPanel(getPanelContainer(), el, null, choices, false, true, false, false, JaWEManager.getInstance()

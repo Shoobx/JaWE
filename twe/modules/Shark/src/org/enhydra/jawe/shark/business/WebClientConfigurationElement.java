@@ -76,6 +76,8 @@ public class WebClientConfigurationElement extends XMLComplexElement {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML_VARIABLE, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_XSL, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_FORM_PAGE_URL, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES, null, null, true, removeUnconditionally);
          }
       } else {
          if (isReadOnly) {
@@ -116,6 +118,14 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       return (XMLAttribute) get(SharkConstants.EA_FORM_PAGE_URL);
    }
 
+   public XMLAttribute getTWFXMLVariableToHandleAttribute() {
+      return (XMLAttribute) get(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE);
+   }
+
+   public XMLAttribute getTWFXMLItemNamePrefixesElement() {
+      return (XMLAttribute) get(SharkConstants.EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES);
+   }
+   
    public XMLAttribute getIsWebDAVForActivityVisibleAttribute() {
       return (XMLAttribute) get(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE);
    }
@@ -174,6 +184,8 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       XMLAttribute attrHTMLVariable = new XMLAttribute(this, SharkConstants.EA_HTML_VARIABLE, false);
       XMLAttribute attrHTML5FormXSL = new XMLAttribute(this, SharkConstants.EA_HTML5FORM_XSL, false);
       XMLAttribute attrFormPageURL = new XMLAttribute(this, SharkConstants.EA_FORM_PAGE_URL, false);
+      XMLAttribute attrTWFXML = new XMLAttribute(this, SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE, false);
+      XMLAttribute attrTWFXMLItemNamePrefixes = new XMLAttribute(this, SharkConstants.EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES, false);
       XMLAttribute attrIsWebDAVForActivityVisible = new XMLAttribute(this, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, false, new String[] {
             "true", "false"
       }, 0);
@@ -217,6 +229,8 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       add(attrHTMLVariable);
       add(attrHTML5FormXSL);
       add(attrFormPageURL);
+      add(attrTWFXML);
+      add(attrTWFXMLItemNamePrefixes);
       add(attrIsWebDAVForActivityVisible);
       add(attrBackActivityDefinition);
       add(attrCheckForCompletion);

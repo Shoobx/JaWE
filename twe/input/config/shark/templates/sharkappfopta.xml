@@ -29,6 +29,24 @@
          </DataType>
          <Description>byte array representing PDF output of XSL-FO transformation.</Description>
       </FormalParameter>
+      <FormalParameter Id="config_filepath" Name="File path to user configuration xml file" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a file path to FOP configuration XML file. If empty (or parameter is not existing) FOP is not configured this way.</Description>
+      </FormalParameter>
+      <FormalParameter Id="basedir_fonts" Name="Base directory for font configuration files" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a base directory for the font lookup (font configuration files lookup is performed relative to this base directory). If empty (or parameter is not existing) FOP is not configured this way.</Description>
+      </FormalParameter>
+      <FormalParameter Id="basedir_images" Name="Base directory for image files" IsArray="false" Mode="IN">
+         <DataType>
+            <BasicType Type="STRING"/>
+         </DataType>
+         <Description>String representing a base directory for the image lookup (image file lookup is performed relative to this base directory). If empty (or parameter is not existing) images are searched relative to the location of XSL transformation if it is specified through 'transformer_path' formal parameter.</Description>
+      </FormalParameter>
    </FormalParameters>   
    <ExtendedAttributes>
       <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.FOPToolAgent"/>
