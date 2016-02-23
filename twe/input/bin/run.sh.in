@@ -1,5 +1,0 @@
-#!/bin/sh
-
-cd `dirname $0`
-
-"@JAVA_PATH@/bin/java" -Xmx512M -DJaWE_HOME="@INSTALL_DIR@" -DJaWE_WORKING_DIR="@INSTALL_DIR@/examples/xpdl2.1/RealLife" -Djava.ext.dirs="@INSTALL_DIR@/lib" org.enhydra.jawe.JaWE $*
