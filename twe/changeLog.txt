@@ -1,6 +1,10 @@
 ###### TWE 5.4-1 RELEASED ######
 
-###### TWE 5.3-2 RELEASED ######
+###### TWE 5.3-3 RELEASED ######
+   # Shark mode: Improved validation of TSC tool agent according to the changes in TSC and TWS's TSCToolAgent
+   # Shark mode: Hiding all special extended attributes when trying to define "normal" extended attribute
+
+###### TWE 5.3-2 RELEASED (2016-02-23) ######
 2016-02-19 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Improved handling and validation of new TWF related extended attribute TWF_XML_VARIABLE_TO_HANDLE
 
