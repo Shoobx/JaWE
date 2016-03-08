@@ -11434,6 +11434,22 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     <title>Release Notes</title>
 
     <section>
+      <title>Release 5.3-3</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Shark mode:</para>
+
+          <para>- Improved validation of TSC tool agent according to the
+          changes in TSC and TWS's TSCToolAgent</para>
+
+          <para>- Hiding all special extended attributes when trying to
+          define "normal" extended attribute</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 5.3-2</title>
 
       <itemizedlist>

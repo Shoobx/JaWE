@@ -445,6 +445,10 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_OUTPUT_TEMPLATE_FILEPATH = "calculation_output_template_filepath";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_FILEPATH = "calculation_filepath";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATOR_CLASS = "calculator_class";
+   
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_CACHE_SIZE = "cache_size";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_VARIABLES = "variables";
 

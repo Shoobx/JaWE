@@ -1720,6 +1720,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       FormalParameter res = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL);
       FormalParameter cfp = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_FILEPATH);
       FormalParameter cotmplfp = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_OUTPUT_TEMPLATE_FILEPATH);
+      FormalParameter cc = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_CALCULATOR_CLASS);
+      FormalParameter ccs = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_CACHE_SIZE);
       FormalParameter variables = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_VARIABLES);
       if (src == null || res == null || cfp == null || cotmplfp == null) {
          XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
@@ -1770,6 +1772,26 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                             XPDLConstants.BASIC_TYPE_STRING,
                             false,
                             SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+      handleFPModeError(cc,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(cc,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+      handleFPModeError(ccs,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(ccs,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_INTEGER,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_INTEGER_REQUIRED,
                             existingErrors);
       handleFPModeError(variables,
                         XPDLConstants.FORMAL_PARAMETER_MODE_OUT,

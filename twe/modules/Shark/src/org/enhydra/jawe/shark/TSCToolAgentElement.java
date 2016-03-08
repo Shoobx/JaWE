@@ -25,19 +25,17 @@ public class TSCToolAgentElement extends ToolAgentElementBase {
 
    public TSCToolAgentElement(Application app) {
       super(app, SharkConstants.TOOL_AGENT_TSC);
-      app.getApplicationTypes().getFormalParameters().setReadOnly(true);
    }
 
    protected void handleStructure() {
 
    }
-   
+
    public void setValue(String v) {
       if (isReadOnly) {
          throw new RuntimeException("Can't set the value of read only element!");
       }
       this.value = v;
    }
-
 
 }
