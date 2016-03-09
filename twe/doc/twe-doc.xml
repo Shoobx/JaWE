@@ -11443,8 +11443,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Improved validation of TSC tool agent according to the
           changes in TSC and TWS's TSCToolAgent</para>
 
-          <para>- Hiding all special extended attributes when trying to
-          define "normal" extended attribute</para>
+          <para>- Hiding all special extended attributes when trying to define
+          "normal" extended attribute</para>
+
+          <para>- Fix for creation of outlook variables (Started/Completed
+          date were defined as STRING variables)</para>
         </listitem>
       </itemizedlist>
     </section>
