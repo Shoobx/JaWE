@@ -72,6 +72,9 @@ public class SharkTablePanelForVariables extends XMLTablePanelForVariables {
                DataField df = new DataField(dfs);
                df.setId(ovid);
                df.setInitialValue("null");
+               if (ovid.equals(SharkConstants.OUTLOOK_VARIABLE_DATE_COMPLETED)|| ovid.equals(SharkConstants.OUTLOOK_VARIABLE_START_DATE)) {
+                  df.getDataType().getDataTypes().getBasicType().setTypeDATE();
+               }
                String name = ovid;
                if (name.equals(SharkConstants.OUTLOOK_VARIABLE_STATUS)) {
                   name = "Status";

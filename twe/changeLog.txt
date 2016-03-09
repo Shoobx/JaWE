@@ -1,6 +1,10 @@
 ###### TWE 5.4-1 RELEASED ######
 
 ###### TWE 5.3-3 RELEASED ######
+2016-03-09 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix for creation of outlook variables (Started/Completed date were defined as STRING variables)
+
+2016-03-08 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Improved validation of TSC tool agent according to the changes in TSC and TWS's TSCToolAgent
    # Shark mode: Hiding all special extended attributes when trying to define "normal" extended attribute
 
