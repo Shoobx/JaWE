@@ -215,6 +215,7 @@
 				<exclude name="*-testcases-doc.xml" />
 			</fileset>
 			<filterset>
+				<filter token="COPYRIGHT" value="${copyright.year}" />
 				<filter token="VERSION" value="${version}" />
 				<filter token="RELEASE" value="${release}" />
 				<filter token="BUILDID" value="${build.timestamp}" />
@@ -230,6 +231,7 @@
 				<include name="*-testcases-doc.xml" />
 			</fileset>
 			<filterset>
+				<filter token="COPYRIGHT" value="${copyright.year}" />
 				<filter token="VERSION" value="${version}" />
 				<filter token="RELEASE" value="${release}" />
 				<filter token="BUILDID" value="${build.timestamp}" />
@@ -242,8 +244,8 @@
       <!--copy todir="${tmp.dir}/docbook">
          <fileset dir="${docbook.dtd.dir}/dtd"/>
       </copy-->
-      <replace file="${tmp.dir}/${docbook.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
-      <replace file="${tmp.dir}/${testcase.name}.xml" encoding="utf-8" token="../tools/docbook-dtd/dtd/docbook.dtd" value="../../tools/docbook-dtd/dtd/docbook.dtd" />   
+      <replace file="${tmp.dir}/${docbook.name}.xml" encoding="utf-8" token="&quot;../tools/docbook-dtd/dtd/docbook.dtd&quot;" value="&quot;../../tools/docbook-dtd/dtd/docbook.dtd&quot;" />
+      <replace file="${tmp.dir}/${testcase.name}.xml" encoding="utf-8" token="&quot;../tools/docbook-dtd/dtd/docbook.dtd&quot;" value="&quot;../../tools/docbook-dtd/dtd/docbook.dtd&quot;" />
       <if>
          <istrue value="${rebranding}" />
          <then>

@@ -22,7 +22,7 @@
    LangString NAME ${LANG_ENGLISH} "XYZ Workflow Editor ${VERSION}-${RELEASE}" 
    LangString MID_NAME ${LANG_ENGLISH} "XYZ Workflow Editor" 
    LangString ABBREVIATION ${LANG_ENGLISH} "XYZ" 
-   !define SHORT_NAME "xyz" 
+   ;!define SHORT_NAME "xyz" 
 
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${VERSION}-${RELEASE}"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© XYZ. All rights reserved."

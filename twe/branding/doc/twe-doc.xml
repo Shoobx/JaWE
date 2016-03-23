@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN" "docbook/docbook.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../../tools/docbook-dtd/dtd/docbook.dtd">
 
 <book xml:id="tweug" xml:lang="en" version="5.0" status="work in progress">
 	<title>

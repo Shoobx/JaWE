@@ -166,6 +166,12 @@
    <property name="sign.sigalg" value="SHA1withRSA" />
    <!-- end set signing parameters -->
 
+   <propertyregex property="copyright.year"
+              input="${build.timestamp}"
+              regexp="(^[0-9]{4})"
+              select="\1"
+              casesensitive="false" 
+			  override="true"/>
    
    <!-- ==================================================================== -->
    <!-- Reading of version number                                            -->
@@ -533,9 +539,10 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
                   <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
                      <arg line="/V4" />
                      <arg line="/O..\..\log_nsis.txt" />
-					 <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
-					<arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
-					<arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                     <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+                     <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+                     <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                     <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
                      <arg line="/DVERSION=${version}" />
                      <arg line="/DRELEASE=${release}" />
                      <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
@@ -571,9 +578,10 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
                      <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
                         <arg line="/V4" />
                         <arg line="/O..\..\log_nsis.txt" />
-						<arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
-					<arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
-					<arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                        <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+                        <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+                        <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                        <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
                         <arg line="/DVERSION=${version}" />
                         <arg line="/DRELEASE=${release}" />
                         <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
@@ -662,9 +670,10 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
                                              <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="false">
                                                 <arg line="/V4" />
                                                 <arg line="/O..\..\log_nsis.txt" />
-												<arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
-												<arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
-												<arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                                                <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+                                                <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+                                                <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                                                <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
                                                 <arg line="/DVERSION=${version}" />
                                                 <arg line="/DRELEASE=${release}" />
                                                 <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />

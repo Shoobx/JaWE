@@ -230,12 +230,19 @@ Function CheckDrive
 FunctionEnd
 
 Function CheckDriveFound
+	; assign the default value 'no'
     StrCpy $tog.Drive.Found "no"
+	; copy a drive from the install path
     StrCpy $1 $INSTDIR 3
-    StrCmp $1 $9 0 +3
+	
+    StrCmp "$1" "$9" 0 findTheNextDrive
         StrCpy $tog.Drive.Found "yes"
-        return
-    Push $0 #Search for next drive
+		; If $var="StopGetDrives" Then exit from function
+        StrCpy $0 "StopGetDrives"
+		
+	findTheNextDrive:
+	;Search for next drive
+    Push $0 
 FunctionEnd
 
 Function CheckSpace
