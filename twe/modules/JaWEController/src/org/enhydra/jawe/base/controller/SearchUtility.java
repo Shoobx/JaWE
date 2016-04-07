@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.base.controller;
 
@@ -38,7 +38,7 @@ import org.enhydra.jxpdl.elements.Package;
 public class SearchUtility {
 
    public static List searchElement(Package pkg, SearchEntity se) {
-      List result=new ArrayList();
+      List result = new ArrayList();
       searchElement(pkg, se, result);
       return result;
    }
@@ -57,13 +57,15 @@ public class SearchUtility {
    }
 
    public static void searchElement(XMLComplexElement cel, SearchEntity se, List result) {
-      boolean stopSearch=se.getSearchForElement().equals(cel.toName());
-      boolean searchMe=se.getSearchForElement().equals("*") || stopSearch;
-      if (searchMe && (se.getSearchByProperty().equals("Value") || se.getSearchByProperty().equals("")) && cel.toValue() != null) {
+      boolean stopSearch = se.getSearchForElement().equals(cel.toName());
+      boolean searchMe = se.getSearchForElement().equals("*") || stopSearch;
+      if (searchMe
+          && (se.getSearchByProperty().equals("Value") || se.getSearchByProperty().equals("*") || se.getSearchByProperty().equals("")) && cel.toValue() != null) {
          if (compareStrings(se.getContainingText(), cel.toValue(), se.isCaseSensitive())) {
             addToResult(result, cel);
          }
       }
+
       for (Iterator it = cel.toElements().iterator(); it.hasNext();) {
          XMLElement el = (XMLElement) it.next();
          if (el instanceof XMLComplexElement && !stopSearch) {
@@ -74,7 +76,7 @@ public class SearchUtility {
             searchElement((XMLComplexChoice) el, se, result);
          } else if (el instanceof XMLSimpleElement && searchMe) {
             searchElement((XMLSimpleElement) el, se, result);
-         } else if (el instanceof XMLAttribute && searchMe) { 
+         } else if (el instanceof XMLAttribute && searchMe) {
             searchElement((XMLAttribute) el, se, result);
          }
       }
@@ -91,7 +93,7 @@ public class SearchUtility {
       }
    }
 
-   public static void searchElement(XMLSimpleElement el, SearchEntity se, List result) {      
+   public static void searchElement(XMLSimpleElement el, SearchEntity se, List result) {
       if (se.getSearchByProperty().equals("*") || el.toName().equals(se.getSearchByProperty())) {
          if (compareStrings(se.getContainingText(), el.toValue(), se.isCaseSensitive())) {
             addToResult(result, el);
@@ -118,12 +120,12 @@ public class SearchUtility {
       if (!result.contains(el)) {
          result.add(el);
       } else {
-         boolean contains=false;
-         Iterator it=result.iterator();
+         boolean contains = false;
+         Iterator it = result.iterator();
          while (it.hasNext()) {
-            XMLElement e=(XMLElement)it.next();
-            if (e.equals(el) && e.hashCode()==el.hashCode()) {
-               contains=true;
+            XMLElement e = (XMLElement) it.next();
+            if (e.equals(el) && e.hashCode() == el.hashCode()) {
+               contains = true;
                break;
             }
          }
