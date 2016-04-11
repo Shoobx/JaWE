@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-04-11 Sasa Bojanic <sasaboy@together.at>
+   # Fix: when saving file which has "." in its name, extension was not appended to the end
+
 2016-04-07 Sasa Bojanic <sasaboy@together.at>
    # Improved Search functionality
 

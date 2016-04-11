@@ -11440,6 +11440,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Improved Search functionality</para>
         </listitem>
+
+        <listitem>
+          <para>Fix: when saving file which has "." in its name, extension was
+          not appended to the end</para>
+        </listitem>
       </itemizedlist>
     </section>
 
