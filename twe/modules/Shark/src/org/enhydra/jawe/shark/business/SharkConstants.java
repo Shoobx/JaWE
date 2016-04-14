@@ -65,6 +65,8 @@ public class SharkConstants {
 
    public static final String EA_ALLOW_UNDEFINED_VARIABLES = "ALLOW_UNDEFINED_VARIABLES";
 
+   public final static String EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED = "USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED";
+
    public final static String EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS = "EVALUATE_LIMIT_AS_EXPRESSION_PROCESS";
 
    public final static String EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS = "EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS";
@@ -144,9 +146,9 @@ public class SharkConstants {
    public static final String EA_HTML5FORM_XSL = "HTML5FORM_XSL";
 
    public static final String EA_FORM_PAGE_URL = "FORM_PAGE_URL";
-   
+
    public static final String EA_TWF_XML_VARIABLE_TO_HANDLE = "TWF_XML_VARIABLE_TO_HANDLE";
-   
+
    public static final String EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES = "TWF_XML_VARIABLE_ITEM_NAME_PREFIXES";
 
    public static final String EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE = "IS_WEBDAV_FOR_ACTIVITY_VISIBLE";
@@ -445,9 +447,9 @@ public class SharkConstants {
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_OUTPUT_TEMPLATE_FILEPATH = "calculation_output_template_filepath";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATION_FILEPATH = "calculation_filepath";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CALCULATOR_CLASS = "calculator_class";
-   
+
    public static final String TOOL_AGENT_FORMAL_PARAMETER_CACHE_SIZE = "cache_size";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_VARIABLES = "variables";

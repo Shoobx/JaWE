@@ -121,6 +121,13 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                   null,
                                                   false,
                                                   removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED,
+                                                  null,
+                                                  null,
+                                                  false,
+                                                  removeUnconditionally);
          if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, null, null, true, removeUnconditionally);
             if (isFullyManualAct) {
@@ -317,6 +324,10 @@ public class WfConfigurationElement extends XMLComplexElement {
       return (XMLAttribute) get(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY);
    }
 
+   public XMLAttribute getUseFirstDeadlineTimeForLimitIfUndefined() {
+      return (XMLAttribute) get(SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED);
+   }
+
    protected void fillStructure() {
       XMLAttribute attrConfigure = new XMLAttribute(this, "ConfigureWorkflowEngine", false, new String[] {
             "true", "false"
@@ -438,6 +449,13 @@ public class WfConfigurationElement extends XMLComplexElement {
       XMLAttribute attrEvaluateActivityPriority = new XMLAttribute(this, SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY, false, new String[] {
             "true", "false"
       }, 1);
+      XMLAttribute attrUseFirstDeadlineTimeForLimitIfUndefined = new XMLAttribute(this,
+                                                                                  SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED,
+                                                                                  false,
+                                                                                  new String[] {
+                                                                                        "true", "false"
+                                                                                  },
+                                                                                  1);
 
       add(attrConfigure);
       add(attrUnsatisfiedSplitConditionHandlingMode);
@@ -473,6 +491,7 @@ public class WfConfigurationElement extends XMLComplexElement {
       add(attrEvaluateActivityDescription);
       add(attrEvaluateActivityLimit);
       add(attrEvaluateActivityPriority);
+      add(attrUseFirstDeadlineTimeForLimitIfUndefined);
    }
 
    protected void handleStructure() {
@@ -506,11 +525,12 @@ public class WfConfigurationElement extends XMLComplexElement {
                        || eaname.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY)
                        || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY)
                        || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY)
-                       || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY) || (eaname.equals(SharkConstants.EA_DELETE_FINISHED)
-                                                                                                        || eaname.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS)
-                                                                                                        || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS)
-                                                                                                        || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS) || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS))
-                                                                                                       && !(parent instanceof Activity))
+                       || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY)
+                       || eaname.equals(SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED) || (eaname.equals(SharkConstants.EA_DELETE_FINISHED)
+                                                                                                              || eaname.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS)
+                                                                                                              || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS)
+                                                                                                              || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS) || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS))
+                                                                                                             && !(parent instanceof Activity))
                    || ((eaname.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER) || (eaname.equals(SharkConstants.EA_AUTO_COMPLETION) && isFullyManualAct)) && (parent instanceof Activity))) {
                   pc++;
                }
@@ -520,7 +540,7 @@ public class WfConfigurationElement extends XMLComplexElement {
          }
       }
       getConfigureAttribute().setValue(String.valueOf(hasAny));
-      int toCompNo = (isForAct ? (isFullyManualAct ? 16 : 15) : 22);
+      int toCompNo = (isForAct ? (isFullyManualAct ? 17 : 16) : 23);
       isPersisted = pc >= toCompNo;
    }
 

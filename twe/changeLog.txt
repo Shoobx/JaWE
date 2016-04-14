@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-04-14 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: support for new extended attribute USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED
+
 2016-04-11 Sasa Bojanic <sasaboy@together.at>
    # Fix: when saving file which has "." in its name, extension was not appended to the end
 

@@ -860,6 +860,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                 || eaName.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY)
                 || eaName.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY)
                 || eaName.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY)
+                || eaName.equals(SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED)
                 || eaName.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES)
                 || eaName.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING)
                 || eaName.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES) || eaName.equals(SharkConstants.EA_MAX_ASSIGNMENTS)

@@ -770,6 +770,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       ealist.add(ealpnl);
       XMLPanel eappnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityPriorityAsExpression(), null, false, enableEditing, false, null);
       ealist.add(eappnl);
+      XMLPanel eadalpnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseFirstDeadlineTimeForLimitIfUndefined(), null, false, enableEditing, false, null);
+      ealist.add(eadalpnl);
       if (el.isForFullyManualActivity()) {
          XMLPanel acpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAutoCompletionAttribute(), null, false, enableEditing, false, null);
          ealist.add(acpnl);
