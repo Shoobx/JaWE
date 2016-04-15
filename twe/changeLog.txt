@@ -1,4 +1,9 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-04-15 Sasa Bojanic <sasaboy@together.at>
+   # Improved performance by not validating graph when only moving entities within the same lane
+   # Improved performance by optimizing Problems panel algorithm
+   # Shark mode: not showing properties component by default
+
 2016-04-14 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: support for new extended attribute USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED
 

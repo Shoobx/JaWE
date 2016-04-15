@@ -93,6 +93,7 @@ import org.enhydra.jxpdl.elements.Artifacts;
 import org.enhydra.jxpdl.elements.Associations;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfos;
+import org.enhydra.jxpdl.elements.Coordinates;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.EnumerationValue;
@@ -1818,6 +1819,16 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
       ucInfo.setChangedSubElements(xpdlInfoList);
 
+      boolean doValidate = false;
+      for (Object object : xpdlInfoList) {
+         XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) object;
+         XMLElement cep = xeci.getChangedElement().getParent();
+         if (!(cep instanceof Coordinates)) {
+            doValidate = true;
+            break;
+         }
+      }
+
       updateInProgress = true;
       setChanged();
       notifyObservers(ucInfo);
@@ -1834,7 +1845,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       // System.err.println("Elements to select after undoable change are
       // "+elementsToSelect);
       selectionMng.setSelection(elementsToSelect, true);
-      if (isDesignTimeValidation()) {
+      if (isDesignTimeValidation() && doValidate) {
          checkValidity(mainPkg, true, false, true);
       }
    }

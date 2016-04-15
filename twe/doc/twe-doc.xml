@@ -11447,10 +11447,22 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>Shark mode: </para>
+          <para>Improved performance by not validating graph when only moving
+          entities within the same lane </para>
+        </listitem>
+
+        <listitem>
+          <para>Improved performance by optimizing Problems panel
+          algorithm</para>
+        </listitem>
+
+        <listitem>
+          <para>Shark mode:</para>
 
           <para>- Support for new extended attribute
           USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED</para>
+
+          <para>- Not showing properties component by default</para>
         </listitem>
       </itemizedlist>
     </section>
