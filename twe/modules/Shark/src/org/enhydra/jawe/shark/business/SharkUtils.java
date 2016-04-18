@@ -130,7 +130,7 @@ public class SharkUtils {
                                                     boolean removeIfEmpty,
                                                     boolean removeUnconditionally) {
       ExtendedAttribute ea = eas.getFirstExtendedAttributeForName(name);
-      if (ea == null && !removeUnconditionally) {
+      if (ea == null && !removeUnconditionally && !(removeIfEmpty && (val == null || val.trim().equals("")))) {
          ea = (ExtendedAttribute) eas.generateNewElement();
          ea.setName(name);
          eas.add(ea);

@@ -11447,8 +11447,25 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Improved performance by setting XPDL to read-only and
+          initializing caches before validation</para>
+        </listitem>
+
+        <listitem>
+          <para>Improved performance by not design-time validating
+          XMLAttribute elements which are not required and don't have default
+          value (e.g. Name attribute)</para>
+        </listitem>
+
+        <listitem>
+          <para>Improved performance by not design-time validating most of the
+          XMLSimpleElement elements (which normally do not affectg validation
+          process, e.g. Description element)</para>
+        </listitem>
+
+        <listitem>
           <para>Improved performance by not validating graph when only moving
-          entities within the same lane </para>
+          entities within the same lane</para>
         </listitem>
 
         <listitem>

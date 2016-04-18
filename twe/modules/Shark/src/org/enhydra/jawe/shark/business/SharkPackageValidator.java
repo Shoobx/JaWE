@@ -52,7 +52,6 @@ import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.ExternalReference;
 import org.enhydra.jxpdl.elements.FormalParameter;
 import org.enhydra.jxpdl.elements.FormalParameters;
-import org.enhydra.jxpdl.elements.InitialValue;
 import org.enhydra.jxpdl.elements.Limit;
 import org.enhydra.jxpdl.elements.ListType;
 import org.enhydra.jxpdl.elements.Package;
@@ -66,8 +65,7 @@ import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
 
 /**
- * Special shark validation - to determine if the package is 'shark' valid. It extends the
- * standard package validator to add some additional restrictions.
+ * Special shark validation - to determine if the package is 'shark' valid. It extends the standard package validator to add some additional restrictions.
  * 
  * @author Sasa Bojanic
  */
@@ -84,13 +82,15 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       super.validateElement(el, existingErrors, fullCheck);
 
       XMLElement parent = el.getParent();
-      if (el.toName().equals("Type") && parent instanceof BasicType) {
-         String choosenSubType = el.toValue();
+      String elName = el.toName();
+      String elVal = el.toValue();
+      if (elName.equals("Type") && parent instanceof BasicType) {
+         String choosenSubType = elVal;
          if (choosenSubType.equals(XPDLConstants.BASIC_TYPE_PERFORMER) || choosenSubType.equals(XPDLConstants.BASIC_TYPE_REFERENCE)) {
             XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                              XMLValidationError.SUB_TYPE_LOGIC,
                                                              SharkValidationErrorIds.ERROR_UNSUPPORTED_DATA_TYPE,
-                                                             el.toName(),
+                                                             elName,
                                                              el);
             existingErrors.add(verr);
          }
@@ -101,54 +101,55 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          boolean isAct = parent.getParent().getParent() instanceof Activity;
          String postfixProc = "_PROCESS";
          String postfixAct = "_ACTIVITY";
-         if (el.toName().equals("Name")) {
-            if (((el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
-                  || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_VTP_FETCH)
-                  || el.toValue().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || el.toValue().equals(SharkConstants.EA_FORM_PAGE_URL) || el.toValue()
-               .equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)) && isAct)
-                || (!isAct && (el.toValue().equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
-                               || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixProc)
-                               || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc) || el.toValue()
-                   .equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixProc)))
-                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
-                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                || el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                || (isAct && (el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                              || el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                              || el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                              || el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT) || el.toValue()
-                   .startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)))
-                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
-                || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
-                || (!isAct && (el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)))) {
+         ExtendedAttribute ea = (ExtendedAttribute) parent;
+         String eaName = ea.getName();
+         String eaVal = ea.getVValue();
 
-               isWarning = el.toValue().equals(SharkConstants.EA_VTP_UPDATE)
-                           || el.toValue().equals(SharkConstants.EA_VTP_VIEW) || el.toValue().equals(SharkConstants.EA_VTP_FETCH)
-                           || el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
+         if (elName.equals("Name")) {
+            if (((elVal.equals(SharkConstants.EA_VTP_UPDATE)
+                  || elVal.equals(SharkConstants.EA_VTP_VIEW) || elVal.equals(SharkConstants.EA_VTP_FETCH)
+                  || elVal.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT) || elVal.equals(SharkConstants.EA_FORM_PAGE_URL) || elVal.equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)) && isAct)
+                || (!isAct && (elVal.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR)
+                               || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixProc)
+                               || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc) || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT
+                                                                                                                        + postfixProc)))
+                || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT + postfixAct)
+                || elVal.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                || elVal.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
+                || elVal.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
+                || elVal.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                || elVal.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
+                || elVal.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
+                || elVal.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
+                || elVal.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
+                || elVal.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                || elVal.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
+                || (isAct && (elVal.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
+                              || elVal.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
+                              || elVal.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
+                              || elVal.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT) || elVal.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)))
+                || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT + postfixAct)
+                || (!isAct && (elVal.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)))) {
 
-               ExtendedAttribute ea = (ExtendedAttribute) parent;
+               isWarning = elVal.equals(SharkConstants.EA_VTP_UPDATE)
+                           || elVal.equals(SharkConstants.EA_VTP_VIEW) || elVal.equals(SharkConstants.EA_VTP_FETCH)
+                           || elVal.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
+
                WorkflowProcess wp = XMLUtil.getWorkflowProcess(ea);
                Map m = null;
                if (wp != null) {
@@ -161,40 +162,35 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                List<String> csvals = new ArrayList<String>();
                List<String> xpdlsvals = new ArrayList<String>();
                List<String> i18nvals = new ArrayList<String>();
-               if (ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
-                   || ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
-                   || ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
-                   || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                   || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
-                   || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
-                   || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
-                   || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
-                   || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
-                   || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES)
-                   || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS)
-                   || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS)) {
-                  WfVariables vars = new WfVariables((XMLComplexElement) parent.getParent().getParent(), ea.getName(), null, ",", false);
-                  vars.createStructure(ea.getVValue());
+               if (eaName.startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                   || eaName.startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS)
+                   || eaName.startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS)
+                   || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS)
+                   || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS)
+                   || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES)
+                   || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS)
+                   || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
+                   || eaName.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES) || eaName.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENTS)
+                   || eaName.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS)) {
+                  WfVariables vars = new WfVariables((XMLComplexElement) parent.getParent().getParent(), eaName, null, ",", false);
+                  vars.createStructure(eaVal);
                   List els = vars.toElements();
                   for (int i = 0; i < els.size(); i++) {
                      WfVariable v = (WfVariable) els.get(i);
                      vals.add(v.getId());
                   }
-               } else if (ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
-                          || ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT)
-                          || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
-                          || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
-                          || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
-                          || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT)
-                          || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT)
-                          || ea.getName().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT)
-                          || (!isAct && (ea.getName().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)))) {
-                  vals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX);
-                  sysvals = getPossiblePlaceholderVariables(ea.getVValue(), "");
-                  csvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX);
-                  xpdlsvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX);
-                  i18nvals = getPossiblePlaceholderVariables(ea.getVValue(), SharkConstants.I18N_PLACEHOLDER_PREFIX);
-               } else if (ea.getName().equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
+               } else if (eaName.startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT)
+                          || eaName.startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_CONTENT) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                          || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT) || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                          || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT) || eaName.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT)
+                          || eaName.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_CONTENT)
+                          || (!isAct && (eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)))) {
+                  vals = getPossiblePlaceholderVariables(eaVal, SharkConstants.PROCESS_VARIABLE_PLACEHOLDER_PREFIX);
+                  sysvals = getPossiblePlaceholderVariables(eaVal, "");
+                  csvals = getPossiblePlaceholderVariables(eaVal, SharkConstants.CONFIG_STRING_PLACEHOLDER_PREFIX);
+                  xpdlsvals = getPossiblePlaceholderVariables(eaVal, SharkConstants.XPDL_STRING_PLACEHOLDER_PREFIX);
+                  i18nvals = getPossiblePlaceholderVariables(eaVal, SharkConstants.I18N_PLACEHOLDER_PREFIX);
+               } else if (eaName.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
                   WfNameValues elOverrideProcessContext = new WfNameValues((XMLComplexElement) parent.getParent().getParent(),
                                                                            SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT,
                                                                            ",",
@@ -202,17 +198,17 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                                                            "Variable",
                                                                            "OverrideExpression",
                                                                            false);
-                  elOverrideProcessContext.createStructure(ea.getVValue());
+                  elOverrideProcessContext.createStructure(eaVal);
                   List els = elOverrideProcessContext.toElements();
                   for (int i = 0; i < els.size(); i++) {
                      WfNameValue v = (WfNameValue) els.get(i);
                      vals.add(v.getNamePart());
                   }
-               } else if (ea.getName().equals(SharkConstants.EA_FORM_PAGE_URL)) {
-                  xpdlsvals.add(ea.getVValue());
+               } else if (eaName.equals(SharkConstants.EA_FORM_PAGE_URL)) {
+                  xpdlsvals.add(eaVal);
                } else {
-                  String vid = ea.getVValue();
-                  if (ea.getName().equals(SharkConstants.EA_VTP_FETCH)) {
+                  String vid = eaVal;
+                  if (eaName.equals(SharkConstants.EA_VTP_FETCH)) {
                      String varrid = vid.substring(vid.indexOf(";") + 1);
                      vals.add(varrid);
                      vid = vid.substring(0, vid.indexOf(";"));
@@ -222,10 +218,9 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                for (int i = 0; i < vals.size(); i++) {
                   String v = vals.get(i);
                   if (m.get(v) == null
-                      && !((ea.getName().startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
-                            || ea.getName().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
-                            || ea.getName().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES) || ea.getName()
-                         .startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES)) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
+                      && !((eaName.startsWith(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES)
+                            || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENT_NAMES)
+                            || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES) || eaName.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES)) && ((v.startsWith("\"") && v.endsWith("\"")) || v.equals("")))) {
                      boolean allowUndefinedVariables = SharkUtils.allowFlag(wp, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, false);
                      boolean isWPLevel = XMLUtil.getWorkflowProcess(el) != null;
 
@@ -240,7 +235,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      if (!fullCheck) {
                         return;
                      }
-                  } else if (m.get(v) != null && ea.getName().equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)) {
+                  } else if (m.get(v) != null && eaName.equals(SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE)) {
                      XMLCollectionElement dforfp = (XMLCollectionElement) m.get(v);
                      boolean isArray = new Boolean(dforfp.get("IsArray").toValue()).booleanValue();
                      Object chn = ((DataType) dforfp.get("DataType")).getDataTypes().getChoosen();
@@ -317,8 +312,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                   }
                }
 
-               if (el.toValue().startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
-                  String xpdlstrvarid = el.toValue().substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
+               if (elVal.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX)) {
+                  String xpdlstrvarid = elVal.substring(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX.length());
                   if (!isIdValid(xpdlstrvarid)) {
                      XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                                       XMLValidationError.SUB_TYPE_LOGIC,
@@ -344,46 +339,42 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                   }
 
                }
-            } else if (el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
-                       || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
-                       || (isAct && el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT))
-                       || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixProc)
-                       || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixAct)) {
-               ExtendedAttribute ea = (ExtendedAttribute) parent;
+            } else if (elVal.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
+                       || elVal.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
+                       || (isAct && elVal.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT))
+                       || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixProc)
+                       || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixAct)) {
                if (!checkRecipientParticipant(ea, true)) {
-                  isWarning = el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
+                  isWarning = elVal.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
                   XMLValidationError verr = new XMLValidationError(isWarning ? XMLValidationError.TYPE_WARNING : XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    XPDLValidationErrorIds.ERROR_NON_EXISTING_PARTICIPANT_REFERENCE,
-                                                                   ea.getVValue(),
+                                                                   eaVal,
                                                                    ea.get("Value"));
                   existingErrors.add(verr);
                   if (!fullCheck) {
                      return;
                   }
                }
-            } else if (el.toValue().equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE)
-                       || el.toValue().equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE)
-                       || (isAct && el.toValue().startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE))
-                       || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixProc)
-                       || el.toValue().equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixAct)) {
-               ExtendedAttribute ea = (ExtendedAttribute) parent;
+            } else if (elVal.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE)
+                       || elVal.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE)
+                       || (isAct && elVal.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE))
+                       || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixProc)
+                       || elVal.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixAct)) {
                if (!checkRecipientVariable(ea, true)) {
-                  isWarning = el.toValue().startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
+                  isWarning = elVal.startsWith(SharkConstants.SMTP_LIMIT_HANDLER_PREFIX);
                   XMLValidationError verr = new XMLValidationError(isWarning ? XMLValidationError.TYPE_WARNING : XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
-                                                                   ea.getVValue(),
+                                                                   eaVal,
                                                                    ea.get("Value"));
                   existingErrors.add(verr);
                   if (!fullCheck) {
                      return;
                   }
                }
-            } else if ((el.toValue().equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION)
-                        || el.toValue().equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || el.toValue()
-               .equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY)) && isAct) {
-               ExtendedAttribute ea = (ExtendedAttribute) parent;
+            } else if ((elVal.equals(SharkConstants.EA_BACK_ACTIVITY_DEFINITION) || elVal.equals(SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY) || elVal.equals(SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY))
+                       && isAct) {
                Activity act = (Activity) parent.getParent().getParent();
                List types = new ArrayList();
                types.add(new Integer(XPDLConstants.ACTIVITY_TYPE_NO));
@@ -394,9 +385,10 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                Iterator it = acts.iterator();
                while (it.hasNext()) {
                   Activity a = (Activity) it.next();
-                  if (a.getId().equals(ea.getVValue())) {
-                     boolean isManual = a.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO
-                                        || ((a.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || a.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) && (a.getStartMode()
+                  if (a.getId().equals(eaVal)) {
+                     int at = a.getActivityType();
+                     boolean isManual = at == XPDLConstants.ACTIVITY_TYPE_NO
+                                        || ((at == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION || at == XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT) && (a.getStartMode()
                                            .equals(XPDLConstants.ACTIVITY_MODE_MANUAL) || a.getFinishMode().equals(XPDLConstants.ACTIVITY_MODE_MANUAL)));
                      if (isManual) {
                         return;
@@ -406,26 +398,25 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                                 XMLValidationError.SUB_TYPE_LOGIC,
                                                                 XPDLValidationErrorIds.ERROR_NON_EXISTING_ACTIVITY_REFERENCE,
-                                                                ea.getVValue(),
+                                                                eaVal,
                                                                 ea.get("Value"));
                existingErrors.add(verr);
 
-            } else if (el.toValue().equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE)) {
-               ExtendedAttribute ea = (ExtendedAttribute) parent;
+            } else if (elVal.equals(SharkConstants.EA_ERROR_HANDLER_RETURN_CODE)) {
                if (!Arrays.asList(new String[] {
                      "0", "1", "2", "3"
-               }).contains(ea.getVValue())) {
+               }).contains(eaVal)) {
                   XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
                                                                    SharkValidationErrorIds.ERROR_INVALID_ERROR_HANDLER_RETURN_CODE,
-                                                                   ea.getVValue(),
+                                                                   eaVal,
                                                                    ea.get("Value"));
                   existingErrors.add(verr);
                   if (!fullCheck) {
                      return;
                   }
                }
-            } else if (el.toValue().equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)) {
+            } else if (elVal.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)) {
                String pdefid = ((ExtendedAttribute) parent).getVValue();
                if (XMLUtil.getPossibleSubflowProcesses(XMLUtil.getPackage(el), xmlInterface).get(pdefid) == null) {
                   XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
@@ -438,8 +429,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                      return;
                   }
                }
-            } else if (el.toValue().startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
-               String i18nvarid = el.toValue().substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
+            } else if (elVal.startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
+               String i18nvarid = elVal.substring(SharkConstants.EA_I18N_VARIABLE_PREFIX.length());
                if (!isIdValid(i18nvarid)) {
                   XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
                                                                    XMLValidationError.SUB_TYPE_LOGIC,
@@ -468,10 +459,10 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
 
          }
       }
-      if (el.toName().equals("StartMode") && el.toValue().equals(XPDLConstants.ACTIVITY_MODE_MANUAL) && parent instanceof Activity) {
+      if (elName.equals("StartMode") && elVal.equals(XPDLConstants.ACTIVITY_MODE_MANUAL) && parent instanceof Activity) {
          Activity act = (Activity) parent;
-
-         if ((act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && act.getActivityType() != XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT)) {
+         int actType = act.getActivityType();
+         if ((actType != XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION && actType != XPDLConstants.ACTIVITY_TYPE_TASK_SCRIPT)) {
             return;
          }
 
@@ -554,7 +545,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    }
 
    public void validateElement(DataField el, List existingErrors, boolean fullCheck) {
-      if (SharkConstants.SHARK_VARIABLE_CATEGORY.equals(el.getId()) || SharkConstants.SHARK_VARIABLE_I18N_LANG_CODE.equals(el.getId())) {
+      String elId = el.getId();
+      if (SharkConstants.SHARK_VARIABLE_CATEGORY.equals(elId) || SharkConstants.SHARK_VARIABLE_I18N_LANG_CODE.equals(elId)) {
          validateStandard(el, existingErrors, fullCheck);
       } else {
          super.validateElement(el, existingErrors, fullCheck);
@@ -749,23 +741,26 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          Iterator it = ((WorkflowProcess) pkgOrWp).getDataFields().toElements().iterator();
          while (it.hasNext()) {
             DataField df = (DataField) it.next();
-            if (!vars.containsKey(df.getId())) {
-               vars.put(df.getId(), df);
+            String id = df.getId();
+            if (!vars.containsKey(id)) {
+               vars.put(id, df);
             }
          }
          it = ((WorkflowProcess) pkgOrWp).getFormalParameters().toElements().iterator();
          while (it.hasNext()) {
             FormalParameter fp = (FormalParameter) it.next();
-            if (!vars.containsKey(fp.getId())) {
-               vars.put(fp.getId(), fp);
+            String id = fp.getId();
+            if (!vars.containsKey(id)) {
+               vars.put(id, fp);
             }
          }
       } else {
          Iterator it = ((Package) pkgOrWp).getDataFields().toElements().iterator();
          while (it.hasNext()) {
             DataField df = (DataField) it.next();
-            if (!vars.containsKey(df.getId())) {
-               vars.put(df.getId(), df);
+            String id = df.getId();
+            if (!vars.containsKey(id)) {
+               vars.put(id, df);
             }
          }
       }
@@ -936,22 +931,24 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
    }
 
    public boolean isElementLengthOK(XMLElement el) {
+      String elName = el.toName();
+      String elVal = el.toValue();
       if (el instanceof XMLAttribute
-          && el.toName().equals("Name")
-          && ((el.getParent() instanceof WorkflowProcess && el.toValue().length() > 90) || (el.getParent() instanceof Activity && el.toValue().length() > 254))) {
+          && elName.equals("Name")
+          && ((el.getParent() instanceof WorkflowProcess && elVal.length() > 90) || (el.getParent() instanceof Activity && elVal.length() > 254))) {
          return false;
       }
       if (el instanceof XMLAttribute
-          && el.toName().equals("Id") && el.toValue().length() > 90
+          && elName.equals("Id") && elVal.length() > 90
           && (el.getParent() instanceof org.enhydra.jxpdl.elements.Package || el.getParent() instanceof WorkflowProcess || el.getParent() instanceof Activity)) {
          return false;
       }
       if (el instanceof XMLAttribute
-          && el.toName().equals("Id") && el.toValue().length() > 100 && (el.getParent() instanceof DataField || el.getParent() instanceof FormalParameter)) {
+          && elName.equals("Id") && elVal.length() > 100 && (el.getParent() instanceof DataField || el.getParent() instanceof FormalParameter)) {
          return false;
       }
 
-      if (el instanceof ExceptionName && el.toValue().length() > 100) {
+      if (el instanceof ExceptionName && elVal.length() > 100) {
          return false;
       }
       return super.isElementLengthOK(el);
@@ -1393,23 +1390,24 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             List l = fps.toElements();
             for (int i = 0; i < l.size(); i++) {
                FormalParameter fp = (FormalParameter) l.get(i);
-               if (fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
-                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
-                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
-                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
+               String fpId = fp.getId();
+               if (fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
+                   || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
+                   || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                   || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
                   hasTransformation = true;
                   handleFPModeError(fp,
                                     XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
                                     SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
                                     existingErrors);
-                  if (fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
+                  if (fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
                      handleFPDataTypeError(fp,
                                            SchemaType.class,
                                            null,
                                            false,
                                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
                                            existingErrors);
-                  } else if (!fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
+                  } else if (!fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
                      handleFPDataTypeError(fp,
                                            BasicType.class,
                                            XPDLConstants.BASIC_TYPE_STRING,
@@ -2193,23 +2191,24 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             List l = fps.toElements();
             for (int i = 0; i < l.size(); i++) {
                FormalParameter fp = (FormalParameter) l.get(i);
-               if (fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
-                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
-                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
-                   || fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
+               String fpId = fp.getId();
+               if (fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NAME)
+                   || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_PATH)
+                   || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)
+                   || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_SCRIPT)) {
                   hasTransformation = true;
                   handleFPModeError(fp,
                                     XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
                                     SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
                                     existingErrors);
-                  if (fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
+                  if (fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
                      handleFPDataTypeError(fp,
                                            SchemaType.class,
                                            null,
                                            false,
                                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_SCHEMA_TYPE_REQUIRED,
                                            existingErrors);
-                  } else if (!fp.getId().equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
+                  } else if (!fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_TRANSFORMER_NODE)) {
                      handleFPDataTypeError(fp,
                                            BasicType.class,
                                            XPDLConstants.BASIC_TYPE_STRING,

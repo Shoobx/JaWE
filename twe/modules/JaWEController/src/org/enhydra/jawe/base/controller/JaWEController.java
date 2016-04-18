@@ -78,6 +78,7 @@ import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XMLElementChangeInfo;
+import org.enhydra.jxpdl.XMLSimpleElement;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XMLValidationError;
 import org.enhydra.jxpdl.XPDLConstants;
@@ -93,10 +94,10 @@ import org.enhydra.jxpdl.elements.Artifacts;
 import org.enhydra.jxpdl.elements.Associations;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfos;
-import org.enhydra.jxpdl.elements.Coordinates;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
 import org.enhydra.jxpdl.elements.EnumerationValue;
+import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 import org.enhydra.jxpdl.elements.ExternalPackage;
@@ -107,6 +108,7 @@ import org.enhydra.jxpdl.elements.ImplementationTypes;
 import org.enhydra.jxpdl.elements.Join;
 import org.enhydra.jxpdl.elements.Lane;
 import org.enhydra.jxpdl.elements.Lanes;
+import org.enhydra.jxpdl.elements.Limit;
 import org.enhydra.jxpdl.elements.Member;
 import org.enhydra.jxpdl.elements.Namespace;
 import org.enhydra.jxpdl.elements.Namespaces;
@@ -121,6 +123,7 @@ import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.Performers;
 import org.enhydra.jxpdl.elements.Pool;
 import org.enhydra.jxpdl.elements.Pools;
+import org.enhydra.jxpdl.elements.Priority;
 import org.enhydra.jxpdl.elements.Responsible;
 import org.enhydra.jxpdl.elements.Responsibles;
 import org.enhydra.jxpdl.elements.Split;
@@ -204,6 +207,8 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    /** Design time validation flag */
    protected boolean isDesignTimeValidation = true;
 
+   protected boolean performDesignTimeValidation = true;
+
    public JaWEController(ControllerSettings settings) {
       this.settings = settings;
       this.settings.init(this);
@@ -268,6 +273,18 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          JaWEManager.getInstance()
             .getLoggingManager()
             .debug("JaWEController -> event " + info + " won't be taken into account while processing undo/redo actions!");
+
+         if (!(isOptionalXMLAttributeWithoutDefaultValue(chel) || isNonValidatingSimpleElement(chel))) {
+            performDesignTimeValidation = true;
+         }
+         for (Object object : info.getChangedSubElements()) {
+            XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) object;
+            XMLElement cep = xeci.getChangedElement();
+            if (!(isOptionalXMLAttributeWithoutDefaultValue(cep) || isNonValidatingSimpleElement(cep))) {
+               performDesignTimeValidation = true;
+               break;
+            }
+         }
          return;
       }
       if (undoableChangeInProgress) {
@@ -406,7 +423,16 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       StandardPackageValidator xpdlValidator = JaWEManager.getInstance().getXPDLValidator();
       xpdlValidator.init(JaWEManager.getInstance().getXPDLHandler(), XMLUtil.getPackage(el), !specNotif, settings.getEncoding(), JaWEManager.getInstance()
          .getStartingLocale());
-      List l = checkValidity(el, fullCheck);
+      List l = null;
+      // setting read-only and initializing caches before validation - improves performance
+      el.setReadOnly(true);
+      el.initCaches(JaWEManager.getInstance().getXPDLHandler());
+      try {
+         l = checkValidity(el, fullCheck);
+      } finally {
+         el.setReadOnly(false);
+      }
+
       XPDLElementChangeInfo info = createInfo(el, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
       info.setNewValue(new Boolean(specNotif));
       info.setOldValue(new Boolean(initialOrDesignTimeValidation));
@@ -1819,12 +1845,12 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
       ucInfo.setChangedSubElements(xpdlInfoList);
 
-      boolean doValidate = false;
+      performDesignTimeValidation = false;
       for (Object object : xpdlInfoList) {
          XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) object;
-         XMLElement cep = xeci.getChangedElement().getParent();
-         if (!(cep instanceof Coordinates)) {
-            doValidate = true;
+         XMLElement cep = xeci.getChangedElement();
+         if (!(isOptionalXMLAttributeWithoutDefaultValue(cep) || isNonValidatingSimpleElement(cep))) {
+            performDesignTimeValidation = true;
             break;
          }
       }
@@ -1845,9 +1871,32 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       // System.err.println("Elements to select after undoable change are
       // "+elementsToSelect);
       selectionMng.setSelection(elementsToSelect, true);
-      if (isDesignTimeValidation() && doValidate) {
+      if (isDesignTimeValidation() && performDesignTimeValidation) {
          checkValidity(mainPkg, true, false, true);
       }
+      performDesignTimeValidation = true;
+   }
+
+   protected boolean isOptionalXMLAttributeWithoutDefaultValue(XMLElement el) {
+      if (el instanceof XMLAttribute) {
+         if (!el.isRequired() && !el.toName().equals("ScriptType")) {
+            List chs = ((XMLAttribute) el).getChoices();
+            if (chs == null || chs.size() == 0) {
+               return true;
+            }
+         }
+      }
+      return false;
+   }
+
+   protected boolean isNonValidatingSimpleElement(XMLElement el) {
+      if (el instanceof XMLSimpleElement) {
+         if (!el.isRequired()
+             && !(el instanceof ExceptionName || el instanceof Performer || el instanceof Priority || el instanceof Responsible || el instanceof Limit)) {
+            return true;
+         }
+      }
+      return false;
    }
 
    public boolean isUndoableChangeInProgress() {
@@ -2129,7 +2178,6 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             }
          }
          if (changedElement instanceof ActivityTypes || changedElement instanceof ImplementationTypes || changedElement instanceof TaskTypes) {
-            System.out.println("OV=" + info.getOldValue() + ",NV=" + info.getNewValue() + ",CSUB=" + info.getChangedSubElements());
             Activity act = XMLUtil.getActivity(changedElement);
             Performer perf = act.getFirstPerformerObj();
             if (act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_NO || act.getActivityType() == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
@@ -2208,20 +2256,24 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
    public void undo() {
       if (undoHistoryManager != null) {
+         performDesignTimeValidation = false;
          undoHistoryManager.undo();
-         if (isDesignTimeValidation()) {
+         if (performDesignTimeValidation && isDesignTimeValidation()) {
             checkValidity(getMainPackage(), true, false, true);
          }
+         performDesignTimeValidation = true;
          getSettings().adjustActions();
       }
    }
 
    public void redo() {
       if (undoHistoryManager != null) {
+         performDesignTimeValidation = false;
          undoHistoryManager.redo();
-         if (isDesignTimeValidation()) {
+         if (performDesignTimeValidation && isDesignTimeValidation()) {
             checkValidity(getMainPackage(), true, false, true);
          }
+         performDesignTimeValidation = true;
          getSettings().adjustActions();
       }
    }
