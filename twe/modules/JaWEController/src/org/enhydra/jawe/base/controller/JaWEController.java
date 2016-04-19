@@ -211,7 +211,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
    protected boolean performDesignTimeValidation = true;
 
-   protected XMLElement topValidationElement = null;
+   protected List<XMLElement> topValidationElements = new ArrayList<XMLElement>();
 
    public JaWEController(ControllerSettings settings) {
       this.settings = settings;
@@ -278,23 +278,25 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             .getLoggingManager()
             .debug("JaWEController -> event " + info + " won't be taken into account while processing undo/redo actions!");
 
-         topValidationElement = getMainPackage();
+         XMLElement topValidationElement = getMainPackage();
          if (isDesignTimeValidation()) {
+            boolean pdtvlocal = false;
             boolean isGlobalValidationEvent = false;
             if (!(isOptionalXMLAttributeWithoutDefaultValue(chel) || isNonValidatingSimpleElement(chel))) {
+               pdtvlocal = true;
                performDesignTimeValidation = true;
                if (isGlobalValidationEvent(info)) {
                   isGlobalValidationEvent = true;
                }
             }
-            if (performDesignTimeValidation) {
+            if (pdtvlocal) {
                if (!isGlobalValidationEvent) {
                   List xpdlIL = new ArrayList();
                   xpdlIL.add(info);
                   topValidationElement = getTopValidationElement(topValidationElement, xpdlIL);
                }
+               topValidationElements.add(topValidationElement);
             }
-
          }
          return;
       }
@@ -1857,7 +1859,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       ucInfo.setChangedSubElements(xpdlInfoList);
 
       performDesignTimeValidation = false;
-      topValidationElement = mainPkg;
+      XMLElement topValidationElement = mainPkg;
       if (isDesignTimeValidation()) {
          boolean isGlobalValidationEvent = false;
          for (Object object : xpdlInfoList) {
@@ -1913,7 +1915,6 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          }
       }
       performDesignTimeValidation = true;
-      topValidationElement = mainPkg;
    }
 
    protected XMLElement getTopValidationElement(XMLElement defEl, List xpdlIL) {
@@ -1926,6 +1927,25 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             if (XMLUtil.getWorkflowProcess(xeci.getChangedElement()) != firstWP) {
                toValidate = defEl;
                break;
+            }
+         }
+      }
+      return toValidate;
+   }
+
+   protected XMLElement getTopValidationElementForUndoOrRedo() {
+      Package mainPkg = getMainPackage();
+      XMLElement toValidate = mainPkg;
+      if (topValidationElements.size() > 0) {
+         XMLElement firstEl = topValidationElements.get(0);
+         if (firstEl instanceof WorkflowProcess) {
+            toValidate = firstEl;
+            for (int i = 1; i < topValidationElements.size(); i++) {
+               XMLElement el = topValidationElements.get(i);
+               if (el != firstEl) {
+                  toValidate = mainPkg;
+                  break;
+               }
             }
          }
       }
@@ -2326,9 +2346,11 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    public void undo() {
       if (undoHistoryManager != null) {
          performDesignTimeValidation = false;
+         topValidationElements.clear();
          undoHistoryManager.undo();
          Package mainPkg = getMainPackage();
          if (performDesignTimeValidation && isDesignTimeValidation()) {
+            XMLElement topValidationElement = getTopValidationElementForUndoOrRedo();
             if (topValidationElement == mainPkg) {
                checkValidity(mainPkg, true, false, true);
             } else {
@@ -2347,7 +2369,6 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             }
          }
          performDesignTimeValidation = true;
-         topValidationElement = mainPkg;
          getSettings().adjustActions();
       }
    }
@@ -2355,9 +2376,11 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    public void redo() {
       if (undoHistoryManager != null) {
          performDesignTimeValidation = false;
+         topValidationElements.clear();
          undoHistoryManager.redo();
          Package mainPkg = getMainPackage();
          if (performDesignTimeValidation && isDesignTimeValidation()) {
+            XMLElement topValidationElement = getTopValidationElementForUndoOrRedo();
             if (topValidationElement == mainPkg) {
                checkValidity(mainPkg, true, false, true);
             } else {
@@ -2376,7 +2399,6 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             }
          }
          performDesignTimeValidation = true;
-         topValidationElement = mainPkg;
          getSettings().adjustActions();
       }
    }

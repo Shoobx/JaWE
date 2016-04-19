@@ -8,7 +8,7 @@
 2016-04-18 Sasa Bojanic <sasaboy@together.at>
    # Improved performance by setting XPDL to read-only and initializing caches before validation
    # Improved performance by not design-time validating XMLAttribute elements which are not required and don't have default value (e.g. Name attribute)
-   # Improved performance by not design-time validating most of the XMLSimpleElement elements (which normally do not affectg validation process, e.g. Description element)
+   # Improved performance by not design-time validating most of the XMLSimpleElement elements (which normally do not affect validation process, e.g. Description element)
 
 2016-04-15 Sasa Bojanic <sasaboy@together.at>
    # Improved performance by not validating graph when only moving entities within the same lane

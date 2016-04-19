@@ -11465,8 +11465,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
         <listitem>
           <para>Improved performance by not design-time validating most of the
-          XMLSimpleElement elements (which normally do not affectg validation
+          XMLSimpleElement elements (which normally do not affect validation
           process, e.g. Description element)</para>
+        </listitem>
+
+        <listitem>
+          <para>Improved performance by doing delta design-time validation
+          (only for the current process) whenever possible - the cases when Id
+          of element is not changed and there was no
+          insertion/removal/reposition of global-validation element</para>
         </listitem>
 
         <listitem>
