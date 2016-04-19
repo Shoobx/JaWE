@@ -1897,7 +1897,14 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          if (topValidationElement == mainPkg) {
             checkValidity(mainPkg, true, false, true);
          } else {
-            List l = checkValidity(topValidationElement, true);
+            List l = null;
+            try {
+               mainPkg.setReadOnly(true);
+               mainPkg.initCaches(JaWEManager.getInstance().getXPDLHandler());
+               l = checkValidity(topValidationElement, true);
+            } finally {
+               mainPkg.setReadOnly(false);
+            }
             XPDLElementChangeInfo info = createInfo(topValidationElement, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
             info.setNewValue(new Boolean(false));
             info.setOldValue(new Boolean(true));
@@ -1912,15 +1919,12 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    protected XMLElement getTopValidationElement(XMLElement defEl, List xpdlIL) {
       XMLElement toValidate = defEl;
       WorkflowProcess firstWP = XMLUtil.getWorkflowProcess(((XPDLElementChangeInfo) xpdlIL.get(0)).getChangedElement());
-      System.out.println("Setting TOP VE for " + xpdlIL.get(0) + " to " + firstWP);
       if (firstWP != null) {
          toValidate = firstWP;
          for (int i = 1; i < xpdlIL.size(); i++) {
             XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) xpdlIL.get(i);
-            System.out.println("Searching TOP VE for " + xeci);
             if (XMLUtil.getWorkflowProcess(xeci.getChangedElement()) != firstWP) {
                toValidate = defEl;
-               System.out.println("...it is PKG");
                break;
             }
          }
@@ -2328,7 +2332,14 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             if (topValidationElement == mainPkg) {
                checkValidity(mainPkg, true, false, true);
             } else {
-               List l = checkValidity(topValidationElement, true);
+               List l = null;
+               try {
+                  mainPkg.setReadOnly(true);
+                  mainPkg.initCaches(JaWEManager.getInstance().getXPDLHandler());
+                  l = checkValidity(topValidationElement, true);
+               } finally {
+                  mainPkg.setReadOnly(false);
+               }
                XPDLElementChangeInfo info = createInfo(topValidationElement, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
                info.setNewValue(new Boolean(false));
                info.setOldValue(new Boolean(true));
@@ -2350,7 +2361,14 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             if (topValidationElement == mainPkg) {
                checkValidity(mainPkg, true, false, true);
             } else {
-               List l = checkValidity(topValidationElement, true);
+               List l = null;
+               try {
+                  mainPkg.setReadOnly(true);
+                  mainPkg.initCaches(JaWEManager.getInstance().getXPDLHandler());
+                  l = checkValidity(topValidationElement, true);
+               } finally {
+                  mainPkg.setReadOnly(false);
+               }
                XPDLElementChangeInfo info = createInfo(topValidationElement, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
                info.setNewValue(new Boolean(false));
                info.setOldValue(new Boolean(true));
