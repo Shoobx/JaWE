@@ -494,12 +494,12 @@ public class GraphUtilities {
       }
       return lp;
    }
-   
+
    public static void setLabelLocation(XMLCollectionElement actOrArtif, int location) {
       NodeGraphicsInfo ea = JaWEManager.getInstance().getXPDLUtils().getNodeGraphicsInfo(actOrArtif);
       if (ea != null) {
          ea.setShape(String.valueOf(location));
-      }      
+      }
    }
 
    protected static NodeGraphicsInfo createNodeGraphicsInfo(XMLCollectionElement actOrArtif, Point val, String laneId, boolean addToCollection) {
@@ -827,14 +827,19 @@ public class GraphUtilities {
 
    protected static void setBreakPointCoordinates(ConnectorGraphicsInfo cgi, List bps) {
       Coordinatess cs = cgi.getCoordinatess();
-      cs.clear();
+      boolean sameSize = cs.size() == bps.size();
+      if (!sameSize) {
+         cs.clear();
+      }
       if (bps != null) {
          for (int i = 0; i < bps.size(); i++) {
             Point p = (Point) bps.get(i);
-            Coordinates c = (Coordinates) cs.generateNewElement();
+            Coordinates c = sameSize ? (Coordinates) cs.get(i) : (Coordinates) cs.generateNewElement();
             c.setXCoordinate(String.valueOf(p.x));
             c.setYCoordinate(String.valueOf(p.y));
-            cs.add(c);
+            if (!sameSize) {
+               cs.add(c);
+            }
          }
       }
    }
@@ -903,8 +908,7 @@ public class GraphUtilities {
    // ----------------------------------------------------------------------------------------------
 
    /**
-    * Returns the sorted set of participants for given object. The object can be activity
-    * set or workflow process.
+    * Returns the sorted set of participants for given object. The object can be activity set or workflow process.
     */
    public static List gatherParticipants(XMLCollectionElement wpOrAs) {
       List ownedActivities = ((Activities) wpOrAs.get("Activities")).toElements();
@@ -966,8 +970,7 @@ public class GraphUtilities {
    }
 
    /**
-    * Returns the sorted set of participants for given object. The object can be activity
-    * set or workflow process.
+    * Returns the sorted set of participants for given object. The object can be activity set or workflow process.
     */
    public static List gatherLanes(XMLCollectionElement wpOrAs) {
       List ownedActivitiesAndArtifacts = new ArrayList(((Activities) wpOrAs.get("Activities")).toElements());
@@ -3058,10 +3061,10 @@ public class GraphUtilities {
             if (tmp == wpOrAs) {
                List cgis = info.getChangedSubElements();
                if (cgis != null && cgis.size() > 0) {
-                  for (int j=0; j<cgis.size(); j++) {
-                     Transition tra = XMLUtil.getTransition((XMLElement)cgis.get(i));
-                     if (tra!=null) {
-                        System.out.println("ADDED TRA FOR CHANGED LABEL POSITION");                        
+                  for (int j = 0; j < cgis.size(); j++) {
+                     Transition tra = XMLUtil.getTransition((XMLElement) cgis.get(i));
+                     if (tra != null) {
+                        System.out.println("ADDED TRA FOR CHANGED LABEL POSITION");
                         s.add(tra);
                      }
                   }
