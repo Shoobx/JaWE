@@ -192,7 +192,6 @@ public class ProblemsTablePanel extends JPanel {
 
       };
 
-
       Color bkgCol = new Color(245, 245, 245);
       if (controller.getSettings() instanceof ProblemsNavigatorSettings) {
          bkgCol = ((ProblemsNavigatorSettings) controller.getSettings()).getBackgroundColor();
@@ -253,7 +252,7 @@ public class ProblemsTablePanel extends JPanel {
       column.setPreferredWidth(0);
       column.setResizable(false);
 
-//      allItems.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+      // allItems.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
       // setting some table properties
       allItems.setColumnSelectionAllowed(false);
@@ -276,24 +275,17 @@ public class ProblemsTablePanel extends JPanel {
                int selectedRow = ls.getMinSelectionIndex();
                int col = allItems.getSelectedColumn();
                XMLElement el = null;
-               ValidationError verr = (ValidationError) allItems.getValueAt(selectedRow,
-                                                                            0);
+               ValidationError verr = (ValidationError) allItems.getValueAt(selectedRow, 0);
                if (col == 4) {
                   el = verr.getElement();
                } else {
                   el = (XMLElement) allItems.getValueAt(selectedRow, 6);
                }
                veId = getErrorCode(verr);
-//               System.err.println("LSL veid="+veId);
-               if (JaWEManager.getInstance()
-                  .getJaWEController()
-                  .getSelectionManager()
-                  .getSelectedElement() != el) {
+               // System.err.println("LSL veid="+veId);
+               if (JaWEManager.getInstance().getJaWEController().getSelectionManager().getSelectedElement() != el) {
                   controller.setUpdateInProgress(true);
-                  JaWEManager.getInstance()
-                     .getJaWEController()
-                     .getSelectionManager()
-                     .setSelection(el, true);
+                  JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection(el, true);
                   controller.setUpdateInProgress(false);
                }
             }
@@ -327,10 +319,7 @@ public class ProblemsTablePanel extends JPanel {
          public void mouseClicked(MouseEvent me) {
             changeSelection();
             if (me.getClickCount() > 1) {
-               ActionBase a = JaWEManager.getInstance()
-                  .getJaWEController()
-                  .getJaWEActions()
-                  .getAction(JaWEActions.EDIT_PROPERTIES_ACTION);
+               ActionBase a = JaWEManager.getInstance().getJaWEController().getJaWEActions().getAction(JaWEActions.EDIT_PROPERTIES_ACTION);
                if (a.isEnabled()) {
                   a.actionPerformed(null);
                }
@@ -366,15 +355,9 @@ public class ProblemsTablePanel extends JPanel {
          } else {
             el = (XMLElement) allItems.getValueAt(row, 6);
          }
-         if (JaWEManager.getInstance()
-            .getJaWEController()
-            .getSelectionManager()
-            .getSelectedElement() != el) {
+         if (JaWEManager.getInstance().getJaWEController().getSelectionManager().getSelectedElement() != el) {
             controller.setUpdateInProgress(true);
-            JaWEManager.getInstance()
-               .getJaWEController()
-               .getSelectionManager()
-               .setSelection(el, true);
+            JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection(el, true);
             controller.setUpdateInProgress(false);
          }
       } catch (Exception ex) {
@@ -432,8 +415,7 @@ public class ProblemsTablePanel extends JPanel {
          v.add(((ProblemsNavigatorSettings) controller.getSettings()).getWarningIcon());
       }
 
-      v.add(controller.getSettings().getLanguageDependentString(verr.getSubType()
-                                                                + "TypeKey"));
+      v.add(controller.getSettings().getLanguageDependentString(verr.getSubType() + "TypeKey"));
       String err = verr.getId();
       if (err == null) {
          err = "";
@@ -448,32 +430,17 @@ public class ProblemsTablePanel extends JPanel {
          String desc = verr.getDescription();
          if (verr.getSubType().equals(XMLValidationError.SUB_TYPE_SCHEMA)) {
             if (desc.indexOf(ParsingErrors.ERROR) == 0) {
-               String ld = controller.getSettings()
-                  .getLanguageDependentString(ParsingErrors.ERROR + "Key")
-                           + " "
-                           + controller.getSettings()
-                              .getLanguageDependentString("AtLineNumberKey") + " ";
-               desc = ld
-                      + desc.substring(ParsingErrors.ERROR.length()
-                                       + ParsingErrors.AT_LINE_NO_STRING.length());
+               String ld = controller.getSettings().getLanguageDependentString(ParsingErrors.ERROR + "Key")
+                           + " " + controller.getSettings().getLanguageDependentString("AtLineNumberKey") + " ";
+               desc = ld + desc.substring(ParsingErrors.ERROR.length() + ParsingErrors.AT_LINE_NO_STRING.length());
             } else if (desc.indexOf(ParsingErrors.WARNING) == 0) {
-               String ld = controller.getSettings()
-                  .getLanguageDependentString(ParsingErrors.WARNING + "Key")
-                           + " "
-                           + controller.getSettings()
-                              .getLanguageDependentString("AtLineNumberKey") + " ";
-               desc = ld
-                      + desc.substring(ParsingErrors.WARNING.length()
-                                       + ParsingErrors.AT_LINE_NO_STRING.length());
+               String ld = controller.getSettings().getLanguageDependentString(ParsingErrors.WARNING + "Key")
+                           + " " + controller.getSettings().getLanguageDependentString("AtLineNumberKey") + " ";
+               desc = ld + desc.substring(ParsingErrors.WARNING.length() + ParsingErrors.AT_LINE_NO_STRING.length());
             } else if (desc.indexOf(ParsingErrors.FATAL_ERROR) == 0) {
-               String ld = controller.getSettings()
-                  .getLanguageDependentString(ParsingErrors.FATAL_ERROR + "Key")
-                           + " "
-                           + controller.getSettings()
-                              .getLanguageDependentString("AtLineNumberKey") + " ";
-               desc = ld
-                      + desc.substring(ParsingErrors.FATAL_ERROR.length()
-                                       + ParsingErrors.AT_LINE_NO_STRING.length());
+               String ld = controller.getSettings().getLanguageDependentString(ParsingErrors.FATAL_ERROR + "Key")
+                           + " " + controller.getSettings().getLanguageDependentString("AtLineNumberKey") + " ";
+               desc = ld + desc.substring(ParsingErrors.FATAL_ERROR.length() + ParsingErrors.AT_LINE_NO_STRING.length());
             }
          } else {
             err += ": ";
@@ -481,9 +448,7 @@ public class ProblemsTablePanel extends JPanel {
          err += desc;
       }
       v.add(err);
-      v.add(JaWEManager.getInstance().getLabelGenerator().getLabel(el)
-            + " - "
-            + JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(el));
+      v.add(JaWEManager.getInstance().getLabelGenerator().getLabel(el) + " - " + JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(el));
 
       XMLElement location = Utils.getLocation(el);
 
@@ -491,29 +456,20 @@ public class ProblemsTablePanel extends JPanel {
       WorkflowProcess wp = XMLUtil.getWorkflowProcess(el);
       Package pkg = XMLUtil.getPackage(el);
 
-      String loc = controller.getSettings().getLanguageDependentString("PackageKey")
-                   + " '" + pkg.getId() + "'";
+      String loc = controller.getSettings().getLanguageDependentString("PackageKey") + " '" + pkg.getId() + "'";
       if (wp != null) {
-         loc += ", "
-                + controller.getSettings()
-                   .getLanguageDependentString("WorkflowProcessKey") + " '" + wp.getId()
-                + "'";
+         loc += ", " + controller.getSettings().getLanguageDependentString("WorkflowProcessKey") + " '" + wp.getId() + "'";
       }
       if (as != null) {
-         loc += ", "
-                + controller.getSettings().getLanguageDependentString("ActivitySetKey")
-                + " '" + as.getId() + "'";
+         loc += ", " + controller.getSettings().getLanguageDependentString("ActivitySetKey") + " '" + as.getId() + "'";
       }
       if (location != as && location != wp && location != pkg) {
          loc += ", "
-                + controller.getSettings().getLanguageDependentString(location.toName()
-                                                                      + "Key") + " '"
-                + ((XMLComplexElement) location).get("Id").toValue() + "'";
+                + controller.getSettings().getLanguageDependentString(location.toName() + "Key") + " '" + ((XMLComplexElement) location).get("Id").toValue()
+                + "'";
       }
       if (el != location && el != as && el != wp && el != pkg) {
-         loc += " -> "
-                + controller.getSettings()
-                   .getLanguageDependentString(el.toName() + "Key");
+         loc += " -> " + controller.getSettings().getLanguageDependentString(el.toName() + "Key");
       }
 
       v.add(loc);
@@ -523,8 +479,7 @@ public class ProblemsTablePanel extends JPanel {
    }
 
    protected String getErrorCode(ValidationError verr) {
-      return String.valueOf(verr.getElement().hashCode())
-             + "-" + verr.getType() + "-" + verr.getSubType() + "-" + verr.getId()+"-"+verr.getDescription();
+      return String.valueOf(verr.getElement().hashCode()) + "-" + verr.getType() + "-" + verr.getSubType() + "-" + verr.getId() + "-" + verr.getDescription();
    }
 
    protected JScrollPane createScrollPane() {

@@ -122,9 +122,9 @@ public class ProblemsNavigatorPanel extends JPanel implements JaWEComponentView 
       String lastSelectedErr = table.getSelectedErrId();
       table.cleanup();
       problemsInfo.setText("");
+      updateProblems(el, problems);
       if (el != null) {
          if (problems != null) {
-            allProblems = new ArrayList(problems);
             XMLElement selel = JaWEManager.getInstance().getJaWEController().getSelectionManager().getSelectedElement();
 
             refreshT(selel, lastSelectedErr);
@@ -143,6 +143,23 @@ public class ProblemsNavigatorPanel extends JPanel implements JaWEComponentView 
             }
             this.requestFocus();
          }
+      }
+   }
+
+   protected void updateProblems(XMLElement el, List newProblems) {
+      if (el == null || el instanceof org.enhydra.jxpdl.elements.Package) {
+         allProblems.clear();
+      } else {
+         Iterator it = allProblems.iterator();
+         while (it.hasNext()) {
+            ValidationError ver = (ValidationError) it.next();
+            if (XMLUtil.getParentElement(el.getClass(), ver.getElement()) == el) {
+               it.remove();
+            }
+         }
+      }
+      if (newProblems != null) {
+         allProblems.addAll(newProblems);
       }
    }
 

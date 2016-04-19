@@ -94,8 +94,10 @@ import org.enhydra.jxpdl.elements.Artifacts;
 import org.enhydra.jxpdl.elements.Associations;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfo;
 import org.enhydra.jxpdl.elements.ConnectorGraphicsInfos;
+import org.enhydra.jxpdl.elements.Coordinatess;
 import org.enhydra.jxpdl.elements.DataField;
 import org.enhydra.jxpdl.elements.DataFields;
+import org.enhydra.jxpdl.elements.Deadlines;
 import org.enhydra.jxpdl.elements.EnumerationValue;
 import org.enhydra.jxpdl.elements.ExceptionName;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
@@ -209,6 +211,8 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
    protected boolean performDesignTimeValidation = true;
 
+   protected XMLElement topValidationElement = null;
+
    public JaWEController(ControllerSettings settings) {
       this.settings = settings;
       this.settings.init(this);
@@ -274,16 +278,23 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             .getLoggingManager()
             .debug("JaWEController -> event " + info + " won't be taken into account while processing undo/redo actions!");
 
-         if (!(isOptionalXMLAttributeWithoutDefaultValue(chel) || isNonValidatingSimpleElement(chel))) {
-            performDesignTimeValidation = true;
-         }
-         for (Object object : info.getChangedSubElements()) {
-            XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) object;
-            XMLElement cep = xeci.getChangedElement();
-            if (!(isOptionalXMLAttributeWithoutDefaultValue(cep) || isNonValidatingSimpleElement(cep))) {
+         topValidationElement = getMainPackage();
+         if (isDesignTimeValidation()) {
+            boolean isGlobalValidationEvent = false;
+            if (!(isOptionalXMLAttributeWithoutDefaultValue(chel) || isNonValidatingSimpleElement(chel))) {
                performDesignTimeValidation = true;
-               break;
+               if (isGlobalValidationEvent(info)) {
+                  isGlobalValidationEvent = true;
+               }
             }
+            if (performDesignTimeValidation) {
+               if (!isGlobalValidationEvent) {
+                  List xpdlIL = new ArrayList();
+                  xpdlIL.add(info);
+                  topValidationElement = getTopValidationElement(topValidationElement, xpdlIL);
+               }
+            }
+
          }
          return;
       }
@@ -1846,12 +1857,23 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       ucInfo.setChangedSubElements(xpdlInfoList);
 
       performDesignTimeValidation = false;
-      for (Object object : xpdlInfoList) {
-         XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) object;
-         XMLElement cep = xeci.getChangedElement();
-         if (!(isOptionalXMLAttributeWithoutDefaultValue(cep) || isNonValidatingSimpleElement(cep))) {
-            performDesignTimeValidation = true;
-            break;
+      topValidationElement = mainPkg;
+      if (isDesignTimeValidation()) {
+         boolean isGlobalValidationEvent = false;
+         for (Object object : xpdlInfoList) {
+            XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) object;
+            XMLElement cep = xeci.getChangedElement();
+            if (!(isOptionalXMLAttributeWithoutDefaultValue(cep) || isNonValidatingSimpleElement(cep))) {
+               performDesignTimeValidation = true;
+               if (isGlobalValidationEvent(xeci)) {
+                  isGlobalValidationEvent = true;
+               }
+            }
+         }
+         if (performDesignTimeValidation) {
+            if (!isGlobalValidationEvent) {
+               topValidationElement = getTopValidationElement(mainPkg, xpdlInfoList);
+            }
          }
       }
 
@@ -1872,9 +1894,52 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       // "+elementsToSelect);
       selectionMng.setSelection(elementsToSelect, true);
       if (isDesignTimeValidation() && performDesignTimeValidation) {
-         checkValidity(mainPkg, true, false, true);
+         if (topValidationElement == mainPkg) {
+            checkValidity(mainPkg, true, false, true);
+         } else {
+            List l = checkValidity(topValidationElement, true);
+            XPDLElementChangeInfo info = createInfo(topValidationElement, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
+            info.setNewValue(new Boolean(false));
+            info.setOldValue(new Boolean(true));
+            sendEvent(info);
+
+         }
       }
       performDesignTimeValidation = true;
+      topValidationElement = mainPkg;
+   }
+
+   protected XMLElement getTopValidationElement(XMLElement defEl, List xpdlIL) {
+      XMLElement toValidate = defEl;
+      WorkflowProcess firstWP = XMLUtil.getWorkflowProcess(((XPDLElementChangeInfo) xpdlIL.get(0)).getChangedElement());
+      System.out.println("Setting TOP VE for " + xpdlIL.get(0) + " to " + firstWP);
+      if (firstWP != null) {
+         toValidate = firstWP;
+         for (int i = 1; i < xpdlIL.size(); i++) {
+            XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) xpdlIL.get(i);
+            System.out.println("Searching TOP VE for " + xeci);
+            if (XMLUtil.getWorkflowProcess(xeci.getChangedElement()) != firstWP) {
+               toValidate = defEl;
+               System.out.println("...it is PKG");
+               break;
+            }
+         }
+      }
+      return toValidate;
+   }
+
+   protected boolean isGlobalValidationEvent(XPDLElementChangeInfo xeci) {
+      XMLElement cep = xeci.getChangedElement();
+      if ((xeci.getAction() == XPDLElementChangeInfo.INSERTED || xeci.getAction() == XPDLElementChangeInfo.REMOVED || xeci.getAction() == XPDLElementChangeInfo.REPOSITIONED)
+          && !(cep instanceof ConnectorGraphicsInfos || cep instanceof Coordinatess || cep instanceof Deadlines || cep instanceof ExtendedAttributes || cep instanceof NodeGraphicsInfos)) {
+         return true;
+      } else if (xeci.getAction() == XPDLElementChangeInfo.UPDATED) {
+         if (cep instanceof XMLAttribute && cep.toName().equals("Id")) {
+            return true;
+         }
+      }
+      return false;
+
    }
 
    protected boolean isOptionalXMLAttributeWithoutDefaultValue(XMLElement el) {
@@ -2258,10 +2323,20 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       if (undoHistoryManager != null) {
          performDesignTimeValidation = false;
          undoHistoryManager.undo();
+         Package mainPkg = getMainPackage();
          if (performDesignTimeValidation && isDesignTimeValidation()) {
-            checkValidity(getMainPackage(), true, false, true);
+            if (topValidationElement == mainPkg) {
+               checkValidity(mainPkg, true, false, true);
+            } else {
+               List l = checkValidity(topValidationElement, true);
+               XPDLElementChangeInfo info = createInfo(topValidationElement, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
+               info.setNewValue(new Boolean(false));
+               info.setOldValue(new Boolean(true));
+               sendEvent(info);
+            }
          }
          performDesignTimeValidation = true;
+         topValidationElement = mainPkg;
          getSettings().adjustActions();
       }
    }
@@ -2270,10 +2345,20 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       if (undoHistoryManager != null) {
          performDesignTimeValidation = false;
          undoHistoryManager.redo();
+         Package mainPkg = getMainPackage();
          if (performDesignTimeValidation && isDesignTimeValidation()) {
-            checkValidity(getMainPackage(), true, false, true);
+            if (topValidationElement == mainPkg) {
+               checkValidity(mainPkg, true, false, true);
+            } else {
+               List l = checkValidity(topValidationElement, true);
+               XPDLElementChangeInfo info = createInfo(topValidationElement, l, XPDLElementChangeInfo.VALIDATION_ERRORS);
+               info.setNewValue(new Boolean(false));
+               info.setOldValue(new Boolean(true));
+               sendEvent(info);
+            }
          }
          performDesignTimeValidation = true;
+         topValidationElement = mainPkg;
          getSettings().adjustActions();
       }
    }

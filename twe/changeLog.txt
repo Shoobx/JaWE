@@ -1,7 +1,10 @@
 ###### TWE 5.4-1 RELEASED ######
 2016-04-19 Sasa Bojanic <sasaboy@together.at>
    # Improved performance by setting XPDL to read-only and initializing caches when saving XPDL (to have faster validation)
+   # Improved performance by doing delta design-time validation (only for the current process) whenever possible - the cases 
+     when Id of element is not changed and there was no insertion/removal/reposition of global-validation element
 
+   
 2016-04-18 Sasa Bojanic <sasaboy@together.at>
    # Improved performance by setting XPDL to read-only and initializing caches before validation
    # Improved performance by not design-time validating XMLAttribute elements which are not required and don't have default value (e.g. Name attribute)
