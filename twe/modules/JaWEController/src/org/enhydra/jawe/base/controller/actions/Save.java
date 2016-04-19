@@ -19,7 +19,6 @@
 package org.enhydra.jawe.base.controller.actions;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -61,23 +60,30 @@ public class Save extends ActionBase {
       JaWEController jc = JaWEManager.getInstance().getJaWEController();
 
       boolean save = true;
-      boolean allowInvalidPackageSaving = jc.getControllerSettings()
-         .allowInvalidPackageSaving()
+      boolean allowInvalidPackageSaving = jc.getControllerSettings().allowInvalidPackageSaving()
                                           && !XPDLConstants.PUBLICATION_STATUS_RELEASED.equals(jc.getMainPackage()
                                              .getRedefinableHeader()
                                              .getPublicationStatus());
       boolean isModelOK = false;
 
       if (!allowInvalidPackageSaving) {
-         StandardPackageValidator xpdlValidator = JaWEManager.getInstance()
-            .getXPDLValidator();
+         StandardPackageValidator xpdlValidator = JaWEManager.getInstance().getXPDLValidator();
          xpdlValidator.init(JaWEManager.getInstance().getXPDLHandler(),
                             jc.getMainPackage(),
                             false,
                             jc.getControllerSettings().getEncoding(),
                             JaWEManager.getInstance().getStartingLocale());
 
-         List problems = jc.checkValidity(jc.getMainPackage(), true);
+         List problems = null;
+         Package mp = jc.getMainPackage();
+         try {
+            mp.setReadOnly(true);
+            mp.initCaches(JaWEManager.getInstance().getXPDLHandler());
+            problems = jc.checkValidity(mp, true);
+         } finally {
+            mp.setReadOnly(false);
+         }
+
          isModelOK = true;
          for (int i = 0; i < problems.size(); i++) {
             ValidationError verr = (ValidationError) problems.get(i);
@@ -87,8 +93,7 @@ public class Save extends ActionBase {
             }
          }
          if (!isModelOK) {
-            String msg = jc.getSettings()
-               .getLanguageDependentString("ErrorCannotSaveIncorrectPackage");
+            String msg = jc.getSettings().getLanguageDependentString("ErrorCannotSaveIncorrectPackage");
             jc.message(msg, JOptionPane.ERROR_MESSAGE);
             save = false;
          }
@@ -99,11 +104,7 @@ public class Save extends ActionBase {
          String newFilename = null;
          Package pkg = jc.getMainPackage();
          if (oldFilename == null || myName != null) {
-            newFilename = jc.saveDialog(jc.getSettings()
-                                           .getLanguageDependentString("SaveAs"
-                                                                       + BarFactory.LABEL_POSTFIX),
-                                        0,
-                                        pkg.getId());
+            newFilename = jc.saveDialog(jc.getSettings().getLanguageDependentString("SaveAs" + BarFactory.LABEL_POSTFIX), 0, pkg.getId());
          } else {
             newFilename = oldFilename;
          }

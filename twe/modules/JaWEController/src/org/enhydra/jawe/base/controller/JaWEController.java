@@ -425,9 +425,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          .getStartingLocale());
       List l = null;
       // setting read-only and initializing caches before validation - improves performance
-      el.setReadOnly(true);
-      el.initCaches(JaWEManager.getInstance().getXPDLHandler());
       try {
+         el.setReadOnly(true);
+         el.initCaches(JaWEManager.getInstance().getXPDLHandler());
          l = checkValidity(el, fullCheck);
       } finally {
          el.setReadOnly(false);
