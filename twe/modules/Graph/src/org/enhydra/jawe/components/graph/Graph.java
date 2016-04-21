@@ -18,10 +18,14 @@
 
 package org.enhydra.jawe.components.graph;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +35,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import javax.swing.JComponent;
+import javax.swing.RepaintManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.enhydra.jawe.JaWEManager;
@@ -61,7 +66,7 @@ import org.jgraph.graph.Port;
  * 
  * @author Sasa Bojanic
  */
-public class Graph extends JGraph {
+public class Graph extends JGraph implements Printable {
 
    protected WorkflowProcess wp;
 
@@ -83,18 +88,12 @@ public class Graph extends JGraph {
    /**
     * Constructs process graph based on a given model.
     */
-   public Graph(GraphController gc,
-                GraphModel model,
-                BasicMarqueeHandler mh,
-                WorkflowProcess wp) {
+   public Graph(GraphController gc, GraphModel model, BasicMarqueeHandler mh, WorkflowProcess wp) {
       init(gc, model, mh, wp);
       graphManager.createWorkflowGraph(wp);
    }
 
-   public Graph(GraphController gc,
-                GraphModel model,
-                BasicMarqueeHandler mh,
-                ActivitySet as) {
+   public Graph(GraphController gc, GraphModel model, BasicMarqueeHandler mh, ActivitySet as) {
       init(gc, model, mh, as);
       graphManager.createWorkflowGraph(as);
    }
@@ -115,10 +114,7 @@ public class Graph extends JGraph {
       this.graphManager = g.graphManager;
    }
 
-   protected void init(GraphController gc,
-                       GraphModel model,
-                       BasicMarqueeHandler mh,
-                       XMLCollectionElement wpOrAs) {
+   protected void init(GraphController gc, GraphModel model, BasicMarqueeHandler mh, XMLCollectionElement wpOrAs) {
       this.graphController = gc;
       selectionModel = new JaWEGraphSelectionModel(this);
       setLayout(null);
@@ -256,14 +252,12 @@ public class Graph extends JGraph {
          value = ((CellView) value).getCell();
       }
 
-      if (value instanceof DefaultMutableTreeNode
-          && ((DefaultMutableTreeNode) value).getUserObject() != null) {
+      if (value instanceof DefaultMutableTreeNode && ((DefaultMutableTreeNode) value).getUserObject() != null) {
          if (value instanceof GraphTransitionInterface) {
             XMLCollectionElement tOrA = (XMLCollectionElement) ((GraphTransitionInterface) value).getPropertyObject();
             if (tOrA instanceof Transition) {
                Transition tra = (Transition) tOrA;
-               if (graphController.getGraphSettings()
-                  .shouldShowTransitionNameForCondition()) {
+               if (graphController.getGraphSettings().shouldShowTransitionNameForCondition()) {
                   return tra.getName();
                }
                return tra.getCondition().toValue();
@@ -290,10 +284,7 @@ public class Graph extends JGraph {
       y /= scale; // FIX: Consistency with other methods?
       CellView[] cells = getOrderedAllSelectableCells();
       if (cells != null) {
-         Rectangle r = new Rectangle(x - tolerance,
-                                     y - tolerance,
-                                     2 * tolerance,
-                                     2 * tolerance);
+         Rectangle r = new Rectangle(x - tolerance, y - tolerance, 2 * tolerance, 2 * tolerance);
          // Iterate through cells and find first Participant at
          // if current is traversed. Cache first cell.
          for (int i = 0; i < cells.length; i++) {
@@ -319,18 +310,14 @@ public class Graph extends JGraph {
    }
 
    /**
-    * Modified from original to suite our needs. This method makes a Participant to be
-    * selected only when it's name part is pressed, and to give it's tooltip only when you
-    * want to insert some cells in it.
+    * Modified from original to suite our needs. This method makes a Participant to be selected only when it's name part is pressed, and to give it's tooltip
+    * only when you want to insert some cells in it.
     */
    public CellView getNextViewAt(CellView[] cells, CellView c, double x, double y) {// HM,
                                                                                     // JGraph3.4.1
       if (cells != null) {
 
-         Rectangle r = new Rectangle((int) x - tolerance,
-                                     (int) y - tolerance,
-                                     2 * tolerance,
-                                     2 * tolerance);// HM, JGraph3.4.1
+         Rectangle r = new Rectangle((int) x - tolerance, (int) y - tolerance, 2 * tolerance, 2 * tolerance);// HM, JGraph3.4.1
          // Iterate through cells and switch to active
          // if current is traversed. Cache first cell.
          CellView first = null;
@@ -340,8 +327,7 @@ public class Graph extends JGraph {
             boolean intersects = false;
             boolean wholeArea = true;
             GraphMarqueeHandler mh = (GraphMarqueeHandler) marquee;
-            if (mh.isSelectButtonSelected()
-                || mh.isTransitionButtonSelected() || mh.isAssociationButtonSelected()) {
+            if (mh.isSelectButtonSelected() || mh.isTransitionButtonSelected() || mh.isAssociationButtonSelected()) {
                wholeArea = false;
             }
             if ((cells[i] instanceof GraphSwimlaneViewInterface) && wholeArea) {
@@ -365,9 +351,8 @@ public class Graph extends JGraph {
    }
 
    /**
-    * This method gets all selectable views and puts it in an order that suites to our
-    * needs (first comes activities and transitions(edges), and then Participants sorted
-    * by level - root Participants comes last)
+    * This method gets all selectable views and puts it in an order that suites to our needs (first comes activities and transitions(edges), and then
+    * Participants sorted by level - root Participants comes last)
     */
    private CellView[] getOrderedAllSelectableCells() {
       // Get Roots in View Order
@@ -441,20 +426,15 @@ public class Graph extends JGraph {
    }
 
    /**
-    * Overrides <code>JComponent</code>'s <code>getToolTipText</code> method in order to
-    * allow the graph controller to create a tooltip for the topmost cell under the
-    * mousepointer. This differs from JTree where the renderers tooltip is used.
+    * Overrides <code>JComponent</code>'s <code>getToolTipText</code> method in order to allow the graph controller to create a tooltip for the topmost cell
+    * under the mousepointer. This differs from JTree where the renderers tooltip is used.
     * <p>
-    * NOTE: For <code>JGraph</code> to properly display tooltips of its renderers,
-    * <code>JGraph</code> must be a registered component with the
-    * <code>ToolTipManager</code>. This can be done by invoking
-    * <code>ToolTipManager.sharedInstance().registerComponent(graph)</code>. This is not
-    * done automatically!
+    * NOTE: For <code>JGraph</code> to properly display tooltips of its renderers, <code>JGraph</code> must be a registered component with the
+    * <code>ToolTipManager</code>. This can be done by invoking <code>ToolTipManager.sharedInstance().registerComponent(graph)</code>. This is not done
+    * automatically!
     * 
-    * @param event the <code>MouseEvent</code> that initiated the <code>ToolTip</code>
-    *           display
-    * @return a string containing the tooltip or <code>null</code> if <code>event</code>
-    *         is null
+    * @param event the <code>MouseEvent</code> that initiated the <code>ToolTip</code> display
+    * @return a string containing the tooltip or <code>null</code> if <code>event</code> is null
     */
    public String getToolTipText(MouseEvent event) {
       if (event != null) {
@@ -524,8 +504,7 @@ public class Graph extends JGraph {
    }
 
    protected void setShowTransAndArtsProperties() {
-      boolean show = ((Boolean) graphController.getSettings()
-         .getSetting("ShowTransitionCondition")).booleanValue();
+      boolean show = ((Boolean) graphController.getSettings().getSetting("ShowTransitionCondition")).booleanValue();
       setShowTransitionConditions(show);
       show = ((Boolean) graphController.getSettings().getSetting("ShowArtifacts")).booleanValue();
       setShowArtifacts(show);
@@ -584,9 +563,8 @@ public class Graph extends JGraph {
    }
 
    /**
-    * Notification from the <code>UIManager</code> that the LF has changed. Replaces the
-    * current UI object with the latest version from the <code>UIManager</code>.
-    * Subclassers can override this to support different GraphUIs.
+    * Notification from the <code>UIManager</code> that the LF has changed. Replaces the current UI object with the latest version from the
+    * <code>UIManager</code>. Subclassers can override this to support different GraphUIs.
     * 
     * @see JComponent#updateUI
     */
@@ -634,6 +612,50 @@ public class Graph extends JGraph {
 
    public void setShowArtifacts(boolean show) {
       showArtifacts = show;
+   }
+
+   /**
+    * Prints the specified page on the specified graphics using <code>pageFormat</code> for the page format.
+    * 
+    * @param g The graphics to paint the graph on.
+    * @param printFormat The page format to use for printing.
+    * @param page The page to print
+    * @return Returns {@link Printable#PAGE_EXISTS} or {@link Printable#NO_SUCH_PAGE}.
+    */
+   public int print(Graphics g, PageFormat printFormat, int page) {
+      // Disables double-buffering before printing
+      RepaintManager currentManager = RepaintManager.currentManager(Graph.this);
+      currentManager.setDoubleBufferingEnabled(false);
+
+      Dimension pSize = new Dimension((int) Math.ceil(getBounds().getX() + getBounds().getWidth()) + 1, (int) Math.ceil(getBounds().getY()
+                                                                                                                        + getBounds().getHeight()) + 1);
+
+      int w = (int) printFormat.getImageableWidth();
+      int h = (int) printFormat.getImageableHeight();
+
+      int cols = (int) Math.max(Math.ceil((double) (pSize.width - 5) / (double) w), 1);
+      int rows = (int) Math.max(Math.ceil((double) (pSize.height - 5) / (double) h), 1);
+      int pageCount = cols * rows;
+      if (page >= pageCount)
+         return NO_SUCH_PAGE;
+
+      int dx = (int) ((page % cols) * w);
+      int dy = (int) (Math.floor(page / cols) * h);
+
+      g.translate(-dx, -dy);
+      g.setClip(dx, dy, w, h);
+      paint(g);
+      return PAGE_EXISTS;
+   }
+
+   protected PageFormat pageFormat = new PageFormat();
+
+   public PageFormat getPageFormat() {
+      return pageFormat;
+   }
+
+   public void setPageFormat(PageFormat pageFormat) {
+      this.pageFormat = pageFormat;
    }
 
 }

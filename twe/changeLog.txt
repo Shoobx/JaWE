@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-04-21 Sasa Bojanic <sasaboy@together.at>
+   # Implemented Graph print action
+
 2016-04-19 Sasa Bojanic <sasaboy@together.at>
    # Improved performance by setting XPDL to read-only and initializing caches when saving XPDL (to have faster validation)
    # Improved performance by doing delta design-time validation (only for the current process) whenever possible - the cases 

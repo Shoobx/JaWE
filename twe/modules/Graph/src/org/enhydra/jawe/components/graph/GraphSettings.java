@@ -48,6 +48,8 @@ import org.enhydra.jawe.components.graph.actions.MoveDownLane;
 import org.enhydra.jawe.components.graph.actions.MoveUpLane;
 import org.enhydra.jawe.components.graph.actions.NextGraph;
 import org.enhydra.jawe.components.graph.actions.PreviousGraph;
+import org.enhydra.jawe.components.graph.actions.Print;
+import org.enhydra.jawe.components.graph.actions.PrinterPageFormat;
 import org.enhydra.jawe.components.graph.actions.RemoveLane;
 import org.enhydra.jawe.components.graph.actions.RemovePoint;
 import org.enhydra.jawe.components.graph.actions.RemoveStartAndEndEvents;
@@ -289,7 +291,7 @@ public class GraphSettings extends JaWEComponentSettings {
       componentSettings.put("toolboxToolbar",
                             "SetSelectMode - SetLaneMode* SetLaneModeFreeTextExpression SetLaneModeCommonExpression - SetArtifactMode* - SetActivityMode* - SetTransitionMode* - SetAssociationMode*");
       componentSettings.put("graphEditToolbarToolbar",
-                            "SaveAsJPG SaveAsSVG SaveAsPDF - ZoomIn ActualSize ZoomOut - MoveUpLane MoveDownLane - PreviousGraph NextGraph - InsertMissingStartAndEndEvents RemoveStartAndEndEvents ShowTransitionCondition HideTransitionCondition ShowArtifacts HideArtifacts - RotateProcess SimpleGraphLayout - InsertActivitySet");
+                            "PrintPageFormat Print - SaveAsJPG SaveAsSVG SaveAsPDF - ZoomIn ActualSize ZoomOut - MoveUpLane MoveDownLane - PreviousGraph NextGraph - InsertMissingStartAndEndEvents RemoveStartAndEndEvents ShowTransitionCondition HideTransitionCondition ShowArtifacts HideArtifacts - RotateProcess SimpleGraphLayout - InsertActivitySet");
 
       // actions
       ActionBase action = null;
@@ -729,6 +731,20 @@ public class GraphSettings extends JaWEComponentSettings {
       action = new SimpleGraphLayout(comp);
       icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/graph_layout.png"));
       langDepName = "SimpleGraphLayout";
+      ja = new JaWEAction(action, icon, langDepName);
+      componentAction.put(action.getValue(Action.NAME), ja);
+
+      // PrintPageFormat
+      action = new PrinterPageFormat(comp);
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/printerpageformat.png"));
+      langDepName = "PrinterPageFormat";
+      ja = new JaWEAction(action, icon, langDepName);
+      componentAction.put(action.getValue(Action.NAME), ja);
+
+      // Print
+      action = new Print(comp);
+      icon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/print.png"));
+      langDepName = "Print";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put(action.getValue(Action.NAME), ja);
 

@@ -1641,7 +1641,7 @@ create.desktop.icon=on
 
         <mediaobject>
           <imageobject>
-            <imagedata contentdepth="100%" fileref="Images/graphPanel.gif"
+            <imagedata contentdepth="100%" fileref="Images/graphPanel.jpg"
                        scalefit="1" width="100%"/>
           </imageobject>
         </mediaobject>
@@ -1657,6 +1657,28 @@ create.desktop.icon=on
       <informaltable frame="topbot">
         <tgroup align="left" cols="2">
           <tbody valign="middle">
+            <row>
+              <entry align="left" valign="middle"><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/printerpageformat.png"
+                               format="GIF"/>
+                  </imageobject>
+                </inlinemediaobject></entry>
+
+              <entry><para>This action opens a dialog to setup printer
+              page.</para></entry>
+            </row>
+
+            <row>
+              <entry align="left" valign="middle"><inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/print.png" format="GIF"/>
+                  </imageobject>
+                </inlinemediaobject></entry>
+
+              <entry><para>This action opens a print dialog.</para></entry>
+            </row>
+
             <row>
               <entry align="left" valign="middle"><inlinemediaobject>
                   <imageobject>
@@ -11484,6 +11506,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         <listitem>
           <para>Improved performance by optimizing Problems panel
           algorithm</para>
+        </listitem>
+
+        <listitem>
+          <para>Implemented Graph print and print page setup actions</para>
         </listitem>
 
         <listitem>
