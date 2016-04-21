@@ -291,7 +291,7 @@ public class GraphSettings extends JaWEComponentSettings {
       componentSettings.put("toolboxToolbar",
                             "SetSelectMode - SetLaneMode* SetLaneModeFreeTextExpression SetLaneModeCommonExpression - SetArtifactMode* - SetActivityMode* - SetTransitionMode* - SetAssociationMode*");
       componentSettings.put("graphEditToolbarToolbar",
-                            "PrintPageFormat Print - SaveAsJPG SaveAsSVG SaveAsPDF - ZoomIn ActualSize ZoomOut - MoveUpLane MoveDownLane - PreviousGraph NextGraph - InsertMissingStartAndEndEvents RemoveStartAndEndEvents ShowTransitionCondition HideTransitionCondition ShowArtifacts HideArtifacts - RotateProcess SimpleGraphLayout - InsertActivitySet");
+                            "PrinterPageFormat Print - SaveAsJPG SaveAsSVG SaveAsPDF - ZoomIn ActualSize ZoomOut - MoveUpLane MoveDownLane - PreviousGraph NextGraph - InsertMissingStartAndEndEvents RemoveStartAndEndEvents ShowTransitionCondition HideTransitionCondition ShowArtifacts HideArtifacts - RotateProcess SimpleGraphLayout - InsertActivitySet");
 
       // actions
       ActionBase action = null;
