@@ -282,7 +282,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          if (isDesignTimeValidation()) {
             boolean pdtvlocal = false;
             boolean isGlobalValidationEvent = false;
-            if (!(isOptionalXMLAttributeWithoutDefaultValue(chel) || isNonValidatingSimpleElement(chel))) {
+            if (!(isNonValidatingXMLAttribute(chel) || isNonValidatingSimpleElement(chel))) {
                pdtvlocal = true;
                performDesignTimeValidation = true;
                if (isGlobalValidationEvent(info)) {
@@ -1865,7 +1865,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          for (Object object : xpdlInfoList) {
             XPDLElementChangeInfo xeci = (XPDLElementChangeInfo) object;
             XMLElement cep = xeci.getChangedElement();
-            if (!(isOptionalXMLAttributeWithoutDefaultValue(cep) || isNonValidatingSimpleElement(cep))) {
+            if (!(isNonValidatingXMLAttribute(cep) || isNonValidatingSimpleElement(cep))) {
                performDesignTimeValidation = true;
                if (isGlobalValidationEvent(xeci)) {
                   isGlobalValidationEvent = true;
@@ -1966,9 +1966,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
    }
 
-   protected boolean isOptionalXMLAttributeWithoutDefaultValue(XMLElement el) {
+   protected boolean isNonValidatingXMLAttribute(XMLElement el) {
       if (el instanceof XMLAttribute) {
-         if (!el.isRequired() && !el.toName().equals("ScriptType")) {
+         if (!el.isRequired()) {
             List chs = ((XMLAttribute) el).getChoices();
             if (chs == null || chs.size() == 0) {
                return true;

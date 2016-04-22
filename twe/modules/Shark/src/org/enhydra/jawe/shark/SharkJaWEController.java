@@ -21,8 +21,10 @@ import org.enhydra.jawe.base.controller.ControllerSettings;
 import org.enhydra.jawe.base.controller.JaWEController;
 import org.enhydra.jawe.shark.business.I18nVariable;
 import org.enhydra.jawe.shark.business.XPDLStringVariable;
+import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.ExtendedAttribute;
 
 public class SharkJaWEController extends JaWEController {
 
@@ -36,4 +38,19 @@ public class SharkJaWEController extends JaWEController {
       }
       return super.canDuplicateElement(col, el, checkReadOnly);
    }
+
+   protected boolean isNonValidatingXMLAttribute(XMLElement el) {
+      boolean ret = super.isNonValidatingXMLAttribute(el);
+      if (ret) {
+         if (el instanceof XMLAttribute) {
+            if (el.toName().equals("ScriptType")) {
+               ret = false;
+            } else if (el.getParent() instanceof ExtendedAttribute && el.toName().equals("Value")) {
+               ret = false;
+            }
+         }
+      }
+      return ret;
+   }
+
 }
