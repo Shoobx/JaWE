@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.Stack;
 
 import javax.swing.JComponent;
-import javax.swing.RepaintManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.enhydra.jawe.JaWEManager;
@@ -623,10 +622,6 @@ public class Graph extends JGraph implements Printable {
     * @return Returns {@link Printable#PAGE_EXISTS} or {@link Printable#NO_SUCH_PAGE}.
     */
    public int print(Graphics g, PageFormat printFormat, int page) {
-      // Disables double-buffering before printing
-      RepaintManager currentManager = RepaintManager.currentManager(Graph.this);
-      currentManager.setDoubleBufferingEnabled(false);
-
       Dimension pSize = new Dimension((int) Math.ceil(getBounds().getX() + getBounds().getWidth()) + 1, (int) Math.ceil(getBounds().getY()
                                                                                                                         + getBounds().getHeight()) + 1);
 
