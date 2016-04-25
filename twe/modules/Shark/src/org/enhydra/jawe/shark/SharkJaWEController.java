@@ -24,7 +24,9 @@ import org.enhydra.jawe.shark.business.XPDLStringVariable;
 import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollection;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 public class SharkJaWEController extends JaWEController {
 
@@ -43,9 +45,12 @@ public class SharkJaWEController extends JaWEController {
       boolean ret = super.isNonValidatingXMLAttribute(el);
       if (ret) {
          if (el instanceof XMLAttribute) {
-            if (el.toName().equals("ScriptType")) {
+            String elName = el.toName();
+            if (elName.equals("ScriptType")) {
                ret = false;
-            } else if (el.getParent() instanceof ExtendedAttribute && el.toName().equals("Value")) {
+            } else if (el.getParent() instanceof ExtendedAttribute && elName.equals("Value")) {
+               ret = false;
+            } else if ((el.getParent() instanceof WorkflowProcess || el.getParent() instanceof Activity) && elName.equals("Name")) {
                ret = false;
             }
          }

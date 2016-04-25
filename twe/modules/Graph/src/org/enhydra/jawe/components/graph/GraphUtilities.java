@@ -827,7 +827,7 @@ public class GraphUtilities {
 
    protected static void setBreakPointCoordinates(ConnectorGraphicsInfo cgi, List bps) {
       Coordinatess cs = cgi.getCoordinatess();
-      boolean sameSize = cs.size() == bps.size();
+      boolean sameSize = cs != null && bps != null && cs.size() == bps.size();
       if (!sameSize) {
          cs.clear();
       }
