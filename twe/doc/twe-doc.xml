@@ -2933,6 +2933,69 @@ create.desktop.icon=on
         <note>
           <para>This property can't be changed in the design time.</para>
         </note>
+
+        <para>The following sample shows graphically what does it mean. First,
+        here is the property panel of one transition from the graph:</para>
+
+        <figure>
+          <title>Transition property panel</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/show_hide_transitions_transition_property_panel.jpg"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>As you can see, the condition of this transition is
+        <emphasis>!var_boolean_decision.booleanValue()</emphasis> and the name
+        is <emphasis>No</emphasis>.</para>
+
+        <para>If we setup graph not to show the transition text, the following
+        is the picture how it will look like:</para>
+
+        <figure>
+          <title>Graph - hidden transition's text</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/show_hide_transitions_transition_graph_hide_text.jpg"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>If we configure to show transition's condition as text it will
+        look like:</para>
+
+        <figure>
+          <title>Graph - show transition's condition text</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/show_hide_transitions_transition_graph_show_condition.jpg"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>And if we configure it to show transition's name as text:</para>
+
+        <figure>
+          <title>Transition property panel</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/show_hide_transitions_transition_graph_show_name.jpg"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
       </sect2>
     </sect1>
 
