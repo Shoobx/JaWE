@@ -187,7 +187,15 @@ public class SharkUtils {
          if (removeIfEmpty && val.trim().equals("")) {
             eas.remove(ea);
          } else {
+            boolean eaexist = (ea != null);
+            if (!eaexist) {
+               ea = (ExtendedAttribute) eas.generateNewElement();
+               ea.setName(name);
+            }
             ea.setVValue(val);
+            if (!eaexist) {
+               eas.add(ea);
+            }
          }
       }
    }
