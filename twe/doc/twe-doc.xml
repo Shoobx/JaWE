@@ -2888,6 +2888,52 @@ create.desktop.icon=on
 
       <para>As with all other components, you are also able to change the
       content of the toolbar and the order of toolbar buttons.</para>
+
+      <sect2>
+        <title>How to show transition conditions vs. names in the
+        graph</title>
+
+        <para>As shortly listed above, the graph can hide or show transition
+        condition text, or even use transition's name when chosen to display
+        the text in the graph.</para>
+
+        <para>To show/hide transition's text in the design time use
+        <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/showtransitioncondition.gif"
+                         format="GIF"/>
+            </imageobject>
+          </inlinemediaobject> and <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/hidetransitioncondition.gif"
+                         format="GIF"/>
+            </imageobject>
+          </inlinemediaobject> icons from the toolbar. </para>
+
+        <para>To configure if the text should be shown or hidden by default
+        when editor is opened, use the following entry from<emphasis>
+        togwegraphcontroller.properties</emphasis> file for the selected
+        editor conifiguration (mode):</para>
+
+        <programlisting>Graph.ShowTransitionCondition = false</programlisting>
+
+        <para>If you set the value to <emphasis>true</emphasis>, the text will
+        be shown, otherwise it will be hidden by default.</para>
+
+        <para>To configure if the transition's condition or transition's name
+        text should be shown use the following property from the same
+        file:</para>
+
+        <programlisting>Graph.ShowTransitionNameForCondition = true</programlisting>
+
+        <para>The value <emphasis>true</emphasis> means that transition's name
+        will be shown, otherwise the transition's condition will be
+        shown.</para>
+
+        <note>
+          <para>This property can't be changed in the design time.</para>
+        </note>
+      </sect2>
     </sect1>
 
     <sect1>
@@ -11519,6 +11565,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED</para>
 
           <para>- Not showing properties component by default</para>
+        </listitem>
+
+        <listitem>
+          <para>New sub-section added to manual: "How to show transition
+          conditions vs. names in the graph"</para>
         </listitem>
       </itemizedlist>
     </section>
