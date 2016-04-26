@@ -117,7 +117,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
       if (!ro && !isECECFG) {
          elECE.setReadOnly(true);
       }
-      if (ro) {
+      if (ro && !elECE.isReadOnly()) {
          if (elECE.isConfigurable()) {
             elECE.setConfigurable(false);
          }
