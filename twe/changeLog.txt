@@ -1,5 +1,6 @@
 ###### TWE 5.4-1 RELEASED ######
 2016-05-16 Sasa Bojanic <sasaboy@together.at>
+   # Corrected marking of validation errors/warning in the tree-view
    # Shark mode: Added support for PowerShellToolAgent
 
 2016-04-26 Sasa Bojanic <sasaboy@together.at>

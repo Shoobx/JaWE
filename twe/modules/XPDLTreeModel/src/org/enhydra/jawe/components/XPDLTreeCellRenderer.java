@@ -58,14 +58,12 @@ public class XPDLTreeCellRenderer extends DefaultTreeCellRenderer {
    protected Icon defaultImage;
 
    /**
-    * Warning image to show on top of the image when the {@link XMLElement} has some
-    * validation warnings.
+    * Warning image to show on top of the image when the {@link XMLElement} has some validation warnings.
     */
    protected Icon warning;
 
    /**
-    * Error image to show on top of the image when the {@link XMLElement} has some
-    * validation errors.
+    * Error image to show on top of the image when the {@link XMLElement} has some validation errors.
     */
    protected Icon error;
 
@@ -88,23 +86,14 @@ public class XPDLTreeCellRenderer extends DefaultTreeCellRenderer {
       super();
       this.owner = comp;
       try {
-         defaultImage = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/default.gif"));
-         warning = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/warning_icon_small.gif"));
-         error = new ImageIcon(ResourceManager.class.getClassLoader()
-            .getResource("org/enhydra/jawe/images/error_icon_small.gif"));
+         defaultImage = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/default.gif"));
+         warning = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/warning_icon_small.gif"));
+         error = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/error_icon_small.gif"));
       } catch (Exception e) {
       }
    }
 
-   public Component getTreeCellRendererComponent(JTree tree,
-                                                 Object value,
-                                                 boolean sel,
-                                                 boolean expanded,
-                                                 boolean leaf,
-                                                 int row,
-                                                 boolean pHasFocus) {
+   public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean pHasFocus) {
 
       super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, pHasFocus);
 
@@ -123,10 +112,7 @@ public class XPDLTreeCellRenderer extends DefaultTreeCellRenderer {
 
       JaWEType jtype = null;
       if (userObj instanceof XMLElement)
-         jtype = JaWEManager.getInstance()
-            .getJaWEController()
-            .getTypeResolver()
-            .getJaWEType((XMLElement) userObj);
+         jtype = JaWEManager.getInstance().getJaWEController().getTypeResolver().getJaWEType((XMLElement) userObj);
 
       if (jtype != null) {
          if (err) {
@@ -156,13 +142,11 @@ public class XPDLTreeCellRenderer extends DefaultTreeCellRenderer {
    }
 
    /**
-    * Sets the validation errors and warnings for the {@link XMLElement} instances and
-    * their parents.
+    * Sets the validation errors and warnings for the {@link XMLElement} instances and their parents.
     * 
-    * @param verrors List of {@link XMLElement} instances that have validation warnings or
-    *           errors.
+    * @param verrors List of {@link XMLElement} instances that have validation warnings or errors.
     */
-   public void setValidationErrors(List verrors) {
+   public void setValidationErrors(XMLElement element, List verrors) {
       Set serr = new HashSet();
       Set swarn = new HashSet();
       if (verrors != null) {
@@ -175,9 +159,32 @@ public class XPDLTreeCellRenderer extends DefaultTreeCellRenderer {
             }
          }
       }
-      this.errors = new HashSet(serr);
-      this.warnings = new HashSet(swarn);
+      if (element == null || element instanceof org.enhydra.jxpdl.elements.Package) {
+         this.errors = new HashSet(serr);
+         this.warnings = new HashSet(swarn);
+      } else {
+         Iterator it = this.errors.iterator();
+         Set parents = XMLUtil.getAllParents(element);
 
+         while (it.hasNext()) {
+            XMLElement el = (XMLElement) it.next();
+            if (XMLUtil.getParentElement(element.getClass(), el) == element || parents.contains(el)) {
+               it.remove();
+            }
+         }
+         this.errors.addAll(serr);
+         serr = new HashSet(this.errors);
+
+         it = this.warnings.iterator();
+         while (it.hasNext()) {
+            XMLElement el = (XMLElement) it.next();
+            if (XMLUtil.getParentElement(element.getClass(), el) == element || parents.contains(el)) {
+               it.remove();
+            }
+         }
+         this.warnings.addAll(swarn);
+         swarn = new HashSet(this.warnings);
+      }
       Iterator it = serr.iterator();
       while (it.hasNext()) {
          XMLElement el = (XMLElement) it.next();
@@ -223,7 +230,8 @@ public class XPDLTreeCellRenderer extends DefaultTreeCellRenderer {
    }
 
    /**
-    * Searches for the icon of the given {@link XMLElement}. 
+    * Searches for the icon of the given {@link XMLElement}.
+    * 
     * @param el {@link XMLElement} instance.
     * @param jtype {@link JaWEType} instance.
     * @return Icon for the given {@link XMLElement}.

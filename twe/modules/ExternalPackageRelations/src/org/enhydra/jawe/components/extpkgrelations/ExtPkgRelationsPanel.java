@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.extpkgrelations;
 
@@ -143,13 +143,11 @@ public class ExtPkgRelationsPanel extends JPanel implements JaWEComponentView {
       int action = info.getAction();
 
       if (action == XPDLElementChangeInfo.VALIDATION_ERRORS) {
-         renderer.setValidationErrors(info.getChangedSubElements());
+         renderer.setValidationErrors(info.getChangedElement(), info.getChangedSubElements());
          tree.repaint();
       }
 
-      if (action != XPDLElementChangeInfo.SELECTED
-          && action != XMLElementChangeInfo.REMOVED
-          && action != XMLElementChangeInfo.INSERTED) {
+      if (action != XPDLElementChangeInfo.SELECTED && action != XMLElementChangeInfo.REMOVED && action != XMLElementChangeInfo.INSERTED) {
          return;
       }
 
@@ -160,8 +158,7 @@ public class ExtPkgRelationsPanel extends JPanel implements JaWEComponentView {
 
       tree.clearSelection();
 
-      if (el == null
-          || (action != XPDLElementChangeInfo.SELECTED && (el instanceof Package || el instanceof ExternalPackages))) {
+      if (el == null || (action != XPDLElementChangeInfo.SELECTED && (el instanceof Package || el instanceof ExternalPackages))) {
          reinitialize();
          if (action != XMLElementChangeInfo.INSERTED) {
             return;
@@ -171,8 +168,7 @@ public class ExtPkgRelationsPanel extends JPanel implements JaWEComponentView {
 
       if (pkg != null && !pkg.isTransient() && !treeModel.getRootNode().isLeaf()) {
          XPDLTreeNode tn = (XPDLTreeNode) treeModel.getRootNode().getFirstChild();
-         if (tn != null
-             && tn.getXPDLElement() == pkg && action == XPDLElementChangeInfo.SELECTED) {
+         if (tn != null && tn.getXPDLElement() == pkg && action == XPDLElementChangeInfo.SELECTED) {
             return;
          }
       }
@@ -184,16 +180,12 @@ public class ExtPkgRelationsPanel extends JPanel implements JaWEComponentView {
       if (pkg != null && !pkg.isTransient()) {
          treeModel.insertNode(pkg);
 
-         XPDLTreeUtil.expandOrCollapsToLevel(tree,
-                                             new TreePath(treeModel.getRootNode()),
-                                             2,
-                                             true);
+         XPDLTreeUtil.expandOrCollapsToLevel(tree, new TreePath(treeModel.getRootNode()), 2, true);
       }
 
       String t = " ";
       if (pkg != null) {
-         t += JaWEManager.getInstance().getLabelGenerator().getLabel(pkg)
-              + ", Id='" + pkg.getId() + "'";
+         t += JaWEManager.getInstance().getLabelGenerator().getLabel(pkg) + ", Id='" + pkg.getId() + "'";
       }
       epInfo.setText(t);
 

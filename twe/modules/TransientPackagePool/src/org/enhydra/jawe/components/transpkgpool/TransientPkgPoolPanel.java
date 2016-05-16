@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.transpkgpool;
 
@@ -139,23 +139,14 @@ public class TransientPkgPoolPanel extends JPanel implements JaWEComponentView {
 
                XPDLTreeNode node = (XPDLTreeNode) path.getLastPathComponent();
 
-               if (me.getClickCount() > 1
-                   && !SwingUtilities.isRightMouseButton(me)
-                   && tree.getModel().isLeaf(node)) {
-                  JaWEManager.getInstance()
-                     .getJaWEController()
-                     .getJaWEActions()
-                     .getAction(JaWEActions.EDIT_PROPERTIES_ACTION)
-                     .actionPerformed(null);
+               if (me.getClickCount() > 1 && !SwingUtilities.isRightMouseButton(me) && tree.getModel().isLeaf(node)) {
+                  JaWEManager.getInstance().getJaWEController().getJaWEActions().getAction(JaWEActions.EDIT_PROPERTIES_ACTION).actionPerformed(null);
                }
             } else {
                TreePath close = tree.getClosestPathForLocation(xClick, yClick);
                Rectangle rect = tree.getPathBounds(close);
                if (rect == null || !(rect.y < yClick && rect.y + rect.height > yClick)) {
-                  JaWEManager.getInstance()
-                     .getJaWEController()
-                     .getSelectionManager()
-                     .setSelection((XMLElement) null, false);
+                  JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection((XMLElement) null, false);
                   tree.clearSelection();
                }
             }
@@ -209,7 +200,7 @@ public class TransientPkgPoolPanel extends JPanel implements JaWEComponentView {
       }
 
       if (action == XPDLElementChangeInfo.VALIDATION_ERRORS) {
-         renderer.setValidationErrors(info.getChangedSubElements());
+         renderer.setValidationErrors(info.getChangedElement(), info.getChangedSubElements());
          tree.repaint();
       }
 
@@ -263,7 +254,7 @@ public class TransientPkgPoolPanel extends JPanel implements JaWEComponentView {
             }
             for (int i = 0; i < toSelect.size(); i++) {
                Package toSel = XMLUtil.getPackage((XMLElement) toSelect.get(i));
-               if (toSel!=null && toSel.isTransient()) {
+               if (toSel != null && toSel.isTransient()) {
                   XPDLTreeNode n = treeModel.findNode(toSel);
                   TreePath tp = null;
                   if (n != null) {
@@ -295,10 +286,7 @@ public class TransientPkgPoolPanel extends JPanel implements JaWEComponentView {
 
    // before doing this, listener has to be removed
    public void setCurrentSelection() {
-      List toSelect = JaWEManager.getInstance()
-         .getJaWEController()
-         .getSelectionManager()
-         .getSelectedElements();
+      List toSelect = JaWEManager.getInstance().getJaWEController().getSelectionManager().getSelectedElements();
       for (int i = 0; i < toSelect.size(); i++) {
          XMLElement toSel = (XMLElement) toSelect.get(i);
          if (toSel instanceof Package) {

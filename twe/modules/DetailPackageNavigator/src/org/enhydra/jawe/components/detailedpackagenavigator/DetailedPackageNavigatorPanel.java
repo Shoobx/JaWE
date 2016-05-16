@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 package org.enhydra.jawe.components.detailedpackagenavigator;
 
@@ -68,27 +68,31 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
    protected XPDLTreeModel treeModel;
 
    protected JTree tree;
+
    protected JToolBar toolbar;
+
    protected JScrollPane scrollPane;
 
    protected DetailedPackageNavigator controller;
+
    protected int xClick, yClick;
-   
+
    protected MouseListener mouseListener;
+
    protected XPDLTreeCellRenderer renderer;
-   
+
    public DetailedPackageNavigatorPanel(DetailedPackageNavigator treeViewCtrl) {
       this.controller = treeViewCtrl;
    }
 
    public void configure() {
-//      setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+      // setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
       setBorder(BorderFactory.createEtchedBorder());
       setLayout(new BorderLayout());
-      toolbar = BarFactory.createToolbar("defaultToolbar", controller);   
-      toolbar.setFloatable(false); 
+      toolbar = BarFactory.createToolbar("defaultToolbar", controller);
+      toolbar.setFloatable(false);
       if (toolbar.getComponentCount() > 0) {
-         add(toolbar,BorderLayout.NORTH);
+         add(toolbar, BorderLayout.NORTH);
       }
       init();
    }
@@ -96,18 +100,18 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
    public void init() {
       controller.getSettings().adjustActions();
       treeModel = new XPDLTreeModel(controller);
-      tree = new JTree(treeModel) {         
-         public void scrollRectToVisible(Rectangle aRect){
+      tree = new JTree(treeModel) {
+         public void scrollRectToVisible(Rectangle aRect) {
             aRect.x = scrollPane.getHorizontalScrollBar().getValue();
             super.scrollRectToVisible(aRect);
-         }         
+         }
       };
 
       // setting some tree properties
       tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
       tree.setRootVisible(false);
-      tree.setShowsRootHandles(true);      
-      renderer=new XPDLTreeCellRenderer(controller);
+      tree.setShowsRootHandles(true);
+      renderer = new XPDLTreeCellRenderer(controller);
 
       Color bckColor = controller.getNavigatorSettings().getBackGroundColor();
 
@@ -135,21 +139,21 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
 
                   popup.show(tree, me.getX(), me.getY());
                }
-               
+
                XPDLTreeNode node = (XPDLTreeNode) path.getLastPathComponent();
-               
+
                if (me.getClickCount() > 1 && !SwingUtilities.isRightMouseButton(me) && tree.getModel().isLeaf(node)) {
                   JaWEManager.getInstance().getJaWEController().getJaWEActions().getAction(JaWEActions.EDIT_PROPERTIES_ACTION).actionPerformed(null);
                }
             } else {
                TreePath close = tree.getClosestPathForLocation(xClick, yClick);
                Rectangle rect = tree.getPathBounds(close);
-               if (rect==null || ! (rect.y < yClick && rect.y + rect.height > yClick)) {               
+               if (rect == null || !(rect.y < yClick && rect.y + rect.height > yClick)) {
                   JaWEManager.getInstance().getJaWEController().getSelectionManager().setSelection((XMLElement) null, false);
                   tree.clearSelection();
                }
             }
-            
+
             tree.getParent().requestFocus();
          }
       };
@@ -160,11 +164,11 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
       scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
       scrollPane.setViewportView(tree);
-      JViewport port = scrollPane.getViewport();      
+      JViewport port = scrollPane.getViewport();
       port.setScrollMode(JViewport.BLIT_SCROLL_MODE);
       scrollPane.setBackground(Color.lightGray);
 
-      add(scrollPane,BorderLayout.CENTER);
+      add(scrollPane, BorderLayout.CENTER);
    }
 
    public TreeModel getTreeModel() {
@@ -185,21 +189,21 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
 
    public Point getMouseClickLocation() {
       return new Point(xClick, yClick);
-   }      
-   
+   }
+
    public void handleXPDLChangeEvent(XPDLElementChangeInfo info) {
       int action = info.getAction();
       XMLElement el = info.getChangedElement();
       List l = info.getChangedSubElements();
-      
+
       tree.removeTreeSelectionListener(controller);
-      
+
       if (action == XPDLElementChangeInfo.SELECTED) {
          tree.clearSelection();
       }
-      
+
       if (action == XMLElementChangeInfo.INSERTED) {
-         if (l != null && l.size()>0) {
+         if (l != null && l.size() > 0) {
             Iterator it1 = l.iterator();
             while (it1.hasNext()) {
                treeModel.insertNode((XMLElement) it1.next());
@@ -208,41 +212,41 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
             if (el instanceof Package) {
                treeModel.insertNode(el);
             }
-         }       
+         }
          if (el instanceof Package) {
             controller.getSettings().adjustActions();
-         }         
+         }
       } else if (action == XMLElementChangeInfo.REMOVED) {
-         if (l != null && l.size()>0) {
+         if (l != null && l.size() > 0) {
             Iterator it1 = l.iterator();
             while (it1.hasNext()) {
                treeModel.removeNode((XMLElement) it1.next());
             }
          } else {
-            treeModel.removeNode(el);               
+            treeModel.removeNode(el);
          }
-            if (treeModel.getRootNode().getChildCount()==0) {
-               reinitialize();
-               return;
-            }
+         if (treeModel.getRootNode().getChildCount() == 0) {
+            reinitialize();
+            return;
+         }
       } else if (action == XPDLElementChangeInfo.SELECTED) {
          if (el != null) {
-            List toSelect=new ArrayList();                  
-            if (l!=null) {
+            List toSelect = new ArrayList();
+            if (l != null) {
                toSelect.addAll(l);
             }
-            if (toSelect.size()==0) {
+            if (toSelect.size() == 0) {
                toSelect.add(el);
             }
-            for (int i=0; i<toSelect.size(); i++) {
-               XMLElement toSel=(XMLElement)toSelect.get(i);
+            for (int i = 0; i < toSelect.size(); i++) {
+               XMLElement toSel = (XMLElement) toSelect.get(i);
                XPDLTreeNode n = treeModel.findNode(toSel);
-               TreePath tp=null;
+               TreePath tp = null;
                if (n != null) {
                   tp = new TreePath(n.getPath());
                   tree.addSelectionPath(tp);
                }
-               if (tp!=null) {
+               if (tp != null) {
                   tree.scrollPathToVisible(tp);
                }
             }
@@ -261,15 +265,14 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
             }
          }
       } else if (action == XPDLElementChangeInfo.VALIDATION_ERRORS) {
-         renderer.setValidationErrors(info.getChangedSubElements());
+         renderer.setValidationErrors(info.getChangedElement(), info.getChangedSubElements());
          tree.repaint();
       }
-   
-      tree.addTreeSelectionListener(controller);      
+
+      tree.addTreeSelectionListener(controller);
    }
-   
-   
-   protected void reinitialize () {
+
+   protected void reinitialize() {
       remove(scrollPane);
       treeModel.clearTree();
       tree.getSelectionModel().clearSelection();
@@ -278,22 +281,22 @@ public class DetailedPackageNavigatorPanel extends JPanel implements JaWECompone
       tree.setCellRenderer(null);
       init();
    }
- 
+
    // before doing this, listener has to be removed
-   public void setCurrentSelection () {
-      List toSelect=JaWEManager.getInstance().getJaWEController().getSelectionManager().getSelectedElements();
-      for (int i=0; i<toSelect.size(); i++) {
-         XMLElement toSel=(XMLElement)toSelect.get(i);
+   public void setCurrentSelection() {
+      List toSelect = JaWEManager.getInstance().getJaWEController().getSelectionManager().getSelectedElements();
+      for (int i = 0; i < toSelect.size(); i++) {
+         XMLElement toSel = (XMLElement) toSelect.get(i);
          XPDLTreeNode n = treeModel.findNode(toSel);
-         TreePath tp=null;
+         TreePath tp = null;
          if (n != null) {
             tp = new TreePath(n.getPath());
             tree.addSelectionPath(tp);
          }
-         if (tp!=null) {
+         if (tp != null) {
             tree.scrollPathToVisible(tp);
          }
       }
    }
-   
+
 }
