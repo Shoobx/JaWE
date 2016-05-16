@@ -11631,6 +11631,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Fix for displaying WorkflowProcess panel for the external
           package's workflow process</para>
+
+          <para>- Added support for PowerShellToolAgent</para>
         </listitem>
 
         <listitem>

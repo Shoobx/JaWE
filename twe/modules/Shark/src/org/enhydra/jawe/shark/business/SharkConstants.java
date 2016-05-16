@@ -344,6 +344,8 @@ public class SharkConstants {
 
    public static final String TOOL_AGENT_MAIL = "org.enhydra.shark.toolagent.MailToolAgent";
 
+   public static final String TOOL_AGENT_POWERSHELL = "org.enhydra.shark.toolagent.PowerShellToolAgent";
+
    public static final String TOOL_AGENT_QUARTZ = "org.enhydra.shark.toolagent.QuartzToolAgent";
 
    public static final String TOOL_AGENT_RUNTIMEAPPLICATION = "org.enhydra.shark.toolagent.RuntimeApplicationToolAgent";
@@ -363,6 +365,14 @@ public class SharkConstants {
    public static final String TOOL_AGENT_XPIL = "org.enhydra.shark.toolagent.XPILToolAgent";
 
    public static final String TOOL_AGENT_XSLT = "org.enhydra.shark.toolagent.XSLTToolAgent";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_NAME = "script_name";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_PATH = "script_path";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_VARIABLE = "script_variable";
+
+   public static final String TOOL_AGENT_FORMAL_PARAMETER_ERROR = "error";
 
    public static final String TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL = "result";
 

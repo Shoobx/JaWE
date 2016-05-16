@@ -1264,6 +1264,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          ret = new LDAPOrUserGroupToolAgentElement(el, SharkConstants.TOOL_AGENT_LDAP);
       } else if (SharkConstants.TOOL_AGENT_MAIL.equals(taName)) {
          ret = new MailToolAgentElement(el, SharkConstants.TOOL_AGENT_MAIL);
+      } else if (SharkConstants.TOOL_AGENT_POWERSHELL.equals(taName)) {
+         ret = new ScriptBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_POWERSHELL);
       } else if (SharkConstants.TOOL_AGENT_QUARTZ.equals(taName)) {
          ret = new ProxyBasedToolAgentElement(el, SharkConstants.TOOL_AGENT_QUARTZ);
       } else if (SharkConstants.TOOL_AGENT_RUNTIMEAPPLICATION.equals(taName)) {
@@ -1815,6 +1817,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
             ext = "java";
          } else if (taName.equals(SharkConstants.TOOL_AGENT_JAVASCRIPT)) {
             ext = "js";
+         } else if (taName.equals(SharkConstants.TOOL_AGENT_POWERSHELL)) {
+            ext = "ps";
          }
          return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                    el,

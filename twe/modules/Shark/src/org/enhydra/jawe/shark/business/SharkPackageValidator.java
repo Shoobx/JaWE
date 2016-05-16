@@ -1616,6 +1616,70 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
       }
    }
 
+   protected void validateToolAgentPowerShell(Application el, List existingErrors, boolean fullCheck) {
+      FormalParameters fps = el.getApplicationTypes().getFormalParameters();
+      FormalParameter result = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_SL);
+      FormalParameter error = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_ERROR);
+      FormalParameter scriptName = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_NAME);
+      FormalParameter scriptPath = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_PATH);
+      FormalParameter scriptVariable = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_VARIABLE);
+
+      handleFPModeError(result,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_IN,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(result,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+
+      handleFPModeError(error,
+                        XPDLConstants.FORMAL_PARAMETER_MODE_IN,
+                        SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_OUT_REQUIRED,
+                        existingErrors);
+      handleFPDataTypeError(error,
+                            BasicType.class,
+                            XPDLConstants.BASIC_TYPE_STRING,
+                            false,
+                            SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                            existingErrors);
+
+      boolean hasTransformation = false;
+      List l = fps.toElements();
+      for (int i = 0; i < l.size(); i++) {
+         FormalParameter fp = (FormalParameter) l.get(i);
+         String fpId = fp.getId();
+         if (fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_NAME)
+             || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_PATH) || fpId.equals(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_SCRIPT_VARIABLE)) {
+            hasTransformation = true;
+            handleFPModeError(fp,
+                              XPDLConstants.FORMAL_PARAMETER_MODE_OUT,
+                              SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_FORMAL_PARAMETER_MODE_IN_REQUIRED,
+                              existingErrors);
+            handleFPDataTypeError(fp,
+                                  BasicType.class,
+                                  XPDLConstants.BASIC_TYPE_STRING,
+                                  false,
+                                  SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                  existingErrors);
+            break;
+         }
+      }
+      if (!hasTransformation) {
+         ExtendedAttribute ea = el.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_SCRIPT);
+         if (ea == null || ea.getVValue().trim().equals("")) {
+            XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                             XMLValidationError.SUB_TYPE_LOGIC,
+                                                             SharkValidationErrorIds.ERROR_TOOL_AGENT_POWERSHELL_SCRIPT_PARAMETER_REQUIRED,
+                                                             "",
+                                                             el);
+            existingErrors.add(verr);
+         }
+      }
+   }
+
    protected void validateToolAgentQuartzOrScheduler(Application el, List existingErrors, boolean fullCheck) {
       String taProxyName = null;
       ExtendedAttribute ea = el.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS_PROXY);

@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-05-16 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Added support for PowerShellToolAgent
+
 2016-04-26 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: fix for displaying WorkflowProcess panel for the external package's workflow process
 
