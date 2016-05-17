@@ -11622,6 +11622,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Fixed: when action to insert missing start/end events is
+          executed, undo was not working properly any more. This issue was
+          introduced in version 5.1-1.</para>
+        </listitem>
+
+        <listitem>
           <para>Shark mode:</para>
 
           <para>- Support for new extended attribute

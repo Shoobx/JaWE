@@ -69,20 +69,15 @@ import org.jgraph.graph.ParentMap;
 import org.jgraph.graph.Port;
 
 /**
- * Class intended to serve as a control center for creation, removal, resizing and
- * changing position of Participants as well as for doing the same things with Activity
- * objects and Transitions. Class manages this actions in such a way that undoing of
- * operations are possible. It incorporates multiple view and model changes into one by
- * doing them virtually, and after all changes are done, in interaction with
- * JaWEGraphModel class applies this changes so that undo is possible. Instance of this
- * class is joined to to all objects of classes derived from Graph class.
+ * Class intended to serve as a control center for creation, removal, resizing and changing position of Participants as well as for doing the same things with
+ * Activity objects and Transitions. Class manages this actions in such a way that undoing of operations are possible. It incorporates multiple view and model
+ * changes into one by doing them virtually, and after all changes are done, in interaction with JaWEGraphModel class applies this changes so that undo is
+ * possible. Instance of this class is joined to to all objects of classes derived from Graph class.
  * <p>
- * This class also handles the relationships between visual and logical representation of
- * workflow graph.
+ * This class also handles the relationships between visual and logical representation of workflow graph.
  * <p>
- * When reading a package from an XML file, this class creates imported objects and
- * establishes relationship between graph objects (classes within jawe and jawe.graph
- * package) and 'graph logic' objects ( classes within jawe.xml package).
+ * When reading a package from an XML file, this class creates imported objects and establishes relationship between graph objects (classes within jawe and
+ * jawe.graph package) and 'graph logic' objects ( classes within jawe.xml package).
  * 
  * @author Sasa Bojanic
  * @author Miroslav Popov
@@ -151,23 +146,19 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns the graph model - the model that represents the graph view. (See JGraph
-    * documentation).
+    * Returns the graph model - the model that represents the graph view. (See JGraph documentation).
     */
    public JaWEGraphModel graphModel() {
       return (JaWEGraphModel) graph.getModel();
    }
 
    /**
-    * Creates graph representation of given workflow process. It creates a graph entities
-    * (participants, activities, transitions) and associates the workflow logic to it. The
-    * graph entities are inserted according to the data that <tt>wp</tt> object holds (the
-    * data from XML file).
+    * Creates graph representation of given workflow process. It creates a graph entities (participants, activities, transitions) and associates the workflow
+    * logic to it. The graph entities are inserted according to the data that <tt>wp</tt> object holds (the data from XML file).
     * <p>
     * This is used when reading a workflow definition from an XML file.
     * 
-    * @param wpOrAs Object that mapps the logic of WorkflowProcess element of XML -
-    *           defines a particular Workflow process.
+    * @param wpOrAs Object that mapps the logic of WorkflowProcess element of XML - defines a particular Workflow process.
     */
    public void createWorkflowGraph(XMLCollectionElement wpOrAs) {
       creatingGraph = true;
@@ -220,23 +211,19 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns the object (part of mapped XML logic) that is represented by the graph
-    * managed by WorklowManager. That object can be instance of the Package,
-    * WorkflowProcess or ...xml.elements.BlockActivity class, and is held as a property of
-    * the manager's graph object.
+    * Returns the object (part of mapped XML logic) that is represented by the graph managed by WorklowManager. That object can be instance of the Package,
+    * WorkflowProcess or ...xml.elements.BlockActivity class, and is held as a property of the manager's graph object.
     * 
-    * @return The object (representing XML logic) that is represented by this manager's
-    *         graph.
+    * @return The object (representing XML logic) that is represented by this manager's graph.
     */
    public XMLCollectionElement getXPDLOwner() {
       return graph.getXPDLObject();
    }
 
    /**
-    * Returns the (XML logic) WorkflowProcess object that is represented by the manager's
-    * graph, or (if the graph represents the (XML logic) BlockActivity content) the
-    * WorkflowProcess object that holds BlockActivity represented by manager's graph. If
-    * graph represents (XML logic) Package object, <tt>null</tt> is returned.
+    * Returns the (XML logic) WorkflowProcess object that is represented by the manager's graph, or (if the graph represents the (XML logic) BlockActivity
+    * content) the WorkflowProcess object that holds BlockActivity represented by manager's graph. If graph represents (XML logic) Package object, <tt>null</tt>
+    * is returned.
     */
    private WorkflowProcess getWorkflowProcess() {
       return graph.getWorkflowProcess();
@@ -642,26 +629,22 @@ public class GraphManager implements Serializable {
          target = startOrEnd;
       }
       Transitions tras = (Transitions) getXPDLOwner().get("Transitions");
-      Transition tra = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(tras, "", true);
+      Transition tra = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(tras, "", false);
       tra.setFrom(source.getPropertyObject().get("Id").toValue());
       tra.setTo(target.getPropertyObject().get("Id").toValue());
-
       GraphUtilities.setStyle(tra, getGraphController().getGraphSettings().getDefaultTransitionStyle());
+      tras.add(tra);
       return insertTransitionOrAssociation(tra);
    }
 
    // ----------------------- participant handling
 
    /**
-    * Inserts new Participant cell into model. First, the parent of new Participant is
-    * searched, and if found, put into ParentMap (it is not inserted into model at ones).
-    * If parent participant isn't found - root participant will be inserted. After that
-    * model's view is arranged (Participants are moved and translated along with it's
-    * children cells) to suite to the new model state - this is done "virtually" which
-    * means that changes are not directly applied to view until all changes are made. At
-    * the end, all changes are applied to model and view. Such procedure enables compound
-    * undo support.
-    * This method is called when inserting new Participant into model.
+    * Inserts new Participant cell into model. First, the parent of new Participant is searched, and if found, put into ParentMap (it is not inserted into model
+    * at ones). If parent participant isn't found - root participant will be inserted. After that model's view is arranged (Participants are moved and
+    * translated along with it's children cells) to suite to the new model state - this is done "virtually" which means that changes are not directly applied to
+    * view until all changes are made. At the end, all changes are applied to model and view. Such procedure enables compound undo support. This method is
+    * called when inserting new Participant into model.
     */
    public GraphSwimlaneInterface insertParticipantAndArrangeParticipants(Object par, Point whereTo) {
       GraphSwimlaneInterface gparentpar = getParticipantForLocation(whereTo);
@@ -840,15 +823,11 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Removes cells <b>cellsToDelete </b> from model. This means that given cells and all
-    * of their descendants as well as all transitions that connects given cells, will be
-    * removed from model. First, all remained participants are moved and resized according
-    * to participants that are beeing removed and ParentMap for all removed cells is
-    * created (all these things are made "virtually" - not applied to model and view).
-    * After that model's new view is arranged (Participants are moved and translated
-    * (along with it's children cells) according to the remained children - this is also
-    * done "virtually". At the end, all changes are applied to model and view. Such
-    * procedure enables compound undo support. <BR>
+    * Removes cells <b>cellsToDelete </b> from model. This means that given cells and all of their descendants as well as all transitions that connects given
+    * cells, will be removed from model. First, all remained participants are moved and resized according to participants that are beeing removed and ParentMap
+    * for all removed cells is created (all these things are made "virtually" - not applied to model and view). After that model's new view is arranged
+    * (Participants are moved and translated (along with it's children cells) according to the remained children - this is also done "virtually". At the end,
+    * all changes are applied to model and view. Such procedure enables compound undo support. <BR>
     * This method is called when deleting or cutting cells from graph.
     */
    public void removeCellsAndArrangeParticipants(Object[] cellsToDelete) {
@@ -1011,9 +990,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns the point within the graph where the upper-left corner of given graph
-    * activity is placed. The point origin is the upper-left corner of participant graph
-    * object that holds given activity.
+    * Returns the point within the graph where the upper-left corner of given graph activity is placed. The point origin is the upper-left corner of participant
+    * graph object that holds given activity.
     */
    public Point getOffset(GraphCommonInterface a, Map propertyMap) {
       if (a != null) {
@@ -1068,14 +1046,11 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Inserts new activities into model, changes positions and sizes of participants due
-    * to a insertion of new activities or due to a moving of activities. Also, finds and
-    * changes parent's of inserted/changed-position activities. This method is called when
-    * inserting new activities, when pasting activities, and when moving activities. All
-    * changes to the model and to the view are at first made virtually (to the parentMap
-    * and to the propertyMap) and when all is done, method insertAndEdit of PEGraphModel
-    * class is called to actually make changes. The updateCollection parameter is used
-    * when some objects are inserted into model, to update collection of XML elements.
+    * Inserts new activities into model, changes positions and sizes of participants due to a insertion of new activities or due to a moving of activities.
+    * Also, finds and changes parent's of inserted/changed-position activities. This method is called when inserting new activities, when pasting activities,
+    * and when moving activities. All changes to the model and to the view are at first made virtually (to the parentMap and to the propertyMap) and when all is
+    * done, method insertAndEdit of PEGraphModel class is called to actually make changes. The updateCollection parameter is used when some objects are inserted
+    * into model, to update collection of XML elements.
     * 
     * @param arrangeParticipants TODO
     */
@@ -1191,8 +1166,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Determines old and new participant for activity, adjusts activities position if
-    * needed and properly changes parent of activity (adds entry into the parentMap).
+    * Determines old and new participant for activity, adjusts activities position if needed and properly changes parent of activity (adds entry into the
+    * parentMap).
     */
    protected Set updateParent(GraphCommonInterface ac, Map propertyMap, ParentMap parentMap) {
       // must return old and new participant to the caller method
@@ -1261,8 +1236,7 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Finds new participant for activity after it's position changes. WARNING: this method
-    * changes it's argument loc if not appropriate.
+    * Finds new participant for activity after it's position changes. WARNING: this method changes it's argument loc if not appropriate.
     */
    public GraphSwimlaneInterface findParentParticipantForLocation(Point loc, Map propertyMap, ParentMap parentMap) {
       GraphSwimlaneInterface newPar = null;
@@ -1344,8 +1318,7 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Arranging heights and positions of given participants and positions of participants
-    * that must be translated due to a change of given participants.
+    * Arranging heights and positions of given participants and positions of participants that must be translated due to a change of given participants.
     */
    protected void arrangeParticipantsVertically(Object[] pars, Map propertyMap, ParentMap parentMap) {
       if ((pars == null) || (pars.length == 0))
@@ -1391,13 +1364,10 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Resizing participant par and it's parents to appropriate height, and translating
-    * other participants accordingly to changes of participant par. The size's and
-    * positions are calculated considering propertyMap and parentMap - which means for
-    * future children state, and for bounds that are constantly changed during other
-    * calculations. If propertyMap and parentMap are null, size's and positions are
-    * calculated for current state. Also, if par that is to be arranged has entry in
-    * parentMap as removed participant, it will not be arranged.
+    * Resizing participant par and it's parents to appropriate height, and translating other participants accordingly to changes of participant par. The size's
+    * and positions are calculated considering propertyMap and parentMap - which means for future children state, and for bounds that are constantly changed
+    * during other calculations. If propertyMap and parentMap are null, size's and positions are calculated for current state. Also, if par that is to be
+    * arranged has entry in parentMap as removed participant, it will not be arranged.
     */
    protected void arrangeParticipantVertically(Object par, Map propertyMap, ParentMap parentMap) {
       // can't be null, must be instance of Participant,
@@ -1434,11 +1404,9 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Method that resizes all participants horizontally to get there minimal needed sizes.
-    * The size is calculated considering propertyMap and parentMap - which means for
-    * future children state, and for bounds that are constantly changed during other
-    * calculations. If propertyMap and parentMap are null, size is calculated for current
-    * state.
+    * Method that resizes all participants horizontally to get there minimal needed sizes. The size is calculated considering propertyMap and parentMap - which
+    * means for future children state, and for bounds that are constantly changed during other calculations. If propertyMap and parentMap are null, size is
+    * calculated for current state.
     */
    protected void resizeAllParticipantsHorizontally(Map propertyMap, ParentMap parentMap) {
       List participants = JaWEGraphModel.getAllParticipantsInModel(graphModel());
@@ -1545,12 +1513,9 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Calculates the minimal width of root participants. It depends of minimal allowed
-    * width of leaf participants, which depends on the position of Activity cells in them.
-    * The width is calculated considering propertyMap and parentMap - which means for
-    * future children state, and for bounds that are constantly changed during other
-    * calculations. If propertyMap and parentMap are null, size is calculated for current
-    * state.
+    * Calculates the minimal width of root participants. It depends of minimal allowed width of leaf participants, which depends on the position of Activity
+    * cells in them. The width is calculated considering propertyMap and parentMap - which means for future children state, and for bounds that are constantly
+    * changed during other calculations. If propertyMap and parentMap are null, size is calculated for current state.
     */
    protected int optimalRootParticipantWidth(List participants, Map propertyMap, ParentMap parentMap) {
       // initial value for width stays the same
@@ -1662,11 +1627,9 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Calculates minimal participant height, which depends of position of all of its
-    * Activity cells. The height is calculated considering propertyMap and parentMap -
-    * which means for future children state, and for bounds that are constantly changed
-    * during other calculations. If propertyMap and parentMap are null, size is calculated
-    * for current state.
+    * Calculates minimal participant height, which depends of position of all of its Activity cells. The height is calculated considering propertyMap and
+    * parentMap - which means for future children state, and for bounds that are constantly changed during other calculations. If propertyMap and parentMap are
+    * null, size is calculated for current state.
     */
    protected int optimalParticipantHeight(GraphSwimlaneInterface par, Map propertyMap, ParentMap parentMap) {
       // initial value for height
@@ -1710,8 +1673,7 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Resizes given participants. The resizing is done to propertyMap which will later
-    * (after all needed operation) be applied.
+    * Resizes given participants. The resizing is done to propertyMap which will later (after all needed operation) be applied.
     */
    protected void resize(Object[] cells, Map propertyMap, int dw, int dh) {
       if (cells != null && cells.length > 0) {
@@ -1747,9 +1709,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Translates participants under given position yPos vertically for a value of dv. The
-    * translating is done to propertyMap which will later (after all needed operation) be
-    * applied.
+    * Translates participants under given position yPos vertically for a value of dv. The translating is done to propertyMap which will later (after all needed
+    * operation) be applied.
     * 
     * @see #translateParticipants
     */
@@ -1759,9 +1720,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Translates given participants using propertyMap for bounds checking and parentMap
-    * for future children checking. The translating is done to propertyMap which will
-    * later (after all needed operation) be applied.
+    * Translates given participants using propertyMap for bounds checking and parentMap for future children checking. The translating is done to propertyMap
+    * which will later (after all needed operation) be applied.
     * 
     * @see #translateParticipant
     */
@@ -1774,10 +1734,9 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Translates single participant and its children.The method checks for bounds of cells
-    * within propertyMap and uses parentMap to translate right children (the children that
-    * will be it's after applying parentMap). The translating is done to propertyMap which
-    * will later (after all needed operation) be applied.
+    * Translates single participant and its children.The method checks for bounds of cells within propertyMap and uses parentMap to translate right children
+    * (the children that will be it's after applying parentMap). The translating is done to propertyMap which will later (after all needed operation) be
+    * applied.
     */
    protected void translateParticipant(GraphSwimlaneInterface par, Map propertyMap, ParentMap parentMap, int dx, int dy, boolean handleChildren) {
       Set participantAndItsFutureActivities = new HashSet();
@@ -1807,9 +1766,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Gets the bounding rectangle of future children activities of given Participant par
-    * (that will be participants activities after parent map is applied). Bounding
-    * rectangle is union of previous mentioned activities.
+    * Gets the bounding rectangle of future children activities of given Participant par (that will be participants activities after parent map is applied).
+    * Bounding rectangle is union of previous mentioned activities.
     */
    protected Rectangle getBoundsOfParticipantFutureActivitiesAndArtifacts(GraphSwimlaneInterface par, Map propertyMap, ParentMap parentMap) {
       // simulate future state of children and get it's bounds
@@ -1831,8 +1789,7 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Gets future children activities of given participant par (that will be par's
-    * activities after parent map is applied).
+    * Gets future children activities of given participant par (that will be par's activities after parent map is applied).
     */
    protected Set getParticipantFutureActivitiesAndArtifacts(GraphSwimlaneInterface par, ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
@@ -1925,9 +1882,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns leaf participant that bounds given y-coordinate. If y-coordinate is at
-    * boundary of two participants, method returns one that is above. The method checks
-    * for bounds of cells within propertyMap.
+    * Returns leaf participant that bounds given y-coordinate. If y-coordinate is at boundary of two participants, method returns one that is above. The method
+    * checks for bounds of cells within propertyMap.
     */
    protected GraphSwimlaneInterface getLeafParticipantForYPos(int yPos, Map propertyMap, ParentMap parentMap) {
       // getting all participants that contains yPos
@@ -2101,13 +2057,11 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns participants that are under or above given yPos, or contains that
-    * y-position: <BR>
+    * Returns participants that are under or above given yPos, or contains that y-position: <BR>
     * direction=0 - under, <BR>
     * direction=1 - above, <BR>
-    * direction=2 - contains. The method checks for bounds of cells within propertyMap.
-    * If some of model's participants is entered in parentMap as removed participant, this
-    * method doesn't consider that participant.
+    * direction=2 - contains. The method checks for bounds of cells within propertyMap. If some of model's participants is entered in parentMap as removed
+    * participant, this method doesn't consider that participant.
     */
    protected GraphSwimlaneInterface[] getParticipantsForYPos(int yPos, int direction, Map propertyMap, ParentMap parentMap, boolean returnRootPart) {
       // getting all participants that are in collection
@@ -2278,9 +2232,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Gets the width of root participants. The method checks for bounds of cells within
-    * propertyMap. If some of model's participants has entry within propertyMap as
-    * removed, this participant doesn't count.
+    * Gets the width of root participants. The method checks for bounds of cells within propertyMap. If some of model's participants has entry within
+    * propertyMap as removed, this participant doesn't count.
     */
    protected int getRootParticipantWidth(Map propertyMap, ParentMap parentMap) {
       int rootParWidth;
@@ -2313,13 +2266,11 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Checks if given participant par has other participants. If parentMap is null, or
-    * there is no entry for this this participant within a parentMap, the current state is
-    * checked, elsewhere parentMap is checked-in other words future state of participant
-    * participants (state after aplying parentMap) is returned.
+    * Checks if given participant par has other participants. If parentMap is null, or there is no entry for this this participant within a parentMap, the
+    * current state is checked, elsewhere parentMap is checked-in other words future state of participant participants (state after aplying parentMap) is
+    * returned.
     * <p>
-    * This method has meaning in previous versions of JaWE, now it always returns
-    * <tt>false</tt>.
+    * This method has meaning in previous versions of JaWE, now it always returns <tt>false</tt>.
     */
    protected boolean hasAnyParticipant(GraphSwimlaneInterface par, ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
@@ -2332,10 +2283,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Checks if given participant par has activities. If parentMap is null, or there is no
-    * entry for this this participant within a parentMap, the current state is checked,
-    * elsewhere parentMap is checked-in other words future state of participant activities
-    * (state after aplying parentMap) is returned.
+    * Checks if given participant par has activities. If parentMap is null, or there is no entry for this this participant within a parentMap, the current state
+    * is checked, elsewhere parentMap is checked-in other words future state of participant activities (state after aplying parentMap) is returned.
     */
    protected boolean hasAnyActivityOrArtifact(GraphSwimlaneInterface par, ParentMap parentMap) {
       // if there is no parent map, or there is no entry for participant
@@ -2419,9 +2368,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Replaces bounding rectangle of given cell in propertyMap object with rectangle r if
-    * cell is contained within the propertyMap object, otherwise adds new entry to the
-    * propertyMap that consists of given cell and a map containing given rectangle r.
+    * Replaces bounding rectangle of given cell in propertyMap object with rectangle r if cell is contained within the propertyMap object, otherwise adds new
+    * entry to the propertyMap that consists of given cell and a map containing given rectangle r.
     */
    protected void changeBounds(Object cell, Map propertyMap, Rectangle r) {
       AttributeMap map;
@@ -2437,9 +2385,8 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Gets bounding rectangle of given cell. The rectangle is either current rectangle of
-    * cellView either from propertyMap where are held bounding rectangles of various cells
-    * during multiple resizing and/or translating of cells.
+    * Gets bounding rectangle of given cell. The rectangle is either current rectangle of cellView either from propertyMap where are held bounding rectangles of
+    * various cells during multiple resizing and/or translating of cells.
     */
    public Rectangle getCBounds(Object cell, Map propertyMap) {// HM,
       // JGraph3.4.1
@@ -2491,8 +2438,7 @@ public class GraphManager implements Serializable {
    // /////////////////////////// retreival of graph object for corresponding
    // XPDL object
    /**
-    * Returns graph Activity object which represents XPDL activity with given Id
-    * attribute.
+    * Returns graph Activity object which represents XPDL activity with given Id attribute.
     */
    public GraphActivityInterface getGraphActivity(String id) {
       List allActs = JaWEGraphModel.getAllActivitiesInModel(graphModel());
@@ -2525,8 +2471,7 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns graph Artifact object which represents XPDL artifact with given Id
-    * attribute.
+    * Returns graph Artifact object which represents XPDL artifact with given Id attribute.
     */
    public GraphArtifactInterface getGraphArtifact(String id) {
       List allActs = JaWEGraphModel.getAllArtifactsInModel(graphModel());
@@ -2574,8 +2519,7 @@ public class GraphManager implements Serializable {
    }
 
    /**
-    * Returns graph Participant object which represents XPDL participant with given Id
-    * attribute.
+    * Returns graph Participant object which represents XPDL participant with given Id attribute.
     */
    public GraphSwimlaneInterface getGraphParticipant(String id) {
       List allPartic = JaWEGraphModel.getAllParticipantsInModel(graphModel());
@@ -2632,10 +2576,8 @@ public class GraphManager implements Serializable {
     * Finds the nearest cell to the given cell in given direction.
     * 
     * @param selectedCell first currently selected cell
-    * @param direction 0-Up, 1-Down, 2-Left, 3-Right (if given some other no, the Up is
-    *           assumed)
-    * @return The nearest cell to the given one in given direction, or null if no such
-    *         cell.
+    * @param direction 0-Up, 1-Down, 2-Left, 3-Right (if given some other no, the Up is assumed)
+    * @return The nearest cell to the given one in given direction, or null if no such cell.
     */
    public Object findNearestCell(Object selectedCell, int direction) {
       // retrieve all cells from model
