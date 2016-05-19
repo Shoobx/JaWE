@@ -1955,10 +1955,12 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    protected boolean isGlobalValidationEvent(XPDLElementChangeInfo xeci) {
       XMLElement cep = xeci.getChangedElement();
       if ((xeci.getAction() == XPDLElementChangeInfo.INSERTED || xeci.getAction() == XPDLElementChangeInfo.REMOVED || xeci.getAction() == XPDLElementChangeInfo.REPOSITIONED)
-          && !(cep instanceof ConnectorGraphicsInfos || cep instanceof Coordinatess || cep instanceof Deadlines || cep instanceof ExtendedAttributes || cep instanceof NodeGraphicsInfos)) {
+          && !(cep instanceof ConnectorGraphicsInfos
+               || cep instanceof Coordinatess || cep instanceof Deadlines || cep instanceof ExtendedAttributes || cep instanceof NodeGraphicsInfos || cep instanceof FormalParameters
+                                                                                                                                                      && XMLUtil.getApplication(cep) != null)) {
          return true;
       } else if (xeci.getAction() == XPDLElementChangeInfo.UPDATED) {
-         if (cep instanceof XMLAttribute && cep.toName().equals("Id")) {
+         if (cep instanceof XMLAttribute && cep.toName().equals("Id") && !(cep.getParent() instanceof FormalParameter && XMLUtil.getApplication(cep) != null)) {
             return true;
          }
       }
