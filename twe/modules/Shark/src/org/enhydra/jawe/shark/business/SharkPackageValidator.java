@@ -1105,6 +1105,8 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
          validateToolAgentLDAP(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_MAIL)) {
          validateToolAgentMail(el, existingErrors, fullCheck);
+      } else if (taName.equals(SharkConstants.TOOL_AGENT_POWERSHELL)) {
+         validateToolAgentPowerShell(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_QUARTZ) || taName.equals(SharkConstants.TOOL_AGENT_SCHEDULER)) {
          validateToolAgentQuartzOrScheduler(el, existingErrors, fullCheck);
       } else if (taName.equals(SharkConstants.TOOL_AGENT_RUNTIMEAPPLICATION)) {
