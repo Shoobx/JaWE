@@ -251,6 +251,7 @@
          <fileset dir="${tools.dir}/jgraph" includes="*.jar"/>
          <fileset dir="${tools.dir}/jna" includes="*.jar"/>
          <fileset dir="${tools.dir}/txm" includes="*.jar"/>
+         <fileset dir="${tools.dir}/xalan" includes="*.jar"/>
          <fileset dir="${tools.dir}/xerces" includes="*.jar"/>
          <fileset dir="${tools.dir}/xml-commons" includes="*.jar"/>
       </copy>
@@ -1102,6 +1103,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             <include name="jgraph/**" />
             <include name="jna/**" />
             <include name="txm/**" />
+            <include name="xalan/**" />
             <include name="xerces/**" />
             <include name="xml-commons/**" />
          </fileset>
