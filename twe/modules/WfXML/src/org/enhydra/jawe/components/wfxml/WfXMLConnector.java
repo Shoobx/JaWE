@@ -1,20 +1,20 @@
 /**
-* Together Workflow Editor
-* Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
-* 
-* This program is free software: you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation, either version 3 of the License, or 
-* (at your option) any later version. 
-*
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-* GNU General Public License for more details. 
-*
-* You should have received a copy of the GNU General Public License 
-* along with this program. If not, see http://www.gnu.org/licenses
-*/
+ * Together Workflow Editor
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
+ * 
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. 
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see http://www.gnu.org/licenses
+ */
 
 /*
  * Created on Dec 28, 2004
@@ -74,26 +74,21 @@ public class WfXMLConnector {
 
    private static final String REQUEST_HEADER = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\""
                                                 + " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
-                                                + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
-                                                + "<soapenv:Header>"
+                                                + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" + "<soapenv:Header>"
                                                 + "<as:Request xmlns:as=\"http://www.oasis-open.org/asap/0.9/asap.xsd\">"
-                                                + "<as:SenderKey>http://jawe.objectweb.org/</as:SenderKey>"
-                                                + "<as:ReceiverKey>"
-                                                + "${1}"
-                                                + "</as:ReceiverKey>"
-                                                + "</as:Request>"
-                                                + "</soapenv:Header>";
+                                                + "<as:SenderKey>http://jawe.objectweb.org/</as:SenderKey>" + "<as:ReceiverKey>" + "${1}" + "</as:ReceiverKey>"
+                                                + "</as:Request>" + "</soapenv:Header>";
 
    static {
       // for localhost testing only
       javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(new javax.net.ssl.HostnameVerifier() {
 
          public boolean verify(String hostname, javax.net.ssl.SSLSession sslSession) {
-               return true;
+            return true;
          }
       });
    }
-   
+
    public static void main(String[] args) {
       try {
          URL url = new URL("http://grunf:8080/axis/services/wfxmlRegistryBinding");
@@ -111,29 +106,24 @@ public class WfXMLConnector {
       }
    }
 
-   public static boolean wfxmlSetDefinition(URL url, String fullFilename)
-      throws Exception {
+   public static boolean wfxmlSetDefinition(URL url, String fullFilename) throws Exception {
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-      PrintWriter bos = openConnection(conn,
-                                       "http://www.wfmc.org/wfxml/2.0/wfxml/factory/SetDefinition");
+      PrintWriter bos = openConnection(conn, "http://www.wfmc.org/wfxml/2.0/wfxml/factory/SetDefinition");
       FileReader fr = new FileReader(fullFilename);
-      bos.println("<soapenv:Body>"
-                  + "<SetDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">"
-                  + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
+      bos.println("<soapenv:Body>" + "<SetDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">" + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
       BufferedReader br = new BufferedReader(fr);
       br.readLine();
       while (br.ready()) {
          bos.println(br.readLine());
       }
-      bos.println("</Definition>"
-                  + "</SetDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
+      bos.println("</Definition>" + "</SetDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
       bos.flush();
       br.close();
       fr.close();
       conn.connect();
       int response = conn.getResponseCode();
-      
+
       bos.close();
       conn.disconnect();
 
@@ -143,14 +133,10 @@ public class WfXMLConnector {
    public static void wfxmlSetDefinition2(URL url, String pkgCnt) throws Exception {
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-      PrintWriter bos = openConnection(conn,
-                                       "http://www.wfmc.org/wfxml/2.0/wfxml/factory/SetDefinition");
-      bos.println("<soapenv:Body>"
-                  + "<SetDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">"
-                  + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
+      PrintWriter bos = openConnection(conn, "http://www.wfmc.org/wfxml/2.0/wfxml/factory/SetDefinition");
+      bos.println("<soapenv:Body>" + "<SetDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">" + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
       bos.println(pkgCnt);
-      bos.println("</Definition>"
-                  + "</SetDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
+      bos.println("</Definition>" + "</SetDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
       bos.flush();
       conn.connect();
       int response = conn.getResponseCode();
@@ -158,27 +144,22 @@ public class WfXMLConnector {
       conn.disconnect();
 
       if (!isResponse2XX(response)) {
-         throw new Exception("Invalid response "+response);
+         throw new Exception("Invalid response " + response);
       }
    }
 
-   public static boolean wfxmlNewDefinition(URL url, String fullFilename)
-      throws Exception {
+   public static boolean wfxmlNewDefinition(URL url, String fullFilename) throws Exception {
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-      PrintWriter bos = openConnection(conn,
-                                       "http://www.wfmc.org/wfxml/2.0/wfxml/registry/NewDefinition");
+      PrintWriter bos = openConnection(conn, "http://www.wfmc.org/wfxml/2.0/wfxml/registry/NewDefinition");
       FileReader fr = new FileReader(fullFilename);
-      bos.println("<soapenv:Body>"
-                  + "<NewDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">"
-                  + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
+      bos.println("<soapenv:Body>" + "<NewDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">" + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
       BufferedReader br = new BufferedReader(fr);
       br.readLine();
       while (br.ready()) {
          bos.println(br.readLine());
       }
-      bos.println("</Definition>"
-                  + "</NewDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
+      bos.println("</Definition>" + "</NewDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
       bos.flush();
       br.close();
       fr.close();
@@ -193,14 +174,10 @@ public class WfXMLConnector {
    public static void wfxmlNewDefinition2(URL url, String pkgCnt) throws Exception {
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-      PrintWriter bos = openConnection(conn,
-                                       "http://www.wfmc.org/wfxml/2.0/wfxml/registry/NewDefinition");
-      bos.println("<soapenv:Body>"
-                  + "<NewDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">"
-                  + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
+      PrintWriter bos = openConnection(conn, "http://www.wfmc.org/wfxml/2.0/wfxml/registry/NewDefinition");
+      bos.println("<soapenv:Body>" + "<NewDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">" + "<ProcessLanguage>XPDL</ProcessLanguage>" + "<Definition>");
       bos.println(pkgCnt);
-      bos.println("</Definition>"
-                  + "</NewDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
+      bos.println("</Definition>" + "</NewDefinitionRq>" + "</soapenv:Body>" + "</soapenv:Envelope>");
       bos.flush();
       conn.connect();
       int response = conn.getResponseCode();
@@ -208,7 +185,7 @@ public class WfXMLConnector {
       conn.disconnect();
 
       if (!isResponse2XX(response)) {
-         throw new Exception("Invalid response "+response);
+         throw new Exception("Invalid response " + response);
       }
 
    }
@@ -217,26 +194,19 @@ public class WfXMLConnector {
       Node ret = null;
 
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      PrintWriter bos = openConnection(conn,
-                                       "http://www.wfmc.org/wfxml/2.0/wfxml/factory/GetDefinition");
+      PrintWriter bos = openConnection(conn, "http://www.wfmc.org/wfxml/2.0/wfxml/factory/GetDefinition");
       bos.println("<soapenv:Body>"
-                  + "<GetDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">"
-                  + "<ProcessLanguage>XPDL</ProcessLanguage>" + "</GetDefinitionRq>"
+                  + "<GetDefinitionRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\">" + "<ProcessLanguage>XPDL</ProcessLanguage>" + "</GetDefinitionRq>"
                   + "</soapenv:Body>" + "</soapenv:Envelope>");
       bos.flush();
       conn.connect();
       int response = conn.getResponseCode();
       conn.getContentLength();
       if (isResponse2XX(response)) {
-         Document b = DocumentBuilderFactory.newInstance()
-            .newDocumentBuilder()
-            .parse(conn.getInputStream());
+         Document b = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(conn.getInputStream());
          System.err.println(b.getNodeName());
          System.err.println(b.getFirstChild().getNodeName());
-         System.err.println(b.getFirstChild()
-            .getLastChild()
-            .getFirstChild()
-            .getFirstChild());
+         System.err.println(b.getFirstChild().getLastChild().getFirstChild().getFirstChild());
          ret = b.getFirstChild().getLastChild().getFirstChild().getFirstChild();
          bos.close();
          conn.disconnect();
@@ -245,7 +215,7 @@ public class WfXMLConnector {
 
       bos.close();
       conn.disconnect();
-      throw new Exception("Invalid response "+response);
+      throw new Exception("Invalid response " + response);
    }
 
    public static String wfxmlGetDefinition2(URL url) throws Exception {
@@ -257,19 +227,14 @@ public class WfXMLConnector {
       List ret = new ArrayList();
 
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      PrintWriter bos = openConnection(conn,
-                                       "http://www.wfmc.org/wfxml/2.0/wfxml/factory/ListDefinitions");
-      bos.println("<soapenv:Body>"
-                  + "<ListDefinitionsRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\"/>"
-                  + "</soapenv:Body> </soapenv:Envelope>");
+      PrintWriter bos = openConnection(conn, "http://www.wfmc.org/wfxml/2.0/wfxml/factory/ListDefinitions");
+      bos.println("<soapenv:Body>" + "<ListDefinitionsRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\"/>" + "</soapenv:Body> </soapenv:Envelope>");
       bos.flush();
       conn.connect();
       int response = conn.getResponseCode();
 
       if (isResponse2XX(response)) {
-         Document b = DocumentBuilderFactory.newInstance()
-            .newDocumentBuilder()
-            .parse(conn.getInputStream());
+         Document b = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(conn.getInputStream());
          NodeList f = b.getFirstChild().getLastChild().getFirstChild().getChildNodes();
          for (int i = 0; i < f.getLength(); ++i) {
             ret.add(new URL(f.item(i).getFirstChild().getFirstChild().getNodeValue()));
@@ -277,26 +242,21 @@ public class WfXMLConnector {
          return ret;
       }
 
-      throw new Exception("Invalid response "+response);
+      throw new Exception("Invalid response " + response);
    }
 
    public static List wfxmlListDefinitions(URL url, DefInfos dis) throws Exception {
       List ret = new ArrayList();
 
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      PrintWriter bos = openConnection(conn,
-                                       "http://www.wfmc.org/wfxml/2.0/wfxml/factory/ListDefinitions");
-      bos.println("<soapenv:Body>"
-                  + "<ListDefinitionsRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\"/>"
-                  + "</soapenv:Body> </soapenv:Envelope>");
+      PrintWriter bos = openConnection(conn, "http://www.wfmc.org/wfxml/2.0/wfxml/factory/ListDefinitions");
+      bos.println("<soapenv:Body>" + "<ListDefinitionsRq xmlns=\"http://www.wfmc.org/wfxml/2.0/\"/>" + "</soapenv:Body> </soapenv:Envelope>");
       bos.flush();
       conn.connect();
       int response = conn.getResponseCode();
 
       if (isResponse2XX(response)) {
-         Document b = DocumentBuilderFactory.newInstance()
-            .newDocumentBuilder()
-            .parse(conn.getInputStream());
+         Document b = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(conn.getInputStream());
          NodeList f = b.getFirstChild().getLastChild().getFirstChild().getChildNodes();
          for (int i = 0; i < f.getLength(); ++i) {
             NodeList nl = f.item(i).getChildNodes();
@@ -328,7 +288,7 @@ public class WfXMLConnector {
          return ret;
       }
 
-      throw new Exception("Invalid response "+response);
+      throw new Exception("Invalid response " + response);
    }
 
    public static String xpdlToString(Package pkg) throws Exception {
@@ -339,42 +299,33 @@ public class WfXMLConnector {
       document = dbuilder.newDocument();
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-      JaWEManager.getInstance()
-         .getXPDLHandler()
-         .getXPDLRepositoryHandler()
-         .toXML(document, pkg);
+      JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().toXML(document, pkg);
 
       // Use a Transformer for output
-      TransformerFactory tFactory = TransformerFactory.newInstance();
+      TransformerFactory tFactory = new org.apache.xalan.processor.TransformerFactoryImpl();
       Transformer transformer = tFactory.newTransformer();
       transformer.setOutputProperty("indent", "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-      transformer.setOutputProperty("encoding", JaWEManager.getInstance()
-         .getJaWEController()
-         .getControllerSettings()
-         .getEncoding());
+      transformer.setOutputProperty("encoding", JaWEManager.getInstance().getJaWEController().getControllerSettings().getEncoding());
       transformer.setOutputProperty("omit-xml-declaration", "yes");
       DOMSource source = new DOMSource(document);
       StreamResult result = new StreamResult(baos);
       transformer.transform(source, result);
 
-//      String s = baos.toString(
-//      JaWEManager.getInstance()
-//         .getJaWEController()
-//         .getControllerSettings()
-//         .getEncoding());
-      String s=baos.toString();
-//      System.err.println("S="+s);
+      // String s = baos.toString(
+      // JaWEManager.getInstance()
+      // .getJaWEController()
+      // .getControllerSettings()
+      // .getEncoding());
+      String s = baos.toString();
+      // System.err.println("S="+s);
       baos.close();
       return s;
    }
 
    public static String node2String(Node n) throws Exception {
       byte[] ba = node2Bytes(n);
-      String s = new String(ba, JaWEManager.getInstance()
-         .getJaWEController()
-         .getControllerSettings()
-         .getEncoding());
+      String s = new String(ba, JaWEManager.getInstance().getJaWEController().getControllerSettings().getEncoding());
       // System.out.println(s);
       return s;
    }
@@ -384,14 +335,11 @@ public class WfXMLConnector {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
       // Use a Transformer for output
-      TransformerFactory tFactory = TransformerFactory.newInstance();
+      TransformerFactory tFactory = new org.apache.xalan.processor.TransformerFactoryImpl();
       Transformer transformer = tFactory.newTransformer();
       transformer.setOutputProperty("indent", "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-      transformer.setOutputProperty("encoding", JaWEManager.getInstance()
-         .getJaWEController()
-         .getControllerSettings()
-         .getEncoding());
+      transformer.setOutputProperty("encoding", JaWEManager.getInstance().getJaWEController().getControllerSettings().getEncoding());
       DOMSource source = new DOMSource(n);
       StreamResult result = new StreamResult(baos);
       transformer.transform(source, result);
@@ -402,8 +350,7 @@ public class WfXMLConnector {
       return ba;
    }
 
-   private static PrintWriter openConnection(HttpURLConnection conn, String action)
-      throws Exception {
+   private static PrintWriter openConnection(HttpURLConnection conn, String action) throws Exception {
       conn.setRequestMethod(REQUEST_METHOD);
       conn.addRequestProperty(HRP_ACCEPT_NAME, HTTP_ACCEPT_VALUE);
       conn.addRequestProperty(HRP_USER_AGENT_NAME, HRP_USER_AGENT_VALUE);
@@ -419,18 +366,14 @@ public class WfXMLConnector {
    }
 
    private static boolean isResponse2XX(int response) {
-      return HttpURLConnection.HTTP_ACCEPTED == response
-             || HttpURLConnection.HTTP_OK == response
-             || HttpURLConnection.HTTP_CREATED == response;
+      return HttpURLConnection.HTTP_ACCEPTED == response || HttpURLConnection.HTTP_OK == response || HttpURLConnection.HTTP_CREATED == response;
    }
 
    public static void listNodes(Node m, String space) {
       NodeList nl = m.getChildNodes();
       for (int i = 0; i < nl.getLength(); i++) {
          Node n = nl.item(i);
-         System.out.println(space
-                            + "i=" + i + ", n=" + n.getClass().getName() + ", v="
-                            + n.getNodeValue());
+         System.out.println(space + "i=" + i + ", n=" + n.getClass().getName() + ", v=" + n.getNodeValue());
          listNodes(n, space + " ");
       }
    }

@@ -250,7 +250,7 @@ public class XPDLViewControllerPanel extends JPanel implements JaWEComponentView
                   document.appendChild(toAppend);
                }
                // Use a Transformer for output
-               TransformerFactory tFactory = TransformerFactory.newInstance();
+               TransformerFactory tFactory = new org.apache.xalan.processor.TransformerFactoryImpl();
                Transformer transformer = tFactory.newTransformer();
                transformer.setOutputProperty("indent", "yes");
                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
@@ -279,9 +279,8 @@ public class XPDLViewControllerPanel extends JPanel implements JaWEComponentView
    }
 
    /**
-    * Searches the XPDL context containd within text area to find wanted string. Search
-    * starts from the current cursor location. When some new text is entered into search
-    * box, it can be latter retrieved from the box.
+    * Searches the XPDL context containd within text area to find wanted string. Search starts from the current cursor location. When some new text is entered
+    * into search box, it can be latter retrieved from the box.
     */
    protected void findString() {
       if (searchCB.getSelectedItem() == null)

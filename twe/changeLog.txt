@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-06-10 Sasa Bojanic <sasaboy@together.at>
+   # Now explicitly using XALAN for transformations (problem with saxon and namespaces)
+
 2016-05-17 Sasa Bojanic <sasaboy@together.at>
    # Fixed: when action to insert missing start/end events is executed, undo was not working properly any more. This issue was introduced in version 5.1-1.
 
