@@ -44,6 +44,7 @@ import javax.swing.border.Border;
 import javax.swing.text.PlainDocument;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -257,6 +258,8 @@ public class XPDLViewControllerPanel extends JPanel implements JaWEComponentView
                transformer.setOutputProperty("encoding", JaWEManager.getInstance().getJaWEController().getControllerSettings().getEncoding());
                if (!(elementToShow instanceof Package)) {
                   transformer.setOutputProperty("omit-xml-declaration", "yes");
+               } else {
+                  transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
                }
                DOMSource source = new DOMSource(document);
                StreamResult result = new StreamResult(baos);

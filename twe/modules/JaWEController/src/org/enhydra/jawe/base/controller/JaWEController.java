@@ -46,6 +46,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -1443,6 +1444,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          transformer.setOutputProperty("indent", "yes");
          transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
          transformer.setOutputProperty("encoding", settings.getEncoding());
+         transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
          DOMSource source = new DOMSource(document);
          StreamResult result = new StreamResult(os);
          transformer.transform(source, result);
