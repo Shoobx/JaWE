@@ -11569,6 +11569,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
+          <para>Support FOP 2.0 and font configuration for documentation builds.</para>
+        </listitem>
+
+        <listitem>
           <para>Improved Search functionality</para>
         </listitem>
 

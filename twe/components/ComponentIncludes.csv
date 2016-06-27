@@ -8,6 +8,7 @@ tec,docbook-dtd
 tec,docbook-xsl
 tds,docbook-xsl-fo
 tec,fop
+tec,fop-resources
 tec,itext5
 tec,javahelp
 tec,jeditsyntax

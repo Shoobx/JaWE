@@ -161,6 +161,14 @@
 		<copy todir="${tmp.dir}/Images/templates">
 			<fileset dir="${tools.dir}/tds" includes="*.jpg" />
 		</copy>
+		
+		<copy todir="${tmp.dir}">
+			<fileset dir="${tools.dir}/fop-resources/">
+				<include name="**" />
+				<exclude name="*.properties" />
+				<exclude name="*.txt" />
+			</fileset>
+		</copy>
    </target>
 
    <!-- ==================================================================== -->
@@ -316,7 +324,7 @@
          <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${app.name}-current.doc.pdf'" />
       </exec-->
 		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
-			<arg line="-c '${tools.dir}/fop/userconfig.xml'" />
+			<arg line="-c 'userconfig.xml'" />
 			<arg line="-fo '${docbook.name}.fo'" />
 			<arg line="-pdf '${app.name}-current.doc.pdf'" />
 		</java>
@@ -356,7 +364,7 @@
          <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${testcase.name}.fo' '${app.name}-${version}-${release}.test.pdf'" />
       </exec-->
 		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
-			<arg line="-c '${tools.dir}/fop/userconfig.xml'" />
+			<arg line="-c 'userconfig.xml'" />
 			<arg line="-fo '${testcase.name}.fo'" />
 			<arg line="-pdf '${app.name}-current.test.pdf'" />
 		</java>
