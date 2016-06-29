@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-06-29 Sasa Bojanic <sasaboy@together.at>
+   # Improved validation for XPath tool agent
+
 2016-06-10 Sasa Bojanic <sasaboy@together.at>
    # Now explicitly using XALAN for transformations (problem with saxon and namespaces)
 

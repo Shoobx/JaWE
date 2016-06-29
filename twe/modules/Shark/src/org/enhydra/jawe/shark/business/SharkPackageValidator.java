@@ -38,6 +38,8 @@ import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.XPDLValidationErrorIds;
 import org.enhydra.jxpdl.elements.Activities;
 import org.enhydra.jxpdl.elements.Activity;
+import org.enhydra.jxpdl.elements.ActualParameter;
+import org.enhydra.jxpdl.elements.ActualParameters;
 import org.enhydra.jxpdl.elements.Application;
 import org.enhydra.jxpdl.elements.ArrayType;
 import org.enhydra.jxpdl.elements.BasicType;
@@ -60,6 +62,7 @@ import org.enhydra.jxpdl.elements.Performer;
 import org.enhydra.jxpdl.elements.Priority;
 import org.enhydra.jxpdl.elements.RecordType;
 import org.enhydra.jxpdl.elements.SchemaType;
+import org.enhydra.jxpdl.elements.TaskApplication;
 import org.enhydra.jxpdl.elements.UnionType;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 import org.enhydra.jxpdl.utilities.SequencedHashMap;
@@ -2144,6 +2147,7 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
                                false,
                                SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
                                existingErrors);
+
       }
       for (int i = 0; i < fps.size(); i++) {
          FormalParameter fp = (FormalParameter) fps.get(i);
@@ -2298,6 +2302,103 @@ public abstract class SharkPackageValidator extends StandardPackageValidator {
             }
          }
       }
+   }
+
+   protected void checkParameterMatching(FormalParameters fps, ActualParameters aps, List existingErrors, boolean checkExpression, boolean fullCheck) {
+      super.checkParameterMatching(fps, aps, existingErrors, checkExpression, fullCheck);
+      if (aps.getParent() instanceof TaskApplication) {
+         TaskApplication ta = (TaskApplication) aps.getParent();
+         Application app = (Application) fps.getParent().getParent();
+         String taName = null;
+         ExtendedAttribute eataname = app.getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_TOOL_AGENT_CLASS);
+         if (eataname != null) {
+            taName = eataname.getVValue();
+         }
+         // Checking if XPath Expression parts and ResultVariableIds parts are matching
+         if (SharkConstants.TOOL_AGENT_XPATH.equals(taName)) {
+            int cntrvids = -1;
+            int cntexprs = -1;
+            FormalParameter resultVariableIds = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_RESULT_VARIABLE_IDS);
+            int indofrvids = fps.indexOf(resultVariableIds);
+            if (indofrvids != -1) {
+               if (aps.size() > indofrvids) {
+                  ActualParameter ap = (ActualParameter) aps.get(indofrvids);
+                  String apv = ap.toValue();
+                  if (apv.startsWith("\"") && apv.endsWith("\"")) {
+                     apv = apv.substring(1);
+                     apv = apv.substring(0, apv.length() - 1);
+                     String[] varIds = XMLUtil.tokenize(apv, ",");
+                     cntrvids = varIds.length;
+                     WorkflowProcess wp = XMLUtil.getWorkflowProcess(ap);
+                     Map avs = wp.getAllVariables();
+                     boolean allowUndefinedVariables = SharkUtils.allowFlag(wp, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, false);
+                     for (String varId : varIds) {
+                        XMLCollectionElement dfOrFp = (XMLCollectionElement) avs.get(varId);
+                        if (dfOrFp == null) {
+                           XMLValidationError verr = new XMLValidationError(allowUndefinedVariables ? XMLValidationError.TYPE_WARNING
+                                                                                                   : XMLValidationError.TYPE_ERROR,
+                                                                            XMLValidationError.SUB_TYPE_LOGIC,
+                                                                            allowUndefinedVariables ? SharkValidationErrorIds.WARNING_NON_EXISTING_VARIABLE_REFERENCE
+                                                                                                   : XPDLValidationErrorIds.ERROR_NON_EXISTING_VARIABLE_REFERENCE,
+                                                                            varId,
+                                                                            ap);
+                           existingErrors.add(verr);
+                           if (!fullCheck) {
+                              return;
+                           }
+
+                        } else {
+                           boolean isString = false;
+                           Object chn = ((DataType) dfOrFp.get("DataType")).getDataTypes().getChoosen();
+                           if (chn instanceof BasicType) {
+                              if (((BasicType) chn).getType().equals(XPDLConstants.BASIC_TYPE_STRING)) {
+                                 isString = true;
+                              }
+                           }
+                           if (!isString) {
+                              XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                               XMLValidationError.SUB_TYPE_LOGIC,
+                                                                               SharkValidationErrorIds.ERROR_TOOL_AGENT_INVALID_PARAMETER_TYPE_BASIC_TYPE_STRING_REQUIRED,
+                                                                               varId,
+                                                                               ap);
+                              existingErrors.add(verr);
+                              if (!fullCheck) {
+                                 return;
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+            FormalParameter resultExpressions = fps.getFormalParameter(SharkConstants.TOOL_AGENT_FORMAL_PARAMETER_EXPRESSIONS);
+            int indofes = fps.indexOf(resultExpressions);
+            if (indofes != -1) {
+               if (aps.size() > indofes) {
+                  ActualParameter ap = (ActualParameter) aps.get(indofes);
+                  String apv = ap.toValue();
+                  if (apv.startsWith("\"") && apv.endsWith("\"")) {
+                     apv = apv.substring(1);
+                     apv = apv.substring(0, apv.length() - 1);
+                     String[] eIds = XMLUtil.tokenize(apv, ",");
+                     cntexprs = eIds.length;
+                  }
+               }
+            }
+            if (cntexprs != cntrvids && cntexprs != -1 && cntrvids != -1) {
+               XMLValidationError verr = new XMLValidationError(XMLValidationError.TYPE_ERROR,
+                                                                XMLValidationError.SUB_TYPE_LOGIC,
+                                                                SharkValidationErrorIds.ERROR_TOOL_AGENT_XPATH_EXPRESSIONS_AND_RESULT_VARIABLE_IDS_PARAMETERS_NOT_MATCHING,
+                                                                "",
+                                                                aps);
+               existingErrors.add(verr);
+               if (!fullCheck) {
+                  return;
+               }
+            }
+         }
+      }
+
    }
 
    protected List<String> getPossiblePlaceholderVariables(String eav, String typePrefix) {

@@ -11569,7 +11569,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para>Support FOP 2.0 and font configuration for documentation builds.</para>
+          <para>Support FOP 2.0 and font configuration for documentation
+          builds.</para>
         </listitem>
 
         <listitem>
@@ -11648,6 +11649,8 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           package's workflow process</para>
 
           <para>- Added support for PowerShellToolAgent</para>
+
+          <para>- Improved validation for XPath tool agent</para>
         </listitem>
 
         <listitem>
