@@ -2255,9 +2255,13 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
                XMLComplexElement pkgOrWp = (XMLComplexElement) parent.getParent().getParent();
                List refs = null;
                if (parent instanceof DataField) {
-                  refs = JaWEManager.getInstance().getXPDLUtils().getDataFieldReferences(pkgOrWp, (String) info.getOldValue());
+                  refs = JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .getDataFieldReferences(pkgOrWp, (String) info.getOldValue(), JaWEManager.getInstance().getXPDLHandler());
                } else {
-                  refs = JaWEManager.getInstance().getXPDLUtils().getFormalParameterReferences((WorkflowProcess) pkgOrWp, (String) info.getOldValue());
+                  refs = JaWEManager.getInstance()
+                     .getXPDLUtils()
+                     .getFormalParameterReferences((WorkflowProcess) pkgOrWp, (String) info.getOldValue(), JaWEManager.getInstance().getXPDLHandler());
                }
                JaWEManager.getInstance().getXPDLUtils().updateVariableReferences(refs, (String) info.getOldValue(), (String) info.getNewValue());
                updateSpecialInProgress = false;

@@ -35,6 +35,7 @@ import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLCollectionElement;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
+import org.enhydra.jxpdl.XMLInterface;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.XPDLConstants;
 import org.enhydra.jxpdl.elements.Activities;
@@ -446,22 +447,22 @@ public class SharkXPDLUtils extends XPDLUtils {
       return references;
    }
 
-   public List getDataFieldReferences(XMLComplexElement pkgOrWp, String referencedId) {
+   public List getDataFieldReferences(XMLComplexElement pkgOrWp, String referencedId, XMLInterface xmli) {
       if (referencedId.equals("")) {
          return new ArrayList();
       }
       if (pkgOrWp instanceof Package) {
-         return getDataFieldReferences((Package) pkgOrWp, referencedId);
+         return getDataFieldReferences((Package) pkgOrWp, referencedId, xmli);
       }
 
-      return getDataFieldReferences((WorkflowProcess) pkgOrWp, referencedId);
+      return getDataFieldReferences((WorkflowProcess) pkgOrWp, referencedId, xmli);
    }
 
-   public List getReferences(Package pkg, DataField referenced) {
-      return getDataFieldReferences(pkg, referenced.getId());
+   public List getReferences(Package pkg, DataField referenced, XMLInterface xmli) {
+      return getDataFieldReferences(pkg, referenced.getId(), xmli);
    }
 
-   public List getDataFieldReferences(Package pkg, String referencedId) {
+   public List getDataFieldReferences(Package pkg, String referencedId, XMLInterface xmli) {
       List references = new ArrayList();
       if (referencedId.equals("")) {
          return references;
@@ -469,53 +470,60 @@ public class SharkXPDLUtils extends XPDLUtils {
 
       references.addAll(XMLUtil.getInitialValueReferences(pkg, referencedId));
       references.addAll(getBshJSTAReferences(pkg, referencedId));
+      Map allVars = new HashMap();
+      Iterator itdf = pkg.getDataFields().toElements().iterator();
+      while (itdf.hasNext()) {
+         DataField df = (DataField) itdf.next();
+         allVars.put(df.getId(), df);
+      }
+      references.addAll(XMLUtil.getLaneVariableReferences(pkg, referencedId, allVars, xmli));
 
       Iterator it = pkg.getWorkflowProcesses().toElements().iterator();
       while (it.hasNext()) {
          WorkflowProcess wp = (WorkflowProcess) it.next();
          if (wp.getDataField(referencedId) == null) {
-            references.addAll(getDataFieldReferences(wp, referencedId));
+            references.addAll(getDataFieldReferences(wp, referencedId, xmli));
          }
       }
 
       return references;
    }
 
-   public List getReferences(WorkflowProcess wp, DataField referenced) {
+   public List getReferences(WorkflowProcess wp, DataField referenced, XMLInterface xmli) {
       if (XMLUtil.getWorkflowProcess(referenced) == null && (wp.getDataField(referenced.getId()) != null || wp.getFormalParameter(referenced.getId()) != null)) {
          return new ArrayList();
       }
 
-      return getDataFieldReferences(wp, referenced.getId());
+      return getDataFieldReferences(wp, referenced.getId(), xmli);
    }
 
-   public List getDataFieldReferences(WorkflowProcess wp, String referencedId) {
+   public List getDataFieldReferences(WorkflowProcess wp, String referencedId, XMLInterface xmli) {
       List references = new ArrayList();
       if (referencedId.equals("")) {
          return references;
       }
 
-      references.addAll(getVariableReferences(wp, referencedId));
+      references.addAll(getVariableReferences(wp, referencedId, xmli));
 
       Iterator it = wp.getActivitySets().toElements().iterator();
       while (it.hasNext()) {
          ActivitySet as = (ActivitySet) it.next();
-         references.addAll(getVariableReferences(as, referencedId));
+         references.addAll(getVariableReferences(as, referencedId, xmli));
       }
 
       return references;
    }
 
-   public List getReferences(WorkflowProcess wp, FormalParameter referenced) {
+   public List getReferences(WorkflowProcess wp, FormalParameter referenced, XMLInterface xmli) {
       List references = new ArrayList();
       if (!(referenced.getParent().getParent() instanceof WorkflowProcess)) {
          return references;
       }
 
-      return getFormalParameterReferences(wp, referenced.getId());
+      return getFormalParameterReferences(wp, referenced.getId(), xmli);
    }
 
-   public List getFormalParameterReferences(WorkflowProcess wp, String referencedId) {
+   public List getFormalParameterReferences(WorkflowProcess wp, String referencedId, XMLInterface xmli) {
       List references = new ArrayList();
       if (referencedId.equals("")) {
          return references;
@@ -524,12 +532,12 @@ public class SharkXPDLUtils extends XPDLUtils {
          return references;
       }
 
-      references.addAll(getVariableReferences(wp, referencedId));
+      references.addAll(getVariableReferences(wp, referencedId, xmli));
 
       Iterator it = wp.getActivitySets().toElements().iterator();
       while (it.hasNext()) {
          ActivitySet as = (ActivitySet) it.next();
-         references.addAll(getVariableReferences(as, referencedId));
+         references.addAll(getVariableReferences(as, referencedId, xmli));
       }
 
       return references;
@@ -564,11 +572,11 @@ public class SharkXPDLUtils extends XPDLUtils {
 
    }
 
-   protected List getVariableReferences(XMLCollectionElement wpOrAs, String dfOrFpId) {
+   protected List getVariableReferences(XMLCollectionElement wpOrAs, String dfOrFpId, XMLInterface xmli) {
       String postfixProc = "_PROCESS";
       String postfixAct = "_ACTIVITY";
 
-      List references = XMLUtil.getVariableReferences(wpOrAs, dfOrFpId);
+      List references = XMLUtil.getVariableReferences(wpOrAs, dfOrFpId, xmli);
 
       Map allVars = XMLUtil.getWorkflowProcess(wpOrAs).getAllVariables();
       Iterator it = ((Activities) wpOrAs.get("Activities")).toElements().iterator();

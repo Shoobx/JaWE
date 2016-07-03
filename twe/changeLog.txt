@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-07-02 Sasa Bojanic <sasaboy@together.at>
+   # Now also calculating references to variables in the Lane's performer element
+
 2016-06-29 Sasa Bojanic <sasaboy@together.at>
    # Improved validation for XPath tool agent
 

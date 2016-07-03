@@ -90,7 +90,7 @@ public class XPDLUtils {
       } else if (pkgOrWpOrEAsParent instanceof Package) {
          return getReferences((Package) pkgOrWpOrEAsParent, referenced, xmli);
       } else if (pkgOrWpOrEAsParent instanceof WorkflowProcess) {
-         return getReferences((WorkflowProcess) pkgOrWpOrEAsParent, referenced);
+         return getReferences((WorkflowProcess) pkgOrWpOrEAsParent, referenced, xmli);
       }
       return new ArrayList();
    }
@@ -105,7 +105,7 @@ public class XPDLUtils {
       } else if (referenced instanceof Application) {
          return getReferences(pkg, (Application) referenced);
       } else if (referenced instanceof DataField) {
-         return getReferences(pkg, (DataField) referenced);
+         return getReferences(pkg, (DataField) referenced, xmli);
       } else if (referenced instanceof WorkflowProcess) {
          return getReferences(pkg, (WorkflowProcess) referenced);
       } else if (referenced instanceof Lane) {
@@ -114,17 +114,17 @@ public class XPDLUtils {
       return new ArrayList();
    }
 
-   public List getReferences(WorkflowProcess wp, XMLComplexElement referenced) {
+   public List getReferences(WorkflowProcess wp, XMLComplexElement referenced, XMLInterface xmli) {
       if (referenced instanceof Participant) {
          return getReferences(wp, (Participant) referenced);
       } else if (referenced instanceof Application) {
          return getReferences(wp, (Application) referenced);
       } else if (referenced instanceof DataField) {
-         return getReferences(wp, (DataField) referenced);
+         return getReferences(wp, (DataField) referenced, xmli);
       } else if (referenced instanceof WorkflowProcess) {
          return getReferences(wp, (WorkflowProcess) referenced);
       } else if (referenced instanceof FormalParameter) {
-         return getReferences(wp, (FormalParameter) referenced);
+         return getReferences(wp, (FormalParameter) referenced, xmli);
       } else if (referenced instanceof ActivitySet) {
          return getReferences(wp, (ActivitySet) referenced);
       } else if (referenced instanceof Lane) {
@@ -254,24 +254,24 @@ public class XPDLUtils {
       return XMLUtil.getLaneReferences(wp, referencedId);
    }
 
-   public List getDataFieldReferences(XMLComplexElement pkgOrWp, String referencedId) {
-      return XMLUtil.getDataFieldReferences(pkgOrWp, referencedId);
+   public List getDataFieldReferences(XMLComplexElement pkgOrWp, String referencedId, XMLInterface xmli) {
+      return XMLUtil.getDataFieldReferences(pkgOrWp, referencedId, xmli);
    }
 
-   public List getReferences(Package pkg, DataField referenced) {
-      return XMLUtil.getReferences(pkg, referenced);
+   public List getReferences(Package pkg, DataField referenced, XMLInterface xmli) {
+      return XMLUtil.getReferences(pkg, referenced, xmli);
    }
 
-   public List getDataFieldReferences(Package pkg, String referencedId) {
-      return XMLUtil.getDataFieldReferences(pkg, referencedId);
+   public List getDataFieldReferences(Package pkg, String referencedId, XMLInterface xmli) {
+      return XMLUtil.getDataFieldReferences(pkg, referencedId, xmli);
    }
 
-   public List getReferences(WorkflowProcess wp, DataField referenced) {
-      return XMLUtil.getReferences(wp, referenced);
+   public List getReferences(WorkflowProcess wp, DataField referenced, XMLInterface xmli) {
+      return XMLUtil.getReferences(wp, referenced, xmli);
    }
 
-   public List getDataFieldReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getDataFieldReferences(wp, referencedId);
+   public List getDataFieldReferences(WorkflowProcess wp, String referencedId, XMLInterface xmli) {
+      return XMLUtil.getDataFieldReferences(wp, referencedId, xmli);
    }
 
    public List getReferences(Package pkg, WorkflowProcess referenced) {
@@ -290,12 +290,12 @@ public class XPDLUtils {
       return XMLUtil.getWorkflowProcessReferences(wp, referencedId);
    }
 
-   public List getReferences(WorkflowProcess wp, FormalParameter referenced) {
-      return XMLUtil.getReferences(wp, referenced);
+   public List getReferences(WorkflowProcess wp, FormalParameter referenced, XMLInterface xmli) {
+      return XMLUtil.getReferences(wp, referenced, xmli);
    }
 
-   public List getFormalParameterReferences(WorkflowProcess wp, String referencedId) {
-      return XMLUtil.getFormalParameterReferences(wp, referencedId);
+   public List getFormalParameterReferences(WorkflowProcess wp, String referencedId, XMLInterface xmli) {
+      return XMLUtil.getFormalParameterReferences(wp, referencedId, xmli);
    }
 
    public List getReferences(WorkflowProcess wp, ActivitySet referenced) {

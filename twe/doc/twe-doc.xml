@@ -11638,6 +11638,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Now also calculating references to variables in the Lane's
+          performer element</para>
+        </listitem>
+
+        <listitem>
           <para>Shark mode:</para>
 
           <para>- Support for new extended attribute
