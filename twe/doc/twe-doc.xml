@@ -11643,6 +11643,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
+          <para>Changed StandardDisplayGenerator to differently present
+          package name in GUI</para>
+        </listitem>
+
+        <listitem>
           <para>Shark mode:</para>
 
           <para>- Support for new extended attribute
@@ -11656,6 +11661,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Added support for PowerShellToolAgent</para>
 
           <para>- Improved validation for XPath tool agent</para>
+
+          <para>- Introduced SharkDisplayGenerator to differently present
+          package name in GUI</para>
         </listitem>
 
         <listitem>

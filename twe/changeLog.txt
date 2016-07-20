@@ -1,4 +1,8 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-07-20 Sasa Bojanic <sasaboy@together.at>
+   # Changed StandardDisplayGenerator to differently present package name in GUI
+   # Shark mode: Introduced SharkDisplayGenerator to differently present package name in GUI
+
 2016-07-02 Sasa Bojanic <sasaboy@together.at>
    # Now also calculating references to variables in the Lane's performer element
 
