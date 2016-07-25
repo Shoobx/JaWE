@@ -1,4 +1,7 @@
 ###### TWE 5.4-1 RELEASED ######
+2016-07-25 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: SharkDisplayGenerator differently present WorkflowProcess name in GUI (category variable value information is appended)
+
 2016-07-20 Sasa Bojanic <sasaboy@together.at>
    # Changed StandardDisplayGenerator to differently present package name in GUI
    # Shark mode: Introduced SharkDisplayGenerator to differently present package name in GUI

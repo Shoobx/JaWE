@@ -21,7 +21,10 @@ package org.enhydra.jawe.shark;
 import org.enhydra.jawe.base.display.DisplayNameGeneratorSettings;
 import org.enhydra.jawe.base.display.StandardDisplayNameGenerator;
 import org.enhydra.jawe.shark.business.SharkConstants;
+import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.elements.DataField;
+import org.enhydra.jxpdl.elements.Package;
+import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 public class SharkDisplayNameGenerator extends StandardDisplayNameGenerator {
 
@@ -33,27 +36,36 @@ public class SharkDisplayNameGenerator extends StandardDisplayNameGenerator {
       super(settings);
    }
 
-   public String getDisplayName(org.enhydra.jxpdl.elements.Package el) {
-      String ret = super.getDisplayName(el);
-      String epn = "";
-      // if (JaWEManager.getInstance().getJaWEController().getMainPackage() != el) {
-      // String mpn = JaWEManager.getInstance().getJaWEController().getMainPackage().getName();
-      // epn = el.getName();
-      // if (!epn.equals("") && epn.equals(mpn)) {
-      DataField cat = el.getDataField(SharkConstants.SHARK_VARIABLE_CATEGORY);
-      if (cat != null) {
-         epn = cat.getInitialValue();
-         if (epn.startsWith("\"")) {
-            epn = epn.substring(1);
-            if (epn.endsWith("\"")) {
-               epn = epn.substring(0, epn.length() - 1);
-            }
-         }
-         epn = " (" + epn + ")";
-      }
-      // }
-      // }
-      return ret + epn;
+   public String getDisplayName(WorkflowProcess el) {
+      return getDisplayNameForPackageOrWorkflowProcess(el);
    }
 
+   public String getDisplayName(Package el) {
+      return getDisplayNameForPackageOrWorkflowProcess(el);
+   }
+
+   protected String getDisplayNameForPackageOrWorkflowProcess(XMLComplexElement pkgOrWp) {
+      String ret = super.getDisplayName(pkgOrWp);
+      if (pkgOrWp instanceof Package || pkgOrWp instanceof WorkflowProcess) {
+         String epn = "";
+         DataField cat = null;
+         if (pkgOrWp instanceof Package) {
+            cat = ((Package) pkgOrWp).getDataField(SharkConstants.SHARK_VARIABLE_CATEGORY);
+         } else {
+            cat = ((WorkflowProcess) pkgOrWp).getDataField(SharkConstants.SHARK_VARIABLE_CATEGORY);
+         }
+         if (cat != null) {
+            epn = cat.getInitialValue();
+            if (epn.startsWith("\"")) {
+               epn = epn.substring(1);
+               if (epn.endsWith("\"")) {
+                  epn = epn.substring(0, epn.length() - 1);
+               }
+            }
+            epn = " (" + epn + ")";
+         }
+         return ret + epn;
+      }
+      return ret;
+   }
 }
