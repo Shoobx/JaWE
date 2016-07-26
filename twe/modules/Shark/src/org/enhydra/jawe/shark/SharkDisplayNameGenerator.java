@@ -37,15 +37,16 @@ public class SharkDisplayNameGenerator extends StandardDisplayNameGenerator {
    }
 
    public String getDisplayName(WorkflowProcess el) {
-      return getDisplayNameForPackageOrWorkflowProcess(el);
+      String dn = super.getDisplayName(el);
+      return getDisplayNameForPackageOrWorkflowProcess(el, dn);
    }
 
    public String getDisplayName(Package el) {
-      return getDisplayNameForPackageOrWorkflowProcess(el);
+      String dn = super.getDisplayName(el);
+      return getDisplayNameForPackageOrWorkflowProcess(el, dn);
    }
 
-   protected String getDisplayNameForPackageOrWorkflowProcess(XMLComplexElement pkgOrWp) {
-      String ret = super.getDisplayName(pkgOrWp);
+   protected String getDisplayNameForPackageOrWorkflowProcess(XMLComplexElement pkgOrWp, String defDisplayName) {
       if (pkgOrWp instanceof Package || pkgOrWp instanceof WorkflowProcess) {
          String epn = "";
          DataField cat = null;
@@ -64,8 +65,8 @@ public class SharkDisplayNameGenerator extends StandardDisplayNameGenerator {
             }
             epn = " (" + epn + ")";
          }
-         return ret + epn;
+         return defDisplayName + epn;
       }
-      return ret;
+      return defDisplayName;
    }
 }
