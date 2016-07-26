@@ -1044,6 +1044,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
                Path newPath = new Path(parentF);
                String eppath = xpdlhmain.getAbsoluteFilePath(realPkg);
                String relativePath = Path.getRelativePath(new Path(eppath), newPath);
+               relativePath = relativePath.replace("\\", "/");
                ep = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(eps, "", false);
                ep.setHref(relativePath);
                ep.setId(realPkg.getId());
@@ -1590,8 +1591,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             Package extP = xpdlhandler.getExternalPackageByRelativeFilePath(oldRelativePath, pkg);
             String oldFullPath = xpdlhandler.getAbsoluteFilePath(extP);
             String relativePath = Path.getRelativePath(new Path(oldFullPath), newPath);
+            relativePath = relativePath.replace("\\", "/");
             // System.out.println("RP="+relativePath);
-            ep.setHref(XMLUtil.replaceBackslashesWithSlashes(relativePath));
+            ep.setHref(relativePath);
          } catch (Exception ex) {
             System.err.println("Failed to update old external package's relative path "
                                + oldRelativePath + " for main package " + pkg.getId() + " with a new filename " + newFilename);
