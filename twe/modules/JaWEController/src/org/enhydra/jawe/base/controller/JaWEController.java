@@ -2021,6 +2021,19 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
                   updateSpecialInProgress = true;
                   JaWEManager.getInstance().getXPDLUtils().removeArtifactAndAssociationsForProcessesOrActivitySets(info.getChangedSubElements());
                   JaWEManager.getInstance().getXPDLUtils().removePoolsForProcesses(info.getChangedSubElements());
+                  List cses = info.getChangedSubElements();
+                  for (int i = 0; i < cses.size(); i++) {
+                     Object o = cses.get(i);
+                     if (o instanceof WorkflowProcess) {
+                        WorkflowProcess wp = (WorkflowProcess) o;
+                        Iterator it = wp.getActivitySets().toElements().iterator();
+                        while (it.hasNext()) {
+                           ActivitySet as = (ActivitySet) it.next();
+                           JaWEManager.getInstance().getXPDLUtils().removeArtifactAndAssociationsForProcessOrActivitySet(as);
+                           JaWEManager.getInstance().getXPDLUtils().removePoolForActivitySet(as);
+                        }
+                     }
+                  }
                   selectionMng.removeFromSelection(info.getChangedSubElements());
                   updateSpecialInProgress = false;
                   Iterator it = info.getChangedSubElements().iterator();
