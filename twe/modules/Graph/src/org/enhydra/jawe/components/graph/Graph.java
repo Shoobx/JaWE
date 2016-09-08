@@ -379,7 +379,8 @@ public class Graph extends JGraph implements Printable {
       // Order so that all activities comes first, after that Participants in ordered view
 
       // first iteration - separating Participants and others
-      java.util.List activitiesAndEdges = new ArrayList();
+      java.util.List activities = new ArrayList();
+      java.util.List edges = new ArrayList();
       java.util.List participants = new ArrayList();
       Iterator it = result.iterator();
       while (it.hasNext()) {
@@ -387,7 +388,11 @@ public class Graph extends JGraph implements Printable {
          if (cv.getCell() instanceof GraphSwimlaneInterface) {
             participants.add(cv);
          } else {
-            activitiesAndEdges.add(cv);
+            if (cv.getCell() instanceof GraphActivityInterface) {
+               activities.add(cv);
+            } else {
+               edges.add(cv);
+            }
          }
       }
 
@@ -399,10 +404,15 @@ public class Graph extends JGraph implements Printable {
       // depth (and should have focus before their parents) are placed closer
       // to the end of Participants set
       int i = -1;
-      int j = participants.size() + activitiesAndEdges.size();
+      int j = participants.size() + activities.size() + edges.size();
       CellView[] tmp = new CellView[j];
 
-      it = activitiesAndEdges.iterator();
+      it = activities.iterator();
+      while (it.hasNext()) {
+         tmp[++i] = (CellView) it.next();
+      }
+
+      it = edges.iterator();
       while (it.hasNext()) {
          tmp[++i] = (CellView) it.next();
       }
