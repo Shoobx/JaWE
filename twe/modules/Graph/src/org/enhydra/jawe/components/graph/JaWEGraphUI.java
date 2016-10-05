@@ -152,9 +152,8 @@ public class JaWEGraphUI extends BasicGraphUI {
          selectOnRelease = false;
          if (status == SELECTION && graph.isSelectionEnabled()) {
             // find where was clicked...
-            int s = graph.getTolerance();
-
-            Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s, e.getY() - s, 2 * s, 2 * s));
+            // int s = graph.getTolerance();
+            // Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s, e.getY() - s, 2 * s, 2 * s));
             // focus = (focus != null && focus.intersects(graph, r)) ? focus : null;
             focus = null;
             Point2D point = graph.fromScreen(new Point(e.getPoint()));

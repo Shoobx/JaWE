@@ -1,4 +1,7 @@
 ###### TWE 5.5-1 RELEASED ######
+2016-10-05 Sasa Bojanic <sasaboy@together.at>
+   # Fixed linux configure script to be able to set parameters with whitespace character
+
 2016-09-08 Sasa Bojanic <sasaboy@together.at>
    # Fixed issue when transition is selected when clicked on the activity
 
