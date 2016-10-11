@@ -170,8 +170,9 @@ public class StandardDisplayNameGenerator implements DisplayNameGenerator {
    }
 
    public String getDisplayName(Package el) {
-      if (JaWEManager.getInstance().getJaWEController().getMainPackage() != el) {
-         String mpn = JaWEManager.getInstance().getJaWEController().getMainPackage().getName();
+      Package mainPackage = JaWEManager.getInstance().getJaWEController().getMainPackage();
+      if (mainPackage != null && mainPackage != el) {
+         String mpn = mainPackage.getName();
          String epn = el.getName();
          if (!epn.equals("") && epn.equals(mpn)) {
             epn = el.getId();

@@ -47,6 +47,17 @@ function help {
    echo "./configure -version 4.5 -release 1 -buildid 20120301-0808 -jdkhome /usr/jdk1.8 -instdir /tmp/JaWE"
 }
 
+function read_properties() {
+  file="$1"
+  while IFS="=" read -r key value; do
+    case "$key" in
+      '#'*) ;;
+      *)
+        eval "$key=\"$value\""
+    esac
+  done < "$file"
+} 
+
 for n in $*
 do
 	case $n in
@@ -65,30 +76,27 @@ project_DOT_name="Together Workflow Editor"
 cd $(dirname $0)        
                         
 if test -r ./build.properties ; then
-    grep -v ^# ./build.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmp.properties
-#    cp build.properties tmp.properties
-    dos2unix -n tmp.properties tmp.properties
-    . ./tmp.properties
-    rm ./tmp.properties
+    grep -v ^# ./build.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmpb.properties
+    perl -pi -e 's/\r\n|\n|\r/\n/g' tmpb.properties
+    read_properties ./tmpb.properties
+    rm ./tmpb.properties
 fi
 
 if test -r ./project.properties ; then
-#    grep -v ^# ./project.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmpv.properties
-    cp project.properties tmpv.properties
-    dos2unix -n tmpv.properties tmpv.properties
-    . ./tmpv.properties
-    rm ./tmpv.properties
+    grep -v ^# ./project.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmpp.properties
+    perl -pi -e 's/\r\n|\n|\r/\n/g' tmpp.properties
+    read_properties ./tmpp.properties
+    rm ./tmpp.properties
 fi
 
 if test -r ./version.properties ; then
     grep -v ^# ./version.properties |grep -v ^$|sed -e 's|\.|_DOT_|g'>./tmpv.properties
-#    cp version.properties tmpv.properties
-    dos2unix -n tmpv.properties tmpv.properties
-    . ./tmpv.properties
+    perl -pi -e 's/\r\n|\n|\r/\n/g' tmpv.properties
+    read_properties ./tmpv.properties
     rm ./tmpv.properties
 fi
 
-for n in $*             
+for n in "$@"             
 do
 	#if  the previous option needs an argument, assign it
                         

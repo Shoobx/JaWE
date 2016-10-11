@@ -59,11 +59,9 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.plaf.basic.BasicGraphUI;
 
 /**
- * This class and it's inner classes controls mouse actions and clipboard. It is addapted
- * to get wanted editing cell behaviour, selection behaviour , to implement cell
- * overlaping, to implement right participant adjustment after cell (or group of cells) is
- * moved, and to implement proper copying and pasting/cloning of cells, as well as pasting
- * at wanted location (along with right participant adjustment).
+ * This class and it's inner classes controls mouse actions and clipboard. It is addapted to get wanted editing cell behaviour, selection behaviour , to
+ * implement cell overlaping, to implement right participant adjustment after cell (or group of cells) is moved, and to implement proper copying and
+ * pasting/cloning of cells, as well as pasting at wanted location (along with right participant adjustment).
  */
 public class JaWEGraphUI extends BasicGraphUI {
 
@@ -114,8 +112,7 @@ public class JaWEGraphUI extends BasicGraphUI {
    }
 
    /**
-    * This method is called by EditAction class, as well as by pressing F2 or clicking a
-    * mouse on a cell.
+    * This method is called by EditAction class, as well as by pressing F2 or clicking a mouse on a cell.
     */
    protected boolean startEditing(Object cell, MouseEvent event) {
       if (cell instanceof WorkflowElement) {
@@ -155,10 +152,10 @@ public class JaWEGraphUI extends BasicGraphUI {
          selectOnRelease = false;
          if (status == SELECTION && graph.isSelectionEnabled()) {
             // find where was clicked...
-            int s = graph.getTolerance();
-
-            Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s, e.getY() - s, 2 * s, 2 * s));
-            focus = (focus != null && focus.intersects(graph, r)) ? focus : null;
+            // int s = graph.getTolerance();
+            // Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s, e.getY() - s, 2 * s, 2 * s));
+            // focus = (focus != null && focus.intersects(graph, r)) ? focus : null;
+            focus = null;
             Point2D point = graph.fromScreen(new Point(e.getPoint()));
 
             // changed from original because of overlapping
@@ -368,14 +365,12 @@ public class JaWEGraphUI extends BasicGraphUI {
    }
 
    /**
-    * Manages selection movement. It is adapted to suport proper undo in coordination with
-    * WorkflowManager class.
+    * Manages selection movement. It is adapted to suport proper undo in coordination with WorkflowManager class.
     */
    public class PERootHandle extends RootHandle {
       /**
-       * Creates a root handle which contains handles for the given cells. The root handle
-       * and all its childs point to the specified JGraph instance. The root handle is
-       * responsible for dragging the selection.
+       * Creates a root handle which contains handles for the given cells. The root handle and all its childs point to the specified JGraph instance. The root
+       * handle is responsible for dragging the selection.
        */
       public PERootHandle(GraphContext ctx) {
          super(ctx);
@@ -465,8 +460,7 @@ public class JaWEGraphUI extends BasicGraphUI {
    }
 
    /**
-    * This class observes view changes and is adapted to disallow deselection of cells
-    * after dragging.
+    * This class observes view changes and is adapted to disallow deselection of cells after dragging.
     */
    public class PEGraphLayoutCacheHandler extends GraphLayoutCacheHandler {
       /*

@@ -11565,6 +11565,17 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     <title>Release Notes</title>
 
     <section>
+      <title>Release 5.4-2</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Fixed issue when transition is selected when clicked on the
+          activity</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 5.4-1</title>
 
       <itemizedlist>
