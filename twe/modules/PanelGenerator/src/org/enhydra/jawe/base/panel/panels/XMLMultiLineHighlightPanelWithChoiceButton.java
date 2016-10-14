@@ -41,6 +41,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -192,7 +193,11 @@ public class XMLMultiLineHighlightPanelWithChoiceButton extends XMLBasicPanel im
       jta.setAlignmentX(Component.LEFT_ALIGNMENT);
       jta.setAlignmentY(Component.TOP_ALIGNMENT);
 
-      jta.setEnabled(isEnabled);
+      if (!isEnabled) {
+         jta.setEditable(false);
+         jta.setForeground(new JTextField().getDisabledTextColor());
+      }
+
       jta.setBackground(bkgCol);
       jta.blinkCaret();
 

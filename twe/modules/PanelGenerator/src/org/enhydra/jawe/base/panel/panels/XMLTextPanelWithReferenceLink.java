@@ -74,8 +74,7 @@ public class XMLTextPanelWithReferenceLink extends XMLBasicPanel {
 
          rightAllignment = settings.getSettingBoolean("XMLBasicPanel.RightAllignment");
 
-         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
-                                 settings.getSettingInt("SimplePanelTextHeight"));
+         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
 
          textDim.setSize(textDim.width - refButDimension.width, textDim.height);
          if (settings instanceof PanelSettings) {
@@ -107,7 +106,10 @@ public class XMLTextPanelWithReferenceLink extends XMLBasicPanel {
       jtf.setMaximumSize(new Dimension(textDim));
       jtf.setPreferredSize(new Dimension(textDim));
 
-      jtf.setEnabled(isEnabled);
+      if (!isEnabled) {
+         jtf.setEditable(false);
+         jtf.setForeground(jtf.getDisabledTextColor());
+      }
 
       jtf.setBackground(bkgCol);
 

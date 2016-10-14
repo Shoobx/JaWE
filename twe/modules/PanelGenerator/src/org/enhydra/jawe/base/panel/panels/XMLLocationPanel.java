@@ -40,8 +40,7 @@ import org.enhydra.jawe.base.panel.PanelSettings;
 import org.enhydra.jxpdl.XMLElement;
 
 /**
- * Creates panel with JLabel, JTextField and JButton, this panel is used to set the file
- * name from some choosed location.
+ * Creates panel with JLabel, JTextField and JButton, this panel is used to set the file name from some choosed location.
  * 
  * @author Sasa Bojanic
  */
@@ -57,11 +56,7 @@ public class XMLLocationPanel extends XMLBasicPanel {
       this(pc, myOwnerL, isEnabled, -1, null);
    }
 
-   public XMLLocationPanel(PanelContainer pc,
-                           XMLElement myOwner,
-                           boolean isEnabled,
-                           final int filteringMode,
-                           String tooltip) {
+   public XMLLocationPanel(PanelContainer pc, XMLElement myOwner, boolean isEnabled, final int filteringMode, String tooltip) {
 
       super(pc, myOwner, "", false, false, true, tooltip);
 
@@ -74,8 +69,7 @@ public class XMLLocationPanel extends XMLBasicPanel {
 
          rightAllignment = settings.getSettingBoolean("XMLBasicPanel.RightAllignment");
 
-         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"),
-                                 settings.getSettingInt("SimplePanelTextHeight"));
+         textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
          fileButtonDimension = new Dimension(fileButtonDimension.width, textDim.height);
          textDim.width = textDim.width - fileButtonDimension.width;
 
@@ -85,9 +79,7 @@ public class XMLLocationPanel extends XMLBasicPanel {
 
          jl = new JLabel(pc.getLabelGenerator().getLabel(myOwner) + ": ");
       } else {
-         jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName()
-                                                                    + "Key")
-                         + ": ");
+         jl = new JLabel(ResourceManager.getLanguageDependentString(myOwner.toName() + "Key") + ": ");
       }
 
       jl.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -102,7 +94,10 @@ public class XMLLocationPanel extends XMLBasicPanel {
       jtf.setMinimumSize(new Dimension(textDim));
       jtf.setMaximumSize(new Dimension(textDim));
       jtf.setPreferredSize(new Dimension(textDim));
-      jtf.setEnabled(isEnabled);
+      if (!isEnabled) {
+         jtf.setEditable(false);
+         jtf.setForeground(jtf.getDisabledTextColor());
+      }
       jtf.setBackground(bkgCol);
 
       // add key listener
