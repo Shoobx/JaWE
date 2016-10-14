@@ -11582,6 +11582,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>Fixed issue when transition is selected when clicked on the
           activity</para>
         </listitem>
+
+        <listitem>
+          <para>Now making text-panels non-editable and changing color to look
+          like disabled. This way we can copy things from external package
+          panels.</para>
+        </listitem>
       </itemizedlist>
     </section>
 

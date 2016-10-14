@@ -38,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
@@ -181,7 +182,10 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
       jta.setAlignmentX(Component.LEFT_ALIGNMENT);
       jta.setAlignmentY(Component.TOP_ALIGNMENT);
 
-      jta.setEnabled(isEnabled);
+      if (!isEnabled) {
+         jta.setEditable(false);
+         jta.setForeground(new JTextField().getDisabledTextColor());
+      }
       jta.setBackground(bkgCol);
 
       final XMLPanel p = this;

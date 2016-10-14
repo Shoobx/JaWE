@@ -1,6 +1,9 @@
 ###### TWE 5.5-1 RELEASED ######
 
 ###### TWE 5.4-2 RELEASED ######
+2016-10-14 Sasa Bojanic <sasaboy@together.at>
+   # Now making text-panels non-editable and changing color to look like disabled. This way we can copy things from external package panels.
+
 2016-10-05 Sasa Bojanic <sasaboy@together.at>
    # Fixed linux configure script to be able to set parameters with whitespace character
 

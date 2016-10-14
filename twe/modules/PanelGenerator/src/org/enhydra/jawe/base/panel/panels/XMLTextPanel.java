@@ -73,7 +73,7 @@ public class XMLTextPanel extends XMLBasicPanel {
 
          rightAllignment = settings.getSettingBoolean("XMLBasicPanel.RightAllignment");
 
-         if (textDim==null) {
+         if (textDim == null) {
             textDim = new Dimension(settings.getSettingInt("SimplePanelTextWidth"), settings.getSettingInt("SimplePanelTextHeight"));
          }
 
@@ -83,7 +83,7 @@ public class XMLTextPanel extends XMLBasicPanel {
       } else {
          if (textDim == null) {
             textDim = new Dimension(400, 20);
-         }         
+         }
       }
       if (label == null) {
          if (pc != null) {
@@ -113,7 +113,10 @@ public class XMLTextPanel extends XMLBasicPanel {
       jtf.setMaximumSize(new Dimension(textDim));
       jtf.setPreferredSize(new Dimension(textDim));
 
-      jtf.setEnabled(isEnabled);
+      if (!isEnabled) {
+         jtf.setEditable(false);
+         jtf.setForeground(jtf.getDisabledTextColor());
+      }
 
       jtf.setBackground(bkgCol);
 
