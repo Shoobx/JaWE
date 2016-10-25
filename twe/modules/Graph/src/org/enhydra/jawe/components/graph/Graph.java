@@ -381,6 +381,7 @@ public class Graph extends JGraph implements Printable {
       // first iteration - separating Participants and others
       java.util.List activities = new ArrayList();
       java.util.List edges = new ArrayList();
+      java.util.List others = new ArrayList();
       java.util.List participants = new ArrayList();
       Iterator it = result.iterator();
       while (it.hasNext()) {
@@ -390,12 +391,13 @@ public class Graph extends JGraph implements Printable {
          } else {
             if (cv.getCell() instanceof GraphActivityInterface) {
                activities.add(cv);
-            } else {
+            } else if (cv.getCell() instanceof GraphTransitionInterface) {
                edges.add(cv);
+            } else {
+               others.add(cv);
             }
          }
       }
-
       // second iteration - order, first adding activities & edges and then
       // Participants in reversed order: it must be done that way because the
       // child views of Participants (activities) that had focus more recently
@@ -404,15 +406,20 @@ public class Graph extends JGraph implements Printable {
       // depth (and should have focus before their parents) are placed closer
       // to the end of Participants set
       int i = -1;
-      int j = participants.size() + activities.size() + edges.size();
+      int j = participants.size() + activities.size() + edges.size() + others.size();
       CellView[] tmp = new CellView[j];
 
-      it = activities.iterator();
+      it = others.iterator();
       while (it.hasNext()) {
          tmp[++i] = (CellView) it.next();
       }
 
       it = edges.iterator();
+      while (it.hasNext()) {
+         tmp[++i] = (CellView) it.next();
+      }
+
+      it = activities.iterator();
       while (it.hasNext()) {
          tmp[++i] = (CellView) it.next();
       }
