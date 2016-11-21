@@ -11569,7 +11569,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para>-</para>
+          <para>Now configure script creates special rebranding.properties
+          file if one wants to rebrand</para>
+        </listitem>
+
+        <listitem>
+          <para>Build procedure changed to copy rebranding.properties file (if
+          exists) from project folder called "customdir" (if exists). This
+          feature will be used in our new GPE project.</para>
         </listitem>
       </itemizedlist>
     </section>

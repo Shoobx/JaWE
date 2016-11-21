@@ -113,19 +113,25 @@ for /F "tokens=1,2* delims==" %%i in (install.txt) do SET INSTALLDIR=%%j
 del install.txt>nul
 
 :initrebranding
-find "rebranding=" < build.properties > rebranding.txt
+if exist rebranding.properties (
+find "rebranding=" < rebranding.properties > rebranding.txt
 for /F "tokens=1,2* delims==" %%i in (rebranding.txt) do SET REBRANDING=%%j
 del rebranding.txt>nul
+)
 
 :initbrandingdir
-find "branding.dir=" < build.properties > brandingdir.txt
+if exist rebranding.properties (
+find "branding.dir=" < rebranding.properties > brandingdir.txt
 for /F "tokens=1,2* delims==" %%i in (brandingdir.txt) do SET BRANDINGDIR=%%j
 del brandingdir.txt>nul
+)
 
 :initlanguage
-find "language=" < build.properties > language.txt
+if exist rebranding.properties (
+find "language=" < rebranding.properties > language.txt
 for /F "tokens=1,2* delims==" %%i in (language.txt) do SET LANGUAGE=%%j
 del language.txt>nul
+)
 
 :initappname
 find "app.name=" < project.properties > appname.txt
@@ -147,9 +153,13 @@ if exist build.properties del build.properties
 echo buildid=%BUILDID%>build.properties
 echo jdk.dir=^%JDKHOME%>>build.properties
 echo install.dir=%INSTALLDIR%>>build.properties
-echo rebranding=%REBRANDING%>>build.properties
-echo branding.dir=%BRANDINGDIR%>>build.properties
-echo language=%LANGUAGE%>>build.properties
+
+if exist rebranding.properties del rebranding.properties
+if %REBRANDING%==true (
+   echo rebranding=%REBRANDING%>>rebranding.properties
+   echo branding.dir=%BRANDINGDIR%>>rebranding.properties
+   echo language=%LANGUAGE%>>rebranding.properties
+)
 ::echo app.name=%APPNAME%>>build.properties
 ::echo project.name=%PROJECTNAME%>>build.properties
 

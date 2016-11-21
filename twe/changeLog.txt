@@ -1,4 +1,8 @@
 ###### TWE 5.5-1 RELEASED ######
+2016-11-21 Sasa Bojanic <sasaboy@together.at>
+   # Now configure script creates special rebranding.properties file if one wants to rebrand
+   # Build procedure changed to copy rebranding.properties file (if exists) from project folder called "customdir" (if exists)
+     This feature will be used in our new GPE project 
 
 ###### TWE 5.4-2 RELEASED ######
 2016-10-14 Sasa Bojanic <sasaboy@together.at>
