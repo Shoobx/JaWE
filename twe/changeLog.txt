@@ -1,4 +1,8 @@
 ###### TWE 5.5-1 RELEASED ######
+2016-12-06 Sasa Bojanic <sasaboy@together.at>
+   # Fixed build procedure to exclude unnecessary things from twedoc.jar
+   # Shark mode: extended attribute IS_WEBDAV_FOR_ACTIVITY_VISIBLE now by default set to true
+
 2016-11-21 Sasa Bojanic <sasaboy@together.at>
    # Now configure script creates special rebranding.properties file if one wants to rebrand
    # Build procedure changed to copy rebranding.properties file (if exists) from project folder called "customdir" (if exists)

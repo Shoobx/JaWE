@@ -11578,6 +11578,16 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           exists) from project folder called "customdir" (if exists). This
           feature will be used in our new GPE project.</para>
         </listitem>
+
+        <listitem>
+          <para>Fixed build procedure to exclude unnecessary things from
+          twedoc.jar</para>
+        </listitem>
+
+        <listitem>
+          <para>Shark mode: extended attribute IS_WEBDAV_FOR_ACTIVITY_VISIBLE
+          now by default set to true</para>
+        </listitem>
       </itemizedlist>
     </section>
 
