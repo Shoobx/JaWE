@@ -11585,14 +11585,24 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
         </listitem>
 
         <listitem>
-          <para>Shark mode: </para>
+          <para>Fixed: click on + of Subflow/Activity Set didn't descend into
+          them when graph is Zoomed In/Out</para>
+        </listitem>
+
+        <listitem>
+          <para>Fixed: finally properly fixed the issue when transition is
+          selected when clicked on the activity</para>
+        </listitem>
+
+        <listitem>
+          <para>Shark mode:</para>
 
           <para>- Extended attribute IS_WEBDAV_FOR_ACTIVITY_VISIBLE now by
           default set to true</para>
 
           <para>- Improved XPDLStringVariable handling (now when Id of
           referenced variable changes, the GUI immediately reflects the change
-          in the content of the variable that references it) </para>
+          in the content of the variable that references it)</para>
         </listitem>
       </itemizedlist>
     </section>
