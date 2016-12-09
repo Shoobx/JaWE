@@ -1,4 +1,8 @@
 ###### TWE 5.5-1 RELEASED ######
+2016-12-09 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved XPDLStringVariable handling (now when Id of referenced variable changes, the GUI immediately reflects the change in the 
+                 content of the variable that references it)
+
 2016-12-06 Sasa Bojanic <sasaboy@together.at>
    # Fixed build procedure to exclude unnecessary things from twedoc.jar
    # Shark mode: extended attribute IS_WEBDAV_FOR_ACTIVITY_VISIBLE now by default set to true
