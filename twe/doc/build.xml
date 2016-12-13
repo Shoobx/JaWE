@@ -393,7 +393,7 @@
          </else>
       </if>      
       <jar destfile="${output.lib.dir}/${app.name}doc.jar">
-         <fileset dir="${tmp.dir}" excludes="**/${docbook.name}.*, **/*.pdf, **/${app.name}-current.doc.html, **/api/**, **/docbook/**" />
+         <fileset dir="${tmp.dir}" excludes="**/${app.name}*.*, **/*.pdf, **/${app.name}-current.doc.html, **/api/**, **/docbook/**, **/conf/**" />
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
             <attribute name="Title" value="${app.full.name}" />

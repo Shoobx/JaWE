@@ -55,4 +55,8 @@ public class XPDLStringVariable extends ExtendedAttribute {
    public ExtendedAttribute getExtendedAttribute() {
       return ea;
    }
+
+   public void refresh() {
+      handleStructure();
+   }
 }

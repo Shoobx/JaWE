@@ -155,6 +155,8 @@ public class SharkConstants {
 
    public static final String EA_BACK_ACTIVITY_DEFINITION = "BACK_ACTIVITY_DEFINITION";
 
+   public static final String EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING = "BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING";
+
    public static final String EA_CHECK_FOR_FIRST_ACTIVITY = "CHECK_FOR_FIRST_ACTIVITY";
 
    public static final String EA_CHECK_FOR_CONTINUATION = "CHECK_FOR_CONTINUATION";
@@ -268,16 +270,14 @@ public class SharkConstants {
    public static final String EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE = "SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE";
 
    public static final String[] SMTP_DEADLINE_HANDLER_POSSIBLE_EAS = new String[] {
-         EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES,
-         EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS,
-         EA_SMTP_DEADLINE_HANDLER_CONTENT,
-         EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS,
-         EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE,
-         EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY,
-         EA_SMTP_DEADLINE_HANDLER_MODE,
-         EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT,
-         EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE,
-         EA_SMTP_DEADLINE_HANDLER_SUBJECT
+                                                                                    EA_SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS, EA_SMTP_DEADLINE_HANDLER_CONTENT,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY, EA_SMTP_DEADLINE_HANDLER_MODE,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_SUBJECT
    };
 
    public static final List<String> SMTP_DEADLINE_HANDLER_POSSIBLE_EAS_LIST = Collections.unmodifiableList(Arrays.asList(SMTP_DEADLINE_HANDLER_POSSIBLE_EAS));
@@ -505,25 +505,25 @@ public class SharkConstants {
    public static final String TOOL_AGENT_LDAP_METHOD_checkPassword = "checkPassword";
 
    public static final String[] TOOL_AGENT_LDAP_POSSIBLE_METHODS = new String[] {
-         TOOL_AGENT_LDAP_METHOD_checkPassword,
-         TOOL_AGENT_LDAP_METHOD_doesGroupBelongToGroup,
-         TOOL_AGENT_LDAP_METHOD_doesGroupExist,
-         TOOL_AGENT_LDAP_METHOD_doesUserBelongToGroup,
-         TOOL_AGENT_LDAP_METHOD_doesUserExist,
-         TOOL_AGENT_LDAP_METHOD_getAllGroupEntries,
-         TOOL_AGENT_LDAP_METHOD_getAllImmediateSubOrganizationalUnitEntries,
-         TOOL_AGENT_LDAP_METHOD_getAllImmediateUserEntriesForGroup,
-         TOOL_AGENT_LDAP_METHOD_getAllOrganizationalUnitEntries,
-         TOOL_AGENT_LDAP_METHOD_getAllSubOrganizationalUnitEntries,
-         TOOL_AGENT_LDAP_METHOD_getAllUserEntries,
-         TOOL_AGENT_LDAP_METHOD_getAllUserEntriesForGroup,
-         TOOL_AGENT_LDAP_METHOD_getGroupAttribute,
-         TOOL_AGENT_LDAP_METHOD_getGroupByEmail,
-         TOOL_AGENT_LDAP_METHOD_getUserAttribute,
-         TOOL_AGENT_LDAP_METHOD_getUserByEmail
+                                                                                  TOOL_AGENT_LDAP_METHOD_checkPassword,
+                                                                                  TOOL_AGENT_LDAP_METHOD_doesGroupBelongToGroup,
+                                                                                  TOOL_AGENT_LDAP_METHOD_doesGroupExist,
+                                                                                  TOOL_AGENT_LDAP_METHOD_doesUserBelongToGroup,
+                                                                                  TOOL_AGENT_LDAP_METHOD_doesUserExist,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getAllGroupEntries,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getAllImmediateSubOrganizationalUnitEntries,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getAllImmediateUserEntriesForGroup,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getAllOrganizationalUnitEntries,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getAllSubOrganizationalUnitEntries,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getAllUserEntries,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getAllUserEntriesForGroup,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getGroupAttribute,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getGroupByEmail,
+                                                                                  TOOL_AGENT_LDAP_METHOD_getUserAttribute, TOOL_AGENT_LDAP_METHOD_getUserByEmail
    };
 
-   public static final List<String> TOOL_AGENT_LDAP_POSSIBLE_METHODS_LIST = Collections.unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_LDAP_POSSIBLE_METHODS));
+   public static final List<String> TOOL_AGENT_LDAP_POSSIBLE_METHODS_LIST = Collections
+      .unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_LDAP_POSSIBLE_METHODS));
 
    public static final String TOOL_AGENT_TXW_METHOD_handOverXMLDocument = "handOverXMLDocument";
 
@@ -534,13 +534,13 @@ public class SharkConstants {
    public static final String TOOL_AGENT_TXW_METHOD_sendReceiveText = "sendReceiveText";
 
    public static final String[] TOOL_AGENT_TXW_POSSIBLE_METHODS = new String[] {
-         TOOL_AGENT_TXW_METHOD_handOverXMLDocument,
-         TOOL_AGENT_TXW_METHOD_sendReceiveXMLDocument,
-         TOOL_AGENT_TXW_METHOD_handOverText,
-         TOOL_AGENT_TXW_METHOD_sendReceiveText
+                                                                                 TOOL_AGENT_TXW_METHOD_handOverXMLDocument,
+                                                                                 TOOL_AGENT_TXW_METHOD_sendReceiveXMLDocument,
+                                                                                 TOOL_AGENT_TXW_METHOD_handOverText, TOOL_AGENT_TXW_METHOD_sendReceiveText
    };
 
-   public static final List<String> TOOL_AGENT_TXW_POSSIBLE_METHODS_LIST = Collections.unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_TXW_POSSIBLE_METHODS));
+   public static final List<String> TOOL_AGENT_TXW_POSSIBLE_METHODS_LIST = Collections
+      .unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_TXW_POSSIBLE_METHODS));
 
    public static final String TOOL_AGENT_USERGROUP_METHOD_getAllGroups = "getAllGroups";
 
@@ -595,35 +595,36 @@ public class SharkConstants {
    public static final String TOOL_AGENT_USERGROUP_METHOD_validateUser = "validateUser";
 
    public static final String[] TOOL_AGENT_USERGROUP_POSSIBLE_METHODS = new String[] {
-         TOOL_AGENT_USERGROUP_METHOD_doesGroupBelongToGroup,
-         TOOL_AGENT_USERGROUP_METHOD_doesGroupExist,
-         TOOL_AGENT_USERGROUP_METHOD_doesUserBelongToGroup,
-         TOOL_AGENT_USERGROUP_METHOD_doesUserExist,
-         TOOL_AGENT_USERGROUP_METHOD_getAllGroups,
-         TOOL_AGENT_USERGROUP_METHOD_getAllGroupsForUser,
-         TOOL_AGENT_USERGROUP_METHOD_getAllImmediateSubgroupsForGroup,
-         TOOL_AGENT_USERGROUP_METHOD_getAllImmediateUsersForGroup,
-         TOOL_AGENT_USERGROUP_METHOD_getAllSubgroupsForGroups,
-         TOOL_AGENT_USERGROUP_METHOD_getAllUsers,
-         TOOL_AGENT_USERGROUP_METHOD_getAllUsersForGroups,
-         TOOL_AGENT_USERGROUP_METHOD_getGroupAttribute,
-         TOOL_AGENT_USERGROUP_METHOD_getGroupDescription,
-         TOOL_AGENT_USERGROUP_METHOD_getGroupEMailAddress,
-         TOOL_AGENT_USERGROUP_METHOD_getGroupName,
-         TOOL_AGENT_USERGROUP_METHOD_getGroups,
-         TOOL_AGENT_USERGROUP_METHOD_getGroupByEMailAddress,
-         TOOL_AGENT_USERGROUP_METHOD_getObjects,
-         TOOL_AGENT_USERGROUP_METHOD_getUserAttribute,
-         TOOL_AGENT_USERGROUP_METHOD_getUserEMailAddress,
-         TOOL_AGENT_USERGROUP_METHOD_getUserFirstName,
-         TOOL_AGENT_USERGROUP_METHOD_getUserLastName,
-         TOOL_AGENT_USERGROUP_METHOD_getUserPassword,
-         TOOL_AGENT_USERGROUP_METHOD_getUserRealName,
-         TOOL_AGENT_USERGROUP_METHOD_getUserByEMailAddress,
-         TOOL_AGENT_USERGROUP_METHOD_validateUser
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_doesGroupBelongToGroup,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_doesGroupExist,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_doesUserBelongToGroup,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_doesUserExist,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getAllGroups,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getAllGroupsForUser,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getAllImmediateSubgroupsForGroup,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getAllImmediateUsersForGroup,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getAllSubgroupsForGroups,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getAllUsers,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getAllUsersForGroups,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getGroupAttribute,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getGroupDescription,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getGroupEMailAddress,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getGroupName,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getGroups,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getGroupByEMailAddress,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getObjects,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getUserAttribute,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getUserEMailAddress,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getUserFirstName,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getUserLastName,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getUserPassword,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getUserRealName,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_getUserByEMailAddress,
+                                                                                       TOOL_AGENT_USERGROUP_METHOD_validateUser
    };
 
-   public static final List<String> TOOL_AGENT_USERGROUP_POSSIBLE_METHODS_LIST = Collections.unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_USERGROUP_POSSIBLE_METHODS));
+   public static final List<String> TOOL_AGENT_USERGROUP_POSSIBLE_METHODS_LIST = Collections
+      .unmodifiableList(Arrays.asList(SharkConstants.TOOL_AGENT_USERGROUP_POSSIBLE_METHODS));
 
    public static final String DEFINITION_NAME_SUFFIX = "_DN";
 
@@ -934,53 +935,35 @@ public class SharkConstants {
    public static final String SHARK_VARIABLE_I18N_LANG_CODE = "i18n_lang_code";
 
    public static final String[] POSSIBLE_SYSTEM_VARIABLES = new String[] {
-         SharkConstants.SHARK_PROCESS_DEFINITION_ID,
-         SharkConstants.SHARK_PROCESS_DEFINITION_NAME,
-         SharkConstants.SHARK_PROCESS_DEFINITION_DESCRIPTION,
-         SharkConstants.SHARK_PROCESS_DEFINITION_PRIORITY,
-         SharkConstants.SHARK_PROCESS_ID,
-         SharkConstants.SHARK_PROCESS_NAME,
-         SharkConstants.SHARK_PROCESS_DESCRIPTION,
-         SharkConstants.SHARK_PROCESS_PRIORITY,
-         SharkConstants.SHARK_PROCESS_LIMIT_TIME,
-         SharkConstants.SHARK_PROCESS_CREATED_TIME,
-         SharkConstants.SHARK_PROCESS_STARTED_TIME,
-         SharkConstants.SHARK_PROCESS_FINISHED_TIME,
-         SharkConstants.SHARK_PROCESS_STATE,
-         SharkConstants.SHARK_PROCESS_CREATED_BY,
-         SharkConstants.SHARK_PROCESS_ERROR_MESSAGE,
-         SharkConstants.SHARK_PROCESS_ERROR_STACKTRACE,
-         SharkConstants.SHARK_PROCESS_ERROR_ACTIVITY_ID,
-         SharkConstants.SHARK_ACTIVITY_DEFINITION_ID,
-         SharkConstants.SHARK_ACTIVITY_DEFINITION_NAME,
-         SharkConstants.SHARK_ACTIVITY_DEFINITION_DESCRIPTION,
-         SharkConstants.SHARK_ACTIVITY_DEFINITION_PRIORITY,
-         SharkConstants.SHARK_ACTIVITY_ID,
-         SharkConstants.SHARK_ACTIVITY_NAME,
-         SharkConstants.SHARK_ACTIVITY_TYPE,
-         SharkConstants.SHARK_ACTIVITY_DESCRIPTION,
-         SharkConstants.SHARK_ACTIVITY_PRIORITY,
-         SharkConstants.SHARK_ACTIVITY_LIMIT_TIME,
-         SharkConstants.SHARK_ACTIVITY_CREATED_TIME,
-         SharkConstants.SHARK_ACTIVITY_STARTED_TIME,
-         SharkConstants.SHARK_ACTIVITY_FINISHED_TIME,
-         SharkConstants.SHARK_ACTIVITY_STATE,
-         SharkConstants.SHARK_ACTIVITY_HANDLED_BY,
-         SharkConstants.SHARK_ACTIVITY_ERROR_MESSAGE,
-         SharkConstants.SHARK_ACTIVITY_ERROR_STACKTRACE,
-         SharkConstants.SHARK_SESSION_HANDLE,
-         SharkConstants.SHARK_VERSION,
-         SharkConstants.SHARK_RELEASE,
-         SharkConstants.SHARK_BUILDID,
-         SharkConstants.SHARK_XPDL_ID,
-         SharkConstants.SHARK_XPDL_NAME,
-         SharkConstants.SHARK_XPDL_DESCRIPTION,
-         SharkConstants.SHARK_XPDL_INTERNAL_VERSION,
-         SharkConstants.SHARK_XPDL_VERSION,
-         SharkConstants.SHARK_XPDL_UPLOAD_TIME,
-         SharkConstants.SHARK_USER,
-         SharkConstants.SHARK_USERNAME,
-         SharkConstants.SHARK_TIME
+                                                                           SharkConstants.SHARK_PROCESS_DEFINITION_ID,
+                                                                           SharkConstants.SHARK_PROCESS_DEFINITION_NAME,
+                                                                           SharkConstants.SHARK_PROCESS_DEFINITION_DESCRIPTION,
+                                                                           SharkConstants.SHARK_PROCESS_DEFINITION_PRIORITY, SharkConstants.SHARK_PROCESS_ID,
+                                                                           SharkConstants.SHARK_PROCESS_NAME, SharkConstants.SHARK_PROCESS_DESCRIPTION,
+                                                                           SharkConstants.SHARK_PROCESS_PRIORITY, SharkConstants.SHARK_PROCESS_LIMIT_TIME,
+                                                                           SharkConstants.SHARK_PROCESS_CREATED_TIME, SharkConstants.SHARK_PROCESS_STARTED_TIME,
+                                                                           SharkConstants.SHARK_PROCESS_FINISHED_TIME, SharkConstants.SHARK_PROCESS_STATE,
+                                                                           SharkConstants.SHARK_PROCESS_CREATED_BY, SharkConstants.SHARK_PROCESS_ERROR_MESSAGE,
+                                                                           SharkConstants.SHARK_PROCESS_ERROR_STACKTRACE,
+                                                                           SharkConstants.SHARK_PROCESS_ERROR_ACTIVITY_ID,
+                                                                           SharkConstants.SHARK_ACTIVITY_DEFINITION_ID,
+                                                                           SharkConstants.SHARK_ACTIVITY_DEFINITION_NAME,
+                                                                           SharkConstants.SHARK_ACTIVITY_DEFINITION_DESCRIPTION,
+                                                                           SharkConstants.SHARK_ACTIVITY_DEFINITION_PRIORITY, SharkConstants.SHARK_ACTIVITY_ID,
+                                                                           SharkConstants.SHARK_ACTIVITY_NAME, SharkConstants.SHARK_ACTIVITY_TYPE,
+                                                                           SharkConstants.SHARK_ACTIVITY_DESCRIPTION, SharkConstants.SHARK_ACTIVITY_PRIORITY,
+                                                                           SharkConstants.SHARK_ACTIVITY_LIMIT_TIME, SharkConstants.SHARK_ACTIVITY_CREATED_TIME,
+                                                                           SharkConstants.SHARK_ACTIVITY_STARTED_TIME,
+                                                                           SharkConstants.SHARK_ACTIVITY_FINISHED_TIME, SharkConstants.SHARK_ACTIVITY_STATE,
+                                                                           SharkConstants.SHARK_ACTIVITY_HANDLED_BY,
+                                                                           SharkConstants.SHARK_ACTIVITY_ERROR_MESSAGE,
+                                                                           SharkConstants.SHARK_ACTIVITY_ERROR_STACKTRACE, SharkConstants.SHARK_SESSION_HANDLE,
+                                                                           SharkConstants.SHARK_VERSION, SharkConstants.SHARK_RELEASE,
+                                                                           SharkConstants.SHARK_BUILDID, SharkConstants.SHARK_XPDL_ID,
+                                                                           SharkConstants.SHARK_XPDL_NAME, SharkConstants.SHARK_XPDL_DESCRIPTION,
+                                                                           SharkConstants.SHARK_XPDL_INTERNAL_VERSION, SharkConstants.SHARK_XPDL_VERSION,
+                                                                           SharkConstants.SHARK_XPDL_UPLOAD_TIME, SharkConstants.SHARK_USER,
+                                                                           SharkConstants.SHARK_USERNAME, SharkConstants.SHARK_TIME
    };
 
    public static final List<String> possibleSystemVariables = Collections.unmodifiableList(Arrays.asList(SharkConstants.POSSIBLE_SYSTEM_VARIABLES));
@@ -1009,8 +992,8 @@ public class SharkConstants {
 
    public static final String I18N_PROCESS_VARIABLE_NAME_PLACEHOLDER_PREFIX = I18N_NAME_PLACEHOLDER_PREFIX_PART + "_" + PROCESS_VARIABLE_PLACEHOLDER_PREFIX;
 
-   public static final String I18N_PROCESS_VARIABLE_DESCRIPTION_PLACEHOLDER_PREFIX = I18N_DESCRIPTION_PLACEHOLDER_PREFIX_PART
-                                                                                     + "_" + PROCESS_VARIABLE_PLACEHOLDER_PREFIX;
+   public static final String I18N_PROCESS_VARIABLE_DESCRIPTION_PLACEHOLDER_PREFIX = I18N_DESCRIPTION_PLACEHOLDER_PREFIX_PART + "_"
+                                                                                     + PROCESS_VARIABLE_PLACEHOLDER_PREFIX;
 
    public static final String OUTLOOK_VARIABLE_STATUS = "OUTLOOK_VARIABLE_VariableStatus";
 
@@ -1033,16 +1016,11 @@ public class SharkConstants {
    public static final String OUTLOOK_VARIABLE_START_DATE = "OUTLOOK_VARIABLE_StartDate";
 
    public static final String[] POSSIBLE_OUTLOOK_VARIABLES = new String[] {
-         OUTLOOK_VARIABLE_ACTUAL_WORK,
-         OUTLOOK_VARIABLE_BILLING_INFORMATION,
-         OUTLOOK_VARIABLE_CATEGORY,
-         OUTLOOK_VARIABLE_COMPANY,
-         OUTLOOK_VARIABLE_COMPLETE_PERCENT,
-         OUTLOOK_VARIABLE_DATE_COMPLETED,
-         OUTLOOK_VARIABLE_MILEAGE,
-         OUTLOOK_VARIABLE_START_DATE,
-         OUTLOOK_VARIABLE_STATUS,
-         OUTLOOK_VARIABLE_TOTAL_WORK
+                                                                            OUTLOOK_VARIABLE_ACTUAL_WORK, OUTLOOK_VARIABLE_BILLING_INFORMATION,
+                                                                            OUTLOOK_VARIABLE_CATEGORY, OUTLOOK_VARIABLE_COMPANY,
+                                                                            OUTLOOK_VARIABLE_COMPLETE_PERCENT, OUTLOOK_VARIABLE_DATE_COMPLETED,
+                                                                            OUTLOOK_VARIABLE_MILEAGE, OUTLOOK_VARIABLE_START_DATE, OUTLOOK_VARIABLE_STATUS,
+                                                                            OUTLOOK_VARIABLE_TOTAL_WORK
    };
 
 }

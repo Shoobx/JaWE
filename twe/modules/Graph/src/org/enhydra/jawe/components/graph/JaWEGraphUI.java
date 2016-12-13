@@ -53,9 +53,11 @@ import org.jgraph.event.GraphModelListener;
 import org.jgraph.graph.CellHandle;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.DefaultGraphModel;
+import org.jgraph.graph.EdgeView;
 import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.GraphContext;
 import org.jgraph.graph.GraphLayoutCache;
+import org.jgraph.graph.PortView;
 import org.jgraph.plaf.basic.BasicGraphUI;
 
 /**
@@ -152,19 +154,46 @@ public class JaWEGraphUI extends BasicGraphUI {
          selectOnRelease = false;
          if (status == SELECTION && graph.isSelectionEnabled()) {
             // find where was clicked...
-            // int s = graph.getTolerance();
-            // Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s, e.getY() - s, 2 * s, 2 * s));
-            // focus = (focus != null && focus.intersects(graph, r)) ? focus : null;
-            focus = null;
+            int s = graph.getTolerance();
+            Rectangle2D r = graph.fromScreen(new Rectangle(e.getX() - s, e.getY() - s, 2 * s, 2 * s));
+            focus = (focus != null && focus.intersects(graph, r)) ? focus : null;
             Point2D point = graph.fromScreen(new Point(e.getPoint()));
 
-            // changed from original because of overlapping
             if (focus == null) {
                cell = graph.getNextViewAt(focus, point.getX(), point.getY());
-               focus = cell;
             } else {
                cell = focus;
             }
+            // changed from original because of overlapping - the transitions were selected before activities when it didn't make sence
+            if (cell instanceof GraphTransitionViewInterface) {
+               try {
+                  CellView tmpcell = cell;
+                  List pnts = ((GraphTransitionViewInterface) cell).getPoints();
+                  PortView pvs = (PortView) pnts.get(0);
+                  PortView pve = (PortView) pnts.get(pnts.size() - 1);
+                  Point2D pvsl = pvs.getLocation((EdgeView) cell, point);
+                  Point2D pvel = pve.getLocation((EdgeView) cell, point);
+                  double conpnt = 3;
+                  Rectangle2D psr = new Rectangle2D.Double(pvsl.getX() - conpnt, pvsl.getY() - conpnt, conpnt * 2, conpnt * 2);
+                  Rectangle2D per = new Rectangle2D.Double(pvel.getX() - conpnt, pvel.getY() - conpnt, conpnt * 2, conpnt * 2);
+
+                  while (tmpcell != null) {
+                     tmpcell = graph.getNextViewAt(tmpcell, point.getX(), point.getY());
+                     if (tmpcell instanceof GraphActivityViewInterface || tmpcell instanceof GraphArtifactViewInterface) {
+                        if (!psr.contains(point) && !per.contains(point)) {
+                           cell = tmpcell;
+                           break;
+                        }
+                     }
+                     if (tmpcell == cell) {
+                        break;
+                     }
+                  }
+               } catch (Exception ex) {
+               }
+
+            }
+            focus = cell;
 
             // if it's right mouse button show popup menu, otherwise user whish to select
             // something
@@ -202,9 +231,10 @@ public class JaWEGraphUI extends BasicGraphUI {
                               Graph g = ((GraphMarqueeHandler) marquee).getGraph();
 
                               Rectangle rct = g.getGraphManager().getCBounds(cell.getCell(), null);
-                              Rectangle r1 = new Rectangle((int) (rct.getMinX() + rct.getWidth() / 2 - 7), (int) (rct.getMaxY() - 16), 15, 15);
-                              Rectangle r2 = new Rectangle(p);
-                              if (SwingUtilities.isRectangleContainingRectangle(r1, r2)) {
+                              Rectangle2D r1 = graph
+                                 .toScreen(new Rectangle2D.Double((int) (rct.getMinX() + rct.getWidth() / 2 - 7), (int) (rct.getMaxY() - 16), 15, 15));
+
+                              if (r1.contains(p)) {
                                  descendAction = true;
                               }
                            }
@@ -300,8 +330,8 @@ public class JaWEGraphUI extends BasicGraphUI {
       }
 
       public void mouseMoved(MouseEvent e) {
-         if (status == INSERT_TRANSITION_START
-             || status == INSERT_TRANSITION_POINTS || status == INSERT_ASSOCIATION_START || status == INSERT_ASSOCIATION_POINTS) {
+         if (status == INSERT_TRANSITION_START || status == INSERT_TRANSITION_POINTS || status == INSERT_ASSOCIATION_START
+             || status == INSERT_ASSOCIATION_POINTS) {
             ((GraphMarqueeHandler) marquee).drawTransition(e);
          }
 
@@ -477,8 +507,7 @@ public class JaWEGraphUI extends BasicGraphUI {
             }
          }
          Object[] inserted = e.getChange().getInserted();
-         if (inserted != null
-             && inserted.length > 0 && graphLayoutCache.isSelectsLocalInsertedCells()
+         if (inserted != null && inserted.length > 0 && graphLayoutCache.isSelectsLocalInsertedCells()
              && !(graphLayoutCache.isSelectsAllInsertedCells() && !graphLayoutCache.isPartial()) && graph.isEnabled()) {
             Object[] roots = DefaultGraphModel.getRoots(graphModel, inserted);
             if (roots != null && roots.length > 0) {

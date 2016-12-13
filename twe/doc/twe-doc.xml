@@ -11565,6 +11565,52 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
     <title>Release Notes</title>
 
     <section>
+      <title>Release 5.4-3</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Now configure script creates special rebranding.properties
+          file if one wants to rebrand</para>
+        </listitem>
+
+        <listitem>
+          <para>Build procedure changed to copy rebranding.properties file (if
+          exists) from project folder called "customdir" (if exists). This
+          feature will be used in our new GPE project.</para>
+        </listitem>
+
+        <listitem>
+          <para>Fixed build procedure to exclude unnecessary things from
+          twedoc.jar</para>
+        </listitem>
+
+        <listitem>
+          <para>Fixed: click on + of Subflow/Activity Set didn't descend into
+          them when graph is Zoomed In/Out</para>
+        </listitem>
+
+        <listitem>
+          <para>Fixed: finally properly fixed the issue when transition is
+          selected when clicked on the activity</para>
+        </listitem>
+
+        <listitem>
+          <para>Shark mode:</para>
+
+          <para>- Extended attribute IS_WEBDAV_FOR_ACTIVITY_VISIBLE now by
+          default set to true</para>
+
+          <para>- Improved XPDLStringVariable handling (now when Id of
+          referenced variable changes, the GUI immediately reflects the change
+          in the content of the variable that references it)</para>
+
+          <para>- Support for new extended attribute
+          BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
       <title>Release 5.4-2</title>
 
       <itemizedlist>

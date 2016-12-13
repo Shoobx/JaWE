@@ -70,6 +70,13 @@ public class WebClientConfigurationElement extends XMLComplexElement {
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TURN_OFF_FEATURES, null, null, true, removeUnconditionally);
          if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_BACK_ACTIVITY_DEFINITION, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this,
+                                                     eas,
+                                                     SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING,
+                                                     null,
+                                                     null,
+                                                     true,
+                                                     removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, null, null, false, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_FILE, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_EMBEDDED, null, null, true, removeUnconditionally);
@@ -125,13 +132,17 @@ public class WebClientConfigurationElement extends XMLComplexElement {
    public XMLAttribute getTWFXMLItemNamePrefixesElement() {
       return (XMLAttribute) get(SharkConstants.EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES);
    }
-   
+
    public XMLAttribute getIsWebDAVForActivityVisibleAttribute() {
       return (XMLAttribute) get(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE);
    }
 
    public XMLAttribute getBackActivityDefinitionAttribute() {
       return (XMLAttribute) get(SharkConstants.EA_BACK_ACTIVITY_DEFINITION);
+   }
+
+   public XMLAttribute getBeanShellScriptToExecuteWhenOpening() {
+      return (XMLAttribute) get(SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING);
    }
 
    public XMLAttribute getCheckForCompletionAttribute() {
@@ -187,41 +198,43 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       XMLAttribute attrTWFXML = new XMLAttribute(this, SharkConstants.EA_TWF_XML_VARIABLE_TO_HANDLE, false);
       XMLAttribute attrTWFXMLItemNamePrefixes = new XMLAttribute(this, SharkConstants.EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES, false);
       XMLAttribute attrIsWebDAVForActivityVisible = new XMLAttribute(this, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, false, new String[] {
-            "true", "false"
+                                                                                                                                                   "true",
+                                                                                                                                                   "false"
       }, 0);
       XMLAttribute attrBackActivityDefinition = new XMLAttribute(this, SharkConstants.EA_BACK_ACTIVITY_DEFINITION, false);
+      XMLAttribute attrBeanShellScriptToExecuteWhenOpening = new XMLAttribute(this, SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING, false);
       XMLAttribute attrCheckForCompletion = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_COMPLETION, false, new String[] {
-            "true", "false"
+                                                                                                                                 "true", "false"
       }, 1);
       XMLAttribute attrCheckForContinuation = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_CONTINUATION, false, new String[] {
-            "true", "false"
+                                                                                                                                     "true", "false"
       }, 1);
 
       XMLAttribute attrChooseNextPerformer = new XMLAttribute(this, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, false, new String[] {
-            "true", "false"
+                                                                                                                                   "true", "false"
       }, 1);
       XMLAttribute attrEnableReassignment = new XMLAttribute(this, SharkConstants.EA_ENABLE_REASSIGNMENT, false, new String[] {
-            "true", "false"
+                                                                                                                                "true", "false"
       }, 0);
       WfVariables elHideDynamicProperties = new WfVariables(this, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES, Arrays.asList(new String[] {
-         XPDLConstants.BASIC_TYPE_STRING
+                                                                                                                                          XPDLConstants.BASIC_TYPE_STRING
       }), "|", false);
       WfVariables elReadOnlyDynamicProperties = new WfVariables(this, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES, Arrays.asList(new String[] {
-         XPDLConstants.BASIC_TYPE_STRING
+                                                                                                                                                   XPDLConstants.BASIC_TYPE_STRING
       }), "|", false);
       WfVariables elHideControls = new WfVariables(this, SharkConstants.EA_HIDE_CONTROLS, Arrays.asList(new String[] {
-         XPDLConstants.BASIC_TYPE_STRING
+                                                                                                                       XPDLConstants.BASIC_TYPE_STRING
       }), "|", false);
       WfVariables elTurnOffFeatures = new WfVariables(this, SharkConstants.EA_TURN_OFF_FEATURES, Arrays.asList(new String[] {
-         XPDLConstants.BASIC_TYPE_STRING
+                                                                                                                              XPDLConstants.BASIC_TYPE_STRING
       }), "|", false);
 
       XMLAttribute attrCheckForFirstActivity = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, false, new String[] {
-            "true", "false"
+                                                                                                                                        "true", "false"
       }, 1);
       XMLAttribute attrRedirectAfterProcessEnd = new XMLAttribute(this, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, false);
       XMLAttribute attrDynamicVariableHandling = new XMLAttribute(this, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, false, new String[] {
-            "true", "false"
+                                                                                                                                           "true", "false"
       }, 1);
 
       add(attrHTML5FormFile);
@@ -233,6 +246,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       add(attrTWFXMLItemNamePrefixes);
       add(attrIsWebDAVForActivityVisible);
       add(attrBackActivityDefinition);
+      add(attrBeanShellScriptToExecuteWhenOpening);
       add(attrCheckForCompletion);
       add(attrCheckForContinuation);
       add(attrChooseNextPerformer);
@@ -256,18 +270,15 @@ public class WebClientConfigurationElement extends XMLComplexElement {
          XMLElement attr = get(eaname);
          if (attr != null) {
             String eaval = ea.getVValue();
-            if (eaname.equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES)
-                || eaname.equals(SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES) || eaname.equals(SharkConstants.EA_HIDE_CONTROLS)
-                || eaname.equals(SharkConstants.EA_TURN_OFF_FEATURES)) {
+            if (eaname.equals(SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES) || eaname.equals(SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES)
+                || eaname.equals(SharkConstants.EA_HIDE_CONTROLS) || eaname.equals(SharkConstants.EA_TURN_OFF_FEATURES)) {
                ((WfVariables) attr).createStructure(eaval);
             } else {
                if ((eaname.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaname.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE))
-                   && parent instanceof Activity
-                   || eaname.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
-                   || eaname.equals(SharkConstants.EA_CHOOSE_NEXT_PERFORMER)
-                   || eaname.equals(SharkConstants.EA_ENABLE_REASSIGNMENT)
-                   || (eaname.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY) || eaname.equals(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING)
-                                                                                    && !(parent instanceof Activity))) {
+                   && parent instanceof Activity || eaname.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
+                   || eaname.equals(SharkConstants.EA_CHOOSE_NEXT_PERFORMER) || eaname.equals(SharkConstants.EA_ENABLE_REASSIGNMENT)
+                   || (eaname.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY)
+                       || eaname.equals(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING) && !(parent instanceof Activity))) {
                   pc++;
                }
                attr.setValue(eaval);

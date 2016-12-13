@@ -40,6 +40,12 @@
    <property file="${basedir}/project.properties" />
    <property file="${basedir}/version.properties" />
    <property file="${basedir}/sign.properties" />
+   
+   <copy todir="${basedir}" failonerror="false">
+      <fileset dir="${basedir}/customdir" includes="rebranding.properties" />
+   </copy>
+   <replace dir="${basedir}" includes="rebranding.properties" token="\" value="/" />
+   <property file="${basedir}/rebranding.properties" />
 
    <!--property name="project.name" value="Together Workflow Editor" /-->
    <property name="project.name" value="${app.full.name}" />
