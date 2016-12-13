@@ -1,0 +1,2565 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<xpdl:Package xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="FULL_BLOCKED_Test" Name="FULL BLOCKED Test" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+    <xpdl:PackageHeader>
+        <xpdl:XPDLVersion>1.0</xpdl:XPDLVersion>
+        <xpdl:Vendor>(c) Together Teamsolutions Co., Ltd.</xpdl:Vendor>
+        <xpdl:Created>2003-07-10 14:52:55</xpdl:Created>
+        <xpdl:Description>Packege for demonstration of FULL_BLOCKED Conformance</xpdl:Description>
+    </xpdl:PackageHeader>
+    <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+    <xpdl:ConformanceClass GraphConformance="FULL_BLOCKED"/>
+    <xpdl:Participants>
+        <xpdl:Participant Id="FULL_BLOCKED_Test_Par1" Name="Tester">
+            <xpdl:ParticipantType Type="HUMAN"/>
+        </xpdl:Participant>
+    </xpdl:Participants>
+    <xpdl:WorkflowProcesses>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="FULL_BLOCKED_Test_Wor1" Name="Non valid FULL_BLOCKED">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2003-07-10 14:54:25</xpdl:Created>
+                <xpdl:Description>Simple process which doesn't satisfy a FULL_BLOCKED conformance level</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="a" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Activities>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor1_Act1" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor1_Tra2"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor1_Tra7"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor1_Tra5"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="180,140"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor1_Act2" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="550,140"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor1_Act3" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="550,360"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor1_Act4" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="350,40"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor1_Act5" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="370,160"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor1_Act6" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="350,360"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor1_Act1" Id="FULL_BLOCKED_Test_Wor1_Tra2" Name="Transition" To="FULL_BLOCKED_Test_Wor1_Act4">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor1_Act4" Id="FULL_BLOCKED_Test_Wor1_Tra3" Name="Transition" To="FULL_BLOCKED_Test_Wor1_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor1_Act1" Id="FULL_BLOCKED_Test_Wor1_Tra5" Name="Transition" To="FULL_BLOCKED_Test_Wor1_Act5">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor1_Act5" Id="FULL_BLOCKED_Test_Wor1_Tra6" Name="Transition" To="FULL_BLOCKED_Test_Wor1_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor1_Act1" Id="FULL_BLOCKED_Test_Wor1_Tra7" Name="Transition" To="FULL_BLOCKED_Test_Wor1_Act6">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor1_Act6" Id="FULL_BLOCKED_Test_Wor1_Tra8" Name="Transition" To="FULL_BLOCKED_Test_Wor1_Act3">
+                    <xpdl:Condition Type="CONDITION">a&gt;5</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor1_Act3,X_OFFSET=721,Y_OFFSET=371,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor1_Act2,X_OFFSET=701,Y_OFFSET=151,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor1_Act1,X_OFFSET=81,Y_OFFSET=151,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FULL_BLOCKED_Test_Par1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="FULL_BLOCKED_Test_Wor2" Name="Cyclic graph">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2003-07-10 14:54:45</xpdl:Created>
+                <xpdl:Description>Cyclic graph</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:Activities>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor2_Act1" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="200,110"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor2_Act2" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="480,110"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor2_Act3" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor2_Tra6"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor2_Tra3"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="340,110"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor2_Act4" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="280,240"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor2_Act5" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="440,240"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor2_Act1" Id="FULL_BLOCKED_Test_Wor2_Tra2" Name="Transition" To="FULL_BLOCKED_Test_Wor2_Act3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor2_Act3" Id="FULL_BLOCKED_Test_Wor2_Tra3" Name="Transition" To="FULL_BLOCKED_Test_Wor2_Act4">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor2_Act4" Id="FULL_BLOCKED_Test_Wor2_Tra4" Name="Transition" To="FULL_BLOCKED_Test_Wor2_Act5">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor2_Act5" Id="FULL_BLOCKED_Test_Wor2_Tra5" Name="Transition" To="FULL_BLOCKED_Test_Wor2_Act3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor2_Act3" Id="FULL_BLOCKED_Test_Wor2_Tra6" Name="Transition" To="FULL_BLOCKED_Test_Wor2_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor2_Act2,X_OFFSET=651,Y_OFFSET=121,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor2_Act1,X_OFFSET=81,Y_OFFSET=121,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FULL_BLOCKED_Test_Par1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="FULL_BLOCKED_Test_Wor3" Name="Missmatched types">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2003-07-10 15:01:05</xpdl:Created>
+                <xpdl:Description>Example where one or more splits don't have corresponding join because of type mismatch</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:Activities>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor3_Act1" Name="XOR Postcondition">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor3_Tra4"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor3_Tra2"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="180,150"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor3_Act2" Name="AND Precodition">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="560,150"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor3_Act3" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor3_Tra8"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor3_Tra5"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="310,30"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor3_Act4" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="450,30"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor3_Act5" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="380,120"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor3_Act6" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="380,230"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor3_Act1" Id="FULL_BLOCKED_Test_Wor3_Tra2" Name="Transition" To="FULL_BLOCKED_Test_Wor3_Act6">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor3_Act6" Id="FULL_BLOCKED_Test_Wor3_Tra3" Name="Transition" To="FULL_BLOCKED_Test_Wor3_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor3_Act1" Id="FULL_BLOCKED_Test_Wor3_Tra4" Name="Transition" To="FULL_BLOCKED_Test_Wor3_Act3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor3_Act3" Id="FULL_BLOCKED_Test_Wor3_Tra5" Name="Transition" To="FULL_BLOCKED_Test_Wor3_Act5">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor3_Act5" Id="FULL_BLOCKED_Test_Wor3_Tra6" Name="Transition" To="FULL_BLOCKED_Test_Wor3_Act4">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor3_Act4" Id="FULL_BLOCKED_Test_Wor3_Tra7" Name="Transition" To="FULL_BLOCKED_Test_Wor3_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor3_Act3" Id="FULL_BLOCKED_Test_Wor3_Tra8" Name="Transition" To="FULL_BLOCKED_Test_Wor3_Act4">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor3_Act2,X_OFFSET=711,Y_OFFSET=161,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor3_Act1,X_OFFSET=81,Y_OFFSET=161,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FULL_BLOCKED_Test_Par1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="FULL_BLOCKED_Test_Wor4" Name="Valid FULL_BLOCKED">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2003-07-10 15:05:37</xpdl:Created>
+                <xpdl:Description>Simple process which satisfy a FULL_BLOCKED conformance level</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:Activities>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act1" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor4_Tra6"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor4_Tra1"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor4_Tra3"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="180,250"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act2" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="620,250"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act3" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor4_Tra9"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor4_Tra8"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="290,100"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act4" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="410,350"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act5" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="400,250"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act6" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="400,170"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act7" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="400,30"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor4_Act8" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="520,100"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act1" Id="FULL_BLOCKED_Test_Wor4_Tra1" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act1" Id="FULL_BLOCKED_Test_Wor4_Tra3" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act4">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act4" Id="FULL_BLOCKED_Test_Wor4_Tra4" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act1" Id="FULL_BLOCKED_Test_Wor4_Tra6" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act5">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act5" Id="FULL_BLOCKED_Test_Wor4_Tra7" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act3" Id="FULL_BLOCKED_Test_Wor4_Tra8" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act6">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act3" Id="FULL_BLOCKED_Test_Wor4_Tra9" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act7">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act7" Id="FULL_BLOCKED_Test_Wor4_Tra12" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act8">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act6" Id="FULL_BLOCKED_Test_Wor4_Tra13" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act8">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor4_Act8" Id="FULL_BLOCKED_Test_Wor4_Tra14" Name="Transition" To="FULL_BLOCKED_Test_Wor4_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor4_Act2,X_OFFSET=761,Y_OFFSET=261,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor4_Act1,X_OFFSET=91,Y_OFFSET=261,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FULL_BLOCKED_Test_Par1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="FULL_BLOCKED_Test_Wor5" Name="AND/XOR">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>2003-07-10 15:20:50</xpdl:Created>
+                <xpdl:Description>Example with 'And' splits that haven't conditional outgoing transitions and 'Xor' splits that have conditional outgoing transitions with otherwise outgoing transitions</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:Activities>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act1" Name="XOR Split">
+                    <xpdl:Description>XOR Split with no conditions</xpdl:Description>
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor5_Tra3"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor5_Tra4"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="190,270"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act2" Name="XOR Join">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="840,270"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act3" Name="AND Split">
+                    <xpdl:Description>In an AND split no Conditions are permitted</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor5_Tra7"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor5_Tra5"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="390,100"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act4" Name="Activity">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="520,30"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act5" Name="Activity">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="510,290"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act6" Name="XOR Split">
+                    <xpdl:Description>XOR Split with Conditions and with Otherwise Transition</xpdl:Description>
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor5_Tra9"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor5_Tra10"/>
+                                    <xpdl:TransitionRef Id="FULL_BLOCKED_Test_Wor5_Tra29"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="390,390"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act7" Name="Activity">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="510,490"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act8" Name="XOR Join">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="650,390"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act9" Name="AND Join">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="650,100"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="FULL_BLOCKED_Test_Wor5_Act10" Name="Activity">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>FULL_BLOCKED_Test_Par1</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="520,160"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="FULL_BLOCKED_Test_Par1"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act1" Id="FULL_BLOCKED_Test_Wor5_Tra3" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act3">
+                    <xpdl:Description>XOR Split with no coditions (it is unconditional)</xpdl:Description>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act1" Id="FULL_BLOCKED_Test_Wor5_Tra4" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act6">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act3" Id="FULL_BLOCKED_Test_Wor5_Tra5" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act4">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act4" Id="FULL_BLOCKED_Test_Wor5_Tra6" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act9">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act3" Id="FULL_BLOCKED_Test_Wor5_Tra7" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act10">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act10" Id="FULL_BLOCKED_Test_Wor5_Tra8" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act9">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act6" Id="FULL_BLOCKED_Test_Wor5_Tra9" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act5">
+                    <xpdl:Condition Type="CONDITION">some_condition</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act6" Id="FULL_BLOCKED_Test_Wor5_Tra10" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act7">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act7" Id="FULL_BLOCKED_Test_Wor5_Tra11" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act8">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act5" Id="FULL_BLOCKED_Test_Wor5_Tra12" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act8">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act8" Id="FULL_BLOCKED_Test_Wor5_Tra13" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act9" Id="FULL_BLOCKED_Test_Wor5_Tra14" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="FULL_BLOCKED_Test_Wor5_Act6" Id="FULL_BLOCKED_Test_Wor5_Tra29" Name="Transition" To="FULL_BLOCKED_Test_Wor5_Act8">
+                    <xpdl:Condition Type="CONDITION">some_exception2</xpdl:Condition>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor5_Act2,X_OFFSET=981,Y_OFFSET=281,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=FULL_BLOCKED_Test_Par1,CONNECTING_ACTIVITY_ID=FULL_BLOCKED_Test_Wor5_Act1,X_OFFSET=101,Y_OFFSET=281,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="FULL_BLOCKED_Test_Par1"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+        <xpdl:WorkflowProcess AccessLevel="PUBLIC" Id="FULL_BLOCKED_Test_Wor7" Name="BigOne">
+            <xpdl:ProcessHeader DurationUnit="D">
+                <xpdl:Created>15-May-2003</xpdl:Created>
+                <xpdl:Description>Example with many activities in it. There is also block activity.</xpdl:Description>
+            </xpdl:ProcessHeader>
+            <xpdl:RedefinableHeader PublicationStatus="UNDER_TEST"/>
+            <xpdl:DataFields>
+                <xpdl:DataField Id="x" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                </xpdl:DataField>
+                <xpdl:DataField Id="x" IsArray="FALSE">
+                    <xpdl:DataType>
+                        <xpdl:BasicType Type="INTEGER"/>
+                    </xpdl:DataType>
+                    <xpdl:InitialValue>0</xpdl:InitialValue>
+                </xpdl:DataField>
+            </xpdl:DataFields>
+            <xpdl:Participants>
+                <xpdl:Participant Id="SomeParticipant">
+                    <xpdl:ParticipantType Type="ROLE"/>
+                </xpdl:Participant>
+            </xpdl:Participants>
+            <xpdl:ActivitySets>
+                <xpdl:ActivitySet Id="splitjoin_Wor1_Ase1">
+                    <xpdl:Activities>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act55" Name="G1">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="465,39"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act61">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Join Type="AND"/>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="749,166"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act59">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Join Type="AND"/>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="654,326"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act58">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Split Type="AND">
+                                        <xpdl:TransitionRefs>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra7"/>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra3"/>
+                                        </xpdl:TransitionRefs>
+                                    </xpdl:Split>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="238,167"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act62" Name="Loopend">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Join Type="XOR"/>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="412,226"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act56">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Join Type="AND"/>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="887,280"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act54" Name="G3">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="476,563"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act53">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Split Type="AND">
+                                        <xpdl:TransitionRefs>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra8"/>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra12"/>
+                                        </xpdl:TransitionRefs>
+                                    </xpdl:Split>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="332,322"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act52" Name="Loopstart">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Split Type="XOR">
+                                        <xpdl:TransitionRefs>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra10"/>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra32"/>
+                                        </xpdl:TransitionRefs>
+                                    </xpdl:Split>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="538,226"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act60">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:TransitionRestrictions>
+                                <xpdl:TransitionRestriction>
+                                    <xpdl:Split Type="AND">
+                                        <xpdl:TransitionRefs>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra14"/>
+                                            <xpdl:TransitionRef Id="splitjoin_Wor1_Ase1_Tra2"/>
+                                        </xpdl:TransitionRefs>
+                                    </xpdl:Split>
+                                </xpdl:TransitionRestriction>
+                            </xpdl:TransitionRestrictions>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="132,284"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                        <xpdl:Activity Id="splitjoin_Wor1_Act57" Name="G2">
+                            <xpdl:Implementation>
+                                <xpdl:No/>
+                            </xpdl:Implementation>
+                            <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                            <xpdl:StartMode>
+                                <xpdl:Automatic/>
+                            </xpdl:StartMode>
+                            <xpdl:FinishMode>
+                                <xpdl:Automatic/>
+                            </xpdl:FinishMode>
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="476,403"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Activity>
+                    </xpdl:Activities>
+                    <xpdl:Transitions>
+                        <xpdl:Transition From="splitjoin_Wor1_Act60" Id="splitjoin_Wor1_Ase1_Tra2" Name="Transition" To="splitjoin_Wor1_Act58">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act58" Id="splitjoin_Wor1_Ase1_Tra3" Name="Transition" To="splitjoin_Wor1_Act55">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act55" Id="splitjoin_Wor1_Ase1_Tra4" Name="Transition" To="splitjoin_Wor1_Act61">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act61" Id="splitjoin_Wor1_Ase1_Tra5" Name="Transition" To="splitjoin_Wor1_Act56">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act58" Id="splitjoin_Wor1_Ase1_Tra7" Name="Transition" To="splitjoin_Wor1_Act53">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act53" Id="splitjoin_Wor1_Ase1_Tra8" Name="Transition" To="splitjoin_Wor1_Act62">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act62" Id="splitjoin_Wor1_Ase1_Tra9" Name="Transition" To="splitjoin_Wor1_Act52">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act52" Id="splitjoin_Wor1_Ase1_Tra10" Name="Transition" To="splitjoin_Wor1_Act59">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act53" Id="splitjoin_Wor1_Ase1_Tra12" Name="Transition" To="splitjoin_Wor1_Act57">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act57" Id="splitjoin_Wor1_Ase1_Tra13" Name="Transition" To="splitjoin_Wor1_Act59">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act60" Id="splitjoin_Wor1_Ase1_Tra14" Name="Transition" To="splitjoin_Wor1_Act54">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act54" Id="splitjoin_Wor1_Ase1_Tra15" Name="Transition" To="splitjoin_Wor1_Act56">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act59" Id="splitjoin_Wor1_Ase1_Tra16" Name="Transition" To="splitjoin_Wor1_Act61">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                        <xpdl:Transition From="splitjoin_Wor1_Act52" Id="splitjoin_Wor1_Ase1_Tra32" Name="Transition" To="splitjoin_Wor1_Act62">
+                            <xpdl:ExtendedAttributes>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BREAK_POINTS" Value="510,180"/>
+                                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                            </xpdl:ExtendedAttributes>
+                        </xpdl:Transition>
+                    </xpdl:Transitions>
+                </xpdl:ActivitySet>
+            </xpdl:ActivitySets>
+            <xpdl:Activities>
+                <xpdl:Activity Id="s2">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra7"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra333"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="718,173"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act5" Name="G3">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="956,569"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="s3">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra8"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra9"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="812,328"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act7" Name="G1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="945,45"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act8" Name="G2">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="956,409"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act9" Name="Loopend">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="892,232"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="j3">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1134,332"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="j2">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1229,172"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="j1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1367,286"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="s1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra3"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra5"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="612,290"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act15" Name="Loopstart">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1018,232"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act16" Name="Generic">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="XOR">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra109"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra111"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra110"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra92"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="180,1270"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act25">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra97"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra106"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="673,776"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act18" Name="G2">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="911,1012"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act22">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1184,775"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act20" Name="G3">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="911,1172"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act21">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1089,935"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act19" Name="G1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="900,648"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act27">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra95"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra93"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="567,893"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act24">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra102"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra208"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="767,931"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act17">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1346,889"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act35">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra117"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra120"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="780,1598"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act28">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1335,1556"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act33">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1197,1442"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act31" Name="G3">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="924,1839"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act32">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1102,1602"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act37" Name="Loopstart">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="986,1502"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act34" Name="Loopend">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="860,1502"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act30" Name="G1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="913,1315"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act38">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra112"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra123"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="580,1560"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act36">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra125"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra122"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="686,1443"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act29" Name="G2">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="924,1679"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act48" Name="Loopstart">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1003,2128"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act41" Name="G1">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="930,1941"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act47">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra139"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra129"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="703,2069"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act39">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1352,2182"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act42" Name="G3">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="941,2465"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act40" Name="G2">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="941,2305"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act44">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1214,2068"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act49">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra128"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra134"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="597,2186"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act46">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Split Type="AND">
+                                <xpdl:TransitionRefs>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra141"/>
+                                    <xpdl:TransitionRef Id="splitjoin_Wor1_Tra140"/>
+                                </xpdl:TransitionRefs>
+                            </xpdl:Split>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="797,2224"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act45" Name="Loopend">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="877,2128"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act43">
+                    <xpdl:Implementation>
+                        <xpdl:No/>
+                    </xpdl:Implementation>
+                    <xpdl:Performer>SomeParticipant</xpdl:Performer>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="AND"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1119,2228"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act50" Name="Route">
+                    <xpdl:Route/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:TransitionRestrictions>
+                        <xpdl:TransitionRestriction>
+                            <xpdl:Join Type="XOR"/>
+                        </xpdl:TransitionRestriction>
+                    </xpdl:TransitionRestrictions>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="1677,1278"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+                <xpdl:Activity Id="splitjoin_Wor1_Act51" Name="Block activity">
+                    <xpdl:BlockActivity BlockId="splitjoin_Wor1_Ase1"/>
+                    <xpdl:StartMode>
+                        <xpdl:Automatic/>
+                    </xpdl:StartMode>
+                    <xpdl:FinishMode>
+                        <xpdl:Automatic/>
+                    </xpdl:FinishMode>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_OFFSET" Value="916,843"/>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_PARTICIPANT_ID" Value="SomeParticipant"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Activity>
+            </xpdl:Activities>
+            <xpdl:Transitions>
+                <xpdl:Transition From="s1" Id="splitjoin_Wor1_Tra5" Name="Transition" To="splitjoin_Wor1_Act5">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="s2" Id="splitjoin_Wor1_Tra7" Name="Transition" To="splitjoin_Wor1_Act7">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="s3" Id="splitjoin_Wor1_Tra8" Name="Transition" To="splitjoin_Wor1_Act8">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="s3" Id="splitjoin_Wor1_Tra9" Name="Transition" To="splitjoin_Wor1_Act9">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act8" Id="splitjoin_Wor1_Tra10" Name="Transition" To="j3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="j3" Id="splitjoin_Wor1_Tra12" Name="Transition" To="j2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act7" Id="splitjoin_Wor1_Tra13" Name="Transition" To="j2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="j2" Id="splitjoin_Wor1_Tra14" Name="Transition" To="j1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act5" Id="splitjoin_Wor1_Tra15" Name="Transition" To="j1">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="s1" Id="splitjoin_Wor1_Tra3" Name="Transition" To="s2">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act9" Id="splitjoin_Wor1_Tra74" Name="Transition" To="splitjoin_Wor1_Act15">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act15" Id="splitjoin_Wor1_Tra75" Name="Transition" To="j3">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act16" Id="splitjoin_Wor1_Tra92" Name="Transition" To="s1">
+                    <xpdl:Condition Type="DEFAULTEXCEPTION"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act27" Id="splitjoin_Wor1_Tra93" Name="Transition" To="splitjoin_Wor1_Act25">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act27" Id="splitjoin_Wor1_Tra95" Name="Transition" To="splitjoin_Wor1_Act20">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act20" Id="splitjoin_Wor1_Tra96" Name="Transition" To="splitjoin_Wor1_Act17">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act25" Id="splitjoin_Wor1_Tra97" Name="Transition" To="splitjoin_Wor1_Act19">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act19" Id="splitjoin_Wor1_Tra98" Name="Transition" To="splitjoin_Wor1_Act22">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act22" Id="splitjoin_Wor1_Tra99" Name="Transition" To="splitjoin_Wor1_Act17">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act21" Id="splitjoin_Wor1_Tra100" Name="Transition" To="splitjoin_Wor1_Act22">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act18" Id="splitjoin_Wor1_Tra101" Name="Transition" To="splitjoin_Wor1_Act21">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act24" Id="splitjoin_Wor1_Tra102" Name="Transition" To="splitjoin_Wor1_Act18">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act25" Id="splitjoin_Wor1_Tra106" Name="Transition" To="splitjoin_Wor1_Act24">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act16" Id="splitjoin_Wor1_Tra109" Name="Transition" To="splitjoin_Wor1_Act27">
+                    <xpdl:Condition Type="OTHERWISE"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act16" Id="splitjoin_Wor1_Tra110" Name="Transition" To="splitjoin_Wor1_Act38">
+                    <xpdl:Condition Type="EXCEPTION"/>
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act16" Id="splitjoin_Wor1_Tra111" Name="Transition" To="splitjoin_Wor1_Act49">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act38" Id="splitjoin_Wor1_Tra112" Name="Transition" To="splitjoin_Wor1_Act36">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act33" Id="splitjoin_Wor1_Tra116" Name="Transition" To="splitjoin_Wor1_Act28">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act35" Id="splitjoin_Wor1_Tra117" Name="Transition" To="splitjoin_Wor1_Act34">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act34" Id="splitjoin_Wor1_Tra118" Name="Transition" To="splitjoin_Wor1_Act37">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act37" Id="splitjoin_Wor1_Tra119" Name="Transition" To="splitjoin_Wor1_Act32">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act35" Id="splitjoin_Wor1_Tra120" Name="Transition" To="splitjoin_Wor1_Act29">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act29" Id="splitjoin_Wor1_Tra121" Name="Transition" To="splitjoin_Wor1_Act32">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act36" Id="splitjoin_Wor1_Tra122" Name="Transition" To="splitjoin_Wor1_Act35">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act38" Id="splitjoin_Wor1_Tra123" Name="Transition" To="splitjoin_Wor1_Act31">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act31" Id="splitjoin_Wor1_Tra124" Name="Transition" To="splitjoin_Wor1_Act28">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act36" Id="splitjoin_Wor1_Tra125" Name="Transition" To="splitjoin_Wor1_Act30">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act30" Id="splitjoin_Wor1_Tra126" Name="Transition" To="splitjoin_Wor1_Act33">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act32" Id="splitjoin_Wor1_Tra127" Name="Transition" To="splitjoin_Wor1_Act33">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act49" Id="splitjoin_Wor1_Tra128" Name="Transition" To="splitjoin_Wor1_Act47">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act47" Id="splitjoin_Wor1_Tra129" Name="Transition" To="splitjoin_Wor1_Act41">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act41" Id="splitjoin_Wor1_Tra130" Name="Transition" To="splitjoin_Wor1_Act44">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act44" Id="splitjoin_Wor1_Tra131" Name="Transition" To="splitjoin_Wor1_Act39">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act45" Id="splitjoin_Wor1_Tra132" Name="Transition" To="splitjoin_Wor1_Act48">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act48" Id="splitjoin_Wor1_Tra133" Name="Transition" To="splitjoin_Wor1_Act43">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act49" Id="splitjoin_Wor1_Tra134" Name="Transition" To="splitjoin_Wor1_Act42">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act42" Id="splitjoin_Wor1_Tra135" Name="Transition" To="splitjoin_Wor1_Act39">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act47" Id="splitjoin_Wor1_Tra139" Name="Transition" To="splitjoin_Wor1_Act46">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act46" Id="splitjoin_Wor1_Tra140" Name="Transition" To="splitjoin_Wor1_Act45">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act46" Id="splitjoin_Wor1_Tra141" Name="Transition" To="splitjoin_Wor1_Act40">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act40" Id="splitjoin_Wor1_Tra142" Name="Transition" To="splitjoin_Wor1_Act43">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act43" Id="splitjoin_Wor1_Tra143" Name="Transition" To="splitjoin_Wor1_Act44">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act39" Id="splitjoin_Wor1_Tra144" Name="Transition" To="splitjoin_Wor1_Act50">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act28" Id="splitjoin_Wor1_Tra145" Name="Transition" To="splitjoin_Wor1_Act50">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act24" Id="splitjoin_Wor1_Tra208" Name="Transition" To="splitjoin_Wor1_Act51">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act51" Id="splitjoin_Wor1_Tra209" Name="Transition" To="splitjoin_Wor1_Act21">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="j1" Id="splitjoin_Wor1_Tra271" Name="Transition" To="splitjoin_Wor1_Act50">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="splitjoin_Wor1_Act17" Id="splitjoin_Wor1_Tra272" Name="Transition" To="splitjoin_Wor1_Act50">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+                <xpdl:Transition From="s2" Id="splitjoin_Wor1_Tra333" Name="Transition" To="s3">
+                    <xpdl:ExtendedAttributes>
+                        <xpdl:ExtendedAttribute Name="JaWE_GRAPH_TRANSITION_STYLE" Value="NO_ROUTING_ORTHOGONAL"/>
+                    </xpdl:ExtendedAttributes>
+                </xpdl:Transition>
+            </xpdl:Transitions>
+            <xpdl:ExtendedAttributes>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_BLOCK" Value="ACTIVITY_SET_ID=splitjoin_Wor1_Ase1,JaWE_GRAPH_PARTICIPANT_ID=SomeParticipant,CONNECTING_ACTIVITY_ID=splitjoin_Wor1_Act56,X_OFFSET=1041,Y_OFFSET=291,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_BLOCK" Value="ACTIVITY_SET_ID=splitjoin_Wor1_Ase1,JaWE_GRAPH_PARTICIPANT_ID=SomeParticipant,CONNECTING_ACTIVITY_ID=splitjoin_Wor1_Act60,X_OFFSET=81,Y_OFFSET=301,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_BLOCK_PARTICIPANT_ORDER" Value="splitjoin_Wor1_Ase1;SomeParticipant"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_END_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=SomeParticipant,CONNECTING_ACTIVITY_ID=splitjoin_Wor1_Act50,X_OFFSET=1801,Y_OFFSET=1288,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=END_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_START_OF_WORKFLOW" Value="JaWE_GRAPH_PARTICIPANT_ID=SomeParticipant,CONNECTING_ACTIVITY_ID=splitjoin_Wor1_Act16,X_OFFSET=88,Y_OFFSET=1281,JaWE_GRAPH_TRANSITION_STYLE=NO_ROUTING_ORTHOGONAL,TYPE=START_DEFAULT"/>
+                <xpdl:ExtendedAttribute Name="JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER" Value="SomeParticipant"/>
+            </xpdl:ExtendedAttributes>
+        </xpdl:WorkflowProcess>
+    </xpdl:WorkflowProcesses>
+    <xpdl:ExtendedAttributes>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL" Value="Together Workflow Editor"/>
+        <xpdl:ExtendedAttribute Name="EDITING_TOOL_VERSION" Value="3.2-2-C-20100831-0848"/>
+        <xpdl:ExtendedAttribute Name="JaWE_CONFIGURATION" Value="default"/>
+    </xpdl:ExtendedAttributes>
+</xpdl:Package>
