@@ -11569,6 +11569,16 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
+          <para/>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Release 5.4-3</title>
+
+      <itemizedlist>
+        <listitem>
           <para>Now configure script creates special rebranding.properties
           file if one wants to rebrand</para>
         </listitem>
@@ -11603,6 +11613,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Improved XPDLStringVariable handling (now when Id of
           referenced variable changes, the GUI immediately reflects the change
           in the content of the variable that references it)</para>
+
+          <para>- Support for new extended attribute
+          BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING</para>
         </listitem>
       </itemizedlist>
     </section>

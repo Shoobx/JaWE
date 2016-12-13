@@ -603,6 +603,8 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       } else {
          XMLPanel badpnl = getPanel(el.getBackActivityDefinitionAttribute());
          tgp.add(badpnl);
+         XMLPanel bshpnl = getPanel(el.getBeanShellScriptToExecuteWhenOpening());
+         tgp.add(bshpnl);
       }
 
       XMLGroupPanel ltPanel = null;
@@ -1826,7 +1828,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                  JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                  null,
                                  null);
-      } else if (el.getParent() instanceof ScriptBasedToolAgentElement && el.toName().equals("Script")) {
+      } else if (el.getParent() instanceof ScriptBasedToolAgentElement && el.toName().equals("Script")
+                 || el.toName().equals(SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING)
+                    && el.getParent() instanceof WebClientConfigurationElement) {
+         boolean isBsh = el.toName().equals(SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING);
+
          int noOfLines = 15;
          // try {
          // noOfLines = getPanelContainer().getSettings()
@@ -1835,10 +1841,10 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          // System.err.println("Wrong value for parameter XMLActualParametersPanel.preferredNumberOfLinesForExpression! Using default: "+noOfLines);
          // }
          String ext = "txt";
-         String taName = ((ScriptBasedToolAgentElement) el.getParent()).toName();
+         String taName = isBsh ? SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING : ((ScriptBasedToolAgentElement) el.getParent()).toName();
          if (taName.equals(SharkConstants.TOOL_AGENT_XSLT) || taName.equals(SharkConstants.TOOL_AGENT_FOP)) {
             ext = "xsl";
-         } else if (taName.equals(SharkConstants.TOOL_AGENT_BEAN_SHELL)) {
+         } else if (taName.equals(SharkConstants.TOOL_AGENT_BEAN_SHELL) || taName.equals(SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING)) {
             ext = "java";
          } else if (taName.equals(SharkConstants.TOOL_AGENT_JAVASCRIPT)) {
             ext = "js";
@@ -1847,7 +1853,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          }
          return new XMLMultiLineTextPanelWithOptionalChoiceButtons(getPanelContainer(),
                                                                    el,
-                                                                   "Script",
+                                                                   isBsh ? SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING : "Script",
                                                                    false,
                                                                    true,
                                                                    noOfLines,
