@@ -11616,6 +11616,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Support for new extended attribute
           BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING</para>
+
+          <para>- Improved icons in the panels for inserting system variables,
+          xpdl variables, variables, ...</para>
         </listitem>
       </itemizedlist>
     </section>
