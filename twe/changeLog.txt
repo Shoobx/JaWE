@@ -1,4 +1,7 @@
 ###### TWE 5.4-3 RELEASED ######
+2016-12-20 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved icons in the panels for inserting system variables, xpdl variables, variables, ...
+
 2016-12-13 Sasa Bojanic <sasaboy@together.at>
    # Support for new extended attribute BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING
    
