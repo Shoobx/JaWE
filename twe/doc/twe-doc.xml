@@ -11569,15 +11569,17 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
-          <para>Shark mode: </para>
+          <para>Shark mode:</para>
 
           <para>- Supported new set of extended attributes for sending signed
           emails: SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_ACTIVITY,
           SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_PROCESS,
           SMTP_LIMIT_HANDLER_SIGNED_EMAIL_ACTIVITY,
           SMTP_LIMIT_HANDLER_SIGNED_EMAIL_PROCESS,
-          SMTP_DEADLINE_HANDLER_SIGNED_EMAIL, SMTP_ERROR_HANDLER_SIGNED_EMAIL
-          </para>
+          SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
+          SMTP_ERROR_HANDLER_SIGNED_EMAIL</para>
+
+          <para>- Now can specify MailToolAgent to send signed emails</para>
         </listitem>
       </itemizedlist>
     </section>

@@ -1,12 +1,14 @@
 ###### TWE 5.5-1 RELEASED ######
 2017-01-05 Sasa Bojanic <sasaboy@together.at>
-   # Shark mode: Supported new set of extended attributes for sending signed emails:
-      - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_ACTIVITY,
-      - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_PROCESS,
-      - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_ACTIVITY,
-      - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_PROCESS,
-      - SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
-      - SMTP_ERROR_HANDLER_SIGNED_EMAIL
+   # Shark mode: 
+      * Supported new set of extended attributes for sending signed emails:
+         - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_ACTIVITY,
+         - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_PROCESS,
+         - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_ACTIVITY,
+         - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_PROCESS,
+         - SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
+         - SMTP_ERROR_HANDLER_SIGNED_EMAIL
+      * Now can specify MailToolAgent to send signed emails
 
 ###### TWE 5.4-3 RELEASED (2016-12-26) ######
 2016-12-20 Sasa Bojanic <sasaboy@together.at>

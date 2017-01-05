@@ -40,5 +40,6 @@
       <ExtendedAttribute Name="ToolAgentClass" Value="org.enhydra.shark.toolagent.MailToolAgent"/>
       <ExtendedAttribute Name="AppMode" Value="0"/>
       <ExtendedAttribute Name="MAIL_TOOL_AGENT_SEND_EXECUTION_MODE" Value="synchronous"/>
+      <ExtendedAttribute Name="AppName" Value="org.enhydra.shark.utilities.mail.DefaultMailMessageHandler"/>
     </ExtendedAttributes>
 </Application>
