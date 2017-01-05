@@ -346,6 +346,9 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel groupEmailOnly = new XMLCheckboxPanel(getPanelContainer(), el.getGroupEmailOnlyAttribute(), null, false, enableEditing, false, null);
          cbp.add(groupEmailOnly);
       }
+      XMLPanel signedEmail = new XMLCheckboxPanel(getPanelContainer(), el.getSignedEmailAttribute(), null, false, enableEditing, false, null);
+      cbp.add(signedEmail);
+
       XMLGroupPanel cbPanel = new XMLGroupPanel(getPanelContainer(), el, cbp, "", false, false, false, null);
 
       XMLPanel recipientParticipant = null;

@@ -187,6 +187,8 @@ public class SharkConstants {
 
    public static final String SMTP_GROUP_EMAIL_ONLY = "SMTP_GROUP_EMAIL_ONLY";
 
+   public static final String SMTP_SIGNED_EMAIL = "SMTP_SIGNED_EMAIL";
+
    public static final String SMTP_SUBJECT = "SMTP_SUBJECT";
 
    public static final String SMTP_CONTENT = "SMTP_CONTENT";
@@ -207,6 +209,8 @@ public class SharkConstants {
 
    public static final String SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY = "SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY";
 
+   public static final String SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL = "SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL";
+
    public static final String SMTP_EVENT_AUDIT_MANAGER_SUBJECT = "SMTP_EVENT_AUDIT_MANAGER_SUBJECT";
 
    public static final String SMTP_EVENT_AUDIT_MANAGER_CONTENT = "SMTP_EVENT_AUDIT_MANAGER_CONTENT";
@@ -224,6 +228,8 @@ public class SharkConstants {
    public static final String EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY = "SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY";
 
    public static final String EA_SMTP_ERROR_HANDLER_MODE = "SMTP_ERROR_HANDLER_MODE";
+
+   public static final String EA_SMTP_ERROR_HANDLER_SIGNED_EMAIL = "SMTP_ERROR_HANDLER_SIGNED_EMAIL";
 
    public static final String EA_SMTP_ERROR_HANDLER_SUBJECT = "SMTP_ERROR_HANDLER_SUBJECT";
 
@@ -255,6 +261,8 @@ public class SharkConstants {
 
    public static final String EA_SMTP_DEADLINE_HANDLER_MODE = "SMTP_DEADLINE_HANDLER_MODE";
 
+   public static final String EA_SMTP_DEADLINE_HANDLER_SIGNED_EMAIL = "SMTP_DEADLINE_HANDLER_SIGNED_EMAIL";
+
    public static final String EA_SMTP_DEADLINE_HANDLER_SUBJECT = "SMTP_DEADLINE_HANDLER_SUBJECT";
 
    public static final String EA_SMTP_DEADLINE_HANDLER_CONTENT = "SMTP_DEADLINE_HANDLER_CONTENT";
@@ -275,6 +283,7 @@ public class SharkConstants {
                                                                                     EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS,
                                                                                     EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE,
                                                                                     EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY, EA_SMTP_DEADLINE_HANDLER_MODE,
+                                                                                    EA_SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
                                                                                     EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT,
                                                                                     EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE,
                                                                                     EA_SMTP_DEADLINE_HANDLER_SUBJECT
@@ -289,6 +298,8 @@ public class SharkConstants {
    public static final String SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY = "SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY";
 
    public static final String SMTP_LIMIT_HANDLER_MODE = "SMTP_LIMIT_HANDLER_MODE";
+
+   public static final String SMTP_LIMIT_HANDLER_SIGNED_EMAIL = "SMTP_LIMIT_HANDLER_SIGNED_EMAIL";
 
    public static final String SMTP_LIMIT_HANDLER_SUBJECT = "SMTP_LIMIT_HANDLER_SUBJECT";
 

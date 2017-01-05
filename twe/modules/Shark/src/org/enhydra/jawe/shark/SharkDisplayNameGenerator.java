@@ -63,7 +63,9 @@ public class SharkDisplayNameGenerator extends StandardDisplayNameGenerator {
                   epn = epn.substring(0, epn.length() - 1);
                }
             }
-            epn = " (" + epn + ")";
+            if (!epn.trim().equals("")) {
+               epn = " (" + epn + ")";
+            }
          }
          return defDisplayName + epn;
       }
