@@ -1102,6 +1102,18 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
+      <mkdir dir="${tmp.component.dir}/${app.name}-src-zip"/>
+      <copy file="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" tofile="${tmp.component.dir}/${app.name}-src-zip/${app.name}.src.zip"/>
+      <copy todir="${tmp.component.dir}/${app.name}-src-zip">
+         <fileset dir="${component.dir}" includes="Component.properties" />  
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+      </copy>
+      <replace file="${tmp.component.dir}/${app.name}-src-zip/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-src-zip" />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The source ZIP distribution of TWE, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
       <copy todir="${tmp.component.dir}">
          <fileset dir="${tools.dir}">
             <include name="batik/**" />
