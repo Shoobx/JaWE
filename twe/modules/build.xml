@@ -132,6 +132,11 @@
             , **/language/*" />
 
       </copy>
+      
+      <replace dir="${classes.dir}" includes="**/JaWE*.properties">
+         <replacefilter token="Together Workflow Editor" value="${app.full.name}" />
+      </replace>
+      
    </target>
 
    <!-- ==================================================================== -->

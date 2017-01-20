@@ -11581,6 +11581,16 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
           <para>- Now can specify MailToolAgent to send signed emails</para>
         </listitem>
+
+        <listitem>
+          <para>Build procedure improved to support branding from GPE
+          project</para>
+        </listitem>
+
+        <listitem>
+          <para>Build procedure changed to produce twe-src-zip component
+          (consisted of TWE source distribution) for GPE project</para>
+        </listitem>
       </itemizedlist>
     </section>
 

@@ -88,6 +88,7 @@
       <filter token="JAR_NAME" value="${app.name}" />
       <filter token="VERSION" value="${version}" />
       <filter token="RELEASE" value="${release}" />
+      <filter token="APP_FULL_NAME" value="${app.full.name}" />
    </filterset>
 
    <!-- Build directory -->
@@ -124,7 +125,7 @@
        <else>
           <property name="build.timestamp" value="${buildid}" />
        </else>
-    </if>
+   </if>
    
 	<if>
       <not>
@@ -436,7 +437,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <mkdir dir="${dist.screenshots.dir}" />
    </target>
 
-   <target name="distBin">
+   <target name="distBin" depends="prepare, clean, initDist">
       <if>
          <equals arg1="${os}" arg2="windows" />
          <then>         
