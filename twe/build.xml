@@ -89,6 +89,7 @@
       <filter token="VERSION" value="${version}" />
       <filter token="RELEASE" value="${release}" />
       <filter token="APP_FULL_NAME" value="${app.full.name}" />
+      <filter token="APP_NAME" value="${app.name}" />
    </filterset>
 
    <!-- Build directory -->
