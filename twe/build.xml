@@ -854,7 +854,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       
       <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
-         <zipfileset dir="${build.dir}" includes="**/lib/twe*.jar" excludes="**/lib/twedoc.jar,**/lib/tweactivityicons.jar" prefix="${app.name}-${version}-${release}" />
+         <zipfileset dir="${build.dir}" includes="**/lib/${app.name}*.jar" excludes="**/lib/${app.name}doc.jar,**/lib/${app.name}activityicons.jar" prefix="${app.name}-${version}-${release}" />         
       </zip>
    </target>
 
