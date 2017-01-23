@@ -174,7 +174,7 @@
          </fileset>
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -195,7 +195,7 @@
          </fileset>
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -235,7 +235,7 @@
          </fileset>
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -323,7 +323,7 @@
       <jar destfile="${output.lib.dir}/${jar2create}" basedir="${classes.dir}" includes="${includepath}">
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -335,7 +335,7 @@
       <jar destfile="${output.lib.dir}/${jar2update}" update="true">
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
