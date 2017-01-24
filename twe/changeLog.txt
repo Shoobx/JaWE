@@ -1,4 +1,7 @@
 ###### TWE 5.5-1 RELEASED ######
+2017-01-24 Sasa Bojanic <sasaboy@together.at>
+   # Now branding procedure also supports additional java source files
+
 2017-01-20 Sasa Bojanic <sasaboy@together.at>
    # Build procedure changed to produce twe-src-zip component (consisted of TWE source distribution)
    # Build procedure improved to support branding from GPE project

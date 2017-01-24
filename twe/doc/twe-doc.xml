@@ -11591,6 +11591,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>Build procedure changed to produce twe-src-zip component
           (consisted of TWE source distribution) for GPE project</para>
         </listitem>
+
+        <listitem>
+          <para>Now branding procedure also supports additional java source
+          files</para>
+        </listitem>
       </itemizedlist>
     </section>
 

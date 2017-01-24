@@ -198,56 +198,20 @@
       <mkdir dir="${dist.bin.dir}" />
 
       <if>
-            <and>
-               <os family="unix" />
-               <available type="file" file="${share.dir}/${app.name}-${version}-${release}.zip" />
-            </and>
-            <then>
-               <property name="use.shared" value="true" />
-            </then>
-            <else>
-               <property name="use.shared" value="false" />
-            </else>
-         </if>
-   </target>
-
-   <target name="setDebug">
-      <property name="build.debug" value="on" />
-   </target>
-      
-   <!-- ==================================================================== -->
-   <!-- Build binaries                                                       -->
-   <!-- ==================================================================== -->
-   <target name="_debug" depends="cleanClasses, setDebug">
-      <ant dir="${modules.dir}" />
-      <antcall target="signJars"/>
-   </target>
-
-   <target name="debug" depends="clean, _debug"/>
-
-   <target name="output" depends="prepare">
+         <and>
+            <os family="unix" />
+            <available type="file" file="${share.dir}/${app.name}-${version}-${release}.zip" />
+         </and>
+         <then>
+            <property name="use.shared" value="true" />
+         </then>
+         <else>
+            <property name="use.shared" value="false" />
+         </else>
+      </if>
+         
       <!-- tweactivityicons.jar -->
       <copy file="${tools.dir}/tweicons/tweactivityicons.jar" tofile="${output.lib.dir}/${app.name}activityicons.jar"/>
-      <ant dir="${modules.dir}" />
-      <echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
-      <!-- Bin directory -->
-      <copy todir="${bin.dir}">
-         <fileset dir="${input.dir}/bin" includes="*.ico" />
-      </copy>
-
-      <!-- Bin directory -->
-      <copy todir="${dist.bin.dir}">
-         <filterset refid="Filter_input" />
-         <fileset dir="${input.dir}/bin" includes="*.${include.ext}.in" />
-         <mapper type="glob" from="*.${include.ext}.in" to="*.${include.ext}.in" />
-      </copy>
-
-      <!-- Configuration Build -->
-      <copy todir="${build.dir}">
-         <fileset dir="${input.dir}" includes="build.xml, *.${include.ext}" />
-      </copy>
-      <chmod dir="${build.dir}" perm="a=rx" includes="*.${include.ext}" />
-
       <!-- Library directory -->
       <copy todir="${output.lib.dir}">
          <mapper type="flatten" />
@@ -262,8 +226,8 @@
          <fileset dir="${tools.dir}/xalan" includes="*.jar"/>
          <fileset dir="${tools.dir}/xerces" includes="*.jar"/>
          <fileset dir="${tools.dir}/xml-commons" includes="*.jar"/>
-      </copy>
-
+      </copy>         
+      
       <!-- Examples -->
       <copy todir="${build.dir}/examples">
          <fileset dir="${basedir}/examples">
@@ -285,24 +249,68 @@
          <mapper type="glob" from="*-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
       </copy>
 
-            <copy todir="${build.dir}/licenses">
-               <fileset dir="${basedir}/licenses" includes="*-patches.csv" />
-               <globmapper from="*-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
-            </copy>
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*-patches.csv" />
+         <globmapper from="*-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
+      </copy>
 
-            <copy todir="${build.dir}/licenses">
-               <fileset dir="${basedir}/licenses" includes="*-restrictions.csv" />
-               <globmapper from="*-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
-            </copy>
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*-restrictions.csv" />
+         <globmapper from="*-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
+      </copy>
 
       <mkdir dir="${build.dir}/config/default" />
+
+      <echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
+      <!-- Bin directory -->
+      <copy todir="${bin.dir}">
+         <fileset dir="${input.dir}/bin" includes="*.ico" />
+      </copy>
+
+      <!-- Bin directory -->
+      <copy todir="${dist.bin.dir}">
+         <filterset refid="Filter_input" />
+         <fileset dir="${input.dir}/bin" includes="*.${include.ext}.in" />
+         <mapper type="glob" from="*.${include.ext}.in" to="*.${include.ext}.in" />
+      </copy>
+
+      <!-- Configuration Build -->
+      <copy todir="${build.dir}">
+         <fileset dir="${input.dir}" includes="build.xml, *.${include.ext}" />
+      </copy>
+      <chmod dir="${build.dir}" perm="a=rx" includes="*.${include.ext}" />
 
       <if>
          <istrue value="${rebranding}" />
          <then>
             <ant dir="branding" target="output" inheritAll="true" inheritRefs="true" />
          </then>
-      </if>
+      </if>            
+   </target>
+
+   <target name="setDebug">
+      <property name="build.debug" value="on" />
+   </target>
+      
+   <!-- ==================================================================== -->
+   <!-- Build binaries                                                       -->
+   <!-- ==================================================================== -->
+   <target name="_debug" depends="cleanClasses, setDebug, prepare">
+      <ant dir="${modules.dir}" />
+      <antcall target="signJars"/>
+   </target>
+
+   <target name="debug" depends="clean, _debug"/>
+
+   <target name="output" depends="prepare">
+      <ant dir="${modules.dir}" />
+
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="branding" target="update" inheritAll="true" inheritRefs="true" />
+         </then>
+      </if>            
 
    </target>
 
@@ -319,7 +327,7 @@
    <!-- ==================================================================== -->
    <!-- Builds Documentation                                                 -->
    <!-- ==================================================================== -->
-   <target name="buildDoc">
+   <target name="buildDoc" depends="prepare">
       <ant dir="${modules.dir}" target="prepare"/>
       <ant dir="${doc.dir}" />
    </target>
@@ -433,7 +441,14 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <mkdir dir="${dist.community.dir}" />
       <mkdir dir="${dist.twe.dir}" />
       <mkdir dir="${dist.debug.dir}" />
-      <mkdir dir="${dist.community.webstart.dir}" />
+      <if>
+         <not>
+            <istrue value="${rebranding}" />
+         </not>
+         <then>
+            <mkdir dir="${dist.community.webstart.dir}" />
+         </then>
+      </if>
       <mkdir dir="${dist.internal.dir}" />
       <mkdir dir="${dist.screenshots.dir}" />
    </target>

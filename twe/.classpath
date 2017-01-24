@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="modules/JaWEAPI/src"/>
+	<classpathentry kind="src" path="branding/src"/>
 	<classpathentry kind="src" path="modules/SimpleNavigator/src"/>
 	<classpathentry kind="src" path="modules/Graph/src"/>
 	<classpathentry kind="src" path="modules/XPDLView/src"/>

@@ -56,7 +56,8 @@
          <equals arg1="${activityiconsFile}" arg2="" />
          <then />
          <else>
-            <copy todir="${branding.dir}/tmp/org/enhydra/jawe/activityicons">
+            <unzip src="${tools.dir}/tweicons/tweactivityicons.jar" dest="${branding.dir}/tmp"/>            
+            <copy todir="${branding.dir}/tmp/org/enhydra/jawe/activityicons" overwrite="true">
                <fileset dir="${branding.dir}/activityicons" />
             </copy>
             <jar destfile="${build.dir}/lib/${app.name}activityicons.jar" update="false">
@@ -66,41 +67,11 @@
          </else>
       </if>
 
-      <!-- i18n files -->
-      <copy todir="${branding.dir}/tmp/org/enhydra/jawe/language">
-         <fileset dir="${branding.dir}/i18n" />
-      </copy>
-      <jar destfile="${build.dir}/lib/${app.name}lan.jar" update="true">
-         <fileset dir="${branding.dir}/tmp" />
-      </jar>
-      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/language" quiet="true" />
-
-      <!-- images -->
-      <copy todir="${branding.dir}/tmp/org/enhydra/jawe/images">
-         <fileset dir="${branding.dir}/images" />
-      </copy>
-      <jar destfile="${build.dir}/lib/${app.name}pic.jar" update="true">
-         <fileset dir="${branding.dir}/tmp" />
-      </jar>
-      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/images" quiet="true" />
 
       <!-- lib -->
       <copy todir="${build.dir}/lib" overwrite="true">
          <fileset dir="${branding.dir}/lib" />
       </copy>
-
-      <!-- license & aboutbox.properties -->
-      <copy todir="${branding.dir}/tmp">
-         <fileset dir="${branding.dir}/license" />
-      </copy>
-      <copy todir="${branding.dir}/tmp/org/enhydra/jawe">
-         <fileset dir="${branding.dir}/about" />
-      </copy>
-      <jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
-         <fileset dir="${branding.dir}/tmp" />
-      </jar>
-      <delete dir="${branding.dir}/tmp" includes="License.txt" quiet="true" />
-      <delete dir="${branding.dir}/tmp/org/enhydra/jawe" quiet="true" />
 
       <!-- examples -->
       <fileset dir="${branding.dir}/examples" id="examples.files">
@@ -119,12 +90,53 @@
          </else>
       </if>
 
+      <!-- sources -->
+      <copy todir="${modules.dir}/sources-branding" overwrite="true">
+         <fileset dir="${branding.dir}/src" />
+      </copy>      
+      
       <delete dir="${branding.dir}/tmp" />
 
       <!--<ant target="copyDoc"/>-->
    </target>
 
+   <target name="update">
+      <mkdir dir="${branding.dir}/tmp" />
+      
+      <!-- i18n files -->
+      <copy todir="${branding.dir}/tmp/org/enhydra/jawe/language">
+         <fileset dir="${branding.dir}/i18n" />
+      </copy>
+      <jar destfile="${build.dir}/lib/${app.name}lan.jar" update="true">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/language" quiet="true" />
 
+      <!-- images -->
+      <copy todir="${branding.dir}/tmp/org/enhydra/jawe/images" overwrite="true">
+         <fileset dir="${branding.dir}/images" />
+      </copy>
+      <jar destfile="${build.dir}/lib/${app.name}pic.jar" update="true">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/images" quiet="true" />
+      
+      <!-- license & aboutbox.properties -->
+      <copy todir="${branding.dir}/tmp" overwrite="true">
+         <fileset dir="${branding.dir}/license" />
+      </copy>
+      <copy todir="${branding.dir}/tmp/org/enhydra/jawe" overwrite="true">
+         <fileset dir="${branding.dir}/about" />
+      </copy>
+      <jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp" includes="License.txt" quiet="true" />
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe" quiet="true" />
+      
+      <delete dir="${branding.dir}/tmp" />
+   </target>
+   
    <!-- ==================================================================== -->
    <!-- Installation rebranding                                               -->
    <!-- ==================================================================== -->
