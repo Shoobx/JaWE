@@ -20,6 +20,7 @@ package org.enhydra.jawe;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -30,7 +31,6 @@ import org.enhydra.jawe.components.graph.GraphControllerPanel;
 import org.enhydra.jawe.components.graph.GraphUtilities;
 import org.enhydra.jawe.components.graph.actions.SaveAsJPG;
 import org.enhydra.jawe.components.graph.actions.SaveAsSVG;
-import org.enhydra.jawe.components.graph.actions.jped.SaveAsPDF;
 import org.enhydra.jxpdl.elements.WorkflowProcess;
 
 import com.sun.jna.Library;
@@ -130,7 +130,7 @@ public class JaWE {
       // Setting AppUserModelID
       String OS = System.getProperty("os.name");
       boolean isWindows = OS.startsWith("Windows");
-      if (isWindows  && Integer.parseInt(System.getProperty("os.version").replace(".","")) > 60) {
+      if (isWindows && Integer.parseInt(System.getProperty("os.version").replace(".", "")) > 60) {
          // AppUsermodelID_Start
          final Map<String, Object> WIN32API_OPTIONS = new HashMap<String, Object>() {
             {
@@ -208,7 +208,9 @@ public class JaWE {
          SaveAsSVG.saveGraphAsSVG(filepath, graph);
          System.out.println(successMsg);
       } else if (format.equalsIgnoreCase("pdf")) {
-         SaveAsPDF.saveGraphAsPDF(filepath, graph, wp);
+         Class sapdfcls = Class.forName("org.enhydra.jawe.components.graph.actions.jped.SaveAsPDF");
+         Method mth = sapdfcls.getMethod("saveGraphAsPDF", String.class, Graph.class, WorkflowProcess.class);
+         mth.invoke(null, filepath, graph, wp);
          System.out.println(successMsg);
       } else {
          System.out.println("Unknown graph format: " + format);

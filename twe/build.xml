@@ -462,7 +462,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
                      </then>
                      <else>
                         <delete>
-                           <fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
+                           <fileset dir="${build.dir}/lib" includes="${app.name}jped.jar,itext.jar" />
                         </delete>
                         <copy todir="${build.dir}/licenses" overwrite="true">
                            <fileset dir="${basedir}/licenses">
@@ -514,7 +514,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <istrue value="${rebranding}" />
          <then>
             <delete>
-               <fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
+               <fileset dir="${build.dir}/lib" includes="${app.name}jped.jar,itext.jar" />
             </delete>
          </then>
       </if>
@@ -839,7 +839,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <fileset dir="${basedir}/installation/Windows" includes="*-silent.properties" />
 		 <globmapper from="*.properties" to="${app.name}-${version}-${release}.silent.properties.txt" />
       </copy>
-      <!--move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" /-->
+      <!--move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" /-->
 
       <if>
          <istrue value="${rebranding}" />
@@ -1057,23 +1057,23 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <mkdir dir="${tmp.component.dir}"/>
       <copy todir="${tmp.component.dir}/${app.name}-core">
          <fileset dir="${build.dir}/lib">
-            <include name="twecore.jar" />
-            <include name="twelan.jar" />
-            <include name="twepic.jar" />
-            <include name="tweactivityicons.jar" />
+            <include name="${app.name}core.jar" />
+            <include name="${app.name}lan.jar" />
+            <include name="${app.name}pic.jar" />
+            <include name="${app.name}activityicons.jar" />
          </fileset>
          <fileset dir="${component.dir}" includes="Component.properties" />  
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-core/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-core" />
-         <replacefilter token="@COMPONENTDESCRIPTION@" value="The core of TWE which is enough to integrate TWE into other projects." />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The core of ${upper.project.short.name} which is enough to integrate ${upper.project.short.name} into other projects." />
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
       <copy todir="${tmp.component.dir}/${app.name}-sharkxpdlvalidation">
          <fileset dir="${build.dir}/lib">
-            <include name="twesharkxpdlvalidation.jar" />
+            <include name="${app.name}sharkxpdlvalidation.jar" />
          </fileset>
          <fileset dir="${component.dir}" includes="Component.properties" />  
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
@@ -1100,19 +1100,25 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-zip/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-zip" />
-         <replacefilter token="@COMPONENTDESCRIPTION@" value="The binary ZIP distribution of TWE, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The binary ZIP distribution of ${upper.project.short.name}, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
       <mkdir dir="${tmp.component.dir}/${app.name}-src-zip"/>
-      <copy file="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" tofile="${tmp.component.dir}/${app.name}-src-zip/${app.name}.src.zip"/>
+
+      <unzip src="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" dest="${tmp.component.dir}/${app.name}-src-zip/tmp" />
+      <zip destfile="${tmp.component.dir}/${app.name}-src-zip/${app.name}.src.zip" update="true">
+         <zipfileset dir="${tmp.component.dir}/${app.name}-src-zip/tmp" excludes="**/jped/**, **/tools/itext5/**" />      
+      </zip>
+      <delete dir="${tmp.component.dir}/${app.name}-src-zip/tmp"/>
+      
       <copy todir="${tmp.component.dir}/${app.name}-src-zip">
          <fileset dir="${component.dir}" includes="Component.properties" />  
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-src-zip/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-src-zip" />
-         <replacefilter token="@COMPONENTDESCRIPTION@" value="The source ZIP distribution of TWE, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The source ZIP distribution of ${upper.project.short.name}, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
