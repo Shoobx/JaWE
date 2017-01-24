@@ -29,7 +29,7 @@
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "XYZ Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "XYZ Workflow Editor"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION}-${RELEASE}"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "XYZ Workflow Editor is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502"
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "XYZ Workflow Editor is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 2.0"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "XYZ Company"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "XYZ (R) is a registered trademark of XYZ Company."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Current version" "${VERSION}-${RELEASE}"
