@@ -1,4 +1,7 @@
 ###### TWE 5.5-1 RELEASED ######
+2017-01-25 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix in SharkXPDLObjectFactory to properly adjust XPDL object properties by creating special extended attribute (JaWE_TYPE) for the custom type objects
+
 2017-01-24 Sasa Bojanic <sasaboy@together.at>
    # Now branding procedure also supports additional java source files
 
