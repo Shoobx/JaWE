@@ -259,8 +259,6 @@
          <globmapper from="*-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
       </copy>
 
-      <mkdir dir="${build.dir}/config/default" />
-
       <echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
       <!-- Bin directory -->
       <copy todir="${bin.dir}">
