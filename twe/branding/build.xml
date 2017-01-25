@@ -40,7 +40,6 @@
       <delete includeemptydirs="true">
           <fileset dir="${build.dir}/config" defaultexcludes="false">
              <exclude name="defaultconfig" />
-             <exclude name="default" />
           </fileset>
       </delete>      
       <copy todir="${build.dir}/config" overwrite="true">
