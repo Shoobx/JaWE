@@ -90,6 +90,7 @@
       <filter token="RELEASE" value="${release}" />
       <filter token="APP_FULL_NAME" value="${app.full.name}" />
       <filter token="APP_NAME" value="${app.name}" />
+      <filter token="JAVA_PATH" value="${jdk.dir}" />      
    </filterset>
 
    <!-- Build directory -->
