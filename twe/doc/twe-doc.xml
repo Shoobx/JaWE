@@ -11532,6 +11532,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               shows icon for XPDL file extension and icon for the editor
               itself.</para></entry>
             </row>
+
+            <row>
+              <entry><para>src</para></entry>
+
+              <entry><para>This folder contains java sources which can be used
+              to customize the project.</para><para>Example java code provides
+              XYZPanelGenerator which hides "Simulation information" tab from
+              the activity panels.</para></entry>
+            </row>
           </tbody>
         </tgroup>
       </table>
