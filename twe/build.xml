@@ -243,7 +243,7 @@
          </fileset>
       </copy>
       <copy todir="${build.dir}/licenses">
-         <fileset dir="${basedir}/licenses" includes="*.*" excludes="*.csv,License-TOG.txt,nsis.txt,MIT-DocBook.txt" />
+         <fileset dir="${basedir}/licenses" includes="*.*" excludes="*.csv,nsis.txt,MIT-DocBook.txt" />
       </copy>
       <copy todir="${build.dir}/licenses">
          <fileset dir="${basedir}/licenses" includes="*-includes.csv" />
@@ -431,14 +431,12 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <!-- Set the directories -->
       <property name="dist.community.dir" location="${dist.dir}/community" />
-      <property name="dist.twe.dir" location="${dist.dir}/${app.name}" />
       <property name="dist.debug.dir" location="${dist.dir}/debug" />
       <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
       <property name="dist.internal.dir" location="${dist.dir}/internal" />
       <property name="dist.screenshots.dir" location="${dist.dir}/screenshots" />
 
       <mkdir dir="${dist.community.dir}" />
-      <mkdir dir="${dist.twe.dir}" />
       <mkdir dir="${dist.debug.dir}" />
       <if>
          <not>
@@ -466,47 +464,6 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             </antcall>
 
             <antcall target="create.components"/>
-            <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
-            <if>
-               <equals arg1="${tog.lic.exists}" arg2="true" />
-               <then>
-                  <if>
-                     <istrue value="${rebranding}" />
-                     <then>
-                     </then>
-                     <else>
-                        <delete>
-                           <fileset dir="${build.dir}/lib" includes="${app.name}jped.jar,itext.jar" />
-                        </delete>
-                        <copy todir="${build.dir}/licenses" overwrite="true">
-                           <fileset dir="${basedir}/licenses">
-                              <include name="License-TOG.txt" />
-                           </fileset>
-                        </copy>
-                        <move file="${build.dir}/licenses/License-TOG.txt" tofile="${build.dir}/licenses/License.txt" overwrite="true" />
-                        <jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
-                           <fileset dir="${build.dir}/licenses" includes="License.txt" />
-                        </jar>
-                        <antcall target="distZIPEXE">
-                           <param name="dist.folder" value="${dist.twe.dir}" />
-                           <param name="name.additional" value="tsl-" />
-                        </antcall>
-                        <antcall target="distTARGZ">
-                           <param name="dist.folder" value="${dist.twe.dir}" />
-                           <param name="name.additional" value="tsl-" />
-                        </antcall>
-                        <copy todir="${output.lib.dir}">
-                           <fileset dir="${tools.dir}/itext5" includes="itext.jar"/>
-                        </copy>
-                        <copy todir="${build.dir}/licenses" overwrite="true">
-                           <fileset dir="${basedir}/licenses">
-                              <include name="License.txt" />
-                           </fileset>
-                        </copy>
-                     </else>
-                  </if>                  
-               </then>
-            </if>
             <ant target="distOther"/>
          </then>
          <else>
@@ -524,14 +481,6 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
    <target name="distZIPEXE">
       <property name="dist.folder" value="${dist.community.dir}" />
       <property name="name.additional" value=""/>
-      <if>
-         <istrue value="${rebranding}" />
-         <then>
-            <delete>
-               <fileset dir="${build.dir}/lib" includes="${app.name}jped.jar,itext.jar" />
-            </delete>
-         </then>
-      </if>
 
       <property name="nsis.script" value="twe.nsi" />
       <property name="makensis.exe" location="${basedir}/tools/nsis/makensis.exe" />
@@ -855,17 +804,6 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       </copy>
       <!--move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" /-->
 
-      <if>
-         <istrue value="${rebranding}" />
-         <then>
-         </then>
-         <else>
-            <copy todir="${dist.twe.dir}">
-               <fileset dir="${dist.community.dir}" includes="*silent.properties.txt, *.screens.zip, *.doc.pdf" />
-            </copy>
-         </else>
-      </if>
-      
       <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
          <zipfileset dir="${build.dir}" includes="**/lib/${app.name}*.jar" excludes="**/lib/${app.name}doc.jar,**/lib/${app.name}activityicons.jar" prefix="${app.name}-${version}-${release}" />         
@@ -914,16 +852,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <equals arg1="${os}" arg2="windows" />
          <then>
             <antcall target="distSrcUnix"/>
-            <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <move file="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" tofile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.tar.gz" overwrite="true" />               
-               </else>
-            </if>
-            
+            <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />            
          </then>
       </if>
    </target>
@@ -938,40 +867,9 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <echo message="Creating ${app.name}-${version}-${release}.src.zip source archive, please wait ..." />
 
-      <if>
-         <istrue value="${rebranding}" />
-         <then>
-            <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
-            </zip>
-         </then>
-         <else>
-            <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
-            </zip>
-         </else>
-      </if>
-
-      <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
-      <if>
-         <equals arg1="${tog.lic.exists}" arg2="true" />
-         <then>
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
-                  <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-                  <zip destfile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
-                     <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**, shared/**" prefix="${app.name}-tsl-${version}-${release}.src" />
-                  </zip>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
-                  <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-               </else>
-            </if>                  
-         </then>
-      </if>
+      <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
+         <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
+      </zip>
 
    </target>
 
@@ -987,29 +885,8 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
       <tar destfile="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
-         <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src"/>
+         <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src"/>
       </tar>
-
-      <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
-      <if>
-         <equals arg1="${tog.lic.exists}" arg2="true" />
-         <then>
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
-                  <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-                  <tar destfile="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
-                     <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**,tools/itext5/**, shared/**" prefix="${app.name}-tsl-${version}-${release}.src" />
-                  </tar>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
-                  <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-               </else>
-            </if>                  
-         </then>
-      </if>
    </target>
 
    <!-- ==================================================================== -->
@@ -1122,7 +999,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <unzip src="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" dest="${tmp.component.dir}/${app.name}-src-zip/tmp" />
       <zip destfile="${tmp.component.dir}/${app.name}-src-zip/${app.name}.src.zip" update="true">
-         <zipfileset dir="${tmp.component.dir}/${app.name}-src-zip/tmp" excludes="**/jped/**, **/tools/itext5/**" />      
+         <zipfileset dir="${tmp.component.dir}/${app.name}-src-zip/tmp" />      
       </zip>
       <delete dir="${tmp.component.dir}/${app.name}-src-zip/tmp"/>
       
