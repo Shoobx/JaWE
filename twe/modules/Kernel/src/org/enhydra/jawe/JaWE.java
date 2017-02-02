@@ -172,7 +172,11 @@ public class JaWE {
       if (wd != null && new File(wd).exists()) {
          return wd;
       }
-      return JaWEConstants.JAWE_HOME + "/examples/xpdl2.1/RealLife";
+      if (new File(JaWEConstants.JAWE_HOME + "/examples/xpdl2.1/RealLife").exists()) {
+         return JaWEConstants.JAWE_HOME + "/examples/xpdl2.1/RealLife";
+      } else {
+         return JaWEConstants.JAWE_HOME + "/examples";
+      }
    }
 
    private static boolean shouldSaveGraph(Map<String, String> argsMap) throws Exception {
