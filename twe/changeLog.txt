@@ -1,4 +1,6 @@
 ###### TWE 5.5-1 RELEASED ######
+
+###### TWE 5.4-4 RELEASED ######
 2017-02-02 Sasa Bojanic <sasaboy@together.at>
    # Branding procedure improved to sign the resulting EXE file   
    # Branding procedure improved to replace entries in i18n files and copy the whole file only if it didn't exists
