@@ -43,7 +43,9 @@ public class MailToolAgentElement extends ToolAgentElementBase {
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_APP_MODE,
                                                   null,
-                                                  val, true, false);
+                                                  val,
+                                                  true,
+                                                  false);
          val = "synchronous";
          if (getSendMailExecutionModeAttribute().toValue().equals("ASYNCHR")) {
             val = "asynchronous";
@@ -52,7 +54,20 @@ public class MailToolAgentElement extends ToolAgentElementBase {
                                                   ((Application) this.getParent()).getExtendedAttributes(),
                                                   SharkConstants.EA_MAIL_TOOL_AGENT_SEND_EXECUTION_MODE,
                                                   null,
-                                                  val, true, false);
+                                                  val,
+                                                  true,
+                                                  false);
+         val = "org.enhydra.shark.utilities.mail.DefaultMailMessageHandler";
+         if (getIsSignedEmail().toValue().equals("true")) {
+            val = "org.enhydra.shark.utilities.mail.SMIMEMailMessageHandler";
+         }
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  ((Application) this.getParent()).getExtendedAttributes(),
+                                                  SharkConstants.EA_APP_NAME,
+                                                  null,
+                                                  val,
+                                                  true,
+                                                  false);
       } else {
          this.value = v;
       }
@@ -66,29 +81,28 @@ public class MailToolAgentElement extends ToolAgentElementBase {
       return (XMLAttribute) get("MailSendExecutionMode");
    }
 
+   public XMLAttribute getIsSignedEmail() {
+      return (XMLAttribute) get(SharkConstants.SMTP_SIGNED_EMAIL);
+   }
+
    protected void fillStructure() {
       super.fillStructure();
-      XMLAttribute appMode = new XMLAttribute(this,
-                                              SharkConstants.EA_APP_MODE,
-                                              false,
-                                              new String[] {
-                                                    "SEND", "RECEIVE"
-                                              },
-                                              0);
-      XMLAttribute sendExecMode = new XMLAttribute(this,
-                                                   "MailSendExecutionMode",
-                                                   false,
-                                                   new String[] {
-                                                         "SYNCHR", "ASYNCHR"
-                                                   },
-                                                   0);
+      XMLAttribute appMode = new XMLAttribute(this, SharkConstants.EA_APP_MODE, false, new String[] {
+                                                                                                      "SEND", "RECEIVE"
+      }, 0);
+      XMLAttribute sendExecMode = new XMLAttribute(this, "MailSendExecutionMode", false, new String[] {
+                                                                                                        "SYNCHR", "ASYNCHR"
+      }, 0);
+      XMLAttribute isSignedEmail = new XMLAttribute(this, SharkConstants.SMTP_SIGNED_EMAIL, false, new String[] {
+                                                                                                                  "true", "false"
+      }, 1);
       add(appMode);
       add(sendExecMode);
+      add(isSignedEmail);
    }
 
    protected void handleStructure() {
-      ExtendedAttribute ea = ((Application) this.getParent()).getExtendedAttributes()
-         .getFirstExtendedAttributeForName(SharkConstants.EA_APP_MODE);
+      ExtendedAttribute ea = ((Application) this.getParent()).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_APP_MODE);
       if (ea != null) {
          if (ea.getVValue().equals("1")) {
             getAppModeAttribute().setValue("RECEIVE");
@@ -96,13 +110,21 @@ public class MailToolAgentElement extends ToolAgentElementBase {
             getAppModeAttribute().setValue("SEND");
          }
       }
-      ea = ((Application) this.getParent()).getExtendedAttributes()
-         .getFirstExtendedAttributeForName(SharkConstants.EA_MAIL_TOOL_AGENT_SEND_EXECUTION_MODE);
+      ea = ((Application) this.getParent()).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_MAIL_TOOL_AGENT_SEND_EXECUTION_MODE);
       if (ea != null) {
          if (ea.getVValue().equals("synchronous")) {
             getSendMailExecutionModeAttribute().setValue("SYNCHR");
          } else {
             getSendMailExecutionModeAttribute().setValue("ASYNCHR");
+         }
+      }
+
+      ea = ((Application) this.getParent()).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+      if (ea != null) {
+         if (ea.getVValue().equals("org.enhydra.shark.utilities.mail.SMIMEMailMessageHandler")) {
+            getIsSignedEmail().setValue("true");
+         } else {
+            getIsSignedEmail().setValue("false");
          }
       }
 

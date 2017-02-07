@@ -118,7 +118,7 @@ public class SharkXPDLObjectFactory extends XPDLObjectFactory {
    }
 
    public void adjustXPDLObject(XMLElement el, String type) {
-      super.adjustType(el, type);
+      super.adjustXPDLObject(el, type);
 
       // do not use this feature
       if (true) {

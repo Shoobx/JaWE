@@ -75,20 +75,15 @@
 		<property name="javahelp.lib.dir" location="${project.dir}/tools/javahelp" />
 		<property name="txm.lib.dir" location="${project.dir}/tools/txm" />
 
-      <!--Classes directory-->
+      <!--Sources directory-->
       <property name="sources.dir" location="${modules.dir}/sources" />
+      <property name="sources-branding.dir" location="${modules.dir}/sources-branding" />
 
       <!--Set the main classpath-->
       <path id="classpath">
-         <pathelement location="${jgraph.lib.dir}/jgraph.jar" />
-         <pathelement location="${jna.lib.dir}/jna.jar" />
-         <pathelement location="${javahelp.lib.dir}/jhall.jar" />
-         <pathelement location="${tools.dir}/batik/batik.jar" />
-         <pathelement location="${tools.dir}/xerces/xercesImpl.jar" />
-         <pathelement location="${tools.dir}/xml-commons/xml-apis.jar" />
-         <pathelement location="${jeditsyntax.lib.dir}/jEdit-syntax.jar" />
-         <pathelement location="${itext.lib.dir}/itext.jar" />
-         <pathelement location="${txm.lib.dir}/jxpdl.jar" />
+         <fileset dir="${output.lib.dir}">
+            <include name="*.jar" />
+         </fileset>
       </path>
 
       <!--Set the classpath for docbook-->
@@ -180,7 +175,6 @@
       <property name="doctitle" value="${project.name} - ${app.full.name} ${version}-${release} API" />
       <property name="header" value="${project.name} ${version}-${release} API" />
       <javadoc 
-         sourcepath="${sources.dir}"
          destdir="${output.doc.dir}/api" 
          classpathref="classpath" 
          packagenames="org.enhydra.jawe.*" 
@@ -191,7 +185,10 @@
          access="private" 
          encoding="ISO-8859-1" 
          failonerror="true"
-         additionalparam="-J-Xmx128m -breakiterator -quiet"/>
+         additionalparam="-J-Xmx128m -breakiterator -quiet">
+         <sourcepath location="${sources.dir}" />
+         <sourcepath location="${sources-branding.dir}" />
+      </javadoc>
    </target>
 
    <target name="docbook.check">

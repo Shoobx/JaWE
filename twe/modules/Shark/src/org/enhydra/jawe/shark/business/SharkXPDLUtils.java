@@ -887,7 +887,8 @@ public class SharkXPDLUtils extends XPDLUtils {
                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_ATTACHMENTS) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_CONTENT)
                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_DM_ATTACHMENTS) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_EXECUTION_MODE)
                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_MODE)
-                || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
+                || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SIGNED_EMAIL) || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_SUBJECT)
+                || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT)
                 || eaName.equals(SharkConstants.EA_SMTP_ERROR_HANDLER_RECIPIENT_VARIABLE) || eaName.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE)
                 || eaName.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_NEW_PROCESS_PACKAGE_ID)
                 || eaName.equals(SharkConstants.EA_NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)
@@ -896,7 +897,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS)
                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE)
                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY) || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE)
-                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
+                || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SIGNED_EMAIL) || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT)
                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT)
                 || eaName.equals(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES + postfixAct)
@@ -905,7 +906,9 @@ public class SharkXPDLUtils extends XPDLUtils {
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY + postfixAct)
-                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixAct) || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SIGNED_EMAIL + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixAct)
@@ -915,6 +918,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE + postfixAct)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL + postfixAct)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixAct)) {
 
                continue;
@@ -936,7 +940,9 @@ public class SharkXPDLUtils extends XPDLUtils {
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_DM_ATTACHMENTS + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_EXECUTION_MODE + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY + postfixProc)
-                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixProc) || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_MODE + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SIGNED_EMAIL + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_SUBJECT + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_LIMIT_HANDLER_RECIPIENT_VARIABLE + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES + postfixProc)
@@ -946,6 +952,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_MODE + postfixProc)
+                || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL + postfixProc)
                 || eaName.equals(SharkConstants.SMTP_EVENT_AUDIT_MANAGER_SUBJECT + postfixProc)
                 || eaName.startsWith(SharkConstants.EA_XPDL_STRING_VARIABLE_PREFIX) || eaName.startsWith(SharkConstants.EA_I18N_VARIABLE_PREFIX)) {
                continue;
@@ -986,6 +993,7 @@ public class SharkXPDLUtils extends XPDLUtils {
                  || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE + "_")
                  || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY + "_")
                  || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE + "_")
+                 || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SIGNED_EMAIL + "_")
                  || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT + "_")
                  || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT + "_")
                  || eaName.startsWith(SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_VARIABLE + "_"))) {

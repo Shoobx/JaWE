@@ -106,7 +106,7 @@ SetDateSave          on
    !define MUI_TEXT_FINISH_RUN "$(Start) $(Name)"
 
    
-   !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\doc\twe-current.doc.pdf"
+   !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\doc\${SHORT_NAME}-current.doc.pdf"
    !define MUI_FINISHPAGE_SHOWREADME_TEXT "Show Documentation"
    !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 
@@ -368,11 +368,11 @@ Section "Install" Install
                           
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk" \
-                 "$INSTDIR\doc\twe-current.doc.html" \
+                 "$INSTDIR\doc\${SHORT_NAME}-current.doc.html" \
                  "" \
                  $DEFAULT_BROWSER
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) PDF.lnk" \
-                 "$INSTDIR\doc\twe-current.doc.pdf" \
+                 "$INSTDIR\doc\${SHORT_NAME}-current.doc.pdf" \
                  "" \
                  ""
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) Homepage.lnk" \
@@ -501,7 +501,7 @@ Function .onInit
  
 
  #------- seting silent installation -----------------#
-  IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties silent normal
+  IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties silent normal
   
   silent:
   SetSilent silent
@@ -514,9 +514,9 @@ Function .onInit
   Goto start_initialization
   
   start_silent_initialization:
-    IfFileExists $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties "" continue
+    IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties "" continue
     ClearErrors
-    FileOpen $9 $EXEDIR\twe-${VERSION}-${RELEASE}.silent.properties r
+    FileOpen $9 $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties r
 
   loop:
     FileRead $9 $8

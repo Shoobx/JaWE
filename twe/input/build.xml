@@ -66,8 +66,8 @@
 
 		<chmod dir="${basedir}/bin" perm="a=rx" includes="*.sh" />
 
-		<replace token="@INSTALL_DIR@" value="${basedir}" dir="${basedir}/config/default" />
-		<replace token="${slash}" value="/" dir="${basedir}/config/default" />
+		<replace token="@INSTALL_DIR@" value="${basedir}" dir="${basedir}/config" />
+		<replace token="${slash}" value="/" dir="${basedir}/config" />
 
 	</target>
 </project>

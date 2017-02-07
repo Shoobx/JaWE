@@ -1,4 +1,34 @@
-###### TWE 5.4-3 RELEASED ######
+###### TWE 5.4-4 RELEASED ######
+2017-02-02 Sasa Bojanic <sasaboy@together.at>
+   # Branding procedure improved to sign the resulting EXE file   
+   # Branding procedure improved to replace entries in i18n files and copy the whole file only if it didn't exists
+   # Now opening dialog in examples folder if sub-folder xpdl2.1\RealLife haven't been found (the case when having branded version)
+
+2017-01-30 Sasa Bojanic <sasaboy@together.at>
+   # Build procedure changed: removed TSL licensed distribution files (no need for it, we are now using 3rd party GPL classes only through the reflection)
+
+2017-01-25 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix in SharkXPDLObjectFactory to properly adjust XPDL object properties by creating special extended attribute (JaWE_TYPE) for the custom type objects
+
+2017-01-24 Sasa Bojanic <sasaboy@together.at>
+   # Now branding procedure also supports additional java source files
+
+2017-01-20 Sasa Bojanic <sasaboy@together.at>
+   # Build procedure changed to produce twe-src-zip component (consisted of TWE source distribution)
+   # Build procedure improved to support branding from GPE project
+   
+2017-01-05 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      * Supported new set of extended attributes for sending signed emails:
+         - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_ACTIVITY,
+         - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_PROCESS,
+         - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_ACTIVITY,
+         - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_PROCESS,
+         - SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
+         - SMTP_ERROR_HANDLER_SIGNED_EMAIL
+      * Now can specify MailToolAgent to send signed emails
+
+###### TWE 5.4-3 RELEASED (2016-12-26) ######
 2016-12-20 Sasa Bojanic <sasaboy@together.at>
    # Shark mode: Improved icons in the panels for inserting system variables, xpdl variables, variables, ...
 

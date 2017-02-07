@@ -33,24 +33,18 @@
 
    <!--Classes directory-->
    <property name="classes.dir" location="${basedir}/classes" />
+   <property name="classes-branding.dir" location="${basedir}/classes-branding" />
 
    <!--Classes directory-->
    <property name="sources.dir" location="${basedir}/sources" />
+   <property name="sources-branding.dir" location="${basedir}/sources-branding" />
 
 
    <!--Set the main classpath-->
    <path id="classpath">
-      <pathelement location="${tools.dir}/batik/batik.jar" />
-      <pathelement location="${tools.dir}/itext5/itext.jar" />
-      <pathelement location="${tools.dir}/javahelp/jhall.jar" />
-      <pathelement location="${tools.dir}/jeditsyntax/jEdit-syntax.jar" />
-      <pathelement location="${tools.dir}/jgraph/jgraph.jar" />
-      <pathelement location="${tools.dir}/jna/jna.jar" />
-      <pathelement location="${tools.dir}/txm/jxpdl.jar" />
-      <pathelement location="${tools.dir}/xalan/xalan.jar" />
-      <pathelement location="${tools.dir}/xalan/serializer.jar" />
-      <pathelement location="${tools.dir}/xerces/xercesImpl.jar" />
-      <pathelement location="${tools.dir}/xml-commons//xml-apis.jar" />
+      <fileset dir="${output.lib.dir}">
+         <include name="*.jar" />
+      </fileset>
    </path>
 
    <!-- Setting for SWITCH task -->
@@ -82,11 +76,6 @@
          <os family="unix" />
       </condition>
 
-      <delete dir="${classes.dir}" />
-      <delete dir="${sources.dir}" />
-
-      <mkdir dir="${classes.dir}" />
-      <mkdir dir="${sources.dir}" />
    </target>
 
    <!-- ==================================================================== -->
@@ -132,6 +121,11 @@
             , **/language/*" />
 
       </copy>
+      
+      <replace dir="${classes.dir}" includes="**/JaWE*.properties">
+         <replacefilter token="Together Workflow Editor" value="${app.full.name}" />
+      </replace>
+      
    </target>
 
    <!-- ==================================================================== -->
@@ -139,6 +133,13 @@
    <!-- ==================================================================== -->
    <target name="compile" depends="content">
       <javac target="${targetVM}" source="${targetVM}" srcdir="${sources.dir}" destdir="${classes.dir}" classpathref="classpath" debug="${build.debug}" encoding="ISO-8859-1" includeAntRuntime="false"/>
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <mkdir dir="${classes-branding.dir}"/>
+            <javac target="${targetVM}" source="${targetVM}" srcdir="${sources-branding.dir}" destdir="${classes-branding.dir}" classpathref="classpath" classpath="${classes.dir}" debug="${build.debug}" encoding="ISO-8859-1" includeAntRuntime="false"/>
+         </then>
+      </if>      
       <if>
          <equals arg1="${build.debug}" arg2="on" />
          <then>
@@ -169,7 +170,7 @@
          </fileset>
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -190,7 +191,7 @@
          </fileset>
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -230,7 +231,7 @@
          </fileset>
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -313,12 +314,24 @@
          <param name="jar2update" value="${app.name}activityicons.jar"/>
       </antcall>
 
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <antcall target="makeJAR">
+               <param name="jar2create" value="${app.name}branding.jar"/>
+               <param name="includepath" value="**/**"/>
+               <param name="clsdir" value="${classes-branding.dir}"/>
+            </antcall>            
+         </then>
+      </if>      
+      
    </target>
    <target name="makeJAR">
-      <jar destfile="${output.lib.dir}/${jar2create}" basedir="${classes.dir}" includes="${includepath}">
+      <property name="clsdir" value="${classes.dir}"/>
+      <jar destfile="${output.lib.dir}/${jar2create}" basedir="${clsdir}" includes="${includepath}">
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -330,7 +343,7 @@
       <jar destfile="${output.lib.dir}/${jar2update}" update="true">
          <manifest>
             <attribute name="Vendor" value="Together Teamsolutions Co., Ltd." />
-            <attribute name="Title" value="Together Workflow Editor" />
+            <attribute name="Title" value="${app.full.name}" />
             <attribute name="Version" value="${version}-${release}" />
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
@@ -344,7 +357,9 @@
    <!-- ==================================================================== -->
    <target name="clean">
       <delete dir="${classes.dir}" />
+      <delete dir="${classes-branding.dir}" />
       <delete dir="${sources.dir}" />
+      <delete dir="${sources-branding.dir}" />
       <delete quiet="true">
          <fileset dir="${output.lib.dir}" includes="*.jar" />
       </delete>

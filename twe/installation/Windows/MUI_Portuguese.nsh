@@ -29,7 +29,7 @@
    VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "${PROJECT_FULL_NAME}"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PROJECT_FULL_NAME}"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductVersion" "${VERSION}-${RELEASE}"
-   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${PROJECT_FULL_NAME} is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 1.0 - 102502"
+   VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${PROJECT_FULL_NAME} is a graphical application for Process Definition Modelling. It is compatible with WfMC specification - XPDL (XML Process Definition Language) version 2.1"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "Together Teamsolutions Co., Ltd."
    VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalTrademarks" "Together (R) is a registered trademark of GrECo International Holding AG in Austria/Europe"
    VIAddVersionKey /LANG=${LANG_ENGLISH} "Current version" "${VERSION}-${RELEASE}"

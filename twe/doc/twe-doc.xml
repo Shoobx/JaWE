@@ -11420,7 +11420,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
             <row>
               <entry><para>config</para></entry>
 
-              <entry><para>During rebrandign process, the output will contain
+              <entry><para>During rebranding process, the output will contain
               only original default TWE configuration and configurations
               specified in this folder. The configurations from this folder
               can override files from default configuration and add new
@@ -11475,11 +11475,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
             <row>
               <entry><para>i18n</para></entry>
 
-              <entry><para>If you put language property file(s) here, it will
-              override the original one, or will add one if it does not exist
-              in the original distribution.</para><para>Example provides
-              JaWE_pt.properties file where all the occurences of TWE and
-              Together are replaced by XYZ </para></entry>
+              <entry><para>If you put language property file(s) here, if the
+              original one with the same name does not exist, it will add it,
+              otherwise, it will override the property entries from the
+              original file with the ones found in this file, and will append
+              the property entries that do not exist in the original
+              file.</para><para>Example provides JaWE_pt.properties file with
+              4 entries that will be replaced in the original file and the one
+              that will be appended. It also provides JaWE_hr.properties file
+              which will be added. </para></entry>
             </row>
 
             <row>
@@ -11532,6 +11536,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               shows icon for XPDL file extension and icon for the editor
               itself.</para></entry>
             </row>
+
+            <row>
+              <entry><para>src</para></entry>
+
+              <entry><para>This folder contains java sources which can be used
+              to customize the project.</para><para>Example java code provides
+              XYZPanelGenerator which hides "Simulation information" tab from
+              the activity panels.</para></entry>
+            </row>
           </tbody>
         </tgroup>
       </table>
@@ -11563,6 +11576,64 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
   <chapter>
     <title>Release Notes</title>
+    <section>
+      <title>Release 5.4-4</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Shark mode:</para>
+
+          <para>- Supported new set of extended attributes for sending signed
+          emails: SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_ACTIVITY,
+          SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_PROCESS,
+          SMTP_LIMIT_HANDLER_SIGNED_EMAIL_ACTIVITY,
+          SMTP_LIMIT_HANDLER_SIGNED_EMAIL_PROCESS,
+          SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
+          SMTP_ERROR_HANDLER_SIGNED_EMAIL</para>
+
+          <para>- Now can specify MailToolAgent to send signed emails</para>
+
+          <para>- Fix in SharkXPDLObjectFactory to properly adjust XPDL object
+          properties by creating special extended attribute (JaWE_TYPE) for
+          the custom type objects</para>
+        </listitem>
+
+        <listitem>
+          <para>Build procedure changed to produce twe-src-zip component
+          (consisted of TWE source distribution) for GPE project</para>
+        </listitem>
+
+        <listitem>
+          <para>Branding procedure improved:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Now it also supports additional java source files</para>
+            </listitem>
+
+            <listitem>
+              <para>Now resulting EXE file is now signed (if signing
+              properties exist)</para>
+            </listitem>
+
+            <listitem>
+              <para>Now it is replacing entries in i18n files if file exists,
+              and copy the whole file only if it didn't exists</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Build procedure changed: removed TSL licensed distribution
+          files</para>
+
+          <note>
+            <para>No need for it, we are now using 3rd party GPL classes only
+            through the reflection</para>
+          </note>
+        </listitem>
+      </itemizedlist>
+    </section>
 
     <section>
       <title>Release 5.4-3</title>

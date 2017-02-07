@@ -74,6 +74,14 @@
          </fileset>
       </classpath>
    </typedef>
+
+   <taskdef name="variable" classname="net.sf.antcontrib.property.Variable">
+      <classpath>
+         <fileset dir="${basedir}/tools/antcontrib">
+            <include name="ant*contrib*.jar" />
+         </fileset>
+      </classpath>
+   </taskdef>   
    
    <!-- Setting for IF task -->
    <!--taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
@@ -88,6 +96,9 @@
       <filter token="JAR_NAME" value="${app.name}" />
       <filter token="VERSION" value="${version}" />
       <filter token="RELEASE" value="${release}" />
+      <filter token="APP_FULL_NAME" value="${app.full.name}" />
+      <filter token="APP_NAME" value="${app.name}" />
+      <filter token="JAVA_PATH" value="${jdk.dir}" />      
    </filterset>
 
    <!-- Build directory -->
@@ -124,7 +135,7 @@
        <else>
           <property name="build.timestamp" value="${buildid}" />
        </else>
-    </if>
+   </if>
    
 	<if>
       <not>
@@ -196,37 +207,67 @@
       <mkdir dir="${dist.bin.dir}" />
 
       <if>
-            <and>
-               <os family="unix" />
-               <available type="file" file="${share.dir}/${app.name}-${version}-${release}.zip" />
-            </and>
-            <then>
-               <property name="use.shared" value="true" />
-            </then>
-            <else>
-               <property name="use.shared" value="false" />
-            </else>
-         </if>
-   </target>
-
-   <target name="setDebug">
-      <property name="build.debug" value="on" />
-   </target>
-      
-   <!-- ==================================================================== -->
-   <!-- Build binaries                                                       -->
-   <!-- ==================================================================== -->
-   <target name="_debug" depends="cleanClasses, setDebug">
-      <ant dir="${modules.dir}" />
-      <antcall target="signJars"/>
-   </target>
-
-   <target name="debug" depends="clean, _debug"/>
-
-   <target name="output" depends="prepare">
+         <and>
+            <os family="unix" />
+            <available type="file" file="${share.dir}/${app.name}-${version}-${release}.zip" />
+         </and>
+         <then>
+            <property name="use.shared" value="true" />
+         </then>
+         <else>
+            <property name="use.shared" value="false" />
+         </else>
+      </if>
+         
       <!-- tweactivityicons.jar -->
       <copy file="${tools.dir}/tweicons/tweactivityicons.jar" tofile="${output.lib.dir}/${app.name}activityicons.jar"/>
-      <ant dir="${modules.dir}" />
+      <!-- Library directory -->
+      <copy todir="${output.lib.dir}">
+         <mapper type="flatten" />
+         <fileset dir="${tools.dir}/ant" includes="*.jar" />
+         <fileset dir="${tools.dir}/batik" includes="batik.jar" />
+         <fileset dir="${tools.dir}" includes="**/itext.jar"/>
+         <fileset dir="${tools.dir}/javahelp" includes="*.jar"/>
+         <fileset dir="${tools.dir}/jeditsyntax" includes="*.jar"/>
+         <fileset dir="${tools.dir}/jgraph" includes="*.jar"/>
+         <fileset dir="${tools.dir}/jna" includes="*.jar"/>
+         <fileset dir="${tools.dir}/txm" includes="*.jar"/>
+         <fileset dir="${tools.dir}/xalan" includes="*.jar"/>
+         <fileset dir="${tools.dir}/xerces" includes="*.jar"/>
+         <fileset dir="${tools.dir}/xml-commons" includes="*.jar"/>
+      </copy>         
+      
+      <!-- Examples -->
+      <copy todir="${build.dir}/examples">
+         <fileset dir="${basedir}/examples">
+            <include name="**/**" />
+         </fileset>
+      </copy>
+
+      <!-- Configurations + icon repository -->
+      <copy todir="${build.dir}/config">
+         <fileset dir="${basedir}/input/config">
+            <include name="**/**" />
+         </fileset>
+      </copy>
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*.*" excludes="*.csv,nsis.txt,MIT-DocBook.txt" />
+      </copy>
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*-includes.csv" />
+         <mapper type="glob" from="*-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
+      </copy>
+
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*-patches.csv" />
+         <globmapper from="*-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
+      </copy>
+
+      <copy todir="${build.dir}/licenses">
+         <fileset dir="${basedir}/licenses" includes="*-restrictions.csv" />
+         <globmapper from="*-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
+      </copy>
+
       <echo file="${build.dir}/BuildID.txt" message="${build.timestamp}" />
       <!-- Bin directory -->
       <copy todir="${bin.dir}">
@@ -246,61 +287,37 @@
       </copy>
       <chmod dir="${build.dir}" perm="a=rx" includes="*.${include.ext}" />
 
-      <!-- Library directory -->
-      <copy todir="${output.lib.dir}">
-         <mapper type="flatten" />
-         <fileset dir="${tools.dir}/ant" includes="*.jar" />
-         <fileset dir="${tools.dir}/batik" includes="batik.jar" />
-         <fileset dir="${tools.dir}" includes="**/itext.jar"/>
-         <fileset dir="${tools.dir}/javahelp" includes="*.jar"/>
-         <fileset dir="${tools.dir}/jeditsyntax" includes="*.jar"/>
-         <fileset dir="${tools.dir}/jgraph" includes="*.jar"/>
-         <fileset dir="${tools.dir}/jna" includes="*.jar"/>
-         <fileset dir="${tools.dir}/txm" includes="*.jar"/>
-         <fileset dir="${tools.dir}/xalan" includes="*.jar"/>
-         <fileset dir="${tools.dir}/xerces" includes="*.jar"/>
-         <fileset dir="${tools.dir}/xml-commons" includes="*.jar"/>
-      </copy>
-
-      <!-- Examples -->
-      <copy todir="${build.dir}/examples">
-         <fileset dir="${basedir}/examples">
-            <include name="**/**" />
-         </fileset>
-      </copy>
-
-      <!-- Configurations + icon repository -->
-      <copy todir="${build.dir}/config">
-         <fileset dir="${basedir}/input/config">
-            <include name="**/**" />
-         </fileset>
-      </copy>
-      <copy todir="${build.dir}/licenses">
-         <fileset dir="${basedir}/licenses" includes="*.*" excludes="*.csv,License-TOG.txt,nsis.txt,MIT-DocBook.txt" />
-      </copy>
-      <copy todir="${build.dir}/licenses">
-         <fileset dir="${basedir}/licenses" includes="*-includes.csv" />
-         <mapper type="glob" from="*-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
-      </copy>
-
-            <copy todir="${build.dir}/licenses">
-               <fileset dir="${basedir}/licenses" includes="*-patches.csv" />
-               <globmapper from="*-patches.csv" to="${app.name}-${version}-${release}.patches.csv" />
-            </copy>
-
-            <copy todir="${build.dir}/licenses">
-               <fileset dir="${basedir}/licenses" includes="*-restrictions.csv" />
-               <globmapper from="*-restrictions.csv" to="${app.name}-${version}-${release}.restrictions.csv" />
-            </copy>
-
-      <mkdir dir="${build.dir}/config/default" />
-
       <if>
          <istrue value="${rebranding}" />
          <then>
             <ant dir="branding" target="output" inheritAll="true" inheritRefs="true" />
          </then>
-      </if>
+      </if>            
+   </target>
+
+   <target name="setDebug">
+      <property name="build.debug" value="on" />
+   </target>
+      
+   <!-- ==================================================================== -->
+   <!-- Build binaries                                                       -->
+   <!-- ==================================================================== -->
+   <target name="_debug" depends="cleanClasses, setDebug, prepare">
+      <ant dir="${modules.dir}" />
+      <antcall target="signJars"/>
+   </target>
+
+   <target name="debug" depends="clean, _debug"/>
+
+   <target name="output" depends="prepare">
+      <ant dir="${modules.dir}" />
+
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="branding" target="update" inheritAll="true" inheritRefs="true" />
+         </then>
+      </if>            
 
    </target>
 
@@ -317,7 +334,7 @@
    <!-- ==================================================================== -->
    <!-- Builds Documentation                                                 -->
    <!-- ==================================================================== -->
-   <target name="buildDoc">
+   <target name="buildDoc" depends="prepare">
       <ant dir="${modules.dir}" target="prepare"/>
       <ant dir="${doc.dir}" />
    </target>
@@ -422,21 +439,26 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <!-- Set the directories -->
       <property name="dist.community.dir" location="${dist.dir}/community" />
-      <property name="dist.twe.dir" location="${dist.dir}/${app.name}" />
       <property name="dist.debug.dir" location="${dist.dir}/debug" />
       <property name="dist.community.webstart.dir" location="${dist.community.dir}/webstart" />
       <property name="dist.internal.dir" location="${dist.dir}/internal" />
       <property name="dist.screenshots.dir" location="${dist.dir}/screenshots" />
 
       <mkdir dir="${dist.community.dir}" />
-      <mkdir dir="${dist.twe.dir}" />
       <mkdir dir="${dist.debug.dir}" />
-      <mkdir dir="${dist.community.webstart.dir}" />
+      <if>
+         <not>
+            <istrue value="${rebranding}" />
+         </not>
+         <then>
+            <mkdir dir="${dist.community.webstart.dir}" />
+         </then>
+      </if>
       <mkdir dir="${dist.internal.dir}" />
       <mkdir dir="${dist.screenshots.dir}" />
    </target>
 
-   <target name="distBin">
+   <target name="distBin" depends="prepare, clean, initDist">
       <if>
          <equals arg1="${os}" arg2="windows" />
          <then>         
@@ -450,47 +472,6 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             </antcall>
 
             <antcall target="create.components"/>
-            <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
-            <if>
-               <equals arg1="${tog.lic.exists}" arg2="true" />
-               <then>
-                  <if>
-                     <istrue value="${rebranding}" />
-                     <then>
-                     </then>
-                     <else>
-                        <delete>
-                           <fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
-                        </delete>
-                        <copy todir="${build.dir}/licenses" overwrite="true">
-                           <fileset dir="${basedir}/licenses">
-                              <include name="License-TOG.txt" />
-                           </fileset>
-                        </copy>
-                        <move file="${build.dir}/licenses/License-TOG.txt" tofile="${build.dir}/licenses/License.txt" overwrite="true" />
-                        <jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
-                           <fileset dir="${build.dir}/licenses" includes="License.txt" />
-                        </jar>
-                        <antcall target="distZIPEXE">
-                           <param name="dist.folder" value="${dist.twe.dir}" />
-                           <param name="name.additional" value="tsl-" />
-                        </antcall>
-                        <antcall target="distTARGZ">
-                           <param name="dist.folder" value="${dist.twe.dir}" />
-                           <param name="name.additional" value="tsl-" />
-                        </antcall>
-                        <copy todir="${output.lib.dir}">
-                           <fileset dir="${tools.dir}/itext5" includes="itext.jar"/>
-                        </copy>
-                        <copy todir="${build.dir}/licenses" overwrite="true">
-                           <fileset dir="${basedir}/licenses">
-                              <include name="License.txt" />
-                           </fileset>
-                        </copy>
-                     </else>
-                  </if>                  
-               </then>
-            </if>
             <ant target="distOther"/>
          </then>
          <else>
@@ -508,14 +489,6 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
    <target name="distZIPEXE">
       <property name="dist.folder" value="${dist.community.dir}" />
       <property name="name.additional" value=""/>
-      <if>
-         <istrue value="${rebranding}" />
-         <then>
-            <delete>
-               <fileset dir="${build.dir}/lib" includes="twejped.jar,itext.jar" />
-            </delete>
-         </then>
-      </if>
 
       <property name="nsis.script" value="twe.nsi" />
       <property name="makensis.exe" location="${basedir}/tools/nsis/makensis.exe" />
@@ -527,253 +500,258 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       </zip>
       
       <!-- TWE setup EXE -->
+      
       <if>
          <istrue value="${rebranding}" />
          <then>
-            <ant dir="branding" target="install" inheritAll="true" inheritRefs="true"/>
+            <ant dir="branding" target="before_install" inheritAll="true" inheritRefs="true"/>
          </then>
-         <else>
-            <if>
+      </if>
+      <if>
+         <or>
+            <not>
+               <isset property="sign.all.flag" />
+            </not>
+            <isfalse value="${sign.all.flag}" />
+         </or>
+         <then>
+            <echo message="UnInstall.exe file will not be signed" />
+            <property name="sign.tool" value="" />
+            <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
+               <arg line="/V4" />
+               <arg line="/O..\..\log_nsis.txt" />
+               <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+               <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+               <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+               <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
+               <arg line="/DVERSION=${version}" />
+               <arg line="/DRELEASE=${release}" />
+               <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
+               <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
+               <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
+               <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
+               <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
+               <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
+               <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
+               <arg line="/DLANGUAGE=${language}" />
+               <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
+               <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+               <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
+               <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
+               <arg line="/DTARGET_VM=&quot;${targetVM}&quot;"/>
+               <arg line="${nsis.script}" />
+            </exec>
+         </then>
+         <elseif>
+            <and>
+               <istrue value="${sign.all.flag}" />
                <or>
                   <not>
-                     <isset property="sign.all.flag" />
+                     <isset property="sign.setup.flag" />
                   </not>
-                  <isfalse value="${sign.all.flag}" />
+                  <isfalse value="${sign.setup.flag}" />
                </or>
-               <then>
-                  <echo message="UnInstall.exe file will not be signed" />
-                  <property name="sign.tool" value="" />
-                  <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
-                     <arg line="/V4" />
-                     <arg line="/O..\..\log_nsis.txt" />
-                     <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
-                     <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
-                     <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
-                     <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
-                     <arg line="/DVERSION=${version}" />
-                     <arg line="/DRELEASE=${release}" />
-                     <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
-                     <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
-                     <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
-                     <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
-                     <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
-                     <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
-                     <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
-                     <arg line="/DLANGUAGE=${language}" />
-                     <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
-                     <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
-                     <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
-                     <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
-                     <arg line="/DTARGET_VM=&quot;${targetVM}&quot;"/>
-                     <arg line="${nsis.script}" />
-                  </exec>
-               </then>
-               <elseif>
-                  <and>
-                     <istrue value="${sign.all.flag}" />
-                     <or>
+            </and>
+            <then>
+               <echo message="UnInstall.exe file will not be signed" />
+               <property name="sign.tool" value="" />
+
+               <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
+                  <arg line="/V4" />
+                  <arg line="/O..\..\log_nsis.txt" />
+                  <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+                  <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+                  <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                  <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
+                  <arg line="/DVERSION=${version}" />
+                  <arg line="/DRELEASE=${release}" />
+                  <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
+                  <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
+                  <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
+                  <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
+                  <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
+                  <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
+                  <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
+                  <arg line="/DLANGUAGE=${language}" />
+                  <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
+                  <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+                  <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
+                  <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
+                  <arg line="/DTARGET_VM=&quot;${targetVM}&quot;"/>
+                  <arg line="${nsis.script}" />
+               </exec>
+            </then>
+         </elseif>
+         <elseif>
+            <istrue value="${sign.setup.flag}" />
+            <then>
+               <echo message="UnInstall.exe file will be signed" />
+
+               <var name="count.error.timestamp" value="0" />
+
+               <for list="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50" param="sign.timestamp.index.item" delimiter="," trim="true">
+                  <sequential>
+                     <if>
                         <not>
-                           <isset property="sign.setup.flag" />
+                           <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
                         </not>
-                        <isfalse value="${sign.setup.flag}" />
-                     </or>
-                  </and>
-                  <then>
-                     <echo message="UnInstall.exe file will not be signed" />
-                     <property name="sign.tool" value="" />
-
-                     <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="true">
-                        <arg line="/V4" />
-                        <arg line="/O..\..\log_nsis.txt" />
-                        <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
-                        <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
-                        <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
-                        <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
-                        <arg line="/DVERSION=${version}" />
-                        <arg line="/DRELEASE=${release}" />
-                        <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
-                        <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
-                        <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
-                        <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
-                        <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
-                        <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
-                        <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
-                        <arg line="/DLANGUAGE=${language}" />
-                        <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
-                        <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
-                        <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
-                        <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
-			<arg line="/DTARGET_VM=&quot;${targetVM}&quot;"/>
-                        <arg line="${nsis.script}" />
-                     </exec>
-                  </then>
-               </elseif>
-               <elseif>
-                  <istrue value="${sign.setup.flag}" />
-                  <then>
-                     <echo message="UnInstall.exe file will be signed" />
-
-                     <var name="count.error.timestamp" value="0" />
-
-                     <for list="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50" param="sign.timestamp.index.item" delimiter="," trim="true">
-                        <sequential>
-                           <if>
-                              <not>
-                                 <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
-                              </not>
-                              <then>
-                                 <for list="${sign.timestamp.urls}" param="sign.timestamp.url" delimiter=" " trim="true">
-                                    <sequential>
-                                       <antcall target="get-current-time" />
+                        <then>
+                           <for list="${sign.timestamp.urls}" param="sign.timestamp.url" delimiter=" " trim="true">
+                              <sequential>
+                                 <antcall target="get-current-time" />
+                                 <if>
+                                    <not>
+                                       <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
+                                    </not>
+                                    <then>
+                          
+                              <if>
+                                 <and>
+                                    <equals arg1="${sun.arch.data.model}" arg2="32" />
+                                    <available type="file" file="${tools.dir}/signtool/x86/signtool.exe" />
+                                 </and>
+                                 <then>
+                                    <property name="sign.tool" location="${tools.dir}/signtool/x86/signtool.exe" />
+                                 </then>
+                                 <elseif>
+                                    <and>
+                                       <equals arg1="${sun.arch.data.model}" arg2="64" />
+                                       <available type="file" file="${tools.dir}/signtool/x64/signtool.exe" />
+                                    </and>
+                                    <then>
+                                       <property name="sign.tool" location="${tools.dir}/signtool/x64/signtool.exe" />
+                                    </then>
+                                 </elseif>
+                                 <elseif>
+                                    <available type="file" file="${tools.dir}/signtool/signtool.exe" />
+                                    <then>
+                                       <property name="sign.tool" location="${tools.dir}/signtool/signtool.exe" />
+                                    </then>
+                                 </elseif>
+                                 <else>
+                                    <fail message="This operating system architecture is undefined: '${os.arch}'" />
+                                 </else>
+                              </if>
+                              <echo message="SIGN_TOOLS='${sign.tool}'" />
+                              
+                                       <echo message="Signing with '@{sign.timestamp.url}'" />
+                                       <antcallback target="check.timestamp.server" return="server.timeout">
+                                          <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
+                                          <property name="is.check.timestamp" value="${sign.setup.timestamp}" />
+                                       </antcallback>
                                        <if>
-                                          <not>
-                                             <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
-                                          </not>
+                                          <istrue value="${server.timeout}" />
                                           <then>
-										  
-												<if>
-													<and>
-														<equals arg1="${sun.arch.data.model}" arg2="32" />
-														<available type="file" file="${tools.dir}/signtool/x86/signtool.exe" />
-													</and>
-													<then>
-														<property name="sign.tool" location="${tools.dir}/signtool/x86/signtool.exe" />
-													</then>
-													<elseif>
-														<and>
-															<equals arg1="${sun.arch.data.model}" arg2="64" />
-															<available type="file" file="${tools.dir}/signtool/x64/signtool.exe" />
-														</and>
-														<then>
-															<property name="sign.tool" location="${tools.dir}/signtool/x64/signtool.exe" />
-														</then>
-													</elseif>
-													<elseif>
-														<available type="file" file="${tools.dir}/signtool/signtool.exe" />
-														<then>
-															<property name="sign.tool" location="${tools.dir}/signtool/signtool.exe" />
-														</then>
-													</elseif>
-													<else>
-														<fail message="This operating system architecture is undefined: '${os.arch}'" />
-													</else>
-												</if>
-												<echo message="SIGN_TOOLS='${sign.tool}'" />
-												
-                                             <echo message="Signing with '@{sign.timestamp.url}'" />
-                                             <antcallback target="check.timestamp.server" return="server.timeout">
-                                                <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
-												<property name="is.check.timestamp" value="${sign.setup.timestamp}" />
-                                             </antcallback>
-                                             <if>
-                                                <istrue value="${server.timeout}" />
-                                                <then>
-                                                   <echo message="server.timeout = ${server.timeout}" />
-                                                </then>
-                                             </if>
-
-                                             <var name="make.exe.return.code" unset="true" />
-
-                                             <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="false">
-                                                <arg line="/V4" />
-                                                <arg line="/O..\..\log_nsis.txt" />
-                                                <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
-                                                <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
-                                                <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
-                                                <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
-                                                <arg line="/DVERSION=${version}" />
-                                                <arg line="/DRELEASE=${release}" />
-                                                <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
-                                                <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
-                                                <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
-                                                <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
-                                                <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
-                                                <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
-                                                <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
-                                                <arg line="/DLANGUAGE=${language}" />
-                                                <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
-                                                <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
-                                                <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
-                                                <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
-						<arg line="/DTARGET_VM=&quot;${targetVM}&quot;"/>
-                                                <arg line="${nsis.script}" />
-                                             </exec>
-
+                                             <echo message="server.timeout = ${server.timeout}" />
                                           </then>
                                        </if>
 
-                                       <if>
-                                          <not>
-                                             <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
-                                          </not>
-                                          <then>
-                                             <math result="count.error.timestamp" datatype="int" operation="add" operand1="${count.error.timestamp}" operand2="1" />
-                                             <sleep seconds="2" />
-                                          </then>
-                                       </if>
+                                       <var name="make.exe.return.code" unset="true" />
 
-                                    </sequential>
-                                 </for>
-                              </then>
-                           </if>
-                        </sequential>
-                     </for>
+                                       <exec dir="${basedir}/installation/Windows" executable="${makensis.exe}" resultproperty="make.exe.return.code" failonerror="false">
+                                          <arg line="/V4" />
+                                          <arg line="/O..\..\log_nsis.txt" />
+                                          <arg line="/DPROJECT_FULL_NAME=&quot;${app.full.name}&quot;" />
+                                          <arg line="/DSHORT_NAME=&quot;${app.name}&quot;" />
+                                          <arg line="/DSHORT_UPPER_NAME=&quot;${project.name}&quot;" />
+                                          <arg line="/DCOPYRIGHT_YEAR=${copyright.year}" />
+                                          <arg line="/DVERSION=${version}" />
+                                          <arg line="/DRELEASE=${release}" />
+                                          <arg line="/DSIGNTOOL_PATH=&quot;${sign.tool}&quot;" />
+                                          <arg line="/DKEY_PATH=&quot;${sign.privatekey}&quot;" />
+                                          <arg line="/DPASSWORD=&quot;${sign.pwd}&quot;" />
+                                          <arg line="/DFULL_NAME=&quot;${project.name} ${name.additional}${version}-${release}&quot;" />
+                                          <arg line="/DTWE_DIR=&quot;${build.dir}&quot;" />
+                                          <arg line="/DOUT_DIR=&quot;${dist.folder}&quot;" />
+                                          <arg line="/DLICENSE=&quot;${build.dir}/licenses/License.txt&quot;" />
+                                          <arg line="/DLANGUAGE=${language}" />
+                                          <arg line="/DSERVER_TIMEOUT=&quot;${server.timeout}&quot;" />
+                                          <arg line="/DBUILDID=&quot;${build.timestamp}&quot;" />
+                                          <arg line="/DTIMESTAMP_URL=&quot;@{sign.timestamp.url}&quot;" />
+                                          <arg line="/DSIGN_SETUP_TIMESTAMP=&quot;${sign.setup.timestamp}&quot;" />
+                                          <arg line="/DTARGET_VM=&quot;${targetVM}&quot;"/>
+                                          <arg line="${nsis.script}" />
+                                       </exec>
 
-                  </then>
-               </elseif>
-            </if>
+                                    </then>
+                                 </if>
 
-            <if>
-               <and>
-                  <available type="file" file="${sign.tool}" />
-                  <not>
-                     <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
-                  </not>
-               </and>
-               <then>
-                  <fail message="${makensis.exe} return code ${make.exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
-               </then>
-               <elseif>
-                  <available type="file" file="${sign.tool}" />
-                  <then>
-                     <echo message="${makensis.exe} return code ${make.exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
-                  </then>
-               </elseif>
-               <else>
-                  <echo message="${makensis.exe} return code ${make.exe.return.code}." />
-               </else>
-            </if>
+                                 <if>
+                                    <not>
+                                       <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
+                                    </not>
+                                    <then>
+                                       <math result="count.error.timestamp" datatype="int" operation="add" operand1="${count.error.timestamp}" operand2="1" />
+                                       <sleep seconds="2" />
+                                    </then>
+                                 </if>
 
-            <if>
-               <not>
-                  <available type="file" file="${sign.tool}" />
-               </not>
-               <then>
-                  <echo message="EXE file will not be signed" />
-                  <property name="sign.tool" value="" />
-               </then>
-               <else>
-                  <var name="sign.setup.control" unset="true" />
-                  <antcall target="sign.with.timestamp">
-                     <param name="exe.dir" value="${dist.folder}" />
-                     <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
-                     <param name="fullname" value="${project.name} ${version}-${release}" />
-                     <param name="sign.setup.control" value="${sign.setup.timestamp}" />
-                  </antcall>
+                              </sequential>
+                           </for>
+                        </then>
+                     </if>
+                  </sequential>
+               </for>
 
-                  <var name="sign.setup.control" unset="true" />
-                  <antcall target="sign.without.timestamp">
-                     <param name="exe.dir" value="${dist.community.dir}" />
-                     <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
-                     <param name="fullname" value="${application.name} ${version}-${release}" />
-                     <param name="sign.setup.control" value="${sign.setup.timestamp}" />
-                  </antcall>
-               </else>
-            </if>
-            
+            </then>
+         </elseif>
+      </if>
+
+      <if>
+         <and>
+            <available type="file" file="${sign.tool}" />
+            <not>
+               <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
+            </not>
+         </and>
+         <then>
+            <fail message="${makensis.exe} return code ${make.exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+         </then>
+         <elseif>
+            <available type="file" file="${sign.tool}" />
+            <then>
+               <echo message="${makensis.exe} return code ${make.exe.return.code}. There were ${count.error.timestamp} timestamping errors." />
+            </then>
+         </elseif>
+         <else>
+            <echo message="${makensis.exe} return code ${make.exe.return.code}." />
          </else>
       </if>
 
+      <if>
+         <not>
+            <available type="file" file="${sign.tool}" />
+         </not>
+         <then>
+            <echo message="EXE file will not be signed" />
+            <property name="sign.tool" value="" />
+         </then>
+         <else>
+            <var name="sign.setup.control" unset="true" />
+            <antcall target="sign.with.timestamp">
+               <param name="exe.dir" value="${dist.folder}" />
+               <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
+               <param name="fullname" value="${project.name} ${version}-${release}" />
+               <param name="sign.setup.control" value="${sign.setup.timestamp}" />
+            </antcall>
+
+            <var name="sign.setup.control" unset="true" />
+            <antcall target="sign.without.timestamp">
+               <param name="exe.dir" value="${dist.community.dir}" />
+               <param name="exe.name" value="${app.name}-${version}-${release}.exe" />
+               <param name="fullname" value="${application.name} ${version}-${release}" />
+               <param name="sign.setup.control" value="${sign.setup.timestamp}" />
+            </antcall>
+         </else>
+      </if>
+
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="branding" target="after_install" inheritAll="true" inheritRefs="true"/>
+         </then>
+      </if>
+      
       <if>
          <equals arg1="${name.additional}" arg2="" />
          <then>
@@ -837,22 +815,11 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <fileset dir="${basedir}/installation/Windows" includes="*-silent.properties" />
 		 <globmapper from="*.properties" to="${app.name}-${version}-${release}.silent.properties.txt" />
       </copy>
-      <!--move file="${dist.community.dir}/twe-silent.properties" tofile="${dist.community.dir}/twe-${version}-${release}.silent.properties.txt" overwrite="true" /-->
+      <!--move file="${dist.community.dir}/${app.name}-silent.properties" tofile="${dist.community.dir}/${app.name}-${version}-${release}.silent.properties.txt" overwrite="true" /-->
 
-      <if>
-         <istrue value="${rebranding}" />
-         <then>
-         </then>
-         <else>
-            <copy todir="${dist.twe.dir}">
-               <fileset dir="${dist.community.dir}" includes="*silent.properties.txt, *.screens.zip, *.doc.pdf" />
-            </copy>
-         </else>
-      </if>
-      
       <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
-         <zipfileset dir="${build.dir}" includes="**/lib/twe*.jar" excludes="**/lib/twedoc.jar,**/lib/tweactivityicons.jar" prefix="${app.name}-${version}-${release}" />
+         <zipfileset dir="${build.dir}" includes="**/lib/${app.name}*.jar" excludes="**/lib/${app.name}doc.jar,**/lib/${app.name}activityicons.jar" prefix="${app.name}-${version}-${release}" />         
       </zip>
    </target>
 
@@ -898,16 +865,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <equals arg1="${os}" arg2="windows" />
          <then>
             <antcall target="distSrcUnix"/>
-            <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <move file="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" tofile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.tar.gz" overwrite="true" />               
-               </else>
-            </if>
-            
+            <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />            
          </then>
       </if>
    </target>
@@ -922,40 +880,9 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <echo message="Creating ${app.name}-${version}-${release}.src.zip source archive, please wait ..." />
 
-      <if>
-         <istrue value="${rebranding}" />
-         <then>
-            <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
-            </zip>
-         </then>
-         <else>
-            <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
-               <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
-            </zip>
-         </else>
-      </if>
-
-      <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
-      <if>
-         <equals arg1="${tog.lic.exists}" arg2="true" />
-         <then>
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
-                  <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-                  <zip destfile="${dist.twe.dir}/${app.name}-tsl-${version}-${release}.src.zip" update="true">
-                     <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**, tools/itext5/**, shared/**" prefix="${app.name}-tsl-${version}-${release}.src" />
-                  </zip>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
-                  <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-               </else>
-            </if>                  
-         </then>
-      </if>
+      <zip destfile="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" update="true">
+         <zipfileset dir="${basedir}" excludes="sign.properties, build.properties, log_*.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src" />
+      </zip>
 
    </target>
 
@@ -971,29 +898,8 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <echo message="Creating ${app.name}-${version}-${release}.src.tar.gz source arhive, please wait ..." />
       <tar destfile="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
-         <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, licenses/License-TOG.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src"/>
+         <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, shared/**" prefix="${app.name}-${version}-${release}.src"/>
       </tar>
-
-      <available file="${basedir}/licenses/License-TOG.txt" type="file" property="tog.lic.exists" value="true" />
-      <if>
-         <equals arg1="${tog.lic.exists}" arg2="true" />
-         <then>
-            <if>
-               <istrue value="${rebranding}" />
-               <then>
-               </then>
-               <else>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License.tmp" overwrite="true" />
-                  <move file="${basedir}/licenses/License-TOG.txt" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-                  <tar destfile="${basedir}/distribution/${app.name}-tsl-${version}-${release}.src.tar.gz" compression="gzip" longfile="gnu">
-                     <tarfileset dir="${basedir}" excludes="Makefile, sign.properties, build.properties, log_*.txt, licenses/License.tmp, .settings/**, doc/tmp/**, doc/docbook/**, distribution/**, classes/**, **/jped/**,tools/itext5/**, shared/**" prefix="${app.name}-tsl-${version}-${release}.src" />
-                  </tar>
-                  <move file="${basedir}/licenses/License.txt" tofile="${basedir}/licenses/License-TOG.txt" overwrite="true" />
-                  <move file="${basedir}/licenses/License.tmp" tofile="${basedir}/licenses/License.txt" overwrite="true" />
-               </else>
-            </if>                  
-         </then>
-      </if>
    </target>
 
    <!-- ==================================================================== -->
@@ -1055,23 +961,23 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <mkdir dir="${tmp.component.dir}"/>
       <copy todir="${tmp.component.dir}/${app.name}-core">
          <fileset dir="${build.dir}/lib">
-            <include name="twecore.jar" />
-            <include name="twelan.jar" />
-            <include name="twepic.jar" />
-            <include name="tweactivityicons.jar" />
+            <include name="${app.name}core.jar" />
+            <include name="${app.name}lan.jar" />
+            <include name="${app.name}pic.jar" />
+            <include name="${app.name}activityicons.jar" />
          </fileset>
          <fileset dir="${component.dir}" includes="Component.properties" />  
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-core/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-core" />
-         <replacefilter token="@COMPONENTDESCRIPTION@" value="The core of TWE which is enough to integrate TWE into other projects." />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The core of ${upper.project.short.name} which is enough to integrate ${upper.project.short.name} into other projects." />
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
       <copy todir="${tmp.component.dir}/${app.name}-sharkxpdlvalidation">
          <fileset dir="${build.dir}/lib">
-            <include name="twesharkxpdlvalidation.jar" />
+            <include name="${app.name}sharkxpdlvalidation.jar" />
          </fileset>
          <fileset dir="${component.dir}" includes="Component.properties" />  
          <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
@@ -1098,7 +1004,25 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-zip/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-zip" />
-         <replacefilter token="@COMPONENTDESCRIPTION@" value="The binary ZIP distribution of TWE, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The binary ZIP distribution of ${upper.project.short.name}, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
+         <replacefilter token="@VERSION@" value="${version}-${release}" />
+         <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
+      </replace>
+      <mkdir dir="${tmp.component.dir}/${app.name}-src-zip"/>
+
+      <unzip src="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" dest="${tmp.component.dir}/${app.name}-src-zip/tmp" />
+      <zip destfile="${tmp.component.dir}/${app.name}-src-zip/${app.name}.src.zip" update="true">
+         <zipfileset dir="${tmp.component.dir}/${app.name}-src-zip/tmp" />      
+      </zip>
+      <delete dir="${tmp.component.dir}/${app.name}-src-zip/tmp"/>
+      
+      <copy todir="${tmp.component.dir}/${app.name}-src-zip">
+         <fileset dir="${component.dir}" includes="Component.properties" />  
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+      </copy>
+      <replace file="${tmp.component.dir}/${app.name}-src-zip/Component.properties" value="">
+         <replacefilter token="@COMPONENTNAME@" value="${app.name}-src-zip" />
+         <replacefilter token="@COMPONENTDESCRIPTION@" value="The source ZIP distribution of ${upper.project.short.name}, a graphical Java Workflow Editor fully implementing WfMC (Workflow Management Coalition) XPDL-Specifications (XML Process Definition Language)." />
          <replacefilter token="@VERSION@" value="${version}-${release}" />
          <replacefilter token="@TIMESTAMP@" value="${build.timestamp}" />
       </replace>
