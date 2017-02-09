@@ -98,7 +98,6 @@
       <filter token="RELEASE" value="${release}" />
       <filter token="APP_FULL_NAME" value="${app.full.name}" />
       <filter token="APP_NAME" value="${app.name}" />
-      <filter token="JAVA_PATH" value="${jdk.dir}" />      
    </filterset>
 
    <!-- Build directory -->
@@ -812,6 +811,9 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       </copy>
       <copy todir="${dist.community.dir}">
          <filterset refid="Filter_input" />
+         <filterset>
+            <filter token="JAVA_PATH" value="${jdk.dir}" />
+         </filterset>
          <fileset dir="${basedir}/installation/Windows" includes="*-silent.properties" />
 		 <globmapper from="*.properties" to="${app.name}-${version}-${release}.silent.properties.txt" />
       </copy>
