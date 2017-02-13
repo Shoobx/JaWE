@@ -11622,6 +11622,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Fix in SharkXPDLObjectFactory to properly adjust XPDL object
           properties by creating special extended attribute (JaWE_TYPE) for
           the custom type objects</para>
+
+          <para>- When new Deadline is created, the script type is now
+          initially set to text/sharkwfdeadlines</para>
         </listitem>
 
         <listitem>
