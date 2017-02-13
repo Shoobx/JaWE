@@ -44,14 +44,13 @@
       </copy>
 
       <!-- config -->
-      <delete includeemptydirs="true">
-          <fileset dir="${build.dir}/config" defaultexcludes="false">
-             <exclude name="defaultconfig" />
-          </fileset>
-      </delete>
       <copy todir="${build.dir}/config" overwrite="true">
-         <fileset dir="${branding.dir}/config" />
+         <fileset dir="${branding.dir}/config" excludes="deletions.txt" />
       </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/config" />
+         <param name="del.file" value="${branding.dir}/config/deletions.txt" />
+      </antcall>
 
       <!-- activityicons -->
       <unzip src="${tools.dir}/tweicons/tweactivityicons.jar" dest="${branding.dir}/tmp"/>

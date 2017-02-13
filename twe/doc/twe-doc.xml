@@ -11425,7 +11425,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               only original default TWE configuration and configurations
               specified in this folder. The configurations from this folder
               can override files from default configuration and add new
-              configurations.</para><para>If you want to change existing
+              configurations. If you wan't to delete some of the existing
+              configuration files, add their names in the deletions.txt file
+              within this folder.</para><para>If you want to change existing
               default TWE configuration, you should add new folder into this
               sub-folder with the name "default" that would contain modified
               TWE property files. Also, 'defaultconfig' file in the root of
@@ -11442,7 +11444,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               the activity box </para><para> - changed graph background color
               </para><para> - changed graph grid color </para><para> c)
               jawetypes.properties </para><para> - configured to use 2 custom
-              activities </para></entry>
+              activities </para><para>Also, the deletions.txt file specifies
+              that samples-loopactivity configuration folder should be
+              deleted.</para></entry>
             </row>
 
             <row>
