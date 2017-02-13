@@ -198,9 +198,9 @@
    </target>
 
    <!-- ==================================================================== -->
-   <!-- Prepare target                                                       -->
+   <!-- init and prepare targets                                             -->
    <!-- ==================================================================== -->
-   <target name="prepare" depends="versionRead">
+   <target name="init" depends="versionRead">   
       <mkdir dir="${output.lib.dir}" />
       <mkdir dir="${bin.dir}" />
       <mkdir dir="${dist.bin.dir}" />
@@ -216,8 +216,10 @@
          <else>
             <property name="use.shared" value="false" />
          </else>
-      </if>
-         
+      </if>               
+   </target>
+   
+   <target name="prepare" depends="init">
       <!-- tweactivityicons.jar -->
       <copy file="${tools.dir}/tweicons/tweactivityicons.jar" tofile="${output.lib.dir}/${app.name}activityicons.jar"/>
       <!-- Library directory -->
@@ -303,6 +305,12 @@
    <!-- ==================================================================== -->
    <target name="_debug" depends="cleanClasses, setDebug, prepare">
       <ant dir="${modules.dir}" />
+      <if>
+         <istrue value="${rebranding}" />
+         <then>
+            <ant dir="branding" target="update" inheritAll="true" inheritRefs="true" />
+         </then>
+      </if>            
       <antcall target="signJars"/>
    </target>
 
@@ -429,7 +437,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
    <!-- ==================================================================== -->
    <!-- Distributions                                                        -->
    <!-- ==================================================================== -->
-   <target name="distributions" depends="prepare, clean, initDist, distSource, distBin" />
+   <target name="distributions" depends="init, clean, initDist, distSource, distBin" />
 
    <target name="initDist">
       <!-- Distribution directories -->
