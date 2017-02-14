@@ -1216,7 +1216,6 @@ public class JaWETypes extends JaWEComponentSettings {
    protected boolean compareToTemplate(XMLElement topEl, XMLElement el, XMLElement tmplEl) {
       // System.err.println("BTR - Checking el "+el+" with tmpl el "+tmplEl);
       boolean ret = true;
-      System.out.println("Checking against template");
       if (tmplEl.getClass() == el.getClass()) {
          if (el instanceof XMLSimpleElement && !tmplEl.isEmpty()) {
             ret = el.toValue().equals(tmplEl.toValue());
