@@ -317,6 +317,14 @@
       <if>
          <istrue value="${rebranding}" />
          <then>
+            <copy todir="${classes-branding.dir}">
+               <fileset dir="${sources-branding.dir}">
+                  <include name="**/*.gif" />
+                  <include name="**/*.jpg" />
+                  <include name="**/*.png" />
+                  <include name="**/*.bmp" />
+               </fileset>         
+            </copy>
             <antcall target="makeJAR">
                <param name="jar2create" value="${app.name}branding.jar"/>
                <param name="includepath" value="**/**"/>

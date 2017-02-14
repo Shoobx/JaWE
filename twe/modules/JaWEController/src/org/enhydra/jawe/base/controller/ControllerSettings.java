@@ -119,11 +119,17 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("ApplicationIcon", appIcon);
 
       ImageIcon hicon;
-      hicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/together.gif"));
-      componentSettings.put("Sponsore1Logo", hicon);
+      try {
+         hicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/together.gif"));
+         componentSettings.put("Sponsore1Logo", hicon);
+      } catch (Exception ex) {
+      }
 
-      hicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/Abacus.jpg"));
-      componentSettings.put("Sponsore2Logo", hicon);
+      try {
+         hicon = new ImageIcon(ResourceManager.class.getClassLoader().getResource("org/enhydra/jawe/images/Abacus.jpg"));
+         componentSettings.put("Sponsore2Logo", hicon);
+      } catch (Exception ex) {
+      }
 
       ImageIcon actionIcon;
       iconURL = ResourceManager.getResource(properties, "DefaultAction.Icon." + JaWEActions.NEW_ACTION);
@@ -218,11 +224,13 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("FileLangName", "file");
       componentSettings.put("SearchMenu", "Search jaweAction_References");
       componentSettings.put("SearchLangName", "search");
-      componentSettings.put("PackageMenu",
-                            "PackageCheckValidity StartDesignTimeValidation StopDesignTimeValidation - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData PackageReferredDocument");
+      componentSettings
+         .put("PackageMenu",
+              "PackageCheckValidity StartDesignTimeValidation StopDesignTimeValidation - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData PackageReferredDocument");
       componentSettings.put("PackageLangName", "package");
-      componentSettings.put("ProcessMenu",
-                            "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters - ProcessActivitySetsOverview ProcessActivitiesOverview ProcessTransitionsOverview");
+      componentSettings
+         .put("ProcessMenu",
+              "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters - ProcessActivitySetsOverview ProcessActivitiesOverview ProcessTransitionsOverview");
       componentSettings.put("ProcessLangName", "process");
       componentSettings.put("ExternalPackagesMenu", "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
       componentSettings.put("ExternalPackagesLangName", "externalPackage");
@@ -235,8 +243,9 @@ public class ControllerSettings extends JaWEComponentSettings {
       componentSettings.put("defaultToolbarToolbar", "*filetoolbar jawe_edittoolbar *searchtoolbar *packagetoolbar *externaltoolbar *processtoolbar");
       componentSettings.put("filetoolbarToolbar", "NewPackage Open Reopen Close - Save SaveAs - Exit");
       componentSettings.put("searchtoolbarToolbar", "Search jaweAction_References");
-      componentSettings.put("packagetoolbarToolbar",
-                            "PackageCheckValidity StartDesignTimeValidation StopDesignTimeValidation - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData");
+      componentSettings
+         .put("packagetoolbarToolbar",
+              "PackageCheckValidity StartDesignTimeValidation StopDesignTimeValidation - PackageNewProcess - PackageNamespaces PackageProperties PackageProcesses PackageExternalPackages PackageAddExternalPackage PackageRemoveExternalPackage PackageTypeDeclarations PackageParticipants PackageApplications PackageWorkflowRelevantData");
       componentSettings.put("processtoolbarToolbar",
                             "ProcessProperties ProcessParticipants ProcessApplications ProcessWorkflowRelevantData ProcessFormalParameters");
       componentSettings.put("externaltoolbarToolbar", "ExternalParticipants ExternalProcesses ExternalApplications ExternalTypeDeclarations");
@@ -273,9 +282,9 @@ public class ControllerSettings extends JaWEComponentSettings {
          String clsName = "org.enhydra.jawe.base.controller.actions.HelpManual";
          try {
             action = (ActionBase) Class.forName(clsName).getConstructor(new Class[] {
-               JaWEComponent.class
+                                                                                      JaWEComponent.class
             }).newInstance(new Object[] {
-               comp
+                                          comp
             });
          } catch (Exception e) {
             action = null;
@@ -339,9 +348,9 @@ public class ControllerSettings extends JaWEComponentSettings {
          String clsName = "org.enhydra.jawe.base.controller.actions.Search";
          try {
             action = (ActionBase) Class.forName(clsName).getConstructor(new Class[] {
-               JaWEComponent.class
+                                                                                      JaWEComponent.class
             }).newInstance(new Object[] {
-               comp
+                                          comp
             });
          } catch (Exception e) {
             action = null;

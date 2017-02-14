@@ -28,11 +28,15 @@
 
       <!-- license -->
       <copy todir="${build.dir}" overwrite="true">
-         <fileset dir="${branding.dir}/license" />
+         <fileset dir="${branding.dir}/license" excludes="deletions.txt"/>
       </copy>
       <copy todir="${build.dir}/licenses" overwrite="true">
-         <fileset dir="${branding.dir}/license" />
+         <fileset dir="${branding.dir}/license" excludes="deletions.txt"/>
       </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/licenses" />
+         <param name="del.file" value="${branding.dir}/license/deletions.txt" />
+      </antcall>
 
       <!-- icons -->
       <copy todir="${build.dir}/bin" overwrite="true">
@@ -40,57 +44,52 @@
       </copy>
 
       <!-- config -->
-      <delete includeemptydirs="true">
-          <fileset dir="${build.dir}/config" defaultexcludes="false">
-             <exclude name="defaultconfig" />
-          </fileset>
-      </delete>
       <copy todir="${build.dir}/config" overwrite="true">
-         <fileset dir="${branding.dir}/config" />
+         <fileset dir="${branding.dir}/config" excludes="deletions.txt" />
       </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/config" />
+         <param name="del.file" value="${branding.dir}/config/deletions.txt" />
+      </antcall>
 
       <!-- activityicons -->
+      <unzip src="${tools.dir}/tweicons/tweactivityicons.jar" dest="${branding.dir}/tmp"/>
       <fileset dir="${branding.dir}/activityicons" id="activityicons.files">
          <include name="*" />
+         <exclude name="deletions.txt" />
       </fileset>
       <pathconvert pathsep="," property="activityiconsFile" refid="activityicons.files" />
       <if>
          <equals arg1="${activityiconsFile}" arg2="" />
          <then />
          <else>
-            <unzip src="${tools.dir}/tweicons/tweactivityicons.jar" dest="${branding.dir}/tmp"/>
             <copy todir="${branding.dir}/tmp/org/enhydra/jawe/activityicons" overwrite="true">
-               <fileset dir="${branding.dir}/activityicons" />
+               <fileset dir="${branding.dir}/activityicons" excludes="deletions.txt" />
             </copy>
-            <jar destfile="${build.dir}/lib/${app.name}activityicons.jar" update="false">
-               <fileset dir="${branding.dir}/tmp" />
-            </jar>
-            <delete dir="${branding.dir}/tmp/org/enhydra/jawe/activityicons" quiet="true" />
          </else>
       </if>
-
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${branding.dir}/tmp/org/enhydra/jawe/activityicons" />
+         <param name="del.file" value="${branding.dir}/activityicons/deletions.txt" />
+      </antcall>
+      <jar destfile="${build.dir}/lib/${app.name}activityicons.jar" update="false">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/activityicons" quiet="true" />
 
       <!-- lib -->
       <copy todir="${build.dir}/lib" overwrite="true">
-         <fileset dir="${branding.dir}/lib" />
+         <fileset dir="${branding.dir}/lib" excludes="deletions.txt" />
       </copy>
 
       <!-- examples -->
-      <fileset dir="${branding.dir}/examples" id="examples.files">
-         <include name="*" />
-      </fileset>
-      <pathconvert pathsep="," property="examplesFile" refid="examples.files" />
-      <if>
-         <equals arg1="${examplesFile}" arg2="" />
-         <then />
-         <else>
-            <delete dir="${build.dir}/examples">
-            </delete>
-            <copy todir="${build.dir}/examples">
-               <fileset dir="${branding.dir}/examples" />
-            </copy>
-         </else>
-      </if>
+      <copy todir="${build.dir}/examples">
+         <fileset dir="${branding.dir}/examples" excludes="deletions.txt" />
+      </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/examples" />
+         <param name="del.file" value="${branding.dir}/examples/deletions.txt" />
+      </antcall>
 
       <!-- sources -->
       <copy todir="${modules.dir}/sources-branding" overwrite="true">
@@ -113,24 +112,32 @@
             <include name="JaWE*.properties"/>
          </fileset>
       </foreach>
-
-      <jar destfile="${build.dir}/lib/${app.name}lan.jar" update="true">
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${branding.dir}/tmp/org/enhydra/jawe/language" />
+         <param name="del.file" value="${branding.dir}/i18n/deletions.txt" />
+      </antcall>      
+      <jar destfile="${build.dir}/lib/${app.name}lan.jar">
          <fileset dir="${branding.dir}/tmp" />
       </jar>
       <delete dir="${branding.dir}/tmp/org/enhydra/jawe/language" quiet="true" />
 
       <!-- images -->
+      <unzip src="${build.dir}/lib/${app.name}pic.jar" dest="${branding.dir}/tmp"/>            
       <copy todir="${branding.dir}/tmp/org/enhydra/jawe/images" overwrite="true">
-         <fileset dir="${branding.dir}/images" />
+         <fileset dir="${branding.dir}/images" excludes="deletions.txt" />
       </copy>
-      <jar destfile="${build.dir}/lib/${app.name}pic.jar" update="true">
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${branding.dir}/tmp/org/enhydra/jawe/images" />
+         <param name="del.file" value="${branding.dir}/images/deletions.txt" />
+      </antcall>      
+      <jar destfile="${build.dir}/lib/${app.name}pic.jar">
          <fileset dir="${branding.dir}/tmp" />
       </jar>
       <delete dir="${branding.dir}/tmp/org/enhydra/jawe/images" quiet="true" />
 
       <!-- license & aboutbox.properties -->
       <copy todir="${branding.dir}/tmp" overwrite="true">
-         <fileset dir="${branding.dir}/license" />
+         <fileset dir="${branding.dir}/license" excludes="deletions.txt"/>
       </copy>
       <copy todir="${branding.dir}/tmp/org/enhydra/jawe" overwrite="true">
          <fileset dir="${branding.dir}/about" />
@@ -142,8 +149,45 @@
       <delete dir="${branding.dir}/tmp/org/enhydra/jawe" quiet="true" />
 
       <delete dir="${branding.dir}/tmp" />
+
+      <!-- handle deletion of libraries -->
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/lib" />
+         <param name="del.file" value="${branding.dir}/lib/deletions.txt" />
+      </antcall>
+
    </target>
 
+   <target name="handleDeletions">
+      <if>
+         <available type="file" file="${del.file}" />
+         <then>
+            <echo>Handling deletions for ${del.file}</echo>
+
+            <loadfile property="file" srcfile="${del.file}"/>
+
+            <for param="line" list="${file}" delimiter="${line.separator}">
+               <sequential>
+                  <if>
+                     <available type="dir" file="${del.folder}/@{line}" />
+                     <then>
+                        <echo>...deleting folder ${del.folder}/@{line}</echo>
+                        <delete dir="${del.folder}/@{line}" />
+                     </then>
+                  </if>
+                  <if>
+                     <available type="file" file="${del.folder}/@{line}" />
+                     <then>
+                        <echo>...deleting file ${del.folder}/@{line}</echo>
+                        <delete file="${del.folder}/@{line}" />
+                     </then>
+                  </if>
+               </sequential>
+            </for>
+         </then>
+      </if>   
+   </target>
+   
    <target name="handlei18n">
       <basename file="${propfile}" property="fn" />
 

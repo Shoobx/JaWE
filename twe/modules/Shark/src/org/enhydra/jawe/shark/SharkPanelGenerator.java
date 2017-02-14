@@ -1429,6 +1429,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public XMLPanel getPanel(DeadlineDuration el) {
       return new DeadlineDurationPanel(getPanelContainer(),
+                                       this,
                                        el,
                                        JaWEManager.getInstance().getLabelGenerator().getLabel(el),
                                        JaWEManager.getInstance().getJaWEController().canModifyElement(el),
@@ -1660,16 +1661,28 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       return p;
    }
 
-   public XMLPanel getPanel(XMLAttribute el) {
-      if ((el.getParent() instanceof Script && el.toName().equals("Type")) || (el.getParent() instanceof ExpressionType && el.toName().equals("ScriptType"))) {
-         List choices = new ArrayList();
-         choices.add(SharkConstants.SCRIPT_VALUE_JAVASCRIPT);
+   public List<String> getScriptChoices(XMLAttribute el) {
+      List<String> choices = new ArrayList<String>();
+      if ((el.getParent() instanceof Script && el.toName().equals("Type"))
+          || ((el.getParent() instanceof ExpressionType || el.getParent() instanceof DeadlineDuration) && el.toName().equals("ScriptType"))) {
+         if (el.getParent() instanceof DeadlineDuration) {
+            choices.add(SharkConstants.SCRIPT_VALUE_SHARKWF_DEADLINES);
+         }
          choices.add(SharkConstants.SCRIPT_VALUE_JAVA);
+         choices.add(SharkConstants.SCRIPT_VALUE_JAVASCRIPT);
          choices.add(SharkConstants.SCRIPT_VALUE_PYTHONSCRIPT);
          String choosen = el.toValue();
          if (!choices.contains(choosen)) {
             choices.add(0, choosen);
          }
+      }
+      return choices;
+   }
+
+   public XMLPanel getPanel(XMLAttribute el) {
+      if ((el.getParent() instanceof Script && el.toName().equals("Type"))
+          || ((el.getParent() instanceof ExpressionType || el.getParent() instanceof DeadlineDuration) && el.toName().equals("ScriptType"))) {
+         List choices = getScriptChoices(el);
 
          return new XMLComboPanel(getPanelContainer(),
                                   el,

@@ -11359,14 +11359,14 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
       PortugueseBR.</para>
 
       <para>Then you can also specify the short name for the application, e.g.
-      instead of the default "twe" you can specify "mywe":</para>
+      instead of the default "twe" you can specify "xyz":</para>
 
-      <programlisting>configure -appname mywe</programlisting>
+      <programlisting>configure -appname xyz</programlisting>
 
       <para>And the full name for the application, e.g. instead of default
-      "Together Workflow Editor" you can specify "MyWEditor":</para>
+      "Together Workflow Editor" you can specify "XYZ Workflow Editor":</para>
 
-      <programlisting>configure -projectname "MyWEditor"</programlisting>
+      <programlisting>configure -projectname "XYZ Workflow Editor"</programlisting>
 
       <para>Finally, you have to specify the branding folder where you will
       put your files that will be used for re-branding process:</para>
@@ -11410,11 +11410,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               <entry><para>activityicons</para></entry>
 
               <entry><para>If you put any icons into this folder, these will
-              be the icons you will be able to chose for the "Icon" property
-              from Activity's property panel. If you don't put any icons here,
-              the default set of icons will be used from this panel.
-              </para><para>6 sample icons are added here to show the use
-              case.</para></entry>
+              be added to the icons that you are able to chose for the "Icon"
+              property from Activity's property panel. If you wan't to delete
+              some of the existing icons, add their names in the deletions.txt
+              file within this folder.</para><para>6 sample icons are added
+              here to show the use case and 4 icons are listed to be deleted
+              in deletions.txt file.</para></entry>
             </row>
 
             <row>
@@ -11424,7 +11425,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               only original default TWE configuration and configurations
               specified in this folder. The configurations from this folder
               can override files from default configuration and add new
-              configurations.</para><para>If you want to change existing
+              configurations. If you wan't to delete some of the existing
+              configuration files, add their names in the deletions.txt file
+              within this folder.</para><para>If you want to change existing
               default TWE configuration, you should add new folder into this
               sub-folder with the name "default" that would contain modified
               TWE property files. Also, 'defaultconfig' file in the root of
@@ -11441,7 +11444,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               the activity box </para><para> - changed graph background color
               </para><para> - changed graph grid color </para><para> c)
               jawetypes.properties </para><para> - configured to use 2 custom
-              activities </para></entry>
+              activities </para><para>Also, the deletions.txt file specifies
+              that samples-loopactivity configuration folder should be
+              deleted.</para></entry>
             </row>
 
             <row>
@@ -11467,9 +11472,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               <entry><para>examples</para></entry>
 
               <entry><para>If you put anything in this folder, the original
-              examples folder will be replaced by this one.
-              </para><para>Example shows one XPDL file which normally is not
-              the part of TWE distribution.</para></entry>
+              examples folder will be appended with these files. If you wan't
+              to delete some of the existing XPDL files, add their names in
+              the deletions.txt file within this folder.</para><para>Example
+              addes one XPDL file which normally is not the part of TWE
+              distribution and deletes the most of the folders/sub-folders and
+              files from the original example. </para></entry>
             </row>
 
             <row>
@@ -11479,11 +11487,15 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               original one with the same name does not exist, it will add it,
               otherwise, it will override the property entries from the
               original file with the ones found in this file, and will append
-              the property entries that do not exist in the original
-              file.</para><para>Example provides JaWE_pt.properties file with
-              4 entries that will be replaced in the original file and the one
-              that will be appended. It also provides JaWE_hr.properties file
-              which will be added. </para></entry>
+              the property entries that do not exist in the original file. If
+              you wan't to delete some of the existing JaWE i18n files, add
+              their names in the deletions.txt file within this
+              folder.</para><para>Example provides JaWE_pt.properties file
+              with 4 entries that will be replaced in the original file and
+              the one that will be appended. It also provides
+              JaWE_hr.properties file which will be added. The deletions.txt
+              files lists JaWE_es.properties file to be
+              deleted.</para></entry>
             </row>
 
             <row>
@@ -11513,8 +11525,12 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               <entry><para>lib</para></entry>
 
               <entry><para>If you need to add additional jar to be used, or
-              you want to override an existing one, put it in this
-              folder.</para></entry>
+              you want to override an existing one, put it into this folder.
+              If you wan't to delete some of the existing JAR files, add their
+              names in the deletions.txt file within this
+              folder.</para><para>Example shows xerceslan.jar file that will
+              be added into the lib folder and deletions.txt file specifies 2
+              JAR files that will be removed from there.</para></entry>
             </row>
 
             <row>
@@ -11524,8 +11540,11 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
               license can appear in the about dialog if you set proper
               configuration switch in aboutbox.properties file (read remarks
               for aboutbox folder) and in the root folder of editor binary
-              distribution. </para><para>Example contains dummy license file
-              with XYZ license.</para></entry>
+              distribution. If you wan't to delete some of the existing
+              license files, add their names in the deletions.txt file within
+              this folder.</para><para>Example contains dummy license file
+              with XYZ license which will be added and deletions.txt file
+              lists FDL license file to be deleted.</para></entry>
             </row>
 
             <row>
@@ -11581,6 +11600,10 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
       <itemizedlist>
         <listitem>
+          <para>Fixed issue when template activity has deadline defined</para>
+        </listitem>
+
+        <listitem>
           <para>Shark mode:</para>
 
           <para>- Supported new set of extended attributes for sending signed
@@ -11596,6 +11619,9 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
           <para>- Fix in SharkXPDLObjectFactory to properly adjust XPDL object
           properties by creating special extended attribute (JaWE_TYPE) for
           the custom type objects</para>
+
+          <para>- When new Deadline is created, the script type is now
+          initially set to text/sharkwfdeadlines</para>
         </listitem>
 
         <listitem>
@@ -11612,13 +11638,18 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
             </listitem>
 
             <listitem>
-              <para>Now resulting EXE file is now signed (if signing
-              properties exist)</para>
+              <para>Now resulting EXE file is signed (if signing properties
+              exist)</para>
             </listitem>
 
             <listitem>
               <para>Now it is replacing entries in i18n files if file exists,
               and copy the whole file only if it didn't exists</para>
+            </listitem>
+
+            <listitem>
+              <para>Now there is deletions.txt file in some branding folders
+              where one can list the files of that group to be deleted</para>
             </listitem>
           </itemizedlist>
         </listitem>
@@ -11792,7 +11823,7 @@ sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
 
         <listitem>
           <para>Fix: now properly removing ActivitySet's Pools, Artifacts and
-          Associations when deleting their WorkflowProcess container </para>
+          Associations when deleting their WorkflowProcess container</para>
         </listitem>
 
         <listitem>

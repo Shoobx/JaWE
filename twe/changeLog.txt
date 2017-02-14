@@ -1,4 +1,11 @@
 ###### TWE 5.4-4 RELEASED ######
+2017-02-14 Sasa Bojanic <sasaboy@together.at>
+   # Fixed issue when template activity has deadline defined
+
+2017-02-13 Sasa Bojanic <sasaboy@together.at>
+   # Branding procedure improved: now there is deletions.txt file in some branding folders where one can list the files of that group to be deleted
+   # When new Deadline is created, the script type is now initially set to text/sharkwfdeadlines
+
 2017-02-02 Sasa Bojanic <sasaboy@together.at>
    # Branding procedure improved to sign the resulting EXE file   
    # Branding procedure improved to replace entries in i18n files and copy the whole file only if it didn't exists

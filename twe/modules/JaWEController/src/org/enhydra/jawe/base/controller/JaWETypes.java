@@ -179,7 +179,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
    public XMLElement getTemplateElement(String templateId) {
       if (templateMap.get(templateId) == null)
-         System.out.println("TM="+templateMap.keySet()+", TID="+templateId);
+         System.out.println("TM=" + templateMap.keySet() + ", TID=" + templateId);
       return (XMLElement) ((XMLElement) templateMap.get(templateId)).clone();
    }
 
@@ -238,8 +238,7 @@ public class JaWETypes extends JaWEComponentSettings {
          return activityTypes;
       } else if (xpdlClass == ActivitySet.class || xpdlClass == ActivitySets.class) {
          return activitySetTypes;
-      } else if (xpdlClass == ActualParameter.class
-                 || xpdlClass == ActualParameters.class) {
+      } else if (xpdlClass == ActualParameter.class || xpdlClass == ActualParameters.class) {
          return actualParameterTypes;
       } else if (xpdlClass == Application.class || xpdlClass == Applications.class) {
          return applicationTypes;
@@ -253,18 +252,14 @@ public class JaWETypes extends JaWEComponentSettings {
          return deadlineTypes;
       } else if (xpdlClass == EnumerationType.class) {
          return enumerationValueTypes;
-      } else if (xpdlClass == ExtendedAttribute.class
-                 || xpdlClass == ExtendedAttributes.class) {
-         if (xpdlParentForEA == null
-             || ((List) extAttribTypes.get(XMLUtil.getShortClassName(xpdlParentForEA.getName()))).size() == 0) {
+      } else if (xpdlClass == ExtendedAttribute.class || xpdlClass == ExtendedAttributes.class) {
+         if (xpdlParentForEA == null || ((List) extAttribTypes.get(XMLUtil.getShortClassName(xpdlParentForEA.getName()))).size() == 0) {
             return extendedAttributeTypes;
          }
          return (List) extAttribTypes.get(XMLUtil.getShortClassName(xpdlParentForEA.getName()));
-      } else if (xpdlClass == ExternalPackage.class
-                 || xpdlClass == ExternalPackages.class) {
+      } else if (xpdlClass == ExternalPackage.class || xpdlClass == ExternalPackages.class) {
          return externalPackageTypes;
-      } else if (xpdlClass == FormalParameter.class
-                 || xpdlClass == FormalParameters.class) {
+      } else if (xpdlClass == FormalParameter.class || xpdlClass == FormalParameters.class) {
          return formalParameterTypes;
       } else if (xpdlClass == Lane.class || xpdlClass == Lanes.class) {
          return laneTypes;
@@ -282,11 +277,9 @@ public class JaWETypes extends JaWEComponentSettings {
          return responsibleTypes;
       } else if (xpdlClass == Transition.class || xpdlClass == Transitions.class) {
          return transitionTypes;
-      } else if (xpdlClass == TypeDeclaration.class
-                 || xpdlClass == TypeDeclarations.class) {
+      } else if (xpdlClass == TypeDeclaration.class || xpdlClass == TypeDeclarations.class) {
          return typeDeclarationTypes;
-      } else if (xpdlClass == WorkflowProcess.class
-                 || xpdlClass == WorkflowProcesses.class) {
+      } else if (xpdlClass == WorkflowProcess.class || xpdlClass == WorkflowProcesses.class) {
          return workflowProcessTypes;
       }
       return new ArrayList();
@@ -407,13 +400,8 @@ public class JaWETypes extends JaWEComponentSettings {
       return "";
    }
 
-   protected void loadTypes(Class typeClass,
-                            String name,
-                            List list,
-                            JaWEComponent controller,
-                            Properties properties) {
-      List types = ResourceManager.getResourceStrings(properties, "JaWETypes."
-                                                                  + name + ".Id.", false);
+   protected void loadTypes(Class typeClass, String name, List list, JaWEComponent controller, Properties properties) {
+      List types = ResourceManager.getResourceStrings(properties, "JaWETypes." + name + ".Id.", false);
 
       String orderStr = properties.getProperty("JaWETypes." + name + ".Order", "");
       String[] order = XMLUtil.tokenize(orderStr, ",");
@@ -436,13 +424,10 @@ public class JaWETypes extends JaWEComponentSettings {
          types = types2;
       }
       for (int i = 0; i < types.size(); i++) {
-         String id = ResourceManager.getResourceString(properties, "JaWETypes."
-                                                                   + name + ".Id."
-                                                                   + types.get(i));
+         String id = ResourceManager.getResourceString(properties, "JaWETypes." + name + ".Id." + types.get(i));
          if (id.trim().equals("")) {
             if (allTypesMapping.containsKey("JaWETypes." + name + ".Id." + types.get(i))) {
-               String defId = (String) allTypesMapping.get("JaWETypes."
-                                                           + name + ".Id." + types.get(i));
+               String defId = (String) allTypesMapping.get("JaWETypes." + name + ".Id." + types.get(i));
                JaWEType jtype = (JaWEType) allTypes.get(defId);
                if (list.contains(jtype)) {
                   list.remove(jtype);
@@ -456,29 +441,17 @@ public class JaWETypes extends JaWEComponentSettings {
          ImageIcon icon = null;
          Color color = null;
          try {
-            langDepName = ResourceManager.getResourceString(properties,
-                                                                   "JaWETypes."
-                                                                         + name
-                                                                         + ".LangDepName."
-                                                                         + types.get(i));
+            langDepName = ResourceManager.getResourceString(properties, "JaWETypes." + name + ".LangDepName." + types.get(i));
             dispName = controller.getSettings().getLanguageDependentString(langDepName);
          } catch (Exception e) {
-            System.err.println("JaWETypes->localTypes: Failed to load type "
-                               + typeClass + " for name " + name);
+            System.err.println("JaWETypes->localTypes: Failed to load type " + typeClass + " for name " + name);
          }
          try {
-            icon = new ImageIcon(ResourceManager.getResource(properties, "JaWETypes."
-                                                                         + name
-                                                                         + ".Icon."
-                                                                         + types.get(i)));
+            icon = new ImageIcon(ResourceManager.getResource(properties, "JaWETypes." + name + ".Icon." + types.get(i)));
          } catch (Exception e) {
          }
          try {
-            color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                     "JaWETypes."
-                                                                           + name
-                                                                           + ".Color."
-                                                                           + types.get(i)));
+            color = Utils.getColor(ResourceManager.getResourceString(properties, "JaWETypes." + name + ".Color." + types.get(i)));
          } catch (Exception e) {
          }
 
@@ -495,9 +468,9 @@ public class JaWETypes extends JaWEComponentSettings {
 
          if (dispName != null)
             jtype.setDisplayName(dispName);
-         else if (jtype.getDisplayName()==null)
+         else if (jtype.getDisplayName() == null)
             jtype.setDisplayName(langDepName);
-         
+
          if (icon != null)
             jtype.setIcon(icon);
 
@@ -509,15 +482,11 @@ public class JaWETypes extends JaWEComponentSettings {
          allTypesMapping.put("JaWETypes." + name + ".Id." + types.get(i), id);
 
          try {
-            String templateXML = ResourceManager.getResourceString(properties,
-                                                                   "JaWETypes."
-                                                                         + name + "."
-                                                                         + XPDL_TEMPLATE
-                                                                         + "."
-                                                                         + types.get(i));
+            String templateXML = ResourceManager.getResourceString(properties, "JaWETypes." + name + "." + XPDL_TEMPLATE + "." + types.get(i));
             if (templateXML != null && !templateXML.equals("")) {
                Document doc = parseDocument(templateXML, true);
                XMLElement tmpl = createTemplateElement(doc);
+               tmpl.removeXPDL1Support();
                templateMap.put(id, tmpl);
             }
 
@@ -544,31 +513,20 @@ public class JaWETypes extends JaWEComponentSettings {
       loadCollection(TypeDeclarations.class, "TypeDeclarations", controller, properties);
    }
 
-   protected void loadCollection(Class typeClass,
-                                 String name,
-                                 JaWEComponent controller,
-                                 Properties properties) {
-      String id = ResourceManager.getResourceString(properties, "JaWETypes."
-                                                                + name + ".Id");
+   protected void loadCollection(Class typeClass, String name, JaWEComponent controller, Properties properties) {
+      String id = ResourceManager.getResourceString(properties, "JaWETypes." + name + ".Id");
       if (id == null)
          return;
       String dispName = "";
       ImageIcon icon = null;
       Color color = Color.DARK_GRAY;
       try {
-         String langDepName = ResourceManager.getResourceString(properties,
-                                                                "JaWETypes."
-                                                                      + name
-                                                                      + ".LangDepName");
+         String langDepName = ResourceManager.getResourceString(properties, "JaWETypes." + name + ".LangDepName");
          dispName = controller.getSettings().getLanguageDependentString(langDepName);
-         icon = new ImageIcon(ResourceManager.getResource(properties, "JaWETypes."
-                                                                      + name + ".Icon"));
-         color = Utils.getColor(ResourceManager.getResourceString(properties,
-                                                                  "JaWETypes."
-                                                                        + name + ".Color"));
+         icon = new ImageIcon(ResourceManager.getResource(properties, "JaWETypes." + name + ".Icon"));
+         color = Utils.getColor(ResourceManager.getResourceString(properties, "JaWETypes." + name + ".Color"));
       } catch (Exception e) {
-         System.err.println("JaWETypes->loadCollection: Failed to load collection "
-                            + typeClass + " with name " + name);
+         System.err.println("JaWETypes->loadCollection: Failed to load collection " + typeClass + " with name " + name);
       }
 
       JaWEType jtype = new JaWEType(typeClass, id, dispName, icon, color);
@@ -579,21 +537,18 @@ public class JaWETypes extends JaWEComponentSettings {
 
    public void loadDefault(JaWEComponent controller, Properties properties) {
 
-      fullTemplateCheckForNonStandardTypes = new Boolean(properties.getProperty("JaWETypes.FullTemplateCheckForNonStandardTypes",
-                                                                                "true")).booleanValue();
+      fullTemplateCheckForNonStandardTypes = new Boolean(properties.getProperty("JaWETypes.FullTemplateCheckForNonStandardTypes", "true")).booleanValue();
 
       // check Activity
       String id;
       String dispName = "";
       // defaults
-      ImageIcon defIcon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/default.gif"));
+      ImageIcon defIcon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/default.gif"));
       Color defColor = Color.LIGHT_GRAY;
 
       id = JaWEConstants.ACTIVITY_TYPE_START;
       dispName = controller.getSettings().getLanguageDependentString("StartEventKey");
-      ImageIcon icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/start.gif"));
+      ImageIcon icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/start.gif"));
       Color color = new Color(102, 204, 51);
       JaWEType jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -602,8 +557,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ACTIVITY_TYPE_END;
       dispName = controller.getSettings().getLanguageDependentString("EndEventKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/end.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/end.gif"));
       color = new Color(236, 120, 98);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -612,8 +566,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ACTIVITY_TYPE_NO;
       dispName = controller.getSettings().getLanguageDependentString("NoKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/genericactivity.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/genericactivity.gif"));
       color = new Color(187, 247, 190);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -621,10 +574,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.ActivityType.Id.no_impl", id);
 
       id = JaWEConstants.ACTIVITY_TYPE_TASK_APPLICATION;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("TaskApplicationKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activitytool.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("TaskApplicationKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/activitytool.gif"));
       color = new Color(255, 204, 204);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -632,10 +583,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.ActivityType.Id.task_application", id);
 
       id = JaWEConstants.ACTIVITY_TYPE_TASK_SCRIPT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("TaskScriptKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activityscript.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("TaskScriptKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/activityscript.gif"));
       color = new Color(255, 255, 204);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -644,8 +593,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ACTIVITY_TYPE_SUBFLOW;
       dispName = controller.getSettings().getLanguageDependentString("SubFlowKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/subflowactivity.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/subflowactivity.gif"));
       color = new Color(255, 106, 106);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -654,8 +602,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ACTIVITY_TYPE_BLOCK;
       dispName = controller.getSettings().getLanguageDependentString("BlockActivityKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/blockactivity.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/blockactivity.gif"));
       color = new Color(255, 165, 121);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -663,10 +610,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.ActivityType.Id.block", id);
 
       id = JaWEConstants.ACTIVITY_TYPE_ROUTE_EXCLUSIVE;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("GatewayExclusiveKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/gatewayexclusive.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("GatewayExclusiveKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/gatewayexclusive.gif"));
       color = new Color(255, 229, 124);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -674,10 +619,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.ActivityType.Id.gateway_exclusive", id);
 
       id = JaWEConstants.ACTIVITY_TYPE_ROUTE_PARALLEL;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("GatewayParallelKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/gatewayparallel.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("GatewayParallelKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/gatewayparallel.gif"));
       color = new Color(255, 229, 124);
       jtype = new JaWEType(Activity.class, id, dispName, icon, color);
       activityTypes.add(jtype);
@@ -697,16 +640,14 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ACTIVITY_SET_TYPE_DEFAULT;
       dispName = controller.getSettings().getLanguageDependentString("ActivitySetKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activityset.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/activityset.gif"));
       jtype = new JaWEType(ActivitySet.class, id, dispName, icon, defColor);
       activitySetTypes.add(jtype);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.ActivitySetType.Id.default", id);
 
       id = JaWEConstants.ACTUAL_PARAMETER_DEFAULT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("ActualParameterKey");
+      dispName = controller.getSettings().getLanguageDependentString("ActualParameterKey");
       jtype = new JaWEType(ActualParameter.class, id, dispName, defIcon, defColor);
       actualParameterTypes.add(jtype);
       allTypes.put(id, jtype);
@@ -714,8 +655,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.APPLICATION_TYPE_DEFAULT;
       dispName = controller.getSettings().getLanguageDependentString("ApplicationKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/applications.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/applications.gif"));
       jtype = new JaWEType(Application.class, id, dispName, icon, defColor);
       applicationTypes.add(jtype);
       allTypes.put(id, jtype);
@@ -723,8 +663,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ARTIFACT_TYPE_DATA_OBJECT;
       dispName = controller.getSettings().getLanguageDependentString("DataObjectKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/dataobject.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/dataobject.gif"));
       color = new Color(255, 200, 0);
       jtype = new JaWEType(Artifact.class, id, dispName, icon, color);
       artifactTypes.add(jtype);
@@ -733,8 +672,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ARTIFACT_TYPE_ANNOTATION;
       dispName = controller.getSettings().getLanguageDependentString("AnnotationKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/annotation.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/annotation.gif"));
       jtype = new JaWEType(Artifact.class, id, dispName, icon, defColor);
       artifactTypes.add(jtype);
       allTypes.put(id, jtype);
@@ -742,8 +680,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ASSOCIATION_TYPE_DEFAULT;
       dispName = controller.getSettings().getLanguageDependentString("AssociationDirectionalKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/association.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/association.gif"));
       color = Color.BLACK;
       jtype = new JaWEType(Association.class, id, dispName, icon, color);
       associationTypes.add(jtype);
@@ -752,8 +689,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ASSOCIATION_TYPE_NONE;
       dispName = controller.getSettings().getLanguageDependentString("AssociationNoneKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/association_nodirection.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/association_nodirection.gif"));
       color = Color.BLACK;
       jtype = new JaWEType(Association.class, id, dispName, icon, color);
       associationTypes.add(jtype);
@@ -762,8 +698,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ASSOCIATION_TYPE_BIDIRECTIONAL;
       dispName = controller.getSettings().getLanguageDependentString("AssociationBidirectionalKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/association_bidirection.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/association_bidirection.gif"));
       color = Color.BLACK;
       jtype = new JaWEType(Association.class, id, dispName, icon, color);
       associationTypes.add(jtype);
@@ -772,8 +707,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.DATA_FIELD_DEFAULT;
       dispName = controller.getSettings().getLanguageDependentString("DataFieldKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/workflowrelevantdata.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/workflowrelevantdata.gif"));
       jtype = new JaWEType(DataField.class, id, dispName, icon, defColor);
       dataFieldTypes.add(jtype);
       allTypes.put(id, jtype);
@@ -787,36 +721,30 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.DeadlineType.Id.default", id);
 
       id = JaWEConstants.ENUMERATION_VALUE_DEFAULT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("EnumerationValueKey");
+      dispName = controller.getSettings().getLanguageDependentString("EnumerationValueKey");
       jtype = new JaWEType(EnumerationValue.class, id, dispName, defIcon, defColor);
       enumerationValueTypes.add(jtype);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.EnumerationValueType.Id.default", id);
 
       id = JaWEConstants.EXTENDED_ATTRIBUTE_DEFAULT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("ExtendedAttributeKey");
+      dispName = controller.getSettings().getLanguageDependentString("ExtendedAttributeKey");
       jtype = new JaWEType(ExtendedAttribute.class, id, dispName, defIcon, defColor);
       extendedAttributeTypes.add(jtype);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.ExtendedAttributeType.Id.default", id);
 
       id = JaWEConstants.EXTERNAL_PACKAGE_DEFAULT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("ExternalPackageKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalpackages.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("ExternalPackageKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/externalpackages.gif"));
       jtype = new JaWEType(ExternalPackage.class, id, dispName, icon, defColor);
       externalPackageTypes.add(jtype);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.ExternalPackageType.Id.default", id);
 
       id = JaWEConstants.FORMAL_PARAMETER_DEFAULT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("FormalParameterKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/formalparameters.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("FormalParameterKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/formalparameters.gif"));
       jtype = new JaWEType(FormalParameter.class, id, dispName, icon, defColor);
       formalParameterTypes.add(jtype);
       allTypes.put(id, jtype);
@@ -824,8 +752,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.LANE_TYPE_DEFAULT;
       dispName = controller.getSettings().getLanguageDependentString("LaneKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/lane.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/lane.gif"));
       color = new Color(255, 255, 215);
       jtype = new JaWEType(Lane.class, id, dispName, icon, color);
       laneTypes.add(jtype);
@@ -848,28 +775,23 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.PACKAGE_DEFAULT;
       dispName = controller.getSettings().getLanguageDependentString("PackageKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/package.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/package.gif"));
       jtype = new JaWEType(Package.class, id, dispName, icon, defColor);
       packageTypes.add(jtype);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.PackageType.Id.default", id);
 
       id = JaWEConstants.PACKAGE_EXTERNAL;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("ExternalPackageKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/externalpackages.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("ExternalPackageKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/externalpackages.gif"));
       jtype = new JaWEType(Package.class, id, dispName, icon, defColor);
       externalPackageTypes.add(jtype);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.PackageType.Id.external", id);
 
       id = JaWEConstants.PACKAGE_TRANSIENT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("TransientPackageKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transientpackage.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("TransientPackageKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/transientpackage.gif"));
       jtype = new JaWEType(ExternalPackage.class, id, dispName, icon, defColor);
       externalPackageTypes.add(jtype);
       allTypes.put(id, jtype);
@@ -877,8 +799,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.PARTICIPANT_TYPE_HUMAN;
       dispName = controller.getSettings().getLanguageDependentString("HUMANKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/participant.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/participant.gif"));
       color = new Color(240, 240, 240);
       jtype = new JaWEType(Participant.class, id, dispName, icon, color);
       participantTypes.add(jtype);
@@ -887,8 +808,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.PARTICIPANT_TYPE_ROLE;
       dispName = controller.getSettings().getLanguageDependentString("ROLEKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/participantrole.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/participantrole.gif"));
       color = new Color(220, 220, 220);
       jtype = new JaWEType(Participant.class, id, dispName, icon, color);
       participantTypes.add(jtype);
@@ -896,10 +816,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.ParticipantType.Id.role", id);
 
       id = JaWEConstants.PARTICIPANT_TYPE_ORGANIZATIONAL_UNIT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("ORGANIZATIONAL_UNITKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/participantorgunit.png"));
+      dispName = controller.getSettings().getLanguageDependentString("ORGANIZATIONAL_UNITKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/participantorgunit.png"));
       color = new Color(200, 200, 200);
       jtype = new JaWEType(Participant.class, id, dispName, icon, color);
       participantTypes.add(jtype);
@@ -908,8 +826,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.PARTICIPANT_TYPE_RESOURCE;
       dispName = controller.getSettings().getLanguageDependentString("RESOURCEKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/participantresource.png"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/participantresource.png"));
       color = new Color(146, 146, 180);
       jtype = new JaWEType(Participant.class, id, dispName, icon, color);
       participantTypes.add(jtype);
@@ -918,8 +835,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.PARTICIPANT_TYPE_RESOURCE_SET;
       dispName = controller.getSettings().getLanguageDependentString("RESOURCE_SETKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/participantresourceset.png"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/participantresourceset.png"));
       color = new Color(146, 146, 160);
       jtype = new JaWEType(Participant.class, id, dispName, icon, color);
       participantTypes.add(jtype);
@@ -928,8 +844,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.PARTICIPANT_TYPE_SYSTEM;
       dispName = controller.getSettings().getLanguageDependentString("SYSTEMKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/participantsystem.png"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/participantsystem.png"));
       color = new Color(40, 145, 195);
       jtype = new JaWEType(Participant.class, id, dispName, icon, color);
       participantTypes.add(jtype);
@@ -938,8 +853,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.POOL_TYPE_DEFAULT;
       dispName = controller.getSettings().getLanguageDependentString("PoolKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/pool.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/pool.gif"));
       color = new Color(255, 255, 215);
       jtype = new JaWEType(Pool.class, id, dispName, icon, color);
       poolTypes.add(jtype);
@@ -954,10 +868,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.ResponsibleType.Id.default", id);
 
       id = JaWEConstants.TRANSITION_TYPE_UNCONDITIONAL;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("UNCONTROLLED_FLOWKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/unconditional.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("UNCONTROLLED_FLOWKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/unconditional.gif"));
       color = Color.BLACK;
       jtype = new JaWEType(Transition.class, id, dispName, icon, color);
       transitionTypes.add(jtype);
@@ -965,10 +877,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.TransitionType.Id.default", id);
 
       id = JaWEConstants.TRANSITION_TYPE_CONDITIONAL;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("CONDITIONAL_FLOWKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transition.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("CONDITIONAL_FLOWKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/transition.gif"));
       color = Color.BLACK;
       jtype = new JaWEType(Transition.class, id, dispName, icon, color);
       transitionTypes.add(jtype);
@@ -977,8 +887,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.TRANSITION_TYPE_OTHERWISE;
       dispName = controller.getSettings().getLanguageDependentString("DEFAULT_FLOWKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionotherwise.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionotherwise.gif"));
       color = new Color(255, 128, 0);
       jtype = new JaWEType(Transition.class, id, dispName, icon, color);
       transitionTypes.add(jtype);
@@ -987,8 +896,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.TRANSITION_TYPE_EXCEPTION;
       dispName = controller.getSettings().getLanguageDependentString("EXCEPTION_FLOWKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitionexception.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/transitionexception.gif"));
       color = new Color(255, 128, 255);
       jtype = new JaWEType(Transition.class, id, dispName, icon, color);
       transitionTypes.add(jtype);
@@ -996,10 +904,8 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.TransitionType.Id.exception", id);
 
       id = JaWEConstants.TRANSITION_TYPE_DEFAULTEXCEPTION;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("DEFAULT_EXCEPTION_FLOWKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitiondefaultexception.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("DEFAULT_EXCEPTION_FLOWKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/transitiondefaultexception.gif"));
       color = new Color(204, 0, 0);
       jtype = new JaWEType(Transition.class, id, dispName, icon, color);
       transitionTypes.add(jtype);
@@ -1007,20 +913,16 @@ public class JaWETypes extends JaWEComponentSettings {
       allTypesMapping.put("JaWETypes.TransitionType.Id.defaultexception", id);
 
       id = JaWEConstants.TYPE_DECLARATION_DEFAULT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("TypeDeclarationKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/typedeclarations.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("TypeDeclarationKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/typedeclarations.gif"));
       jtype = new JaWEType(TypeDeclaration.class, id, dispName, icon, defColor);
       typeDeclarationTypes.add(jtype);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.TypeDeclarationType.Id.default", id);
 
       id = JaWEConstants.WORKFLOW_PROCESS_TYPE_DEFAULT;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("WorkflowProcessKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/process.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("WorkflowProcessKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/process.gif"));
       jtype = new JaWEType(WorkflowProcess.class, id, dispName, icon, defColor);
       workflowProcessTypes.add(jtype);
       allTypes.put(id, jtype);
@@ -1028,248 +930,148 @@ public class JaWETypes extends JaWEComponentSettings {
 
       id = JaWEConstants.ACTIVITIES;
       dispName = controller.getSettings().getLanguageDependentString("ActivitiesKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activities.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/activities.gif"));
       jtype = new JaWEType(Activities.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.Activities.Id", id);
 
       id = JaWEConstants.ACTIVITYSETS;
       dispName = controller.getSettings().getLanguageDependentString("ActivitySetsKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/activitysets.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/activitysets.gif"));
       jtype = new JaWEType(ActivitySets.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.ActivitySets.Id", id);
 
       id = JaWEConstants.APPLICATIONS;
       dispName = controller.getSettings().getLanguageDependentString("ApplicationsKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/applications.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/applications.gif"));
       jtype = new JaWEType(Applications.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.Applications.Id", id);
 
       id = JaWEConstants.DATAFIELDS;
       dispName = controller.getSettings().getLanguageDependentString("DataFieldsKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/workflowrelevantdata.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/workflowrelevantdata.gif"));
       jtype = new JaWEType(DataFields.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.DataFields.Id", id);
 
       id = JaWEConstants.EXTERNALPACKAGES;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("ExternalPackagesKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/packages.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("ExternalPackagesKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/packages.gif"));
       jtype = new JaWEType(ExternalPackages.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.ExternalPackages.Id", id);
 
       id = JaWEConstants.FORMALPARAMETERS;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("FormalParametersKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/formalparameters.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("FormalParametersKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/formalparameters.gif"));
       jtype = new JaWEType(FormalParameters.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.FormalParameters.Id", id);
 
       id = JaWEConstants.LANES;
       dispName = controller.getSettings().getLanguageDependentString("LanesKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/lanes.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/lanes.gif"));
       jtype = new JaWEType(Lanes.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.Lanes.Id", id);
 
       id = JaWEConstants.PARTICIPANTS;
       dispName = controller.getSettings().getLanguageDependentString("ParticipantsKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/participants.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/participants.gif"));
       jtype = new JaWEType(Participants.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.Participants.Id", id);
 
       id = JaWEConstants.POOLS;
       dispName = controller.getSettings().getLanguageDependentString("PoolsKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/pools.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/pools.gif"));
       jtype = new JaWEType(Pools.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.Pools.Id", id);
 
       id = JaWEConstants.WORKFLOWPROCESSES;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("WorkflowProcessesKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/processes.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("WorkflowProcessesKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/processes.gif"));
       jtype = new JaWEType(WorkflowProcesses.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.WorkflowProcesses.Id", id);
 
       id = JaWEConstants.TRANSITIONS;
       dispName = controller.getSettings().getLanguageDependentString("TransitionsKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/transitions.gif"));
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/transitions.gif"));
       jtype = new JaWEType(Transitions.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.Transitions.Id", id);
 
       id = JaWEConstants.TYPEDECLARATIONS;
-      dispName = controller.getSettings()
-         .getLanguageDependentString("TypeDeclarationsKey");
-      icon = new ImageIcon(JaWETypes.class.getClassLoader()
-         .getResource("org/enhydra/jawe/images/typedeclarations.gif"));
+      dispName = controller.getSettings().getLanguageDependentString("TypeDeclarationsKey");
+      icon = new ImageIcon(JaWETypes.class.getClassLoader().getResource("org/enhydra/jawe/images/typedeclarations.gif"));
       jtype = new JaWEType(TypeDeclarations.class, id, dispName, icon, defColor);
       allTypes.put(id, jtype);
       allTypesMapping.put("JaWETypes.TypeDeclarations.Id", id);
 
       loadTypes(Activity.class, "ActivityType", activityTypes, controller, properties);
-      loadTypes(ActivitySet.class,
-                "ActivitySetType",
-                activitySetTypes,
-                controller,
-                properties);
-      loadTypes(ActualParameter.class,
-                "ActualParameterType",
-                actualParameterTypes,
-                controller,
-                properties);
-      loadTypes(Application.class,
-                "ApplicationType",
-                applicationTypes,
-                controller,
-                properties);
+      loadTypes(ActivitySet.class, "ActivitySetType", activitySetTypes, controller, properties);
+      loadTypes(ActualParameter.class, "ActualParameterType", actualParameterTypes, controller, properties);
+      loadTypes(Application.class, "ApplicationType", applicationTypes, controller, properties);
       loadTypes(Artifact.class, "ArtifactType", artifactTypes, controller, properties);
       loadTypes(DataField.class, "DataFieldType", dataFieldTypes, controller, properties);
       loadTypes(Deadline.class, "DeadlineType", deadlineTypes, controller, properties);
-      loadTypes(EnumerationType.class,
-                "EnumerationValueType",
-                enumerationValueTypes,
-                controller,
-                properties);
+      loadTypes(EnumerationType.class, "EnumerationValueType", enumerationValueTypes, controller, properties);
 
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType",
-                extendedAttributeTypes,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType", extendedAttributeTypes, controller, properties);
 
       // Activity EAs
       List l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.Activity",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.Activity", l, controller, properties);
       extAttribTypes.put("Activity", l);
       // Application EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.Application",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.Application", l, controller, properties);
       extAttribTypes.put("Application", l);
       // DataField EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.DataField",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.DataField", l, controller, properties);
       extAttribTypes.put("DataField", l);
       // Package EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.Package",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.Package", l, controller, properties);
       extAttribTypes.put("Package", l);
       // Participant EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.Participant",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.Participant", l, controller, properties);
       extAttribTypes.put("Participant", l);
       // Tool EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.Tool",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.Tool", l, controller, properties);
       extAttribTypes.put("Tool", l);
       // Transition EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.Transition",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.Transition", l, controller, properties);
       extAttribTypes.put("Transition", l);
       // TypeDeclaration EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.TypeDeclaration",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.TypeDeclaration", l, controller, properties);
       extAttribTypes.put("TypeDeclaration", l);
       // WorkflowProcess EAs
       l = new ArrayList();
-      loadTypes(ExtendedAttribute.class,
-                "ExtendedAttributeType.WorkflowProcess",
-                l,
-                controller,
-                properties);
+      loadTypes(ExtendedAttribute.class, "ExtendedAttributeType.WorkflowProcess", l, controller, properties);
       extAttribTypes.put("WorkflowProcess", l);
 
-      loadTypes(ExternalPackage.class,
-                "ExternalPackageType",
-                externalPackageTypes,
-                controller,
-                properties);
-      loadTypes(FormalParameter.class,
-                "FormalParameterType",
-                formalParameterTypes,
-                controller,
-                properties);
+      loadTypes(ExternalPackage.class, "ExternalPackageType", externalPackageTypes, controller, properties);
+      loadTypes(FormalParameter.class, "FormalParameterType", formalParameterTypes, controller, properties);
       loadTypes(Lane.class, "LaneType", laneTypes, controller, properties);
       loadTypes(Member.class, "MemberType", memberTypes, controller, properties);
       loadTypes(Namespace.class, "NamespaceType", namespaceTypes, controller, properties);
       loadTypes(Package.class, "PackageType", packageTypes, controller, properties);
-      loadTypes(Participant.class,
-                "ParticipantType",
-                participantTypes,
-                controller,
-                properties);
+      loadTypes(Participant.class, "ParticipantType", participantTypes, controller, properties);
       loadTypes(Pool.class, "PoolType", poolTypes, controller, properties);
-      loadTypes(Responsible.class,
-                "ResponsibleType",
-                responsibleTypes,
-                controller,
-                properties);
-      loadTypes(Transitions.class,
-                "TransitionType",
-                transitionTypes,
-                controller,
-                properties);
-      loadTypes(TypeDeclaration.class,
-                "TypeDeclarationType",
-                typeDeclarationTypes,
-                controller,
-                properties);
-      loadTypes(WorkflowProcess.class,
-                "WorkflowProcessType",
-                workflowProcessTypes,
-                controller,
-                properties);
+      loadTypes(Responsible.class, "ResponsibleType", responsibleTypes, controller, properties);
+      loadTypes(Transitions.class, "TransitionType", transitionTypes, controller, properties);
+      loadTypes(TypeDeclaration.class, "TypeDeclarationType", typeDeclarationTypes, controller, properties);
+      loadTypes(WorkflowProcess.class, "WorkflowProcessType", workflowProcessTypes, controller, properties);
       loadCollections(properties, controller);
    }
 
@@ -1281,8 +1083,7 @@ public class JaWETypes extends JaWEComponentSettings {
 
       // Parse the Document and traverse the DOM
       try {
-         parser.setFeature("http://apache.org/xml/features/continue-after-fatal-error",
-                           true);
+         parser.setFeature("http://apache.org/xml/features/continue-after-fatal-error", true);
          if (isFile) {
             // System.err.println("Parsing from file");
             File f = new File(toParse);
@@ -1315,26 +1116,20 @@ public class JaWETypes extends JaWEComponentSettings {
       if (!elName.endsWith("Package")) {
          try {
             el = (XMLElement) Class.forName(elName).getConstructors()[0].newInstance(new Object[] {
-               null
+                                                                                                    null
             });
          } catch (Exception ex) {
             el = (XMLElement) Class.forName(elName).getConstructors()[0].newInstance(new Object[] {
-                                                                                                   null, false
-                                                                                                });
+                                                                                                    null, false
+            });
          }
       } else {
          el = new Package();
       }
       if (el instanceof XMLComplexElement) {
-         JaWEManager.getInstance()
-            .getXPDLHandler()
-            .getXPDLRepositoryHandler()
-            .fromXML(doc.getDocumentElement(), (XMLComplexElement) el);
+         JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().fromXML(doc.getDocumentElement(), (XMLComplexElement) el);
       } else if (el instanceof XMLSimpleElement) {
-         JaWEManager.getInstance()
-            .getXPDLHandler()
-            .getXPDLRepositoryHandler()
-            .fromXML(doc.getDocumentElement(), (XMLSimpleElement) el);
+         JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().fromXML(doc.getDocumentElement(), (XMLSimpleElement) el);
       }
       return el;
    }
@@ -1347,12 +1142,7 @@ public class JaWETypes extends JaWEComponentSettings {
          int acttype = act.getActivityType();
          str += "\n\tType=" + acttype;
          if (acttype == XPDLConstants.ACTIVITY_TYPE_TASK_APPLICATION) {
-            TaskApplication ts = act.getActivityTypes()
-               .getImplementation()
-               .getImplementationTypes()
-               .getTask()
-               .getTaskTypes()
-               .getTaskApplication();
+            TaskApplication ts = act.getActivityTypes().getImplementation().getImplementationTypes().getTask().getTaskTypes().getTaskApplication();
             str += "\n\tApplicationId=" + ts.getId();
             Iterator it = ts.getActualParameters().toElements().iterator();
             int i = 1;
@@ -1370,16 +1160,13 @@ public class JaWETypes extends JaWEComponentSettings {
             String str = "\n\tElement type=" + el.toName();
             for (int i = 0; i < attributes.size(); i++) {
                XMLAttribute attr = (XMLAttribute) attributes.get(i);
-               str += "\n\t    "
-                      + i + ". attribute [" + attr.toName() + "," + attr.toValue() + "]";
+               str += "\n\t    " + i + ". attribute [" + attr.toName() + "," + attr.toValue() + "]";
             }
             List elems = ((XMLComplexElement) el).getXMLElements();
             for (int i = 0; i < elems.size(); i++) {
                XMLElement attr = (XMLElement) elems.get(i);
                if (attr instanceof XMLSimpleElement) {
-                  str += "\n\t    "
-                         + i + ". simple el [" + attr.toName() + "," + attr.toValue()
-                         + "]";
+                  str += "\n\t    " + i + ". simple el [" + attr.toName() + "," + attr.toValue() + "]";
                } else {
                   toString(attr);
                }
@@ -1391,14 +1178,10 @@ public class JaWETypes extends JaWEComponentSettings {
             for (int i = 0; i < elems.size(); i++) {
                XMLElement attr = (XMLElement) elems.get(i);
                if (attr instanceof XMLAttribute) {
-                  str += "\n\t    "
-                         + i + ". attribute [" + attr.toName() + "," + attr.toValue()
-                         + "]";
+                  str += "\n\t    " + i + ". attribute [" + attr.toName() + "," + attr.toValue() + "]";
                }
                if (attr instanceof XMLSimpleElement) {
-                  str += "\n\t    "
-                         + i + ". simple el [" + attr.toName() + "," + attr.toValue()
-                         + "]";
+                  str += "\n\t    " + i + ". simple el [" + attr.toName() + "," + attr.toValue() + "]";
                } else {
                   toString(attr);
                }
@@ -1422,10 +1205,7 @@ public class JaWETypes extends JaWEComponentSettings {
       if (type != null) {
          JaWEType jt = getType(type);
          if (jt != null) {
-            if (!fullTemplateCheckForNonStandardTypes
-                || (hasTemplateId(type) && compareToTemplate(el,
-                                                             el,
-                                                             getTemplateElement(type)))) {
+            if (!fullTemplateCheckForNonStandardTypes || (hasTemplateId(type) && compareToTemplate(el, el, getTemplateElement(type)))) {
                return jt;
             }
          }
@@ -1442,8 +1222,7 @@ public class JaWETypes extends JaWEComponentSettings {
             ret = el.toValue().equals(tmplEl.toValue());
          } else if (el instanceof XMLAttribute) {
             boolean checkIt = true;
-            if ((el.toName().equals("Id") || el.toName().equals("Name"))
-                && el.getParent() == topEl && !(el instanceof ExtendedAttribute)) {
+            if ((el.toName().equals("Id") || el.toName().equals("Name")) && el.getParent() == topEl && !(el instanceof ExtendedAttribute)) {
                checkIt = false;
             } else if (el.toName().equals("Value")) {
                checkIt = false;
@@ -1451,9 +1230,7 @@ public class JaWETypes extends JaWEComponentSettings {
             if (checkIt) {
                XMLAttribute attrEl = (XMLAttribute) el;
                XMLAttribute attrTmplEl = (XMLAttribute) tmplEl;
-               ret = (attrEl.getChoices() == null ? attrTmplEl.getChoices() == null
-                                                 : attrEl.getChoices()
-                                                    .equals(attrTmplEl.getChoices()));
+               ret = (attrEl.getChoices() == null ? attrTmplEl.getChoices() == null : attrEl.getChoices().equals(attrTmplEl.getChoices()));
                if (ret && !tmplEl.isEmpty()) {
                   ret = el.toValue().equals(tmplEl.toValue());
                }
@@ -1465,9 +1242,7 @@ public class JaWETypes extends JaWEComponentSettings {
                // System.err.println("CMPLXEL: different values");
             } else {
                XMLComplexElement cmplxEl = (XMLComplexElement) el;
-               Iterator it = ((XMLComplexElement) tmplEl).toElementMap()
-                  .entrySet()
-                  .iterator();
+               Iterator it = ((XMLComplexElement) tmplEl).toElementMap().entrySet().iterator();
                while (it.hasNext()) {
                   Map.Entry me = (Map.Entry) it.next();
                   String subElName = (String) me.getKey();

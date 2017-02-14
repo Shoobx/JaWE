@@ -20,7 +20,6 @@ package org.enhydra.jawe.shark;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -28,13 +27,14 @@ import javax.swing.Box;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.Utils;
 import org.enhydra.jawe.base.panel.PanelContainer;
+import org.enhydra.jawe.base.panel.PanelGenerator;
 import org.enhydra.jawe.base.panel.panels.XMLBasicPanel;
 import org.enhydra.jawe.base.panel.panels.XMLComboPanel;
 import org.enhydra.jawe.base.panel.panels.XMLElementView;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
-import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jawe.shark.business.SharkConstants;
+import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLUtil;
 import org.enhydra.jxpdl.elements.DeadlineDuration;
 
@@ -51,16 +51,18 @@ public class DeadlineDurationPanel extends XMLBasicPanel {
 
    protected XMLComboPanel pCombo;
 
-   public DeadlineDurationPanel(final PanelContainer pc, final DeadlineDuration myOwner, String title, final boolean isEnabled, String tooltip) {
+   public DeadlineDurationPanel(final PanelContainer pc,
+                                final PanelGenerator pg,
+                                final DeadlineDuration myOwner,
+                                String title,
+                                final boolean isEnabled,
+                                String tooltip) {
 
       super(pc, myOwner, title, true, true, true, tooltip);
 
-      List<String> choices = new ArrayList<String>();
-      choices.add(SharkConstants.SCRIPT_VALUE_JAVASCRIPT);
-      choices.add(SharkConstants.SCRIPT_VALUE_JAVA);
-      choices.add(SharkConstants.SCRIPT_VALUE_PYTHONSCRIPT);
-      choices.add(SharkConstants.SCRIPT_VALUE_SHARKWF_DEADLINES);
-      pCombo = new XMLComboPanel(pc, myOwner.get("ScriptType"), choices, false, false, false, false, isEnabled);
+      XMLAttribute st = (XMLAttribute) myOwner.get("ScriptType");
+      List<String> choices = ((SharkPanelGenerator) pg).getScriptChoices(st);
+      pCombo = new XMLComboPanel(pc, st, choices, false, false, false, false, isEnabled);
       add(pCombo);
 
       emptyPanel = new XMLBasicPanel(pc, myOwner, "", true, false, false, tooltip);
@@ -112,11 +114,11 @@ public class DeadlineDurationPanel extends XMLBasicPanel {
             paintAll(getGraphics());
          }
       });
-      String st = myOwner.getScriptType();
-      if (st.equals("")) {
-         st = SharkConstants.SCRIPT_VALUE_JAVA;
+      String stv = myOwner.getScriptType();
+      if (stv.equals("")) {
+         stv = SharkConstants.SCRIPT_VALUE_JAVA;
       }
-      pCombo.getComboBox().setSelectedItem(new XMLElementView(pc, st, true));
+      pCombo.getComboBox().setSelectedItem(new XMLElementView(pc, stv, true));
 
       add(Box.createVerticalGlue());
 
