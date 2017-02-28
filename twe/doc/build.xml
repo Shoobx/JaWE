@@ -136,6 +136,16 @@
             </fileset>
          </classpath>
       </taskdef>
+      
+      <!-- Setting for xmltask task (xmltask) -->
+      <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+         <classpath>
+            <fileset dir="${tools.dir}/xmltask">
+               <include name="*.jar" />
+            </fileset>
+         </classpath>
+      </taskdef>
+      
    </target>
 
    <!-- ==================================================================== -->
@@ -163,7 +173,7 @@
 				<exclude name="*.properties" />
 				<exclude name="*.txt" />
 			</fileset>
-		</copy>
+		</copy>            
    </target>
 
    <!-- ==================================================================== -->
@@ -214,7 +224,10 @@
    <target name="rebranding">
       <!--copy file="${doc.dir}/${docbook.name}.xml" tofile="${tmp.dir}/${docbook.name}.xml" />
       <copy file="${doc.dir}/${testcase.name}.xml" tofile="${tmp.dir}/${testcase.name}.xml" /-->
-	  <copy todir="${tmp.dir}">
+     <copy todir="${tmp.dir}">
+       <fileset dir="${doc.dir}" includes="*-doc-*.xml"/>
+     </copy>
+     <copy todir="${tmp.dir}">
 			<fileset dir="${doc.dir}">
 				<include name="*-doc.xml" />
 				<exclude name="*-testcases-doc.xml" />
@@ -249,8 +262,10 @@
       <!--copy todir="${tmp.dir}/docbook">
          <fileset dir="${docbook.dtd.dir}/dtd"/>
       </copy-->
-      <replace file="${tmp.dir}/${docbook.name}.xml" encoding="utf-8" token="&quot;../tools/docbook-dtd/dtd/docbook.dtd&quot;" value="&quot;../../tools/docbook-dtd/dtd/docbook.dtd&quot;" />
-      <replace file="${tmp.dir}/${testcase.name}.xml" encoding="utf-8" token="&quot;../tools/docbook-dtd/dtd/docbook.dtd&quot;" value="&quot;../../tools/docbook-dtd/dtd/docbook.dtd&quot;" />
+      
+      <replace dir="${tmp.dir}" includes="*.xml" encoding="utf-8" token="&quot;../tools/docbook-dtd/dtd/docbook.dtd&quot;" value="&quot;${tools.dir}/docbook-dtd/dtd/docbook.dtd&quot;" />
+      
+      
       <if>
          <istrue value="${rebranding}" />
          <then>
@@ -258,8 +273,36 @@
             <touch file="${doc.dir}/${docbook.name}.xml" />
          </then>
       </if>
+      
+      <var name="res" value=""/>                  
+
+      <xmltask source="${tmp.dir}/${docbook.name}.xml" failWithoutMatch="true" >
+         <call path="/:book/xi:include" inheritall="true" inheritRefs="true">
+            <param name="hr" path="@href" default=""/>
+            <actions>
+               <if>
+                  <not>
+                     <contains string="${res}" substring="@{hr}" casesensitive="false"/>
+                  </not>
+                  <then>
+                     <echo>Found new include element @{hr}</echo>
+                     <var name="res" value="${res}@{hr};"/>               
+                  </then>
+               </if>
+            </actions>
+         </call>
+      </xmltask>     
+      
+      <foreach list="${res}" delimiter=";" param="includehref" target="handleInclude" inheritall="true" trim="yes"/>
+      
    </target>
 	
+   <target name="handleInclude">
+      <xmltask source="${tmp.dir}/${docbook.name}.xml" dest="${tmp.dir}/${docbook.name}.xml" failWithoutMatch="true" preservetype="true" indent="false" expandEntityReferences="false" encoding="UTF-8"> 
+         <replace path="/:book/xi:include[@href='${includehref}']" withFile="${tmp.dir}/${includehref}"/>
+      </xmltask>   
+   </target>
+   
 	<target name="prepareDocbook" depends="content, rebranding, docbook.check" unless="docbook.notRequired">
 		<echo message="compile docbook with javahelp.xsl" />
 		<java classname="org.apache.xalan.xslt.Process" classpathref="xalan-classpath" dir="${tmp.dir}" fork="true" failonerror="true">
@@ -320,8 +363,8 @@
       <!--exec dir="${tmp.dir}" executable="java${executable.extension}" output="log.txt">
          <arg line="-cp '${docbook.pdf.classpath}' org.apache.fop.cli.Main '${docbook.name}.fo' '${app.name}-current.doc.pdf'" />
       </exec-->
-		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">
-			<arg line="-c 'conf/userconfig.xml'" />
+		<java classname="org.apache.fop.cli.Main" classpathref="fop-classpath" fork="true" failonerror="true" dir="${tmp.dir}" output="log.txt">			 
+         <arg line="-c 'conf/userconfig.xml'" />
 			<arg line="-fo '${docbook.name}.fo'" />
 			<arg line="-pdf '${app.name}-current.doc.pdf'" />
 		</java>

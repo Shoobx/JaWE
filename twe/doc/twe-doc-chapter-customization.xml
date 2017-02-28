@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="customization"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Customization</title>
+
+  <sect1>
+    <title>Need for customization</title>
+
+    <para>In order to make the life easier for the XPDL developers, and to
+    make developing of XPDLs less error prone, it could be a good idea to
+    customize TWE. One way of customization can be introduction of new
+    activity types (e.g. automated activities for sending e-mails with
+    customized property panels for entering all the information, a special
+    kind of deadline element, a special XPDL template for creating a new
+    workflow process, ...).</para>
+
+    <para>Thanks to its internal architecture, TWE can be easily customized in
+    order to support these requirements.</para>
+  </sect1>
+
+  <sect1>
+    <title>Example - activity for sending an e-mail</title>
+
+    <para>To illustrate previous statement, let's say that in all of our
+    processes, we are intensivelly using Tool activity for sending
+    e-mails.</para>
+
+    <para>If we use standard TWE implementation, everytime we want to insert
+    such activity in the process (e.g. via Graph component), we first need to
+    insert a standard Tool activitiy using TWE's Graph component toolbox.
+    After that, we need to open the property panel for the activity, go to the
+    Type section, and create a new Tool for this activity. When new Tool is
+    created, we need to edit it, where we need to select a reference to the
+    Application definition for sending e-mails, and than to create as many
+    ActualParameters for the Tool as there are FormalParameters for the Send
+    E-Mail Application definition. And finally, we need to enter appropriate
+    values for this ActualParameters (either a references to the variables, or
+    some text expressions).</para>
+
+    <para>You have to admit that there is a lot of work to do, and it can be
+    quite anoying if you have to do it many times. Also, it is error
+    prone.</para>
+
+    <para>What we can do is to extend standard TWE functionallity, and to
+    introduce a new type of an activity for sending e-mails, which will be the
+    customization of the standard Tool activity. We can offer a new button in
+    Graph's toolbar for creating such kind of an activity. This button would
+    have a special icon, and e-mail-ing activity when inserted into graph
+    would also have this icon to be diferentiated amongst others. Also, when
+    such activity is created, its XPDL content would be automatically
+    pre-filled, so it would always have a Tool which would reference the
+    Application for sending an e-mails, and this Tool would already have a
+    default values for all necessary ActualParameters. But this is not all, we
+    can also offer a special property panel for entering e-mail parameters
+    (ActualParameters) - e.g, we can have a combo-box with a list of e-mail
+    addresses (which could be filled through the LDAP), we can have a text box
+    for entering mail subject, and a text area for entering mail
+    content.</para>
+  </sect1>
+
+  <sect1>
+    <title>Available customizations</title>
+
+    <para>TWE distribution comes with several customized configurations. You
+    can switch from one configuration to another one if you select
+    Settings-&gt;Configuration and select desired configuration. TWE will be
+    re-configured to use selected configuration.</para>
+
+    <para>Available configurations are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>default - default TWE configuration.</para>
+      </listitem>
+
+      <listitem>
+        <para>shark - configuration specific to TWE usage with Shark engine.
+        Includes special property panels for editing some of extended
+        attributes, shark specific restrictions and validation according to
+        these restrictions.</para>
+      </listitem>
+
+      <listitem>
+        <para>samples-loopactivity - sample configuration that introduces new
+        type of activity along with the special icon for this activity and
+        special property panel for editing its properties.</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+</chapter>
