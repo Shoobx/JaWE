@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="configuration"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Configuration</title>
+
+  <para condition="demo-details">TWE is very configurable in a sense that
+  there are many options that can be changed through TWE's property
+  files.</para>
+
+  <para condition="demo-emptytext">Almost every component (graph, xpdl view,
+  package tree, ...) has its own property file, but there are also some
+  property files for the TWE's core system components.</para>
+
+  <para condition="demo-emptytext">The relevant property files of the core
+  system components are:</para>
+
+  <orderedlist condition="demo-emptytext">
+    <listitem>
+      <para>togwebasic.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>componentmanager.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>togwecontroller.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>jawetypes.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>togweeditor.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>transitionhandler.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>xpdlvalidator.properties</para>
+    </listitem>
+  </orderedlist>
+
+  <para condition="demo-emptytext">Other property files are component specific
+  settings, and these files are:</para>
+
+  <itemizedlist condition="demo-emptytext">
+    <listitem>
+      <para>infobar.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>togwegraphcontroller.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>togwexpdlview.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>extpkgrelations.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>packagenavigator.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>detailedpackagenavigator.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>propertiespanelcomponent.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>searchnavigator.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>problemsnavigator.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>wfxml.properties</para>
+    </listitem>
+
+    <listitem>
+      <para>ldap.properties</para>
+    </listitem>
+  </itemizedlist>
+
+  <para condition="demo-emptytext">The most important of these additional
+  files is probably togwegraphcontroller.properties file. There are settings
+  for graph which is, of course, the most important component.</para>
+
+  <para condition="demo-emptytext">The properties of non-core components are
+  already explained in a sections explaining components itself, so further
+  text will be related only to configuration of core system components.</para>
+
+  <para condition="demo-emptytext"><emphasis>NOTE:</emphasis> Most of the
+  settings start with #. This means that they are put under comment and that
+  default settings will be used. In order to change settings, remove # and
+  change settings value</para>
+
+  <sect1 condition="demo-emptytext" xml:id="togwebasic.properties">
+    <title>Property file <emphasis>togwebasic.properties</emphasis></title>
+
+    <para>This property file contains some basic TWE settings like:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>Font.Size</emphasis> and
+        <emphasis>Font.Name</emphasis> are used for font settings (default
+        font is Sans Serif, size 11).</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>StartingLocale</emphasis> sets local settings to be
+        used. Language depends on this settings. The default value is
+        "default", and it uses English language. If you leave this property
+        empty, your system settings will be used, which means if there is a
+        language property file for your system settings, it will be
+        used.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>LookAndFeelClassName</emphasis> sets UI manager.
+        Default value for this setting is empty, which means that native UI
+        manager will be used. The possible values for this setting could e.g.
+        be <emphasis>javax.swing.plaf.metal.MetalLookAndFeel,</emphasis>
+        <emphasis>com.sun.java.swing.plaf.motif.MotifLookAndFeel,
+        ...</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>UseXPDLPrefix </emphasis>determines whether to use
+        xpdl name space prefix when saving XPDL file. Default value for this
+        property is "tue".</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>DefaultTransientPackages </emphasis>contains a list of
+        the absolute paths to XPDL files which will be loaded into TWE as the
+        'Transient' ones. By default, no transient packages are loaded.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>FileLocking</emphasis> - if set to true, TWE will lock
+        open XPDL files. Main XPDL file will be exclusively locked, and
+        external package's XPDL files will have a shared lock.</para>
+
+        <note>
+          <para>This property is relevant only for Windows OS</para>
+        </note>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1 condition="demo-emptytext">
+    <title>Property file
+    <emphasis>componentmanager.properties</emphasis></title>
+
+    <para>This configuration file contains information about which component
+    (Graph, XPDL View, Navigator, ...) will be used in a runtime. It also
+    defines default tab area for the component, and default placement order of
+    the component inside the tab.</para>
+
+    <para>To specify that a certain component should be used in a runtime, you
+    must define at least two properties:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>The first property defines the component to add. E.g. to add
+        Graph component, we would define something like:</para>
+
+        <para><emphasis>Component.Add.GraphController=org.enhydra.jawe.components.graph.GraphController
+        </emphasis></para>
+
+        <para>The value of this property is the name of the Java class
+        representing TWE component.</para>
+      </listitem>
+
+      <listitem>
+        <para>The second property defines settings to be used to configure the
+        component. E.g. for the Graph component defined in 1), we would define
+        something like:</para>
+
+        <para><emphasis>Settings.GraphController =
+        org.enhydra.jawe.components.graph.TogWEGraphControllerSettings</emphasis></para>
+
+        <para>The value of this property is the name of the Java class
+        representing TWE settings for the given component.</para>
+      </listitem>
+    </orderedlist>
+
+    <para>The parameters that end with <emphasis>.ComponentOrder</emphasis>
+    are used for setting tab order for each of the TWE frame sections (areas).
+    E.g. to add Graph component to be initially the second one in the 'Main'
+    tab, it should be something like:</para>
+
+    <para><emphasis>Main.ComponentOrder = XPDLViewController
+    GraphController</emphasis></para>
+
+    <para>Note that parameters <emphasis>UpperStatus</emphasis> and
+    <emphasis>LowerStatus</emphasis> do not have action order, because these
+    areas contain only one component.</para>
+  </sect1>
+
+  <sect1 condition="demo-emptytext" xml:id="togwecontroller.properties">
+    <title>Property file
+    <emphasis>togwecontroller.properties</emphasis></title>
+
+    <para>This file defines TWE's frame organization (how will it be divided
+    in areas), main menu, tool bar and info bar settings, and TWE's default
+    actions and possibilities. There are a lot of parameters that define these
+    features.</para>
+
+    <para>The following parameters can have either value true, or value
+    false:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>AllowInvalidPackageSaving </emphasis> - if set to
+        true, saving of invalid packages (XPDL files) is allowed even if the
+        package's <emphasis>Publication status</emphasis> property is defined
+        as <emphasis>Released.</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>AskOnDeletion</emphasis> - if set to true, TWE asks
+        for a user confirmation before deleting any element.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>AskOnDeletionOfReferencedElements</emphasis> - if set
+        to true, and previous property is set to false, TWE asks for a user
+        confirmation only before deleting elements referenced by other
+        elements.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>InitialXPDLValidation</emphasis> - if set to true,
+        XPDL file will be checked for errors at a time it is loaded into
+        TWE</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>DesignTimeValidation</emphasis> - if set to true, each
+        time after an action that changes XPDL model is performed, the XPDL
+        will be checked for errors.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>StartMaximized</emphasis> - if set to true, TWE is
+        started in maximized window.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ShowTooltip</emphasis> - if set to true, tooltips are
+        displayed.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The parameter <emphasis>UndoHistorySize </emphasis>should have an
+    integer value, and it defines the number of XPDL model related actions
+    that can be undone/redone. If this number is less than zero, TWE will be
+    configured to have unlimited undo/redo history.</para>
+
+    <para>There are also other parameters that can have different string
+    values:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>Encoding </emphasis> - defines encoding of files saved
+        with TWE.</para>
+
+        <para>For example: <programlisting>Encoding = UTF-8</programlisting></para>
+      </listitem>
+
+      <listitem>
+        <para>DoNotAskOnDeletionOfReferencedElementTypes - if the property
+        AskOnDeletion is set to false, and the property
+        AskOnDeletionOfReferencedElements is set to true, the value of this
+        property defines for which referenced elements TWE won't ask for a
+        user confirmation before deleting the element.</para>
+
+        <para>For example:</para>
+
+        <programlisting>DoNotAskOnDeletionOfReferencedElementTypes = Activity Transition</programlisting>
+      </listitem>
+
+      <listitem>
+        <para>TitleString - defines which information and in which order will
+        appear in the applications' titlebar. There are 7 different
+        placeholders that can be used to construct titlebar content:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>{filename} - will be replaced with the path to the file
+            being currently edited</para>
+          </listitem>
+
+          <listitem>
+            <para>{pkgId} - will be replaced with the value of Id attribute of
+            the main XPDL (Package) element</para>
+          </listitem>
+
+          <listitem>
+            <para>{pkgName} - will be replaced with the value of Name
+            attribute of the main XPDL (Package) element . If name is not
+            defined, it will be replaced with the value of Id
+            attribute.</para>
+          </listitem>
+
+          <listitem>
+            <para>{pkgVer} - will be replaced with the value of Version
+            attribute of Package's RedefinableHeader.</para>
+          </listitem>
+
+          <listitem>
+            <para>{appName} - will be replaced with the language dependent
+            value for the editor's name</para>
+          </listitem>
+
+          <listitem>
+            <para>{appVersion} - will be replaced with the information about
+            the editor's version</para>
+          </listitem>
+
+          <listitem>
+            <para>{appConfig} - will be replaced with the current application
+            configuration mode appended with language dependent string for the
+            key "ConfigurationKey"</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>The following example configuration for titlebar:</para>
+
+        <programlisting>TitleString = {filename} - {pkgName} {pkgVer} - {appName} {appVer} ({appConfig})</programlisting>
+
+        <para>will make titlebar displaying something like:</para>
+
+        <para>d:\test\test.xpdl - My Test Package 1.1 - Together Workflow
+        Editor 5.1-1 (Default configuration)</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The following parameters are defining initial TWE frame
+    settings:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>FrameSettings</emphasis> - this parameter defines how
+        will the main application frame be divided. As already explained there
+        are several application areas. Amongst others, there are areas called
+        <emphasis>main</emphasis>, <emphasis>tree</emphasis>,
+        <emphasis>special</emphasis> and <emphasis>other</emphasis>. The
+        example of valid value for this parameter is:</para>
+
+        <programlisting>FrameSettings = V; special H tree; main H other</programlisting>
+
+        <para>which means that the frame will be first divided vertically. The
+        left part of the frame will be divided horizontally, where
+        <emphasis>special</emphasis> area will be in the upper and
+        <emphasis>tree</emphasis> area in the lower part, and also the right
+        part will be divided horizontally, where <emphasis>main</emphasis>
+        area will be in the upper and <emphasis>other</emphasis> area in the
+        lower part.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>MainDividerLocation</emphasis> - this property is a
+        double value that defines the initial location for the main frame
+        divider as a percentage of JSplitPane's size. In the example above, it
+        is the vertical divider that divides the frame into the left and the
+        right part.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>FirstSmallDividerLocation</emphasis> - this property
+        is a double value that defines the initial location for the first
+        sub-frame divider as a percentage of JSplitPane's size. In the example
+        above, it is the horizontal divider that divides the left sub-frame
+        into the upper part <emphasis>special</emphasis> and the lower part
+        <emphasis>tree</emphasis>.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>SecondSmallDividerLocation</emphasis> - this property
+        is a double value that defines the initial location for the second
+        sub-frame divider as a percentage of JSplitPane's size. In the example
+        above, it is the horizontal divider that divides the right sub-frame
+        into the upper part <emphasis>main</emphasis> and the lower part
+        <emphasis>other</emphasis>.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>There are a lot of parameters that are defining toolbar and menubar
+    content and order, ...</para>
+
+    <para>E.g. to change the order of menu items in the File menu, or to leave
+    out some items, you can modify the following:</para>
+
+    <para><emphasis>SubMenu.ActionOrder.File = NewPackage Open Reopen Close -
+    Save SaveAs - @RecentFiles - Exit</emphasis></para>
+  </sect1>
+
+  <sect1 condition="demo-emptytext">
+    <title>Property file <emphasis>jawetypes.properties</emphasis></title>
+
+    <para>Here are described elements used in TWE: their types and information
+    about them (what should be their color).</para>
+
+    <para>For example, the following section defines the properties for an
+    activity which type is <emphasis>BlockActivity</emphasis></para>
+
+    <programlisting>#JaWETypes.ActivityType.Id.block = ACTIVITY_BLOCK
+#JaWETypes.ActivityType.LangDepName.block = BlockActivityKey
+#JaWETypes.ActivityType.Icon.block = org/enhydra/jawe/images/blockactivity.gif
+#JaWETypes.ActivityType.Color.block = R=255,G=165,B=121
+#JaWETypes.ActivityType.XPDLTemplate.block = 
+</programlisting>
+
+    <para>Changing the color used to represent this kind of activity will have
+    effect only to the graph component.</para>
+
+    <para>There is another advanced feature of TWE which can be utilized
+    through jawetypes.properties file. You can define custom XPDL object
+    types, and even provide the XPDL template fragment to define properties
+    they should have. E.g. if you want to define new type of activity called
+    loop activity, you can have the following configuration:</para>
+
+    <para><programlisting>JaWETypes.ActivityType.Id.loop = ACTIVITY_LOOP
+JaWETypes.ActivityType.LangDepName.loop = LoopKey
+JaWETypes.ActivityType.Icon.loop = org/enhydra/jawe/samples/loopactivity/
+images/loopactivity.gif
+JaWETypes.ActivityType.Color.loop = R=255,G=155,B=15
+JaWETypes.ActivityType.XPDLTemplate.loop = sampleactloop.xml</programlisting>where
+    sampleactloop.xml have to be placed under templates subfloder of the
+    configuration you are using. The content of sampleloop.xml file can be
+    something like:</para>
+
+    <para><programlisting>&lt;Activity&gt;
+   &lt;BlockActivity BlockId=""/&gt;
+   &lt;ExtendedAttributes&gt;
+      &lt;ExtendedAttribute Name="LoopCondition" Value=""/&gt;
+      &lt;ExtendedAttribute Name="LoopType" Value="While"/&gt;
+      &lt;ExtendedAttribute Name="BackToPool" Value="false"/&gt;
+      &lt;ExtendedAttribute Name="SetTemporary" Value="false"/&gt;
+   &lt;/ExtendedAttributes&gt;
+&lt;/Activity&gt;</programlisting>To define custom language strings, you
+    should edit jawelanguagemisc.properties file in the target configuration
+    folder, and add appropriate [key,value] pairs. For the previous example,
+    you should add a only following [key,value] par:</para>
+
+    <para><programlisting>LoopKey = Loop</programlisting>If you need language
+    specific entries for other languages, you just put corresponding property
+    file into the target configuration folder, and define the same property.
+    E.g. you define jawelanguagemisc_de.properties file if you need German
+    translation.</para>
+
+    <para>This newly defined activity will automatically appear in the Graph's
+    component toolbox ones you start TWE for this configuration mode.</para>
+  </sect1>
+
+  <sect1 condition="demo-emptytext">
+    <title>Property file <emphasis>togweeditor.properties</emphasis></title>
+
+    <para>This file defines the properties for the dialog component used to
+    display XPDL element property panels:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>InlinePanel.ShowModifiedWarning </emphasis> - if set
+        to true, and if user wants to leave the property panel (by using show
+        previous, show next, show parent element panel actions or actions for
+        closing the dialog) of the element for which he previously changed
+        some properties (within the panel), the user is asked if he wants to
+        save the changes, leave the panel without saving changes or to cancel
+        the action.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>InlinePanel.DisplayTitle </emphasis> - if set to true,
+        panel will display element name beneath toolbar.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>HistorySize </emphasis> - defines the size of the
+        previous/next panel history. If set to the value less than zero, the
+        history is unlimited.</para>
+      </listitem>
+
+      <listitem>
+        <para>ApplyActionSavesXPDL - if set to true, whenever
+        <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/check.gif" format="GIF"/>
+            </imageobject>
+          </inlinemediaobject>is pressed, XPDL will be saved.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>Toolbar.ActionOrder.defaultToolbar </emphasis> -
+        defines the content and the order of the dialog's toolbar
+        buttons.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The following parameters are related to the preferred number of
+    lines in text areas for defining various expressions. The first parameter
+    is related to transition condition, initial value, deadline, ...
+    expressions and 2nd one for actual parameter expressions:</para>
+
+    <programlisting>#PreferredNumberOfLinesForExpression=4
+
+#XMLActualParametersPanel.preferredNumberOfLinesForExpression=4</programlisting>
+
+    <para>There are properties which can be adjusted to fine-tune the basic
+    element property panels L&amp;F, such as alignment, TOP, BOTTOM, RIGHT,
+    LEFT empty space in the panels, the width and height of the text boxes,
+    etc. These are defined by the following set of the properties:</para>
+
+    <programlisting>XMLBasicPanel.RightAllignment=false
+XMLBasicPanel.EmptyBorder.TOP=0
+XMLBasicPanel.EmptyBorder.LEFT=3
+XMLBasicPanel.EmptyBorder.BOTTOM=4
+XMLBasicPanel.EmptyBorder.RIGHT=3
+XMLBasicPanel.SimplePanelTextWidth=250
+XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
+
+    <para>You are able to customize so called "group" panels, used to display
+    some complex elements, in order to hide some complex element sub-elements.
+    For example, in order not to display Activity's Id, Deadlines, Priority
+    and Limit, you should set the property
+    <emphasis>HideSubElements.XMLGroupPanel.Activity</emphasis> to the
+    following value:</para>
+
+    <programlisting>HideSubElements.XMLGroupPanel.Activity = Id Deadlines Priority Limit</programlisting>
+
+    <para>You are able to customize which elements of some collection
+    shouldn't be displayed within so called "table" panels. For example, if
+    you don't want to display extended attributes which name attribute is
+    "SpecEA" or "EASpec", you can define the property:<programlisting>HideElements.XMLTablePanel.ExtendedAttributes.Name = SpecEA EASpec</programlisting></para>
+
+    <para>You are able to customize so called "table" panels, used to display
+    some complex element collections, in order to specify which sub-elements
+    will be shown as a table columns. For example, when displaying activities,
+    you can specify to show Activity's Id, Name, Performer, Type, Start mode,
+    Finish mode and Deadlines:</para>
+
+    <para><emphasis>ShowColumns.XMLTablePanel.Activities = Id Name Performer
+    Type StartMode FinishMode Deadlines</emphasis></para>
+
+    <para>There is another customization possible for the so called "combo
+    box" panel. Hence, you can define for which elements the combo box will be
+    disabled (by default nothing is disabled). For example, if you want to
+    disable combo boxes for displaying Activity's Performer and Transition's
+    From and To properties, you should specify the following:</para>
+
+    <programlisting>XMLComboPanel.DisableCombo = Performer From To</programlisting>
+
+    <para>As with all other components, you are also able to define the action
+    order inside a toolbar.</para>
+  </sect1>
+
+  <sect1 condition="demo-emptytext">
+    <title>Property file
+    <emphasis>transitionhandler.properties</emphasis></title>
+
+    <para>This file enables limitation of number of incoming or outgoing
+    transition for each specific activity type.</para>
+
+    <para>For block activity the following parameters are important:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Transitions.moreOutgoing.Activity.Type.ACTIVITY_BLOCK</para>
+
+        <para>If the value of this parameter is set to true, the block
+        activity can have more than one outgoing transition. If set to false,
+        it can have only one outgoing transition.</para>
+      </listitem>
+
+      <listitem>
+        <para>Transitions.moreIncoming.Activity.Type.ACTIVITY_BLOCK</para>
+
+        <para>If the value of this parameter is set to true, the block
+        activity can have more than one incoming transition. If set to false,
+        it can have only one incoming transition.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>For generic activity the following parameters are important:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Transitions.moreOutgoing.Activity.Type.ACTIVITY_NO</para>
+
+        <para>If the value of this parameter is set to true, the No
+        implementation activity can have more than one outgoing transition. If
+        set to false, it can have only one outgoing transition.</para>
+      </listitem>
+
+      <listitem>
+        <para>Transitions.moreIncoming.Activity.Type.ACTIVITY_NO</para>
+
+        <para>If the value of this parameter is set to true, the No
+        implementation activity can have more than one incoming transition. If
+        set to false, it can have only one incoming transition.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>For route activity the following parameters are important:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Transitions.moreOutgoing.Activity.Type.ACTIVITY_ROUTE</para>
+
+        <para>If the value of this parameter is set to true, the route
+        activity can have more than one outgoing transition. If set to false,
+        tit can have only one outgoing transition.</para>
+      </listitem>
+
+      <listitem>
+        <para>Transitions.moreIncoming.Activity.Type.ACTIVITY_ROUTE</para>
+
+        <para>If the value of this parameter is set to true, the route
+        activity can have more than one incoming transition. If set to false,
+        it can have only one incoming transition.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>For sub-flow activity the following parameters are important:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Transitions.moreOutgoing.Activity.Type.ACTIVITY_SUBFLOW</para>
+
+        <para>If the value of this parameter is set to true, the sub-flow
+        activity can have more than one outgoing transition. If set to false,
+        it can have only one outgoing transition.</para>
+      </listitem>
+
+      <listitem>
+        <para>Transitions.moreIncoming.Activity.Type.ACTIVITY_SUBFLOW</para>
+
+        <para>If the value of this parameter is set to true, the sub-flow
+        activity can have more than one incoming transition. If set to false,
+        it can have only one incoming transition.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>For tools activity the following parameters are important:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Transitions.moreOutgoing.Activity.Type.ACTIVITY_TOOL</para>
+
+        <para>If the value of this parameter is set to true, the tool activity
+        can have more than one outgoing transition. If set to false, it can
+        have only one outgoing transition.</para>
+      </listitem>
+
+      <listitem>
+        <para>Transitions.moreIncoming.Activity.Type.ACTIVITY_TOOL</para>
+
+        <para>If the value of this parameter is set to true, the tool activity
+        can have more than one incoming transition. If set to false, it can
+        have only one incoming transition.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The XPDL validator will validate XPDLs also according to the
+    previously mentioned properties.</para>
+  </sect1>
+
+  <sect1 condition="demo-emptytext">
+    <title>Property file <emphasis>xpdlvalidator.properties</emphasis></title>
+
+    <para>This file contains several settings that determine some details
+    about validation of XPDL files:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>AllowUndefinedStart</emphasis> - if set to false, TWE
+        will require that process and activity set graphs must have at least
+        one starting activity. Otherwise, you will be able to create graphs
+        without starting points, and TWE will not complain. You may have
+        noticed that TWE also considers activity with only circular incoming
+        transition to be the starting point of the graph, so this regards only
+        to graph structures similar to the one bellow:</para>
+
+        <figure>
+          <title>Undefined start example</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/allow_undefined_start.gif"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>AllowUndefinedEnd</emphasis> - if set to false, TWE
+        will require that process and activity set graphs must have at least
+        one ending activity. Otherwise, you will be able to create graphs
+        without ending points, and TWE will not complain. You may have noticed
+        that TWE also considers activity with only circular outgoing
+        transition to be the ending point of the graph, so this regards only
+        to graph structures similar to the one bellow:</para>
+
+        <figure>
+          <title>Undefined end example</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/allow_undefined_end.gif" scalefit="1"
+                         width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidateSubFlowReferences </emphasis> - if set to
+        true, TWE will consider an error if SubFlow activity does not
+        reference to the valid process from the XPDL or one of the XPDLs
+        referenced through external package concept.</para>
+
+        <para>If you know that you will create XPDLs where you'll use SubFlow
+        activities to reference a remote process definition, you should set
+        this property to false, in order not to have validation errors
+        reported.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidatePerformerExpressions </emphasis> - if set to
+        true, TWE will consider a warning if activity's performer is not a
+        reference to an existing Participant and it's expression does not look
+        like valid performer expression.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidateActualParameterExpressions </emphasis> - if
+        set to true, TWE will consider a warning if actual parameter is not a
+        reference to an existing variable (DataField or FormalParameter) and
+        it's expression does not look like valid actual parameter
+        expression.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidateInitialValueExpressions </emphasis> - if set
+        to true, TWE will consider a warning if variables' initial value
+        expression does not look like valid initial value expression.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidateConditionExpressions </emphasis> - if set to
+        true, TWE will consider a warning if transition's condition does not
+        look like valid expression.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidateDeadlineExpressions </emphasis> - if set to
+        true, TWE will consider a warning if deadline condition does not look
+        like valid expression.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidateUnusedVariables </emphasis> - if set to true,
+        TWE will consider a warning if XPDL variable (DataField or
+        WorkflowProcess's FormalParameter) are not used anywhere (as actual
+        parameter or inside expression).</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>ValidateConditionByType </emphasis> - if set to true,
+        TWE will generate a warning in following cases:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Condition type is not defined, and there is condition
+            expression defined</para>
+          </listitem>
+
+          <listitem>
+            <para>Condition type is 'DEFAULT_EXCEPTION' and there is condition
+            expression defined</para>
+          </listitem>
+
+          <listitem>
+            <para>Condition type is 'OTHERWISE' and there is condition
+            expression defined</para>
+          </listitem>
+
+          <listitem>
+            <para>Condition type is 'EXCEPTION' and there is no condition
+            expression defined</para>
+          </listitem>
+
+          <listitem>
+            <para>Condition type is 'CONDITION' and there is no condition
+            expression defined</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1 condition="demo-emptytext">
+    <title>Property file
+    <emphasis>appsforextensions.properties</emphasis></title>
+
+    <para>This file contains mapping information which is used to determine
+    which editor application is associated with a certain file extension. This
+    information is used when user wants to edit some expression (e.g. actual
+    parameter, deadline, transition condition expression) in an external
+    editor and have the result filled into appropriate text field in
+    corresponding TWE panel.</para>
+
+    <para>The file extension of the temporary file which will be saved into
+    %USER_HOME%/.JaWE/tmp folder depends on the script type attribute value of
+    the element that is using this special feature. If element does not have
+    or does not define its script type attribute, the value of the script type
+    element of main Package XPDL element is used.</para>
+
+    <para>Currently, we only recognize 3 possible script types:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>text/java - if this type is specified, the temporary file
+        extension will be "java"</para>
+      </listitem>
+
+      <listitem>
+        <para>text/javascript - if this type is specified, the temporary file
+        extension will be "js"</para>
+      </listitem>
+
+      <listitem>
+        <para>text/pythonscript - if this type is specified, the temporary
+        file extension will be "py"</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>If any other script type is specified, the temporary file extension
+    will be "txt".</para>
+
+    <note>
+      <para>The special usage of this feature to open expression in external
+      editor application can be found in "Shark" mode for XSLT, Java Script
+      and Bean Shell tool agents' scripts, the extensions will be "xsl", "js"
+      and "java" respectively.</para>
+    </note>
+
+    <para>If there are no mappings specified in appsforextensions.properties
+    file, "notepad" editor will be used for any temporary file extension on
+    Windows, and "gedit" editor will be used on Linux.</para>
+
+    <figure>
+      <title>Editing expression with associated application</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/editinassociatedapp.jpg" scalefit="1"
+                     width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>When the edit button is pressed, associated application is launched
+    to edit temporary file which content is taken from appropriate TWE's
+    control representing expression. Then TWE waits until associated
+    application is closed and puts the content of that temporary file back
+    into the control.</para>
+
+    <note>
+      <para>If associated application is multi-document application, make sure
+      that no other documents are opened. Otherwise, TWE will refuse to apply
+      this logic and will prompt the message to the user.</para>
+    </note>
+  </sect1>
+</chapter>

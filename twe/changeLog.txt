@@ -1,6 +1,11 @@
 ###### TWE 5.5-1 RELEASED ######
 
 ###### TWE 5.4-4 RELEASED ######
+2017-02-28 Sasa Bojanic <sasaboy@together.at>
+   # Docbook documentation split into several chapters which are included into main document using docbook's xinclude. 
+     During the build time, the build procedure merges all the documentation parts together and builds the HTML/PDF documentation
+   # xmltask component added to the project
+
 2017-02-14 Sasa Bojanic <sasaboy@together.at>
    # Fixed issue when template activity has deadline defined
 

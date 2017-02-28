@@ -1,0 +1,2593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="release_notes"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Release Notes</title>
+
+  <section>
+    <title>Release 5.5-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>-</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.4-4</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Docbook documentation split into several chapters which are
+        included into main document using docbook's xinclude. During the build
+        time, the build procedure merges all the documentation parts together
+        and builds the HTML/PDF documentation.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed issue when template activity has deadline defined</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- Supported new set of extended attributes for sending signed
+        emails: SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_ACTIVITY,
+        SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_PROCESS,
+        SMTP_LIMIT_HANDLER_SIGNED_EMAIL_ACTIVITY,
+        SMTP_LIMIT_HANDLER_SIGNED_EMAIL_PROCESS,
+        SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
+        SMTP_ERROR_HANDLER_SIGNED_EMAIL</para>
+
+        <para>- Now can specify MailToolAgent to send signed emails</para>
+
+        <para>- Fix in SharkXPDLObjectFactory to properly adjust XPDL object
+        properties by creating special extended attribute (JaWE_TYPE) for the
+        custom type objects</para>
+
+        <para>- When new Deadline is created, the script type is now initially
+        set to text/sharkwfdeadlines</para>
+      </listitem>
+
+      <listitem>
+        <para>Build procedure changed to produce twe-src-zip component
+        (consisted of TWE source distribution) for GPE project</para>
+      </listitem>
+
+      <listitem>
+        <para>Branding procedure improved:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Now it also supports additional java source files</para>
+          </listitem>
+
+          <listitem>
+            <para>Now resulting EXE file is signed (if signing properties
+            exist)</para>
+          </listitem>
+
+          <listitem>
+            <para>Now it is replacing entries in i18n files if file exists,
+            and copy the whole file only if it didn't exists</para>
+          </listitem>
+
+          <listitem>
+            <para>Now there is deletions.txt file in some branding folders
+            where one can list the files of that group to be deleted</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Build procedure changed: removed TSL licensed distribution
+        files</para>
+
+        <note>
+          <para>No need for it, we are now using 3rd party GPL classes only
+          through the reflection</para>
+        </note>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.4-3</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Now configure script creates special rebranding.properties file
+        if one wants to rebrand</para>
+      </listitem>
+
+      <listitem>
+        <para>Build procedure changed to copy rebranding.properties file (if
+        exists) from project folder called "customdir" (if exists). This
+        feature will be used in our new GPE project.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed build procedure to exclude unnecessary things from
+        twedoc.jar</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: click on + of Subflow/Activity Set didn't descend into
+        them when graph is Zoomed In/Out</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: finally properly fixed the issue when transition is
+        selected when clicked on the activity</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- Extended attribute IS_WEBDAV_FOR_ACTIVITY_VISIBLE now by
+        default set to true</para>
+
+        <para>- Improved XPDLStringVariable handling (now when Id of
+        referenced variable changes, the GUI immediately reflects the change
+        in the content of the variable that references it)</para>
+
+        <para>- Support for new extended attribute
+        BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING</para>
+
+        <para>- Improved icons in the panels for inserting system variables,
+        xpdl variables, variables, ...</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.4-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Fixed issue when transition is selected when clicked on the
+        activity</para>
+      </listitem>
+
+      <listitem>
+        <para>Now making text-panels non-editable and changing color to look
+        like disabled. This way we can copy things from external package
+        panels.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.4-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Support FOP 2.0 and font configuration for documentation
+        builds.</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved Search functionality</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: when saving file which has "." in its name, extension was
+        not appended to the end</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved performance by setting XPDL to read-only and
+        initializing caches before validation</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved performance by setting XPDL to read-only and
+        initializing caches when saving XPDL (to have faster
+        validation)</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved performance by not design-time validating XMLAttribute
+        elements which are not required and don't have default value (e.g.
+        Name attribute)</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved performance by not design-time validating most of the
+        XMLSimpleElement elements (which normally do not affect validation
+        process, e.g. Description element)</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved performance by doing delta design-time validation (only
+        for the current process) whenever possible - the cases when Id of
+        element is not changed and there was no insertion/removal/reposition
+        of global-validation element</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved performance by not validating graph when only moving
+        entities within the same lane</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved performance by optimizing Problems panel
+        algorithm</para>
+      </listitem>
+
+      <listitem>
+        <para>Implemented Graph print and print page setup actions</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: when action to insert missing start/end events is
+        executed, undo was not working properly any more. This issue was
+        introduced in version 5.1-1.</para>
+      </listitem>
+
+      <listitem>
+        <para>Now explicitly using XALAN for transformations (problem with
+        saxon and namespaces)</para>
+      </listitem>
+
+      <listitem>
+        <para>Now also calculating references to variables in the Lane's
+        performer element</para>
+      </listitem>
+
+      <listitem>
+        <para>Changed StandardDisplayGenerator to differently present package
+        name in GUI</para>
+      </listitem>
+
+      <listitem>
+        <para>External package relative path references on windows are now
+        written using "/" character as file separator so XPDL with external
+        packages can be used cross-platform</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: now properly removing ActivitySet's Pools, Artifacts and
+        Associations when deleting their WorkflowProcess container</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- Support for new extended attribute
+        USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED</para>
+
+        <para>- Not showing properties component by default</para>
+
+        <para>- Fix for displaying WorkflowProcess panel for the external
+        package's workflow process</para>
+
+        <para>- Added support for PowerShellToolAgent</para>
+
+        <para>- Improved validation for XPath tool agent</para>
+
+        <para>- Introduced SharkDisplayGenerator to differently present
+        package and workflow process name in GUI (category variable value
+        information is appended)</para>
+      </listitem>
+
+      <listitem>
+        <para>New sub-section added to manual: "How to show transition
+        conditions vs. names in the graph"</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.3-3</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- Improved validation of TSC tool agent according to the changes
+        in TSC and TWS's TSCToolAgent</para>
+
+        <para>- Hiding all special extended attributes when trying to define
+        "normal" extended attribute</para>
+
+        <para>- Fix for creation of outlook variables (Started/Completed date
+        were defined as STRING variables)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.3-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- Supported enhancement of FOPToolAgent</para>
+
+        <para>- Fixed the logic to display references of Package defined XPDL
+        string variables (duplicated references were counted)</para>
+
+        <para>- Supported new TWF related extended attributes
+        (TWF_XML_VARIABLE_TO_HANDLE and
+        TWF_XML_VARIABLE_ITEM_NAME_PREFIXES)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.3-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- Added support for new extended attribute
+        "EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES"</para>
+
+        <para>- Supported special shark deadline expressions (new script type
+        text/sharkwfdeadlines)</para>
+      </listitem>
+
+      <listitem>
+        <para>Only Java 8 is now offered during installation procedure</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.2-3</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Shark mode: Added support for TSCToolAgent</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Added support for FOPToolAgent</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.2-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Implemented possibility to D&amp;D XPDL file</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- Implemented support for new extended attributes of
+        SMTPNewProcFileSysLogErrorHandler
+        (NEWPROC_ERROR_HANDLER_NEW_PROCESS_PACKAGE_ID and
+        NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)</para>
+
+        <para>- Improved recognition of I18N variables usage inside
+        expressions</para>
+
+        <para>- Added support for REEVALUATE_DEADLINES extended
+        attribute</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.2-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Allowed in-place editing of Id, Name and Value attributes in
+        tables</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved Expression Lane Editor - now possible to use variables
+        when editing expressions</para>
+      </listitem>
+
+      <listitem>
+        <para>Filtering of variables by type in
+        PanelUtilities.getPossibleVariableChoices() now makes a distinction if
+        variable is array or not</para>
+      </listitem>
+
+      <listitem>
+        <para>Now configuring JSplitPane's divider positions
+        (MainDividerLocation, FirstSmallDividerLocation and
+        SecondSmallDividerLocation properties) in percentage (not in an
+        absolute values)</para>
+      </listitem>
+
+      <listitem>
+        <para>Now validating unused applications and participants</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- improved support for extended attributes that allow evaluation
+        of priority/limit/description/name of activity/process (update of
+        expressions when Id of used variable is changing, GUI support with
+        multi-line text editor)</para>
+
+        <para>- better support for UserGroupToolAgent (added possibility to
+        use getGroupByEMailAddress and getUserByEMailAddress methods)</para>
+
+        <para>- updated support for LDAPToolAgent according to the changes in
+        LDAPClientInterface</para>
+
+        <para>- Deadline, Limit and Error emails now supports extended
+        attribute(s) for specifying recipient variable
+        (SMTP_xxx_HANDLER_RECIPIENT_VARIABLE)</para>
+
+        <para>- Added support for ExecuteSql tool agent</para>
+
+        <para>- Allowed usage of config string and xpdl string variables in
+        Performer, Deadline, Transition condition and ActualParameter
+        expressions</para>
+
+        <para>- Improved validation</para>
+
+        <para>- Supported new activity extended attribute "FORM_PAGE_URL".
+        This attribute is a reference to XPDL_STRING and specifies the URL
+        location of the form to open to see activity details</para>
+
+        <para>- Supported new (I18n related) extended attributes:</para>
+
+        <para>* I18N_XPDL_FOLDER_NAME (Package level),</para>
+
+        <para>* I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess
+        level),</para>
+
+        <para>* I18N_NAME_TRANSLATION_KEY and I18N_DESCRIPTION_TRANSLATION_KEY
+        (Package, WorkflowProcess, Activity and DataField level)</para>
+
+        <para>- Supported i18n variables</para>
+
+        <para>- Support for new system variables</para>
+
+        <para>- Supported new variable i18n_lang_code which is now represented
+        as Package/Workflow process attribute</para>
+
+        <para>- Introduced constants for the names/description of the system
+        variables</para>
+
+        <para>- Supported insertion of system variable
+        name/description/translation and process variable name/description
+        when defining XPDL string or email subject/content</para>
+
+        <para>- Supported changes in SOAPToolAgent</para>
+
+        <para>- Supported new TXWToolAgent</para>
+
+        <para>- Some changes in SharkPackageValidator API method
+        signatures</para>
+
+        <para>- BeanShell and JavaScript tool agent are now allowed to have
+        FormalParameter "Script" which is used to define script to execute in
+        the case extended attributes "AppName" or "Script" are not
+        defined</para>
+
+        <para>- BeanShell and JavaScript tool agent are now allowed to use any
+        process variable</para>
+
+        <para>- Supported new extended attribute AUTO_COMPLETION</para>
+
+        <para>- Improved performance and accuracy when moving entries for the
+        Activity's 'Web client configuration-&gt;Default
+        GUI-&gt;Variables'</para>
+
+        <para>- Support for VariableToProcess_FETCH extended attribute</para>
+
+        <para>- Improved: panel for actual parameters (now considering if
+        formal parameter is array and offering only the array variables in
+        that case)</para>
+
+        <para>- Improved: the background color of combo-box now properly
+        set</para>
+
+        <para>- Improved: the background color of list panel for selecting
+        participants when many now properly set</para>
+
+        <para>- Improved: now considering variable ids in the actual parameter
+        which map to XPath application parameter ResultVariableIds</para>
+
+        <para>- Fixed: bug that showed email panel in edit mode even in the
+        case package is external or transient</para>
+
+        <para>- Fixed: repositioning of XPDLString variables inside table is
+        now working</para>
+
+        <para>- Improvement: increased dimensions of table for displaying
+        DataFields, FormalParameters, XPDLStrings and I18NVariables</para>
+
+        <para>- Improved validation: can't have Tool activities having both
+        start and finish mode set to MANUAL</para>
+
+        <para>- Improved validation:</para>
+
+        <para>* can't have the same Ids for xpdl strings/i18n variables/normal
+        variables</para>
+
+        <para>* can't have invalid characters for xpdl string/i18n
+        variables</para>
+
+        <para>- Implemented support (GUI + validation) to reference
+        XPDL_STRING variable from DynamicScript variable</para>
+      </listitem>
+
+      <listitem>
+        <para>Java8 support</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.1-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>New configuration parameter to specify preferred number of lines
+        for text areas where expressions are defined
+        (PreferredNumberOfLinesForExpression)</para>
+      </listitem>
+
+      <listitem>
+        <para>New configuration parameter to specify preferred number of lines
+        for text areas where actual parameter expressions are defined
+        (XMLActualParametersPanel.preferredNumberOfLinesForExpression)</para>
+      </listitem>
+
+      <listitem>
+        <para>Now XMLMultiLineTextPanelWithOptionalChoiceButtons panel
+        constructor accepts parameter to specify how many lines are preferred
+        for text area</para>
+      </listitem>
+
+      <listitem>
+        <para>Hidding and disabling main divider if application is configured
+        to have only one area</para>
+      </listitem>
+
+      <listitem>
+        <para>On non-Windows OSs files we are not using RandomFileAccess class
+        to open/save files anymore. Anyway, on non-Windows OSs it wasn't
+        possible to lock files, and there was a problem with this approach in
+        some cases - the file wasn't saved if another application changed it
+        meanwhile.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added possibility to use TWE from command-line to write the
+        process graph in one of the following formats: jpg, svg and pdf.
+        Documentation updated with new section describing this feature.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added possibility to configure the content and order of
+        application's title text with 7 possible placeholders. Documentation
+        updated to describe new configuration entry (TitleString entry in
+        togwecontroller.properties).</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix bug with font size for artifact and gateways: now the font
+        size is respecting system settings</para>
+      </listitem>
+
+      <listitem>
+        <para>LDAP component now supporting different ldap protocols (e.g.
+        ldap and ldaps) (also new parameter in ldap.properties to be able to
+        pre-configure it)</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode:</para>
+
+        <para>- support for many new shark related extended attributes</para>
+
+        <para>- category variable is now represented as Package/Workflow
+        process attribute</para>
+
+        <para>- added create outlook variables action in Workflow Variables
+        table GUI</para>
+
+        <para>- fix: not offering XPDL String and Configuration string
+        variables for Performer, Deadline, Actual parameter and Transition
+        condition expressions</para>
+      </listitem>
+
+      <listitem>
+        <para>Now XPDL is not marked as "Not saved" in the case opened XPDL
+        has different values for EDITING_TOOL, EDITING_TOOL_VERSION or
+        JaWE_CONFIGURATION extended attribute of package</para>
+      </listitem>
+
+      <listitem>
+        <para>Added possibility to set the working directory with startup
+        parameter (the place where TWE will search for XPDL files when using
+        Open dialog).</para>
+      </listitem>
+
+      <listitem>
+        <para>New configuration parameter to specify if XPDL should be saved
+        when Apply button is pressed in property panel. Parameter name is
+        ApplyActionSavesXPDL and if it is set to true, whenever apply button
+        is pressed, XPDL will be saved.</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved rebranding process (ability to specify
+        app.name/project.name/brandingdir parameters using configuration
+        script). Now also possible to do re-branding on Linux.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added possibility to edit expressions in external editor
+        application (new documentation section "Property file
+        <emphasis>appsforextensions.properties" describes this
+        feature).</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>Improved Open (new XPDL file) action to work in a standard
+        way</para>
+      </listitem>
+
+      <listitem>
+        <para>"CTRL +", "CTRL -" and "CTRL 1" key combination now can be used
+        to "Zoom In", "Zoom Out" and "Make actual size" in the graph.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added possibility to position transition labels. Information
+        stored in XPDL.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added possibility to position artifact/gateway/start/end labels
+        to the top/bottom/left/right location. Information stored in
+        XPDL.</para>
+      </listitem>
+
+      <listitem>
+        <para>Now displaying warning if XPDL String variable is not
+        used</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: Now properly rendering transition's diamond on the tail (it
+        was not properly rendered when transition expression was set and then
+        removed)</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: Now properly rendering empty choice in combo box (e.g. for
+        the type of transition condition)</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: transition condition label was not always fully
+        shown</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: scrollbars were missing when Zoom In action was performed
+        and then activity was moved</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: rendering of (otherwise) transitions going from/to and/or
+        split/join node.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: SetTransitionStyle action didn't work for
+        associations</para>
+      </listitem>
+
+      <listitem>
+        <para>Linux tar.gz distributions now built under windows</para>
+      </listitem>
+
+      <listitem>
+        <para>Improvement regarding silent uninstallation</para>
+      </listitem>
+
+      <listitem>
+        <para>Improvement: supporting Windows XP (patch by Vjecheslav)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 5.0-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Shark mode:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Improved Email configuration section:</para>
+
+            <para>* New checkbox to enable/disable configuration - disabling
+            means removing all related extended attributes</para>
+
+            <para>* Attachments and Attachment names joined into the single
+            control</para>
+
+            <para>* Changed names of the controls</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for SMTPNewProcFileSysLogErrorHandler</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for SMTPLimitHandler</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for XPILLogEventAuditManager</para>
+          </listitem>
+
+          <listitem>
+            <para>Now always displaying possible process extended
+            attributes</para>
+          </listitem>
+
+          <listitem>
+            <para>Now supporting new way of defining SMTPEventAuditManager
+            extended attributes (different names for activity/process EAS +
+            possiblity to define default SMTP attributes on process and
+            package level for the activity and on the package level for the
+            process)</para>
+          </listitem>
+
+          <listitem>
+            <para>Now supporting deadline handling via ext attributes</para>
+          </listitem>
+
+          <listitem>
+            <para>Code refactored regarding SMTP handling (event audit, error,
+            limit, deadline)</para>
+          </listitem>
+
+          <listitem>
+            <para>Changed "system" variable naming and validation according to
+            new Shark features (SharkPanelGenerator and SharkXPDLValidator
+            changes)</para>
+          </listitem>
+
+          <listitem>
+            <para>Example (shark) XPDLs changed according to the changes made
+            in Shark</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for configuration choice variables</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for SHARK STRING VARIABLES</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for system variables</para>
+          </listitem>
+
+          <listitem>
+            <para>Now validating uniqueness of variables considering Shark's
+            system variables and configuration parameters</para>
+          </listitem>
+
+          <listitem>
+            <para>Now validating variables' InitialValue
+            circular/self/implicit circular references</para>
+          </listitem>
+
+          <listitem>
+            <para>Fixed bug in Shark's tooltip manager</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Improved ActualParameters panel</para>
+      </listitem>
+
+      <listitem>
+        <para>Now validating variables' InitialValue expressions</para>
+      </listitem>
+
+      <listitem>
+        <para>Added more icons that can be used when setting Activity's cutom
+        icon</para>
+      </listitem>
+
+      <listitem>
+        <para>New application and XPDL icons</para>
+      </listitem>
+
+      <listitem>
+        <para>Now icons in the taskbar are grouped</para>
+      </listitem>
+
+      <listitem>
+        <para>New way of signing with timestamping implemented (different
+        servers possible for timestamping)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.8-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>TXM updated to version 1.7-1</para>
+      </listitem>
+
+      <listitem>
+        <para>TRR updated to version 1.5-1</para>
+      </listitem>
+
+      <listitem>
+        <para>WfXML component: now actions enabled/disabled depending on
+        selection and in the case of WfXML is connected to Shark engine,
+        depending on Shark's upload/update logic</para>
+      </listitem>
+
+      <listitem>
+        <para>WfXML component: when connected to Shark engine, can't update
+        URL/Name/Description/Version/Status</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Support for SESSION_HANDLE, SHARK_VERSION,
+        SHARK_RELEASE, SHARK_BUILDID variables</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Support for DYNAMICSCRIPT attribute for variables
+        (including validation for self/cross/implicit-cross references)</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Email configuration section for manual activity
+        element and workflow process element (used with
+        SMTPEventAuditManager). Nice GUI and XPDL validation. Tooltip
+        information provided.</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: supported CHECK_FOR_COMPLETION extended
+        attribute</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Improved validation. Now when validating special
+        extended attributes (for client GUI forms and for
+        SMTPEventAuditManager), "NON_EXISTING_VARIABLE_REFERENCE" ERRORS are
+        considered WARNINGS if there is an extended attribute at
+        WorkflowProcess/Package level that allows undefined variables
+        (Formal/Actual parameter matching validation still considers such
+        cases an ERROR cases)</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Introduced validation for Application definitions
+        depending on ToolAgentClass extended attribute value (Shark tool agent
+        dependent validation)</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Improved GUI for Application definitions</para>
+      </listitem>
+
+      <listitem>
+        <para>New GUI for TaskApplication and SubFlow activity modeling
+        (actual-&gt;formal parameters)</para>
+      </listitem>
+
+      <listitem>
+        <para>Added new actions to start and stop design time XPDL validation
+        (useful to stop it when dealing with big XPDLs)</para>
+      </listitem>
+
+      <listitem>
+        <para>Added possibility to all panels to display tooltip</para>
+      </listitem>
+
+      <listitem>
+        <para>Enhanced GUI</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved ProblemsNavigator</para>
+      </listitem>
+
+      <listitem>
+        <para>Now when opening/reopening XPDL file, if possible, JaWE
+        automatically switches to the mode written in XPDL file itself</para>
+      </listitem>
+
+      <listitem>
+        <para>Property panel for artifacts changed: now panel contains only
+        neccessary properties depending on artifact type (Annotation or
+        DataObject)</para>
+      </listitem>
+
+      <listitem>
+        <para>Supported BasicType DATE and TIME data types</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.7-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>TXM updated to version 1.6-1</para>
+      </listitem>
+
+      <listitem>
+        <para>TRR updated to version 1.4-1</para>
+      </listitem>
+
+      <listitem>
+        <para>Ant library updated to version 1.8.4</para>
+      </listitem>
+
+      <listitem>
+        <para>Common I/O library updated to version 2.4</para>
+      </listitem>
+
+      <listitem>
+        <para>docbook-xsl library updated to version 1.77.1</para>
+      </listitem>
+
+      <listitem>
+        <para>iText5 library updated to version 5.3.2</para>
+      </listitem>
+
+      <listitem>
+        <para>jgraph library updated to version 5.14.0.0</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved XPDL icon</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark configuration: now graph component is not showing grid and
+        not showing transition conditions by default</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.6-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>TXM updated to version 1.5-1</para>
+      </listitem>
+
+      <listitem>
+        <para>TRR updated to version 1.3-1</para>
+      </listitem>
+
+      <listitem>
+        <para>Installation fixed so now TWE configuration can be switched
+        ("Default", "Loop activity sample", "Shark") no matter how User Access
+        Controls (UAC) are configured on Windows machine</para>
+      </listitem>
+
+      <listitem>
+        <para>Start menu/desktop/taskbar icons improved</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.5-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Updated TXM to version 1.4-1</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated TRR to version 1.2-1</para>
+      </listitem>
+
+      <listitem>
+        <para>Changes in the builds/structure according to standards</para>
+      </listitem>
+
+      <listitem>
+        <para>Java 7 is now prerequisite</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.4-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Updated TXM to version 1.3-1</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated commons-io library to version 2.1</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated itext5 to version 5.13</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated DOCBOOK DTD to version 5.0</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated 3-line titlepage of documentation (PDF)</para>
+      </listitem>
+
+      <listitem>
+        <para>Project structure changed according to the new standard (no
+        dependency output anymore, components output instead).</para>
+      </listitem>
+
+      <listitem>
+        <para>Linux builds improved</para>
+      </listitem>
+
+      <listitem>
+        <para>NSIS and exe installation improvement</para>
+      </listitem>
+
+      <listitem>
+        <para>Shark mode: Reporting an error if Name fields of
+        WorkflowProcess/Activity, Id fields of WorkflowProcess/Activity or
+        ExceptionName field length is inappropriate</para>
+      </listitem>
+
+      <listitem>
+        <para>Allowing saving of XPDLs with validation warnings in "Released"
+        XPDL Publication Status</para>
+      </listitem>
+
+      <listitem>
+        <para>WfXML: URL sample displayed</para>
+      </listitem>
+
+      <listitem>
+        <para>Icon and Title now appears in Help-&gt;Manual dialog</para>
+      </listitem>
+
+      <listitem>
+        <para>Java7 compatibility: - refactored getType/setType methods of
+        JaWEComponent interface to getComponentType/setComponentType -
+        replaced propriatary SUN classes for JPEG handling (from
+        com.sun.image.codec.jpeg package) with ImageIO API
+        (SaveAsJPG.java)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.3-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>LDAPPageSize option added to the configuration - now searches
+        will not return partial results because of LDAP server's size
+        limit</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.2-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Code modified to support WfXML access through HTTPS</para>
+      </listitem>
+
+      <listitem>
+        <para>Now only producing twe.zip for TWS dependency</para>
+      </listitem>
+
+      <listitem>
+        <para>Build process changed (preparations for new TAB based
+        release):</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>now possible to manualy specify "buildid" configuration
+            parameter (e.g. configure -buildid 20110721-0808)</para>
+          </listitem>
+
+          <listitem>
+            <para>build scripts corrected so the sources can be built if they
+            are in the folder which contains spaces in the path</para>
+          </listitem>
+
+          <listitem>
+            <para>try/catch blocks removed from documentation build.xml
+            file</para>
+          </listitem>
+
+          <listitem>
+            <para>components folder in the distribution output/components
+            files in the sources (TAB support)</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>TXM library updated to version 1.2-1</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.1-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Apache Ant libraries updated to version 1.8.2 (ant.jar and
+        ant-launcher.jar)</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Removed nodeps.jar</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Xerces library updated to version 2.11.0
+        (xercesImpl.jar).</para>
+      </listitem>
+
+      <listitem>
+        <para>Apache Common I/O library updated to version 2.0.1
+        (commons-io.jar).</para>
+      </listitem>
+
+      <listitem>
+        <para>XML Commons library updated to version 1.4_01
+        (xml-apis.jar).</para>
+      </listitem>
+
+      <listitem>
+        <para>Xml Graphics Commons library updated to version 1.4
+        (xmlgraphics-commons.jar).</para>
+      </listitem>
+
+      <listitem>
+        <para>FOP library updated to version 1.0 (fop.jar).</para>
+      </listitem>
+
+      <listitem>
+        <para>iText library upgraded to version 5.0.6 (itext.jar).</para>
+      </listitem>
+
+      <listitem>
+        <para>DocBook-XSL libraries updated to version 1.76.1
+        (docbook-xsl).</para>
+      </listitem>
+
+      <listitem>
+        <para>Added fix for "Save as PDF" bug.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added support for silent installation.</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated contact email to
+        <email>twe@togetherteam.co.th.</email></para>
+      </listitem>
+
+      <listitem>
+        <para>Updated build script to support building of debug version and
+        added "debug" folder to output.</para>
+      </listitem>
+
+      <listitem>
+        <para>Removed Java API documentation from distribution zip/ tar.gz/
+        exe/ rpm files.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added fix for bug with copying processes/ activity sets from
+        "transient" packages.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added fix: not creating unnecessary NodeGraphicsInfo element for
+        Pools when process/activity set gets copied.</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated JAR's MANIFEST information</para>
+      </listitem>
+
+      <listitem>
+        <para>Added Together Read Registry (TRR) library version 1.0-1</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Removed readregistry.nsi</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Standardized the project sources:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Updated directory names, filenames and output directory
+            structure.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Removed Together Application Server (TAS) dependency
+        target.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added support for "Script" Activity type (TaskScript from
+        XPDL).</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated to improve property panels for DataField and
+        FormalParameter elements.</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated property panels for
+        ActualParameter/InitialValue/DeadlineDuration/Condition
+        elements</para>
+      </listitem>
+
+      <listitem>
+        <para>Added various improvements.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 4.0-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Now supporting XPDL 2.1 and BPMN</para>
+      </listitem>
+
+      <listitem>
+        <para>Using jxpdl.jar file, the output of Together XPDL Model
+        (TXM)/jXPDL project. This contains the XPDL 2 model classes that were
+        previously the part of Enhydra Shark (Together Workflow Server)
+        project.</para>
+      </listitem>
+
+      <listitem>
+        <para>Automatic migration of XPDL 1.0 files into XPDL 2.1
+        files:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Inserting pools and lanes for each workflow process
+            definition</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating Ids for activities and activity sets - must be
+            unique on the package level (done by TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating Tool activities into Task-Application activities,
+            if there are more than one tool for the activity - new activities
+            get created and connected sequentially (done by TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating activities (other than Route activities) with Join
+            type different than XOR and Split type different than AND by
+            creating additional Route (gateway) activities that are containing
+            those Join/Split types, and connecting them sequentially (done by
+            TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating Route activities with different Join/Split type
+            into two seperate activities and connecting them sequentially
+            (done by TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating old Deadline's DeadlineCondition into
+            DeadlineDuration sub-element, according to new schema (done by
+            TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating old XOR/AND Join/Split types into
+            Exclusive/Parallel, according to new schema (done by TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Removing FormalParameter Index attribute, according to new
+            schema (done by TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating IsArray attribute value (of DataField element)
+            from TRUE into true and from FALSE into false, according to new
+            schema (done by TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating Activity's Start/Finish mode elements into
+            appropriate attributes according to new schema (done by
+            TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating Activity's Performer element into Performers
+            element according to new schema (done by TXM)</para>
+          </listitem>
+
+          <listitem>
+            <para>Migrating order of WorkflowProcess sub-elements
+            (DataFields,Participants,Applications -&gt; Participants,
+            Applications, DataFields) (done by TXM)</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Using BPMN graphical notation for Graph component</para>
+      </listitem>
+
+      <listitem>
+        <para>Partial XPDL2.1/BPMN support:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Using Pools and Lanes (supported nesting of lanes)</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for Artifacts (DataObject and Annotation type) and
+            Associations</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for Start and End event Activities</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for Task-Application activities (Tool activities
+            from XPDL 2.1 converted into Task-Application activities)</para>
+          </listitem>
+
+          <listitem>
+            <para>Support for Graphical notation elements that hold
+            information about position, color, etc. of the objects (removed
+            extended attributes previously used for that purpose)</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Introduced possibility to change graphical element colors and
+        sizes (information written into appropriate XPDL2.1 entities)</para>
+      </listitem>
+
+      <listitem>
+        <para>Sub-Flow and Block activity now showing their graphs when
+        single-clicking on the rectangle area that graphically describes such
+        activities</para>
+      </listitem>
+
+      <listitem>
+        <para>New actions to show and hide transition conditions (expressions)
+        in/from the graph</para>
+      </listitem>
+
+      <listitem>
+        <para>New actions to show/hide artifacts and associations in/from the
+        graph</para>
+      </listitem>
+
+      <listitem>
+        <para>Property panels for elements adjusted according to new XPDL 2.1
+        schema/specification</para>
+      </listitem>
+
+      <listitem>
+        <para>Validation adjusted according to new XPDL 2.1
+        schema/specification</para>
+      </listitem>
+
+      <listitem>
+        <para>Documentation updated</para>
+      </listitem>
+
+      <listitem>
+        <para>XPDL2.1 samples added (now there are old XPDL1.0 samples,and
+        corresponding XPDL2.1 samples)</para>
+      </listitem>
+
+      <listitem>
+        <para>Build procedure updated</para>
+      </listitem>
+
+      <listitem>
+        <para>twe-includes.xlsx file with the list of 3rd party libraries
+        updated</para>
+      </listitem>
+
+      <listitem>
+        <para>Removed wfmopen configuration since WfMOpen engine still does
+        not support XPDL 2</para>
+      </listitem>
+
+      <listitem>
+        <para>Removed purexpdl configuration - does not make sense any more
+        since TWE 4.x does not use extended attributes for storing graphical
+        information (standard XPDL 2 elements are used now)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.3-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Updated sharkxpdlmodel.jar to version 3.3-1</para>
+      </listitem>
+
+      <listitem>
+        <para>Docbook upgraded to the version 1.75-2, removed enhydra specific
+        stuff</para>
+      </listitem>
+
+      <listitem>
+        <para>Xalan 2.7-1 added to the project and used instead of saxon to
+        generate docbook docu</para>
+      </listitem>
+
+      <listitem>
+        <para>jEdit-Syntax binary code replaced with "home-build" version of
+        projects' CVS sources. (The problem was that the downloaded 2.2.1
+        version source code didn't match the binaries) Several *.java source
+        files updated to the new package names</para>
+      </listitem>
+
+      <listitem>
+        <para>Saxon removed from the project</para>
+      </listitem>
+
+      <listitem>
+        <para>batik-xxx.jar files removed from the project (using batik.jar
+        comming with FOP) - build scripts modified</para>
+      </listitem>
+
+      <listitem>
+        <para>Added new XPDL (real life) samples</para>
+      </listitem>
+
+      <listitem>
+        <para>Release notes merged into the single docbook documentation
+        file</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix: issues with defining Record and Union type variables</para>
+      </listitem>
+
+      <listitem>
+        <para>Link to homepage changed to the new address</para>
+      </listitem>
+
+      <listitem>
+        <para>Company name in various source files changed to Together
+        Teamsolutions Co., Ltd.</para>
+      </listitem>
+
+      <listitem>
+        <para>Source distribution does not contain unnecessary temporary files
+        and build.properties file anymore</para>
+      </listitem>
+
+      <listitem>
+        <para>Added copyright and GPL V3 comment at top of every source file
+        where missing (including *.xml, *.properties, *.xpdl... files)</para>
+      </listitem>
+
+      <listitem>
+        <para>BuildID.txt file added to the binary output - it specifies the
+        time when the release was built</para>
+      </listitem>
+
+      <listitem>
+        <para>Distribution packaging changed:</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para>twe-doc-x.y-z.zip and twe-screen-x.y-z.zip now also end up
+              into community folder</para>
+            </listitem>
+
+            <listitem>
+              <para>Webstart distribution now packed into
+              twe-x.y-z.webstart.zip file</para>
+            </listitem>
+
+            <listitem>
+              <para>Documentation in documentation folder of the distribution
+              is now unpacked</para>
+            </listitem>
+
+            <listitem>
+              <para>twe-doc-current.pdf with the same content as the current
+              version of project docu ends up into community folder</para>
+            </listitem>
+
+            <listitem>
+              <para>BuildID.txt file ends up into internal folder</para>
+            </listitem>
+
+            <listitem>
+              <para>Added TAS dependency build (the same as originals but with
+              the name not including version and release, and with both
+              Windows and Linux scripts included)</para>
+            </listitem>
+
+            <listitem>
+              <para>Added twe.zip and twe.tar.gz to TWS dependency build (the
+              same as originals but with the name not including version and
+              release)</para>
+            </listitem>
+          </itemizedlist></para>
+      </listitem>
+
+      <listitem>
+        <para>Docbook documentation file twe.xml renamed to twe-doc.xml</para>
+      </listitem>
+
+      <listitem>
+        <para>Docbook docu updated</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Documentation content updated</para>
+          </listitem>
+
+          <listitem>
+            <para>Added section into documentation Build guide about all
+            possible configure/make targets</para>
+          </listitem>
+
+          <listitem>
+            <para>Build guide updated with the part related to
+            sign.properties</para>
+          </listitem>
+
+          <listitem>
+            <para>Changed license to FDL version 1.3</para>
+          </listitem>
+
+          <listitem>
+            <para>Fixed docbook docu and build scripts to solve picture and
+            table sizing issues in PDFs</para>
+          </listitem>
+
+          <listitem>
+            <para>Fixed issues with programlisting elements (taking care that
+            lines are not too long)</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Program group entry for API docu removed</para>
+      </listitem>
+
+      <listitem>
+        <para>XPDL sample files opened and saved with the newest version of
+        editor</para>
+      </listitem>
+
+      <listitem>
+        <para>Standardized make/configure targets</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved make/configure scripts for windows and linux</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved build procedure so it doesn't fail if sign.properties
+        file does not contain right information</para>
+      </listitem>
+
+      <listitem>
+        <para>improved NSIS script - now size of TWE is displayed in Control
+        panel Add/Remove</para>
+      </listitem>
+
+      <listitem>
+        <para>twe-includes.xlsx file with the list of 3rd party libraries
+        updated.</para>
+      </listitem>
+
+      <listitem>
+        <para>Branding context and build procedure updated</para>
+      </listitem>
+
+      <listitem>
+        <para>Removed -optimized parameter for configure script</para>
+      </listitem>
+
+      <listitem>
+        <para>Project license now goes to licenses folder, together with other
+        licenses</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed issue with building RPM distributions from SVN sources on
+        Linux</para>
+      </listitem>
+
+      <listitem>
+        <para>Build number (in about box) does not contain C anymore</para>
+      </listitem>
+
+      <listitem>
+        <para>When XPDL file gets created by the editor, Vendor name now set
+        to (c) Together Teamsolutions Co., Ltd.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.2-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Added copyright and GPL V3 comment at top of every source
+        file</para>
+      </listitem>
+
+      <listitem>
+        <para>Updated sharkxpdlmodel.jar to version 3.2-2</para>
+      </listitem>
+
+      <listitem>
+        <para>Fix in Utils.java class - path with empty space problem and
+        findPropertyFiles() method usage in eclipse</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.2-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>code restructured</para>
+      </listitem>
+
+      <listitem>
+        <para>updated base component's JAR files to more recent versions
+        (batik, ant, itext, xerces, saxon, fop, java help, jedit syntax and
+        JGraph). Code modified accordingly.</para>
+      </listitem>
+
+      <listitem>
+        <para>updated build scripts (build procedure changes)</para>
+      </listitem>
+
+      <listitem>
+        <para>new splash screen</para>
+      </listitem>
+
+      <listitem>
+        <para>project moved to source forge</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.1-3</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>updated build scripts</para>
+      </listitem>
+
+      <listitem>
+        <para>sharkxpdlmodel.jar version 3.1-3 included</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.1-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>updated build scripts</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.1-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>updated build scripts</para>
+      </listitem>
+
+      <listitem>
+        <para>minor changes</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.0-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>introduced possibility to start JaWE in non-frame/dialog
+        mode</para>
+      </listitem>
+
+      <listitem>
+        <para>NSIS tool is updated to version 2.46</para>
+      </listitem>
+
+      <listitem>
+        <para>readregistry.nsi script is improved - readregistry.exe is able
+        to get information about Java from 64bit part of the registry.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 3.0-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Moved completely to open-source, with license changed to GPL
+        V3</para>
+      </listitem>
+
+      <listitem>
+        <para>All the sources available on OW2 including the ones for branding
+        TWE</para>
+      </listitem>
+
+      <listitem>
+        <para>Included missing features of JPEd (editor based on previous
+        community version of TWE):</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para>No annoying 30 seconds splash screen</para>
+
+              <para>since now community version of TWE has all the fatures
+              professional version had, and does not display annoying splash
+              screen</para>
+            </listitem>
+
+            <listitem>
+              <para>Do not lose layout during load/save operations:</para>
+
+              <para>this version of TWE by default doesn't lose layouting
+              information, there is a special "configuration" called "Pure
+              XPDL" where all TWE specific extended attributes are not
+              persisted into XPDL, including the ones that cause lost of
+              layouting information during load/save)</para>
+            </listitem>
+
+            <listitem>
+              <para>The Plugins interface allows you to write wizards, custom
+              XPDL elements editors, custom tooltips, custom views. With it
+              you can easily make jped company requirements</para>
+
+              <para>TWE architecture is pluggable, thus one can write any kind
+              of plug-ins, can provide custom XPDL element editors (additional
+              ones comparing to JPEd and previous TWE community version exist
+              in this new version), can configure different tooltip generator
+              etc...</para>
+            </listitem>
+
+            <listitem>
+              <para>Generate PDF reports of your workflow. Get a complete view
+              of your workflow in a ready to print format. Plugins can be used
+              also to customize PDF outputs.</para>
+
+              <para>The part of the code is taken from JPEd and included in
+              TWE</para>
+            </listitem>
+
+            <listitem>
+              <para>A fully customizable interface, using properties file and
+              system properties: - Restrict the availabe actions in interface
+              or to extend them at glance, depending your target users. -
+              Easily create a custom layout that is easier to manipulate for
+              end-users. - Combined with a wizard plugin, you can prefill an
+              XPDL or auto update it, letting user concentrate only on you
+              core buisness.</para>
+
+              <para>TWE has ability to configure user interface through
+              property files, to restrict/extend available actions or to
+              define which parts of XPDL to hide to the user, define layouts,
+              and also by custom core plug-ins.</para>
+
+              <para>It has a powerful templating mechanism, where one can
+              easily add a new type of prefilled XPDL object, and in the case
+              of activities to easily include it in the toolbox just by
+              configuration and property files</para>
+            </listitem>
+
+            <listitem>
+              <para>Generate real vectorial (SVG) output of graph, including
+              the Ids of activity, participants and transitions. (Zoom at any
+              level with any SVG enabled tool or use it in a workflow engine
+              web interface to highlight current status with just a simple svg
+              stylesheet.)</para>
+
+              <para>This part of code was taken from JPEd and included in
+              TWE</para>
+            </listitem>
+
+            <listitem>
+              <para>Quick search dropdowns make it easy to handle long list of
+              participants</para>
+
+              <para>Already existed in TWE community</para>
+            </listitem>
+
+            <listitem>
+              <para>For shark users, an integrated form editor which also add
+              additional informations in tooltips and PDF</para>
+
+              <para>TWE has a special shark configuration, where not only this
+              feature is provided, but also customized panels adjusted to
+              Shark's extended attributes and other options, special Shark
+              XPDL validation, etc.</para>
+
+              <para>The same thing is done for WfMOpen (special WfMOpen
+              configuration)</para>
+            </listitem>
+
+            <listitem>
+              <para>See the XPDL fragment of each element you are editing,
+              know exactly what you are doing at XPDL level in each
+              dialog.</para>
+
+              <para>In TWE, XPDL View shows the fragment of any selected
+              element in XPDL</para>
+            </listitem>
+
+            <listitem>
+              <para>Condition editor, gives you a dropdown box to select
+              workflow variables and provides syntax highlighting for scripted
+              conditions</para>
+
+              <para>This feature existed in TWE professional version and thus
+              appears in this version now.</para>
+            </listitem>
+
+            <listitem>
+              <para>Customize JPEd logo to fit your company need, provide a
+              splash logo when editor is loading, using a simple System
+              property</para>
+
+              <para>TWE sources now have a "branding" capability. You can
+              brand the whole project (icons, setup, splash logo, about box
+              information) and get setup.exe file for installing such
+              product</para>
+            </listitem>
+          </itemizedlist></para>
+      </listitem>
+
+      <listitem>
+        <para>XPDL Model code moved to Shark (LGPL licensed) and now taken
+        from Shark</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.5-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Highlighting java/javascript syntax in fields for entering
+        expression criteria (Transition conditions, deadline expressions,
+        actual parameters)</para>
+      </listitem>
+
+      <listitem>
+        <para>Activity's performer field now comes with higlight editor for
+        java/javascript, and buttons to chose participant and variables</para>
+      </listitem>
+
+      <listitem>
+        <para>Problems component view now depends on selection
+        (Package/Workflow Process/ActivitySet)</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved expression's validation</para>
+      </listitem>
+
+      <listitem>
+        <para>Implemented table sorting</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved D&amp;D of table entries</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.4-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Shark configuration adjustement to new shark 2.2-1version:
+        PROCESS_ID and ACTIVITY_ID can be used in transition condition's and
+        as actual parameters</para>
+      </listitem>
+
+      <listitem>
+        <para>Implemented possibility to switch DataField to a FormalParameter
+        and vice-versa</para>
+      </listitem>
+
+      <listitem>
+        <para>Core extended to support new ext. attribute types per their
+        parent object (Activity, Application, ...)</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved property panels</para>
+      </listitem>
+
+      <listitem>
+        <para>Serbian property file renamed to have extension "sr" instead of
+        "sh"</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed bug with external packages (when newly opened XPDL has the
+        external package with the same Id but different location as the one
+        opened before)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.3-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Implementation-Version attribute included into MANIFEST of jar
+        files</para>
+      </listitem>
+
+      <listitem>
+        <para>Improved installation procedure - language dependent stuff and
+        links to the application from start menu</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed bug in SharkXPDLObjectFactory - wasn't able to properly
+        use Activity's "Variables" tab</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: bug in ExternalPkgRelations component (NPE when selecting
+        Arbitrary Expression Participipant)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.3-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Added new component for LDAP participant handling (the old
+        action from the menu bar removed)</para>
+      </listitem>
+
+      <listitem>
+        <para>Option buttons displayed for the language and configuration
+        choices (the selected language/configuration is marked)</para>
+      </listitem>
+
+      <listitem>
+        <para>Language switch is now possible in run-time</para>
+      </listitem>
+
+      <listitem>
+        <para>Added configuration file which contains information about
+        configuration name to be displayed for the configuration choices and
+        in the title bar.</para>
+      </listitem>
+
+      <listitem>
+        <para>Architectural changes to support add-on architecture</para>
+      </listitem>
+
+      <listitem>
+        <para>Community version now can also display the result of References
+        and Search action</para>
+      </listitem>
+
+      <listitem>
+        <para>Core code is improved so now it is possible to add new object
+        types without coding (just by configuration). Now we use XML templates
+        for new object types (XPDL fragments).</para>
+      </listitem>
+
+      <listitem>
+        <para>Top tree elements now have '-' displayed if they contain
+        sub-elements</para>
+      </listitem>
+
+      <listitem>
+        <para>Portuguese translation included</para>
+      </listitem>
+
+      <listitem>
+        <para>Solved language usage issues with parser, JOptionPane,
+        JFileChooser, missing strings,etc.</para>
+      </listitem>
+
+      <listitem>
+        <para>Added additional language property file where you can define
+        additional language specific properties per the configuration.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: bug when adding external package which contains processes
+        with activity sets and when "automatic layouting" is turned on.Fixed:
+        bug in handling of transient packages that appeared when you have
+        transient package in the pool and you try to open XPDL from unexisting
+        file - this caused all packages to unload from XMLInterface and after
+        it happens it was possible to have two XPDLs with same Id in
+        TWE.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.2-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Implemented Search capability for searching XPDL elements based
+        on specified criteria.</para>
+      </listitem>
+
+      <listitem>
+        <para>In TWE's default configuration/mode, workflow_patterns.xpdl is
+        present in Transient package pool</para>
+      </listitem>
+
+      <listitem>
+        <para>Improvement: when configured to save XPDLs with namespace prefix
+        and if XPDL didn't have xpdl namespace defined TWE now automatically
+        adds this namespace.</para>
+      </listitem>
+
+      <listitem>
+        <para>More icons for XPDL entities are shown in
+        DetailedPackageNavigator view</para>
+      </listitem>
+
+      <listitem>
+        <para>New configuration parameter for validating if variable
+        (DataField or WorkflowProcess's FormalParameter) is not used anywhere
+        in XPDL (nor as actual parameter or inside expression). If it is not
+        used, warning is reported when validating XPDL.</para>
+      </listitem>
+
+      <listitem>
+        <para>Icons defined for all entries in menu bar</para>
+      </listitem>
+
+      <listitem>
+        <para>Some shortcut/accelerator keys have changed</para>
+      </listitem>
+
+      <listitem>
+        <para>Expand all/Collapse all are now context sensitive in relation to
+        selected tree-node</para>
+      </listitem>
+
+      <listitem>
+        <para>Top tree elements now have '-' displayed if they contain
+        sub-elements</para>
+      </listitem>
+
+      <listitem>
+        <para>Switched to 2.9 version of xerces</para>
+      </listitem>
+
+      <listitem>
+        <para>Spanish translation included</para>
+      </listitem>
+
+      <listitem>
+        <para>XMLInterface changed - removed method getIdFromFile (it is now a
+        static method of XMLUtil class)</para>
+      </listitem>
+
+      <listitem>
+        <para>Code corrections based on FindBugs report</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: bug with reading of language property files from jar file
+        - if there are spaces in the path where TWE is installed they were not
+        read</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: bug in XMLCheckBoxPanel - whenever mouse was over, an
+        apply button was enabled as if something has changed in a panel</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: bug that was introduced in previous version and appeares
+        when there are external packages defined and Id of the main package is
+        changed</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: when trying to save read-only document TWE didn't
+        complain but the changes were not saved to a document</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed bug in Shark configuration - bug fix in Shark
+        configuration (related with deletion of ext. attribs)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.1-1-bugfix build 20061110</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>fixed bug in Transient Package Pool componenet that was
+        manifesting during usage of Common expression and Free Text expression
+        participants</para>
+      </listitem>
+
+      <listitem>
+        <para>fixed bug in Shark configuration - when you delete variable from
+        'Variable' tab, it was not removed from the table</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.1-1</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>added Transient Packag Pool component for
+        displaying/adding/removing transient packages, and introduced
+        configuration option to define transient packages that will be loaded
+        by default on TWE startup</para>
+      </listitem>
+
+      <listitem>
+        <para>added additional graph actions to select activities for selected
+        transitions and vice versa</para>
+      </listitem>
+
+      <listitem>
+        <para>improved shark configuration (added new features to better
+        support shark professional version and new shark web admin
+        application)</para>
+      </listitem>
+
+      <listitem>
+        <para>improved documentation</para>
+      </listitem>
+
+      <listitem>
+        <para>demo version gets demo documentation</para>
+      </listitem>
+
+      <listitem>
+        <para>when creating new Package, xpdl namespace is added by
+        default</para>
+      </listitem>
+
+      <listitem>
+        <para>improved windows setup.exe distribution - user is asked if he
+        wants to add desktop and qucik launch shortcut</para>
+      </listitem>
+
+      <listitem>
+        <para>code re-organization</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: bug in XMLInterfaceForJDK13-&gt;getPackageById()
+        method</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.0-6</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>property file location moved from %USER_HOME%/.JaWE to
+        %TWE_HOME%/conf/xxx.</para>
+      </listitem>
+
+      <listitem>
+        <para>enabled re-configuration at runtime - possible configurations
+        are placed in sub-folders of %TWE_HOME%/conf, default configuration is
+        written in %TWE_HOME%/conf/defaultconf</para>
+      </listitem>
+
+      <listitem>
+        <para>beside default configuration, added shark configuration, wfmopen
+        configuration, samples-loopactivity and purexpdl configuration</para>
+      </listitem>
+
+      <listitem>
+        <para>shark configuration is adjustment of jawe to shark-engine
+        restrictions + swing admin ext. attribs. Automatic change of ext.
+        attribs when variable Id changes; validation on this special ext.
+        attribs and validation according to shark restrictions</para>
+      </listitem>
+
+      <listitem>
+        <para>wfmopen configuration is adjustment of jawe to wfmopen-engine
+        restrictions + special ext. attribs. validation on this special ext.
+        attribs and validation according to wfmopen restrictions</para>
+      </listitem>
+
+      <listitem>
+        <para>improved simple graph layout action's algorithm (never goes back
+        in the swimline whenever possible, when there is a split inside same
+        swimline - new rows are created, handling of start/end bubbles
+        improved)</para>
+      </listitem>
+
+      <listitem>
+        <para>included David Delbecq's improved drop-down list (switching from
+        menu-items to search-able list when there are 30 or more items) for
+        inserting participants and selecting activity sets in graph
+        component</para>
+      </listitem>
+
+      <listitem>
+        <para>included David Delbecq's improved drop-down list (switching from
+        menu-items to search-able list when there are 30 or more items) for
+        selecting packages and workflow processes in info-bar</para>
+      </listitem>
+
+      <listitem>
+        <para>Search panel renamed to References</para>
+      </listitem>
+
+      <listitem>
+        <para>Documentation links in windows setup now reference full HTML
+        document</para>
+      </listitem>
+
+      <listitem>
+        <para>API entry in Windows dist is renamed to Together Workflow Editor
+        Profesional API</para>
+      </listitem>
+
+      <listitem>
+        <para>TWE stores new ext. attrib. information in XPDL for determining
+        configuration used to create this XPDL</para>
+      </listitem>
+
+      <listitem>
+        <para>added possibility to chose icon for the activity from the list
+        of available icons</para>
+      </listitem>
+
+      <listitem>
+        <para>added workflow_patterns.xpdl file (originally created for shark
+        distribution)</para>
+      </listitem>
+
+      <listitem>
+        <para>defined keyboard shortcuts for almost all menu items</para>
+      </listitem>
+
+      <listitem>
+        <para>improved automatic insertion of start/end markers</para>
+      </listitem>
+
+      <listitem>
+        <para>code re-organization (introduction of new classes and
+        configuration properties)</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: rare bug in Graph component when start/end bubbles are
+        the only one placed within FreeTextExpression participant</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.0-5</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>introduced possibility to chose when adding external packages if
+        external package will be "transient" (it won't be saved into the file,
+        but its purpose will be to provide a container where from you can copy
+        common elements)</para>
+      </listitem>
+
+      <listitem>
+        <para>introduction of compound icons (no need to define special icon
+        for errors and warnings)</para>
+      </listitem>
+
+      <listitem>
+        <para>Minor code changes/reorganization.</para>
+      </listitem>
+
+      <listitem>
+        <para>improved automatical insertion of Start/End markers</para>
+      </listitem>
+
+      <listitem>
+        <para>improved property panel for defining workflow relevant data:
+        sub-panel for entering initial value is now bigger</para>
+      </listitem>
+
+      <listitem>
+        <para>improved usage of LDAP connection: better support of
+        ActiveDirectory search, added LDAPReferralHandling property, password
+        field hidden</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: bugs in usage of LDAP connection for inserting
+        participants (user+password authentication didn't work, search scope
+        didn't work)</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: Graph component's tooltip bug in Zoom In/Out mode.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.0-4</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>New possibility to save XPDLs with xpdl namespace prefix (TWE by
+        default configured to do so)</para>
+      </listitem>
+
+      <listitem>
+        <para>Added language property files for French and German
+        language.</para>
+      </listitem>
+
+      <listitem>
+        <para>Minor code changes/reorganization.</para>
+      </listitem>
+
+      <listitem>
+        <para>Now using Xerces 2.8</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: problem with overlapping dialogs after loading XPDL
+        file.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: Enter key didn't work in a table panels</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.0-3</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Added language property file for Serbian language.</para>
+      </listitem>
+
+      <listitem>
+        <para>Code changes/reorganization.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: if there were many participants in XPDL, pop-up menu for
+        showing participants that can be inserted into graph couldn't show all
+        of them.</para>
+      </listitem>
+
+      <listitem>
+        <para>Fixed: TWE didn't change the references when the Id of
+        TypeDeclaration is changed.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Release 2.0-2</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>added WfXML authentication.</para>
+      </listitem>
+
+      <listitem>
+        <para>default condition type for newly inserted transitions (via
+        graph) is not set which means that by default unconditional transition
+        is being inserted (previously default type was 'Condition')</para>
+      </listitem>
+
+      <listitem>
+        <para>added new validation option called 'ValidateConditionByType'
+        (which default value is true); when set to true, TWE will generate
+        warning in following cases:</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para>transition's condition type is not set (unconditional
+              transition) and there is condition expression defined</para>
+            </listitem>
+
+            <listitem>
+              <para>transition's condition type is set to 'Condition'
+              (conditional transition) and there is no condition expression
+              defined</para>
+            </listitem>
+
+            <listitem>
+              <para>transition's condition type is set to 'Exception'
+              (exceptional transition) and there is no condition expression
+              defined</para>
+            </listitem>
+
+            <listitem>
+              <para>transition's condition type is set to 'Otherwise' and
+              there is condition expression defined</para>
+            </listitem>
+
+            <listitem>
+              <para>transition's condition type is set to 'Default exception'
+              and there is condition expression defined</para>
+            </listitem>
+          </itemizedlist></para>
+      </listitem>
+
+      <listitem>
+        <para>allowed deletion of invalid ExternalPackage elements (when there
+        is no external package referenced)</para>
+      </listitem>
+
+      <listitem>
+        <para>improved conversion of XPDL files from old JaWE versions -&gt;
+        Start/End markers are now properly positioned</para>
+      </listitem>
+
+      <listitem>
+        <para>generally improved XPDL validation</para>
+      </listitem>
+
+      <listitem>
+        <para>improved procedure of closing changed XPDLs - now TWE doesn't
+        ask you to enter the file name if this is an XPDL opened from an
+        existing file</para>
+      </listitem>
+
+      <listitem>
+        <para>logging manager implementiation is now using Java logging
+        instead system.out</para>
+      </listitem>
+
+      <listitem>
+        <para>fixed NPE in LDAP connection</para>
+      </listitem>
+
+      <listitem>
+        <para>fixed rare bug with repositioning of Objects in the table or
+        list</para>
+      </listitem>
+
+      <listitem>
+        <para>fixed bug with the displaying names of a certain extended
+        attributes (e.g. if you defined ext. attrib. with name 'm', afterwards
+        you'll see 'minute' instead of 'm' displayed in ext. attrib. property
+        panel)</para>
+      </listitem>
+
+      <listitem>
+        <para>fixed bug with Graph validation of Start/End markers during the
+        save of Packages marked as 'Released' (TWE allowed saving of incorrect
+        package)</para>
+      </listitem>
+
+      <listitem>
+        <para>fixed bug with XPDL validation of Tool's Actual-&gt;Formal
+        parameter mapping during the save of Packages marked as 'Released'
+        (TWE allowed saving of incorrect package)</para>
+      </listitem>
+
+      <listitem>
+        <para>fixed problem with de-selection of graph during undo</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+</chapter>
