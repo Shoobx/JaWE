@@ -19,7 +19,7 @@
 	along with this program. If not, see http://www.gnu.org/licenses
 -->
 <book status="work in progress" version="5.0" xml:id="tweug" xml:lang="en"
-      xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude">
+      xmlns="http://docbook.org/ns/docbook">
   <title><inlinemediaobject>
       <imageobject>
         <imagedata contentdepth="100%" fileref="Images/cover8.jpg"
@@ -77,34 +77,47 @@
 
   <toc/>
 
-   <xi:include href="twe-doc-preface.xml" />
-  
-   <xi:include href="twe-doc-chapter-introduction.xml" />
-  
-   <xi:include href="twe-doc-chapter-installation_guide.xml" />
-  
-   <xi:include href="twe-doc-chapter-user_interface.xml" />
+  <xi:include href="twe-doc-preface.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-dialogs_and_property_panels.xml" />   
+  <xi:include href="twe-doc-chapter-introduction.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-xpdl_elements.xml" />   
+  <xi:include href="twe-doc-chapter-installation_guide.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-xpdl_from_scratch.xml" />
+  <xi:include href="twe-doc-chapter-user_interface.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-configuration.xml" />
+  <xi:include href="twe-doc-chapter-dialogs_and_property_panels.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-customization.xml" />
+  <xi:include href="twe-doc-chapter-xpdl_elements.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-shark_configuration.xml" />
+  <xi:include href="twe-doc-chapter-xpdl_from_scratch.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-extended_attribute_reference.xml" />
+  <xi:include href="twe-doc-chapter-configuration.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-build_guide.xml" />
+  <xi:include href="twe-doc-chapter-customization.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-chapter-release_notes.xml" />
+  <xi:include href="twe-doc-chapter-shark_configuration.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-   <xi:include href="twe-doc-appendix.xml" />
-   
+  <xi:include href="twe-doc-chapter-extended_attribute_reference.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+  <xi:include href="twe-doc-chapter-build_guide.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+  <xi:include href="twe-doc-chapter-release_notes.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+  <xi:include href="twe-doc-appendix.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
   <colophon>
     <para>Together Teamsolutions Co., Ltd.</para>

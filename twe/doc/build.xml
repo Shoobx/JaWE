@@ -261,10 +261,7 @@
 		</copy>
       <!--copy todir="${tmp.dir}/docbook">
          <fileset dir="${docbook.dtd.dir}/dtd"/>
-      </copy-->
-      
-      <replace dir="${tmp.dir}" includes="*.xml" encoding="utf-8" token="&quot;../tools/docbook-dtd/dtd/docbook.dtd&quot;" value="&quot;${tools.dir}/docbook-dtd/dtd/docbook.dtd&quot;" />
-      
+      </copy-->            
       
       <if>
          <istrue value="${rebranding}" />
@@ -274,7 +271,13 @@
          </then>
       </if>
       
+      <replace dir="${tmp.dir}" includes="*.xml" encoding="utf-8" token="&quot;../tools/docbook-dtd/dtd/docbook.dtd&quot;" value="&quot;${tools.dir}/docbook-dtd/dtd/docbook.dtd&quot;" />
+      
       <var name="res" value=""/>                  
+
+      <xmltask source="${tmp.dir}/${docbook.name}.xml" dest="${tmp.dir}/${docbook.name}.xml" failWithoutMatch="true" preservetype="true" indent="false" expandEntityReferences="false" encoding="UTF-8"> 
+         <attr path="/:book" attr="xmlns:xi" value="http://www.w3.org/2001/XInclude"/>
+      </xmltask>   
 
       <xmltask source="${tmp.dir}/${docbook.name}.xml" failWithoutMatch="true" >
          <call path="/:book/xi:include" inheritall="true" inheritRefs="true">
