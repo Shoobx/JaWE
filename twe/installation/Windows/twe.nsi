@@ -119,6 +119,7 @@ SetDateSave          on
 ;Variables
 
   Var STARTMENU_FOLDER
+  Var STARTMENU_APPNAME
   Var MUI_TEMP
   Var JAVAHOME
   Var DEFAULT_BROWSER
@@ -219,6 +220,29 @@ SetDateSave          on
 ;---------------------------------------------------------------------------------------
 ;Installer Sections
 ;---------------------------------------------------------------------------------------
+!macro PINFROMTASKBAR un
+Function ${un}PinFromTaskbar
+ IfFileExists "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" StartUnPinToTaskbar CheckDesktopIcon
+     StartUnPinToTaskbar:
+        IfFileExists "$INSTDIR\unpin.vbs" StartUnPin UnPinFinish
+        StartUnPin:
+            StrCpy $0 "$INSTDIR\unpin.vbs"
+              nsExec::Exec '"$SYSDIR\CScript.exe" "$0" //e:vbscript "$SMPROGRAMS\$STARTMENU_FOLDER" "$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+	  Goto UnPinFinish
+	  CheckDesktopIcon:
+	  IfFileExists "$DESKTOP\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" StartUnPinToTaskbarByDesktop UnPinFinish
+	  StartUnPinToTaskbarByDesktop:
+		  IfFileExists "$INSTDIR\unpin.vbs" StartUnPinByDesktop UnPinFinish
+		  StartUnPinByDesktop:
+				StrCpy $0 "$INSTDIR\unpin.vbs"
+				  nsExec::Exec '"$SYSDIR\CScript.exe" "$0" //e:vbscript "$DESKTOP" "$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" //B //NOLOGO'
+	  
+	  UnPinFinish:
+FunctionEnd
+!macroend
+; Insert function as an installer and uninstaller function.
+!insertmacro PINFROMTASKBAR ""
+!insertmacro PINFROMTASKBAR "un."
 
 Section "Install" Install
    
@@ -247,6 +271,13 @@ Section "Install" Install
       ${endif}
 
    ${endif}
+   
+   	Push $STARTMENU_FOLDER
+	Call RemoveSpecialChar
+	Call Trim
+	Pop $STARTMENU_FOLDER
+#------ Clear Pin from taskbar previous version -----
+  Call PinFromTaskbar
 
    
   SetOutPath "$INSTDIR"
@@ -259,6 +290,7 @@ Section "Install" Install
   File /r "${TWE_DIR}\examples"
   File /r "${TWE_DIR}\lib"
   File /r "${TWE_DIR}\licenses"
+  File unpin.vbs
 
   
   !ifndef INNER
@@ -322,21 +354,21 @@ Section "Install" Install
 
   ;Create shortcuts
   
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" \
                  "$JAVAHOME\bin\javaw.exe" \
                  "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \
                  "$INSTDIR\bin\TWE.ico"
                           
-  CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk" \
+  CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)"
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)\$STARTMENU_APPNAME $(Manual) HTML.lnk" \
                  "$INSTDIR\doc\${SHORT_NAME}-current.doc.html" \
                  "" \
                  $DEFAULT_BROWSER
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) PDF.lnk" \
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)\$STARTMENU_APPNAME $(Manual) PDF.lnk" \
                  "$INSTDIR\doc\${SHORT_NAME}-current.doc.pdf" \
                  "" \
                  ""
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) Homepage.lnk" \
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME Homepage.lnk" \
                  $(home_page_link_location) \
                  "" \
                  $DEFAULT_BROWSER
@@ -355,21 +387,21 @@ Section "Install" Install
   				 "$INSTDIR\uninstall.exe" 0
   endShortCut:
 	
-   WinShell::SetLnkAUMI "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
+   WinShell::SetLnkAUMI "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
   ${If} $ADD_QUICKLAUNCH != '0'
-  CreateShortCut "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
+  CreateShortCut "$QUICKLAUNCH\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
                   "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0  
-   WinShell::SetLnkAUMI "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
+   WinShell::SetLnkAUMI "$QUICKLAUNCH\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
   ${If} $ADD_DESKTOP != '0'
-  CreateShortCut "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" \
+  CreateShortCut "$DESKTOP\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" \
                   "$JAVAHOME\bin\javaw.exe" \
                   "-Xmx512M -DJaWE_HOME=$\"$INSTDIR$\" -Djava.ext.dirs=$\"$INSTDIR\lib$\" org.enhydra.jawe.JaWE" \ 
                  "$INSTDIR\bin\TWE.ico" 0
-   WinShell::SetLnkAUMI "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
+   WinShell::SetLnkAUMI "$DESKTOP\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk" "${AppUserModelID}"                        
   ${endif}
 
 
@@ -412,7 +444,9 @@ Section "Install" Install
   WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
                              "HelpLink" $(HelpLink)
   WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
-                             "StartMenuFolder" "$STARTMENU_FOLDER"                           
+                             "StartMenuFolder" "$STARTMENU_FOLDER" 
+  WriteRegStr HKLM    "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" \
+                             "StartMenuAppName" "$STARTMENU_APPNAME" 							 
 
   
   ;WriteUninstaller "$%TEMP%\uninstall.exe" ;<<----- Enabled HERE for Warning "Uninstaller script code found but WriteUninstaller never used - no uninstaller will be created"
@@ -458,7 +492,7 @@ Function .onInit
   Pop $DEFAULT_BROWSER
  
 
- #------- seting silent installation -----------------#
+ #------- setting silent installation -----------------#
   IfFileExists $EXEDIR\${SHORT_NAME}-${VERSION}-${RELEASE}.silent.properties silent normal
   
   silent:
@@ -550,11 +584,37 @@ Function .onInit
   loopend:
     FileClose $9
     
+	IfFileExists $JAVAHOME\bin\javaw.exe start_initialization
+	ReadEnvStr $JAVAHOME "JAVA_HOME"
+	${if} $JAVAHOME == ""
+		ClearErrors
+		ReadRegStr $JAVAHOME HKCU "Environment" "JAVA_HOME"  
+	${endif}
   
-  #------- seting silent installation -----------------#
+  IfFileExists $JAVAHOME\bin\javaw.exe start_initialization
+	${if} ${RunningX64}
+		SetRegView 64
+	${else}
+		SetRegView 32
+	${endif}
+	ReadRegStr $R9 HKLM "SOFTWARE\JavaSoft\Java Development Kit" 	  "CurrentVersion"
+	ReadRegStr $JAVAHOME HKLM "SOFTWARE\JavaSoft\Java Development Kit\$R9"  "JavaHome"
+	
+  IfFileExists $JAVAHOME\bin\javaw.exe start_initialization	
+	ReadRegStr $R9 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
+	ReadRegStr $JAVAHOME HKLM "SOFTWARE\JavaSoft\Java Runtime Environment\$R9" "JavaHome"
+
+  #------- setting silent installation -----------------#
 
   start_initialization:
   ;normal_default:
+  
+  Push "${PROJECT_FULL_NAME} ${VERSION}-${RELEASE}"  ; push a default value onto the stack
+  Pop $2
+  ${if} $STARTMENU_FOLDER == ""
+  StrCpy $STARTMENU_FOLDER $2
+  ${endif}
+  
       StrCpy $ADD_STARTMENU       '1'
       StrCpy $ENABLE_DESKTOP       'on'
       StrCpy $ADD_DESKTOP       '1'
@@ -584,8 +644,16 @@ Function .onInit
   end_splash_screen:
   
   continue:
-
-
+  StrCpy $STARTMENU_APPNAME $(ABBREVIATION)
+  	Push $STARTMENU_APPNAME
+	Call RemoveSpecialChar
+	Call Trim
+	Pop $STARTMENU_APPNAME
+	
+	Push $STARTMENU_FOLDER
+	Call RemoveSpecialChar
+	Call Trim
+	Pop $STARTMENU_FOLDER
 FunctionEnd
 ;---------------------------------------------------------------------------------------
 ;Descriptions
@@ -608,6 +676,8 @@ Section "Uninstall"
    DeleteRegKey HKCR "xpdlfile\Shell"
    DeleteRegKey HKCR "xpdlfile"
 
+  ; Unpin from Taskbar
+  Call un.PinFromTaskbar
   
   ; MUST REMOVE UNINSTALLER, too
   Delete $INSTDIR\uninstall.exe
@@ -616,18 +686,18 @@ Section "Uninstall"
 
   
   ; remove shortcuts, if any.
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk"
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) PDF.lnk"
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) Homepage.lnk"
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
+  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)\$STARTMENU_APPNAME $(Manual) HTML.lnk"
+  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)\$STARTMENU_APPNAME $(Manual) PDF.lnk"
+  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME Homepage.lnk"
+  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(Uninstall).lnk"
   
-  Delete "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
-  Delete "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
+  Delete "$DESKTOP\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk"
+  Delete "$QUICKLAUNCH\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk"
 
-  RMDir "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
-  RMDir "$SMPROGRAMS\$STARTMENU_FOLDER"
-
+  RMDir /r "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)"
+  RMDir /r "$SMPROGRAMS\$STARTMENU_FOLDER"
+  
   ;Delete empty start menu parent diretories
   StrCpy $MUI_TEMP "$SMPROGRAMS\$MUI_TEMP"
 
@@ -674,9 +744,9 @@ Function un.onInit
     SetRegView 64
   ${EndIf}
   ;Get language from registry
-  ReadRegStr $LANGUAGE HKCU "Software\$(NAME)" "Installer Language"
-  ReadRegStr $STARTMENU_FOLDER HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$(Name)" "StartMenuFolder"
-  
+  ReadRegStr $LANGUAGE HKCU "Software\${PROJECT_FULL_NAME}" "Installer Language"
+  ReadRegStr $STARTMENU_FOLDER HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROJECT_FULL_NAME} ${VERSION}-${RELEASE}" "StartMenuFolder"
+  ReadRegStr $STARTMENU_APPNAME HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROJECT_FULL_NAME} ${VERSION}-${RELEASE}" "StartMenuAppName"
    Pop $R0
    Pop $2
 FunctionEnd
@@ -707,16 +777,16 @@ Function Cleanup
   RMDir /r "$INSTDIR"
 
   ; remove shortcuts, if any.
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) HTML.lnk"
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)\$(ABBREVIATION) $(Manual) PDF.lnk"
-  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
+  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)\$STARTMENU_APPNAME $(Manual) HTML.lnk"
+  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)\$STARTMENU_APPNAME $(Manual) PDF.lnk"
+  Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk"
   Delete "$SMPROGRAMS\$STARTMENU_FOLDER\$(Uninstall).lnk"
   
-  Delete "$DESKTOP\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
-  Delete "$QUICKLAUNCH\$(ABBREVIATION) ${VERSION}-${RELEASE}.lnk"
+  Delete "$DESKTOP\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk"
+  Delete "$QUICKLAUNCH\$STARTMENU_APPNAME ${VERSION}-${RELEASE}.lnk"
 
-  RMDir "$SMPROGRAMS\$STARTMENU_FOLDER\$(ABBREVIATION) $(Documentation)"
-  RMDir "$SMPROGRAMS\$STARTMENU_FOLDER"
+  RMDir /r "$SMPROGRAMS\$STARTMENU_FOLDER\$STARTMENU_APPNAME $(Documentation)"
+  RMDir /r "$SMPROGRAMS\$STARTMENU_FOLDER"
 
   ;Delete empty start menu parent diretories
   StrCpy $MUI_TEMP "$SMPROGRAMS\$MUI_TEMP"
@@ -829,7 +899,7 @@ Function ReplaceChar
   Push $6 ; tmp - from found char witch need to change + 1 to end ($3)
   Push $7 ; tmp - position where found char witch need to change + 1
   StrLen $3 $0
-  StrCpy $4 1
+  StrCpy $4 0
   loop:
     StrCpy $5 $0 1 $4
     StrCmp $5 "" exit
@@ -1304,4 +1374,40 @@ Function RefreshShellIcons
   ; By jerome tremblay - april 2003
   System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v \
   (${SHCNE_ASSOCCHANGED}, ${SHCNF_IDLIST}, 0, 0)'
+FunctionEnd
+
+;------------------------------------------------------------------
+; Usage:
+;   Push "original_text";   
+;   Call RemoveSpecialChar
+;   Pop $R0
+;  ($R0 is text without special character")
+;------------------------------------------------------------------
+Function RemoveSpecialChar
+	Pop $R1
+	StrCpy $0 "|\/:*?<>"
+	StrLen $3 $0
+	StrCpy $1 0
+	; remove special character
+	Loop_Replace:
+	StrCpy $R2 $0 1 $1
+	Push $R1
+	Push $R2
+	Push " "
+	Call ReplaceChar
+	Pop $R1
+	IntOp $1 $1 + 1
+	IntCmp $1 $3 Loop_Replace Loop_Replace 0	
+	; remove empty spaces
+	StrLen $3 $R1
+	StrCpy $1 0
+	Loop_Remove:
+	Push $R1
+	Push "  "
+	Push " "
+	Call StrReplace
+	Pop $R1
+	IntOp $1 $1 + 1
+	IntCmp $1 $3 Loop_Remove Loop_Remove 0	
+	Push $R1
 FunctionEnd
