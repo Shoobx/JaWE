@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="extended_attribute_reference"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Extended Attribute Reference</title>
+
+  <para>TWE uses XPDL ability to store some additional information through
+  extended attributes. TWE might add special extended attributes to package,
+  external package, workflow process, activity and transition elements.</para>
+
+  <para>Extended attribute that can be added to any custom main XPDL object
+  (Activity, Application,DataField, Transition, WorkflowProcess, Package,
+  etc.) is:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para>JaWE_TYPE - it specifies the custom type Id of the element</para>
+    </listitem>
+  </itemizedlist>
+
+  <para>Extended attributes added for package element are:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para>EDITING_TOOL - used to mark that XPDL was edited by TWE</para>
+    </listitem>
+
+    <listitem>
+      <para>EDITING_TOOL_VERSION - stores information about TWE version</para>
+    </listitem>
+
+    <listitem>
+      <para>JaWE_CONFIGURATION - stores information about TWE configuration
+      used to create XPDL</para>
+    </listitem>
+  </itemizedlist>
+
+  <para>In the versions before 4.x, before we switched to XPDL 2
+  specification, there were extended attributes that were used by TWE's Graph
+  component in order to hold the information about the graphical properties of
+  elements, such as position, orientation, order, ...</para>
+
+  <para>These attributes are not used by TWE any more, since graphical
+  information is now stored in corresponding XPDL 2 specification
+  elements.</para>
+
+  <para>However, these attributes are important when TWE 4.x opens TWE 3.x or
+  older XPDL files, and affect the conversion from XPDL 1 to XPDL 2.</para>
+
+  <para>Here is a list of those "old" extended attributes:</para>
+
+  <para>The ones that were added to workflow processes element are:</para>
+
+  <itemizedlist condition="demo-details">
+    <listitem>
+      <para>JaWE_GRAPH_BLOCK_PARTICIPANT_ORIENTATION - information about
+      orientation of participants (swim-lanes) in activity set's graph</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORIENTATION - information about
+      orientation of participants (swim-lanes) in worfklow process's
+      graph</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_BLOCK_PARTICIPANT_ORDER - holds information about
+      participant order for activity sets in this process</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_WORKFLOW_PARTICIPANT_ORDER - holds information about
+      participant order for workflow process</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_START_OF_BLOCK - information about start bubble inside
+      activity set</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_END_OF_BLOCK - information about end bubble inside
+      activity set</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_START_OF_WORKFLOW - information about start bubble
+      inside workflow process</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_END_OF_WORKFLOW - information about end bubble inside
+      workflow process</para>
+    </listitem>
+  </itemizedlist>
+
+  <para condition="demo-emptytext">The ones that were added to activities
+  are:</para>
+
+  <itemizedlist condition="demo-emptytext">
+    <listitem>
+      <para>JaWE_GRAPH_PARTICIPANT_ID - holds information about swim-lane
+      (representation of the XPDL Participant, or some special kind of
+      swim-lanes for defining activity performer as an expression) that holds
+      activity.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>JaWE_GRAPH_OFFSET - information about location of activity</para>
+    </listitem>
+  </itemizedlist>
+
+  <para condition="demo-emptytext">The ones that were added to transitions
+  are:</para>
+
+  <itemizedlist condition="demo-emptytext">
+    <listitem>
+      <para>JaWE_GRAPH_TRANSITION_STYLE - information about drawing style for
+      a transition</para>
+    </listitem>
+
+    <listitem>
+      <para>JaWE_GRAPH_BREAK_POINTS - information about break point offsets of
+      a transition</para>
+    </listitem>
+  </itemizedlist>
+</chapter>
