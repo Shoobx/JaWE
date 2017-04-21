@@ -255,7 +255,7 @@ Function OnClick_BrowseButton_SetJava
     SendMessage $tog.SetJavaCustomPage.JavaHomeRadio ${BM_SETCHECK} ${BST_UNCHECKED} 0
     SendMessage $tog.SetJavaCustomPage.ExistRadio ${BM_SETCHECK} ${BST_UNCHECKED} 0
     SendMessage $tog.SetJavaCustomPage.UserRadio ${BM_SETCHECK} ${BST_CHECKED} 0
-    nsDialogs::SelectFolderDialog /NOUNLOAD "Select the folder to install $R0 in." $R0
+    nsDialogs::SelectFolderDialog /NOUNLOAD "Select Java Virtual Machine."
     Pop $0
     ${If} $0 == "error" # returns 'error' if 'cancel' was pressed?
         Call Update_Next_Button

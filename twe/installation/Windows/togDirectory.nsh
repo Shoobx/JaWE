@@ -157,7 +157,7 @@ Function OnClick_BrowseButton_Directory
     Call GetLastPart
     Pop $R1 ; last part "ProgramName"
 
-    nsDialogs::SelectFolderDialog /NOUNLOAD "Select the folder to install $R0 in." $R0
+    nsDialogs::SelectFolderDialog /NOUNLOAD "Select the folder to install ${PROJECT_FULL_NAME}." $R0
     Pop $0
     ${If} $0 == "error" # returns 'error' if 'cancel' was pressed?
         Return

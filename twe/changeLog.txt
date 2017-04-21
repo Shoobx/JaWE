@@ -1,4 +1,8 @@
-###### TWE 5.4-4 RELEASED ######
+###### TWE 5.4-5 RELEASED ######
+2017-03-30 Anat Usa-ampai <A.Usa-ampai@togetherteam.co.th>
+   # NSIS Installation changed so that special characters like | are supported in (branded) project name
+   
+###### TWE 5.4-4 RELEASED (2017-03-02) ######
 2017-02-28 Sasa Bojanic <sasaboy@together.at>
    # Docbook documentation split into several chapters which are included into main document using docbook's xinclude. 
      During the build time, the build procedure merges all the documentation parts together and builds the HTML/PDF documentation

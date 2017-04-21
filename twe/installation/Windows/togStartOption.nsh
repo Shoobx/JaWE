@@ -37,9 +37,9 @@ Var tog.StartOptionCustomPage.Check.StartMenu
 Var tog.StartOptionCustomPage.Edit.StartMenu
 Var tog.StartOptionCustomPage.Check.Shortcut
 Var tog.StartOptionCustomPage.Check.QuickLaunch
-Var tog.StartOptionCustomPage.Check.PintoTaskbar
+Var tog.StartOptionCustomPage.DefaultButton
 
-!macro TOG_CUSTOMPAGE_STARTOPTION APP_NAME CHECK_STARTMENU EDIT_STARTMENU ENABLE_SHORTCUT CHECK_SHORTCUT ENABLE_QUICKLAUNCH CHECK_QUICKLAUNCH ENABLE_PINTOTASKBAR CHECK_PINTOTASKBAR
+!macro TOG_CUSTOMPAGE_STARTOPTION APP_NAME CHECK_STARTMENU EDIT_STARTMENU ENABLE_SHORTCUT CHECK_SHORTCUT ENABLE_QUICKLAUNCH CHECK_QUICKLAUNCH 
 Page custom create_page_startoption leave_page_startoption
 
 Function create_page_startoption
@@ -52,7 +52,7 @@ Function create_page_startoption
     !insertmacro MUI_HEADER_TEXT_PAGE "${TOG_CUSTOMPAGE_STARTOPTION_TITLE}" "${TOG_CUSTOMPAGE_STARTOPTION_SUBTITLE}"
 
     ${If} ${EDIT_STARTMENU} == ""
-        StrCpy ${EDIT_STARTMENU} "${APP_NAME}"
+        EnableWindow $tog.StartOptionCustomPage.Button.Next 0
     ${EndIf}
 
     ;(1) Create a Together startoption dialog page
@@ -104,17 +104,10 @@ Function create_page_startoption
 		${NSD_SetState} $tog.StartOptionCustomPage.Check.QuickLaunch 0
 		EnableWindow 	$tog.StartOptionCustomPage.Check.QuickLaunch 0
 	${EndIf}
-	
-    ;(7) Create a checkbox control for "Create Pin to taskbar"
-    ${NSD_CreateCheckBox} 0u 82u 100u 12u "Create Pin to Taskbar"
-    Pop $tog.StartOptionCustomPage.Check.PintoTaskbar
-	${If} ${ENABLE_PINTOTASKBAR} == "on"
-		${NSD_SetState} $tog.StartOptionCustomPage.Check.PintoTaskbar ${CHECK_PINTOTASKBAR}
-		${NSD_OnClick}  $tog.StartOptionCustomPage.Check.PintoTaskbar OnClickCheckBox_PintoTaskbar
-	${Else}
-		${NSD_SetState} $tog.StartOptionCustomPage.Check.PintoTaskbar 0
-		EnableWindow 	$tog.StartOptionCustomPage.Check.PintoTaskbar 0
-	${EndIf}
+     ;(7) Create 'Default' button control
+    ${NSD_CreateButton} 240u 124u 60u 14u "Default"
+    Pop $tog.StartOptionCustomPage.DefaultButton
+    ${NSD_OnClick} $tog.StartOptionCustomPage.DefaultButton OnClick_Default_StartOption
 	
     Call UpdateEdit_StartMenu
 
@@ -125,6 +118,31 @@ Function create_page_startoption
     Pop $0
 FunctionEnd
 
+Function OnClick_Default_StartOption    
+	StrCpy ${EDIT_STARTMENU} "${APP_NAME}"
+	
+	Push ${EDIT_STARTMENU}
+	Call RemoveSpecialChar
+	Call Trim
+	Pop  ${EDIT_STARTMENU}
+	
+	system::Call 'user32::SetWindowText(i$tog.StartOptionCustomPage.Edit.StartMenu, t"${EDIT_STARTMENU}")'
+	
+	StrCpy ${CHECK_STARTMENU} "${BST_CHECKED}"
+	${NSD_SetState} $tog.StartOptionCustomPage.Check.StartMenu ${CHECK_STARTMENU}
+	EnableWindow $tog.StartOptionCustomPage.Edit.StartMenu 1
+	
+	${If} ${ENABLE_SHORTCUT} == "on"
+		StrCpy ${CHECK_SHORTCUT} "${BST_CHECKED}"
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.Shortcut ${CHECK_SHORTCUT}
+	${EndIf}
+		
+	${If} ${ENABLE_QUICKLAUNCH} == "on"
+		StrCpy ${CHECK_QUICKLAUNCH} "${BST_UNCHECKED}"
+		${NSD_SetState} $tog.StartOptionCustomPage.Check.QuickLaunch ${CHECK_QUICKLAUNCH}
+	${EndIf}
+FunctionEnd
+
 Function leave_page_startoption
     # Insert leave-custom function
     !insertmacro TOG_CUSTOMPAGE_FUNCTION_CUSTOM LEAVE
@@ -133,28 +151,37 @@ FunctionEnd
 Function OnChangeEdit_StartMenu
     Pop $0
     System::Call 'user32::GetWindowText(i$tog.StartOptionCustomPage.Edit.StartMenu, t.r0, i${NSIS_MAX_STRLEN})'
+	Push $0
+	Call Trim
+	Pop $0
     ${If} $0 == ""
-        StrCpy ${EDIT_STARTMENU} "${APP_NAME}"
+		EnableWindow $tog.StartOptionCustomPage.Button.Next 0		
     ${Else}
-        StrCpy ${EDIT_STARTMENU} "$0"
+		EnableWindow $tog.StartOptionCustomPage.Button.Next 1        
     ${EndIf}
+	StrCpy ${EDIT_STARTMENU} "$0"
 FunctionEnd
 
 Function UpdateEdit_StartMenu
     ${If} ${CHECK_STARTMENU} == "${BST_CHECKED}"
-		StrCpy ${EDIT_STARTMENU} "${APP_NAME}"
-		system::Call 'user32::SetWindowText(i$tog.StartOptionCustomPage.Edit.StartMenu, t"${APP_NAME}")'
+		${If} ${EDIT_STARTMENU} == ""
+			EnableWindow $tog.StartOptionCustomPage.Button.Next 0
+		${Else}
+			EnableWindow $tog.StartOptionCustomPage.Button.Next 1  
+		${EndIf}
+		system::Call 'user32::SetWindowText(i$tog.StartOptionCustomPage.Edit.StartMenu, t"${EDIT_STARTMENU}")'
         EnableWindow $tog.StartOptionCustomPage.Edit.StartMenu 1
     ${Else}
-		system::Call 'user32::SetWindowText(i$tog.StartOptionCustomPage.Edit.StartMenu, t"")'
+		system::Call 'user32::SetWindowText(i$tog.StartOptionCustomPage.Edit.StartMenu, t"${EDIT_STARTMENU}")'
         EnableWindow $tog.StartOptionCustomPage.Edit.StartMenu 0
+		EnableWindow $tog.StartOptionCustomPage.Button.Next 1
     ${EndIf}
 FunctionEnd
 
 !insertmacro OnClickCheckBoxOnStartOptionPage "STARTMENU"
 !insertmacro OnClickCheckBoxOnStartOptionPage "SHORTCUT"
 !insertmacro OnClickCheckBoxOnStartOptionPage "QUICKLAUNCH"
-!insertmacro OnClickCheckBoxOnStartOptionPage "PINTOTASKBAR"
+
 !macroend
 
 !macro OnClickCheckBoxOnStartOptionPage Option
@@ -168,4 +195,41 @@ Function OnClickCheckBox_${Option}
     Call UpdateEdit_StartMenu
 FunctionEnd
 !macroend
+
+; Trim
+;   Removes leading & trailing whitespace from a string
+; Usage:
+;   Push 
+;   Call Trim
+;   Pop 
+Function Trim
+	Exch $R1 ; Original string
+	Push $R2
+ 
+Loop:
+	StrCpy $R2 "$R1" 1
+	StrCmp "$R2" " " TrimLeft
+	StrCmp "$R2" "$\r" TrimLeft
+	StrCmp "$R2" "$\n" TrimLeft
+	StrCmp "$R2" "$\t" TrimLeft
+	GoTo Loop2
+TrimLeft:	
+	StrCpy $R1 "$R1" "" 1
+	Goto Loop
+ 
+Loop2:
+	StrCpy $R2 "$R1" 1 -1
+	StrCmp "$R2" " " TrimRight
+	StrCmp "$R2" "$\r" TrimRight
+	StrCmp "$R2" "$\n" TrimRight
+	StrCmp "$R2" "$\t" TrimRight
+	GoTo Done
+TrimRight:	
+	StrCpy $R1 "$R1" -1
+	Goto Loop2
+ 
+Done:
+	Pop $R2
+	Exch $R1
+FunctionEnd
 !endif ;TOGETHER_CUSTOMPAGE_STARTOPTION

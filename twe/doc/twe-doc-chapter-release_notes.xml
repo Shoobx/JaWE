@@ -23,6 +23,16 @@
   <title>Release Notes</title>
 
   <section>
+    <title>Release 5.4-5</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>NSIS Installation changed so that special characters like | are supported in (branded) project name</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
     <title>Release 5.4-4</title>
 
     <itemizedlist>
