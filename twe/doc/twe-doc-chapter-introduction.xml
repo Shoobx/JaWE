@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="introduction"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Introduction</title>
+
+  <sect1>
+    <title>What is Together Workflow Editor ?</title>
+
+    <para>Together Workflow Editor (TWE) is a graphical editor for creating,
+    editing, managing and reviewing WfMC XPDL process definition files.</para>
+
+    <para>Workflow management is an evolving technology with lots of vendors
+    claiming their approach is the best. We have chosen an approach which
+    relies on WfMC and XPDL, thus supporting efforts to establish the
+    standard. Together Workflow Editor is based on version 2.1 of the XPDL XML
+    schema published by WfMC.</para>
+
+    <para>The editor makes creating and editing XPDL easy. It represents all
+    XPDL elements graphically through property panels and a graph component
+    using BPMN graphical notation, to give the user a better understanding and
+    an overview of the process definitions. Various functions help in finding
+    specific activities, participants, applications, errors in the model,
+    etc.</para>
+
+    <para>The final output of the editor is an XML file (using the
+    standardized WfMC XPDL schema) which can then be interpreted and executed
+    by all WfMC XPDL compliant workflow engines.</para>
+
+    <para>Together Workflow Editor accomplishes three main goals:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Reading of WfMC XPDL files (no matter from which tool they
+        initially come from) from the filesystem or from the Wf-XML
+        server</para>
+      </listitem>
+
+      <listitem>
+        <para>Graphical representation and guided editing/modelling of process
+        definitions</para>
+      </listitem>
+
+      <listitem>
+        <para>Writing WfMC XPDL process definition XML files to the filesystem
+        or to the Wf-XML server</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1>
+    <title>History, Presence and Future Goals</title>
+
+    <para>Before version 4.x, Together Workflow Editor was XPDL 1 editor that
+    coverd the whole XPDL 1 Meta-Model. It was the best open-source (and we
+    believe also the best of all) editor which allowed any vendor to create
+    the XPDL 1 based workflow processes for their workflow engines. It was
+    used by many vendors to (graphically) design their process definitions.
+    Beside that, it was always the example for other implementors of such
+    editors to see how to correctly interpret XPDL specification.</para>
+
+    <para>Beside the core features that allows anyone to easily model XPDL
+    processes, the flexibility and configurability of the editor, that
+    includes configuration by only changing the existing component's
+    properties, branding, and writting a special "configuration" modes for an
+    editor, makes TWE powerful, and easily adjustable for the usage with any
+    specific workflow engine.</para>
+
+    <para>The version 4.x brings XPDL 2 and BPMN support. Although not fully
+    covering XPDL 2 and BPMN, TWE now allows users to use the old powers of
+    the editor and new BPMN notation which goal is to standardize graphical
+    process representations, and thus making them uniform accross different
+    editor tools, and understandable by the users knowing BPMN
+    standard.</para>
+
+    <para>The great feature of this new version is that it automatically
+    converts XPDL 1 process definitions into XPDL 2 definitions, which
+    minimizes the efforts of the migration to XPDL 2. Editor currently
+    supports the sub-set of XPDL 2 specification necessary to conform to
+    "simple" BPMN requirements.</para>
+
+    <para>In the future, editor will support more and more of BPMN and XPDL 2
+    specification, but we will always make our focus to first implement things
+    that provide the modeler writting the workflow definitions for the real
+    life human workflow scenarios.</para>
+  </sect1>
+
+  <sect1>
+    <title>Useful links</title>
+
+    <para><link xlink:href="http://www.wfmc.org"
+    xmlns:xlink="http://www.w3.org/1999/xlink">The WfMC Workflow Management
+    Coalition</link> promotes the advancement of process management technology
+    standards and their use by the industry.</para>
+
+    <para>The Java 2 SDK or Java 2 JRE can be downloaded from <link
+    xlink:href="http://www.oracle.com/technetwork/java"
+    xmlns:xlink="http://www.w3.org/1999/xlink">http://www.oracle.com/technetwork/java</link>
+    .</para>
+
+    <para>The Together Workflow Editor home page is located at <link
+    xlink:href="http://www.together.at/prod/workflow/twe"
+    xmlns:xlink="http://www.w3.org/1999/xlink">http://www.together.at/prod/workflow/twe</link>.</para>
+
+    <para><link xlink:href="http://www.jgraph.com"
+    xmlns:xlink="http://www.w3.org/1999/xlink">JGraph</link> is an open-source
+    swing graph component used in Together Workflow Editor.</para>
+
+    <para><link xlink:href="http://sourceforge.net/projects/sharkwf"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Enhydra Shark</link> - the most
+    flexible Open Source WfMC XPDL workflow engine available</para>
+  </sect1>
+</chapter>

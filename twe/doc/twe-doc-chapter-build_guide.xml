@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="build_guide"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Build Guide</title>
+
+  <para>By the end of this chapter you will know the prerequisites for
+  installation, how and where to download the latest release binaries and
+  source codes of Together Workflow Editor, how to install it on MS Windows or
+  Linux and be able to use the provided XPDL examples.</para>
+
+  <sect1>
+    <title>Getting the source code</title>
+
+    <para>The source code of the project can be obtained either via SVN
+    (please read instructions how to check out sources at <link
+    xlink:href="http://sourceforge.net/projects/jawe/develop"
+    xmlns:xlink="http://www.w3.org/1999/xlink">SourceForge</link>) or by
+    downloading the latest twe-x.y-z.src.zip/twe-x.y-z.src.tar.gz package from
+    <link xlink:href="http://sourceforge.net/projects/jawe/files"
+    xmlns:xlink="http://www.w3.org/1999/xlink">SourceForge</link>.</para>
+  </sect1>
+
+  <sect1>
+    <title>Prerequisites</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Windows</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Java Development Kit (JDK) version 8 or later</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Fedora (Linux)</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>bash</para>
+          </listitem>
+
+          <listitem>
+            <para>tar</para>
+          </listitem>
+
+          <listitem>
+            <para>make</para>
+          </listitem>
+
+          <listitem>
+            <para>rpm-build</para>
+          </listitem>
+
+          <listitem>
+            <para>Java Development Kit (JDK) version 8 or later</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1>
+    <title>Preparing the build environment</title>
+
+    <para>Execute the configure script from the root directory of the project
+    source. Specific JAVA version can be set for building (different from the
+    one registered with your system) by executing:</para>
+
+    <para><itemizedlist>
+        <listitem>
+          <para>Windows</para>
+
+          <para>configure -jdkhome %JAVA_HOME%</para>
+        </listitem>
+
+        <listitem>
+          <para>Fedora (Linux)</para>
+
+          <para>./configure -jdkhome %JAVA_HOME%</para>
+        </listitem>
+      </itemizedlist>(Where JAVA_HOME is the path to your JDK
+    installation)</para>
+
+    <para>Possible parameters for the configure script are:</para>
+
+    <programlisting>configure              - Creates build.properties file with default values
+                         for all possible parameters. It can work only if 
+                         there is a default JAVA registered with the system.
+configure -help        - Displays Help screen
+configure -appname     - Sets the short name for the project.
+configure -appfullname - Sets the full name for the project.
+configure -version     - Sets the version number for the project.
+configure -release     - Sets the release number for the project.
+configure -buildid     - Sets the build id for the project.
+configure -jdkhome     - Sets the "JAVA HOME" location of Java to be used 
+                         to compile the project.
+configure -instdir     - Sets the location of the installation dir used when
+                         executing make script with install target specified.
+configure -rebranding  - ONLY FOR WINDOWS. Flag that determines if the project 
+                         will be "rebranded" with the context of branding folder. 
+                         Possible values [true/false].
+configure -brandingdir - Sets the location of the branding folder used when 
+                         re-branding application.
+configure -language    - ONLY FOR WINDOWS. Used by NSIS when creating setup 
+                         (normally used for rebranding). 
+                         Possible values [English/Portuguese/PortugueseBR].
+
+Multiple parameters can be specified at once.
+
+
+Example:
+
+configure -version 4.5 -release 1 -buildid 20120301-0808 -jdkhome C:/jdk1.8 -instdir C:/JaWE</programlisting>
+
+    <para>The configure script will create/change the build.properties file
+    based on the parameters provided. This file can also be manually changed
+    to adjust your environment/parameters for building the project from the
+    sources.</para>
+  </sect1>
+
+  <sect1>
+    <title>Compiling and building</title>
+
+    <para>Execute the make script with the buildAll target from the root
+    directory of the project source. When the building process finishes, the
+    project binaries will be in output/twe-[version]-[release] folder.</para>
+
+    <para>Possible build targets for the make script are:</para>
+
+    <para><programlisting>make help            - Displays Help screen
+make buildAll        - Builds and configures TWE with documentation
+make buildNoDoc      - Builds and configures TWE without documentation
+make buildDoc        - Builds documentation only
+make debug           - Builds TWE JAR files with included debug information
+make install         - Installs and configures TWE into directory defined 
+                       by parameter install.dir in build.properties file. 
+                       This parameter can be set by using command: 
+                       configure -instdir PATH_TO_DIR.
+                       It should be called only after make buildAll target 
+                       is executed!
+make clean           - Removes the output and distribution folder (in order 
+                       to start a new compilation from scratch)
+make distributions   - Builds and configures TWE with all documentations 
+                       and creates distribution package
+</programlisting></para>
+  </sect1>
+
+  <sect1>
+    <title>Packaging distributions</title>
+
+    <para>Assuming that the environment is already configured as described
+    previously, to create the project distribution packages, execute:</para>
+
+    <programlisting>make distributions</programlisting>
+
+    <para>When the building process finishes, the <emphasis
+    role="bold"><emphasis role="bold">distribution</emphasis></emphasis>
+    folder will be created in the root directory of the project source
+    containing the appropriate OS specific binary distributions.</para>
+
+    <para>On Windows, to have the resulting <!--JAR files and--> ".exe" file
+    automatically signed, the file called <emphasis
+    role="bold">sign.properties</emphasis> should be placed in the root
+    directory of the projects source with the following properties:</para>
+
+    <para><programlisting>sign.privatekey - absolute path to the private key used for signing
+sign.pwd        - password for signing
+sign.alias      - sign alias</programlisting>example sign.properties
+    file:</para>
+
+    <para><programlisting>sign.privatekey=D:/signtool/privatekey.pfx
+sign.pwd=agles87t24e25NDwas
+sign.alias=pvktmp:3852567a-45er-567y-w456-23456789sdft</programlisting>Sign
+    alias can be produced by the usage of Java's keytool by executing the
+    command:</para>
+
+    <para><emphasis role="bold">keytool -v -list -storetype pkcs12 -storepass
+    PRIVATE-KEY-PASSWORD -keystore PATH-TO-PRIVATE-KEY</emphasis></para>
+
+    <para>where PRIVATE-KEY-PASSWORD is the same as the property sign.pwd from
+    sign.properties file described above, and PATH-TO-PRIVATE-KEY is the same
+    as the property sign.privatekey from this properties file.</para>
+  </sect1>
+
+  <sect1>
+    <title>Rebranding</title>
+
+    <para>TWE build procedure enables you to create so called "branded"
+    version of TWE distribution files.</para>
+
+    <para>It means that at the end you can get the distribution files fully
+    "branded" as if the product is under your own ownership. E.g. instead of
+    calling the product "Together Workflow Editor", you can call it "XYZ
+    Workflow Editor", and during the build procedure replace all other things
+    neccessary for the "branding".</para>
+
+    <para>To build branded product, first you have to configure TWE by
+    executing the following configure command in %TWE_HOME% folder:</para>
+
+    <para><programlisting>configure -rebranding true</programlisting>If you
+    also want to use a different language in the windows setup wizard, you
+    should execute e.g. the following:</para>
+
+    <para><programlisting>configure -language Portuguese</programlisting></para>
+
+    <para>NOTE: currently possible values are English, Portuguese and
+    PortugueseBR.</para>
+
+    <para>Then you can also specify the short name for the application, e.g.
+    instead of the default "twe" you can specify "xyz":</para>
+
+    <programlisting>configure -appname xyz</programlisting>
+
+    <para>And the full name for the application, e.g. instead of default
+    "Together Workflow Editor" you can specify "XYZ Workflow Editor":</para>
+
+    <programlisting>configure -projectname "XYZ Workflow Editor"</programlisting>
+
+    <para>Finally, you have to specify the branding folder where you will put
+    your files that will be used for re-branding process:</para>
+
+    <programlisting>configure -brandingdir d:/tmp/branding</programlisting>
+
+    <para>You can copy the sample files from %TWE_HOME%/branding folder to
+    that folder to see the sample branding files.</para>
+
+    <para>There are several sub-folders in %TWE_HOME%/branding folder which
+    content needs to be edited,removed or appended in order to rebrand the
+    application distribution. The following table explains the meaning of the
+    sub-folders and how can you perform TWE branding by changing their
+    content:</para>
+
+    <table>
+      <title>Explanation for %TWE_HOME%/branding</title>
+
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry align="center">Branding sub-directory</entry>
+
+            <entry align="center">Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><para>aboutbox</para></entry>
+
+            <entry><para>Edit aboutbox.properties file to define what will be
+            shown in the TWE's aboutbox If you don't want to show license
+            information in the aboutbox, change the value of showLicenseInfo
+            property to false. </para><para>Example aboutbox.properties file
+            is put here to show you how to do it - it specifies XYZ editor
+            instead of TWE editor.</para></entry>
+          </row>
+
+          <row>
+            <entry><para>activityicons</para></entry>
+
+            <entry><para>If you put any icons into this folder, these will be
+            added to the icons that you are able to chose for the "Icon"
+            property from Activity's property panel. If you wan't to delete
+            some of the existing icons, add their names in the deletions.txt
+            file within this folder.</para><para>6 sample icons are added here
+            to show the use case and 4 icons are listed to be deleted in
+            deletions.txt file.</para></entry>
+          </row>
+
+          <row>
+            <entry><para>config</para></entry>
+
+            <entry><para>During rebranding process, the output will contain
+            only original default TWE configuration and configurations
+            specified in this folder. The configurations from this folder can
+            override files from default configuration and add new
+            configurations. If you wan't to delete some of the existing
+            configuration files, add their names in the deletions.txt file
+            within this folder.</para><para>If you want to change existing
+            default TWE configuration, you should add new folder into this
+            sub-folder with the name "default" that would contain modified TWE
+            property files. Also, 'defaultconfig' file in the root of config
+            folder specify which configuration will be used during TWE
+            startup.</para><para>Example file in-here shows how to set default
+            startup configuration to 'default' and contains 2 configuration
+            files which are modified (compared to original ones):
+            </para><para> a) towebasic.properties:</para><para> - the default
+            language is set to Portuguese</para><para> - configured not to
+            have default transient packages </para><para> b)
+            togwegraphcontroller.properties </para><para> - configured to show
+            grid </para><para> - configured to show transition conditions
+            </para><para> - configured to show text at right of the activity
+            box </para><para> - changed graph background color </para><para> -
+            changed graph grid color </para><para> c) jawetypes.properties
+            </para><para> - configured to use 2 custom activities
+            </para><para>Also, the deletions.txt file specifies that
+            samples-loopactivity configuration folder should be
+            deleted.</para></entry>
+          </row>
+
+          <row>
+            <entry><para>doc</para></entry>
+
+            <entry><para>If you want to change documentation and pictures
+            appearing in the documentation, in this folder you should put the
+            modified twe-doc.xml file and in Images sub-folder you should put
+            all the pictures from the original folder you want to override.
+            </para><para>Example twe-doc.xml file is a very short version of
+            standard User Manual, and changes all the occurences of TWE with
+            XYZ, all occurences of Together Workflow Editor with XYZ Workflow
+            Editor, all occurences of Together Teamsolutions Co., Ltd. with
+            XYZ Company, all the URLs to together site with URLs to google
+            site, etc. </para><para>Example images folder provides a single
+            images to override - the image in its original form contains TWE
+            logo. </para><para>For the list of all the re-placable images you
+            should look into %TWE_HOME%\doc\Images folder</para></entry>
+          </row>
+
+          <row>
+            <entry><para>examples</para></entry>
+
+            <entry><para>If you put anything in this folder, the original
+            examples folder will be appended with these files. If you wan't to
+            delete some of the existing XPDL files, add their names in the
+            deletions.txt file within this folder.</para><para>Example addes
+            one XPDL file which normally is not the part of TWE distribution
+            and deletes the most of the folders/sub-folders and files from the
+            original example. </para></entry>
+          </row>
+
+          <row>
+            <entry><para>i18n</para></entry>
+
+            <entry><para>If you put language property file(s) here, if the
+            original one with the same name does not exist, it will add it,
+            otherwise, it will override the property entries from the original
+            file with the ones found in this file, and will append the
+            property entries that do not exist in the original file. If you
+            wan't to delete some of the existing JaWE i18n files, add their
+            names in the deletions.txt file within this
+            folder.</para><para>Example provides JaWE_pt.properties file with
+            4 entries that will be replaced in the original file and the one
+            that will be appended. It also provides JaWE_hr.properties file
+            which will be added. The deletions.txt files lists
+            JaWE_es.properties file to be deleted.</para></entry>
+          </row>
+
+          <row>
+            <entry><para>images</para></entry>
+
+            <entry><para>If you put image here, it will override the original
+            image coming with distribution. </para><para>Example images put
+            into this folder are the ones for the splash screen, jawe frame
+            icon and icon for the generic activity. </para><para>For the list
+            of all the replacable images you should look at
+            folder:</para><para>%TWE_HOME%\modules\Utilities\src\org\enhydra\jawe\images
+            </para></entry>
+          </row>
+
+          <row>
+            <entry><para>installation</para></entry>
+
+            <entry><para>Here you can put your own images and language files
+            for the TWE installer.</para><para>Example shows the names of the
+            images you can replace and modification of Brazilian Portuguese
+            language/branding file which refers to the editor as to XYZ
+            Editor. </para></entry>
+          </row>
+
+          <row>
+            <entry><para>lib</para></entry>
+
+            <entry><para>If you need to add additional jar to be used, or you
+            want to override an existing one, put it into this folder. If you
+            wan't to delete some of the existing JAR files, add their names in
+            the deletions.txt file within this folder.</para><para>Example
+            shows xerceslan.jar file that will be added into the lib folder
+            and deletions.txt file specifies 2 JAR files that will be removed
+            from there.</para></entry>
+          </row>
+
+          <row>
+            <entry><para>license</para></entry>
+
+            <entry><para>In this folder you put your own license. This license
+            can appear in the about dialog if you set proper configuration
+            switch in aboutbox.properties file (read remarks for aboutbox
+            folder) and in the root folder of editor binary distribution. If
+            you wan't to delete some of the existing license files, add their
+            names in the deletions.txt file within this
+            folder.</para><para>Example contains dummy license file with XYZ
+            license which will be added and deletions.txt file lists FDL
+            license file to be deleted.</para></entry>
+          </row>
+
+          <row>
+            <entry><para>registry</para></entry>
+
+            <entry><para>This folder contains icons that will be used to
+            register application in windows registry. </para><para>Example
+            shows icon for XPDL file extension and icon for the editor
+            itself.</para></entry>
+          </row>
+
+          <row>
+            <entry><para>src</para></entry>
+
+            <entry><para>This folder contains java sources which can be used
+            to customize the project.</para><para>Example java code provides
+            XYZPanelGenerator which hides "Simulation information" tab from
+            the activity panels.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>After modifying the content of branding folders, simply continue
+    with normal distribution packaging procedure, and the resulting output
+    files in distribution folder will be rebranded.</para>
+  </sect1>
+
+  <!--    <sect1>
+      <title>Legal Notices</title>
+
+      <para></para>
+
+      <sect2>
+        <title>Source code</title>
+
+        <para></para>
+      </sect2>
+
+      <sect2>
+        <title>Derived work and resulting binaries</title>
+
+        <para></para>
+      </sect2>
+    </sect1>
+-->
+</chapter>

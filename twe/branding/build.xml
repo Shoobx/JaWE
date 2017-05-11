@@ -1,0 +1,306 @@
+<!--
+    Together Workflow Editor
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<!-- ======================================================================= -->
+<!-- ANT-Makefile for TWE                                                    -->
+<!-- ======================================================================= -->
+<project name="TWE" default="output" basedir=".">
+
+   <!-- ==================================================================== -->
+   <!-- Output rebranding                                                     -->
+   <!-- ==================================================================== -->
+   <target name="output">
+      <mkdir dir="${branding.dir}/tmp" />
+
+      <!-- license -->
+      <copy todir="${build.dir}" overwrite="true">
+         <fileset dir="${branding.dir}/license" excludes="deletions.txt"/>
+      </copy>
+      <copy todir="${build.dir}/licenses" overwrite="true">
+         <fileset dir="${branding.dir}/license" excludes="deletions.txt"/>
+      </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/licenses" />
+         <param name="del.file" value="${branding.dir}/license/deletions.txt" />
+      </antcall>
+
+      <!-- icons -->
+      <copy todir="${build.dir}/bin" overwrite="true">
+         <fileset dir="${branding.dir}/registry" />
+      </copy>
+
+      <!-- config -->
+      <copy todir="${build.dir}/config" overwrite="true">
+         <fileset dir="${branding.dir}/config" excludes="deletions.txt" />
+      </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/config" />
+         <param name="del.file" value="${branding.dir}/config/deletions.txt" />
+      </antcall>
+
+      <!-- activityicons -->
+      <unzip src="${tools.dir}/tweicons/tweactivityicons.jar" dest="${branding.dir}/tmp"/>
+      <fileset dir="${branding.dir}/activityicons" id="activityicons.files">
+         <include name="*" />
+         <exclude name="deletions.txt" />
+      </fileset>
+      <pathconvert pathsep="," property="activityiconsFile" refid="activityicons.files" />
+      <if>
+         <equals arg1="${activityiconsFile}" arg2="" />
+         <then />
+         <else>
+            <copy todir="${branding.dir}/tmp/org/enhydra/jawe/activityicons" overwrite="true">
+               <fileset dir="${branding.dir}/activityicons" excludes="deletions.txt" />
+            </copy>
+         </else>
+      </if>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${branding.dir}/tmp/org/enhydra/jawe/activityicons" />
+         <param name="del.file" value="${branding.dir}/activityicons/deletions.txt" />
+      </antcall>
+      <jar destfile="${build.dir}/lib/${app.name}activityicons.jar" update="false">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/activityicons" quiet="true" />
+
+      <!-- lib -->
+      <copy todir="${build.dir}/lib" overwrite="true">
+         <fileset dir="${branding.dir}/lib" excludes="deletions.txt" />
+      </copy>
+
+      <!-- examples -->
+      <copy todir="${build.dir}/examples">
+         <fileset dir="${branding.dir}/examples" excludes="deletions.txt" />
+      </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/examples" />
+         <param name="del.file" value="${branding.dir}/examples/deletions.txt" />
+      </antcall>
+
+      <!-- sources -->
+      <copy todir="${modules.dir}/sources-branding" overwrite="true">
+         <fileset dir="${branding.dir}/src" />
+      </copy>
+
+      <delete dir="${branding.dir}/tmp" />
+
+      <!--<ant target="copyDoc"/>-->
+   </target>
+
+   <target name="update">
+      <mkdir dir="${branding.dir}/tmp" />
+
+      <!-- i18n files -->
+      <unzip src="${build.dir}/lib/${app.name}lan.jar" dest="${branding.dir}/tmp"/>
+
+      <foreach param="propfile" target="handlei18n" inheritall="true" trim="yes">
+         <fileset dir="${branding.dir}/i18n">
+            <include name="JaWE*.properties"/>
+         </fileset>
+      </foreach>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${branding.dir}/tmp/org/enhydra/jawe/language" />
+         <param name="del.file" value="${branding.dir}/i18n/deletions.txt" />
+      </antcall>      
+      <jar destfile="${build.dir}/lib/${app.name}lan.jar">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/language" quiet="true" />
+
+      <!-- images -->
+      <unzip src="${build.dir}/lib/${app.name}pic.jar" dest="${branding.dir}/tmp"/>            
+      <copy todir="${branding.dir}/tmp/org/enhydra/jawe/images" overwrite="true">
+         <fileset dir="${branding.dir}/images" excludes="deletions.txt" />
+      </copy>
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${branding.dir}/tmp/org/enhydra/jawe/images" />
+         <param name="del.file" value="${branding.dir}/images/deletions.txt" />
+      </antcall>      
+      <jar destfile="${build.dir}/lib/${app.name}pic.jar">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe/images" quiet="true" />
+
+      <!-- license & aboutbox.properties -->
+      <copy todir="${branding.dir}/tmp" overwrite="true">
+         <fileset dir="${branding.dir}/license" excludes="deletions.txt"/>
+      </copy>
+      <copy todir="${branding.dir}/tmp/org/enhydra/jawe" overwrite="true">
+         <fileset dir="${branding.dir}/about" />
+      </copy>
+      <jar destfile="${build.dir}/lib/${app.name}core.jar" update="true">
+         <fileset dir="${branding.dir}/tmp" />
+      </jar>
+      <delete dir="${branding.dir}/tmp" includes="License.txt" quiet="true" />
+      <delete dir="${branding.dir}/tmp/org/enhydra/jawe" quiet="true" />
+
+      <delete dir="${branding.dir}/tmp" />
+
+      <!-- handle deletion of libraries -->
+      <antcall target="handleDeletions">
+         <param name="del.folder" value="${build.dir}/lib" />
+         <param name="del.file" value="${branding.dir}/lib/deletions.txt" />
+      </antcall>
+
+   </target>
+
+   <target name="handleDeletions">
+      <if>
+         <available type="file" file="${del.file}" />
+         <then>
+            <echo>Handling deletions for ${del.file}</echo>
+
+            <loadfile property="file" srcfile="${del.file}"/>
+
+            <for param="line" list="${file}" delimiter="${line.separator}">
+               <sequential>
+                  <if>
+                     <available type="dir" file="${del.folder}/@{line}" />
+                     <then>
+                        <echo>...deleting folder ${del.folder}/@{line}</echo>
+                        <delete dir="${del.folder}/@{line}" />
+                     </then>
+                  </if>
+                  <if>
+                     <available type="file" file="${del.folder}/@{line}" />
+                     <then>
+                        <echo>...deleting file ${del.folder}/@{line}</echo>
+                        <delete file="${del.folder}/@{line}" />
+                     </then>
+                  </if>
+               </sequential>
+            </for>
+         </then>
+      </if>   
+   </target>
+   
+   <target name="handlei18n">
+      <basename file="${propfile}" property="fn" />
+
+      <if>
+         <available type="file" file="${branding.dir}/tmp/org/enhydra/jawe/language/${fn}" />
+         <then>
+            <echo>Handling i18n file ${propfile}</echo>
+
+            <loadfile property="file" srcfile="${propfile}"/>
+            <loadfile property="file_tomod" srcfile="${branding.dir}/tmp/org/enhydra/jawe/language/${fn}"/>
+
+
+            <for param="line" list="${file}" delimiter="${line.separator}">
+               <sequential>
+                  <variable name="ln" value="@{line}"/>
+                  <script language="javascript">
+                      var l=project.getProperty("ln");
+                      var ioe = l.indexOf("=");
+                      if (ioe!=-1) {
+                        var l1 = l.substring(0,ioe).trim();
+                        var l2 = l.substring(ioe+1).trim();
+                      } else {
+                        var l1 = "";
+                        var l2 = "";
+                      }
+                      project.setProperty("l1", l1);
+                      project.setProperty("l2", l2);
+                  </script>
+                  <if>
+                     <not>
+                        <equals arg1="${l1}" arg2="" trim="true"/>
+                     </not>
+                     <then>
+                        <propertyregex property="tomod"
+                                      input="${file_tomod}"
+                                      regexp="${l1}(.*)=(.*)"
+                                      select="\0"
+                                      casesensitive="false"
+                                      global="true"/>
+                        <if>
+                           <isset property="tomod" />
+                           <then>
+                              <replaceregexp file="${branding.dir}/tmp/org/enhydra/jawe/language/${fn}"
+                                             match="${l1}(.*)=(.*)"
+                                             replace="${l1} = ${l2}"
+                                             byline="true"
+                                             flags="g"
+                              />
+                           </then>
+                           <else>
+                              <echo file="${branding.dir}/tmp/org/enhydra/jawe/language/${fn}" append="true">
+${l1} = ${l2}</echo>
+                           </else>
+                        </if>
+                        <variable name="tomod" unset="true"/>
+                     </then>
+                  </if>
+               </sequential>
+            </for>
+
+         </then>
+         <else>
+            <echo>Adding i18n file ${propfile}</echo>
+            <copy file="${propfile}" tofile="${branding.dir}/tmp/org/enhydra/jawe/language/${fn}"/>
+         </else>
+      </if>
+   </target>
+
+   <!-- ==================================================================== -->
+   <!-- Installation rebranding                                               -->
+   <!-- ==================================================================== -->
+   <target name="before_install">
+      <mkdir dir="${branding.dir}/tmp/install" />
+      <copy todir="${branding.dir}/tmp/install">
+         <fileset dir="${basedir}/../installation/Windows" />
+      </copy>
+      <copy todir="${basedir}/../installation/Windows" overwrite="true">
+         <fileset dir="${branding.dir}/installation" />
+      </copy>
+   </target>
+
+   <target name="after_install">
+      <copy todir="${basedir}/../installation/Windows" overwrite="true">
+         <fileset dir="${branding.dir}/tmp/install" />
+      </copy>
+
+      <delete dir="${branding.dir}/tmp" />
+      <!--<ant target="copyDocBack"/>-->
+
+   </target>
+
+
+   <!-- ==================================================================== -->
+   <!-- Clean target                                                         -->
+   <!-- ==================================================================== -->
+   <target name="clean">
+
+      <delete>
+         <fileset dir="${branding.dir}">
+            <include name="log_*.txt" />
+         </fileset>
+      </delete>
+
+   </target>
+
+
+   <!-- ==================================================================== -->
+   <!-- Replace original documentation with  branded one                     -->
+   <!-- ==================================================================== -->
+   <target name="copyDoc">
+      <copy todir="${basedir}/../doc/tmp" overwrite="true">
+         <fileset dir="${branding.dir}/doc" />
+      </copy>
+   </target>
+
+</project>
