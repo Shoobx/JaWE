@@ -17,9 +17,5 @@
 -->
 <DataField>
    <ExtendedAttributes>
-      <ExtendedAttribute Name="TRANSIENT" Value="false"/>
-      <ExtendedAttribute Name="DYNAMICSCRIPT" Value="false"/>
-      <ExtendedAttribute Name="IS_ACTIVITY_SCOPE_ONLY" Value="false"/>
-      <ExtendedAttribute Name="EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES" Value="true"/>
    </ExtendedAttributes>
 </DataField>
