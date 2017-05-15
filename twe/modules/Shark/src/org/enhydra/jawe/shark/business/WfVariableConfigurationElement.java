@@ -30,8 +30,6 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
 
    protected ExtendedAttributes eas;
 
-   protected boolean isPersisted = false;
-
    public WfVariableConfigurationElement(ExtendedAttributes eas) {
       super(eas.getParent(), "WfConfiguration", true);
       this.eas = eas;
@@ -43,10 +41,16 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
 
    public void setValue(String v) {
       if (v == null) {
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TRANSIENT, null, null, false, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMICSCRIPT, null, null, false, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_IS_ACTIVITY_SCOPE_ONLY, null, null, false, false);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES, null, null, false, false);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TRANSIENT, null, null, true, false);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMICSCRIPT, null, null, true, false);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_IS_ACTIVITY_SCOPE_ONLY, null, null, true, false);
+         SharkUtils.updateSingleExtendedAttribute(this,
+                                                  eas,
+                                                  SharkConstants.EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES,
+                                                  null,
+                                                  null,
+                                                  true,
+                                                  false);
       } else {
          if (isReadOnly) {
             throw new RuntimeException("Can't set the value of read only element!");
@@ -73,17 +77,20 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
 
    protected void fillStructure() {
       XMLAttribute attrTransient = new XMLAttribute(this, SharkConstants.EA_TRANSIENT, false, new String[] {
-            "true", "false"
+                                                                                                             "true", ""
       }, 1);
       XMLAttribute attrDynamicScript = new XMLAttribute(this, SharkConstants.EA_DYNAMICSCRIPT, false, new String[] {
-            "true", "false"
+                                                                                                                     "true", ""
       }, 1);
       XMLAttribute attrIsActivityScopeOnly = new XMLAttribute(this, SharkConstants.EA_IS_ACTIVITY_SCOPE_ONLY, false, new String[] {
-            "true", "false"
+                                                                                                                                    "true", ""
       }, 1);
-      XMLAttribute attrUseInToolAgentActivities = new XMLAttribute(this, SharkConstants.EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES, false, new String[] {
-            "true", "false"
-      }, 0);
+      XMLAttribute attrUseInToolAgentActivities = new XMLAttribute(this,
+                                                                   SharkConstants.EA_EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES,
+                                                                   false,
+                                                                   new String[] {
+                                                                                  "", "false"
+                                                                   }, 0);
 
       add(attrTransient);
       add(attrDynamicScript);
@@ -92,7 +99,6 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
    }
 
    protected void handleStructure() {
-      int pc = 0;
       Iterator it = eas.toElements().iterator();
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
@@ -100,19 +106,15 @@ public class WfVariableConfigurationElement extends XMLComplexElement {
          XMLElement attr = get(eaname);
          if (attr != null) {
             String eaval = ea.getVValue();
+            if (attr instanceof XMLAttribute) {
+               XMLAttribute xmlattr = (XMLAttribute) attr;
+               if (xmlattr.getChoices() != null && !((XMLAttribute) attr).getChoices().contains(eaval)) {
+                  eaval = xmlattr.getDefaultChoice();
+               }
+            }
             attr.setValue(eaval);
-            pc++;
          }
       }
-      isPersisted = pc == 4;
-   }
-
-   public boolean isPersisted() {
-      return isPersisted;
-   }
-
-   public void setPersisted(boolean isPersisted) {
-      this.isPersisted = isPersisted;
    }
 
    public boolean isForModalDialog() {

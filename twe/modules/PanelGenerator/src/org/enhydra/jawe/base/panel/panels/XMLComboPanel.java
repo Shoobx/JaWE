@@ -162,7 +162,7 @@ public class XMLComboPanel extends XMLBasicPanel {
       }
       if (!(myOwner instanceof XMLComplexChoice)) {
          // chs=new ArrayList(((XMLAttribute)myOwner).getChoices());
-         chs = PanelUtilities.toXMLElementViewList(pc, choices, ldStr);
+         chs = PanelUtilities.toXMLElementViewList(pc, choices, ldStr, null);
          if (choices.size() > 0) {
             Object fc = choices.get(0);
             if (fc instanceof XMLElement) {
@@ -186,7 +186,7 @@ public class XMLComboPanel extends XMLBasicPanel {
 
       } else {
          XMLElement choosen = ((XMLComplexChoice) myOwner).getChoosen();
-         chs = PanelUtilities.toXMLElementViewList(pc, choices, ldStr);
+         chs = PanelUtilities.toXMLElementViewList(pc, choices, ldStr, null);
          if (choosen instanceof XMLComplexElement) {
             chsn = new XMLElementView(pc, choosen, XMLElementView.TONAME);
          } else {

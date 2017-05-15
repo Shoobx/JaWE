@@ -49,6 +49,7 @@ import org.enhydra.jawe.base.panel.panels.XMLGroupPanelGL;
 import org.enhydra.jawe.base.panel.panels.XMLListPanel;
 import org.enhydra.jawe.base.panel.panels.XMLMultiLineTextPanelWithOptionalChoiceButtons;
 import org.enhydra.jawe.base.panel.panels.XMLPanel;
+import org.enhydra.jawe.base.panel.panels.XMLRadioPanel;
 import org.enhydra.jawe.base.panel.panels.XMLTablePanel;
 import org.enhydra.jawe.base.panel.panels.XMLTextPanel;
 import org.enhydra.jawe.shark.business.DeadlineHandlerConfigurationElement;
@@ -104,6 +105,10 @@ import org.enhydra.jxpdl.utilities.SequencedHashMap;
  * @author Sasa Bojanic
  */
 public class SharkPanelGenerator extends StandardPanelGenerator {
+
+   public static final String INHERIT_FROM_PARENT_LD_KEY = "INHERIT_FROM_PARENTKey";
+
+   public static final String USE_SYSTEM_SETTING_LD_KEY = "USE_SYSTEM_SETTINGKey";
 
    public static final String APP_DEF_CHOICES_FILE = "shkappdefchoices.properties";
 
@@ -209,6 +214,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    protected void populateErrorHandlerConfigPanel(final ErrorHandlerConfigurationElement el, final XMLGroupPanel ltPanel) {
       boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
+      String LDSTR_FOR_LABEL = XMLUtil.getWorkflowProcess(el) == null ? USE_SYSTEM_SETTING_LD_KEY : INHERIT_FROM_PARENT_LD_KEY;
 
       final XMLCheckboxPanel configErrorHandler = new XMLCheckboxPanel(getPanelContainer(),
                                                                        el.getConfigureErrorHandlerAttribute(),
@@ -219,7 +225,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                        null);
       XMLPanel returnCode = new XMLComboPanel(getPanelContainer(), el.getReturnCodeAttribute(), null, true, true, false, false, enableEditing);
 
-      XMLPanel newproc = new XMLCheckboxPanel(getPanelContainer(), el.getDoCreateNewProcAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel newproc = new XMLCheckboxPanel(getPanelContainer(), el.getDoCreateNewProcAttribute(), null, false, enableEditing, false, null);
+      XMLPanel newproc = new XMLRadioPanel(getPanelContainer(),
+                                           el.getDoCreateNewProcAttribute(),
+                                           getPanelContainer().getLabelGenerator().getLabel(el.getDoCreateNewProcAttribute()),
+                                           true,
+                                           false,
+                                           true,
+                                           enableEditing,
+                                           null,
+                                           getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
 
       SequencedHashMap choices = XMLUtil.getPossibleSubflowProcesses(XMLUtil.getPackage(el), JaWEManager.getInstance().getXPDLHandler());
       WorkflowProcess dummy = new WorkflowProcess(null);
@@ -250,7 +265,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                                                                    JaWEManager.getInstance().getJaWEController().canModifyElement(el),
                                                                                    null);
 
-      XMLPanel filesyslog = new XMLCheckboxPanel(getPanelContainer(), el.getDoWriteFilesysLogAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel filesyslog = new XMLCheckboxPanel(getPanelContainer(), el.getDoWriteFilesysLogAttribute(), null, false, enableEditing, false, null);
+      XMLPanel filesyslog = new XMLRadioPanel(getPanelContainer(),
+                                              el.getDoWriteFilesysLogAttribute(),
+                                              getPanelContainer().getLabelGenerator().getLabel(el.getDoWriteFilesysLogAttribute()),
+                                              true,
+                                              false,
+                                              true,
+                                              enableEditing,
+                                              null,
+                                              getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
 
       List tgp = new ArrayList();
 
@@ -308,6 +332,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    protected void populateEmailConfigPanel(final EmailConfigurationElement el, final XMLGroupPanel ltPanel) {
       boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
+      String LDSTR_FOR_LABEL = XMLUtil.getWorkflowProcess(el) == null ? USE_SYSTEM_SETTING_LD_KEY : INHERIT_FROM_PARENT_LD_KEY;
 
       List choices = new ArrayList(XMLUtil.getPossibleVariables(el).values());
       // DataField df = new DataField(wp.getDataFields());
@@ -337,17 +362,44 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       }
       XMLPanel extension = new XMLComboPanel(getPanelContainer(), ext, ext.toName(), extChoices, false, true, false, true, enableEditing, true, true, null);
 
-      XMLPanel mode = new XMLCheckboxPanel(getPanelContainer(), el.getModeAttribute(), null, false, enableEditing, false, null);
-      XMLPanel executionMode = new XMLCheckboxPanel(getPanelContainer(), el.getExecutionModeAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel mode = new XMLCheckboxPanel(getPanelContainer(), el.getModeAttribute(), null, false, enableEditing, false, null);
+      XMLPanel mode = new XMLRadioPanel(getPanelContainer(),
+                                        el.getModeAttribute(),
+                                        getPanelContainer().getLabelGenerator().getLabel(el.getModeAttribute()),
+                                        true,
+                                        false,
+                                        true,
+                                        enableEditing,
+                                        null,
+                                        getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+      // XMLPanel executionMode = new XMLCheckboxPanel(getPanelContainer(), el.getExecutionModeAttribute(), null, false, enableEditing, false, null);
+      XMLPanel executionMode = new XMLRadioPanel(getPanelContainer(),
+                                                 el.getExecutionModeAttribute(),
+                                                 getPanelContainer().getLabelGenerator().getLabel(el.getExecutionModeAttribute()),
+                                                 true,
+                                                 false,
+                                                 true,
+                                                 enableEditing,
+                                                 null,
+                                                 getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       List cbp = new ArrayList();
       cbp.add(mode);
       cbp.add(executionMode);
+      // XMLPanel signedEmail = new XMLCheckboxPanel(getPanelContainer(), el.getSignedEmailAttribute(), null, false, enableEditing, false, null);
+      XMLPanel signedEmail = new XMLRadioPanel(getPanelContainer(),
+                                               el.getSignedEmailAttribute(),
+                                               getPanelContainer().getLabelGenerator().getLabel(el.getSignedEmailAttribute()),
+                                               true,
+                                               false,
+                                               true,
+                                               enableEditing,
+                                               null,
+                                               getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+      cbp.add(signedEmail);
       if (el.isForActivity()) {
          XMLPanel groupEmailOnly = new XMLCheckboxPanel(getPanelContainer(), el.getGroupEmailOnlyAttribute(), null, false, enableEditing, false, null);
          cbp.add(groupEmailOnly);
       }
-      XMLPanel signedEmail = new XMLCheckboxPanel(getPanelContainer(), el.getSignedEmailAttribute(), null, false, enableEditing, false, null);
-      cbp.add(signedEmail);
 
       XMLGroupPanel cbPanel = new XMLGroupPanel(getPanelContainer(), el, cbp, "", false, false, false, null);
 
@@ -515,6 +567,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
    public XMLPanel getPanel(final WebClientConfigurationElement el) {
       boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
+      String LDSTR_FOR_LABEL = XMLUtil.getWorkflowProcess(el) == null ? USE_SYSTEM_SETTING_LD_KEY : INHERIT_FROM_PARENT_LD_KEY;
 
       List tgp = new ArrayList();
       List ealist = new ArrayList();
@@ -524,17 +577,65 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel cfcmppnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForCompletionAttribute(), null, false, enableEditing, false, null);
          ealist.add(cfcmppnl);
       } else {
-         XMLPanel cffapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForFirstActivityAttribute(), null, false, enableEditing, false, null);
+         // XMLPanel cffapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForFirstActivityAttribute(), null, false, enableEditing, false, null);
+         XMLPanel cffapnl = new XMLRadioPanel(getPanelContainer(),
+                                              el.getCheckForFirstActivityAttribute(),
+                                              getPanelContainer().getLabelGenerator().getLabel(el.getCheckForFirstActivityAttribute()),
+                                              true,
+                                              false,
+                                              true,
+                                              enableEditing,
+                                              null,
+                                              getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
          ealist.add(cffapnl);
-         XMLPanel dvhpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDynamicVariableHandlingAttribute(), null, false, enableEditing, false, null);
+         // XMLPanel dvhpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDynamicVariableHandlingAttribute(), null, false, enableEditing, false, null);
+         XMLPanel dvhpnl = new XMLRadioPanel(getPanelContainer(),
+                                             el.getDynamicVariableHandlingAttribute(),
+                                             getPanelContainer().getLabelGenerator().getLabel(el.getDynamicVariableHandlingAttribute()),
+                                             true,
+                                             false,
+                                             true,
+                                             enableEditing,
+                                             null,
+                                             getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
          ealist.add(dvhpnl);
       }
 
-      XMLPanel cfcntpnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForContinuationAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel cfcntpnl = new XMLCheckboxPanel(getPanelContainer(), el.getCheckForContinuationAttribute(), null, false, enableEditing, false, null);
+      XMLPanel cfcntpnl = new XMLRadioPanel(getPanelContainer(),
+                                            el.getCheckForContinuationAttribute(),
+                                            getPanelContainer().getLabelGenerator().getLabel(el.getCheckForContinuationAttribute()),
+                                            true,
+                                            false,
+                                            true,
+                                            enableEditing,
+                                            null,
+                                            getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
       ealist.add(cfcntpnl);
-      XMLPanel cnppnl = new XMLCheckboxPanel(getPanelContainer(), el.getChooseNextPerformerAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel cnppnl = new XMLCheckboxPanel(getPanelContainer(), el.getChooseNextPerformerAttribute(), null, false, enableEditing, false, null);
+      XMLPanel cnppnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getChooseNextPerformerAttribute(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getChooseNextPerformerAttribute()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
       ealist.add(cnppnl);
-      XMLPanel erpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEnableReassignmentAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel erpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEnableReassignmentAttribute(), null, false, enableEditing, false, null);
+      XMLPanel erpnl = new XMLRadioPanel(getPanelContainer(),
+                                         el.getEnableReassignmentAttribute(),
+                                         getPanelContainer().getLabelGenerator().getLabel(el.getEnableReassignmentAttribute()),
+                                         true,
+                                         false,
+                                         true,
+                                         enableEditing,
+                                         null,
+                                         getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
       ealist.add(erpnl);
 
       tgp.add(new XMLGroupPanel(getPanelContainer(), el, ealist, "", false, false, true, null));
@@ -622,12 +723,18 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                            false,
                                            false);
       }
-      if (!el.isPersisted() && !el.isReadOnly()) {
-         getPanelContainer().panelChanged(ltPanel, null);
-      }
 
       if (el.isForActivity()) {
-         XMLPanel iwdvpnl = new XMLCheckboxPanel(getPanelContainer(), el.getIsWebDAVForActivityVisibleAttribute(), null, false, enableEditing, false, null);
+         // XMLPanel iwdvpnl = new XMLCheckboxPanel(getPanelContainer(), el.getIsWebDAVForActivityVisibleAttribute(), null, false, enableEditing, false, null);
+         XMLPanel iwdvpnl = new XMLRadioPanel(getPanelContainer(),
+                                              el.getIsWebDAVForActivityVisibleAttribute(),
+                                              getPanelContainer().getLabelGenerator().getLabel(el.getIsWebDAVForActivityVisibleAttribute()),
+                                              true,
+                                              false,
+                                              true,
+                                              enableEditing,
+                                              null,
+                                              getPanelContainer().getLanguageDependentString(USE_SYSTEM_SETTING_LD_KEY));
          panels.add(0, iwdvpnl);
 
          ExtendedAttributesWrapper eaw = el.getVariablesElement();
@@ -704,33 +811,11 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
    }
 
    public XMLPanel getPanel(final WfConfigurationElement el) {
-      final XMLGroupPanel ltPanel = new SharkModeGroupPanel(getPanelContainer(),
-                                                            el,
-                                                            new ArrayList(),
-                                                            getPanelContainer().getLanguageDependentString(el.toName() + "Key"),
-                                                            true,
-                                                            false,
-                                                            false);
-      populateWfConfigPanel(el, ltPanel);
-      if (!el.isPersisted() && el.isConfigurable() && !el.isReadOnly()) {
-         getPanelContainer().panelChanged(ltPanel, null);
-      }
-
-      return ltPanel;
-   }
-
-   protected void populateWfConfigPanel(final WfConfigurationElement el, final XMLGroupPanel ltPanel) {
       boolean enableEditing = JaWEManager.getInstance().getJaWEController().canModifyElement(el);
-      List tgp = new ArrayList();
+      String LDSTR_FOR_LABEL = XMLUtil.getWorkflowProcess(el) == null ? USE_SYSTEM_SETTING_LD_KEY : INHERIT_FROM_PARENT_LD_KEY;
 
-      final XMLCheckboxPanel configWC = new XMLCheckboxPanel(getPanelContainer(),
-                                                             el.getConfigureAttribute(),
-                                                             null,
-                                                             false,
-                                                             !el.getConfigureAttribute().isReadOnly(),
-                                                             false,
-                                                             null);
-      tgp.add(configWC);
+      List<XMLPanel> panels = new ArrayList<XMLPanel>();
+      List<XMLPanel> tgp = new ArrayList<XMLPanel>();
 
       List ealist = new ArrayList();
       List pplist = new ArrayList();
@@ -746,69 +831,265 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          XMLPanel uschmpnl = getPanel(el.getUnsatisfiedSplitConditionHandlingModeAttribute());
          pplist.add(uschmpnl);
       }
-      XMLPanel upcopnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseProcessContextOnlyAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel upcopnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseProcessContextOnlyAttribute(), null, false, enableEditing, false, null);
+      XMLPanel upcopnl = new XMLRadioPanel(getPanelContainer(),
+                                           el.getUseProcessContextOnlyAttribute(),
+                                           getPanelContainer().getLabelGenerator().getLabel(el.getUseProcessContextOnlyAttribute()),
+                                           true,
+                                           false,
+                                           true,
+                                           enableEditing,
+                                           null,
+                                           getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
       ealist.add(upcopnl);
       if (!el.isForActivity()) {
-         XMLPanel auvpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAllowUndefinedVariablesAttribute(), null, false, enableEditing, false, null);
+         // XMLPanel auvpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAllowUndefinedVariablesAttribute(), null, false, enableEditing, false, null);
+         XMLPanel auvpnl = new XMLRadioPanel(getPanelContainer(),
+                                             el.getAllowUndefinedVariablesAttribute(),
+                                             getPanelContainer().getLabelGenerator().getLabel(el.getAllowUndefinedVariablesAttribute()),
+                                             true,
+                                             false,
+                                             true,
+                                             enableEditing,
+                                             null,
+                                             getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
          ealist.add(auvpnl);
-         XMLPanel tpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTransientAttribute(), null, false, enableEditing, false, null);
+         // XMLPanel tpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTransientAttribute(), null, false, enableEditing, false, null);
+         XMLPanel tpnl = new XMLRadioPanel(getPanelContainer(),
+                                           el.getTransientAttribute(),
+                                           getPanelContainer().getLabelGenerator().getLabel(el.getTransientAttribute()),
+                                           true,
+                                           false,
+                                           true,
+                                           enableEditing,
+                                           null,
+                                           getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
          ealist.add(tpnl);
-         XMLPanel dfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteFinishedAttribute(), null, false, enableEditing, false, null);
+         // XMLPanel dfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteFinishedAttribute(), null, false, enableEditing, false, null);
+         XMLPanel dfpnl = new XMLRadioPanel(getPanelContainer(),
+                                            el.getDeleteFinishedAttribute(),
+                                            getPanelContainer().getLabelGenerator().getLabel(el.getDeleteFinishedAttribute()),
+                                            true,
+                                            false,
+                                            true,
+                                            enableEditing,
+                                            null,
+                                            getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
          ealist.add(dfpnl);
       }
-      XMLPanel redpnl = new XMLCheckboxPanel(getPanelContainer(), el.getReevaluateDeadlinesAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel redpnl = new XMLCheckboxPanel(getPanelContainer(), el.getReevaluateDeadlinesAttribute(), null, false, enableEditing, false, null);
+      XMLPanel redpnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getReevaluateDeadlinesAttribute(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getReevaluateDeadlinesAttribute()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(redpnl);
-      XMLPanel capnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateAssignmentsAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel capnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateAssignmentsAttribute(), null, false, enableEditing, false, null);
+      XMLPanel capnl = new XMLRadioPanel(getPanelContainer(),
+                                         el.getCreateAssignmentsAttribute(),
+                                         getPanelContainer().getLabelGenerator().getLabel(el.getCreateAssignmentsAttribute()),
+                                         true,
+                                         false,
+                                         true,
+                                         enableEditing,
+                                         null,
+                                         getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(capnl);
-      XMLPanel cdapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateDefaultAssignmentAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel cdapnl = new XMLCheckboxPanel(getPanelContainer(), el.getCreateDefaultAssignmentAttribute(), null, false, enableEditing, false, null);
+      XMLPanel cdapnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getCreateDefaultAssignmentAttribute(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getCreateDefaultAssignmentAttribute()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(cdapnl);
-      XMLPanel haapnl = new XMLCheckboxPanel(getPanelContainer(), el.getHandleAllAssignmentsAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel haapnl = new XMLCheckboxPanel(getPanelContainer(), el.getHandleAllAssignmentsAttribute(), null, false, enableEditing, false, null);
+      XMLPanel haapnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getHandleAllAssignmentsAttribute(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getHandleAllAssignmentsAttribute()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(haapnl);
-      XMLPanel asapnl = new XMLCheckboxPanel(getPanelContainer(), el.getAcceptSingleAssignmentAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel asapnl = new XMLCheckboxPanel(getPanelContainer(), el.getAcceptSingleAssignmentAttribute(), null, false, enableEditing, false, null);
+      XMLPanel asapnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getAcceptSingleAssignmentAttribute(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getAcceptSingleAssignmentAttribute()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(asapnl);
-      XMLPanel rwutsupnl = new XMLCheckboxPanel(getPanelContainer(),
-                                                el.getReassignWithUnacceptanceToSingleUserAttribute(),
-                                                null,
-                                                false,
-                                                enableEditing,
-                                                false,
-                                                null);
+      // XMLPanel rwutsupnl = new XMLCheckboxPanel(getPanelContainer(),
+      // el.getReassignWithUnacceptanceToSingleUserAttribute(),
+      // null,
+      // false,
+      // enableEditing,
+      // false,
+      // null);
+      XMLPanel rwutsupnl = new XMLRadioPanel(getPanelContainer(),
+                                             el.getReassignWithUnacceptanceToSingleUserAttribute(),
+                                             getPanelContainer().getLabelGenerator().getLabel(el.getReassignWithUnacceptanceToSingleUserAttribute()),
+                                             true,
+                                             false,
+                                             true,
+                                             enableEditing,
+                                             null,
+                                             getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(rwutsupnl);
-      XMLPanel doapnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteOtherAssignmentsAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel doapnl = new XMLCheckboxPanel(getPanelContainer(), el.getDeleteOtherAssignmentsAttribute(), null, false, enableEditing, false, null);
+      XMLPanel doapnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getDeleteOtherAssignmentsAttribute(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getDeleteOtherAssignmentsAttribute()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
       ealist.add(doapnl);
 
       if (!el.isForActivity()) {
-         XMLPanel epnpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessNameAsExpression(), null, false, enableEditing, false, null);
+         // XMLPanel epnpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessNameAsExpression(), null, false, enableEditing, false, null);
+         XMLPanel epnpnl = new XMLRadioPanel(getPanelContainer(),
+                                             el.getEvaluateProcessNameAsExpression(),
+                                             getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateProcessNameAsExpression()),
+                                             true,
+                                             false,
+                                             true,
+                                             enableEditing,
+                                             null,
+                                             getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
+
          ealist.add(epnpnl);
-         XMLPanel epdpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessDescriptionAsExpression(), null, false, enableEditing, false, null);
+         // XMLPanel epdpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessDescriptionAsExpression(), null, false, enableEditing, false,
+         // null);
+         XMLPanel epdpnl = new XMLRadioPanel(getPanelContainer(),
+                                             el.getEvaluateProcessDescriptionAsExpression(),
+                                             getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateProcessDescriptionAsExpression()),
+                                             true,
+                                             false,
+                                             true,
+                                             enableEditing,
+                                             null,
+                                             getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
          ealist.add(epdpnl);
-         XMLPanel eplpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessLimitAsExpression(), null, false, enableEditing, false, null);
+         // XMLPanel eplpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessLimitAsExpression(), null, false, enableEditing, false, null);
+         XMLPanel eplpnl = new XMLRadioPanel(getPanelContainer(),
+                                             el.getEvaluateProcessLimitAsExpression(),
+                                             getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateProcessLimitAsExpression()),
+                                             true,
+                                             false,
+                                             true,
+                                             enableEditing,
+                                             null,
+                                             getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
          ealist.add(eplpnl);
-         XMLPanel epppnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessPriorityAsExpression(), null, false, enableEditing, false, null);
+         // XMLPanel epppnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateProcessPriorityAsExpression(), null, false, enableEditing, false, null);
+         XMLPanel epppnl = new XMLRadioPanel(getPanelContainer(),
+                                             el.getEvaluateProcessPriorityAsExpression(),
+                                             getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateProcessPriorityAsExpression()),
+                                             true,
+                                             false,
+                                             true,
+                                             enableEditing,
+                                             null,
+                                             getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
          ealist.add(epppnl);
       }
-      XMLPanel eanpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityNameAsExpression(), null, false, enableEditing, false, null);
+      // XMLPanel eanpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityNameAsExpression(), null, false, enableEditing, false, null);
+      XMLPanel eanpnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getEvaluateActivityNameAsExpression(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateActivityNameAsExpression()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(eanpnl);
-      XMLPanel eadpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityDescriptionAsExpression(), null, false, enableEditing, false, null);
+      // XMLPanel eadpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityDescriptionAsExpression(), null, false, enableEditing, false, null);
+      XMLPanel eadpnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getEvaluateActivityDescriptionAsExpression(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateActivityDescriptionAsExpression()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(eadpnl);
-      XMLPanel ealpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityLimitAsExpression(), null, false, enableEditing, false, null);
+      // XMLPanel ealpnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityLimitAsExpression(), null, false, enableEditing, false, null);
+      XMLPanel ealpnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getEvaluateActivityLimitAsExpression(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateActivityLimitAsExpression()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(ealpnl);
-      XMLPanel eappnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityPriorityAsExpression(), null, false, enableEditing, false, null);
+      // XMLPanel eappnl = new XMLCheckboxPanel(getPanelContainer(), el.getEvaluateActivityPriorityAsExpression(), null, false, enableEditing, false, null);
+      XMLPanel eappnl = new XMLRadioPanel(getPanelContainer(),
+                                          el.getEvaluateActivityPriorityAsExpression(),
+                                          getPanelContainer().getLabelGenerator().getLabel(el.getEvaluateActivityPriorityAsExpression()),
+                                          true,
+                                          false,
+                                          true,
+                                          enableEditing,
+                                          null,
+                                          getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(eappnl);
-      XMLPanel eadalpnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseFirstDeadlineTimeForLimitIfUndefined(), null, false, enableEditing, false, null);
+      // XMLPanel eadalpnl = new XMLCheckboxPanel(getPanelContainer(), el.getUseFirstDeadlineTimeForLimitIfUndefined(), null, false, enableEditing, false,
+      // null);
+      XMLPanel eadalpnl = new XMLRadioPanel(getPanelContainer(),
+                                            el.getUseFirstDeadlineTimeForLimitIfUndefined(),
+                                            getPanelContainer().getLabelGenerator().getLabel(el.getUseFirstDeadlineTimeForLimitIfUndefined()),
+                                            true,
+                                            false,
+                                            true,
+                                            enableEditing,
+                                            null,
+                                            getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       ealist.add(eadalpnl);
       if (el.isForFullyManualActivity()) {
          XMLPanel acpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAutoCompletionAttribute(), null, false, enableEditing, false, null);
          ealist.add(acpnl);
       }
 
-      for (int i = 0; i < ealist.size(); i += 2) {
+      for (int i = 0; i < ealist.size(); i += 4) {
          List subpanels = new ArrayList();
          subpanels.add(ealist.get(i));
-         subpanels.add(Box.createHorizontalGlue());
          if ((i + 1) < ealist.size()) {
             subpanels.add(ealist.get(i + 1));
          }
+         if ((i + 2) < ealist.size()) {
+            subpanels.add(ealist.get(i + 2));
+         }
+         if ((i + 3) < ealist.size()) {
+            subpanels.add(ealist.get(i + 3));
+         }
+         // if ((i + 4) < ealist.size()) {
+         // subpanels.add(ealist.get(i + 4));
+         // }
+         // subpanels.add(Box.createHorizontalGlue());
          pplist.add(new XMLGroupPanelGL(getPanelContainer(), el, subpanels, "", false, false, true, null));
       }
 
@@ -825,17 +1106,26 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                             pplist,
                                             getPanelContainer().getLanguageDependentString("KernelConfigurationKey"),
                                             true,
-                                            true,
-                                            true,
+                                            false,
+                                            false,
                                             true,
                                             false,
                                             null);
-      tgp.add(gpp);
+      panels.add(gpp);
 
       pplist.clear();
       XMLPanel arpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAppendResponsiblesAttribute(), null, false, enableEditing, false, null);
       pplist.add(arpnl);
-      XMLPanel tsfmpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTryStraightForwardMappingAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel tsfmpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTryStraightForwardMappingAttribute(), null, false, enableEditing, false, null);
+      XMLPanel tsfmpnl = new XMLRadioPanel(getPanelContainer(),
+                                           el.getTryStraightForwardMappingAttribute(),
+                                           getPanelContainer().getLabelGenerator().getLabel(el.getTryStraightForwardMappingAttribute()),
+                                           true,
+                                           false,
+                                           true,
+                                           enableEditing,
+                                           null,
+                                           getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       pplist.add(tsfmpnl);
       XMLPanel dapnl = new XMLListPanel((InlinePanel) getPanelContainer(),
                                         el.getDefaultAssigneesElement(),
@@ -880,7 +1170,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       if (!el.isForActivity()) {
          pplist.clear();
-         XMLPanel lxwfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getLogXPILWhenFinishedAttribute(), null, false, enableEditing, false, null);
+         // XMLPanel lxwfpnl = new XMLCheckboxPanel(getPanelContainer(), el.getLogXPILWhenFinishedAttribute(), null, false, enableEditing, false, null);
+         XMLPanel lxwfpnl = new XMLRadioPanel(getPanelContainer(),
+                                              el.getLogXPILWhenFinishedAttribute(),
+                                              getPanelContainer().getLabelGenerator().getLabel(el.getLogXPILWhenFinishedAttribute()),
+                                              true,
+                                              false,
+                                              true,
+                                              enableEditing,
+                                              null,
+                                              getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
          pplist.add(lxwfpnl);
          XMLPanel xlfvpnl = getPanel(el.getXPILLogFilenameVarAttribute());
          pplist.add(xlfvpnl);
@@ -917,31 +1216,20 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
          tgp.add(gpp);
       }
 
-      for (int i = 0; i < tgp.size(); i++) {
-         ltPanel.addToGroup(tgp.get(i));
-      }
-      final JCheckBox jcb = configWC.getCheckBox();
-      jcb.addItemListener(new ItemListener() {
-         public void itemStateChanged(ItemEvent e) {
-            configWC.setElements();
-            el.setReadOnly(!el.isReadOnly());
-            while (true) {
-               try {
-                  ltPanel.removeFromGroup(0);
-               } catch (Exception ex) {
-                  break;
-               }
-            }
-            populateWfConfigPanel(el, ltPanel);
-            ltPanel.repaint();
-            if (ltPanel.getParent() != null) {
-               ltPanel.getParent().repaint();
-               if (ltPanel.getParent().getParent() != null) {
-                  ltPanel.getParent().getParent().repaint();
-               }
-            }
-         }
-      });
+      XMLGroupPanel pluginPanel = new XMLGroupPanel(getPanelContainer(),
+                                                    el,
+                                                    tgp,
+                                                    getPanelContainer().getLanguageDependentString("PluginConfigurationKey"),
+                                                    true,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                    false,
+                                                    null);
+      panels.add(pluginPanel);
+
+      return new SharkModeTabbedPanel(getPanelContainer(), el, panels, JaWEManager.getInstance().getLabelGenerator().getLabel(el), false, null);
+
    }
 
    public XMLPanel getPanel(WfVariableConfigurationElement el) {
@@ -971,10 +1259,6 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
 
       XMLGroupPanel gpnl = new XMLGroupPanel(getPanelContainer(), el, tgp, "", false, false, true, null);
       ltPanel.addToGroup(gpnl);
-
-      if (!el.isPersisted() && !el.isReadOnly()) {
-         getPanelContainer().panelChanged(ltPanel, null);
-      }
 
       return ltPanel;
    }
@@ -1693,6 +1977,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   false,
                                   JaWEManager.getInstance().getJaWEController().canModifyElement(el));
 
+      } else if (el.getParent() instanceof MailToolAgentElement && el.toName().equals(SharkConstants.SMTP_SIGNED_EMAIL)) {
+         return new XMLRadioPanel(getPanelContainer(),
+                                  el,
+                                  getPanelContainer().getLabelGenerator().getLabel(el),
+                                  true,
+                                  true,
+                                  true,
+                                  JaWEManager.getInstance().getJaWEController().canModifyElement(el),
+                                  null,
+                                  getPanelContainer().getLanguageDependentString(USE_SYSTEM_SETTING_LD_KEY));
       } else if (el.getParent() instanceof WfVariable || el.getParent() instanceof WfAttachment
                  || (el.getParent() instanceof WfNameValue && el.toName().equals(((WfNameValue) el.getParent()).getNamePartLabelKey()))) {
          Map chm = new SequencedHashMap();

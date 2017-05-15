@@ -67,7 +67,7 @@ import org.enhydra.jxpdl.elements.TypeDeclaration;
 
 public class PanelUtilities {
 
-   public static List toXMLElementViewList(PanelContainer pc, Collection c, boolean lDepStr) {
+   public static List toXMLElementViewList(PanelContainer pc, Collection c, boolean lDepStr, String emptyStringTranslation) {
       List vec = new ArrayList();
       Iterator it = c.iterator();
       while (it.hasNext()) {
@@ -76,7 +76,7 @@ public class PanelUtilities {
             XMLElement xmlEl = (XMLElement) next;
             vec.add(new XMLElementView(pc, xmlEl, XMLElementView.TONAME));
          } else {
-            vec.add(new XMLElementView(pc, (String) next, lDepStr));
+            vec.add(new XMLElementView(pc, (String) next, lDepStr, emptyStringTranslation));
          }
 
       }
@@ -167,9 +167,8 @@ public class PanelUtilities {
          return true;
       if ((!e.isAltDown() && !e.isControlDown() && !e.isAltGraphDown()) || (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V)) {
          int kc = e.getKeyCode();
-         if (kc == KeyEvent.VK_ESCAPE
-             || kc == KeyEvent.VK_LEFT || kc == KeyEvent.VK_RIGHT || kc == KeyEvent.VK_UP || kc == KeyEvent.VK_DOWN || kc == KeyEvent.VK_HOME
-             || kc == KeyEvent.VK_END) {
+         if (kc == KeyEvent.VK_ESCAPE || kc == KeyEvent.VK_LEFT || kc == KeyEvent.VK_RIGHT || kc == KeyEvent.VK_UP || kc == KeyEvent.VK_DOWN
+             || kc == KeyEvent.VK_HOME || kc == KeyEvent.VK_END) {
             return false;
          }
          return true;
@@ -296,10 +295,10 @@ public class PanelUtilities {
          boolean isArray = false;
          if (dfOrFP instanceof DataField) {
             chn = ((DataField) dfOrFP).getDataType().getDataTypes().getChoosen();
-            isArray = ((DataField)dfOrFP).getIsArray();
+            isArray = ((DataField) dfOrFP).getIsArray();
          } else {
             chn = ((FormalParameter) dfOrFP).getDataType().getDataTypes().getChoosen();
-            isArray = ((FormalParameter)dfOrFP).getIsArray();
+            isArray = ((FormalParameter) dfOrFP).getIsArray();
          }
          if ((filterType == 0 || filterType >= 2) && (chn instanceof DeclaredType || chn instanceof ExternalReference)) {
             if (filterType == 3) {
@@ -336,14 +335,14 @@ public class PanelUtilities {
             }
          }
          if ((filterType > 0) && (chn instanceof BasicType || chn instanceof SchemaType)) {
-            String t = (chn instanceof BasicType) ? ((BasicType) chn).getType() : XMLUtil.getShortClassName(SchemaType.class.getName());            
+            String t = (chn instanceof BasicType) ? ((BasicType) chn).getType() : XMLUtil.getShortClassName(SchemaType.class.getName());
             for (int j = 0; j < tds.size(); j++) {
                String tdsj = tds.get(j).toString();
                boolean isArr = tdsj.endsWith("[]");
                if (isArr) {
-                  tdsj = tdsj.substring(0, tdsj.length()-2);
+                  tdsj = tdsj.substring(0, tdsj.length() - 2);
                }
-               if (t.endsWith(tdsj) && isArr==isArray) {
+               if (t.endsWith(tdsj) && isArr == isArray) {
                   if (getIdList) {
                      filteredChoices.add(dfOrFP.getId());
                   } else {

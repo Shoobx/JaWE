@@ -57,9 +57,12 @@ public class MailToolAgentElement extends ToolAgentElementBase {
                                                   val,
                                                   true,
                                                   false);
-         val = "org.enhydra.shark.utilities.mail.DefaultMailMessageHandler";
-         if (getIsSignedEmail().toValue().equals("true")) {
+         if (getIsSignedEmail().toValue().equalsIgnoreCase("true")) {
             val = "org.enhydra.shark.utilities.mail.SMIMEMailMessageHandler";
+         } else if (getIsSignedEmail().toValue().equalsIgnoreCase("false")) {
+            val = "org.enhydra.shark.utilities.mail.DefaultMailMessageHandler";
+         } else {
+            val = "";
          }
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
@@ -94,8 +97,8 @@ public class MailToolAgentElement extends ToolAgentElementBase {
                                                                                                         "SYNCHR", "ASYNCHR"
       }, 0);
       XMLAttribute isSignedEmail = new XMLAttribute(this, SharkConstants.SMTP_SIGNED_EMAIL, false, new String[] {
-                                                                                                                  "true", "false"
-      }, 1);
+                                                                                                                  "true", "false", ""
+      }, 2);
       add(appMode);
       add(sendExecMode);
       add(isSignedEmail);
@@ -123,8 +126,10 @@ public class MailToolAgentElement extends ToolAgentElementBase {
       if (ea != null) {
          if (ea.getVValue().equals("org.enhydra.shark.utilities.mail.SMIMEMailMessageHandler")) {
             getIsSignedEmail().setValue("true");
-         } else {
+         } else if (ea.getVValue().equals("org.enhydra.shark.utilities.mail.DefaultMailMessageHandler")) {
             getIsSignedEmail().setValue("false");
+         } else {
+            getIsSignedEmail().setValue("");
          }
       }
 

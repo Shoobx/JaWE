@@ -131,7 +131,7 @@ public class XMLComboPanelWithReferenceLink extends XMLBasicPanel {
       List chs = null;
       Object chsn = null;
       XMLElement choosen = myOwner.getChoosen();
-      chs = PanelUtilities.toXMLElementViewList(pc, myOwner.getChoices(), true);
+      chs = PanelUtilities.toXMLElementViewList(pc, myOwner.getChoices(), true, null);
       if (choosen instanceof XMLComplexElement) {
          chsn = new XMLElementView(pc, choosen, XMLElementView.TONAME);
       } else {

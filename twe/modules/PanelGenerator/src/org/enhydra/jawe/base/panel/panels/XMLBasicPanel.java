@@ -58,28 +58,31 @@ public class XMLBasicPanel extends XMLPanel {
       return editor;
    }
 
+   public XMLBasicPanel(PanelContainer pc, XMLElement myOwnerL, String title, boolean isVertical, boolean hasBorder, boolean hasEmptyBorder, String tooltip) {
+      this(pc, myOwnerL, title, isVertical, hasBorder, hasEmptyBorder, tooltip, false);
+   }
+
    public XMLBasicPanel(PanelContainer pc,
                         XMLElement myOwnerL,
                         String title,
                         boolean isVertical,
                         boolean hasBorder,
                         boolean hasEmptyBorder,
-                        String tooltip) {
+                        String tooltip,
+                        boolean displayTitleForEmptyBorder) {
 
       super();
       this.pc = pc;
       this.myOwner = myOwnerL;
 
-      setBorder(title, hasBorder, hasEmptyBorder);
+      setBorder(title, hasBorder, hasEmptyBorder, displayTitleForEmptyBorder);
 
       setLayout(new BoxLayout(this, ((isVertical) ? BoxLayout.Y_AXIS : BoxLayout.X_AXIS)));
       setAlignmentX(Component.LEFT_ALIGNMENT);
       setAlignmentY(Component.TOP_ALIGNMENT);
 
       if (myOwner != null) {
-         setEnabled(JaWEManager.getInstance()
-            .getJaWEController()
-            .canModifyElement(myOwner));
+         setEnabled(JaWEManager.getInstance().getJaWEController().canModifyElement(myOwner));
       }
 
       if (tooltip != null) {
@@ -87,7 +90,7 @@ public class XMLBasicPanel extends XMLPanel {
       }
    }
 
-   public void setBorder(String title, boolean hasBorder, boolean hasEmptyBorder) {
+   public void setBorder(String title, boolean hasBorder, boolean hasEmptyBorder, boolean displayTitleForEmptyBorder) {
       this.title = title;
 
       // int emptyBorderHSize=4;
@@ -127,6 +130,9 @@ public class XMLBasicPanel extends XMLPanel {
       } else {
          if (hasEmptyBorder) {
             border = BorderFactory.createEmptyBorder(emptyBT, emptyBL, emptyBB, emptyBR);
+            if (displayTitleForEmptyBorder) {
+               border = BorderFactory.createTitledBorder(border, title);
+            }
          }
       }
       if (border != null) {
@@ -141,14 +147,8 @@ public class XMLBasicPanel extends XMLPanel {
       XMLBasicPanel.errorMessage(w, dialogTitle, elementTitle, message);
    }
 
-   public static void errorMessage(Window w,
-                                   String dialogTitle,
-                                   String elementTitle,
-                                   String message) {
-      JOptionPane.showMessageDialog(w,
-                                    elementTitle + message,
-                                    dialogTitle,
-                                    JOptionPane.ERROR_MESSAGE);
+   public static void errorMessage(Window w, String dialogTitle, String elementTitle, String message) {
+      JOptionPane.showMessageDialog(w, elementTitle + message, dialogTitle, JOptionPane.ERROR_MESSAGE);
    }
 
    public void setOwner(XMLElement owner) {

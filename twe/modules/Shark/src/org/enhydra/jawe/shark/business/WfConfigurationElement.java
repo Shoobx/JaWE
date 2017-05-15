@@ -25,15 +25,12 @@ import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XPDLConstants;
-import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 
 public class WfConfigurationElement extends XMLComplexElement {
 
    protected ExtendedAttributes eas;
-
-   protected boolean isPersisted = false;
 
    protected boolean isForAct = false;
 
@@ -46,13 +43,17 @@ public class WfConfigurationElement extends XMLComplexElement {
       this.isFullyManualAct = isFullyManualAct;
       notifyMainListeners = false;
       notifyListeners = false;
-      handleStructure();
-      setReadOnly(eas.isReadOnly() || !isConfigurable());
+      try {
+         handleStructure();
+      } catch (Exception ex) {
+         ex.printStackTrace();
+      }
+      setReadOnly(eas.isReadOnly());
    }
 
    public void setValue(String v) {
       if (v == null) {
-         boolean removeUnconditionally = !isConfigurable();
+         boolean removeUnconditionally = false;
          if (!isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
@@ -62,87 +63,82 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                      true,
                                                      removeUnconditionally);
          }
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, null, null, true, removeUnconditionally);
          if (!isForAct) {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, null, null, false, removeUnconditionally);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TRANSIENT, null, null, false, removeUnconditionally);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_FINISHED, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_TRANSIENT, null, null, true, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_FINISHED, null, null, true, removeUnconditionally);
          }
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REEVALUATE_DEADLINES, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_ASSIGNMENTS, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REEVALUATE_DEADLINES, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_ASSIGNMENTS, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER,
                                                   null,
                                                   null,
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS, null, null, true, removeUnconditionally);
          if (!isForAct) {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, null, null, false, removeUnconditionally);
-            SharkUtils.updateSingleExtendedAttribute(this,
-                                                     eas,
-                                                     SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS,
-                                                     null,
-                                                     null,
-                                                     false,
-                                                     removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, null, null, true, removeUnconditionally);
+            SharkUtils
+               .updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
                                                      SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS,
                                                      null,
                                                      null,
-                                                     false,
+                                                     true,
                                                      removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
                                                      SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS,
                                                      null,
                                                      null,
-                                                     false,
+                                                     true,
                                                      removeUnconditionally);
          }
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY,
                                                   null,
                                                   null,
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY,
                                                   null,
                                                   null,
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED,
                                                   null,
                                                   null,
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
          if (isForAct) {
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT, null, null, true, removeUnconditionally);
             if (isFullyManualAct) {
-               SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_AUTO_COMPLETION, null, null, false, removeUnconditionally);
+               SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_AUTO_COMPLETION, null, null, true, removeUnconditionally);
             }
          }
 
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN, null, null, true, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
                                                   SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING,
                                                   null,
                                                   null,
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_MAX_ASSIGNMENTS, null, null, true, removeUnconditionally);
@@ -153,7 +149,7 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                      SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL,
                                                      null,
                                                      null,
-                                                     false,
+                                                     true,
                                                      removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
@@ -163,7 +159,7 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                      true,
                                                      removeUnconditionally);
          } else {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
@@ -183,13 +179,6 @@ public class WfConfigurationElement extends XMLComplexElement {
 
    public void setReadOnly(boolean ro) {
       super.setReadOnly(ro);
-      if (!eas.isReadOnly()) {
-         getConfigureAttribute().setReadOnly(false);
-      }
-   }
-
-   public XMLAttribute getConfigureAttribute() {
-      return (XMLAttribute) get("ConfigureWorkflowEngine");
    }
 
    public XMLAttribute getUnsatisfiedSplitConditionHandlingModeAttribute() {
@@ -329,50 +318,44 @@ public class WfConfigurationElement extends XMLComplexElement {
    }
 
    protected void fillStructure() {
-      XMLAttribute attrConfigure = new XMLAttribute(this, "ConfigureWorkflowEngine", false, new String[] {
-            "true", "false"
-      }, 1);
-
       XMLAttribute attrUnsatisfiedSplitConditionHandlingMode = new XMLAttribute(this,
                                                                                 SharkConstants.EA_UNSATISFIED_SPLIT_CONDITION_HANDLING_MODE,
                                                                                 false,
                                                                                 new String[] {
-                                                                                      "", "FINISH_IF_POSSIBLE", "IGNORE", "ROLLBACK"
-                                                                                },
-                                                                                0);
+                                                                                               "", "FINISH_IF_POSSIBLE", "IGNORE", "ROLLBACK"
+                                                                                }, 0);
       XMLAttribute attrAllowUndefinedVariables = new XMLAttribute(this, SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                           "true", "false", ""
+      }, 2);
       XMLAttribute attrReevaluateDeadlines = new XMLAttribute(this, SharkConstants.EA_REEVALUATE_DEADLINES, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                  "true", "false", ""
+      }, 2);
       XMLAttribute attrCreateAssignments = new XMLAttribute(this, SharkConstants.EA_CREATE_ASSIGNMENTS, false, new String[] {
-            "true", "false"
-      }, 0);
+                                                                                                                              "true", "false", ""
+      }, 2);
 
       XMLAttribute attrCreateDefaultAssignment = new XMLAttribute(this, SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT, false, new String[] {
-            "true", "false"
-      }, 0);
+                                                                                                                                           "true", "false", ""
+      }, 2);
 
       XMLAttribute attrHandleAllAssignments = new XMLAttribute(this, SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                     "true", "false", ""
+      }, 2);
 
       XMLAttribute attrAcceptSingleAssignment = new XMLAttribute(this, SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                         "true", "false", ""
+      }, 2);
 
       XMLAttribute attrReassignWithUnacceptanceToSingleUser = new XMLAttribute(this,
                                                                                SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER,
                                                                                false,
                                                                                new String[] {
-                                                                                     "true", "false"
-                                                                               },
-                                                                               1);
+                                                                                              "true", "false", ""
+                                                                               }, 2);
 
       XMLAttribute attrDeleteOtherAssignments = new XMLAttribute(this, SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                         "true", "false", ""
+      }, 2);
 
       XMLAttribute attrAssignmentManagerPlugin = new XMLAttribute(this, SharkConstants.EA_ASSIGNMENT_MANAGER_PLUGIN, false);
 
@@ -380,37 +363,37 @@ public class WfConfigurationElement extends XMLComplexElement {
       XMLAttribute attrWorkloadFactor = new XMLAttribute(this, SharkConstants.EA_WORKLOAD_FACTOR, false);
 
       XMLAttribute attrTransient = new XMLAttribute(this, SharkConstants.EA_TRANSIENT, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                             "true", "false", ""
+      }, 2);
       XMLAttribute attrDeleteFinished = new XMLAttribute(this, SharkConstants.EA_DELETE_FINISHED, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                        "true", "false", ""
+      }, 2);
       XMLAttribute attrUseProcessContext = new XMLAttribute(this, SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                    "true", "false", ""
+      }, 2);
 
       XMLAttribute attrLogXPILWhenFinished = new XMLAttribute(this, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                  "true",
+                                                                                                                                                  "false", ""
+      }, 2);
       XMLAttribute attrXPILLogFilenameVar = new XMLAttribute(this, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR, false);
 
       XMLAttribute attrAppendResponsibles = new XMLAttribute(this, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES, false, new String[] {
-            "true", "false"
+                                                                                                                                                   "true", ""
       }, 1);
 
       XMLAttribute attrTryStraightForwardMapping = new XMLAttribute(this,
                                                                     SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING,
                                                                     false,
                                                                     new String[] {
-                                                                          "true", "false"
-                                                                    },
-                                                                    0);
+                                                                                   "true", "false", ""
+                                                                    }, 2);
       WfVariables elDefaultAssignees = new WfVariables(this, SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES, Arrays.asList(new String[] {
-         XPDLConstants.BASIC_TYPE_STRING
+                                                                                                                                                  XPDLConstants.BASIC_TYPE_STRING
       }), ",", false);
 
       XMLAttribute attrAssignToOriginalPerformer = new XMLAttribute(this, SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER, false, new String[] {
-            "true", "false"
+                                                                                                                                                "true", ""
       }, 1);
       XMLAttribute attrAssignToPerformerOfActivity = new XMLAttribute(this, SharkConstants.EA_ASSIGN_TO_PERFORMER_OF_ACTIVITY, false);
       XMLAttribute attrDoNotAssignToPerformerOfActivity = new XMLAttribute(this, SharkConstants.EA_DO_NOT_ASSIGN_TO_PERFORMER_OF_ACTIVITY, false);
@@ -423,41 +406,53 @@ public class WfConfigurationElement extends XMLComplexElement {
                                                                "OverrideExpression",
                                                                false);
 
-      XMLAttribute attrAutoCompletion = new XMLAttribute(this, SharkConstants.EA_AUTO_COMPLETION, false);
+      XMLAttribute attrAutoCompletion = new XMLAttribute(this, SharkConstants.EA_AUTO_COMPLETION, false, new String[] {
+                                                                                                                        "true", ""
+      }, 1);
 
       XMLAttribute attrEvaluateProcessName = new XMLAttribute(this, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                 "true",
+                                                                                                                                                 "false", ""
+      }, 2);
       XMLAttribute attrEvaluateProcessDescription = new XMLAttribute(this, SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                               "true",
+                                                                                                                                                               "false",
+                                                                                                                                                               ""
+      }, 2);
       XMLAttribute attrEvaluateProcessLimit = new XMLAttribute(this, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                   "true",
+                                                                                                                                                   "false", ""
+      }, 2);
       XMLAttribute attrEvaluateProcessPriority = new XMLAttribute(this, SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                         "true",
+                                                                                                                                                         "false",
+                                                                                                                                                         ""
+      }, 2);
       XMLAttribute attrEvaluateActivityName = new XMLAttribute(this, SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                   "true",
+                                                                                                                                                   "false", ""
+      }, 2);
       XMLAttribute attrEvaluateActivityDescription = new XMLAttribute(this, SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                                 "true",
+                                                                                                                                                                 "false",
+                                                                                                                                                                 ""
+      }, 2);
       XMLAttribute attrEvaluateActivityLimit = new XMLAttribute(this, SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                     "true",
+                                                                                                                                                     "false", ""
+      }, 2);
       XMLAttribute attrEvaluateActivityPriority = new XMLAttribute(this, SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY, false, new String[] {
-            "true", "false"
-      }, 1);
+                                                                                                                                                           "true",
+                                                                                                                                                           "false",
+                                                                                                                                                           ""
+      }, 2);
       XMLAttribute attrUseFirstDeadlineTimeForLimitIfUndefined = new XMLAttribute(this,
                                                                                   SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED,
                                                                                   false,
                                                                                   new String[] {
-                                                                                        "true", "false"
-                                                                                  },
-                                                                                  1);
+                                                                                                 "true", "false", ""
+                                                                                  }, 2);
 
-      add(attrConfigure);
       add(attrUnsatisfiedSplitConditionHandlingMode);
       add(attrReevaluateDeadlines);
       add(attrAllowUndefinedVariables);
@@ -495,9 +490,7 @@ public class WfConfigurationElement extends XMLComplexElement {
    }
 
    protected void handleStructure() {
-      int pc = 0;
       Iterator it = eas.toElements().iterator();
-      boolean hasAny = false;
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          String eaname = ea.getName();
@@ -509,55 +502,16 @@ public class WfConfigurationElement extends XMLComplexElement {
             } else if (eaname.equals(SharkConstants.EA_OVERRIDE_PROCESS_CONTEXT)) {
                ((WfNameValues) attr).createStructure(eaval);
             } else {
-               if (eaname.equals(SharkConstants.EA_USE_PROCESS_CONTEXT_ONLY)
-                   || eaname.equals(SharkConstants.EA_CREATE_ASSIGNMENTS)
-                   || eaname.equals(SharkConstants.EA_REEVALUATE_DEADLINES)
-                   || eaname.equals(SharkConstants.EA_CREATE_DEFAULT_ASSIGNMENT)
-                   || eaname.equals(SharkConstants.EA_HANDLE_ALL_ASSIGNMENTS)
-                   || eaname.equals(SharkConstants.EA_ACCEPT_SINGLE_ASSIGNMENT)
-                   || eaname.equals(SharkConstants.EA_REASSIGN_WITH_UNACCEPTANCE_TO_SINGLE_USER)
-                   || eaname.equals(SharkConstants.EA_DELETE_OTHER_ASSIGNMENTS)
-                   || eaname.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES)
-                   || eaname.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES)
-                   || eaname.equals(SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING)
-                   || (eaname.equals(SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL)
-                       || eaname.equals(SharkConstants.EA_ALLOW_UNDEFINED_VARIABLES) || eaname.equals(SharkConstants.EA_TRANSIENT)
-                       || eaname.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_ACTIVITY)
-                       || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY)
-                       || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY)
-                       || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY)
-                       || eaname.equals(SharkConstants.EA_USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED) || (eaname.equals(SharkConstants.EA_DELETE_FINISHED)
-                                                                                                              || eaname.equals(SharkConstants.EA_EVALUATE_NAME_AS_EXPRESSION_PROCESS)
-                                                                                                              || eaname.equals(SharkConstants.EA_EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS)
-                                                                                                              || eaname.equals(SharkConstants.EA_EVALUATE_LIMIT_AS_EXPRESSION_PROCESS) || eaname.equals(SharkConstants.EA_EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS))
-                                                                                                             && !(parent instanceof Activity))
-                   || ((eaname.equals(SharkConstants.EA_ASSIGN_TO_ORIGINAL_PERFORMER) || (eaname.equals(SharkConstants.EA_AUTO_COMPLETION) && isFullyManualAct)) && (parent instanceof Activity))) {
-                  pc++;
+               if (attr instanceof XMLAttribute) {
+                  XMLAttribute xmlattr = (XMLAttribute) attr;
+                  if (xmlattr.getChoices() != null && !((XMLAttribute) attr).getChoices().contains(eaval)) {
+                     eaval = xmlattr.getDefaultChoice();
+                  }
                }
                attr.setValue(eaval);
             }
-            hasAny = true;
          }
       }
-      getConfigureAttribute().setValue(String.valueOf(hasAny));
-      int toCompNo = (isForAct ? (isFullyManualAct ? 17 : 16) : 23);
-      isPersisted = pc >= toCompNo;
-   }
-
-   public boolean isPersisted() {
-      return isPersisted;
-   }
-
-   public void setPersisted(boolean isPersisted) {
-      this.isPersisted = isPersisted;
-   }
-
-   public boolean isConfigurable() {
-      return getConfigureAttribute().toValue().equalsIgnoreCase("true");
-   }
-
-   public void setConfigurable(boolean isConfigurable) {
-      getConfigureAttribute().setValue(String.valueOf(isConfigurable));
    }
 
    public boolean isForActivity() {

@@ -1,8 +1,10 @@
 ###### TWE 5.5-1 RELEASED ######
 
 ###### TWE 5.4-6 RELEASED ######
+2017-05-15 Sasa Bojanic <sasaboy@together.at>
+   # Improved GUI so that boolean properties can be represented by radio-button with the "null" value
 
-###### TWE 5.4-5 RELEASED (2017-05-04) ######
+###### TWE 5.4-5 RELEASED (2017-04-27) ######
 2017-03-30 Anat Usa-ampai <A.Usa-ampai@togetherteam.co.th>
    # NSIS Installation changed so that special characters like | are supported in (branded) project name
    

@@ -29,11 +29,4 @@
          <Description>Representing language code for the process (e.g. en_US, de_AT, ja_JP_JP, th_TH_TH).</Description>
       </DataField>
    </DataFields>
-   <ExtendedAttributes>
-      <ExtendedAttribute Name="CHECK_FOR_FIRST_ACTIVITY" Value="false"/>
-      <ExtendedAttribute Name="DYNAMIC_VARIABLE_HANDLING" Value="false"/>
-      <ExtendedAttribute Name="CHECK_FOR_CONTINUATION" Value="false"/>
-      <ExtendedAttribute Name="CHOOSE_NEXT_PERFORMER" Value="false"/>
-      <ExtendedAttribute Name="ENABLE_REASSIGNMENT" Value="true"/>
-   </ExtendedAttributes>
 </WorkflowProcess>

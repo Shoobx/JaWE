@@ -50,27 +50,23 @@ public class XMLRadioPanel extends XMLBasicPanel {
                         boolean hasBorder,
                         boolean hasEmptyBorder,
                         boolean isEnabled,
-                        String tooltip) {
+                        String tooltip,
+                        String emptyStringTranslation) {
 
-      super(pc, myOwner, title, false, hasBorder, hasEmptyBorder, tooltip);
+      super(pc, myOwner, title, false, hasBorder, hasEmptyBorder, tooltip == null ? title : tooltip, true);
 
       boolean rightAllignment = false;
       if (pc != null) {
-         rightAllignment = pc.getSettings()
-            .getSettingBoolean("XMLBasicPanel.RightAllignment");
+         rightAllignment = pc.getSettings().getSettingBoolean("XMLBasicPanel.RightAllignment");
       }
 
       List choices = null;
       Object moChoosen = null;
       if (myOwner instanceof XMLAttribute) {
-         choices = PanelUtilities.toXMLElementViewList(pc,
-                                                       ((XMLAttribute) myOwner).getChoices(),
-                                                       true);
-         moChoosen = new XMLElementView(pc, myOwner.toValue(), true);
+         choices = PanelUtilities.toXMLElementViewList(pc, ((XMLAttribute) myOwner).getChoices(), true, emptyStringTranslation);
+         moChoosen = new XMLElementView(pc, myOwner.toValue(), true, emptyStringTranslation);
       } else {
-         choices = PanelUtilities.toXMLElementViewList(pc,
-                                                       ((XMLComplexChoice) myOwner).getChoices(),
-                                                       true);
+         choices = PanelUtilities.toXMLElementViewList(pc, ((XMLComplexChoice) myOwner).getChoices(), true, null);
          XMLElement choosen = ((XMLComplexChoice) myOwner).getChoosen();
          if (choosen instanceof XMLComplexElement) {
             moChoosen = new XMLElementView(pc, choosen, XMLElementView.TONAME);
@@ -78,17 +74,11 @@ public class XMLRadioPanel extends XMLBasicPanel {
             moChoosen = new XMLElementView(pc, choosen, XMLElementView.TOVALUE);
          }
       }
-      XMLPanel bgPanel = new XMLBasicPanel(pc,
-                                           myOwner,
-                                           "",
-                                           isVertical,
-                                           false,
-                                           false,
-                                           tooltip);
+      XMLPanel bgPanel = new XMLBasicPanel(pc, myOwner, "", isVertical, false, false, tooltip);
 
       int noOfElements = choices.size();
 
-      if (noOfElements > 2) {
+      if (noOfElements > 3) {
          int half = noOfElements / 2;
          if (half != noOfElements / 2)
             half++;
