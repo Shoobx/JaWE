@@ -82,10 +82,10 @@ public class EmailConfigurationElement extends XMLComplexElement {
          String postFix = getPostfix();
          if (eaExtension != null && !eaExtension.equals("") && !postFix.equals("_" + eaExtension)) {
             String oldPostFix = "_" + eaExtension;
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE + oldPostFix, null, null, false, true);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE + oldPostFix, null, null, false, true);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY + oldPostFix, null, null, false, true);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_SIGNED_EMAIL + oldPostFix, null, null, false, true);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_MODE + oldPostFix, null, null, true, true);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_EXECUTION_MODE + oldPostFix, null, null, true, true);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY + oldPostFix, null, null, true, true);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_SIGNED_EMAIL + oldPostFix, null, null, true, true);
             SharkUtils.updateSingleExtendedAttribute(this,
                                                      eas,
                                                      SharkConstants.EA_SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT + oldPostFix,
@@ -100,7 +100,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                      null,
                                                      true,
                                                      true);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT + oldPostFix, null, null, true, true);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_SUBJECT + oldPostFix, null, null, false, true);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_CONTENT + oldPostFix, null, null, true, true);
             SharkUtils
                .updateSingleExtendedAttribute(this, eas, SharkConstants.EA_SMTP_DEADLINE_HANDLER_ATTACHMENTS + oldPostFix, "ContentVariable", null, true, true);
@@ -124,7 +124,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                                                                                + postFix)),
                                            null,
                                            null,
-                                           false,
+                                           true,
                                            removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
@@ -136,7 +136,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                                                                                       + postFix)),
                                                   null,
                                                   null,
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
@@ -148,7 +148,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                                                                                       + postFix)),
                                                   null,
                                                   null,
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
          if (isForAct) {
             SharkUtils
@@ -162,7 +162,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                                                                                   + postFix)),
                                               null,
                                               null,
-                                              false,
+                                              true,
                                               removeUnconditionally);
          }
          if (isForErrorHandling || isForDeadlineHandling || isForLimitHandling) {
@@ -199,7 +199,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
                                                                                                                       + postFix)),
                                                   null,
                                                   null,
-                                                  true,
+                                                  false,
                                                   removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   eas,
@@ -344,17 +344,17 @@ public class EmailConfigurationElement extends XMLComplexElement {
 
       XMLAttribute attrEANameSuffix = new XMLAttribute(this, "ExceptionName", true);
       XMLAttribute attrMode = new XMLAttribute(this, SharkConstants.SMTP_MODE, false, new String[] {
-                                                                                                     "true", "false"
-      }, 0);
+                                                                                                     "true", "false", ""
+      }, 2);
       XMLAttribute attrExecutionMode = new XMLAttribute(this, SharkConstants.SMTP_EXECUTION_MODE, false, new String[] {
-                                                                                                                        "asynchronous", "synchronous"
-      }, 0);
+                                                                                                                        "asynchronous", "synchronous", ""
+      }, 2);
       XMLAttribute attrGroupEmailOnly = new XMLAttribute(this, SharkConstants.SMTP_GROUP_EMAIL_ONLY, false, new String[] {
-                                                                                                                           "true", "false"
+                                                                                                                           "true", ""
       }, 1);
       XMLAttribute attrSignedEmail = new XMLAttribute(this, SharkConstants.SMTP_SIGNED_EMAIL, false, new String[] {
-                                                                                                                    "true", "false"
-      }, 1);
+                                                                                                                    "true", "false", ""
+      }, 2);
 
       XMLAttribute attrRecipientParticipant = new XMLAttribute(this, SharkConstants.SMTP_RECIPIENT_PARTICIPANT, false);
       XMLAttribute attrRecipientUser = new XMLAttribute(this, SharkConstants.SMTP_RECIPIENT_VARIABLE, false);
@@ -439,10 +439,15 @@ public class EmailConfigurationElement extends XMLComplexElement {
                }
                ((WfAttachments) attr).createStructure(eaval, nms);
             } else {
-               if (eaname.equals(SharkConstants.SMTP_MODE) || eaname.equals(SharkConstants.SMTP_EXECUTION_MODE)
-                   || eaname.equals(SharkConstants.SMTP_GROUP_EMAIL_ONLY) || eaname.equals(SharkConstants.SMTP_SIGNED_EMAIL)
+               if (eaname.equals(SharkConstants.SMTP_SUBJECT) || eaname.equals(SharkConstants.SMTP_CONTENT)
                    || eaname.equals(SharkConstants.SMTP_RECIPIENT_PARTICIPANT) || eaname.equals(SharkConstants.SMTP_RECIPIENT_VARIABLE)) {
                   pc++;
+               }
+               if (attr instanceof XMLAttribute) {
+                  XMLAttribute xmlattr = (XMLAttribute) attr;
+                  if (xmlattr.getChoices() != null && !((XMLAttribute) attr).getChoices().contains(eaval)) {
+                     eaval = xmlattr.getDefaultChoice();
+                  }
                }
                attr.setValue(eaval);
             }
@@ -450,7 +455,7 @@ public class EmailConfigurationElement extends XMLComplexElement {
          }
       }
       getConfigureEmailAttribute().setValue(String.valueOf(hasAny || eaExtension != null));
-      int toCompNo = (isForAct ? 4 : 3) + (isForErrorHandling || isForDeadlineHandling || isForLimitHandling ? 1 : 0);
+      int toCompNo = 1 + (isForErrorHandling || isForDeadlineHandling || isForLimitHandling ? 1 : 0);
       isPersisted = pc >= toCompNo;
    }
 

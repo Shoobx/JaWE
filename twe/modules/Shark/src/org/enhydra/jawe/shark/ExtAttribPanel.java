@@ -143,7 +143,7 @@ public class ExtAttribPanel extends XMLBasicPanel {
                chsn = new XMLElementView(pc, vid, false);
             }
          }
-         chs = PanelUtilities.toXMLElementViewList(pc, choices, true);
+         chs = PanelUtilities.toXMLElementViewList(pc, choices, true, null);
 
          jcb = new JComboBox(XMLComboPanel.sortComboEntries(chs));
          jcb.setRenderer(new TooltipComboRenderer());
@@ -555,7 +555,7 @@ public class ExtAttribPanel extends XMLBasicPanel {
       df.getDataType().getDataTypes().getBasicType().setTypeSTRING();
       fc.add(0, df);
 
-      chs = PanelUtilities.toXMLElementViewList(pc, fc, true);
+      chs = PanelUtilities.toXMLElementViewList(pc, fc, true, null);
 
       jcbch = new JComboBox(XMLComboPanel.sortComboEntries(chs));
       jcbch.setRenderer(new TooltipComboRenderer());

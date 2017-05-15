@@ -26,15 +26,12 @@ import org.enhydra.jxpdl.XMLAttribute;
 import org.enhydra.jxpdl.XMLComplexElement;
 import org.enhydra.jxpdl.XMLElement;
 import org.enhydra.jxpdl.XPDLConstants;
-import org.enhydra.jxpdl.elements.Activity;
 import org.enhydra.jxpdl.elements.ExtendedAttribute;
 import org.enhydra.jxpdl.elements.ExtendedAttributes;
 
 public class WebClientConfigurationElement extends XMLComplexElement {
 
    protected ExtendedAttributes eas;
-
-   protected boolean isPersisted = false;
 
    protected boolean isForAct = false;
 
@@ -55,15 +52,15 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       if (v == null) {
          boolean removeUnconditionally = false;
          if (isForAct) {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_COMPLETION, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_COMPLETION, null, null, true, removeUnconditionally);
          } else {
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, null, null, true, removeUnconditionally);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, null, null, true, removeUnconditionally);
          }
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, null, null, false, removeUnconditionally);
-         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ENABLE_REASSIGNMENT, null, null, false, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHECK_FOR_CONTINUATION, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, null, null, true, removeUnconditionally);
+         SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_ENABLE_REASSIGNMENT, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_READ_ONLY_DYNAMIC_PROPERTIES, null, null, true, removeUnconditionally);
          SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HIDE_CONTROLS, null, null, true, removeUnconditionally);
@@ -77,7 +74,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
                                                      null,
                                                      true,
                                                      removeUnconditionally);
-            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, null, null, false, removeUnconditionally);
+            SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_FILE, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML5FORM_EMBEDDED, null, null, true, removeUnconditionally);
             SharkUtils.updateSingleExtendedAttribute(this, eas, SharkConstants.EA_HTML_VARIABLE, null, null, true, removeUnconditionally);
@@ -199,23 +196,23 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       XMLAttribute attrTWFXMLItemNamePrefixes = new XMLAttribute(this, SharkConstants.EA_TWF_XML_VARIABLE_ITEM_NAME_PREFIXES, false);
       XMLAttribute attrIsWebDAVForActivityVisible = new XMLAttribute(this, SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE, false, new String[] {
                                                                                                                                                    "true",
-                                                                                                                                                   "false"
-      }, 0);
+                                                                                                                                                   "false", ""
+      }, 2);
       XMLAttribute attrBackActivityDefinition = new XMLAttribute(this, SharkConstants.EA_BACK_ACTIVITY_DEFINITION, false);
       XMLAttribute attrBeanShellScriptToExecuteWhenOpening = new XMLAttribute(this, SharkConstants.EA_BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING, false);
       XMLAttribute attrCheckForCompletion = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_COMPLETION, false, new String[] {
-                                                                                                                                 "true", "false"
+                                                                                                                                 "true", ""
       }, 1);
       XMLAttribute attrCheckForContinuation = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_CONTINUATION, false, new String[] {
-                                                                                                                                     "true", "false"
-      }, 1);
+                                                                                                                                     "true", "false", ""
+      }, 2);
 
       XMLAttribute attrChooseNextPerformer = new XMLAttribute(this, SharkConstants.EA_CHOOSE_NEXT_PERFORMER, false, new String[] {
-                                                                                                                                   "true", "false"
-      }, 1);
+                                                                                                                                   "true", "false", ""
+      }, 2);
       XMLAttribute attrEnableReassignment = new XMLAttribute(this, SharkConstants.EA_ENABLE_REASSIGNMENT, false, new String[] {
-                                                                                                                                "true", "false"
-      }, 0);
+                                                                                                                                "true", "false", ""
+      }, 2);
       WfVariables elHideDynamicProperties = new WfVariables(this, SharkConstants.EA_HIDE_DYNAMIC_PROPERTIES, Arrays.asList(new String[] {
                                                                                                                                           XPDLConstants.BASIC_TYPE_STRING
       }), "|", false);
@@ -230,12 +227,12 @@ public class WebClientConfigurationElement extends XMLComplexElement {
       }), "|", false);
 
       XMLAttribute attrCheckForFirstActivity = new XMLAttribute(this, SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY, false, new String[] {
-                                                                                                                                        "true", "false"
-      }, 1);
+                                                                                                                                        "true", "false", ""
+      }, 2);
       XMLAttribute attrRedirectAfterProcessEnd = new XMLAttribute(this, SharkConstants.EA_REDIRECT_AFTER_PROCESS_END, false);
       XMLAttribute attrDynamicVariableHandling = new XMLAttribute(this, SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING, false, new String[] {
-                                                                                                                                           "true", "false"
-      }, 1);
+                                                                                                                                           "true", "false", ""
+      }, 2);
 
       add(attrHTML5FormFile);
       add(attrHTML5FormEmbedded);
@@ -261,9 +258,7 @@ public class WebClientConfigurationElement extends XMLComplexElement {
    }
 
    protected void handleStructure() {
-      int pc = 0;
       Iterator it = eas.toElements().iterator();
-      boolean hasAny = false;
       while (it.hasNext()) {
          ExtendedAttribute ea = (ExtendedAttribute) it.next();
          String eaname = ea.getName();
@@ -274,29 +269,16 @@ public class WebClientConfigurationElement extends XMLComplexElement {
                 || eaname.equals(SharkConstants.EA_HIDE_CONTROLS) || eaname.equals(SharkConstants.EA_TURN_OFF_FEATURES)) {
                ((WfVariables) attr).createStructure(eaval);
             } else {
-               if ((eaname.equals(SharkConstants.EA_CHECK_FOR_COMPLETION) || eaname.equals(SharkConstants.EA_IS_WEBDAV_FOR_ACTIVITY_VISIBLE))
-                   && parent instanceof Activity || eaname.equals(SharkConstants.EA_CHECK_FOR_CONTINUATION)
-                   || eaname.equals(SharkConstants.EA_CHOOSE_NEXT_PERFORMER) || eaname.equals(SharkConstants.EA_ENABLE_REASSIGNMENT)
-                   || (eaname.equals(SharkConstants.EA_CHECK_FOR_FIRST_ACTIVITY)
-                       || eaname.equals(SharkConstants.EA_DYNAMIC_VARIABLE_HANDLING) && !(parent instanceof Activity))) {
-                  pc++;
+               if (attr instanceof XMLAttribute) {
+                  XMLAttribute xmlattr = (XMLAttribute) attr;
+                  if (xmlattr.getChoices() != null && !((XMLAttribute) attr).getChoices().contains(eaval)) {
+                     eaval = xmlattr.getDefaultChoice();
+                  }
                }
                attr.setValue(eaval);
             }
-            hasAny = true;
          }
       }
-
-      int toCompNo = (isForAct ? 5 : 5);
-      isPersisted = pc >= toCompNo;
-   }
-
-   public boolean isPersisted() {
-      return isPersisted;
-   }
-
-   public void setPersisted(boolean isPersisted) {
-      this.isPersisted = isPersisted;
    }
 
    public boolean isForActivity() {

@@ -76,7 +76,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                   SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE,
                                                   null,
                                                   getDoCreateNewProcAttribute().toValue(),
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
          String pdefid = getProcessRef().toValue().trim();
          WorkflowProcess wp = (WorkflowProcess) XMLUtil.getPossibleSubflowProcesses(XMLUtil.getPackage(eas), xmlInterface).get(pdefid);
@@ -100,7 +100,7 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
                                                   SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE,
                                                   null,
                                                   getDoWriteFilesysLogAttribute().toValue(),
-                                                  false,
+                                                  true,
                                                   removeUnconditionally);
          elECE.setValue(null);
       } else {
@@ -154,22 +154,25 @@ public class ErrorHandlerConfigurationElement extends XMLComplexElement {
 
    protected void fillStructure() {
       XMLAttribute attrConfigureEmail = new XMLAttribute(this, SharkConstants.CONFIGURE_ERROR_HANDLER, false, new String[] {
-            "true", "false"
+                                                                                                                             "true", "false"
       }, 0);
 
       XMLAttribute attrReturnCode = new XMLAttribute(this, SharkConstants.EA_ERROR_HANDLER_RETURN_CODE, false, new String[] {
-            "PROPAGATE", "KEEP_ACTIVITY_RUNNING", "TERMINATE_ACTIVITY", "TERMINATE_PROCESS",
+                                                                                                                              "PROPAGATE",
+                                                                                                                              "KEEP_ACTIVITY_RUNNING",
+                                                                                                                              "TERMINATE_ACTIVITY",
+                                                                                                                              "TERMINATE_PROCESS",
       }, 0);
 
       XMLAttribute attrDoCreateNewProc = new XMLAttribute(this, SharkConstants.EA_NEWPROC_ERROR_HANDLER_DO_CREATE, false, new String[] {
-            "true", "false"
-      }, 0);
+                                                                                                                                         "true", "false", ""
+      }, 2);
 
       XMLAttribute attrProcRef = new XMLAttribute(this, NEWPROC_ERROR_HANDLER_PROCESS_REF, false);
 
       XMLAttribute attrDoWriteFilesysLog = new XMLAttribute(this, SharkConstants.EA_FILESYSLOG_ERROR_HANDLER_DO_WRITE, false, new String[] {
-            "true", "false"
-      }, 0);
+                                                                                                                                             "true", "false", ""
+      }, 2);
 
       this.elECE = new EmailConfigurationElement((ExtendedAttributes) ((XMLComplexElement) parent).get("ExtendedAttributes"), true, true, false, false, null);
       add(attrConfigureEmail);

@@ -45,6 +45,8 @@ public class XMLElementView {
 
    protected PanelContainer pc;
 
+   protected String emptyStringTranslation;
+
    public XMLElementView(PanelContainer pc, XMLElement el, int type) {
       this.pc = pc;
       // System.err.println("creating new XMLElementView, el = "+el+", el.toName = "+el.toName()+",
@@ -57,6 +59,11 @@ public class XMLElementView {
       this.pc = pc;
       this.elementString = el;
       this.lDepStr = lds;
+   }
+
+   public XMLElementView(PanelContainer pc, String el, boolean lds, String emptyStringTranslation) {
+      this(pc, el, lds);
+      this.emptyStringTranslation = emptyStringTranslation;
    }
 
    public XMLElement getElement() {
@@ -85,13 +92,12 @@ public class XMLElementView {
    public String toString() {
       if (this.element != null) {
          // if(type == TONAME) {
-         String ret = JaWEManager.getInstance()
-            .getDisplayNameGenerator()
-            .getDisplayName(this.element);
+         String ret = JaWEManager.getInstance().getDisplayNameGenerator().getDisplayName(this.element);
          if (ret == null) {
             ret = this.element.toName();
          }
-         if (ret.equals("")) ret=" ";
+         if (ret.equals(""))
+            ret = " ";
          return ret;
          // if (pc!=null) {
          //
@@ -114,10 +120,14 @@ public class XMLElementView {
       }
       String toRet;
       if (lDepStr) {
-         if (pc != null) {
-            toRet = pc.getSettings().getLanguageDependentString(elementString + "Key");
+         if ("".equals(elementString) && emptyStringTranslation != null) {
+            toRet = emptyStringTranslation;
          } else {
-            toRet = ResourceManager.getLanguageDependentString(elementString + "Key");
+            if (pc != null) {
+               toRet = pc.getSettings().getLanguageDependentString(elementString + "Key");
+            } else {
+               toRet = ResourceManager.getLanguageDependentString(elementString + "Key");
+            }
          }
          if (toRet == null) {
             toRet = elementString;
@@ -125,7 +135,8 @@ public class XMLElementView {
       } else {
          toRet = elementString;
       }
-      if (toRet.equals("")) toRet=" ";
+      if (toRet.equals(""))
+         toRet = " ";
       return toRet;
 
    }

@@ -27,7 +27,8 @@
 
     <itemizedlist>
       <listitem>
-        <para/>
+        <para>Improved GUI so that boolean properties can be represented by
+        radio-button with the "null" value</para>
       </listitem>
     </itemizedlist>
   </section>

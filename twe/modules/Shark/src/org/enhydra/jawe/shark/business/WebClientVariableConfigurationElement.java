@@ -61,11 +61,13 @@ public class WebClientVariableConfigurationElement extends XMLComplexElement {
 
    protected void fillStructure() {
       XMLAttribute attrURLVariable = new XMLAttribute(this, SharkConstants.EA_URL_VARIABLE, false, new String[] {
-            "", SharkConstants.EA_URL_VARIABLE_VALUE_SAME_WINDOW, SharkConstants.EA_URL_VARIABLE_VALUE_NEW_WINDOW
+                                                                                                                  "",
+                                                                                                                  SharkConstants.EA_URL_VARIABLE_VALUE_SAME_WINDOW,
+                                                                                                                  SharkConstants.EA_URL_VARIABLE_VALUE_NEW_WINDOW
       }, 0);
 
       XMLAttribute attrRenderingHint = new XMLAttribute(this, SharkConstants.EA_RENDERING_HINT, false, new String[] {
-            "LARGE", ""
+                                                                                                                      "LARGE", ""
       }, 1);
 
       add(attrURLVariable);
@@ -80,6 +82,12 @@ public class WebClientVariableConfigurationElement extends XMLComplexElement {
          XMLElement attr = get(eaname);
          if (attr != null) {
             String eaval = ea.getVValue();
+            if (attr instanceof XMLAttribute) {
+               XMLAttribute xmlattr = (XMLAttribute) attr;
+               if (xmlattr.getChoices() != null && !((XMLAttribute) attr).getChoices().contains(eaval)) {
+                  eaval = xmlattr.getDefaultChoice();
+               }
+            }
             attr.setValue(eaval);
          }
       }
