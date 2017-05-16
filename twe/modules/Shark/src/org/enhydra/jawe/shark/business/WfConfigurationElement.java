@@ -379,8 +379,9 @@ public class WfConfigurationElement extends XMLComplexElement {
       XMLAttribute attrXPILLogFilenameVar = new XMLAttribute(this, SharkConstants.EA_XPILLOG_EVENT_AUDIT_MANAGER_FILENAMEVAR, false);
 
       XMLAttribute attrAppendResponsibles = new XMLAttribute(this, SharkConstants.EA_ASSIGNMENT_MANAGER_APPEND_RESPONSIBLES, false, new String[] {
-                                                                                                                                                   "true", ""
-      }, 1);
+                                                                                                                                                   "true",
+                                                                                                                                                   "false", ""
+      }, 2);
 
       XMLAttribute attrTryStraightForwardMapping = new XMLAttribute(this,
                                                                     SharkConstants.EA_ASSIGNMENT_MANAGER_TRY_STRAIGHTFORWARD_MAPPING,

@@ -1114,7 +1114,16 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
       panels.add(gpp);
 
       pplist.clear();
-      XMLPanel arpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAppendResponsiblesAttribute(), null, false, enableEditing, false, null);
+      // XMLPanel arpnl = new XMLCheckboxPanel(getPanelContainer(), el.getAppendResponsiblesAttribute(), null, false, enableEditing, false, null);
+      XMLPanel arpnl = new XMLRadioPanel(getPanelContainer(),
+                                         el.getAppendResponsiblesAttribute(),
+                                         getPanelContainer().getLabelGenerator().getLabel(el.getAppendResponsiblesAttribute()),
+                                         true,
+                                         false,
+                                         true,
+                                         enableEditing,
+                                         null,
+                                         getPanelContainer().getLanguageDependentString(LDSTR_FOR_LABEL));
       pplist.add(arpnl);
       // XMLPanel tsfmpnl = new XMLCheckboxPanel(getPanelContainer(), el.getTryStraightForwardMappingAttribute(), null, false, enableEditing, false, null);
       XMLPanel tsfmpnl = new XMLRadioPanel(getPanelContainer(),
