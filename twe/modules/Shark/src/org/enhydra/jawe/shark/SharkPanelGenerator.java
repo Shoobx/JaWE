@@ -1986,7 +1986,7 @@ public class SharkPanelGenerator extends StandardPanelGenerator {
                                   false,
                                   JaWEManager.getInstance().getJaWEController().canModifyElement(el));
 
-      } else if (el.getParent() instanceof MailToolAgentElement && el.toName().equals(SharkConstants.SMTP_SIGNED_EMAIL)) {
+      } else if (el.getParent() instanceof MailToolAgentElement && el.toName().equals(SharkConstants.EA_MAIL_TOOL_AGENT_SIGNING)) {
          return new XMLRadioPanel(getPanelContainer(),
                                   el,
                                   getPanelContainer().getLabelGenerator().getLabel(el),

@@ -30,6 +30,11 @@
         <para>Improved GUI so that boolean properties can be represented by
         radio-button with the "null" value</para>
       </listitem>
+
+      <listitem>
+        <para>Improved support for MailToolAgent for sending signed
+        emails</para>
+      </listitem>
     </itemizedlist>
   </section>
 
