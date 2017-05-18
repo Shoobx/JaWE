@@ -1,6 +1,9 @@
 ###### TWE 5.5-1 RELEASED ######
 
 ###### TWE 5.4-6 RELEASED ######
+2017-05-18 Sasa Bojanic <sasaboy@together.at>
+   # Improved support for MailToolAgent for sending signed emails
+
 2017-05-15 Sasa Bojanic <sasaboy@together.at>
    # Improved GUI so that boolean properties can be represented by radio-button with the "null" value
 

@@ -57,16 +57,13 @@ public class MailToolAgentElement extends ToolAgentElementBase {
                                                   val,
                                                   true,
                                                   false);
-         if (getIsSignedEmail().toValue().equalsIgnoreCase("true")) {
-            val = "org.enhydra.shark.utilities.mail.SMIMEMailMessageHandler";
-         } else if (getIsSignedEmail().toValue().equalsIgnoreCase("false")) {
-            val = "org.enhydra.shark.utilities.mail.DefaultMailMessageHandler";
-         } else {
+         val = getIsSignedEmail().toValue().toLowerCase();
+         if (!val.equals("true") && !val.equals("false")) {
             val = "";
          }
          SharkUtils.updateSingleExtendedAttribute(this,
                                                   ((Application) this.getParent()).getExtendedAttributes(),
-                                                  SharkConstants.EA_APP_NAME,
+                                                  SharkConstants.EA_MAIL_TOOL_AGENT_SIGNING,
                                                   null,
                                                   val,
                                                   true,
@@ -85,7 +82,7 @@ public class MailToolAgentElement extends ToolAgentElementBase {
    }
 
    public XMLAttribute getIsSignedEmail() {
-      return (XMLAttribute) get(SharkConstants.SMTP_SIGNED_EMAIL);
+      return (XMLAttribute) get(SharkConstants.EA_MAIL_TOOL_AGENT_SIGNING);
    }
 
    protected void fillStructure() {
@@ -96,8 +93,8 @@ public class MailToolAgentElement extends ToolAgentElementBase {
       XMLAttribute sendExecMode = new XMLAttribute(this, "MailSendExecutionMode", false, new String[] {
                                                                                                         "SYNCHR", "ASYNCHR"
       }, 0);
-      XMLAttribute isSignedEmail = new XMLAttribute(this, SharkConstants.SMTP_SIGNED_EMAIL, false, new String[] {
-                                                                                                                  "true", "false", ""
+      XMLAttribute isSignedEmail = new XMLAttribute(this, SharkConstants.EA_MAIL_TOOL_AGENT_SIGNING, false, new String[] {
+                                                                                                                           "true", "false", ""
       }, 2);
       add(appMode);
       add(sendExecMode);
@@ -122,12 +119,11 @@ public class MailToolAgentElement extends ToolAgentElementBase {
          }
       }
 
-      ea = ((Application) this.getParent()).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_APP_NAME);
+      ea = ((Application) this.getParent()).getExtendedAttributes().getFirstExtendedAttributeForName(SharkConstants.EA_MAIL_TOOL_AGENT_SIGNING);
       if (ea != null) {
-         if (ea.getVValue().equals("org.enhydra.shark.utilities.mail.SMIMEMailMessageHandler")) {
-            getIsSignedEmail().setValue("true");
-         } else if (ea.getVValue().equals("org.enhydra.shark.utilities.mail.DefaultMailMessageHandler")) {
-            getIsSignedEmail().setValue("false");
+         String v = ea.getVValue().toLowerCase();
+         if (v.equals("true") || v.equals("false")) {
+            getIsSignedEmail().setValue(v);
          } else {
             getIsSignedEmail().setValue("");
          }
