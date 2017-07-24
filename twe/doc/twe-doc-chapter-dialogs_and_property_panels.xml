@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="dialogs_and_property_panels"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Dialogs and Property Panels</title>
+
+  <sect1>
+    <title>Standard Dialogs</title>
+
+    <para>Standard dialog are dialogs for manipulation with input/output
+    files.</para>
+
+    <sect2>
+      <title>Save or discard changes dialog</title>
+
+      <informaltable frame="none">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata align="center" contentdepth="100%"
+                               fileref="Images/saveChanges.gif" scalefit="1"
+                               valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry align="justify" valign="middle"><para>If changes made to
+              the package are about to be discarded, the warning message
+              appears asking if the changes should be saved.</para><para>If
+              the answer is "Yes", the current package will be saved. "No"
+              will discard any changes since last save, and "Cancel" will drop
+              out selected function.</para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+    <sect2>
+      <title>File open dialog</title>
+
+      <informaltable frame="none">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry align="justify" valign="middle">This dialog offers file
+              system browsing and choosing file to open. It is displayed when
+              you want to open a new XPDL file for editing in TWE, when adding
+              new external package reference, ...</entry>
+
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata align="center" contentdepth="100%"
+                               fileref="Images/fileOpenDialog.gif"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+    <sect2>
+      <title>Save As dialog</title>
+
+      <informaltable frame="none">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/saveAsDialog.gif" scalefit="1"
+                               width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry align="justify" valign="middle">This dialog offers file
+              system browsing and choosing the location where you want to save
+              an XPDL file or process or activity set picture, as well as
+              defining the file name and extension.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Dialogs for editing XPDL element properties</title>
+
+    <para><informaltable frame="none">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry align="justify" valign="middle">The most of the dialogs
+              for editing XPDL elements have a toolbar with a buttons for
+              navigation between property panels, as well as for
+              applying/reverting the changes in the currently displayed
+              property panel.</entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata align="center" contentdepth="100%"
+                               fileref="Images/navigationOperations.gif"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable></para>
+
+    <para>The toolbar buttons are:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="top">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/nav_left_red.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Shows previous panel.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/nav_right_red.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Shows next panel.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata align="left" fileref="Images/revert.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Discards changes made after last apply action
+            (reverts to previous state).</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/check.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Applies the changes made in the panel.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/applyandclose.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Applies the changes made in the panel and closes the
+            dialog.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/parentelementpanel.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Shows parent element panel.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </sect1>
+
+  <sect1>
+    <title>Property panels</title>
+
+    <para>Each XPDL element is represented by appropriate property panel for
+    editing its properties.</para>
+
+    <para>There are some standard panels like the ones for entering element
+    information through the text box, by choosing an item from a combo box,
+    for managing a group of elements through a table or a list, the group
+    panels containing that contain other panels, tab panels, etc.</para>
+
+    <para>Each panel can be displayed separately, or inside a more complex
+    panel such as a group panel.</para>
+
+    <informaltable frame="none">
+      <tgroup cols="2" colsep="0">
+        <tbody>
+          <row>
+            <entry align="justify" valign="middle">Property panels that
+            display any kind of a table or a list representing a group of the
+            same kind of XPDL elements have toolbar with buttons to handle
+            these elements. Elements may be processes, activities, activity
+            sets, participants, transactions, applications, namespaces,
+            workflow variables, type declarations, formal parameters,
+            etc.</entry>
+
+            <entry valign="middle"><mediaobject>
+                <imageobject>
+                  <imagedata align="center" contentdepth="100%"
+                             fileref="Images/operationsOnElements.gif"
+                             scalefit="1" valign="middle" width="100%"/>
+                </imageobject>
+              </mediaobject></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>The toolbar is displayed just above the table/list of
+    elements:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="top">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/new_small.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Creates new element.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/edit_small.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Edits selected element.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata align="left" fileref="Images/delete_small.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Deletes selected element.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/duplicate_small.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Duplicates selected element.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/references_small.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Finds all other elements that are referencing
+            selected element. The list of referencing elements is displayed
+            within Search component.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/convert_small.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action is available only for the
+            FormalParameters and DataFields tables. It converts selected
+            Formal parameter into a Data field object (workflow variable), or
+            vice-versa.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>When the element from the property table/list is selected,
+    appropriate event is send to all other TWE components in order to refresh
+    their view, and to show their view of the selected element. For example,
+    if we have displayed a property table panel for handling activities,
+    clicking on table rows, different activities will be displayed in all
+    other TWE components - Graph, Overview, Navigator and Package tree
+    components will mark this activity, and XPDL View component will show the
+    part of XML structure representing selected activity. On the other hand,
+    External package relations, WfXML, Search and Problems component won't
+    update the display.</para>
+
+    <para>The toolbar buttons are either enabled or disabled, depending if the
+    action they are representing can or can't be performed on the current
+    selection.</para>
+  </sect1>
+</chapter>

@@ -1,0 +1,6 @@
+xpdl1.0
+xpdl2.1\Business
+xpdl2.1\NestedLanes
+xpdl2.1\RealLife\new_employee.xpdl
+xpdl2.1\Recursive
+xpdl2.1\WorkflowPatterns

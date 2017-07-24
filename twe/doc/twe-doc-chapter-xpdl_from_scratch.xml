@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="xpdl_from_scratch"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>XPDL from Scratch</title>
+
+  <para>These are the steps that are typically required in order to build new
+  XPDL:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/new.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the main toolbar (the left-most icon in the
+      toolbar), or select menuitem File-&gt;New to create a new
+      Package.</para>
+    </listitem>
+
+    <listitem>
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/packageproperties.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the main toolbar or select menuitem
+      Package-&gt;Package properties to get the property panel for editing
+      properties of newly created Package:</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>Here you can edit some
+              of the package attributes, like Id, Name, the Type of the
+              scripting language used when writing expressions, ...</para>
+              <para>Click on the icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/applyandclose.gif"/>
+                  </imageobject>
+                </inlinemediaobject> from the dialog's toolbar to apply the
+              changes, and to close the dialog</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_pkgproperties.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </listitem>
+
+    <listitem>
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/save.gif"/>
+          </imageobject>
+        </inlinemediaobject> or <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/saveas.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the main toolbar or select menuitem
+      Package-&gt;Save or Package-&gt;Save As... to save new Package into XPDL
+      file:</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>Browse the file system
+              and choose the folder where will you save Package</para>
+              <para>Enter the name of the file (the default is the Id of the
+              Package)</para> <para>Select the extension for the XPDL file
+              (the default is xpdl)</para> <para>Click Save
+              button</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_savepkg.jpg" scalefit="1"
+                               valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </listitem>
+
+    <listitem>
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/packageparticipants.gif"/>
+          </imageobject>
+        </inlinemediaobject> or select menuitem Package-&gt;Participants to
+      get property panel with information about Participants defined on
+      Package level, and then click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/new_small.gif"/>
+          </imageobject>
+        </inlinemediaobject> on the property panel to define new
+      Participant:</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>Here you can edit some
+              attributes like Id, Name, Type, Description, ....</para>
+              <para>Click on the icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/check.gif"/>
+                  </imageobject>
+                </inlinemediaobject> from the dialog's toolbar in order to
+              apply the changes.</para> <para>Click on the icon
+              <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/nav_left_red.gif"/>
+                  </imageobject>
+                </inlinemediaobject> or <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/parentelementpanel.gif"/>
+                  </imageobject>
+                </inlinemediaobject> in order to go back to the previous
+              property panel</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_newparticipant.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <para>Repeat this step until you define all of the participants you
+      need.</para>
+    </listitem>
+
+    <listitem>
+      <para condition="demo-details">Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/packageapplications.gif"/>
+          </imageobject>
+        </inlinemediaobject> or select menuitem Package-&gt;Applications to
+      get property panel with information about Applications defined on
+      Package level, and then click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/new_small.gif"/>
+          </imageobject>
+        </inlinemediaobject> on the property panel to define new
+      Application:</para>
+
+      <informaltable condition="demo-emptytext" frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>Edit some attributes
+              like Id, Name, Description.</para> <para>Click on the icon
+              <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/check.gif"/>
+                  </imageobject>
+                </inlinemediaobject> from the dialog's toolbar in order to
+              apply the changes.</para> <para>Add necessary Formal parameters
+              by clicking the icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/new_small.gif"/>
+                  </imageobject>
+                </inlinemediaobject> on the Formal parameters section (this
+              will show another property panel for editing newly created
+              Formal parameter - edit it, go back to this property panel, and
+              repeat the step until you define all of them).</para> <para>If
+              necessary, add Extended attributes for the application by
+              clicking the icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/new_small.gif"/>
+                  </imageobject>
+                </inlinemediaobject> on the Extended attributes section (this
+              will show another property panel for editing newly created
+              Extended attribute - edit it, go back to this property panel,
+              and repeat the step until you define all of them)</para>
+              <para>Click on the icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/nav_left_red.gif"/>
+                  </imageobject>
+                </inlinemediaobject> or <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/parentelementpanel.gif"/>
+                  </imageobject>
+                </inlinemediaobject> in order to go back to the previous
+              property panel</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_newapplication.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <para condition="demo-emptytext">Repeat this step until you define all
+      of the applications you need.</para>
+
+      <para condition="demo-emptytext">After you finish with defining
+      Applications, close the dialog.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/processnew.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the main toolbar, or select menuitem
+      Package-&gt;Insert new process to create a new WorkflowProcess.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/processproperties.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the main toolbar or select menuitem
+      Process-&gt;Process properties to get the property panel for editing
+      properties of newly created Workflow Process:</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>Here you can edit some
+              of the process attributes, like Id, Name, Access level
+              ...</para> <para>Click on the icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/applyandclose.gif"/>
+                  </imageobject>
+                </inlinemediaobject> from the dialog's toolbar to apply the
+              changes, and to close the dialog</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_processproperties.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/processworkflowrelevantdata.gif"/>
+          </imageobject>
+        </inlinemediaobject> or select menuitem Process-&gt;Workflow variables
+      to get property panel with information about Workflow variables defined
+      for the Process, and then click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/new_small.gif"/>
+          </imageobject>
+        </inlinemediaobject> on the property panel to define new Workflow
+      variable:</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>Here you can edit some
+              attributes like Id, Name, Type, Sub-Type, Initial value,
+              Description, ...</para> <para>Click on the icon
+              <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/check.gif"/>
+                  </imageobject>
+                </inlinemediaobject> from the dialog's toolbar in order to
+              apply the changes.</para> <para>Click on the icon
+              <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/nav_left_red.gif"/>
+                  </imageobject>
+                </inlinemediaobject> or <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/parentelementpanel.gif"/>
+                  </imageobject>
+                </inlinemediaobject> in order to go back to the previous
+              property panel</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_newwfvariable.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <para>Repeat this step until you define all of the variables you
+      need.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Click on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/lanesselect.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the graph toolbar. You'll get the list of
+      all Participants you've defined, plus so called Free text expression
+      lane (which is not a representation of the participant from the model
+      but a special Graph swim-lane for holding activities which performer is
+      defined as an expression). By selecting Participant from the list, the
+      lane representing that participant is being inserted into the Graph. Put
+      all the necessary Participant lanes into the Graph (they'll be
+      represented as a swim-lanes).</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Use the icons from the Graph's toolbox (<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/start.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/end.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/genericactivity.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/activitytool.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/subflowactivity.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/blockactivity.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/gatewayexclusive.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/gatewayparallel.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/transition.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/unconditional.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/transitionotherwise.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/transitionexception.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/transitiondefaultexception.gif"/>
+          </imageobject>
+        </inlinemediaobject>) in order to insert different kinds of activities
+      into the graph, and to connect them.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Right click on the graph objects representing activities you've
+      inserted to get the popup menu. Select Properties menuitem to get the
+      property panel for editing activity properties (or simply double-click
+      on the activity object in the graph).</para>
+
+      <para>Depending on the activity type, and the number of outgoing
+      transitions in the case of "gateway" (route) activity, you'll get
+      different property panels (different Type tabs).</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_actno.jpg" scalefit="1"
+                               width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_acttool.jpg" scalefit="1"
+                               valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+
+            <row>
+              <entry colsep="0" valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_actroute.jpg"
+                               scalefit="1" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_actstartevent.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <para>Browse through the tabs and edit activity's properties. For the
+      tool activity, add a new Tool and select application reference, and
+      define actual parameters.</para>
+
+      <para>Be sure you applied all the changes by clicking the icon
+      <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/check.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the dialog's toolbar.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Right click on the graph objects representing transitions you've
+      inserted to get the popup menu. Select Properties menuitem to get the
+      property panel for editing transition properties (you can also simply
+      double-click on the transition object in the graph):</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>If necessary, change
+              transition condition's type.</para> <para>If necessary, define
+              condition expression by the help of the icon next to the text
+              area for defining expression (it'll offer you the list of the
+              variables you can use for the conditions).</para> <para>Click on
+              the icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/check.gif"/>
+                  </imageobject>
+                </inlinemediaobject> from the dialog's toolbar in order to
+              apply the changes.</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_trans.jpg" scalefit="1"
+                               valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Use the icons from the Graph's toolbox (<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/dataobject.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/annotation.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/association.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/association_nodirection.gif"/>
+          </imageobject>
+        </inlinemediaobject>,<inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/association_bidirection.gif"/>
+          </imageobject>
+        </inlinemediaobject>) in order to insert different kinds of artifacts
+      into the graph, and to connect them.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Right click on the graph objects representing artifacts you've
+      inserted to get the popup menu. Select Properties menuitem to get the
+      property panel for editing artifact properties (or simply double-click
+      on the artifact object in the graph).</para>
+
+      <para>Enter meaningful names for data object artifacts, and text
+      annotation for the annotation type artifacts.</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_artdataobject.jpg"
+                               scalefit="1" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_artannotation.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+
+      <para>Be sure you applied all the changes by clicking the icon
+      <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/check.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the dialog's toolbar.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>If necessary, right click on the graph objects representing
+      associations you've inserted to get the popup menu. Select Properties
+      menuitem to get the property panel for editing transition properties
+      (you can also simply double-click on the association object in the
+      graph):</para>
+
+      <informaltable frame="none" rowsep="0">
+        <tgroup cols="2" colsep="0">
+          <tbody>
+            <row>
+              <entry colsep="0" valign="middle"><para>If necessary, change
+              association's Id, Name or Direction.</para> <para>Click on the
+              icon <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="Images/check.gif"/>
+                  </imageobject>
+                </inlinemediaobject> from the dialog's toolbar in order to
+              apply the changes.</para></entry>
+
+              <entry valign="middle"><mediaobject>
+                  <imageobject>
+                    <imagedata contentdepth="100%"
+                               fileref="Images/exmpl_association.jpg"
+                               scalefit="1" valign="middle" width="100%"/>
+                  </imageobject>
+                </mediaobject></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>After you finished with editing, you should check the Package for
+      validity by clicking on the icon <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/packagecheck.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the main toolbar, or by selecting menuitem
+      Package-&gt;Check validity.</para>
+
+      <para>If there are errors or warnings about XPDL model invalidity, the
+      Problems panel will display all the necessary information in order to
+      fix it.</para>
+    </listitem>
+
+    <listitem condition="demo-emptytext">
+      <para>Do not forget to save the changes you've made: click on the icon
+      <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/save.gif"/>
+          </imageobject>
+        </inlinemediaobject> from the main toolbar or select menuitem
+      Package-&gt;Save. The changes will be saved in already defined XPDL
+      file.</para>
+    </listitem>
+  </itemizedlist>
+
+  <para condition="demo-emptytext">At the end, the result of the modeling
+  should be something like in the following picture:</para>
+
+  <figure>
+    <title>Leave Request Process</title>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata align="center" contentdepth="100%"
+                   fileref="Images/leave_request_process.jpg" scalefit="1"
+                   valign="middle" width="100%"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+</chapter>

@@ -1,0 +1,1224 @@
+###### TWE 5.5-1 RELEASED ######
+
+###### TWE 5.4-6 RELEASED ######
+2017-05-18 Sasa Bojanic <sasaboy@together.at>
+   # Improved support for MailToolAgent for sending signed emails
+
+2017-05-15 Sasa Bojanic <sasaboy@together.at>
+   # Improved GUI so that boolean properties can be represented by radio-button with the "null" value
+
+###### TWE 5.4-5 RELEASED (2017-04-27) ######
+2017-03-30 Anat Usa-ampai <A.Usa-ampai@togetherteam.co.th>
+   # NSIS Installation changed so that special characters like | are supported in (branded) project name
+   
+###### TWE 5.4-4 RELEASED (2017-03-02) ######
+2017-02-28 Sasa Bojanic <sasaboy@together.at>
+   # Docbook documentation split into several chapters which are included into main document using docbook's xinclude. 
+     During the build time, the build procedure merges all the documentation parts together and builds the HTML/PDF documentation
+   # xmltask component added to the project
+
+2017-02-14 Sasa Bojanic <sasaboy@together.at>
+   # Fixed issue when template activity has deadline defined
+
+2017-02-13 Sasa Bojanic <sasaboy@together.at>
+   # Branding procedure improved: now there is deletions.txt file in some branding folders where one can list the files of that group to be deleted
+   # When new Deadline is created, the script type is now initially set to text/sharkwfdeadlines
+
+2017-02-02 Sasa Bojanic <sasaboy@together.at>
+   # Branding procedure improved to sign the resulting EXE file   
+   # Branding procedure improved to replace entries in i18n files and copy the whole file only if it didn't exists
+   # Now opening dialog in examples folder if sub-folder xpdl2.1\RealLife haven't been found (the case when having branded version)
+
+2017-01-30 Sasa Bojanic <sasaboy@together.at>
+   # Build procedure changed: removed TSL licensed distribution files (no need for it, we are now using 3rd party GPL classes only through the reflection)
+
+2017-01-25 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix in SharkXPDLObjectFactory to properly adjust XPDL object properties by creating special extended attribute (JaWE_TYPE) for the custom type objects
+
+2017-01-24 Sasa Bojanic <sasaboy@together.at>
+   # Now branding procedure also supports additional java source files
+
+2017-01-20 Sasa Bojanic <sasaboy@together.at>
+   # Build procedure changed to produce twe-src-zip component (consisted of TWE source distribution)
+   # Build procedure improved to support branding from GPE project
+   
+2017-01-05 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      * Supported new set of extended attributes for sending signed emails:
+         - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_ACTIVITY,
+         - SMTP_EVENT_AUDIT_MANAGER_SIGNED_EMAIL_PROCESS,
+         - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_ACTIVITY,
+         - SMTP_LIMIT_HANDLER_SIGNED_EMAIL_PROCESS,
+         - SMTP_DEADLINE_HANDLER_SIGNED_EMAIL,
+         - SMTP_ERROR_HANDLER_SIGNED_EMAIL
+      * Now can specify MailToolAgent to send signed emails
+
+###### TWE 5.4-3 RELEASED (2016-12-26) ######
+2016-12-20 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved icons in the panels for inserting system variables, xpdl variables, variables, ...
+
+2016-12-13 Sasa Bojanic <sasaboy@together.at>
+   # Support for new extended attribute BEAN_SHELL_SCRIPT_TO_EXECUTE_WHEN_OPENING
+   
+2016-12-09 Sasa Bojanic <sasaboy@together.at>
+   # Fixed: click on + of Subflow/Activity Set didn't descend into them when graph is Zoomed In/Out
+   # Fixed: finally properly fixed the issue when transition is selected when clicked on the activity
+   # Shark mode: Improved XPDLStringVariable handling (now when Id of referenced variable changes, the GUI immediately reflects the change in the 
+                 content of the variable that references it)
+
+2016-12-06 Sasa Bojanic <sasaboy@together.at>
+   # Fixed build procedure to exclude unnecessary things from twedoc.jar
+   # Shark mode: extended attribute IS_WEBDAV_FOR_ACTIVITY_VISIBLE now by default set to true
+
+2016-11-21 Sasa Bojanic <sasaboy@together.at>
+   # Now configure script creates special rebranding.properties file if one wants to rebrand
+   # Build procedure changed to copy rebranding.properties file (if exists) from project folder called "customdir" (if exists)
+     This feature will be used in our new GPE project 
+     
+###### TWE 5.4-2 RELEASED (2016-10-27) ######
+2016-10-14 Sasa Bojanic <sasaboy@together.at>
+   # Now making text-panels non-editable and changing color to look like disabled. This way we can copy things from external package panels.
+
+2016-10-05 Sasa Bojanic <sasaboy@together.at>
+   # Fixed linux configure script to be able to set parameters with whitespace character
+
+2016-09-08 Sasa Bojanic <sasaboy@together.at>
+   # Fixed issue when transition is selected when clicked on the activity
+
+###### TWE 5.4-1 RELEASED (2016-08-06) ######
+2016-07-25 Sasa Bojanic <sasaboy@together.at>
+   # External package relative path references on windows are now written using "/" character as file separator so 
+     XPDL with external packages can be used cross-platform
+   # Fix: now properly removing ActivitySet's Pools, Artifacts and Associations when deleting their WorkflowProcess container 
+   
+2016-07-25 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: SharkDisplayGenerator differently present WorkflowProcess name in GUI (category variable value information is appended)
+
+2016-07-20 Sasa Bojanic <sasaboy@together.at>
+   # Changed StandardDisplayGenerator to differently present package name in GUI
+   # Shark mode: Introduced SharkDisplayGenerator to differently present package name in GUI
+
+2016-07-02 Sasa Bojanic <sasaboy@together.at>
+   # Now also calculating references to variables in the Lane's performer element
+
+2016-06-29 Sasa Bojanic <sasaboy@together.at>
+   # Improved validation for XPath tool agent
+
+2016-06-10 Sasa Bojanic <sasaboy@together.at>
+   # Now explicitly using XALAN for transformations (problem with saxon and namespaces)
+
+2016-05-17 Sasa Bojanic <sasaboy@together.at>
+   # Fixed: when action to insert missing start/end events is executed, undo was not working properly any more. This issue was introduced in version 5.1-1.
+
+2016-05-16 Sasa Bojanic <sasaboy@together.at>
+   # Corrected marking of validation errors/warning in the tree-view
+   # Shark mode: Added support for PowerShellToolAgent
+
+2016-04-26 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: fix for displaying WorkflowProcess panel for the external package's workflow process
+
+2016-04-25 Sasa Bojanic <sasaboy@together.at>
+   # New sub-section added to manual: "How to show transition conditions vs. names in the graph"
+
+2016-04-21 Sasa Bojanic <sasaboy@together.at>
+   # Implemented Graph print action
+
+2016-04-19 Sasa Bojanic <sasaboy@together.at>
+   # Improved performance by setting XPDL to read-only and initializing caches when saving XPDL (to have faster validation)
+   # Improved performance by doing delta design-time validation (only for the current process) whenever possible - the cases 
+     when Id of element is not changed and there was no insertion/removal/reposition of global-validation element
+
+   
+2016-04-18 Sasa Bojanic <sasaboy@together.at>
+   # Improved performance by setting XPDL to read-only and initializing caches before validation
+   # Improved performance by not design-time validating XMLAttribute elements which are not required and don't have default value (e.g. Name attribute)
+   # Improved performance by not design-time validating most of the XMLSimpleElement elements (which normally do not affect validation process, e.g. Description element)
+
+2016-04-15 Sasa Bojanic <sasaboy@together.at>
+   # Improved performance by not validating graph when only moving entities within the same lane
+   # Improved performance by optimizing Problems panel algorithm
+   # Shark mode: not showing properties component by default
+
+2016-04-14 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: support for new extended attribute USE_FIRST_DEADLINE_TIME_FOR_LIMIT_IF_UNDEFINED
+
+2016-04-11 Sasa Bojanic <sasaboy@together.at>
+   # Fix: when saving file which has "." in its name, extension was not appended to the end
+
+2016-04-07 Sasa Bojanic <sasaboy@together.at>
+   # Improved Search functionality
+
+###### TWE 5.3-3 RELEASED ######
+2016-03-09 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix for creation of outlook variables (Started/Completed date were defined as STRING variables)
+
+2016-03-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved validation of TSC tool agent according to the changes in TSC and TWS's TSCToolAgent
+   # Shark mode: Hiding all special extended attributes when trying to define "normal" extended attribute
+
+###### TWE 5.3-2 RELEASED (2016-02-23) ######
+2016-02-19 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved handling and validation of new TWF related extended attribute TWF_XML_VARIABLE_TO_HANDLE
+
+2016-02-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: supported new TWF related extended attributes (TWF_XML_VARIABLE_TO_HANDLE and TWF_XML_VARIABLE_ITEM_NAME_PREFIXES)
+
+2016-02-05 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: fixed the logic to display references of Package defined XPDL string variables (duplicated references were counted)
+
+2016-01-27 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: supported enhancement of FOPToolAgent
+
+###### TWE 5.3-1 RELEASED (2016-01-21) ######
+2016-01-06 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: supported special shark deadline expressions (new script type text/sharkwfdeadlines)
+
+2016-01-06 Warut Dechma <warut@together.at>
+   # Only Java 8 is now offered during installation procedure
+   
+2015-12-24 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Added support for new extended attribute "EVALUATE_DYNAMICSCRIPT_VARIABLE_FOR_TOOL_AGENT_ACTIVITIES"
+
+###### TWE 5.2-3 RELEASED (2015-12-17) ######
+2015-12-15 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Added support for FOPToolAgent      
+
+2015-12-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Improved support for TSCToolAgent
+      - Improved support for XSLTToolAgent
+
+2015-12-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Added support for TSCToolAgent
+
+###### TWE 5.2-2 RELEASED (2015-11-04) ######
+2015-10-05 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Added support for REEVALUATE_DEADLINES extended attribute
+
+2015-09-21 Sasa Bojanic <sasaboy@together.at>
+   # Implemented possibility to D&D XPDL file
+
+2015-09-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Improved recognition of I18N variables usage inside expressions
+      
+2015-09-16 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Implemented support for new extended attributes of SMTPNewProcFileSysLogErrorHandler (NEWPROC_ERROR_HANDLER_NEW_PROCESS_PACKAGE_ID and NEWPROC_ERROR_HANDLER_NEW_PROCESS_WORKFLOWPROCESS_ID)
+
+###### TWE 5.2-1 RELEASED (2015-09-15) ######
+2015-09-15 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Implemented support (GUI + validation) for new system variables for holding information about the last process instance activity 
+                 that failed to execute: shark_process_error_message, shark_process_error_stacktrace and shark_process_error_activity_id
+
+2015-09-11 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Implemented support (GUI + validation) to reference XPDL_STRING variable from DynamicScript variable
+
+2015-09-10 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Improved validation:
+         * can't have the same Ids for xpdl strings/i18n variables/normal variables
+         * can't have invalid characters for xpdl string/i18n variables
+
+2015-09-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved validation - can't have Tool activities having both start and finish mode set to MANUAL 
+
+2015-09-03 Sasa Bojanic <sasaboy@together.at>
+   # Java 8 support
+   # Shark mode: Again allowing Tool activities with System participant performer to have MANUAL finish mode (to support Quartz tool agent and similar tool agents)
+
+2015-08-25 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improvement: increased dimensions of table for displaying DataFields, FormalParameters, XPDLStrings and I18NVariables
+
+2015-08-24 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix: repositioning of XPDLString and I18N variables inside table is now working
+      
+2015-08-21 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Support for VariableToProcess_FETCH extended attribute
+      - Improved:
+         * panel for actual parameters (now considering if formal parameter is array and offering only the array variables in that case)
+         * the background color of combo-box now properly set
+         * the background color of list panel for selecting participants when many now properly set
+         * checking and updating Variable/XPDLString/I18n variable ids inside BeanShell/JavaScript script expression
+         * checking and updating I18n variable ids inside InitialValue expression
+         * showing text panel instead of editable combo-box for i18n variables
+         * not showing system variables/variables/xpdl strings/i18n variables for XSLT tool agent Application definition
+         * now considering variable ids in the actual parameter which map to XPath application parameter ResultVariableIds
+      - Fixed:
+         * bug that occured sometime when updating i18n varible Id in referencing elements
+         * bug that showed email panel in edit mode even in the case package is external or transient
+
+2015-08-10 Sasa Bojanic <sasaboy@together.at>
+   # Now validating unused applications and participants
+
+2015-08-03 Sasa Bojanic <sasaboy@together.at>
+   # Now configuring JSplitPane's divider positions (MainDividerLocation, FirstSmallDividerLocation and SecondSmallDividerLocation properties) in percentage (not in an absolute values)
+   # Shark mode:
+      - support for AUTO_COMPLETION extended attribute for manual activities
+      - improved performance and accuracy when moving entries for the Activity's 'Web client configuration->Default GUI->Variables'
+
+2015-07-31 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - allowing i18n variables to be used when creating variables' InitialValue expression
+      
+2015-07-27 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - implemented i18n variable support
+      - supported insertion of system variable name/description/translation and process variable name/description when defining XPDL string or email subject/content
+
+2015-07-15 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Added additional constants for i18n support
+
+2015-06-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Improved support to TXWToolAgent
+
+2015-06-03 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - BeanShell and JavaScript tool agent are now allowed to use any process variable
+
+2015-06-02 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - BeanShell and JavaScript tool agent are now allowed to have FormalParameter "Script" which is used to define script to execute in the case extended attributes "AppName" or "Script" are not defined
+
+2015-05-27 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - supported new (I18n related) extended attributes: 
+         * I18N_XPDL_FOLDER_NAME (Package level), 
+         * I18N_PROCESS_DEFINITION_FILE_NAME (WorkflowProcess level), 
+         * I18N_NAME_TRANSLATION_KEY and I18N_DESCRIPTION_TRANSLATION_KEY (Package, WorkflowProcess, Activity and DataField level)
+      - supported new variable i18n_lang_code which is now represented as Package/Workflow process attribute
+      - some changes in SharkPackageValidator API method signatures
+      
+2015-05-24 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - supported changes in SOAPToolAgent
+      - supported new TXWToolAgent
+
+2015-05-22 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+   	- supported changes in SOAPToolAgent
+
+2015-05-19 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+   	- changed names of some constants
+
+2015-05-09 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Supported new activity extended attribute "FORM_PAGE_URL
+        This attribute is a reference to XPDL_STRING and specifies the URL location of the form to open to see activity details
+      - Support for new system variables
+      - Introduced constants for the names/description of the system variables
+
+2015-05-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - Added support for ExecuteSql tool agent
+      - Allowed usage of config string and xpdl string variables in Performer, Deadline, Transition condition and ActualParameter expressions
+      - Improved validation
+
+2015-04-22 Sasa Bojanic <sasaboy@together.at>
+   # Improved Expression Lane Editor - now possible to use variables when editing expressions
+   # Filtering of variables by type in PanelUtilities.getPossibleVariableChoices() now makes a distinction if variable is array or not
+   # Shark mode:
+      - updated support for LDAPToolAgent according to the changes in LDAPClientInterface
+      - Deadline, Limit and Error emails now supports extended attribute(s) for specifying recipient variable (SMTP_xxx_HANDLER_RECIPIENT_VARIABLE)
+
+2015-04-17 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - better support for UserGroupToolAgent (added possibility to use getGroupByEMailAddress and getUserByEMailAddress methods)
+
+2015-03-16 Sasa Bojanic <sasaboy@together.at>
+   # Allowed in-place editing of Id, Name and Value attributes in tables
+
+2015-03-11 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - improved support for extended attributes that allow evaluation of priority/limit/description/name of activity/process
+        (update of expressions when Id of used variable is changing, GUI support with multi-line text editor)
+
+###### TWE 5.1-1 RELEASED (2015-02-17) ######
+2014-12-23 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - better support for HTML_VARIABLE extended attribute
+      - improvement for sub-tabs selection
+      - improvement for typedeclaration/externalreference variable choices
+      - documentation updated
+
+2014-12-22 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - supporting 8 new extended attributes (EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY, EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY,EVALUATE_DESCRIPTION_AS_EXPRESSION_PROCESS, EVALUATE_DESCRIPTION_AS_EXPRESSION_ACTIVITY, EVALUATE_NAME_AS_EXPRESSION_PROCESS, EVALUATE_NAME_AS_EXPRESSION_ACTIVITY)
+
+2014-12-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - validating Priority and Limits depending on new extended attributes (EVALUATE_PRIORITY_AS_EXPRESSION_PROCESS, EVALUATE_PRIORITY_AS_EXPRESSION_ACTIVITY, EVALUATE_LIMIT_AS_EXPRESSION_PROCESS, EVALUATE_LIMIT_AS_EXPRESSION_ACTIVITY)
+   # when re-configuring/changing language, Cancel option is not allowed if XPDL is changed
+      
+2014-11-12 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - supported HTML_VARIABLE, HTML5FORM_XSL, IS_WEBDAV_FOR_ACTIVITY_VISIBLE and BACK_ACTIVITY_DEFINITION extended attributes for activity
+      - improved GUI and validation
+
+2014-11-10 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - supported RENDERING_HINT extended attribute for variable
+      - improved/re-factored code regarding variable's extended attributes
+
+2014-11-06 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - ext. attribute XFORMS_FILE changed to HTML5FORM_FILE
+      - supported new WebClient ext. attrib. HTML5FORM_EMBEDDED
+   
+2014-09-22 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Fix: not offering XPDL String and Configuration string variables for Performer, Deadline, Actual parameter and Transition condition expressions
+   # Now displaying warning if XPDL String variable is not used
+
+2014-09-05 Sasa Bojanic <sasaboy@together.at>
+   # XMLTextPanel now supports new parameter to specify if only numbers can be entered in the text field
+   # Shark mode:
+      - workload related "number" attributes now using new feature of XMLTextPanel to allow entering only numbers in the text field
+      - hidding href and namespace attributes of ExternalReference element (because they are not used by Shark)
+      
+2014-09-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - better support for kernel ext. attrib. for overriding process context when instantiating activity (variables recognizing when referenced by this ext. attrib.)
+      - when creating new ext. attrib. for some entity, list of possible ext. attribs. excludes the shark specific ones
+      - turned-off feature for inheriting ext. attribs from package->workflow process->activity
+      - added validation for OVERRIDE_PROCESS_CONTEXT ext. attrib.
+      - now natively supporting DataField ext. attrib URLVariable
+      
+2014-08-27 Sasa Bojanic <sasaboy@together.at>
+	# Supporting windows XP (patch by Vjecheslav)
+
+2014-08-21 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - natively supporting ext. attribs for Standard and History related assignment manager
+      - natively supporting kernel ext. attrib for overriding process context when instantiating activity
+      - checkbox to specify if WebClient and Engine configuration should be defined      
+   # XMLGroupPanel: new constructor to be able to specify if empty space should be added to the end of the group or not
+
+2014-08-20 Sasa Bojanic <sasaboy@together.at>
+   # Fix: "Create outlook variables" action was not disabled when element is read-only
+   # Fix: "Edit expression in associated application" action was not disabled when element is read-only
+   # Shark mode: 
+       - support for 7 new Shark kernel extended attributes
+       - improved GUI
+
+2014-08-19 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+       - support for Hide/Read-only dynamic properties, Hide controls and Turn-off features ext. attributes
+       - improved GUI
+
+2014-08-07 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: added create outlook variables action in Workflow Variables table GUI
+
+2014-08-05 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: category variable is now represented as Package/Workflow process attribute
+
+2014-07-30 Sasa Bojanic <sasaboy@together.at>
+   # Fix: orthogonal-no-routing transitions were not orthogonal after setting port property allowPortMagic to false. Now it is fixed for all but Start/End events
+   # Fix: SetTransitionStyle action didn't work for associations
+
+2014-06-27 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to position artifact/gateway/start/end labels to the top/bottom/left/right location. Information stored in XPDL.
+
+2014-06-23 Sasa Bojanic <sasaboy@together.at>
+   # Fix: transition condition label was not always fully shown 
+   # Fix: scrollbars were missing when Zoom In action was performed and then activity was moved
+   # Fix: rendering of (otherwise) transitions going from/to and/or split/join node
+   
+2014-06-20 Sasa Bojanic <sasaboy@together.at>
+   # "CTRL +", "CTRL -" and "CTRL 1" key combination now can be used to "Zoom In", "Zoom Out" and "Make actual size" in the graph.
+   # Added possibility to position transition labels. Information stored in XPDL.
+   
+2014-06-19 Sasa Bojanic <sasaboy@together.at>
+   # Improved Open (new XPDL file) action to work in a standard way
+   # Fix: Now properly rendering transition's diamond on the tail (it was not properly rendered when transition expression was set and then removed)
+   # Fix: Now properly rendering empty choice in combo box (e.g. for the type of transition condition)
+   
+2014-06-18 Sasa Bojanic <sasaboy@together.at>
+   # Improved GUI
+
+2014-06-10 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to edit expressions in external editor application (new documentation section "Property file appsforextensions.properties" describes this feature)
+   # Now XPDL is not marked as "Not saved" in the case opened XPDL has different value for JaWE_CONFIGURATION extended attribute of package
+   
+2014-06-02 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to set the working directory with system parameter JaWE_WORKING_DIR (the place where TWE will search for XPDL files when using Open dialog).
+   # New configuration parameter to specify if XPDL should be saved when Apply button is pressed in property panel. 
+     Parameter name is ApplyActionSavesXPDL and if it is set to true, whenever apply button is pressed, XPDL will be saved.
+          
+2014-05-22 Sasa Bojanic <sasaboy@together.at>
+   # Now XPDL is not marked as "Not saved" in the case opened XPDL has different values for EDITING_TOOL or EDITING_TOOL_VERSION extended attribute of package
+
+2014-05-08 Sasa Bojanic <sasaboy@together.at>
+   # Artifact's TextAnnotation is now represented by TextArea with several rows
+   # Shark mode: Script expressions now have 15 characters
+   
+2014-04-26 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Support for new extended attribute "IS_ACTIVITY_SCOPE_ONLY"
+
+2014-03-19 Sasa Bojanic <sasaboy@together.at>
+   # LDAP component now supporting different ldap protocols (e.g. ldap and ldaps) (also new parameter in ldap.properties to be able to pre-configure it)
+
+2013-11-19 Sasa Bojanic <sasaboy@together.at>
+   # Fix bug with font size for artifact and gateways: now the font size is respecting system settings
+
+2013-11-04 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to configure the content and order of application's title text with 7 possible placeholders
+     Documentation updated to describe new configuration entry (TitleString entry in togwecontroller.properties).
+   # Added possibility to use TWE from command-line to write the process graph in one of the following formats: jpg, svg and pdf. 
+     Documentation updated with new section describing this feature. Example:
+         java -Xmx512M -DJaWE_HOME="d:/twe-6.0-1" -Djava.ext.dirs="d:/twe-6.0-1/lib" org.enhydra.jawe.JaWE 
+            d:\tmp\deadlineexamples.xpdl write_graph_2_file_procdefid=simple_sync_deadline 
+            write_graph_2_file_format=jpg write_graph_2_file_filepath=d:\tmp\simple_sync_deadline
+
+2013-10-31 Sasa Bojanic <sasaboy@together.at>
+   # When re-branding, now only default configuration + branding configurations appearing in the output
+
+2013-10-29 Sasa Bojanic <sasaboy@together.at>
+	# Introduced possibility to specify app.name and project.name in build.properties (using configure script)
+	# Introduced possibility to specify branding directory to be outside the project.
+	  Configure script changed to be able to specify branding directory (written in build.properties)
+
+2013-10-24 Sasa Bojanic <sasaboy@together.at>
+   # On non-Windows OSs files we are not using RandomFileAccess class to open/save files anymore. 
+     Anyway, on non-Windows OSs it wasn't possible to lock files, and there was a problem with this 
+     approach in some cases - the file wasn't saved if another application changed it meanwhile.
+
+2013-10-22 Sasa Bojanic <sasaboy@together.at>
+   # New configuration parameter to specify preferred number of lines for text areas where expressions are defined(PreferredNumberOfLinesForExpression)
+   # New configuration parameter to specify preferred number of lines for text areas where actual parameter expressions are defined (XMLActualParametersPanel.preferredNumberOfLinesForExpression)</para
+   # Now XMLMultiLineTextPanelWithOptionalChoiceButtons panel constructor accepts parameter to specify how many lines are preferred for text area
+   # Hidding and disabling main divider if application is configured to have only one area 
+   
+2013-07-24 Sasa Bojanic <sasaboy@together.at>
+   # Improvement regarding silent uninstallation
+
+2013-07-22 Sasa Bojanic <sasaboy@together.at>
+   # Builds changed so that windows build is generating tar.gz and src.tar.gz packages
+
+###### TWE 5.0-1 RELEASED ######
+2013-07-29 Sasa Bojanic <sasaboy@together.at>
+   # New application and XPDL icons
+
+2013-07-02 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - support for XPILLog event audit manager extended attribute XPILLOG_EVENT_AUDIT_MANAGER_LOG_XPIL
+      - now always displaying possible process extended attributes
+
+2013-06-28 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Create process -> Create preconfigured error process
+   # build procedure improved so Shark mode has all the required images
+
+2013-06-13 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: now correctly handling references to XPDL_STRING extended attributes
+
+2013-06-06 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: a bit of code refactoring
+
+2013-06-05 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Introduced XPDL Package->RedefinableHeader->Version as system variable 
+
+2013-05-30 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: supported new error handler which can also create new process and write log to file system
+   # Shark mode: error handler EA change: SMTP_ERROR_HANDLER_RETURN_CODE->ERROR_HANDLER_RETURN_CODE
+
+2013-05-29 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: error handler code change: IGNORE->KEEP_ACTIVITY_RUNNING
+   
+2013-05-27 Sasa Bojanic <sasaboy@together.at>
+   # New way of signing with timestamping implemented (different servers possible for timestamping)
+   
+2013-05-17 Sasa Bojanic <sasaboy@together.at>
+   # shark mode: renaming of "SharkString" -> "XPDLString"
+
+2013-05-15 Sasa Bojanic <sasaboy@together.at>
+   # shark mode: now supporting deadline handling via ext attributes
+   # shark mode: code refactored regarding SMTP handling (event audit, error, limit, deadline)
+   # new component to deliver to shark (for XPDL validation)
+   
+2013-03-18 Sasa Bojanic <sasaboy@together.at>
+   # Now icons in the taskbar are grouped
+
+2013-03-07 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Initial support for SMTPLimitHandler
+
+2013-03-06 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Now supporting new way of defining SMTPEventAuditManager extended attributes 
+   (different names for activity/process EAS + possiblity to define default SMTP attributes on process and package level 
+    for the activity and on the package level for the process)
+   # Shark mode: Initial support for SMTPErrorHandler
+   
+2013-02-26 Sasa Bojanic <sasaboy@together.at>
+   # Check for completion->Autocomplete when read
+
+2013-02-21 Sasa Bojanic <sasaboy@together.at>
+   # Added more icons that can be used when setting Activity's cutom icon
+
+2013-02-20 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Full support for SHARK STRING VARIABLES
+
+2013-02-19 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved support for SHARK STRING VARIABLES
+
+2013-02-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: initial support for SHARK STRING VARIABLES
+
+2013-02-15 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: now validating if variables' InitialValue is referencing DynamicScript variable (it is forbidden)
+   # Shark mode: fixed bug in Shark's tooltip manager
+   
+2013-02-14 Sasa Bojanic <sasaboy@together.at>
+   # Now validating variables' InitialValue expressions 
+   # Shark mode: now validating variables' InitialValue cross/self/implicit cross references
+   # Shark mode: now validating uniqueness of variables considering Shark's system variables and configuration parameters
+   
+2013-02-13 Sasa Bojanic <sasaboy@together.at>
+   # Improved ActualParameters panel
+   # Shark mode: support for configuration choice and system variables
+   
+2013-02-12 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode:
+      - changed "system" variable naming and validation according to new Shark features (SharkPanelGenerator and SharkXPDLValidator changes)
+      - example (shark) XPDLs changed according to the changes made in Shark
+
+2013-02-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - improved Email configuration section (new checkbox to enable/disable configuration - disabling means removing all EAs)
+      - Attachments and Attachment names joined into the single control
+      - Changed names of the controls
+   
+###### TWE 4.8-1 RELEASED ######
+2013-01-25 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: supported CHECK_FOR_COMPLETION extended attribute
+
+2013-01-16 Sasa Bojanic <sasaboy@together.at>
+   # Initial testcase documentation added to the project
+   # Validating dynamic script variable self/cross/implicit cross references
+   
+2012-12-28 Sasa Bojanic <sasaboy@together.at>
+   # Supported BasicType DATE and TIME data types
+   # leave_request.xpdl and new_employee.xpdl are now utilizing DATE data type
+   
+2012-12-27 Sasa Bojanic <sasaboy@together.at>
+   # Property panel for artifacts changed: now panel contains only neccessary properties depending on artifact type (Annotation or DataObject)
+
+2012-11-09 Sasa Bojanic <sasaboy@together.at>
+   # Updated to new TXM (jXPDL) library
+   # Now when opening/reopening XPDL file, if possible, JaWE automatically switches to the mode written in XPDL file itself
+
+2012-10-22 Sasa Bojanic <sasaboy@together.at>
+   # WfXML component: now actions enabled/disabled depending on selection and in the case of WfXML is connected to Shark engine, depending on Shark's upload/update logic
+   # WfXML component: when connected to Shark engine, can't update URL/Name/Description/Version/Status
+
+2012-10-19 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Tooltip information provided for activity's email configuration (Shark's SMTPEventAuditManager related) 
+
+2012-10-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved GUI for SubFlow activity modeling (actual->formal parameters)
+
+2012-10-18 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Email configuration section for workflow process element (used with SMTPEventAuditManager). Nice GUI and XPDL validation.
+
+2012-10-17 Sasa Bojanic <sasaboy@together.at>
+   # Added possibility to all panels to display tooltip
+   # Shark mode: Improved GUI for TaskApplication activity modeling (actual->formal parameters)
+
+2012-10-12 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: 
+      - Introduced validation for Application definitions depending on ToolAgentClass extended attribute value (Shark tool agent dependent validation)
+      - Improved GUI (dynamic panel for LDAP and UserGroup tool agents, choice dependent panel logic for Quartz and Scheduler tool agents)
+   
+2012-10-08 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved GUI for Application definitions
+
+2012-10-04 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Improved validation. Now when validating special extended attributes (for client GUI forms and for SMTPEventAuditManager), 
+     "NON_EXISTING_VARIABLE_REFERENCE" ERRORS are considered WARNINGS if there is an extended attribute at WorkflowProcess/Package level that 
+     allows undefined variables (Formal/Actual parameter matching validation still considers such cases an ERROR cases)
+
+2012-10-03 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Email configuration section for manual activity elements (used with SMTPEventAuditManager). Nice GUI and XPDL validation.
+   # Added new actions to start and stop design time XPDL validation (useful to stop it when dealing with big XPDLs)
+   # Enhanced XMLMultiLineTextPanelWithChoiceButton and XMLMultiLineHighlightPanelWithChoiceButton GUI controls
+   # Improved ProblemsNavigator
+   
+2012-10-02 Sasa Bojanic <sasaboy@together.at>
+   # Shark mode: Support for SESSION_HANDLE, SHARK_VERSION, SHARK_RELEASE, SHARK_BUILDID variables
+   # Shark mode: Support for DYNAMICSCRIPT attribute for variables
+
+###### TWE 4.7-1 RELEASED ######
+2012-09-28 Sasa Bojanic <sasaboy@together.at>
+   # Shark configuration: now graph component is not showing grid and not showing transition conditions by default
+
+2012-09-15 Sasa Bojanic <sasaboy@together.at>
+   # Improved XPDL icon
+
+###### TWE 4.6-1 RELEASED ######
+2012-08-15 Sasa Bojanic <sasaboy@together.at>
+   # Start menu/desktop/taskbar icons improved
+
+2012-07-30 Sasa Bojanic <sasaboy@together.at>
+   # TWE Desktop icon now has short name
+
+2012-07-26 Sasa Bojanic <sasaboy@together.at>
+   # Max JVM memory in run scripts/shortcuts increased from 128M to 512M
+   
+2012-07-23 Sasa Bojanic <sasaboy@together.at>
+   # Documentation: chapter Build Guide put at the end (before Release Notes)
+   # Windows Installation:
+      - Fixed: Size information in Control Panel
+      - Added: Pin to taskbar option
+      - Changed: Build ID information in Control Panel
+
+2012-06-13 Sasa Bojanic <sasaboy@together.at>
+   # changes related to linux builds with TAB
+
+2012-05-29 Sasa Bojanic <sasaboy@together.at>
+   # Modified NSIS script to use windows' "cacls.exe" to change access controls to allow everyone to writte into installation's config folder
+    (TWE installation had a problem when User Access Controls (UAC) were set to the "higher level" like "Always notify" - couldn't switch configuration)
+
+2012-05-24 Sasa Bojanic <sasaboy@together.at>
+   # Changed package names for HistoryMgr and UndoHistoryMgr so all the JAR files are using different package names
+
+###### TWE 4.5-1 RELEASED ######
+2012-05-09 Sasa Bojanic <sasaboy@together.at>
+   # distribution component output is now zipped into the txm-x.y-z.comp.zip
+   # setup exe now supports only Java 7
+   
+2012-05-08 Sasa Bojanic <sasaboy@together.at>
+   # signing JAR files with Together certificate canceled til the next release
+
+2012-04-23 Sasa Bojanic <sasaboy@together.at>
+   # Documentation folder removed from distribution
+
+2012-04-09 Sasa Bojanic <sasaboy@together.at>
+   # signing JAR files with Together certificate
+
+2012-02-23 Sasa Bojanic <sasaboy@together.at>
+   # Compiled code can be executed only with Java7
+
+###### TWE 4.4-1 RELEASED ######
+2011-12-26 Sasa Bojanic <sasaboy@together.at>
+  # Linux builds improved
+
+2011-12-15 Sasa Bojanic <sasaboy@together.at>
+  # jxpdl.jar updated
+  # Shark mode: Reporting an error if Name fields of WorkflowProcess/Activity, Id fields of WorkflowProcess/Activity
+    or ExceptionName field length is inappropriate
+  # TSL licensed version now goes to distributions's twe folder
+  # silent setup now also available for TSL licensed version
+  # Allowing saving of XPDLs with validation warnings in "Released" XPDL Publication Status
+  # WfXML: URL sample displayed
+  # Icon and Title now appears in Help->Manual dialog
+
+2011-12-07 Sasa Bojanic <sasaboy@together.at>
+   # Updated configure.bat script not to have default values for VERSION/RELEASE and not to override 
+     the values in version.properties file unless explicitely specified by configure script argument
+
+2011-12-02 Sasa Bojanic <sasaboy@together.at>
+   # Linux builds improvement
+   # NSIS and exe installation improvement
+
+2011-12-01 Sasa Bojanic <sasaboy@together.at>
+   # Java7 compatibility:
+      - refactored getType/setType methods of JaWEComponent interface to getComponentType/setComponentType
+      - replaced propriatary SUN classes for JPEG handling (from com.sun.image.codec.jpeg package) with
+        ImageIO API (SaveAsJPG.java)
+
+2011-11-30 Sasa Bojanic <sasaboy@together.at>
+   # Updated commons-io library to version 2.1
+   # Updated itext5 to version 5.13
+   # build procedure will now put the twe-patches and twe-restriction files to the proper places
+     when such files should be generated for TXM
+
+2011-10-26 Sasa Bojanic <sasaboy@together.at>
+   # Copyright and Trademark sentences updated
+   # No dependency targets and dependency output anymore
+
+2011-10-18 Sasa Bojanic <sasaboy@together.at>
+   # Project re-structured and build procedure updated to conform to the "components" standard
+
+###### TWE 4.3-1 RELEASED ######
+2011-09-29 Sasa Bojanic <sasaboy@together.at>   
+   # LDAPPageSize option added to the configuration - now searches will not return partial results 
+     because of LDAP server's size limit
+
+###### TWE 4.2-1 RELEASED ######
+2011-09-19 Sasa Bojanic <sasaboy@together.at>
+   # Code modified to support WfXML access through HTTPS
+   # TXM updated to version 1.2-1
+   
+2011-08-30 Sasa Bojanic <sasaboy@together.at>
+   # try/catch blocks removed from build.xml files
+
+2011-08-19 Sasa Bojanic <sasaboy@together.at>
+   # build scripts corrected so the sources can be built if they are in the folder which contains spaces in the path
+
+2011-07-22 Sasa Bojanic <sasaboy@together.at>
+   # now only producing twe.zip for TWS dependency
+
+2011-07-21 Sasa Bojanic <sasaboy@together.at>
+   # now possible to manualy specify "buildid" configuration parameter (e.g. configure -buildid 20110721-0808)
+
+###### TWE 4.1-1 RELEASED ######
+2011-06-15 Sasa Bojanic <sasaboy@together.at>
+   # improved recognizing of 32/64 bit Java versions when installing through NSIS setup
+
+2011-05-24 Sasa Bojanic <sasaboy@together.at>
+   # dependency output for TWS is now in the same folder structure as appears in TWS (tws/Shark/tools/twe)
+
+2011-04-19 Sasa Bojanic <sasaboy@together.at>
+   # TWE dependency output for TWS now also contains jxpdl.jar
+   
+2011-04-14 Sasa Bojanic <sasaboy@together.at>
+   # buildDoc target now also builds JavaDoc API documentation
+
+2011-04-04 Sasa Bojanic <sasaboy@together.at>
+   # Project restructured, build scripts changed (nsis moved to tools folder, docbook files moved to tools\docbook folder)
+
+2011-04-02 Sasa Bojanic <sasaboy@together.at>
+   # Project restructured, build scripts changed (all libraries now in tools sub-folders)
+
+2011-04-01 Sasa Bojanic <sasaboy@together.at>
+   # Some classes changed name (*GraphParticipant* to *GraphSwimlane*).
+   # API docu improved
+   
+2011-03-28 Sasa Bojanic <sasaboy@together.at>
+   # jxpdl.jar updated to SVN Revision 54
+   # Added support for "Script" Activity type (TaskScript from XPDL).
+   # Improved property panels for DataField and FormalParameter elements
+   # Changed property panels for ActualParameter/InitialValue/DeadlineDuration/Condition elements
+   # Various improvements
+   
+2011-03-23 Sasa Bojanic <sasaboy@together.at>
+   # Removed dependency to TAS
+   
+2011-03-22 Sasa Bojanic <sasaboy@together.at>
+   # readregistry.exe replaced with the newer version now comming from its own project TRR (Together Read Registry), version 1.0-1
+ 
+2011-03-16 Sasa Bojanic <sasaboy@together.at>
+   # Updated JAR's MANIFEST information
+
+2011-03-07 Sasa Bojanic <sasaboy@together.at>
+   # Not packaging Java API documentation into distribution zip/tar.gz/exe/rpm files
+
+2011-03-04 Sasa Bojanic <sasaboy@together.at>
+   # Docbook upgraded to version 1.76.1
+
+2011-03-03 Sasa Bojanic <sasaboy@together.at>
+   # Occurrence of twe@together.at in various source files changed to twe@togetherteam.co.th
+
+2011-02-24 Sasa Bojanic <sasaboy@together.at>
+   # Fixed bug with copying processes/activity sets from "transient" packages
+   # Fixed: not creating unnecessary NodeGraphicsInfo element for Pools when process/activity set gets copied
+   
+2011-02-23 Sasa Bojanic <sasaboy@together.at>
+   # The build.debug property removed from build.properties file, new build target "debug" introduced 
+     to build TWE JAR files with DEBUG information in the classes
+   # The project distribution now also contains debug folder with TWE JAR files that include DEBUG information     
+
+2011-02-22 Sasa Bojanic <sasaboy@together.at>
+   # Added "silent" installation possibility
+
+2011-02-20 Sasa Bojanic <sasaboy@together.at>
+   # Updated screenshots
+
+2011-02-18 Sasa Bojanic <sasaboy@together.at>
+   # Ant libraries upgraded to version 1.8.2 (removed ant-nodeps.jar)
+   # Xerces library upgraded to version 2.11.0
+   # Commons IO library upgraded to version 2.0.1
+   # XML Commons library upgraded to version 1.4_01
+   # XML Graphics Commons library upgraded to version 1.4
+   # FOP library upgraded to version 1.0
+   # iText library upgraded to version 5.0.6
+   # Fixed "Save as PDF" action bug
+   
+2011-02-15 Sasa Bojanic <sasaboy@together.at>
+   # jxpdl.jar updated to SVN version 1.0-1 SVNR35
+   # Fix for migrating from XPDL 1: Proper handling of Start/End event connections when migrating 
+     from XPDL 1 created by older version of JaWE (the case of circular transitions)
+
+###### TWE 4.0-1 RELEASED ######
+
+2011-02-09 Sasa Bojanic <sasaboy@together.at>
+   # Now supporting XPDL 2.1 and BPMN
+   # Using jxpdl.jar file, the output of Together XPDL Model(TXM)/jXPDL project. 
+     This contains the XPDL 2 model classes that were previously the part of 
+     Enhydra Shark (Together Workflow Server) project
+   # Automatic migration of XPDL 1.0 files into XPDL 2.1 files:
+      - Inserting pools and lanes for each workflow process definition
+      - Migrating Ids for activities and activity sets - must be unique on the package level (done by TXM)
+      - Migrating Tool activities into Task-Application activities, if there are more than one 
+        tool for the activity - new activities get created and connected sequentially (done by TXM)
+      - Migrating activities (other than Route activities) with Join type different than XOR and Split 
+        type different than AND by creating additional Route (gateway) activities that are
+        containing those Join/Split types, and connecting them sequentially (done by TXM)
+      - Migrating Route activities with different Join/Split type into two seperate activities and 
+        connecting them sequentially (done by TXM)
+      - Migrating old Deadline's DeadlineCondition into DeadlineDuration sub-element, according to 
+        new schema (done by TXM)
+      - Migrating old XOR/AND Join/Split types into Exclusive/Parallel, according to new schema (done by TXM)
+      - Removing FormalParameter Index attribute, according to new schema (done by TXM)
+      - Migrating IsArray attribute value (of DataField element) from TRUE into true and from FALSE 
+        into false, according to new schema (done by TXM)
+      - Migrating Activity's Start/Finish mode elements into appropriate attributes according to new 
+        schema (done by TXM)
+      - Migrating Activity's Performer element into Performers element according to new schema (done by TXM)
+      - Migrating order of WorkflowProcess sub-elements(DataFields,Participants,Applications -> Participants,
+        Applications, DataFields) (done by TXM)
+        
+   # Using BPMN graphical notation for Graph component
+   # Partial XPDL2.1/BPMN support:
+      - Using Pools and Lanes (supported nesting of lanes)
+      - Support for Artifacts (DataObject and Annotation type) and Associations
+      - Support for Start and End event Activities
+      - Support for Task-Application activities (Tool activities from XPDL 2.1 converted 
+        into Task-Application activities)            
+      - Support for Graphical notation elements that hold information about position, 
+        color, etc. of the objects (removed extended attributes previously used for that purpose)
+   # Introduced possibility to change graphical element colors and sizes (information 
+     written into appropriate XPDL2.1 entities)
+   # Sub-Flow and Block activity now showing their graphs when single-clicking on the 
+     rectangle area that graphically describes such activities
+   # New actions to show and hide transition conditions (expressions) in/from the graph
+   # New actions to show/hide artifacts and associations in/from the graph
+   # Property panels for elements adjusted according to new XPDL 2.1 schema/specification
+   # Validation adjusted according to new XPDL 2.1 schema/specification
+   # Documentation updated
+   # XPDL2.1 samples added (now there are old XPDL1.0 samples,and corresponding XPDL2.1 samples)
+   # Build procedure updated
+   # twe-includes.xlsx file with the list of 3rd party libraries updated
+   # Removed wfmopen configuration since WfMOpen engine still does not support XPDL 2
+   # Removed purexpdl configuration - does not make sense any more since TWE 4.x does not 
+     use extended attributes for storing graphical information (standard XPDL 2 elements are used now)
+        
+###### TWE 3.3-1 RELEASED ######
+2010-11-18 Sasa Bojanic <sasaboy@together.at>
+   # readme files for source and binary distributions removed - all the information now contained within the user manual
+   # New sub-section "Rebranding" in "Build Guide" chapter
+
+2010-11-05 Sasa Bojanic <sasaboy@together.at>
+   # added docbook license text, corrected license for docbook-xsl in twe-includes.xslx
+   # improved linux configure scripts
+
+2010-11-01 Sasa Bojanic <sasaboy@together.at>
+   # improved NSIS script - now size of TWE is displayed in Control panel Add/Remove
+   
+2010-10-30 Sasa Bojanic <sasaboy@together.at>
+   # jEdit-Syntax binary code replaced with "home-build" version of projects' CVS sources.
+     (The problem was that the downloaded 2.2.1 version source code didn't match the binaries)
+     Several *.java source files updated to the new package names
+   # build procedure improved (documentation API build changed to avoid warnings)
+
+2010-10-21 Sasa Bojanic <sasaboy@together.at>
+   # By default using system L&F under Windows, and cross-platform L&F on other systems
+
+2010-10-20 Sasa Bojanic <sasaboy@together.at>
+   # improved L&F handling - Fonts, by default using the default system's L&F font for the Label element, and applying it to all GUI controls
+
+2010-10-11 Sasa Bojanic <sasaboy@together.at>
+   # improved dependency targets (including *.sh for tar.gz, *.bat for zip dependency files for TWS, and both for TAS)
+
+2010-10-11 Sasa Bojanic <sasaboy@together.at>
+   # tas dependency zip now does not contain twe-x.y-z folder structure inside
+   # documentation updated according to the standard template
+
+2010-10-05 Sasa Bojanic <sasaboy@together.at>
+   # now binary output contains twe-doc-current.pdf/html instead of twe-doc-x.y-z.pdf/html. The
+     references from program group also target twe-doc-current.pdf/html documents, and twe-doc-x.y-z.pdf/html
+     are contained inside twe-doc-x.y-z.zip files in the distributions package.
+   
+2010-09-29 Sasa Bojanic <sasaboy@together.at>
+   # documentation - changed license to FDL version 1.3
+   # webstart files updated
+   # webstart is now packed into zip file
+
+2010-09-23 Sasa Bojanic <sasaboy@together.at>
+   # Added docbookx.dtd and other files required to make a local reference to DTD from twe-doc.xml docbook file
+   # Build docu procedure changed (copying docbook required files, and not removing DOCTYPE from twe-doc.xml anymore)
+   
+2010-09-21 Sasa Bojanic <sasaboy@together.at>
+   # Fixed some typos
+   # Improved build procedure so it doesn't fail if sign.properties file does not contain right information
+   
+2010-09-20 Sasa Bojanic <sasaboy@together.at>
+   # dependency_tws: addeed twe.zip and twe.tar.gz files
+   # build guide updated with the part related to sign.properties
+   
+2010-09-16 Sasa Bojanic <sasaboy@together.at>
+   # Branding context and build procedure updated
+
+2010-09-15 Sasa Bojanic <sasaboy@together.at>
+   # removed -optimized parameter for configure script
+   # improved configure scripts for windows and linux
+   # added section into documentation about all possible configure/make targets
+   # twe-includes.xlsx updated
+   # batik-xxx.jar files removed from the project (using batik.jar comming with FOP) - build scripts modified
+
+2010-09-13 Sasa Bojanic <sasaboy@together.at>
+   # Added new XPDL samples
+
+2010-09-10 Sasa Bojanic <sasaboy@together.at>
+   # fix: issues with defining Record and Union type variables
+   
+2010-09-09 Sasa Bojanic <sasaboy@together.at>
+   # twe-doc-current.pdf is now not packed in the zip, but just ends up into community folder like that
+   # program group entry for API docu removed
+   # updated docbook docu
+
+2010-09-08 Sasa Bojanic <sasaboy@together.at>
+   # twe-doc-current.html removed from docu
+   # docu in documentation folder of the distribution is now unpacked
+
+2010-09-07 Sasa Bojanic <sasaboy@together.at>
+   # fixed docbook docu and build scripts to solve picture and table sizing issues in PDFs
+   # added TAS dependency build (the zip file which is same as a normal but with a twe.zip name)
+
+2010-09-03 Sasa Bojanic <sasaboy@together.at>
+   # added copyright and GPL V3 comment at top of every source file where missing (including *.xml, *.properties, *.xpdl... files)
+   # docbook documentation twe.xml renamed to twe-doc.xml
+   # XPDL sample files opened and saved with the newest version of editor
+   # Standardized make/configure targets
+   # Project license now goes to licenses folder, together with other licenses
+   # Release notes merged into the single docbook documentation file
+   # documentation and screenshot zip file now also goes into community folder of the distribution
+   # documentation zip now also contains twe-doc-current.pdf and twe-doc-current.html files
+   # BuildID.txt file added to the binary output and to the distribution's internal folder - it specifies the time when the release was built
+   # source distribution does not contain build.properties file anymore
+   # source distribution does not contain unnecessary temporary files anymore
+   # saxon removed from the project
+   # xalan added to the project
+   # xalan used to produce docbook related documentation
+   # documentation build procedure corrected to remove the entries from docbook file that tell xalan to go to internet
+   # fixed issue with building RPM distributions from SVN sources on Linux
+   # company name in various source files changed to Together Teamsolutions Co., Ltd.
+   # build number (in about box) does not contain C anymore
+   # when XPDL file gets created by the editor, Vendor name now set to (c) Together Teamsolutions Co., Ltd.
+   # docbook upgraded to version 1.75.2
+   # link to the homepage changed
+   
+###### TWE 3.2-2 RELEASED ######
+2010-08-30 Sasa Bojanic <sasaboy@together.at>
+   # Updated sharkxpdlmodel.jar to version 3.2-2
+   # build.xml - cleanup related to exclusion of doc\tmp folder from source build
+
+2010-08-29 Sasa Bojanic <sasaboy@together.at>
+   # Updated Together license
+   # Added copyright and GPL V3 comment at top of every source file
+
+2010-08-27 Sasa Bojanic <sasaboy@together.at>
+   # Fix in Utils.java class - path with empty space problem and findPropertyFiles() method usage in eclipse
+   
+###### TWE 3.2-1 RELEASED ######
+2010-07-29 Sasa Bojanic <sasaboy@together.at>
+   # twe-includes.txt file replace with twe-includes.xlsx
+
+2010-06-28 Sasa Bojanic <sasaboy@together.at>
+   # NSI file for setup improved to detect 64bit JAVA
+
+2010-06-28 Sasa Bojanic <sasaboy@together.at>
+   # updated license files
+
+2010-06-04 Sasa Bojanic <sasaboy@together.at>
+   # jgraph updated to version 5.13.0.4. Code updated accordingly.
+
+2010-06-03 Sasa Bojanic <sasaboy@together.at>
+   # jEdit-syntax.jar updated to version 2.2.2. Code updated accordingly. Enabled copying from XPDLView component.
+   # JavaHelp library updated to version 2.0_05
+   # fop libraries updated to version 0.95 (new JAR files added, one JAR renamed, twe.xml updated so PDF generation works properly)
+   # saxon library updated to version 6.5.5
+   # xerces library updated to version 2.9.1
+   # build procedure changed to leave-out itext.jar when making customer specific distribution
+   # updated iText.jar library to version 5.02 (code updated accordingly to iText changes, added new AGPL license for iText to the sources)
+   # updated antcontrib.jar library to version 1.0beta3
+   # updated ant*.jar libraries to version 1.8.1, removed ant-trax.jar
+   # updated batik*.jar libraries to version 1.7, added two additional jars (batik-codec.jar and batik-ext.jar)
+   # twe.xml docu updated (no OW2)
+   
+2010-05-27 Sasa Bojanic <sasaboy@together.at>
+   # refactorization of modules (no commercial modules anymore)
+   # changes to build procedure
+   # changes to splash-screen (no OW2 logo)
+   
+2010-05-23 Sasa Bojanic <sasaboy@together.at>
+   # License-TOG.txt needs to be in SVN
+   # build.xml - clean procedure improved
+
+2010-05-11 Sasa Bojanic <sasaboy@together.at>
+	# TWS updated to version 3.1-3
+	# new target for making dependencies output for TWS
+	# SVN IGNORE defined
+
+###### TWE 3.1-2 RELEASED ######
+
+2010-03-25 Aleksandar Stojsavljevic <aleksandar.stojsavljevic@prozone.rs>
+	# Fixed javadoc creation - increased max memory size to 128m
+
+###### TWE 3.1-1 RELEASED ######
+
+2010-03-09 Aleksandar Stojsavljevic <aleksandar.stojsavljevic@prozone.rs>
+	* Ant updated to version 1.8.0
+	
+2010-02-09 Sasa Bojanic <sasa.bojanic@prozone.rs>
+	* Build procedure changed to pack "customer" version of TWE (without JPEd specific stuff)
+
+###### TWE 3.0-2 RELEASED ######
+	
+2010-01-04 Sinisa Tutus <sinisa.tutus@prozone.rs>
+	* util\make\readregistry.exe: file is signed.
+
+2009-12-21 Sinisa Tututs <sinisa.tutus@prozone.rs>	
+	# readregistry.nsi script is improved; 
+	  readregistry.exe is able to get information about Java from 64bit part of the registry.
+
+2009-12-10 Sinisa Tututs <sinisa.tutus@prozone.rs>
+   # NSIS tool is updated to version 2.46
+   
+2009-11-22 Sasa Bojanic <sasa.bojanic@prozone.rs>
+   # introduced possibility to start JaWE in non-frame/dialog mode
+   
+###### TWE 3.0-1 RELEASED ######
+
+2009-09-03 Vladimir Puskas <vpuskas@prozone.rs>
+   # prep'd linux distro (dist.sh, configure, etc.)
+
+2009-05-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved expression's validation
+
+2009-05-06 Sasa Bojanic <sasa@prozone.co.yu>
+   # Problems component view now depends on selection (Package/Workflow Process/ActivitySet)
+
+2009-05-06 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   # Added KeyListener in JEditTextArea to support 
+     copy, cut, paste, selectAll shortcuts from keyboard
+
+2009-04-22 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   # Added one more button with drop-down list on participant panel.
+
+2009-04-14 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   # Implemented highlight editor in deadline expression field and in action parameter field.
+   # Created a new panel on the action detail page, which includes the participant text field 
+     with highlight editor, a button with drop-down list and the participant detail button.
+
+2009-04-13 Sinisa Tutus <sinisa.tutus@prozone.rs>
+   #Implemented highlight editor in transition expression field for 
+    JavaScript, java, xml and ecmascript. 
+
+2009-01-13 Danijel Predarski <danijel.predarski@prozone.rs>
+   # Improved D&D of table entries
+   # Implemented sorting functionality for tables
+
+
+###### TWE 2.4-1 RELEASED ######
+
+2008-06-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # Shark configuration adjustement to new shark version: PROCESS_ID and ACTIVITY_ID
+     can be used in transition condition's and as actual parameters
+
+2008-04-04 Sasa Bojanic <sasa@prozone.co.yu>
+   # Implemented possibility to switch DataField to a FormalParameter and vice-versa
+
+2008-03-31 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed bug with external packages (when newly opened XPDL has the external package with the same Id 
+     but different location as the one opened before)
+   
+2008-03-20 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved property panels
+   # Core extended to support new ext. attribute types per their parent object (Activity, Application, ...)
+
+
+###### TWE 2.3-2 RELEASED ######
+
+2007-12-17 Sasa Bojanic <sasa@prozone.co.yu>
+   # Implementation-Version attribute included into MANIFEST of jar files
+
+2007-12-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug in SharkXPDLObjectFactory - wasn't able to add variables for SWC or SwingAdmin purposes
+   # Improved: installation procedure - language dependent stuff and links to the application
+               from start menu
+   
+2007-12-06 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug in ExternalPkgRelations component (NPE when selecting Arbitrary Expr. Particip.)
+   # Fixed: twebasic.properties file for Pure XPDL configuration
+
+###### TWE 2.3-1 RELEASED ######
+
+2007-11-26 Sasa Bojanic <sasa@prozone.co.yu>
+   # Replaced: JRE 1.5.0_05 with JRE 1.6.0_03
+   # Adjusted: build scripts so it works for public community sources
+
+
+2007-11-21 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: build procedure is now faster (caching generated documentation)
+   # Improved: architectural changes to support add-on architecture
+   # Improved: community version now can also display the result of References and Search action
+
+2007-11-13 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: language switch is now possible in run-time
+
+2007-11-09 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: option buttons displayed for the language and configuration choices
+   # Improved: Defined configuration file which contains information about configuration name
+               to be displayed for the choices and in the title bar.
+
+2007-11-08 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: TWE core so that you can add new object types without coding (just by configuration)
+               Now we use templates for new object types (XPDL fragments)
+   # Added: additional language property file that can be changed in configuration folders.
+
+2007-10-19 Sasa Bojanic <sasa@prozone.co.yu>
+   # Added: portuguese language property file
+   # Added: new component for LDAP participant handling
+   # Removed: old action for handling LDAP participants
+
+2007-09-28 Sasa Bojanic <sasa@prozone.co.yu>
+   # Improved: language usage issues (parser, JOptionPane, JFileChooser, missing strings,etc.)
+
+2007-09-10 Aleksandar Stojsavljevic <alex@prozone.co.yu>
+   # Added: branding directory and logic for rebrending project if rebranding=true in build.properties
+
+2007-08-03 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug when adding external package which contains processes with activity sets
+            and when "automatic layouting" is turned on.
+
+2007-07-19 Sasa Bojanic <sasa@prozone.co.yu>
+   # Fixed: bug in handling of transient packages that appeared when you have transient
+            package in the pool and you try to open XPDL from unexisting file - this
+            caused all packages to unload from XMLInterface and after it happens it was
+            possible to have two XPDLs with same Id in TWE.
+   # Improved build procedure - added ant target to build release notes (community and prof)
+
+###### TWE 2.2-1 RELEASED ######
+
+2007-07-18 Sasa Bojanic <sasa@prozone.co.yu>
+   # XMLInterface changed - removed method getIdFromFile (become a static method of XMLUtil class)
+   # Code corrections based on FindBugs report
+
+2007-07-17 Sasa Bojanic <sasa@prozone.co.yu>
+   # fixed bug with reading of language property files from jar file - TWE couldn't read
+     it if there are spaces in the path where TWE is installed
+   # fixed bug with XMLCheckBoxPanel - whenever mouse was over, an apply
+     button was enabled as if something has changed in a panel
+   # implemented option to validate and report if XPDL variable is not used
+
+2007-07-14 Sasa Bojanic <sasa@prozone.co.yu>
+   # implemented capability to search XPDL elements by specified criteria
+
+2007-07-13 Sasa Bojanic <sasa@prozone.co.yu>
+   # all menu entries got icons
+   # more icons added in tree-like views
+
+2007-07-12 Sasa Bojanic <sasa@prozone.co.yu>
+   # expand all/collapse all now context sensitive for all tree-like components
+
+2007-07-11 Sasa Bojanic <sasa@prozone.co.yu>
+   # default configuration now has workflow_patterns.xpdl as transient package
+
+2007-07-06 Sasa Bojanic <sasa@prozone.co.yu>
+   # changed tree-views so that top level nodes also show a (+) when holding subelements
+   # updated spanish translation (JaWE_es.properties) contributed to JaWE by Sergio Reyes.
+     Build files updated to include spanish translation into distribution.
+

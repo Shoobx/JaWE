@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<preface version="5.0" xml:id="preface" xmlns="http://docbook.org/ns/docbook">
+  <title>Preface</title>
+
+  <para><link xlink:href="http://www.together.at/prod/workflow/twe"
+  xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Editor</link>
+  is a visual tool for creating, managing and reviewing process definitions
+  stored in WfMC XPDL syntax, using BPMN graphical notation.</para>
+
+  <para>Put simple, Together Workflow Editor allows you to quickly create or
+  view XPDL workflow definition files, check and store them for the further
+  use. Once a definition is proven valid, it can be referenced by new
+  definitions, thus shortening the time and effort needed to define workflow
+  processes or imported into workflow engines capable of XPDL for
+  execution.</para>
+
+  <sect1>
+    <title>About Workflow</title>
+
+    <para>From the <link xlink:href="http://www.wfmc.org"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Workflow Management Coalition
+    website</link>:</para>
+
+    <sect2>
+      <title>Why Should a Business Use Workflow ?</title>
+
+      <para>The Evolution of Workflow Workflow Management consists of the
+      automation of business procedures or "workflows" during which documents,
+      information or tasks are passed from one participant to another in a way
+      that is governed by rules or procedures. Workflow software products,
+      like other software technologies, have evolved from diverse origins.
+      While some offerings have been developed as pure workflow software, many
+      have evolved from image management systems, document management systems,
+      relational or object database systems, and electronic mail
+      systems.</para>
+    </sect2>
+
+    <sect2>
+      <title>The Key Benefits</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Improved efficiency - automation of many business processes
+          results in the elimination of many unnecessary steps</para>
+        </listitem>
+
+        <listitem>
+          <para>Better process control - improved management of business
+          processes achieved through standardizing working methods and the
+          availability of audit trails</para>
+        </listitem>
+
+        <listitem>
+          <para>Improved customer service - consistency in the processes leads
+          to greater predictability in levels of response to customers</para>
+        </listitem>
+
+        <listitem>
+          <para>Flexibility - software control over processes enables their
+          re-design in line with changing business needs</para>
+        </listitem>
+
+        <listitem>
+          <para>Business process improvement - focus on business processes
+          leads to their streamlining and simplification</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Open source</title>
+
+    <para>Together Workflow Editor is available as an Open Source as the
+    Enhydra JaWE (Java Workflow Editor) project under the GPL V3
+    license.</para>
+
+    <para><link xlink:href="http://sourceforge.net/projects/jawe"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Enhydra JaWE</link> is an <link
+    xlink:href="http://www.opensource.org"
+    xmlns:xlink="http://www.w3.org/1999/xlink">open source</link> project
+    hosted by <link xlink:href="http://sourceforge.net"
+    xmlns:xlink="http://www.w3.org/1999/xlink">SourceForge</link> , with the
+    goal to deliver a production quality tool for graphical creation and
+    viewing of WfMC XPDL process definitions. It results from real world
+    projects in which the painful task of writing XML with general purpose XML
+    editors had to be done again and again. This project is developed mainly
+    by employees of <link xlink:href="http://www.together.at"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Together Teamsolutions Co.,
+    Ltd</link> but also contains lots of input and improvements from the many
+    users worldwide. Enhydra JaWE has a rapidly growing community and is also
+    integrated in other open source projects like <link
+    xlink:href="http://www.together.at/prod/server/tas"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Enhydra Server</link> - a
+    professional Java and J2EE application server and <link
+    xlink:href="http://sourceforge.net/projects/sharkwf"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Enhydra Shark</link> - the most
+    flexible Open Source WfMC XPDL workflow engine available. Its use is <link
+    xlink:href="http://www.gnu.org/philosophy/philosophy.html"
+    xmlns:xlink="http://www.w3.org/1999/xlink">"Free as in Freedom"</link> and
+    licensed under the <link xlink:href="http://www.gnu.org"
+    xmlns:xlink="http://www.w3.org/1999/xlink">GNU </link><link
+    xlink:href="http://www.gnu.org/copyleft/gpl.html"
+    xmlns:xlink="http://www.w3.org/1999/xlink">GPL V3 license</link> defined
+    by the <link xlink:href="http://www.gnu.org/fsf/fsf.html"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Free Software Foundation
+    FSF</link>.</para>
+  </sect1>
+
+  <sect1>
+    <title>Commercial Support</title>
+
+    <para>Commercial support for Together Workflow Editor including
+    development of project specific extensions or integration into other
+    environments and projects is offered by Together Teamsolutions Co., Ltd
+    located in Pattaya/Thailand/Asia (<link
+    xlink:href="mailto: office@together.at"
+    xmlns:xlink="http://www.w3.org/1999/xlink">mailto:
+    office@together.at</link>).</para>
+  </sect1>
+
+  <sect1>
+    <title>Why read this book ?</title>
+
+    <para>This book is designed to be the clear, concise explanation and
+    reference to Together Workflow Editor and its usage to graphically design
+    and view WfMC XPDL process definitions.</para>
+
+    <para>We hope to answer all the questions that you might have about all
+    the various XPDL elements, their meanings and how to view and edit them
+    with Together Workflow Editor. In particular, this covers the following
+    subjects:<itemizedlist>
+        <listitem>
+          <para>The structure of the editor and its components.</para>
+        </listitem>
+
+        <listitem>
+          <para>Editing dialogs and property panels for all XPDL
+          elements.</para>
+        </listitem>
+
+        <listitem>
+          <para>The relationship between XPDL and Together Workflow Editor
+          including in depth explanantions of all XPDL elements.</para>
+        </listitem>
+
+        <listitem>
+          <para>Information how to configure and customize Together Workflow
+          Editor to your needs.</para>
+        </listitem>
+
+        <listitem>
+          <para>A step by step introduction how to build XPDL definitions from
+          scratch.</para>
+        </listitem>
+      </itemizedlist></para>
+  </sect1>
+
+  <sect1>
+    <title>This book's audience</title>
+
+    <para>We expect that most readers will have some familiarity with XML and
+    workflow. Even if you just know what processes and activities are, you’re
+    in good shape. Although this book provides basic introductions to key
+    concepts, it may not suffice as your only tutorial about XPDL, XML, and
+    workflow systems.</para>
+
+    <para>Readers of this book are typically developers, workflow modelers and
+    workflow system administrators.</para>
+
+    <para>Some sections in this book describe certain environments like
+    Microsoft Windows or Linux, although there is nothing about Together
+    Workflow Editor that makes it unsuitable for the Mac or any other
+    environment of your choice, as long as the defined software prerequisites
+    (basically a JRE - Java Runtime Environment 1.8) are met.</para>
+  </sect1>
+
+  <sect1>
+    <title>Organization of this book</title>
+
+    <para>This book is divided into the following chapters:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Introduction - What is Together Workflow Editor all about
+        ?</para>
+      </listitem>
+
+      <listitem>
+        <para>Installation Guide - How to install TWE</para>
+      </listitem>
+
+      <listitem>
+        <para>User Interface - Explanation of the user interface components,
+        menus and toolbars</para>
+      </listitem>
+
+      <listitem>
+        <para>Dialogs and Property Panels - How to handle editor dialogs and
+        XPDL property panels</para>
+      </listitem>
+
+      <listitem>
+        <para>XPDL Elements - What they are, how they are related and how to
+        create, edit and view them</para>
+      </listitem>
+
+      <listitem>
+        <para>XPDL from Scratch - How to create your first XPDL file</para>
+      </listitem>
+
+      <listitem>
+        <para>Configuration - How to tailor the Editor to your needs</para>
+      </listitem>
+
+      <listitem>
+        <para>Customization - How to extend the Editor with additional
+        functionality</para>
+      </listitem>
+
+      <listitem>
+        <para>Extended Attribute Reference - XPDL Extended Attributes used by
+        the Editor itself</para>
+      </listitem>
+
+      <listitem>
+        <para>Build Guide - How to compile, build and package your own version
+        of TWE from the source code</para>
+      </listitem>
+
+      <listitem>
+        <para>Release notes - Notes about the major changes in each
+        release</para>
+      </listitem>
+    </orderedlist>
+  </sect1>
+
+  <!--
+    <sect1>
+      <title>Conventions used in this book</title>
+
+      <para>to be done</para>
+    </sect1>
+-->
+
+  <sect1>
+    <title>Request for Comments</title>
+
+    <para>Please help us to improve future editions of this book by reporting
+    any errors, inaccuracies, bugs, misleading or confusing statements, and
+    plain old typos that you find. Email your findings to <link
+    xlink:href="mailto:twe@together.at"
+    xmlns:xlink="http://www.w3.org/1999/xlink">twe@togetherteam.co.th</link>.
+    Thanks.</para>
+  </sect1>
+
+  <sect1>
+    <title>Acknowledgements</title>
+
+    <para>Many thanks go to the Swiss company <link
+    xlink:href="http://www.abacus.ch"
+    xmlns:xlink="http://www.w3.org/1999/xlink">ABACUS</link> for sponsoring
+    major parts of the Together Workflow Editor Version 2.0
+    development.</para>
+  </sect1>
+
+  <sect1>
+    <title>About the Authors</title>
+
+    <para>All authors are directly involved in one way or the other into the
+    core development of Together Workflow Editor and Enhydra JaWE.</para>
+  </sect1>
+
+  <sect1>
+    <title>Together Teamsolutions Co., Ltd</title>
+
+    <para>Together Teamsolutions Co., Ltd has been active for many years
+    primarily in the area of workflow, database and document management
+    solutions.</para>
+
+    <para>In addition to the organizational and implementation services, these
+    application areas are supplemented by the operation of solutions (system
+    rollout, 24x7 hotline, training) as well as product development,
+    consulting services (business process analysis and modelling),
+    publications and presentations. The associated topics needed for real
+    world projects, e.g. imaging, OCR, host integration, archiving, computer
+    telephone integration, digital signatures, backup, performance tuning,
+    reporting, systems administration and hardware sizing are also covered,
+    continuously maintained and expanded.</para>
+
+    <para>Together Teamsolutions Co., Ltd is directly involved into the
+    development of the XPDL standards specification.</para>
+  </sect1>
+
+  <sect1>
+    <title>Enhydra</title>
+
+    <para>The Enhydra.org project has its focus on E-Business middleware
+    software. It now consists of many developers from over 50 countries. Many
+    of these are able to offer commercial products, support, consulting and
+    training.</para>
+
+    <para>Enhydra.org started with Enhydra, the first and leading Open Source
+    Java/XML application server. It was initially created by Lutris
+    Technologies, Inc. which already disappeared from the market. After 4
+    years in development it was open sourced on Janurary 15th 1999. They named
+    the technology "Enhydra" after the California sea otter (Enhydra Lutris) -
+    a popular inhabitant of Santa Cruz.</para>
+
+    <para>Big parts of Enhydra development are now sponsored by Together
+    Teamsolutions Co., Ltd located in Thailand. One of the outcomes of this
+    sponsorship is Enhydra JaWE / Together Workflow Editor.</para>
+  </sect1>
+
+  <sect1>
+    <title>JaWE</title>
+
+    <para>JaWE - Java Workflow Editor - is the Open Source project of Together
+    Workflow Editor. It is fully useable to edit, view and save complete XPDL
+    files and licensed under GPL V3. Sources are publicly available in the
+    projects CVS repository hosted at SourceForge</para>
+  </sect1>
+
+  <sect1>
+    <title>WfMC - The Workflow Management Coalition</title>
+
+    <para>Founded in August 1993, the Workflow Management Coalition (WfMC) is
+    a non-profit, global organization of adopters, developers, consultants,
+    analysts and university/research groups engaged in Business Process
+    Management (BPM). Workflow or BPM is the technology that supports people
+    to do their work. Resulting benefit is more efficiency, traceability,and
+    quality improvements.</para>
+
+    <para>WfMC creates and contributes to process related standards and
+    educates on the benefits of process automation. WfMC is the only standards
+    organization that concentrates purely on process. WfMC created XPDL and
+    Wf-XML and had influence on BPMN, OMG workflow interface, ASAP and many
+    other process related standards.</para>
+  </sect1>
+
+  <sect1>
+    <title>JGraph</title>
+
+    <para><link xlink:href="http://www.jgraph.com"
+    xmlns:xlink="http://www.w3.org/1999/xlink">JGraph</link> is a powerful,
+    easy-to-use, feature-rich and standards-compliant open source graph
+    component available for Java. This library is used in Together Workflow
+    Editor for graphical representation of process layouts (graph
+    component).</para>
+  </sect1>
+
+  <sect1>
+    <title>Docbook</title>
+
+    <para>This book was written using <link
+    xlink:href="http://www.docbook.org"
+    xmlns:xlink="http://www.w3.org/1999/xlink">DocBook</link> and the <link
+    xlink:href="http://www.xmlmind.com/xmleditor"
+    xmlns:xlink="http://www.w3.org/1999/xlink">XML Mind XML
+    Editor</link>.</para>
+  </sect1>
+</preface>
