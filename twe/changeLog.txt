@@ -1,5 +1,7 @@
 ###### TWE 5.6-1 RELEASED ######
 
+###### TWE 5.5-2 RELEASED ######
+
 ###### TWE 5.5-1 RELEASED (2017-07-22) ######
 
 ###### TWE 5.4-6 RELEASED ######
