@@ -328,11 +328,16 @@ Function Check_JavaVersionNumber
 	# get current version of java
     ReadRegStr $0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"
  
+     ${If} $0 S< $TOG_JavaFullVersionSupport
+         ;Check again for Java 10
+		ReadRegStr $0 HKLM "SOFTWARE\JavaSoft\JRE" "CurrentVersion"
+    ${EndIf}
+	
 check_java_version_number:	
     ${If} $0 S< $TOG_JavaFullVersionSupport
          ;requirement not met.
 		 # show warning to user befor quit install.
-		StrCpy $1 $TOG_JavaFullVersionSupport "" 2
+		 StrCpy $1 $TOG_JavaFullVersionSupport "" 2	
 		MessageBox MB_OK "${APP_NAME} is support for java $TOG_JavaFullVersionSupport or higher version. $\nPlease install Java $TOG_JavaFullVersionSupport or higher version before install ${APP_NAME}." IDOK quit_instaillation
     ${EndIf}
 	
@@ -361,7 +366,7 @@ Function Check_JavaHome
 		${EndIf}
     ${Else}
         ReadRegStr $TOG_JavaHome HKCU "Environment" "JAVA_HOME"
-
+		ClearErrors
         IfFileExists $TOG_JavaHome\bin\javaw.exe 0 +2
             Goto javahome_alive
         Goto javahome_donot_exist
