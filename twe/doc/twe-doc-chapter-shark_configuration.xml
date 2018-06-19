@@ -1,0 +1,1146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="shark_configuration"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>Shark configuration</title>
+
+  <para>As described in previous chapter, it is often a good idea to customize
+  TWE in a way to support the specifics of workflow engine where XPDL will be
+  deployed.</para>
+
+  <para>Shark configuration is customization that is targeting specifics of
+  Shark engine (<link xlink:href="http://www.together.at/prod/workflow/tws"
+  xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server</link>)
+  where a certain XPDL restrictions are applied, special property panels for
+  easy editing of shark specific extended attributes are provided, shark
+  specific XPDL validation is present, etc.</para>
+
+  <para>Configuration differences between "Default" and "Shark" configuration
+  are done in two ways. First are differences done only by changing
+  configuration in property files (as described in <xref
+  linkend="configuration"/>), and the second are the differences done both by
+  changing property file configuration and writting additional/extending
+  existing Java code.</para>
+
+  <para>Differences by changing the property file entries only are:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para>Different L&amp;F background color (achieved by changing
+      <emphasis>BackgroundColor</emphasis> property in all the property files
+      for GUI components - we use yellow background instead of default
+      white)</para>
+    </listitem>
+
+    <listitem>
+      <para>Hidding of XPDL elements that are not supported/used by Shark
+      (achieved by adding/editing
+      <emphasis>detailedpackagenavigator.properties</emphasis>,
+      <emphasis>propertiespanelcomponent.properties</emphasis> and
+      <emphasis>togweeditor.properties</emphasis> files).</para>
+
+      <note>
+        <para>Here we are also hidding shark specific extended attributes not
+        to be visible in the property panel table or in the tree-view. This is
+        because we are showing this attributes as they are native properties
+        of corresponding elements (Activity, DataField, WorkflowProcess,
+        Package)</para>
+      </note>
+    </listitem>
+  </itemizedlist>
+
+  <para>All other differences are done by both editing property files and
+  adding/extending java code. Main changes related to property files are in
+  togwebasic.properties where different (shark related) implemenations for
+  different plug-in components are defined to be used. Next are the changes in
+  jawetypes.properties where speciifc XML templates for different workflow
+  elements and new application types (corresponding to Shark's tool agents)
+  are defined. And finally, jawelanguagemisc.properties file is filled-in with
+  necessary shark mode specific language dependent keys/values.</para>
+
+  <para>There are also 3 additional configuration propery files in shark
+  mode:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para>shkappdefchoices.properties - here you can define possible
+      application definitions (for tool agents) that will be shown as options
+      in the GUI</para>
+    </listitem>
+
+    <listitem>
+      <para>shkassmgrchoices.properties - here you can define possible
+      assignment manager plug-ins that will be shown as options in the
+      GUI</para>
+    </listitem>
+
+    <listitem>
+      <para>shkconfigstringchoices.properties - here you can define possible
+      configuration strings that will be shown as options in the GUI</para>
+    </listitem>
+  </itemizedlist>
+
+  <para>There is a special Java package <emphasis
+  role="bold">org.enhydra.jawe.shark</emphasis> which contains different Java
+  classes and resources (images). These classes together with configuration in
+  property files are providing shark specific GUI which represents some
+  extended attributes in a way intuitive for the XPDL modeler. They are also
+  providing many additional things like inserting shark specific variables
+  into different kind of expressions, and finally, they provide validation
+  which forces you to comply to the shark rules. All in all, the editing of
+  XPDL for shark workflow engine becomes much more easy and less
+  error-prone.</para>
+
+  <para>To better understand Shark configuration one should read <link
+  xlink:href="http://www.together.at/prod/workflow/tws/manual"
+  xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+  Manual</link>, especially the chapter <emphasis>XPDL Extended Attributes
+  Usage</emphasis>.</para>
+
+  <para>Here we'll explain the specifics of Shark configuration by comparing a
+  different property dialogs generated in this configuration to the ones
+  generated in the Default configuration.</para>
+
+  <sect1>
+    <title>Difference in property dialog for Package element</title>
+
+    <para>The first difference is representation of variable
+    <emphasis>category</emphasis> as a normal attribute (like Id or Name). The
+    second difference is representation of Script type element. In default
+    configuration it is a text box where you can enter what ever you like.
+    However, shark configuration uses combo-box which limits the options to 3
+    possible predefined types supported by Shark engine.</para>
+
+    <figure>
+      <title>Differences in property dialog for Package element</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/sharkmode-comparison-package-general.png"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Next, shark configuration has 9 additional sections for representing
+    extended attributes in an intuitive way, easy for editing.</para>
+
+    <sect2 xml:id="packageworkflowengineconfig">
+      <title>Workflow engine configuration section</title>
+
+      <para>In this section, one can edit extended attributes for shark
+      workflow engine kernel configuration and some of the plug-in
+      configuration. In the picture below, left side shows extended attributes
+      in Default configuration, and right side shows how are they represented
+      in Shark configuration.</para>
+
+      <figure>
+        <title>Workfow engine configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-workflowengineconfiguration.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 27 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure workflow engine?</emphasis>
+      when un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>E.g. instead of (when using Default configuration) pressing button
+      to create new extended attribute with name
+      <emphasis>UNSATISFIED_SPLIT_CONDITION_HANDLING_MODE</emphasis> and
+      typing the value that has to be either
+      <emphasis>FINISH_IF_POSSIBLE</emphasis>, <emphasis>IGNORE</emphasis> or
+      <emphasis>ROLLBACK</emphasis> (which can be very error-prone) one can
+      simply select the desired value (which is displayed in the language he
+      is using) from the combo-box next to the label <emphasis>Unsatisfied
+      split condition handling mode</emphasis>.</para>
+
+      <para>The similar is for true/false value extended attributes like:
+      USE_PROCESS_CONTEXT_ONLY, ALLOW_UNDEFINED_VARIABLES, TRANSIENT,
+      DELETE_FINISHED, etc. Instead of writting attribute name and putting
+      true or false for its value in Default configuration, in Shark
+      configuration one just checks/un-checks appropriate check-box.</para>
+
+      <para>For the <emphasis>ASSIGNMENT_MANAGER_PLUGIN</emphasis> extended
+      attribute, the approach is to have editable combo-box where you can
+      chose the name of one of existing shark's assignment manger plug-ins
+      (delivered with project) or you can enter the full class name of your
+      own assignment manager. For the existing ones, combo-box entry contains
+      friendly name (defined in shkassmgrchoices.properties mapping property
+      file in shark configuration folder) and as you can see on the left side
+      of the picture (for the default mode), this friendly name is mapped to
+      the full class name.</para>
+
+      <para>For the <emphasis>ASSIGNMENT_MANAGER_DEFAULT_ASSIGNEES</emphasis>
+      extended attribute, in Shark configuration one can add/remove/edit the
+      entries in the <emphasis>Default assignees</emphasis> list control,
+      whilest in Default configuration one should type the name of the
+      extended attribute and then comma-separated values of entries.</para>
+
+      <para>The text controls for defining MAX_ASSIGNMENT and WORKLOAD_FACTOR
+      extended attributes in <emphasis>Workload related assignment manager
+      configuration</emphasis> part are limiting the values you can enter to
+      the digits only.</para>
+
+      <para>The description for the meaning of extended attributes for Shark
+      engine can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in the following places:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>for <emphasis>Kernel configuration</emphasis> part - in the
+          chapter <emphasis>XPDL Extended Attributes Usage</emphasis> section
+          <emphasis>Server-side (kernel) extended attributes</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para>for <emphasis>Standard assignment manager
+          configuration</emphasis> part - in the chapter <emphasis>Plug-In
+          Components</emphasis>, section <emphasis>Assignment Manager
+          plug-ins</emphasis>, sub-section <emphasis>Standard Assignment
+          Manager plug-in</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para>for <emphasis>Workload related assignment manager
+          configuration</emphasis> part - in the chapter <emphasis>Plug-In
+          Components</emphasis>, section <emphasis>Assignment Manager
+          plug-ins</emphasis>, sub-section <emphasis>Workload Related
+          Assignment Manager plug-in</emphasis></para>
+        </listitem>
+
+        <listitem>
+          <para>for <emphasis>XPIL Log event audit manager
+          configuration</emphasis> part - in the chapter <emphasis>Plug-In
+          Components</emphasis>, section <emphasis>Event Audit
+          plug-ins</emphasis>, sub-section <emphasis>XPIL Log Event Audit
+          Manager</emphasis></para>
+        </listitem>
+      </itemizedlist>
+
+      <para>All 19 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level and most of them (13)
+      also by the ones defined at Activity level.</para>
+    </sect2>
+
+    <sect2 xml:id="packagewebclientconfig">
+      <title>Web client configuration section</title>
+
+      <para>In this section, one can edit extended attributes used by shark's
+      Web Client application. In the picture below, left side shows extended
+      attributes in Default configuration, and right side shows how are they
+      represented in Shark configuration.</para>
+
+      <figure>
+        <title>Web client configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-webclient.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 10 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure web client?</emphasis> when
+      un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>For the true/false value extended attributes
+      CHECK_FOR_FIRST_ACTIVITY, DYNAMIC_VARIABLE_HANDLING,
+      CHECK_FOR_CONTINUATION, CHOOSE_NEXT_PERFORMER, ENABLE_REASSIGNMENT
+      instead of writting attribute name and putting true or false for its
+      value in Default configuration, in Shark configuration one just
+      checks/un-checks appropriate check-box.</para>
+
+      <para>For the <emphasis>ActivityDetails.HideDynamicProperties,
+      ActivityDetails.ReadOnlyDynamicProperties, TaskManager.hideControls,
+      TaskManager.turnOffFeatures </emphasis>extended attributes, in Shark
+      configuration one can add/remove/edit the entries in their list
+      controls. When you add/edit attributes, the combo-box shows only allowed
+      values which are not added yet. In the Default configuration one should
+      type the name of the extended attribute and then pipe-separated values
+      of entries which is very error-prone.</para>
+
+      <para>The description for the meaning of extended attributes for Shark's
+      Web Client application can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+      Usage</emphasis> section <emphasis>Client side extended
+      attributes</emphasis>.</para>
+
+      <para>All 10 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level and most of them (7) also
+      by the ones defined at Activity level.</para>
+    </sect2>
+
+    <sect2>
+      <title>Default error handler configuration section</title>
+
+      <para>In this section, one can edit extended attributes used by shark's
+      SMTPNewProcFileSysLog implementation of error handler. This handler has
+      capability to send email, to write (XPIL) log about an error and to
+      start pre-configured error process when tool agent activity error
+      happens. Also, it can be configured what to do with the process/activity
+      in the case tool agent activity error happens, the possible choices are
+      to: "Kepp activity running", "Propagate" error, "Terminate activity" and
+      "Terminate process". In the picture below, left side shows extended
+      attributes in Default configuration, and right side shows how are they
+      represented in Shark configuration.</para>
+
+      <figure>
+        <title>Default error handler configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-errorhandlerconfiguration.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 12 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure error handler?</emphasis> when
+      un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>For the ERROR_HANDLER_RETURN_CODE instead of writting attribute
+      name and setting 0, 1, 2 or 3 for its value in Default configuration, in
+      Shark configuration one just selects one of the choices from Return code
+      combo-box.</para>
+
+      <para>For the true/false type value extended attributes
+      NEWPROC_ERROR_HANDLER_DO_CREATE and FILESYSLOG_ERROR_HANDLER_DO_WRITE
+      instead of writting attribute name and putting true or false for its
+      value in Default configuration, in Shark configuration one just
+      checks/un-checks appropriate check-box.</para>
+
+      <para>The check-box <emphasis>Configure email?</emphasis> when
+      un-checked removes all of mail related extended attributes, and when
+      checked allows you to edit their values in user-friendly way.</para>
+
+      <para>For the true/false type value extended attributes
+      SMTP_ERROR_HANDLER_MODE, SMTP_ERROR_HANDLER_EXECUTION_MODE,
+      SMTP_ERROR_HANDLER_GROUP_EMAIL_ONLY instead of writting attribute name
+      and putting true or false (asynchronous/synchronous) for its value in
+      Default configuration, in Shark configuration one just checks/un-checks
+      appropriate check-box.</para>
+
+      <para>For the SMTP_ERROR_HANDLER_RECIPIENT_PARTICIPANT instead of
+      writting attribute name and participant Id in Default configuration, in
+      Shark configuration one just selects one of the choices from Recipient
+      participant combo-box.</para>
+
+      <para>For the SMTP_ERROR_HANDLER_SUBJECT and SMTP_ERROR_HANDLER_CONTENT
+      extended attributes, Shark configuration provides 4 special choice
+      buttons on the right where one can use system variables, variables,
+      configuration strings and xpdl strings by just clicking and selecting
+      one.</para>
+
+      <para>For the SMTP_ERROR_HANDLER_ATTACHMENTS,
+      SMTP_ERROR_HANDLER_ATTACHMENT_NAMES, SMTP_ERROR_HANDLER_DM_ATTACHMENTS
+      one can add/remove/edit entries in table/list control. The entries for
+      the attachment's content variable are limited to String and Schema type
+      variables which are not already added. The ones for attachment's "name
+      variable or expression", it is limited to String variables and one can
+      also enter the expression (typically hard-coded string value). The ones
+      for DM attachments are limited to String type variables which are not
+      already added.</para>
+
+      <para>In Shark configuration mode there is a powerful validation of
+      these extended attributes. E.g. it is validated if all the variables
+      referenced really exist and if their type is correct. Then also, if
+      variable id changes, that change is automatically reflected in the
+      content of extended attribute.</para>
+
+      <para>The description for the meaning of extended attributes described
+      in this section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in chapter <emphasis>Plug-In Components</emphasis>,
+      section <emphasis>Error Handler plug-ins</emphasis>, sub-section
+      <emphasis>SMTPNewProcFileSysLog Error Handler plug-in</emphasis>.</para>
+
+      <para>All 12 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level and Activity
+      level.</para>
+    </sect2>
+
+    <sect2>
+      <title>Default activity email configuration section</title>
+
+      <para>In this section, one can edit extended attributes used by SMTP
+      Event Audit implementation related to sending emails when activity is
+      assigned to the user. In the picture below, left side shows extended
+      attributes in Default configuration, and right side shows how are they
+      represented in Shark configuration.</para>
+
+      <figure>
+        <title>Default activity email configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-smtpemail-activity-configuration.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 8 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure email?</emphasis> when
+      un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>For the true/false type value extended attributes
+      SMTP_EVENT_AUDIT_MANAGER_MODE_ACTIVITY,
+      SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE_ACTIVITY,
+      SMTP_EVENT_AUDIT_MANAGER_GROUP_EMAIL_ONLY_ACTIVITY instead of writting
+      attribute name and putting true or false (asynchronous/synchronous) for
+      its value in Default configuration, in Shark configuration one just
+      checks/un-checks appropriate check-box.</para>
+
+      <para>For the SMTP_EVENT_AUDIT_MANAGER_SUBJECT_ACTIVITY and
+      SMTP_EVENT_AUDIT_MANAGER_CONTENT_ACTIVITY extended attributes, Shark
+      configuration provides 4 special choice buttons on the right where one
+      can use system variables, variables, configuration strings and xpdl
+      strings by just clicking and selecting one.</para>
+
+      <para>For the SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS_ACTIVITY,
+      SMTP_EVENT_AUDIT_MAANGER_ATTACHMENT_NAMES_ACTIVITY,
+      SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS_ACTIVITY one can add/remove/edit
+      entries in table/list control. The entries for the attachment's content
+      variable are limited to String and Schema type variables which are not
+      already added. The ones for attachment's "name variable or expression",
+      it is limited to String variables and one can also enter the expression
+      (typically hard-coded string value). The ones for DM attachments are
+      limited to String type variables which are not already added.</para>
+
+      <para>In Shark configuration mode there is a powerful validation of
+      these extended attributes. E.g. it is validated if all the variables
+      referenced really exist and if their type is correct. Then also, if
+      variable id changes, that change is automatically reflected in the
+      content of extended attribute.</para>
+
+      <para>The description for the meaning of extended attributes described
+      in this section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in chapter <emphasis>Plug-In Components</emphasis>,
+      section <emphasis>Event Audit plug-ins</emphasis>, sub-section
+      <emphasis>SMTP Event Audit Manager</emphasis>.</para>
+
+      <para>All 8 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level and Activity
+      level.</para>
+    </sect2>
+
+    <sect2>
+      <title>Default process email configuration section</title>
+
+      <para>In this section, one can edit extended attributes used by SMTP
+      Event Audit implementation related to sending emails when new process is
+      instantiated. In the picture below, left side shows extended attributes
+      in Default configuration, and right side shows how are they represented
+      in Shark configuration.</para>
+
+      <figure>
+        <title>Default process email configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-smtpemail-process-configuration.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 7 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure email?</emphasis> when
+      un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>For the true/false type value extended attributes
+      SMTP_EVENT_AUDIT_MANAGER_MODE_PROCESS,
+      SMTP_EVENT_AUDIT_MANAGER_EXECUTION_MODE_PROCESS instead of writting
+      attribute name and putting true or false (asynchronous/synchronous) for
+      its value in Default configuration, in Shark configuration one just
+      checks/un-checks appropriate check-box.</para>
+
+      <para>For the SMTP_EVENT_AUDIT_MANAGER_SUBJECT_PROCESS and
+      SMTP_EVENT_AUDIT_MANAGER_CONTENT_PROCESS extended attributes, Shark
+      configuration provides 4 special choice buttons on the right where one
+      can use system variables, variables, configuration strings and xpdl
+      strings by just clicking and selecting one.</para>
+
+      <para>For the SMTP_EVENT_AUDIT_MANAGER_ATTACHMENTS_PROCESS,
+      SMTP_EVENT_AUDIT_MANAGER_ATTACHMENT_NAMES_PROCESS,
+      SMTP_EVENT_AUDIT_MANAGER_DM_ATTACHMENTS_PROCESS one can add/remove/edit
+      entries in table/list control. The entries for the attachment's content
+      variable are limited to String and Schema type variables which are not
+      already added. The ones for attachment's "name variable or expression",
+      it is limited to String variables and one can also enter the expression
+      (typically hard-coded string value). The ones for DM attachments are
+      limited to String type variables which are not already added.</para>
+
+      <para>In Shark configuration mode there is a powerful validation of
+      these extended attributes. E.g. it is validated if all the variables
+      referenced really exist and if their type is correct. Then also, if
+      variable id changes, that change is automatically reflected in the
+      content of extended attribute.</para>
+
+      <para>The description for the meaning of extended attributes described
+      in this section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in chapter <emphasis>Plug-In Components</emphasis>,
+      section <emphasis>Event Audit plug-ins</emphasis>, sub-section
+      <emphasis>SMTP Event Audit Manager</emphasis>.</para>
+
+      <para>All 7 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level.</para>
+    </sect2>
+
+    <sect2>
+      <title>Default deadline email configuration section</title>
+
+      <para>In this section, one can edit extended attributes used by shark's
+      SMTP Deadline Handler implementation related to sending emails when
+      activity deadline time has been exceeded and there is no modelled
+      deadline path. In the picture below, left side shows extended attributes
+      in Default configuration, and right side shows how are they represented
+      in Shark configuration.</para>
+
+      <figure>
+        <title>Default deadline email configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-deadlinemail.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 9 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure email?</emphasis> when
+      un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>For the true/false type value extended attributes
+      SMTP_DEADLINE_HANDLER_MODE, SMTP_DEADLINE_HANDLER_EXECUTION_MODE,
+      SMTP_DEADLINE_HANDLER_GROUP_EMAIL_ONLY instead of writting attribute
+      name and putting true or false (asynchronous/synchronous) for its value
+      in Default configuration, in Shark configuration one just
+      checks/un-checks appropriate check-box.</para>
+
+      <para>For the SMTP_DEADLINE_HANDLER_RECIPIENT_PARTICIPANT instead of
+      writting attribute name and participant Id in Default configuration, in
+      Shark configuration one just selects one of the choices from Recipient
+      participant combo-box.</para>
+
+      <para>For the SMTP_DEADLINE_HANDLER_SUBJECT and
+      SMTP_DEADLINE_HANDLER_CONTENT extended attributes, Shark configuration
+      provides 4 special choice buttons on the right where one can use system
+      variables, variables, configuration strings and xpdl strings by just
+      clicking and selecting one.</para>
+
+      <para>For the SMTP_DEADLINE_HANDLER_ATTACHMENTS,
+      SMTP_DEADLINE_HANDLER_ATTACHMENT_NAMES,
+      SMTP_DEADLINE_HANDLER_DM_ATTACHMENTS one can add/remove/edit entries in
+      table/list control. The entries for the attachment's content variable
+      are limited to String and Schema type variables which are not already
+      added. The ones for attachment's "name variable or expression", it is
+      limited to String variables and one can also enter the expression
+      (typically hard-coded string value). The ones for DM attachments are
+      limited to String type variables which are not already added.</para>
+
+      <para>In Shark configuration mode there is a powerful validation of
+      these extended attributes. E.g. it is validated if all the variables
+      referenced really exist and if their type is correct. Then also, if
+      variable id changes, that change is automatically reflected in the
+      content of extended attribute.</para>
+
+      <para>The description for the meaning of extended attributes described
+      in this section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in chapter <emphasis>Plug-In Components</emphasis>,
+      section <emphasis>Deadline Handler plug-ins</emphasis>, sub-section
+      <emphasis>SMTP Deadline Handler plug-in</emphasis>.</para>
+
+      <para>All 9 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level and Activity
+      level.</para>
+    </sect2>
+
+    <sect2>
+      <title>Default activity limit email configuration section</title>
+
+      <para>In this section, one can edit extended attributes used by
+      SMTPLimitHandler client implementation related to sending emails when
+      activity limit has been exceeded . In the picture below, left side shows
+      extended attributes in Default configuration, and right side shows how
+      are they represented in Shark configuration.</para>
+
+      <figure>
+        <title>Default activity limit email configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-limitemailactivity.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 9 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure email?</emphasis> when
+      un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>For the true/false type value extended attributes
+      SMTP_LIMIT_HANDLER_MODE_ACTIVITY,
+      SMTP_LIMIT_HANDLER_EXECUTION_MODE_ACTIVITY,
+      SMTP_LIMIT_HANDLER_GROUP_EMAIL_ONLY_ACTIVITY instead of writting
+      attribute name and putting true or false (asynchronous/synchronous) for
+      its value in Default configuration, in Shark configuration one just
+      checks/un-checks appropriate check-box.</para>
+
+      <para>For the SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT_ACTIVITY instead
+      of writting attribute name and participant Id in Default configuration,
+      in Shark configuration one just selects one of the choices from
+      Recipient participant combo-box.</para>
+
+      <para>For the SMTP_LIMIT_HANDLER_SUBJECT_ACTIVITY and
+      SMTP_LIMIT_HANDLER_CONTENT_ACTIVITY extended attributes, Shark
+      configuration provides 4 special choice buttons on the right where one
+      can use system variables, variables, configuration strings and xpdl
+      strings by just clicking and selecting one.</para>
+
+      <para>For the SMTP_LIMIT_HANDLER_ATTACHMENTS_ACTIVITY,
+      SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES_ACTIVITY,
+      SMTP_LIMIT_HANDLER_DM_ATTACHMENTS_ACTIVITY one can add/remove/edit
+      entries in table/list control. The entries for the attachment's content
+      variable are limited to String and Schema type variables which are not
+      already added. The ones for attachment's "name variable or expression",
+      it is limited to String variables and one can also enter the expression
+      (typically hard-coded string value). The ones for DM attachments are
+      limited to String type variables which are not already added.</para>
+
+      <para>In Shark configuration mode there is a powerful validation of
+      these extended attributes. E.g. it is validated if all the variables
+      referenced really exist and if their type is correct. Then also, if
+      variable id changes, that change is automatically reflected in the
+      content of extended attribute.</para>
+
+      <para>The description for the meaning of extended attributes described
+      in this section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+      Usage</emphasis> section <emphasis>Client side extended
+      attributes</emphasis>, sub-section <emphasis>SMTPLimitHandler related
+      extended attributes</emphasis>.</para>
+
+      <para>All 9 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level and Activity
+      level.</para>
+    </sect2>
+
+    <sect2>
+      <title>Default process limit email configuration section</title>
+
+      <para>In this section, one can edit extended attributes used by
+      SMTPLimitHandler client implementation related to sending emails when
+      process limit has been exceeded . In the picture below, left side shows
+      extended attributes in Default configuration, and right side shows how
+      are they represented in Shark configuration.</para>
+
+      <figure>
+        <title>Default process limit email configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-limitemailprocess.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>There are 8 extended attributes in this section. The first
+      (top-left) check-box <emphasis>Configure email?</emphasis> when
+      un-checked removes all of them, and when checked allows you to edit
+      their values in user-friendly way.</para>
+
+      <para>For the true/false type value extended attributes
+      SMTP_LIMIT_HANDLER_MODE_PROCESS,
+      SMTP_LIMIT_HANDLER_EXECUTION_MODE_PROCESS instead of writting attribute
+      name and putting true or false (asynchronous/synchronous) for its value
+      in Default configuration, in Shark configuration one just
+      checks/un-checks appropriate check-box.</para>
+
+      <para>For the SMTP_LIMIT_HANDLER_RECIPIENT_PARTICIPANT_PROCESS instead
+      of writting attribute name and participant Id in Default configuration,
+      in Shark configuration one just selects one of the choices from
+      Recipient participant combo-box.</para>
+
+      <para>For the SMTP_LIMIT_HANDLER_SUBJECT_PROCESS and
+      SMTP_LIMIT_HANDLER_CONTENT_PROCESS extended attributes, Shark
+      configuration provides 4 special choice buttons on the right where one
+      can use system variables, variables, configuration strings and xpdl
+      strings by just clicking and selecting one.</para>
+
+      <para>For the SMTP_LIMIT_HANDLER_ATTACHMENTS_PROCESS,
+      SMTP_LIMIT_HANDLER_ATTACHMENT_NAMES_PROCESS,
+      SMTP_LIMIT_HANDLER_DM_ATTACHMENTS_PROCESS one can add/remove/edit
+      entries in table/list control. The entries for the attachment's content
+      variable are limited to String and Schema type variables which are not
+      already added. The ones for attachment's "name variable or expression",
+      it is limited to String variables and one can also enter the expression
+      (typically hard-coded string value). The ones for DM attachments are
+      limited to String type variables which are not already added.</para>
+
+      <para>In Shark configuration mode there is a powerful validation of
+      these extended attributes. E.g. it is validated if all the variables
+      referenced really exist and if their type is correct. Then also, if
+      variable id changes, that change is automatically reflected in the
+      content of extended attribute.</para>
+
+      <para>The description for the meaning of extended attributes described
+      in this section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+      Usage</emphasis> section <emphasis>Client side extended
+      attributes</emphasis>, sub-section <emphasis>SMTPLimitHandler related
+      extended attributes</emphasis>.</para>
+
+      <para>All 8 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level.</para>
+    </sect2>
+
+    <sect2>
+      <title>XPDL string variables configuration section</title>
+
+      <para>In this section, one can add/remove/delete so called XPDL string
+      variables. These are Shark specific extended attributes which are
+      interpreted as a special (static) string variables.In the picture below,
+      left side shows several extended attributes representing these variables
+      in Default configuration, and right side shows how are they represented
+      in Shark configuration.</para>
+
+      <figure>
+        <title>XPDL string variables configuration section</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-xpdlstringvariables.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>So in Shark configuration these attributes are treated
+      separatelly. When user edits such attributes, the following dialog
+      appears:</para>
+
+      <figure>
+        <title>Editing XPDL string variable</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-package-xpdlstringvariable.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>In Shark configuration mode there is a powerful validation of
+      these extended attributes. E.g. it is validated if attribute is used.
+      Then also, if attribute name (XPDL string variable id) changes, that
+      change is automatically reflected everywhere it is used (including other
+      extended attributes).</para>
+
+      <para>The description for the meaning of extended attributes described
+      in this section can be found in <link
+      xlink:href="http://www.together.at/prod/workflow/tws/manual"
+      xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+      Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+      Usage</emphasis> section <emphasis>Server-side (kernel) extended
+      attributes</emphasis>, sub-section
+      <emphasis>XPDL_STRING_VARIABLE.</emphasis>.</para>
+
+      <para>All 8 extended attributes from this section can be overriden by
+      the same ones defined at WorkflowProcess level.</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Difference in property dialog for WorkflowProcess element</title>
+
+    <para>The first difference is representation of variable
+    <emphasis>category</emphasis> as a normal attribute (like Id or Name).
+    Next, shark configuration has 9 additional sections for representing
+    extended attributes in an intuitive way, easy for editing. We already
+    described these sections for the Package element - the same description
+    can be applied here.</para>
+
+    <figure>
+      <title>Differences in property dialog for WorkflowProcess
+      element</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/sharkmode-comparison-workflowprocess-general.png"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </sect1>
+
+  <sect1>
+    <title>Difference in property dialog for Activity element</title>
+
+    <para>The property dialog for the activities depend on the activity
+    type.</para>
+
+    <sect2>
+      <title>Differences in property dialog for manual Activity</title>
+
+      <para>The following picture shows the difference for manual
+      activity:</para>
+
+      <figure>
+        <title>Differences in property dialog for Activity element (manual
+        activity)</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-activity-manual-general.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>As you can see, instead of having separate <emphasis>Exteded
+      attributes</emphasis> tab, there is an <emphasis>Extended
+      attributes</emphasis> table shown on the <emphasis>General</emphasis>
+      tab. Also, <emphasis>Simulation information</emphasis> tab is not
+      present in Shark configuration and there are 5 additional tabs in Shark
+      configuration: <emphasis>Workflow engine configuration</emphasis>,
+      <emphasis>Web client configuration</emphasis>, <emphasis>Email
+      configuration</emphasis>, <emphasis>Deadline email
+      configuration</emphasis> and <emphasis>Limit email
+      configuration</emphasis>. The first two tabs are similar as the ones on
+      Package/Workflow process layer and other three tabs are the same as the
+      ones on Package/Workflow process layer (when you define values there it
+      logically overrides the ones from Package/Workflow Process)</para>
+
+      <sect3>
+        <title>Workflow engine configuration section</title>
+
+        <para>This section is slightly different than the ones for
+        Package/Workflow Process. Some attributes are not there and there are
+        some new attributes. The attributes defined here logically override
+        the same ones defined for Package/Workflow Process.</para>
+
+        <para>In this section, one can edit extended attributes for shark
+        workflow engine kernel configuration and some of the plug-in
+        configuration. In the picture below, left side shows extended
+        attributes in Default configuration, and right side shows how are they
+        represented in Shark configuration.</para>
+
+        <figure>
+          <title>Workfow engine configuration section</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="Images/sharkmode-comparison-activity-workflowengineconfiguration.png"
+                         scalefit="1" width="100%"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>There are 17 extended attributes in this section. See <xref
+        linkend="packageworkflowengineconfig"/> for explanations.</para>
+
+        <para>The description for the meaning of extended attributes for Shark
+        engine can be found in <link
+        xlink:href="http://www.together.at/prod/workflow/tws/manual"
+        xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server
+        User Manual</link> in the following places:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>for <emphasis>Kernel configuration</emphasis> part - in the
+            chapter <emphasis>XPDL Extended Attributes Usage</emphasis>
+            section <emphasis>Server-side (kernel) extended
+            attributes</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>for <emphasis>Standard assignment manager
+            configuration</emphasis> part - in the chapter <emphasis>Plug-In
+            Components</emphasis>, section <emphasis>Assignment Manager
+            plug-ins</emphasis>, sub-section <emphasis>Standard Assignment
+            Manager plug-in</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>for <emphasis>Workload related assignment manager
+            configuration</emphasis> part - in the chapter <emphasis>Plug-In
+            Components</emphasis>, section <emphasis>Assignment Manager
+            plug-ins</emphasis>, sub-section <emphasis>Workload Related
+            Assignment Manager plug-in</emphasis></para>
+          </listitem>
+
+          <listitem>
+            <para>for <emphasis>History related assignment manager
+            configuration</emphasis> part - in the chapter <emphasis>Plug-In
+            Components</emphasis>, section <emphasis>Assignment Manager
+            plug-ins</emphasis>, sub-section <emphasis>History Related
+            Assignment Manager plug-in</emphasis></para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+
+      <sect3>
+        <title>Web client configuration section</title>
+
+        <para>This section is slightly different than the ones for
+        Package/Workflow Process. It is separated into three sub-sections. The
+        first sub-section are for attributes which are affecting Web client
+        application behavior, the second sub-section is for defining default
+        activity GUI and third sub-section for defining custom activity
+        GUI.</para>
+
+        <sect4>
+          <title>Behavior sub-section</title>
+
+          <para>In this sub-section there are 6 extended attributes that
+          affect the behavior of shark's Web Client application. In the
+          picture below, left side shows extended attributes in Default
+          configuration, and right side shows how are they represented in this
+          section of Shark configuration.</para>
+
+          <figure>
+            <title>Workfow engine configuration section - Behavior
+            sub-section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata contentdepth="100%"
+                           fileref="Images/sharkmode-comparison-activity-webclient-behavior.png"
+                           scalefit="1" width="100%"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The description for the meaning of extended attributes for
+          Shark's Web Client application can be found in <link
+          xlink:href="http://www.together.at/prod/workflow/tws/manual"
+          xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server
+          User Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+          Usage</emphasis> section <emphasis>Client side extended
+          attributes</emphasis>.</para>
+        </sect4>
+
+        <sect4>
+          <title>Default GUI sub-section</title>
+
+          <para>This sub-section defines attributes that are affecting default
+          activity GUI. In this sub-section first there is a part for defining
+          <emphasis>Variables</emphasis> that will be shown in the default
+          activity details form. The following is attribute that can be
+          defined only on activity level and then there are three attributes
+          that when defined logically override the same ones defined for
+          Package/Workflow Process. In the picture below, left side shows
+          extended attributes in Default configuration, and right side shows
+          how are they represented in Shark configuration.</para>
+
+          <figure>
+            <title>Workfow engine configuration section - Default GUI
+            sub-section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata contentdepth="100%"
+                           fileref="Images/sharkmode-comparison-activity-webclient-defaultgui.png"
+                           scalefit="1" width="100%"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The description for the meaning of extended attributes for
+          Shark's Web Client application can be found in <link
+          xlink:href="http://www.together.at/prod/workflow/tws/manual"
+          xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server
+          User Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+          Usage</emphasis> section <emphasis>Client side extended
+          attributes</emphasis>.</para>
+        </sect4>
+
+        <sect4>
+          <title>Custom GUI sub-section</title>
+
+          <para>In this sub-section one can define extended attributes that
+          affect the GUI for the activity detail form in shark's Web client
+          application. If any of these attributes is defined, the default GUI
+          will be replaced by the custom one.. In the picture below, left side
+          shows extended attributes in Default configuration, and right side
+          shows how are they represented in this section of Shark
+          configuration.</para>
+
+          <figure>
+            <title>Workfow engine configuration section - Custom GUI
+            sub-section</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata contentdepth="100%"
+                           fileref="Images/sharkmode-comparison-activity-webclient-customgui.png"
+                           scalefit="1" width="100%"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The description for the meaning of extended attributes for
+          Shark's Web Client application can be found in <link
+          xlink:href="http://www.together.at/prod/workflow/tws/manual"
+          xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server
+          User Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+          Usage</emphasis> section <emphasis>Client side extended
+          attributes</emphasis>.</para>
+        </sect4>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Differences in property dialog for automatic Activity</title>
+
+      <para>The following picture shows the difference for automatic
+      (toolagent) activity:</para>
+
+      <figure>
+        <title>Differences in property dialog for Activity element (automatic
+        activity)</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/sharkmode-comparison-activity-automatic-general.png"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Same as with manual activity, instead of having separate
+      <emphasis>Exteded attributes</emphasis> tab, there is an
+      <emphasis>Extended attributes</emphasis> table shown on the
+      <emphasis>General</emphasis> tab and <emphasis>Simulation
+      information</emphasis> tab is not present in Shark configuration. Then,
+      there are 3 additional tabs in Shark configuration: <emphasis>Error
+      handler configuration</emphasis> , <emphasis>Deadline email
+      configuration</emphasis> and <emphasis>Limit email
+      configuration</emphasis>. These tabs are the same as the ones on
+      Package/Workflow process layer (when you define values there it
+      logically overrides the ones from Package/Workflow Process).</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Difference in property dialog for DataField element</title>
+
+    <para>The difference is that in Shark configuration we are hidding Script
+    version and Script grammar attributes and that 5 extended attributes are
+    represented as normal attributes of the element (like Id or Name).</para>
+
+    <figure>
+      <title>Differences in property dialog for DataField element</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/sharkmode-comparison-datafield.png"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>First group of attributes is for shark workflow engine kernel
+    configuration. For these true/false type value extended attributes
+    TRANSIENT, DYNAMICSCRIPT and IS_ACTIVITY_SCOPE_ONLY instead of writting
+    attribute name and putting true or false for its value in Default
+    configuration, in Shark configuration one just checks/un-checks
+    appropriate check-box.</para>
+
+    <para>The description for the meaning of extended attributes from Workflow
+    engine configuration section can be found in <link
+    xlink:href="http://www.together.at/prod/workflow/tws/manual"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+    Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+    Usage</emphasis> section <emphasis>Server-side (kernel) extended
+    attributes</emphasis>:</para>
+
+    <para>For URLVariable extended attribute, instead of defining an attribute
+    and typing the value that has to be either <emphasis>NewWindow</emphasis>
+    or <emphasis>SameWindow</emphasis> (which can be very error-prone) one can
+    simply select the desired value (which is displayed in the language he is
+    using) from the combo-box next to the label <emphasis>Render and handle as
+    browser link.</emphasis></para>
+
+    <para>For RENDERING_HINT extended attribute, instead of typing the word
+    LARGE (in the case user wants that Web Client application display variable
+    content inside text area) in Default configuration, in Shark configuration
+    one just checks/un-checks appropriate check-box.</para>
+
+    <para>The description for the meaning of extended attributes from Web
+    client configuration section can be found in <link
+    xlink:href="http://www.together.at/prod/workflow/tws/manual"
+    xmlns:xlink="http://www.w3.org/1999/xlink">Together Workflow Server User
+    Manual</link> in the chapter <emphasis>XPDL Extended Attributes
+    Usage</emphasis> section <emphasis>Client side extended
+    attributes</emphasis>.</para>
+  </sect1>
+</chapter>

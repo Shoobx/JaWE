@@ -1,0 +1,3192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+"../tools/docbook-dtd/dtd/docbook.dtd">
+<!--
+	Together Workflow Editor
+	Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses
+-->
+<chapter version="5.0" xml:id="user_interface"
+         xmlns="http://docbook.org/ns/docbook">
+  <title>User Interface</title>
+
+  <para>The Together Workflow Editor user interface consists of several parts.
+  The order and the number of the displayed parts depend on the actually used
+  configuration. This chapter explains the default configuration
+  layout.</para>
+
+  <para>Right below the title line of the editor window you will see the main
+  menu, the main tool bar and the info bar. The rest of the window contains
+  different components. The components are placed in the corresponding are
+  depending on their type.</para>
+
+  <para>Each component is responsible either for providing a different view of
+  the WfMC XPDL elements, for displaying some additional information about
+  XPDL elements (such as validation problems) or for displaying the result of
+  some search.</para>
+
+  <figure>
+    <title>Default configuration layout</title>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata contentdepth="100%"
+                   fileref="Images/editorTogWEComments.gif" scalefit="1"
+                   width="100%"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>There are two areas on the left hand side: The upper area (marked as
+  "Special Area") contains the <emphasis>Graph overview</emphasis>, the
+  <emphasis>External package relations</emphasis> and the <emphasis>Transient
+  package pool</emphasis> components. The lower area (marked as "Tree Area")
+  contains the tree type components <emphasis>Navigator</emphasis> and
+  <emphasis>Package tree</emphasis>.</para>
+
+  <para>There are also two areas on the right hand side: The upper area
+  (marked as "Main Area") contains the <emphasis>Graph</emphasis> and the
+  <emphasis>XPDL View</emphasis> components. The lower area (marked as "Other
+  Area") contains the <emphasis>Properties</emphasis>,
+  <emphasis>Search</emphasis>, <emphasis>Problems</emphasis><emphasis>,
+  WfXML</emphasis> and LDAP components.</para>
+
+  <para>(NOTE: by right-clicking on the tab you are able to close some
+  component's view or to move it from one area to another)</para>
+
+  <para>See <xref linkend="togwecontroller.properties"/> for details about the
+  configuration of the main frame.</para>
+
+  <para>The rest of this chapter explains all these editor parts in
+  detail.</para>
+
+  <sect1>
+    <title>Main menu</title>
+
+    <para>This is the core of the Together Workflow Editor. All the actions
+    needed for opening, creating and manipulating XPDL files and elements are
+    here.</para>
+
+    <para>The actions in the main menu are organized in the following
+    groups:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>File</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/new.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> New</entry>
+
+                <entry><para>This action creates a new "empty" XPDL
+                package.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata align="center" fileref="Images/open.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Open</entry>
+
+                <entry><para>This action opens an existing XPDL file. The file
+                is chosen through the standard file selection
+                dialog.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/reopen.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Reopen</entry>
+
+                <entry><para>This action reopens the currently edited XPDL
+                file.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/close.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Close</entry>
+
+                <entry><para>This action closes the currently open XPDL
+                package / file.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/save.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Save</entry>
+
+                <entry><para>This action saves the currently open XPDL package
+                to the file. If no file name has been specified for the
+                current package, the "Save As..." dialog will be
+                shown.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/saveas.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Save As...</entry>
+
+                <entry><para>This action saves the currently open XPDL package
+                into a file with a new filename and location specified through
+                a standard file dialog.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle">Recent Files</entry>
+
+                <entry><para>This action opens a sub-menu with a listing of
+                recently used files which can be re-opened.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/exit.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Exit</entry>
+
+                <entry><para>This action exits the editor applciation. An
+                appropriate dialog will appear if the current work hasn't been
+                saved into a file.</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+
+      <listitem>
+        <para>Edit</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/nav_left_blue.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Undo</entry>
+
+                <entry><para>This action reverts the last operation on the
+                XPDL model. Every operation / change performed to the XPDL
+                model can be undone step-by-step without any
+                limits.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" char="" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata align="center"
+                                 fileref="Images/nav_right_blue.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Redo</entry>
+
+                <entry><para>This action repeats the previously undone XPDL
+                model operation.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/cut.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Cut</entry>
+
+                <entry><para>This action will remove the currently selected
+                elements from the model and place them into the clipboard,
+                allowing the user to paste them somewhere else. This operation
+                uses the internal clipboard of the editor.</para><para>Any
+                previous content of the internal clipboard is discarded when
+                this action is executed. </para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/copy.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Copy</entry>
+
+                <entry><para>This action will copy the currently selected
+                elements into the clipboard, allowing the user to paste them
+                somewhere else. This operation uses the internal clipboard of
+                the editor.</para><para>Any previous content of the internal
+                clipboard is discarded when this action is
+                executed.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/paste.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Paste</entry>
+
+                <entry><para>This action will copy the elements from the
+                internal clipboard to the current location. It will only be
+                enabled if the internal clipboard currently contains at least
+                one element.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/delete.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Delete</entry>
+
+                <entry><para>This action removes the currently selected
+                elements from the XPDL model.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/properties.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Properties</entry>
+
+                <entry><para>This action opens a dialog to define properties
+                for the currently selected element.</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+
+      <listitem>
+        <para>Search</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/search.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Search</entry>
+
+                <entry><para>This action finds XPDL elements based on certain
+                search criteria.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/references.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> References</entry>
+
+                <entry><para>This action seaches for all elements in the XPDL
+                model which refer to the currently selected
+                element.</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+
+      <listitem>
+        <para>Package</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/packagecheck.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Check validity</entry>
+
+                <entry><para>This action runs a check on the XPDL model's
+                validity based on the WfMC specification and produces a
+                problem list.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/designtimevalidation-start.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Turn-on design time validation</entry>
+
+                <entry><para>This action turns-on a design time XPDL
+                validation (XPDL model is then checked for validity after any
+                insert/update action)</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/designtimevalidation-stop.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Turn-off design time validation</entry>
+
+                <entry><para>This action turns-off a design time XPDL
+                validation (XPDL model is checked for validity only when user
+                presses "Check validity" button)</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" char="" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata align="center"
+                                 fileref="Images/processnew.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Insert new process</entry>
+
+                <entry><para>This action inserts a new workflow process
+                definition into the XPDL package.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/namespaces.gif" format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Namespaces</entry>
+
+                <entry><para>This action shows a dialog for handling the
+                package's namespaces.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/packageproperties.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject>Package properties</entry>
+
+                <entry><para>This action opens a dialog for editing the XPDL
+                package properties.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/processes.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Processes</entry>
+
+                <entry><para>This action shows dialog with list of the
+                workflow process definitions defined in selected XPDL
+                package.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/externalpackages.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> External packages</entry>
+
+                <entry><para>This action opens a dialog to handle references
+                to external XPDL packages.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/externalpackagesadd.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Add external package</entry>
+
+                <entry><para>This action opens a dialog to import / reference
+                an external package.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/externalpackagesremove.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Remove external package</entry>
+
+                <entry><para>This action removes an external package
+                reference.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/typedeclarations.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Type declarations</entry>
+
+                <entry><para>This action shows a dialog to manage type
+                declarations.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/packageparticipants.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Participants</entry>
+
+                <entry><para>This action shows a dialog to managing
+                participants.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/packageapplications.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Applications</entry>
+
+                <entry><para>This action shows a dialog to manage
+                applications.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/packageworkflowrelevantdata.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Workflow variables</entry>
+
+                <entry><para>This action shows a dialog to manage
+                variables.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/referred_document.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Open referred document</entry>
+
+                <entry><para>This action opens the document attached to the
+                package.</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+
+      <listitem>
+        <para>Process</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" char="" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata align="center"
+                                 fileref="Images/processproperties.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Process properties</entry>
+
+                <entry><para>This action opens a dialog to edit the properties
+                of the selected process.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/processparticipants.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Participants</entry>
+
+                <entry><para>This action shows a dialog to manage participants
+                of the selected process.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/processapplications.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Applications</entry>
+
+                <entry><para>This action shows a dialog to manage applications
+                of the selected process.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/processworkflowrelevantdata.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Workflow variables</entry>
+
+                <entry><para>This action shows a dialog to manage variables of
+                the selected process.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/processformalparameters.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Formal parameters</entry>
+
+                <entry><para>This action shows a dialog to manage parameters
+                of the selected process.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/activitysets.gif"
+                                 format="GIF" valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Activity sets</entry>
+
+                <entry><para>This action shows a list of all activity sets
+                contained within the selected process.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/activities.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Activities</entry>
+
+                <entry><para>This action shows a list of activities contained
+                within the selected process.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/transitions.gif" format="GIF"
+                                 valign="middle"/>
+                    </imageobject>
+                  </inlinemediaobject> Transitions</entry>
+
+                <entry><para>This action shows a list of transitions contained
+                within the selected process.</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+
+      <listitem>
+        <para>External Packages</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/externalparticipants.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> External participants</entry>
+
+                <entry><para>This action shows a list of all participants that
+                are in the external packages.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" char="" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata align="center"
+                                 fileref="Images/externalprocesses.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> External processes</entry>
+
+                <entry><para>This action shows a list of all processes that
+                are in the external packages.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/externalapplications.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> External applications</entry>
+
+                <entry><para>This action shows a list of all application that
+                are in the external packages.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/externaltypedeclarations.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> External type declarations</entry>
+
+                <entry><para>This action shows a list of all type declarations
+                that are in the external packages.</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+
+      <listitem>
+        <para>Settings</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" valign="middle"><para>Language
+                </para></entry>
+
+                <entry><para>This menu shows the list of languages you can use
+                (currently English, German, French, Portuguese and Serbian).
+                The selection takes effect after you restart the
+                editor.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><para>Configuration
+                </para></entry>
+
+                <entry><para>This menu shows the list of configurations that
+                you can use (currently default, shark and samples-loopactivity
+                configurations are provided). After you select the
+                configuration, the editor is being re-configured to use this
+                new configuration with all of its customizations (special
+                validation, restrictions, etc.)</para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+
+      <listitem>
+        <para>Help</para>
+
+        <informaltable frame="topbot">
+          <tgroup cols="2">
+            <tbody valign="middle">
+              <row>
+                <entry align="left" char="" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata align="center" fileref="Images/manual.gif"
+                                 format="GIF"/>
+                    </imageobject>
+                  </inlinemediaobject> Manual</entry>
+
+                <entry><para>This action opens the this User
+                Guide.</para></entry>
+              </row>
+
+              <row>
+                <entry align="left" valign="middle"><inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="Images/twe16.png"/>
+                    </imageobject>
+                  </inlinemediaobject>About</entry>
+
+                <entry><para>This action shows the version, license and other
+                information about the editor. </para></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </listitem>
+    </orderedlist>
+  </sect1>
+
+  <sect1>
+    <title>Main tool bar</title>
+
+    <para>As explained in the previous section, the main menu covers all
+    actions needed for creating, viewing and editing XPDL definitions. The
+    Main tool bar contains shortcuts for various actions of the main
+    menu.</para>
+
+    <figure>
+      <title>Main tool bar</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/mainToolbar.jpg"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Main tool bar shortcuts are organized similar to the actions in the
+    main menu. All actions are explained in the previous section.</para>
+
+    <figure xml:id="mainToolbarOrganization">
+      <title>Main tool bar shortcut groups</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/mainToolbarComments.jpg" scalefit="1"
+                     width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </sect1>
+
+  <sect1>
+    <title>Info bar</title>
+
+    <para>The Info bar shows some basic information about the selected
+    workflow elements. It displays the package name, the process name and the
+    file/package that is being edited.</para>
+
+    <figure>
+      <title>Info bar</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/infoBar.gif"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The Info bar offers the possibility to select the desired package,
+    process or file:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>a click on the <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/packageselect.gif"/>
+            </imageobject>
+          </inlinemediaobject> package icon offers a pop-up list of all
+        packages (the main package you are editing and all the packages it
+        references directly or indirectly).</para>
+      </listitem>
+
+      <listitem>
+        <para>a click on the <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/processselect.gif"/>
+            </imageobject>
+          </inlinemediaobject> process icon offers a pop-up list of all
+        processes (within the currently selected package).</para>
+      </listitem>
+
+      <listitem>
+        <para>a click on the <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/fileselect.gif"/>
+            </imageobject>
+          </inlinemediaobject> file icon offers a pop-up list of recently
+        opened files.</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1>
+    <title>Graph Overview</title>
+
+    <para>The Graph Overview is just what its name says - a graphical overview
+    of the process and activity set graph. It shows the whole graph of the
+    selected process or activity set in a way that you can see all the graph
+    elements in the overview area at once.</para>
+
+    <informaltable frame="none">
+      <tgroup cols="2">
+        <tbody valign="middle">
+          <row>
+            <entry align="center" colsep="0" valign="middle"><mediaobject>
+                <imageobject>
+                  <imagedata align="center" contentdepth="100%"
+                             fileref="Images/graphOverview.gif" scalefit="1"
+                             valign="middle" width="100%"/>
+                </imageobject>
+              </mediaobject></entry>
+
+            <entry align="justify" valign="top"><para>This overview also
+            provides an easy way to select elements by clicking on the
+            elements or dragging a selection rectangle in the small graphics.
+            All selections done in the overview are immdiately reflected in
+            the main graph. This way even bigger portions of the graph can be
+            selected at once without having to scroll through the main
+            graph.</para><para>If the element that is currently not visible in
+            the main Graph is selected in the Graph Overview, the main graph
+            is automatically scrolling to show the selected element thus
+            making graphical navigation in large process graphs very
+            easy.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>The Graph Overview can be hidden by clicking on the "Overview" tab
+    with the right mouse button and selecting "Close". It can be shown again
+    by selecting "Add Overview" in the context menu of the "External package
+    relations" tab or the background of the "Special Area".</para>
+  </sect1>
+
+  <sect1>
+    <title>External Package Relations</title>
+
+    <para>The External Package Relations component gives you a graphical tree
+    overview of the current package and all of its directly or indirectly
+    referrenced external packages. So it provides you the information about
+    the relations between packages starting at the current package.</para>
+
+    <informaltable frame="none">
+      <tgroup cols="2">
+        <tbody valign="middle">
+          <row>
+            <entry align="center" colsep="0" valign="middle"><mediaobject>
+                <imageobject>
+                  <imagedata align="center" contentdepth="100%"
+                             fileref="Images/extPackageRelations.gif"
+                             valign="middle" width="100%"/>
+                </imageobject>
+              </mediaobject></entry>
+
+            <entry align="justify" valign="middle"><para>The picture on the
+            left hand side shows a package (called "Business Example") that
+            references three other external packages: "Participant
+            Repository", "Application Respository" and "Process Repository".
+            The external package "Process Repository" again references (the
+            same) two external packages: "Participant Repository" and
+            "Application Repository".</para><para>The "Expand All" and
+            "Collapse All" buttons on top of the tree can be used to show or
+            hide the subtree.</para><para>The External Package Relaltions can
+            be hidden by clicking on the "Overview" tab with the right mouse
+            button and selecting "Close". It can be shown again by selecting
+            "Add External package relations" in the context menu of the
+            "Overview" tab or the background of the "Special
+            Area".</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>The External Package relations background color can be changed
+    through the extpkgrelations.properties file. (BackgroundColor =
+    R=?,G=?,B=?)</para>
+
+    <para>As with all other components you are also able to change the content
+    of the toolbar and the order of the toolbar buttons.</para>
+  </sect1>
+
+  <sect1>
+    <title>Transient Package Pool</title>
+
+    <para>Transient packages are not related to any part of the WfMC XPDL
+    specification but are a unique feature of Together Workflow Editor.</para>
+
+    <para>Transient packages are always available to the editor user
+    (independently of the main package that is currently being edited) and the
+    editor user can always copy elements (such as commonly used Activities and
+    Transition structures, Applicatons or Participants definitions, etc.) from
+    the transiently referrenced package into the currently edited package.
+    XPDL Packages imported as transient are neither being validated for errors
+    nor are these transient referrences stored in the current XPDL file. They
+    are just shown for your convenience during modelling work. If a transient
+    package is referencing other packages the user must be aware that the
+    referenced packages won't be imported automatically.</para>
+
+    <informaltable frame="none">
+      <tgroup cols="2">
+        <tbody valign="middle">
+          <row>
+            <entry align="center" colsep="0" valign="middle"><mediaobject>
+                <imageobject>
+                  <imagedata align="center" contentdepth="100%"
+                             fileref="Images/transPkgPool.gif" valign="middle"
+                             width="100%"/>
+                </imageobject>
+              </mediaobject></entry>
+
+            <entry align="left" valign="middle"><para>The Transient Package
+            Pool displays all the transiently opened packages.
+            </para><para>Using the buttons on top you are able to add new or
+            remove existing transiently referrenced packages from the
+            editor.</para><para>The Transient Package Pool can be hidden by
+            clicking on the "Transient package pool" tab with the right mouse
+            button and selecting "Close". It can be shown again by selecting
+            "Add Transient package pool" in the context menu of the "Overview"
+            tab or the background of the "Special Area".</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>You are able to pre-configure Together Workflow Editor to load
+    certain XPDL packages in transient mode (see <xref
+    linkend="togwebasic.properties"/>) at startup to have access to most
+    commonly needed XPDL elements for copying them into the XPDL package you
+    are editing. This feature is typically used for copying certain workflow
+    design patterns from a pattern pool into processes. Predefined common
+    workflow patterns can be found in the Together Workflow Editor
+    installation directory "...\examples\valid\WorkflowPatterns\".</para>
+
+    <para>You should be aware that there is a major difference in reusing XPDL
+    elements from external packages and copying XPDL elements from other
+    (transiently loaded) XPDL packages. Common subflows, application or
+    participant definitions should normally be reused by modelling externally
+    referenced packages instead of copying definitions redundantly into other
+    packages.</para>
+
+    <para>The Transient Package Pool background color can be changed through
+    the transientpkgpool.properties file. (BackgroundColor =
+    R=?,G=?,B=?)</para>
+
+    <para>As with all other components you are also able to change the content
+    of the toolbar and the order of the toolbar buttons.</para>
+  </sect1>
+
+  <sect1 xml:id="graphcomponent">
+    <title>Graph</title>
+
+    <para>The Graph is the main component of Together Workflow Editor. It
+    displays the graph representing the selected process or activity set. It
+    offers the possibility to insert new elements into the graph and to
+    visually define the flow / logic of the workflow process you are
+    modelling.</para>
+
+    <figure>
+      <title>Graph Panel</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/graphPanel.jpg"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The Graph has its own toolbars with action Shortcuts to customize
+    the view of the process, inserting new process elements or modify existing
+    process elements.</para>
+
+    <para>The toolbar on top of the graph component consists of the following
+    actions:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="middle">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/printerpageformat.png"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action opens a dialog to setup printer
+            page.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/print.png" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action opens a print dialog.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/saveasjpg.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action saves the graphical view of the current
+            graph into a JPG format file.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" char="" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/saveassvg.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action saves the graphical view of the current
+            graph into a SVG format file.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" char="" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata align="center" fileref="Images/saveaspdf.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action saves the graphical view of the current
+            graph and process information into a PDF format
+            file.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/zoomin.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action zooms into the graph. NOTE: "CTRL +" key
+            combination can be used to do the same.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/actualsize.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action displays graph in its actual size. NOTE:
+            "CTRL 1" key combination can be used to do the
+            same.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/zoomout.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action zooms out of the graph. NOTE: "CTRL -"
+            key combination can be used to do the same.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/participantupleft.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action moves the selected participant up or left
+            depending on the current participant orientation of the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/participantdownright.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action moves the selected participant down or
+            right depending on the current participant orientation of the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/nav_left_red.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action displays the part of the graph shown
+            before the current part.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/nav_right_red.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action displays the part of the graph shown
+            after the current part.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/startend.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts the missing start and end events
+            into the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/startend_remove.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action removes all the start and end events from
+            the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/showtransitioncondition.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action makes text describing transition
+            condition to be shown in the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/hidetransitioncondition.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action makes text describing transition
+            condition to be hidden in the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/showartifacts.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action shows artifacts (and associations) in the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/hideartifacts.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action hides artifacts (and associations) from
+            the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/process_rotate.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action changes the graph's swimlane orientation
+            from left/right to top/bottom and vice versa.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/graph_layout.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action performs an automatic layout of the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata align="left" fileref="Images/activityset.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a new activity
+            set.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/lanesselect.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a lane representing an existing
+            participant into the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/activitysetselect.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action selects an existing activity
+            set.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>The toolbar below the one described above consists of the following
+    actions:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="middle">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/select.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action switches the mouse cursor to the
+            selection mode.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/lane.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action creates a new participant (on the package
+            level) and inserts a new lane representing this participant into
+            the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/freetextlane.png"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a new "free text expression" lane
+            into the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/commonexplane.png"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a "common expression lane" into
+            the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/dataobject.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a data object
+            artifact.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/annotation.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a text annotation
+            artifact.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/start.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a start event
+            activity.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/end.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts an end event
+            activity.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/genericactivity.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts an activity without
+            implementation (manual activity performed by a human) into the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/activitytool.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a task-application activity into
+            the graph</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/subflowactivity.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a subflow activity into the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/blockactivity.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a block activity into the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/gatewayexclusive.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a exclusive gateway - route
+            activity into the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/gatewayparallel.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a parallel gateway - route
+            activity into the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/transition.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a conditional transition into the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/unconditional.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts an unconditional transition into
+            the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/transitionotherwise.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts an otherwise transition into the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/transitionexception.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts an exception transition into the
+            graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/transitiondefaultexception.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a default exception transition
+            into the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/association.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts a directional association into
+            the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/association_nodirection.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts non-directional association into
+            the graph.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/association_bidirection.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>This action inserts bi-directional association into
+            the graph.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>The Graph provides all functions to handle lanes (representing
+    participants), activities and transitions. All standard editor functions
+    like insert, delete, move and select are supported.</para>
+
+    <para>When new Workflow Process is created, TWE automatically creates a
+    Pool for that process, and generates a new Graph representing this
+    workflow process. This graph contains only a swimlane representing Pool.
+    The first thing that need to be added/drawn are the lanes (a swimlanes
+    representing the participant). When at least one (swim)lane is visible you
+    can add activities, artifacts, transitions and associations into the
+    graph.</para>
+
+    <para>New elements are inserted into the graph in two steps. First select
+    the button of choice in the graph toolbar to change the mouse cursor into
+    the appropriate insert mode. Then click into the graph to insert the
+    selected element. The mouse cursor will remain in the current insert mode
+    until you click the right mouse button, press the ESC key on your keyboard
+    or switch to another mode by selecting a different button in the graph
+    toolbar.</para>
+
+    <para>Inserting transitions and associations into the graph is somewhat
+    different: Transitions' begin and end points must be activities, and
+    associations' begin/end points must be activity and artifact. Clicking on
+    the empty background of the graph while inserting a transition/assocation
+    will insert a graphical break/routepoint. If insertion of a
+    transition/association is started and the right mouse button or the ESC
+    key is pressed, the current insert operation is cancelled and the mouse
+    cursor stays in transition/association insert mode.</para>
+
+    <para>Elements in the graph are selected by simply clicking on them with
+    the left mouse button. You can select a group of elements by clicking the
+    left mouse button on the empty background of the graph and dragging a
+    rectangle around some elements or by using the SHIFT or CTRL key during
+    left mouse clicks on the individual elements.</para>
+
+    <para>To move elements to a new location just drag them with the left
+    mouse button whereever you like.</para>
+
+    <para>Double clicking on a graph element opens the property dialog for the
+    element (except for block and subflow activities for which the appropriate
+    graph will be opened).</para>
+
+    <para>A right mouse click on an element in the graph will open the context
+    popup menu of the element. The content of the context popup menu depends
+    on which element was clicked on:</para>
+
+    <figure>
+      <title>Graph element context popup menus</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/graphPopup.jpg"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <itemizedlist>
+      <listitem>
+        <para>The empty background represents the process itself and only the
+        Paste action can be performed to copy elements from the internal
+        clipboard to the selected location.</para>
+      </listitem>
+
+      <listitem>
+        <para>Activities and Artifacts will show the standard edit functions.
+        You can cut, copy, delete or edit properties of the selected
+        activity/artifact, select related transitions/associations, or set
+        color and size of the graphical object.</para>
+      </listitem>
+
+      <listitem>
+        <para>Transitions and Associations will also allow cut/copy/paste
+        actions but conditionally (if connecting activities/artifacts are
+        selected). You can also add a new break point, remove an existing one,
+        delete it, edit transition/association properties, change the
+        transition/association style, execute action to select related
+        activities/artifacts, or set color of graphical object</para>
+      </listitem>
+
+      <listitem>
+        <para>Lanes can be removed, deleted, edited or repositioned in the
+        graph. The color of the lane can be changed as well.</para>
+
+        <para>Common expression lane (shown as special swimlane in the graph)
+        can be associated with a new performer expression.</para>
+
+        <para>Be aware that there is a fundamental difference between removing
+        a lane and deleting it:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>When lane is removed, it is removed from the selected
+            process/activity set graph but it is still present in the XPDL
+            model/package. However all the activities contained in the lane
+            will be removed from the current graph.</para>
+          </listitem>
+
+          <listitem>
+            <para>When lane is deleted, it is being deleted from the entire
+            XPDL model/package but the activities contained in a lane won't be
+            deleted from the model. They will be placed into the Graph's
+            special lane called <emphasis>Free text expression
+            </emphasis>lane.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>For Gateways, Artifacts, Start and End events, one can also set
+        (text) label location to Top/Bottom/Left/Right.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>As mentioned, when the graph is empty (e.g. when a new process is
+    created, and only Pool for this process is displayed) the first thing to
+    be added/drawn is a lane representing the participant. When at least one
+    lane is visible activities, artifacts, transitions and associations can be
+    inserted into the graph.</para>
+
+    <para>The available types of lanes are:<itemizedlist>
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/lane.gif"/>
+              </imageobject>
+            </inlinemediaobject> Lane representing participant</para>
+        </listitem>
+
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/freetextlane.png"/>
+              </imageobject>
+            </inlinemediaobject> Free text expression lane</para>
+        </listitem>
+
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/commonexplane.png"/>
+              </imageobject>
+            </inlinemediaobject> Common expression lane</para>
+        </listitem>
+      </itemizedlist></para>
+
+    <para>The available types of activities are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/start.gif"/>
+            </imageobject>
+          </inlinemediaobject> Start event activity (explicitly specifies
+        process start)</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/end.gif"/>
+            </imageobject>
+          </inlinemediaobject> End event activity (explicitly specifies
+        process end)</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/genericactivity.gif"/>
+            </imageobject>
+          </inlinemediaobject> Normal activity (manual activity without
+        implementation)</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/activitytool.gif"/>
+            </imageobject>
+          </inlinemediaobject> Task-application activity</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/subflowactivity.gif"/>
+            </imageobject>
+          </inlinemediaobject> Sub-flow activity</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/blockactivity.gif"/>
+            </imageobject>
+          </inlinemediaobject> Block activity</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/gatewayexclusive.gif"/>
+            </imageobject>
+          </inlinemediaobject> Exclusive gateway route activity</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/gatewayparallel.gif"/>
+            </imageobject>
+          </inlinemediaobject> Parallel gateway route activity</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The available types of transitions are:<itemizedlist>
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/transition.gif"/>
+              </imageobject>
+            </inlinemediaobject> Conditional transition</para>
+        </listitem>
+
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/unconditional.gif"/>
+              </imageobject>
+            </inlinemediaobject> Unconditional (uncontrolled flow)
+          transition</para>
+        </listitem>
+
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/transitionotherwise.gif"/>
+              </imageobject>
+            </inlinemediaobject> Otherwise (default flow) transition</para>
+        </listitem>
+
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/transitionexception.gif"/>
+              </imageobject>
+            </inlinemediaobject> Exception transition</para>
+        </listitem>
+
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="Images/transitiondefaultexception.gif"/>
+              </imageobject>
+            </inlinemediaobject> Default exception transition</para>
+        </listitem>
+      </itemizedlist></para>
+
+    <para>There are three association types available:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/association.gif"/>
+            </imageobject>
+          </inlinemediaobject> directional association</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/association_nodirection.gif"/>
+            </imageobject>
+          </inlinemediaobject> non-directional association</para>
+      </listitem>
+
+      <listitem>
+        <para><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/association_bidirection.gif"/>
+            </imageobject>
+          </inlinemediaobject> bi-directional association</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>When inserting new lane into the graph using the toolbar buttons,
+    the new participant on the package level is created, and its type is
+    "Role". To change the participant type double click on the swimlane title
+    to get its property panel.</para>
+
+    <para>The lanes for already existing participant can be inserted by using
+    the choice button <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/lanesselect.gif"/>
+        </imageobject>
+      </inlinemediaobject> from the top of the graph component. The lane will
+    be inserted at the bottom of the Pool (or at the bottom of the already
+    selected lane - this will be nested lane in that case).</para>
+
+    <para><emphasis role="bold">Free text expression lane</emphasis> and
+    <emphasis role="bold">Common expression lane</emphasis> are not
+    representing participants but it is a special visualization of performer
+    expressions for activities.</para>
+
+    <para>The Graph represents activity performers as swimlanes. When an
+    activity is inserted or moved into a particular swimlane, it's performer
+    will be updated to the participant represented by the swimlane. In the
+    case of Common expression and Free text expression participants the
+    activity's performer will be set to the expression defined as a property
+    of the graph's common expression participant swimlane object. When the
+    activity is inserted or moved into the free text expression participant
+    any expression can be set for the activity performer field but by default
+    performer expression won't be defined.</para>
+
+    <para>Together Workflow Editor allows you to <emphasis
+    role="bold">nest</emphasis> lanes thus making possible to visually
+    represent organizational structure. To nest one lane into another, select
+    the parent lane and then create new lane either by selecting the
+    participant it will represent using the lane choice button
+    <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/lanesselect.gif"/>
+        </imageobject>
+      </inlinemediaobject>, or by selecting one of the lanes buttons
+    (<inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/lane.gif"/>
+        </imageobject>
+      </inlinemediaobject>, <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/freetextlane.png"/>
+        </imageobject>
+      </inlinemediaobject>, <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/commonexplane.png"/>
+        </imageobject>
+      </inlinemediaobject> ) and pressing on the wanted parent lane. Here is a
+    sample of the process with a Pool that contains nested lanes:</para>
+
+    <figure>
+      <title>Nested lanes sample</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/nested_lanes.jpg"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para><emphasis role="bold">Normal</emphasis> activity enables you to
+    insert an activity that will be performed by a human (so called manual
+    activity) - it will appear in the user's worklist.</para>
+
+    <para><emphasis role="bold">Task-Applicationl</emphasis> activity enables
+    the definition of applications that are required for the enactment engine
+    to run in order to perform the activity.</para>
+
+    <para><emphasis role="bold">Subflow</emphasis> activity is a type of
+    activity whose implementation is another workflow process
+    definition.</para>
+
+    <para><emphasis role="bold">Block</emphasis> activity executes an
+    ActivitySet (set of self-contained activities/transition maps). It is
+    something like an embedded subflow process.</para>
+
+    <para><emphasis role="bold">Route</emphasis> activity, in the forms of
+    <emphasis role="bold">Exclusive</emphasis> and <emphasis
+    role="bold">Parallel</emphasis> gateways, does not implement any action.
+    It is used for synchronization and conditional branching only.</para>
+
+    <para>A <emphasis role="bold">transition</emphasis> binds two activities
+    but it can also be a circular transition from a certain activity to
+    itself. A straight line with an arrow pointing to the target object
+    represents the transition in the Graph. Depending on the transition type,
+    it will have a different color or additional graphical descriptions
+    according to BPMN specification. The toolbar offers several kinds of
+    transitions: the one describing uncontrolled flow <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/unconditional.gif"/>
+        </imageobject>
+      </inlinemediaobject>, the one describing conditional flow
+    <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/transition.gif"/>
+        </imageobject>
+      </inlinemediaobject>(a circle on the left will be drawn according to
+    BPMN spec only in the case the source of the transition is not a gateway),
+    the one describing default flow <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/transitionotherwise.gif"/>
+        </imageobject>
+      </inlinemediaobject> (otherwise transition) and two kinds of exception
+    transitions <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/transitionexception.gif"/>
+        </imageobject>
+      </inlinemediaobject> and <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/transitiondefaultexception.gif"/>
+        </imageobject>
+      </inlinemediaobject>(default exception). The type of a transition can be
+    changed through its property panel.</para>
+
+    <para>There are two types of <emphasis role="bold">artifacts</emphasis>
+    that can be inserted into the graph, data object artifact
+    <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/dataobject.gif"/>
+        </imageobject>
+      </inlinemediaobject> and text annotation <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/annotation.gif"/>
+        </imageobject>
+      </inlinemediaobject>. Artifacts describe e.g. document flow through the
+    process, or make some comment that should be visible in the graph. The
+    artifacts has to be connected to the activities using <emphasis
+    role="bold">associations</emphasis>.</para>
+
+    <para><emphasis role="bold">Associations</emphasis> are connecting an
+    artifact with an activity. There are three types of associations offered
+    by the TWE, directional <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/association.gif"/>
+        </imageobject>
+      </inlinemediaobject>, non-directional <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/association_nodirection.gif"/>
+        </imageobject>
+      </inlinemediaobject> and bi-directional <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="Images/association_bidirection.gif"/>
+        </imageobject>
+      </inlinemediaobject>. The type of association can be changed through its
+    property panel.</para>
+
+    <para>The Graph configuration is done through the<emphasis>
+    togwegraphcontroller.properties</emphasis> file.</para>
+
+    <para>The following parameters can be set:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para condition="demo-configuration">Graph.FontSizedemo</para>
+
+        <para>This property will set font size used in graph (for activity
+        name, etc.). Values: integer</para>
+
+        <para>NOTE: The graph font size can be set independently of the font
+        size for the rest of the editor.</para>
+      </listitem>
+
+      <listitem>
+        <para condition="demo-configuration">Graph.GridSize</para>
+
+        <para>The distance between position grid dots. Values: integer</para>
+      </listitem>
+
+      <listitem>
+        <para condition="demo-configuration">Graph.ShadowWidth</para>
+
+        <para>The width of the shadow when displaying activities in the graph.
+        Values: integer</para>
+      </listitem>
+
+      <listitem>
+        <para condition="demo-configuration">Graph.NameWrapping</para>
+
+        <para>Defines if the text representing the names of activities and
+        participants displayed in the graph will be wrapped if they are too
+        long. Values: true/false</para>
+      </listitem>
+
+      <listitem>
+        <para condition="demo-configuration">Graph.ShowGrid</para>
+
+        <para>Defines if the graph position grid will be shown. Values:
+        true/false</para>
+      </listitem>
+
+      <listitem>
+        <para condition="demo-configuration">Graph.ShowIcon</para>
+
+        <para>Defines if the graph elements should display their icons.
+        Values: true/false</para>
+      </listitem>
+
+      <listitem>
+        <para condition="demo-configuration">Graph.ShowShadow</para>
+
+        <para>Defines if activity shadows should be shown. Values:
+        true/false</para>
+      </listitem>
+
+      <listitem>
+        <para
+        condition="demo-configuration">Graph.ShowTransitionCondition</para>
+
+        <para>Defines if transition conditions should be displayed in the
+        graph. Values: true/false</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para>Graph.ShowTransitionNameForCondition</para>
+
+        <para condition="demo-emptytext">Defines if the name of the transition
+        should be shown instead of the condition of the transition. This
+        setting only has effect if the Graph.ShowTransitionCondition parameter
+        is set to true. Values: true/false</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-emptytext">Graph.DefaultTransitionStyle</para>
+
+        <para>Defines the default transition style when inserting new
+        transitions in the graph. Possible values: NO_ROUTING_ORTHOGONAL,
+        NO_ROUTING_SPLINE, NO_ROUTING_BEZIER, SIMPLE_ROUTING_ORTHOGONAL,
+        SIMPLE_ROUTING_SPLINE and SIMPLE_ROUTING_BEZIER</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para
+        condition="demo-configuration">Graph.WrappingStyleWordStatus</para>
+
+        <para>Defines if text wrapping should be based on whole words (if
+        possible). This setting only has effect if the Graph.NameWrapping
+        parameter is set to true. Values: true/false</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.HistorySize</para>
+
+        <para>Defines the size of the previous/next panel history. If the
+        parameter is set to a value less than zero, the history is unlimited.
+        Values: integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.ActivityHeight</para>
+
+        <para>The Graph's activity object height in pixels. Values:
+        integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.ActivityWidth</para>
+
+        <para>The Graph's activity object width in pixels. Values:
+        integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.GatewayHeight</para>
+
+        <para>The Graph's gateway activity (route activities) object height in
+        pixels. Values: integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.GatewayWidth</para>
+
+        <para>The Graph's gateway activity (route activities) object width in
+        pixels. Values: integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.EventRadius</para>
+
+        <para>The Graph's start/end event activity object radius in pixels.
+        Values: integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.DataObjectHeight</para>
+
+        <para>The Graph's "dataobject" artifact object height in pixels.
+        Values: integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.DataObjectWidth</para>
+
+        <para>The Graph's "dataobject" artifact object width in pixels.
+        Values: integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.LaneMinHeight</para>
+
+        <para>The lane's graph object minimum height in pixels. Values:
+        integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.LaneMinWidth</para>
+
+        <para>The lane's graph object minimum width in pixels. Values:
+        integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.LaneNameWidth</para>
+
+        <para>Defines how much space (in pixels) of the swimlane should be
+        reserved to display name. Values: integer</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para
+        condition="demo-configuration">Graph.ActivitySelectedColor</para>
+
+        <para>The color for selected activities. Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.BackgroundColor</para>
+
+        <para>The Graph background color. Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.HandleColor</para>
+
+        <para>The Color of break/routepoints of transitions (they are only
+        visible when a transition is selected). Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.GridColor</para>
+
+        <para>The color for position grid dots. Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.MarqueeColor</para>
+
+        <para>The color for marquee rectangles. Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para
+        condition="demo-configuration">Graph.ParticipantBorderColor</para>
+
+        <para>The color for participant's swimlane borders. Values:
+        R=?,G=?,B=? (where ? represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para
+        condition="demo-configuration">Graph.LaneCommonExpressionColor</para>
+
+        <para>The color for the common expression lane. Values: R=?,G=?,B=?
+        (where ? represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para
+        condition="demo-configuration">Graph.LaneFreeTextExpressionColor</para>
+
+        <para>The color for the free text expression lane. Values: R=?,G=?,B=?
+        (where ? represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.TextColor</para>
+
+        <para>The color of the Graph text. Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.StartEventColor</para>
+
+        <para>Start event activities color. Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+
+      <listitem condition="demo-emptytext">
+        <para condition="demo-configuration">Graph.EndEventColor</para>
+
+        <para>End event activities color. Values: R=?,G=?,B=? (where ?
+        represents an integer from 0 to 255).</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>As with all other components, you are also able to change the
+    content of the toolbar and the order of toolbar buttons.</para>
+
+    <sect2>
+      <title>How to show transition conditions vs. names in the graph</title>
+
+      <para>As shortly listed above, the graph can hide or show transition
+      condition text, or even use transition's name when chosen to display the
+      text in the graph.</para>
+
+      <para>To show/hide transition's text in the design time use
+      <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/showtransitioncondition.gif"
+                       format="GIF"/>
+          </imageobject>
+        </inlinemediaobject> and <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="Images/hidetransitioncondition.gif"
+                       format="GIF"/>
+          </imageobject>
+        </inlinemediaobject> icons from the toolbar.</para>
+
+      <para>To configure if the text should be shown or hidden by default when
+      editor is opened, use the following entry from<emphasis>
+      togwegraphcontroller.properties</emphasis> file for the selected editor
+      conifiguration (mode):</para>
+
+      <programlisting>Graph.ShowTransitionCondition = false</programlisting>
+
+      <para>If you set the value to <emphasis>true</emphasis>, the text will
+      be shown, otherwise it will be hidden by default.</para>
+
+      <para>To configure if the transition's condition or transition's name
+      text should be shown use the following property from the same
+      file:</para>
+
+      <programlisting>Graph.ShowTransitionNameForCondition = true</programlisting>
+
+      <para>The value <emphasis>true</emphasis> means that transition's name
+      will be shown, otherwise the transition's condition will be
+      shown.</para>
+
+      <note>
+        <para>This property can't be changed in the design time.</para>
+      </note>
+
+      <para>The following sample shows graphically what does it mean. First,
+      here is the property panel of one transition from the graph:</para>
+
+      <figure>
+        <title>Transition property panel</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/show_hide_transitions_transition_property_panel.jpg"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>As you can see, the condition of this transition is
+      <emphasis>!var_boolean_decision.booleanValue()</emphasis> and the name
+      is <emphasis>No</emphasis>.</para>
+
+      <para>If we setup graph not to show the transition text, the following
+      is the picture how it will look like:</para>
+
+      <figure>
+        <title>Graph - hidden transition's text</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/show_hide_transitions_transition_graph_hide_text.jpg"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>If we configure to show transition's condition as text it will
+      look like:</para>
+
+      <figure>
+        <title>Graph - show transition's condition text</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/show_hide_transitions_transition_graph_show_condition.jpg"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>And if we configure it to show transition's name as text:</para>
+
+      <figure>
+        <title>Transition property panel</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata contentdepth="100%"
+                       fileref="Images/show_hide_transitions_transition_graph_show_name.jpg"
+                       scalefit="1" width="100%"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>XPDL View</title>
+
+    <para>The XPDL view provides an XPDL text view of the selected elements.
+    It shows the structure of the selected XML element as it will be saved in
+    the XPDL file. Every time the selection is changed or a selected element
+    is being updated, the XPDL View is automatically updated also.</para>
+
+    <para>If the selected element is a whole XPDL package then the XPDL View
+    displays the whole package definition in the exact form as it will be
+    written into the XPDL file (when the document is saved). Otherwise the
+    XPDL View will display the part of the XPDL which holds the definition of
+    the selected element. So, when a particular process is selected, the XPDL
+    view displays the process definition part of XPDL as it will be written to
+    the XPDL file, etc.</para>
+
+    <para>The following examples show different XPDL Views depending on the
+    element type that is currently selected:</para>
+
+    <figure>
+      <title>XPDL View of a Package</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/xpdlViewPackage.gif"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <figure>
+      <title>XPDL View of a Process</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/xpdlViewProcess.gif"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <figure>
+      <title>XPDL View of an Activity</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/xpdlViewActivity.gif"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The XPDL view also offers a search box for finding desired text
+    fragments in the currently shown XPDL fragment.</para>
+  </sect1>
+
+  <sect1>
+    <title>Navigator</title>
+
+    <informaltable frame="none">
+      <tgroup cols="2">
+        <tbody valign="middle">
+          <row>
+            <entry align="center" colsep="0" valign="middle"><mediaobject>
+                <imageobject>
+                  <imagedata align="center" contentdepth="100%"
+                             fileref="Images/navigator.gif" valign="middle"
+                             width="100%"/>
+                </imageobject>
+              </mediaobject></entry>
+
+            <entry align="left" valign="middle">The Navigator displays a
+            hierarchical view of the XPDL model. It shows packages, processes,
+            activity sets and activities. It is also very useful for finding
+            XPDL elements which are not valid according to the XPDL
+            specification. These elements will be marked with error
+            (<inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/error_icon.gif"/>
+                </imageobject>
+              </inlinemediaobject>) or warning (<inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/warrning_icon.gif"/>
+                </imageobject>
+              </inlinemediaobject>) icons.<para>The Navigator makes navigation
+            through the XPDL model easier and offers a good way of element
+            selection. It can also ease editing of XPDL by opening property
+            dialogs directly from the elements in the tree.</para><para>The
+            available actions in the Navigator toolbar are <emphasis>expand
+            all</emphasis> and <emphasis>collapse all</emphasis>. When expand
+            all is selected the hierarchical tree will be expanded so that
+            every element is visible. When collapse all is performed, only top
+            element(s) will be made visible.</para><para>A right mouse click
+            on tree will display a popup menu. Besides the standard edit
+            functions (cut, copy, paste, delete and edit properties) there are
+            Expand all, Collapse all, Duplicate and References.
+            </para><para>Expand all and Collapse all will act like the actions
+            on the toolbar with the selected element used as the root element
+            of the action. So Expand all will make all children of the
+            selected element visible. </para><para>Duplicate will create a
+            copy of the selected element. The only difference will be in the
+            element id and name attributes (if they exist) which will get new
+            values. </para><para>The References action will search for
+            references to the selected element in the whole XPDL
+            model.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>The background and the selection colors can be set through the
+    packagenavigator.properties file.</para>
+
+    <para condition="demo-emptytext">BackgroundColor. Values: R=?,G=?,B=?
+    (where ? represents an integer from 0 to 255).</para>
+
+    <para condition="demo-emptytext">and</para>
+
+    <para>SelectionColor. Values: R=?,G=?,B=? (where ? represents an integer
+    from 0 to 255).</para>
+
+    <para>As with all other components you are also able to change the content
+    of the toolbar and the order of toolbar buttons.</para>
+  </sect1>
+
+  <sect1>
+    <title>Package tree</title>
+
+    <para>Similar to the Navigator the Package tree also displays a
+    hierarchical view of the XPDL model. The difference between these two
+    trees is the level of details. While the Navigator just shows packages,
+    processes, activity sets and activities, The Package tree shows almost
+    every element of the XPDL model.</para>
+
+    <para>The Package tree offers the most detailled hierarchical view of the
+    XPDL model. It graphically displays the whole hierarchy tree of all XPDL
+    elements of the model you are editing, Id attributes, names, the package
+    header, etc.</para>
+
+    <informaltable frame="none">
+      <tgroup cols="2">
+        <tbody valign="middle">
+          <row>
+            <entry align="left" colsep="0" valign="middle"><mediaobject>
+                <imageobject>
+                  <imagedata contentdepth="100%"
+                             fileref="Images/packageTree.gif" width="100%"/>
+                </imageobject>
+              </mediaobject></entry>
+
+            <entry align="left" valign="middle"><para>The Package tree makes
+            navigation through the XPDL elements easierIt can also ease
+            editing of XPDL by opening property dialogs directly from the
+            elements in the tree.</para><para>The available actions in the
+            Package tree toolbar are <emphasis>expand all</emphasis> and
+            <emphasis>collapse all</emphasis>. When expand all is selected the
+            hierarchical tree will be expanded so that every element is
+            visible. When collapse all is performed, only top element(s) will
+            be made visible.</para><para>A right mouse click on tree will
+            display a popup menu. Besides the standard edit functions (cut,
+            copy, paste, delete and edit properties) there are Expand all,
+            Collapse all, Duplicate and References.</para><para>Expand all and
+            Collapse all will act like the actions on the toolbar with the
+            selected element used as the root element of the action. So Expand
+            all will make all children of the selected element
+            visible.</para><para>Duplicate will create a copy of the selected
+            element. The only difference will be in the element id and name
+            attributes (if they exist) which will get new
+            values.</para><para>The References action will search for
+            references to the selected element in the whole XPDL
+            model.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>The Package tree component can be configured through
+    detailpackagenavigator.properties file.</para>
+
+    <itemizedlist condition="demo-emptytext">
+      <listitem>
+        <para><emphasis>BackgroundColor </emphasis> - background color</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>SelectionColor </emphasis> - selection color</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>You are able to customize the Package tree in order to hide some
+    complex element's sub-elements. For example: To hide Activity's Id,
+    Deadlines, Priority and Limit, you should set the property</para>
+
+    <para condition="demo-configuration">HideSubElements.Activity</para>
+
+    <para>to the following value:</para>
+
+    <programlisting condition="demo-configuration">HideSubElements.Activity = Id Deadlines Priority Limit</programlisting>
+
+    <para>You are also able to customize which elements of some collection
+    shouldn't be displayed. For example: To hide extended attributes which
+    name attribute is "SpecEA" or "EASpec", you can define the
+    property:</para>
+
+    <programlisting condition="demo-configuration">HideElements.ExtendedAttributes.Name = SpecEA EASpec</programlisting>
+
+    <para>If you want to hide all elements use *. For example: To hide all
+    extended attributes use:</para>
+
+    <para condition="demo-configuration">HideElements.ExtendedAttributes.Name
+    = *</para>
+
+    <para>As with all other components you are also able to change the content
+    of the toolbar and the order of toolbar buttons.</para>
+  </sect1>
+
+  <sect1>
+    <title>Properties component</title>
+
+    <para>Properties component displays selected XPDL element's
+    properties.</para>
+
+    <figure>
+      <title>Properties component</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/propertiesComponent.gif" scalefit="1"
+                     width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>By selecting an element, this component automatically displays the
+    most relevant data about that element (such as name, id etc.).</para>
+
+    <para>Besides data, this component also offers a couple of
+    operations:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="top">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/nav_left_red.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Displays properties of previously selected element
+            (that element again becomes selected).</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/nav_right_red.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Displays properties of element selected after this
+            element selection (the following element again becomes
+            selected).</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata align="left" fileref="Images/revert.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Discards new values of properties (reverts to the
+            values applied with last 'apply' action call).</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/check.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Applies new values of properties.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/properties.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Opens a dialog with a full set of the properties for
+            the displayed element.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/parentelementpanel.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Shows parent XPDL element panel.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>This component can be configured through
+    propertiespanelcomponent.properties file.</para>
+
+    <itemizedlist condition="demo-emptytext">
+      <listitem>
+        <para><emphasis>InlinePanel.ShowModifiedWarning </emphasis> - if set
+        to true, and if user wants to leave the property panel (by using show
+        previous, show next, show parent element panel actions or actions for
+        closing the dialog) of the element for which he previously changed
+        some properties (within the panel), the user is asked if he wants to
+        save the changes, leave the panel without saving changes or to cancel
+        the action.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>InlinePanel.DisplayTitle </emphasis> - if set to true,
+        panel will display element name beneath toolbar.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>HistorySize </emphasis> - defines the size of the
+        previous/next panel history. If set to the value less than zero, the
+        history is unlimited.</para>
+      </listitem>
+
+      <listitem>
+        <para>ApplyActionSavesXPDL - if set to true, whenever
+        <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="Images/check.gif" format="GIF"/>
+            </imageobject>
+          </inlinemediaobject>is pressed, XPDL will be saved.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>Toolbar.ActionOrder.defaultToolbar </emphasis> -
+        defines the content and the order of the dialog's toolbar.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>There are properties which can be adjusted to fine-tune the basic
+    element property panels L&amp;F, such as alignment, TOP, BOTTOM, RIGHT,
+    LEFT empty space in the panels, the width and height of the text boxes,
+    etc. These are defined by the following set of the properties:</para>
+
+    <programlisting condition="demo-configuration">XMLBasicPanel.RightAllignment=false
+XMLBasicPanel.EmptyBorder.TOP=0
+XMLBasicPanel.EmptyBorder.LEFT=3
+XMLBasicPanel.EmptyBorder.BOTTOM=4
+XMLBasicPanel.EmptyBorder.RIGHT=3
+XMLBasicPanel.SimplePanelTextWidth=250
+XMLBasicPanel.SimplePanelTextHeight=20</programlisting>
+
+    <para>You are able to customize so called "group" panels, used to display
+    some complex elements, in order to hide some complex element sub-elements.
+    For example, in order not to display Activity's Id, Deadlines, Priority
+    and Limit, you should set the property</para>
+
+    <para
+    condition="demo-configuration">HideSubElements.XMLGroupPanel.Activity</para>
+
+    <para>to the following value:</para>
+
+    <programlisting condition="demo-configuration">HideSubElements.XMLGroupPanel.Activity = Id Deadlines Priority Limit</programlisting>
+
+    <para>You are able to customize which elements of some collection
+    shouldn't be displayed within so called "table" panels. For example, if
+    you don't want to display extended attributes which name attribute is
+    "SpecEA" or "EASpec", you can define the property:</para>
+
+    <programlisting condition="demo-configuration">HideElements.XMLTablePanel.ExtendedAttributes.Name = SpecEA EASpec</programlisting>
+
+    <para>You are able to customize so called "table" panels, used to display
+    some complex element collections, in order to specify which sub-elements
+    will be shown as a table columns. For example, when displaying activities,
+    you can specify to show Activity's Id, Name, Performer, Type, Start mode,
+    Finish mode and Deadlines:</para>
+
+    <para><emphasis>ShowColumns.XMLTablePanel.Activities = Id Name Performer
+    Type StartMode FinishMode Deadlines</emphasis></para>
+
+    <para>There is another customization possible for the so called "combo
+    box" panel. Hence, you can define for which elements the combo box will be
+    disabled (by default nothing is disabled). For example, if you want to
+    disable combo boxes for displaying Activity's Performer and Transition's
+    From and To properties, you should specify the following:</para>
+
+    <programlisting condition="demo-configuration">XMLComboPanel.DisableCombo = Performer From To</programlisting>
+
+    <para>As with all other components, you are also able to change the
+    content of the toolbar, and the order of toolbar buttons.</para>
+  </sect1>
+
+  <sect1>
+    <title>Search component</title>
+
+    <para>Search component displays results of a
+    <emphasis>References</emphasis> or <emphasis>Search </emphasis>action. It
+    shows all elements that have a reference to the selected element in the
+    first case, or all the elements found based on entered criteria in second
+    case. Results are shown in hierarchical view.</para>
+
+    <figure>
+      <title>Search Results</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/searchComponent.gif"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Besides search results, this component also offers a couple of
+    operations:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="top">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/expandall.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Expands hierarchical results view.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/collapseall.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Collapses hierarchical results view.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/cleanpage.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Clears the result page.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>While left click on result select that element, right click will
+    also bring popup menu. Popup menu has action for expanding and collapsing,
+    bringing up properties and performing <emphasis>References</emphasis>
+    action for selected element.</para>
+
+    <para>The background color could be changed through
+    searchnavigator.properties file. (BackgroundColor = R=?,G=?,B=?)</para>
+
+    <para>As with all other components, you are also able to change the
+    content of the toolbar, and the order of toolbar buttons.</para>
+  </sect1>
+
+  <sect1>
+    <title>Problems component</title>
+
+    <para>Problems component lists all the problems currently present in the
+    XPDL model(s). If option for design-time validation (found in
+    togwecontroller.property) is set to 'true', this list will be
+    automatically refreshed (except for schema errors).</para>
+
+    <figure>
+      <title>Problems component</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/problemsComponent.jpg" scalefit="1"
+                     width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Results of action 'check validity' are also shown here, so if
+    design-time validation is off, you can always re-check the XPDL model
+    validity by calling this action from the Package's menu/toolbar.</para>
+
+    <para>The result table has five columns:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>The first column (without title) is representing a type of a
+        problem, which can be either error or warning and it's marked with
+        appropriate icon.</para>
+      </listitem>
+
+      <listitem>
+        <para>The second column specifies the type of the error/warning
+        (connection, logic, conformance or schema)</para>
+      </listitem>
+
+      <listitem>
+        <para>The third column is a description of the problem.</para>
+      </listitem>
+
+      <listitem>
+        <para>The fourth column displays the exact element where the problem
+        occurs</para>
+      </listitem>
+
+      <listitem>
+        <para>The fifth column is a location of the first relevant parent of
+        the problematic element (it could also be the problematic element
+        itself).</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Clicking on Element column selects the exact element which has an
+    error/warning described. By clicking on any other column, appropriate
+    parent element will be selected (e.g. if error is with actual parameter,
+    clicking on element will select actual parameter, while clicking on some
+    other column will select activity) - as already explained, sometimes these
+    two are the same.</para>
+
+    <para>On the other hand, double-clicking opens a dialog for editing
+    problematic element.</para>
+
+    <para>There is also a possibility to sort entries by the column - just
+    click to the column header, and entries will be sorted by this
+    column.</para>
+
+    <para>Problem component background color could be changed through
+    problemnavigator.properties file. (BackgroundColor = R=?,G=?,B=?)</para>
+
+    <para>As with all other components, you are also able to change the
+    content of the toolbar, and the order of toolbar buttons.</para>
+  </sect1>
+
+  <sect1>
+    <title>WfXML component</title>
+
+    <para>Having this component, you are able to connect to a workflow engine
+    which supports WfMC interface defined by WfMC, and to manage XPDL files on
+    the engine.</para>
+
+    <para>To connect to a workflow engine, valid registry service URL must be
+    entered. After you enter it, and press the button right to the URL, you
+    should connect to the engine, and get a list of the process definitions
+    already uploaded to the engine, as on the picture below:</para>
+
+    <figure>
+      <title>WfXML Component</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/wfxmlComponent.gif"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The toolbar for this component contains buttons for performing
+    actions for managing XPDLs on the engine. The actions are described in the
+    following table:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="top">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/downloadxpdl.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Downloads XPDL from the engine.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/uploadxpdl.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Uploads XPDL to the engine.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata align="left" fileref="Images/updatexpdl.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Updates XPDL to the engine.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/cleanpage.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Clears the history (which you are able to select from
+            a combo box) of most recently entered URLs of WfXML compliant
+            engines.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>As with all other components, you are also able to change the
+    content of the toolbar, and the order of toolbar buttons.</para>
+  </sect1>
+
+  <sect1>
+    <title>LDAP component</title>
+
+    <para>This component enables you to connect to the LDAP based system,
+    search for users and groups and import them into XPDL as
+    Participants.</para>
+
+    <figure>
+      <title>LDAP Component</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%" fileref="Images/ldapcomponent.gif"
+                     scalefit="1" width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>To be able to do this, you first need to configure LDAP parameters
+    by selecting corresponding action from component's toolbar. This will
+    bring you a dialog where you define how to access LDAP, names of
+    attributes representing group and users, etc. as shown on the picture
+    below:</para>
+
+    <figure>
+      <title>LDAP Configuration Dialog</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata contentdepth="100%"
+                     fileref="Images/ldapconfigurationdialog.gif" scalefit="1"
+                     width="100%"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The toolbar for this component contains buttons for performing
+    actions for managing LDAP access. The actions are described in the
+    following table:</para>
+
+    <informaltable frame="topbot">
+      <tgroup align="left" cols="2">
+        <tbody valign="top">
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/config.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Opens a dialog to configure parameters neccessary to
+            connect to an LDAP and search for users and groups.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/searchldap.gif" format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Performs a LDAP search based on parameters entered in
+            as a search criteria, and displays results in a
+            table.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata align="left" fileref="Images/importselected.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Imports selected LDAP entries as XPDL
+            Participants.</para></entry>
+          </row>
+
+          <row>
+            <entry align="left" valign="middle"><inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="Images/importexternalparticipants.gif"
+                             format="GIF"/>
+                </imageobject>
+              </inlinemediaobject></entry>
+
+            <entry><para>Imports all LDAP entries as XPDL
+            Participants.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+
+    <para>As with all other components, you are also able to change the
+    content of the toolbar, and the order of toolbar buttons.</para>
+
+    <para>The advantage of using "LDAP defined participants" is that one can
+    connect the LDAP server of its organization and create processes using the
+    real user/group logins for participant Ids. When the engine enacts such a
+    process, it could also browse the LDAP server for the certain
+    users/groups, so you do not have to do "participant to real user
+    mapping".</para>
+
+    <para>The default LDAP properties can be defined in ldap.properties
+    configuration file:</para>
+
+    <para><emphasis>#LDAPReferralHandling = follow </emphasis></para>
+
+    <para><emphasis>#LDAPCountLimit = 0 </emphasis></para>
+
+    <para><emphasis>#LDAPTimeLimit = 0 </emphasis></para>
+
+    <para><emphasis>#LDAPPageSize = 1000 </emphasis></para>
+
+    <para><emphasis>#LDAPHost=localhost </emphasis></para>
+
+    <para><emphasis>#LDAPPort=389 </emphasis></para>
+
+    <para><emphasis>#LDAPBaseDN= </emphasis></para>
+
+    <para><emphasis>#LDAPObjectClassFilter=group</emphasis></para>
+
+    <para><emphasis>#LDAPObjectClassFilterChoices=group,organizationalUnit,organizationalRole,user,person,organizationalPerson,inetOrgPerson,AllListed</emphasis></para>
+
+    <para><emphasis>#LDAPSearchScope=SCOPE_SUB </emphasis></para>
+
+    <para><emphasis>#LDAPSecurityLevel=UserAndPassword </emphasis></para>
+
+    <para><emphasis>#LDAPSecurityUserDN=username@company.com
+    </emphasis></para>
+
+    <para><emphasis>#LDAPSecurityPassword=somepwd </emphasis></para>
+
+    <para><emphasis>#LDAPGroupUniqueAttributeName=sAMAccountName
+    </emphasis></para>
+
+    <para><emphasis>#LDAPGroupNameAttributeName=displayName </emphasis></para>
+
+    <para><emphasis>#LDAPGroupDescriptionAttributeName=description
+    </emphasis></para>
+
+    <para><emphasis>#LDAPUserUniqueAttributeName=sAMAccountName
+    </emphasis></para>
+
+    <para><emphasis>#LDAPUserNameAttributeName=displayName </emphasis></para>
+
+    <para><emphasis>#LDAPUserDescriptionAttributeName=description
+    </emphasis></para>
+
+    <para><emphasis>#LDAPDistinguishedNameAttributeName=distinguishedName
+    </emphasis></para>
+
+    <para><emphasis>#Toolbar.ActionOrder.defaultToolbar = ConfigureLDAP
+    SearchLDAP - ImportSelected ImportAll</emphasis></para>
+  </sect1>
+
+  <sect1>
+    <title>Command-line usage</title>
+
+    <para>It is possible to use TWE from command-line in order to write
+    process definition graph into the file in the selected format.</para>
+
+    <para>Below is an example how to write graph of process definition
+    "simple_sync_deadline" from XPDL on path "d:\tmp\deadlineexamples.xpdl"
+    into the file "d:\tmp\simple_sync_deadline.jpg"</para>
+
+    <programlisting>"C:/Program Files/Java/jdk1.8.0_20/bin/java" -Xmx512M 
+   -DJaWE_HOME="d:/twe-6.0-1" -Djava.ext.dirs="d:/twe-6.0-1/lib" 
+   org.enhydra.jawe.JaWE d:\tmp\deadlineexamples.xpdl 
+   write_graph_2_file_procdefid=simple_sync_deadline 
+   write_graph_2_file_format=jpg 
+   write_graph_2_file_filepath=d:\tmp\simple_sync_deadline</programlisting>
+
+    <note>
+      <para>This example assumes Java location is "C:/Program
+      Files/Java/jdk1.8.0_20/bin/java", TWE is installed in "d:\twe-6.0-1" and
+      there is XPDL file at "d:\tmp\deadlines.xpdl" that has process
+      definition with Id "simple_sync_deadline"</para>
+    </note>
+
+    <para>The possible values for the parameter "write_graph_2_file_format"
+    are: jpg, svg and pdf</para>
+  </sect1>
+
+  <sect1>
+    <title>Setting working directory with system parameter</title>
+
+    <para>It is possible to set the system parameter for the initial working
+    directory JaWE_WORKING_DIR (the place where TWE will search for XPDL files
+    when using Open dialog).</para>
+
+    <para>Below is an example how to set working directory to d:\tmp:</para>
+
+    <programlisting>"C:/Program Files/Java/jdk1.8.0_20/bin/java" -Xmx512M 
+   -DJaWE_HOME="d:/twe-6.0-1" -DJaWE_WORKING_DIR=d:\tmp -Djava.ext.dirs="d:/twe-6.0-1/lib" 
+   org.enhydra.jawe.JaWE</programlisting>
+
+    <note>
+      <para>This example assumes Java location is "C:/Program
+      Files/Java/jdk1.8.0_20/bin/java", TWE is installed in "d:\twe-6.0-1" and
+      there is an existing directory at "d:\tmp"</para>
+    </note>
+  </sect1>
+</chapter>
