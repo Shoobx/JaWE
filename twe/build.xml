@@ -230,6 +230,7 @@
          <fileset dir="${tools.dir}" includes="**/itext.jar"/>
          <fileset dir="${tools.dir}/javahelp" includes="*.jar"/>
          <fileset dir="${tools.dir}/jeditsyntax" includes="*.jar"/>
+         <fileset dir="${tools.dir}/rsyntaxtextarea" includes="*.jar"/>
          <fileset dir="${tools.dir}/jgraph" includes="*.jar"/>
          <fileset dir="${tools.dir}/jna" includes="*.jar"/>
          <fileset dir="${tools.dir}/txm" includes="*.jar"/>
@@ -1040,6 +1041,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <fileset dir="${tools.dir}">
             <include name="batik/**" />
             <include name="jeditsyntax/**" />
+            <include name="rsyntaxtextarea/**" />
             <include name="jgraph/**" />
             <include name="jna/**" />
             <include name="txm/**" />

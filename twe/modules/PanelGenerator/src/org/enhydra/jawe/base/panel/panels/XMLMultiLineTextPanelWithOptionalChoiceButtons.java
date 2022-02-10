@@ -42,6 +42,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import org.fife.ui.rtextarea.RTextScrollPane;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+
 import org.enhydra.jawe.JaWEConstants;
 import org.enhydra.jawe.ResourceManager;
 import org.enhydra.jawe.Settings;
@@ -58,7 +62,7 @@ import org.enhydra.jxpdl.XMLUtil;
  */
 public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPanel implements XMLAppendChoiceInterface {
 
-   protected JTextArea jta;
+   protected RSyntaxTextArea jta;
 
    protected JLabel jl;
 
@@ -143,10 +147,6 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
 
       }
 
-      JScrollPane jsp = new JScrollPane();
-      jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
-      jsp.setAlignmentY(Component.TOP_ALIGNMENT);
-
       String lbl = "";
       if (pc != null) {
          lbl = pc.getSettings().getLanguageDependentString(labelKey + "Key") + ": ";
@@ -167,7 +167,14 @@ public class XMLMultiLineTextPanelWithOptionalChoiceButtons extends XMLBasicPane
       jspAndOpt.setLayout(new BoxLayout(jspAndOpt, BoxLayout.X_AXIS));
       jspAndOpt.setAlignmentX(Component.LEFT_ALIGNMENT);
       jspAndOpt.setAlignmentY(Component.TOP_ALIGNMENT);
-      jta = new JTextArea();
+      jta = new RSyntaxTextArea(noOfLines, 60);
+      jta.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+      jta.setCodeFoldingEnabled(true);
+      jta.setCodeFoldingEnabled(false);
+
+      RTextScrollPane jsp = new RTextScrollPane(jta);
+      jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
+      jsp.setAlignmentY(Component.TOP_ALIGNMENT);
 
       jta.setTabSize(4);
       if (initText != null) {
