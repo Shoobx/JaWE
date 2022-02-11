@@ -259,7 +259,7 @@ public class XPDLViewControllerPanel extends JPanel implements JaWEComponentView
                if (!(elementToShow instanceof Package)) {
                   transformer.setOutputProperty("omit-xml-declaration", "yes");
                } else {
-                  transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+                  transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
                }
                DOMSource source = new DOMSource(document);
                StreamResult result = new StreamResult(baos);

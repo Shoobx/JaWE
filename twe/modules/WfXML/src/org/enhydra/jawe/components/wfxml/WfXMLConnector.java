@@ -341,7 +341,7 @@ public class WfXMLConnector {
       transformer.setOutputProperty("indent", "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
       transformer.setOutputProperty("encoding", JaWEManager.getInstance().getJaWEController().getControllerSettings().getEncoding());
-      transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+      transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
       DOMSource source = new DOMSource(n);
       StreamResult result = new StreamResult(baos);
       transformer.transform(source, result);

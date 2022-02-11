@@ -1445,7 +1445,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          transformer.setOutputProperty("indent", "yes");
          transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
          transformer.setOutputProperty("encoding", settings.getEncoding());
-         transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+         transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
          DOMSource source = new DOMSource(document);
          StreamResult result = new StreamResult(os);
          transformer.transform(source, result);
