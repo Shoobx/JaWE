@@ -408,15 +408,15 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          // changed = true;
       }
 
-      String verInfo = BuildInfo.getVersion() + "-" + BuildInfo.getRelease() + "-" + BuildInfo.getBuildNo();
-      if (!JaWEEAHandler.getEditingToolVersion(pkg).equals(verInfo)) {
-         JaWEEAHandler.setEditingToolVersion(pkg, verInfo);
-         // changed = true;
-      }
-      if (!JaWEEAHandler.getEditingTool(pkg).equals(JaWEManager.getInstance().getName())) {
-         JaWEEAHandler.setEditingTool(pkg, JaWEManager.getInstance().getName());
-         // changed = true;
-      }
+      // String verInfo = BuildInfo.getVersion() + "-" + BuildInfo.getRelease() + "-" + BuildInfo.getBuildNo();
+      // if (!JaWEEAHandler.getEditingToolVersion(pkg).equals(verInfo)) {
+      //    JaWEEAHandler.setEditingToolVersion(pkg, verInfo);
+      //    // changed = true;
+      // }
+      // if (!JaWEEAHandler.getEditingTool(pkg).equals(JaWEManager.getInstance().getName())) {
+      //    JaWEEAHandler.setEditingTool(pkg, JaWEManager.getInstance().getName());
+      //    // changed = true;
+      // }
 
       if (JaWEEAHandler.removeOldPackageEAs(pkg)) {
          changed = true;
