@@ -50,7 +50,5 @@
 	<classpathentry kind="lib" path="tools/xerces/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="tools/xml-commons/xml-apis.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="tools/xalan/serializer.jar"/>
-	<classpathentry kind="lib" path="tools/xalan/xalan.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

@@ -1,3 +1,7 @@
+###### Unreleased changes ######
+2022-06-22 Albertas Agejevas <alga@shoobx.com>
+   # Revert the switch to XALAN in order to maintain output format consistency.
+
 ###### TWE 5.6-1 RELEASED ######
 
 ###### TWE 5.5-2 RELEASED ######

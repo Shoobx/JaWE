@@ -303,7 +303,7 @@ public class WfXMLConnector {
       JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().toXML(document, pkg);
 
       // Use a Transformer for output
-      TransformerFactory tFactory = new org.apache.xalan.processor.TransformerFactoryImpl();
+      TransformerFactory tFactory = TransformerFactory.newInstance();
       Transformer transformer = tFactory.newTransformer();
       transformer.setOutputProperty("indent", "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
@@ -336,12 +336,12 @@ public class WfXMLConnector {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
       // Use a Transformer for output
-      TransformerFactory tFactory = new org.apache.xalan.processor.TransformerFactoryImpl();
+      TransformerFactory tFactory = TransformerFactory.newInstance();
       Transformer transformer = tFactory.newTransformer();
       transformer.setOutputProperty("indent", "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
       transformer.setOutputProperty("encoding", JaWEManager.getInstance().getJaWEController().getControllerSettings().getEncoding());
-      transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+      transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
       DOMSource source = new DOMSource(n);
       StreamResult result = new StreamResult(baos);
       transformer.transform(source, result);
