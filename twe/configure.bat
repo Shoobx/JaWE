@@ -14,7 +14,6 @@
 ::along with this program. If not, see http://www.gnu.org/licenses
 ::
 @echo off
-cls
 rem *********************************************
 rem *  Initialize environment variables
 rem *********************************************
