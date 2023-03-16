@@ -4,14 +4,14 @@
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or 
+    the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
- 
-    This program is distributed in the hope that it will be useful, 
+
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
- 
+
     You should have received a copy of the GNU General Public License
     along with this program. If not, see http://www.gnu.org/licenses
 -->
@@ -40,7 +40,7 @@
    <property file="${basedir}/project.properties" />
    <property file="${basedir}/version.properties" />
    <property file="${basedir}/sign.properties" />
-   
+
    <copy todir="${basedir}" failonerror="false">
       <fileset dir="${basedir}/customdir" includes="rebranding.properties" />
    </copy>
@@ -81,8 +81,8 @@
             <include name="ant*contrib*.jar" />
          </fileset>
       </classpath>
-   </taskdef>   
-   
+   </taskdef>
+
    <!-- Setting for IF task -->
    <!--taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
       <classpath>
@@ -123,7 +123,7 @@
    <condition property="include.ext" value="sh">
       <os family="unix" />
    </condition>
-    
+
 	<if>
        <equals arg1="${buildid}" arg2="" trim="true"/>
        <then>
@@ -135,7 +135,7 @@
           <property name="build.timestamp" value="${buildid}" />
        </else>
    </if>
-   
+
 	<if>
       <not>
          <isset property="sign.timestamp.urls" />
@@ -186,9 +186,9 @@
               input="${build.timestamp}"
               regexp="(^[0-9]{4})"
               select="\1"
-              casesensitive="false" 
+              casesensitive="false"
 			  override="true"/>
-   
+
    <!-- ==================================================================== -->
    <!-- Reading of version number                                            -->
    <!-- ==================================================================== -->
@@ -200,7 +200,7 @@
    <!-- ==================================================================== -->
    <!-- init and prepare targets                                             -->
    <!-- ==================================================================== -->
-   <target name="init" depends="versionRead">   
+   <target name="init" depends="versionRead">
       <mkdir dir="${output.lib.dir}" />
       <mkdir dir="${bin.dir}" />
       <mkdir dir="${dist.bin.dir}" />
@@ -216,9 +216,9 @@
          <else>
             <property name="use.shared" value="false" />
          </else>
-      </if>               
+      </if>
    </target>
-   
+
    <target name="prepare" depends="init">
       <!-- tweactivityicons.jar -->
       <copy file="${tools.dir}/tweicons/tweactivityicons.jar" tofile="${output.lib.dir}/${app.name}activityicons.jar"/>
@@ -236,8 +236,8 @@
          <fileset dir="${tools.dir}/txm" includes="*.jar"/>
          <fileset dir="${tools.dir}/xerces" includes="*.jar"/>
          <fileset dir="${tools.dir}/xml-commons" includes="*.jar"/>
-      </copy>         
-      
+      </copy>
+
       <!-- Examples -->
       <copy todir="${build.dir}/examples">
          <fileset dir="${basedir}/examples">
@@ -293,13 +293,13 @@
          <then>
             <ant dir="branding" target="output" inheritAll="true" inheritRefs="true" />
          </then>
-      </if>            
+      </if>
    </target>
 
    <target name="setDebug">
       <property name="build.debug" value="on" />
    </target>
-      
+
    <!-- ==================================================================== -->
    <!-- Build binaries                                                       -->
    <!-- ==================================================================== -->
@@ -310,7 +310,7 @@
          <then>
             <ant dir="branding" target="update" inheritAll="true" inheritRefs="true" />
          </then>
-      </if>            
+      </if>
       <antcall target="signJars"/>
    </target>
 
@@ -324,7 +324,7 @@
          <then>
             <ant dir="branding" target="update" inheritAll="true" inheritRefs="true" />
          </then>
-      </if>            
+      </if>
 
    </target>
 
@@ -425,7 +425,7 @@ make buildAll            - Builds and configures ${upper.project.short.name} wit
 make buildNoDoc          - Builds and configures ${upper.project.short.name}  without documentation
 make buildDoc            - Builds documentation only
 make debug               - Builds ${upper.project.short.name}  JAR files with included debug information
-make install             - Installs and configures ${upper.project.short.name}  into directory defined by parameter install.dir in build.properties file. 
+make install             - Installs and configures ${upper.project.short.name}  into directory defined by parameter install.dir in build.properties file.
                            You can set this parameter value by using command: configure -instdir PATH_TO_DIR.
                            It should be called only after make buildAll target is executed!
 make clean               - Removes the output and distribution folder (in order to start a new compilation from scratch)
@@ -468,7 +468,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
    <target name="distBin" depends="prepare, clean, initDist">
       <if>
          <equals arg1="${os}" arg2="windows" />
-         <then>         
+         <then>
             <antcall target="distBinWindows">
                <param name="dist.folder" value="${dist.community.dir}" />
                <param name="name.additional" value="" />
@@ -485,7 +485,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             <antcall target="distBinUnix"/>
          </else>
       </if>
-      
+
    </target>
 
    <!-- ==================================================================== -->
@@ -505,9 +505,9 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <zip destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.zip" update="true">
          <zipfileset dir="${build.dir}" prefix="${app.name}-${name.additional}${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf,**/doc/${app.name}-current.test.pdf"/>
       </zip>
-      
+
       <!-- TWE setup EXE -->
-      
+
       <if>
          <istrue value="${rebranding}" />
          <then>
@@ -611,7 +611,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
                                        <equals arg1="${make.exe.return.code}" arg2="0" trim="true" />
                                     </not>
                                     <then>
-                          
+
                               <if>
                                  <and>
                                     <equals arg1="${sun.arch.data.model}" arg2="32" />
@@ -640,7 +640,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
                                  </else>
                               </if>
                               <echo message="SIGN_TOOLS='${sign.tool}'" />
-                              
+
                                        <echo message="Signing with '@{sign.timestamp.url}'" />
                                        <antcallback target="check.timestamp.server" return="server.timeout">
                                           <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
@@ -758,15 +758,15 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             <ant dir="branding" target="after_install" inheritAll="true" inheritRefs="true"/>
          </then>
       </if>
-      
+
       <if>
          <equals arg1="${name.additional}" arg2="" />
          <then>
          </then>
          <else>
-            <move file="${dist.folder}/${app.name}-${version}-${release}.exe" tofile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.exe" overwrite="true" />         
+            <move file="${dist.folder}/${app.name}-${version}-${release}.exe" tofile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.exe" overwrite="true" />
          </else>
-      </if>      
+      </if>
    </target>
 
    <target name="distOther">
@@ -784,11 +784,11 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       </zip>
       <copy todir="${dist.community.dir}">
          <fileset dir="${build.dir}/doc" includes="*-current.doc.pdf" />
-      </copy>      
+      </copy>
       <delete quiet="true">
          <fileset dir="${build.dir}/doc" includes="*-${version}-${release}.doc.*" />
-      </delete>      
-      <copy file="${output.doc.dir}/${app.name}-current.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />   
+      </delete>
+      <copy file="${output.doc.dir}/${app.name}-current.test.pdf" tofile="${dist.internal.dir}/${app.name}-${version}-${release}.test.pdf" />
       <!--copy todir="${dist.internal.dir}">
          <fileset dir="${basedir}/licenses" includes="${app.name}-includes.csv" />
          <mapper type="regexp" from="${app.name}-includes.csv" to="${app.name}-${version}-${release}.includes.csv" />
@@ -829,7 +829,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <antcall target="_debug"/>
       <zip destfile="${dist.debug.dir}/${app.name}-${version}-${release}.debug.zip" update="true">
-         <zipfileset dir="${build.dir}" includes="**/lib/${app.name}*.jar" excludes="**/lib/${app.name}doc.jar,**/lib/${app.name}activityicons.jar" prefix="${app.name}-${version}-${release}" />         
+         <zipfileset dir="${build.dir}" includes="**/lib/${app.name}*.jar" excludes="**/lib/${app.name}doc.jar,**/lib/${app.name}activityicons.jar" prefix="${app.name}-${version}-${release}" />
       </zip>
    </target>
 
@@ -843,7 +843,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <copy file="${input.dir}/bin/run.sh.in" tofile="${output.dir}/${app.name}-${version}-${release}/dist/bin/run.sh.in"/>
       <delete file="${output.dir}/${app.name}-${version}-${release}/configure.bat"/>
       <delete file="${output.dir}/${app.name}-${version}-${release}/dist/bin/run.bat.in"/>
-      
+
       <property name="dist.folder" value="${dist.community.dir}" />
       <property name="name.additional" value=""/>
       <tar destfile="${dist.folder}/${app.name}-${name.additional}${version}-${release}.tar.gz" compression="gzip" longfile="gnu">
@@ -868,14 +868,14 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <condition property="sourceBuildTarget" value="distSourceUnix">
          <os family="unix" />
       </condition>
-   
+
       <ant target="${sourceBuildTarget}">
       </ant>
       <if>
          <equals arg1="${os}" arg2="windows" />
          <then>
             <antcall target="distSrcUnix"/>
-            <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />            
+            <move file="${basedir}/distribution/${app.name}-${version}-${release}.src.tar.gz" tofile="${dist.community.dir}/${app.name}-${version}-${release}.src.tar.gz" overwrite="true" />
          </then>
       </if>
    </target>
@@ -937,7 +937,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       </copy>
 
       <!-- Signing a jar files -->
-      
+
       <if>
 		<or>
 			<not>
@@ -955,8 +955,8 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <else>
             <antcall target="signem" />
          </else>
-         
-      </if>      
+
+      </if>
       <zip destfile="${dist.folder}/${app.name}-${version}-${release}.webstart.zip" update="true">
          <zipfileset dir="${dist.community.webstart.dir}" prefix="${app.name}-${version}-${release}.webstart" />
       </zip>
@@ -976,8 +976,8 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             <include name="${app.name}pic.jar" />
             <include name="${app.name}activityicons.jar" />
          </fileset>
-         <fileset dir="${component.dir}" includes="Component.properties" />  
-         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+         <fileset dir="${component.dir}" includes="Component.properties" />
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-core/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-core" />
@@ -989,8 +989,8 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <fileset dir="${build.dir}/lib">
             <include name="${app.name}sharkxpdlvalidation.jar" />
          </fileset>
-         <fileset dir="${component.dir}" includes="Component.properties" />  
-         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+         <fileset dir="${component.dir}" includes="Component.properties" />
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-sharkxpdlvalidation/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-sharkxpdlvalidation" />
@@ -1009,8 +1009,8 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <zipfileset dir="${build.dir}" prefix="${app.name}-${version}-${release}" excludes="**/doc/api/**,**/doc/${app.name}-${version}-${release}.test.pdf" />
       </zip>
       <copy todir="${tmp.component.dir}/${app.name}-zip">
-         <fileset dir="${component.dir}" includes="Component.properties" />  
-         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+         <fileset dir="${component.dir}" includes="Component.properties" />
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-zip/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-zip" />
@@ -1022,13 +1022,13 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 
       <unzip src="${dist.community.dir}/${app.name}-${version}-${release}.src.zip" dest="${tmp.component.dir}/${app.name}-src-zip/tmp" />
       <zip destfile="${tmp.component.dir}/${app.name}-src-zip/${app.name}.src.zip" update="true">
-         <zipfileset dir="${tmp.component.dir}/${app.name}-src-zip/tmp" />      
+         <zipfileset dir="${tmp.component.dir}/${app.name}-src-zip/tmp" />
       </zip>
       <delete dir="${tmp.component.dir}/${app.name}-src-zip/tmp"/>
-      
+
       <copy todir="${tmp.component.dir}/${app.name}-src-zip">
-         <fileset dir="${component.dir}" includes="Component.properties" />  
-         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />  
+         <fileset dir="${component.dir}" includes="Component.properties" />
+         <fileset dir="${basedir}/licenses" includes="GPL-3.0.txt" />
       </copy>
       <replace file="${tmp.component.dir}/${app.name}-src-zip/Component.properties" value="">
          <replacefilter token="@COMPONENTNAME@" value="${app.name}-src-zip" />
@@ -1047,14 +1047,14 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             <include name="xerces/**" />
             <include name="xml-commons/**" />
          </fileset>
-      </copy>  
+      </copy>
       <zip destfile="${dist.component.dir}/${app.name}-${version}-${release}.comp.zip" update="true">
          <zipfileset dir="${tmp.component.dir}"/>
       </zip>
       <delete dir="${tmp.component.dir}"/>
-      
+
    </target>
-      
+
    <target name="signem">
       <echo message="Signing with Together certificate" />
       <signjar alias="${sign.alias}"
@@ -1084,7 +1084,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
                               <equals arg1="${exe.return.code}" arg2="0" trim="true" />
                            </not>
                            <then>
-						   
+
 								<if>
 									<and>
 										<equals arg1="${sun.arch.data.model}" arg2="32" />
@@ -1113,7 +1113,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
 									</else>
 								</if>
 								<echo message="SIGN_TOOLS='${sign.tool}'" />
-								
+
                               <echo message="Signing with '@{sign.timestamp.url}'" />
                               <antcallback target="check.timestamp.server" return="server.timeout">
                                  <property name="sign.timestamp.url" value="@{sign.timestamp.url}" />
@@ -1179,7 +1179,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
    </target>
 
    <target name="sign.without.timestamp" unless="${sign.setup.control}">
-   
+
 		<if>
 			<and>
 				<equals arg1="${sun.arch.data.model}" arg2="32" />
@@ -1234,7 +1234,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          </else>
       </if>
 
-   </target>   
+   </target>
 
    <target name="check.timestamp.server" if="${is.check.timestamp}">
       <propertyregex property="sign.timestamp.url.temp" input="${sign.timestamp.url}" regexp="([h|H][t|T]{2}[p|P][s|S]?\:[/][/])([[\w]*[.]{0,1}[\w]*]*)([:]?)([\d]*)([[/]*[\w]]*)" select="\2" casesensitive="true" />
@@ -1269,7 +1269,7 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
       <var name="sign.timestamp.url.temp" unset="true" />
       <antcall target="get-current-time" />
    </target>
-   
+
    <target name="get-current-time">
       <tstamp>
          <format property="current.time" pattern="HH:mm:ss" locale="en,UK" />
@@ -1365,9 +1365,9 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
          <fileset dir="${output.lib.dir}" includes="${app.name}*.jar" />
       </signjar>
    </target>
-   
+
    <target name="signJars">
-<!--      
+<!--
       <if>
          <and>
             <isset property="sign.alias" />
@@ -1381,10 +1381,8 @@ make distributions       - Builds and configures ${upper.project.short.name}  wi
             <antcall target="signjars.with.timestamp" />
             <antcall target="signjars.without.timestamp" />
          </then>
-      </if>   
--->      
+      </if>
+-->
    </target>
-   
+
 </project>
-
-
