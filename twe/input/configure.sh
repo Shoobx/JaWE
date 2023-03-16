@@ -1,20 +1,20 @@
-# Together Workflow Editor 
+# Together Workflow Editor
 # Copyright (C) 2011 Together Teamsolutions Co., Ltd.
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or 
+# the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful, 
+#
+# This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses
 #
-####################################################################### 
+#######################################################################
 
 #!/bin/bash
 #
@@ -28,7 +28,7 @@ function help {
 	echo $(basename $0) "-option value ..."
 	echo
 	echo "Options:"
-	echo " 
+	echo "
 	jdkhome
 
 	Example: configure -jdkhome /usr/java/jdk1.8.0_20
@@ -42,12 +42,12 @@ do
 	case $n in
 		--help | -help) help
 			exit 0
-		;;      
-	esac            
-done                    
+		;;
+	esac
+done
 
-cd $(dirname $0)        
-                        
+cd $(dirname $0)
+
 if
 	[[ -r configure.properties ]]
 then
@@ -59,13 +59,13 @@ then
 	rm  $fname
 fi
 
-for n in $*             
+for n in $*
 do
 	#if  the previous option needs an argument, assign it
-                        
+
 	if
 		[[ -n $previous ]]
-	then 
+	then
 		eval "$previous=\$n"
 		previous=
 		continue
