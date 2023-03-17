@@ -25,6 +25,7 @@ import java.awt.print.PrinterJob;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.DialogOwner;
 
 import org.enhydra.jawe.ActionBase;
 import org.enhydra.jawe.JaWEComponent;
@@ -66,7 +67,7 @@ public class Print extends ActionBase {
       // Looks like this class is being moved to javax.print.attribute.standard for Java 7
 
       Frame f = JaWEManager.getInstance().getJaWEController().getJaWEFrame();
-      aset.add(new sun.print.DialogOwner(f));
+      aset.add(new DialogOwner(f));
 
       if (printJob.printDialog(aset)) {
          PageFormat pageFormat = selectedGraph.getPageFormat();
