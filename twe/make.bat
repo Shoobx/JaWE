@@ -14,7 +14,7 @@
 ::along with this program. If not, see http://www.gnu.org/licenses
 ::
 @echo off
-cls
+::cls
 
 SET VERSION=4.4
 SET TARGET=buildAll
