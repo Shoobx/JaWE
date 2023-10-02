@@ -1,18 +1,18 @@
 /**
  * Together Workflow Editor
- * Copyright (C) 2011 Together Teamsolutions Co., Ltd. 
- * 
- * This program is free software: you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation, either version 3 of the License, or 
- * (at your option) any later version. 
+ * Copyright (C) 2011 Together Teamsolutions Co., Ltd.
  *
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
- * GNU General Public License for more details. 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * You should have received a copy of the GNU General Public License 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
  * along with this program. If not, see http://www.gnu.org/licenses
  */
 
@@ -60,6 +60,7 @@ import org.enhydra.jawe.JaWEComponent;
 import org.enhydra.jawe.JaWEComponentSettings;
 import org.enhydra.jawe.JaWEComponentView;
 import org.enhydra.jawe.JaWEConstants;
+import org.enhydra.jawe.JaWETabbedPane;
 import org.enhydra.jawe.JaWEEAHandler;
 import org.enhydra.jawe.JaWEManager;
 import org.enhydra.jawe.JaWEXMLUtil;
@@ -942,13 +943,30 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          // xpdlhandler.printDebug();
          updateTitle();
          adjustActions();
-
+         defaultMain();
          return pkg;
       } finally {
          ws.setVisible(false);
       }
    }
 
+   protected void defaultMain() {
+     /*
+       Hack to ensure that the main panel shows the GraphComponent by default on
+       XPDL load. Finds the GraphComponent, and sets it as the component
+       that's active in the Main spbe viewer frame.
+     */
+     JaWEFrame jf = getJaWEFrame();
+     JaWETabbedPane main = jf.mainComponents;
+     Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
+     while (comps.hasNext()) {
+         JaWEComponent comp = (JaWEComponent) comps.next();
+         System.err.println(comp.getName());
+         if (comp.getName() == "GraphComponent"){
+             main.setSelectedComponent(comp.getView().getDisplay());
+         }
+     }
+   }
    protected String getModeToSwitchTo(String filename) throws Exception {
       boolean doSwitchMode = true;
       try {
