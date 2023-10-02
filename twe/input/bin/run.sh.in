@@ -1,5 +1,10 @@
 #!/bin/sh
 
+xpdlPath=''
+if [ $1 ]
+then
+   xpdlPath=`realpath $1`
+fi
 cd `dirname $0`
 
 "@JAVA_PATH@/bin/java" \
@@ -8,4 +13,4 @@ cd `dirname $0`
     -DJaWE_WORKING_DIR="@INSTALL_DIR@/examples/xpdl2.1/RealLife" \
     -Dawt.useSystemAAFontSettings="on" \
     -cp "@INSTALL_DIR@/lib/*" \
-    org.enhydra.jawe.JaWE $*
+    org.enhydra.jawe.JaWE $xpdlPath > /dev/null 2>&1 &
