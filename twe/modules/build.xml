@@ -47,6 +47,9 @@
       </fileset>
    </path>
 
+   <!--Jars for the core jar classpath-->
+   <property name="classpath.jars" value="ant-launcher.jar ant.jar batik.jar itext.jar jEdit-syntax.jar jgraph.jar jhall.jar jna.jar jxpdl.jar rsyntaxtextarea-3.0.6.jar sbpeactivityicons.jar sbpebranding.jar sbpecore.jar sbpedetailedpackagenavigator.jar sbpeextpkgrelations.jar sbpehistorymgr.jar sbpeinfobar.jar sbpejped.jar sbpelan.jar sbpelanguageswitcher.jar sbpeldap.jar sbpepackagenavigator.jar sbpepic.jar sbpeproblemsnavigator.jar sbpepropertiespanel.jar sbpereconfiguration.jar sbpesamples.jar sbpesearchnavigator.jar sbpeshark.jar sbpesharkxpdlvalidation.jar sbpetranspkgpool.jar sbpeundomgr.jar sbpewfxml.jar xercesImpl.jar xml-apis.jar" />
+   
    <!-- Setting for SWITCH task -->
    <taskdef name="switch" classname="net.sf.antcontrib.logic.Switch">
       <classpath>
@@ -236,6 +239,8 @@
             <attribute name="Build-Id" value="${build.timestamp}" />
             <attribute name="Build-Type" value="${build.type}" />
             <attribute name="Project-URL" value="http://www.together.at/prod/workflow/twe" />
+            <attribute name="Class-Path" value="${classpath.jars}" />
+            <attribute name="Main-Class" value="${main.class}" />
          </manifest>
       </jar>
       <antcall target="makeJAR">

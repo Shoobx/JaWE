@@ -1,5 +1,8 @@
 ###### Unreleased changes ######
 
+2023-10-03 Albertas Agejevas <albertas.agjevas@fmr.com>
+   # Hack the ANT build to produce a startable JAR file.
+
 2023-10-02 Simon Gao <sgao@shoobx.com>
    # Ensure that the main component shows up in the main panel on start.
    # Fix passing the XPDL filename on the command line.
