@@ -1,4 +1,9 @@
 ###### Unreleased changes ######
+
+2023-10-02 Simon Gao <sgao@shoobx.com>
+   # Ensure that the main component shows up in the main panel on start.
+   # Fix passing the XPDL filename on the command line.
+
 2022-06-22 Albertas Agejevas <alga@shoobx.com>
    # Revert the switch to XALAN in order to maintain output format consistency.
 
