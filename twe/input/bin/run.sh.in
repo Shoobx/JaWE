@@ -10,7 +10,7 @@ cd `dirname $0`
 "@JAVA_PATH@/bin/java" \
     -Xmx2048M \
     -DJaWE_HOME="@INSTALL_DIR@" \
-    -DJaWE_WORKING_DIR="@INSTALL_DIR@/examples/xpdl2.1/RealLife" \
+    -DJaWE_WORKING_DIR="$SHOOBX_HOME/data/processes" \
     -Dawt.useSystemAAFontSettings="on" \
     -cp "@INSTALL_DIR@/lib/*" \
     org.enhydra.jawe.JaWE $xpdlPath > /dev/null 2>&1 &

@@ -56,6 +56,10 @@ public class JaWE {
 
    private static final String JaWE_WORKING_DIR = "JaWE_WORKING_DIR";
 
+   private static final String VALIDATE = "validate";
+
+   private static final String VALIDATION_OUTPUT_FORMAT = "validation_output_format";
+
    public static void main(String[] args) throws Throwable {
       System.out.println("Starting JAWE ....");
       System.out.println("JaWE -> JaWE is being initialized ...");
@@ -107,6 +111,17 @@ public class JaWE {
          } catch (Exception ex) {
             ex.printStackTrace();
             System.exit(1);
+         }
+      }
+
+      if (shouldValidate(argsMap)) {
+         try {
+            boolean hasErrors = performValidation(argsMap);
+            System.exit(hasErrors ? 1 : 0 );
+         } catch (Exception ex) {
+            System.err.println("Error during validation: " + ex.getMessage());
+            ex.printStackTrace();
+            System.exit(2);
          }
       }
 
@@ -221,6 +236,290 @@ public class JaWE {
          throw new RuntimeException("Unknown graph format " + format);
       }
 
+   }
+
+   private static boolean shouldValidate(Map<String, String> argsMap) throws Exception {
+      String validate = argsMap.get(VALIDATE);
+      String fn = argsMap.get(XPDL_FILEPATH);
+      return "true".equalsIgnoreCase(validate) && fn != null;
+   }
+
+   private static boolean performValidation(Map<String, String> argsMap) throws Exception {
+      String fn = argsMap.get(XPDL_FILEPATH);
+      String format = argsMap.get(VALIDATION_OUTPUT_FORMAT);
+      if (format == null) {
+         format = "text";
+      }
+
+      // Initialize JaWE without starting the GUI
+      JaWEManager.getInstance().init();
+
+      // Open the XPDL package
+      org.enhydra.jxpdl.elements.Package pkg = JaWEManager.getInstance().getJaWEController().openPackageFromFile(fn);
+      if (pkg == null) {
+         throw new Exception("Could not open XPDL file: " + fn);
+      }
+
+      // Perform validation
+      java.util.List validationErrors = JaWEManager.getInstance().getJaWEController().checkValidity(pkg, true);
+
+      // Output results
+      return outputValidationResults(fn, validationErrors, format);
+   }
+
+   private static boolean outputValidationResults(String filename, java.util.List validationErrors, String format) {
+      int errorCount = 0;
+      int warningCount = 0;
+
+      // Count errors and warnings
+      if (validationErrors != null) {
+         for (int i = 0; i < validationErrors.size(); i++) {
+            org.enhydra.jawe.base.xpdlvalidator.ValidationError error =
+               (org.enhydra.jawe.base.xpdlvalidator.ValidationError) validationErrors.get(i);
+            if ("ERROR".equals(error.getType())) {
+               errorCount++;
+            } else if ("WARNING".equals(error.getType())) {
+               warningCount++;
+            }
+         }
+      }
+
+      if ("json".equalsIgnoreCase(format)) {
+         outputJsonFormat(filename, validationErrors, errorCount, warningCount);
+      } else {
+         outputTextFormat(filename, validationErrors, errorCount, warningCount);
+      }
+
+      return errorCount > 0;
+   }
+
+   private static void outputTextFormat(String filename, java.util.List validationErrors, int errorCount, int warningCount) {
+      System.out.println("XPDL Validation Results for: " + filename);
+      System.out.println();
+
+      if (validationErrors != null && validationErrors.size() > 0) {
+         if (errorCount > 0) {
+            System.out.println("Errors (" + errorCount + "):");
+            for (int i = 0; i < validationErrors.size(); i++) {
+               org.enhydra.jawe.base.xpdlvalidator.ValidationError error =
+                  (org.enhydra.jawe.base.xpdlvalidator.ValidationError) validationErrors.get(i);
+               if ("ERROR".equals(error.getType())) {
+                  System.out.println("  " + formatErrorForText(error));
+               }
+            }
+            System.out.println();
+         }
+
+         if (warningCount > 0) {
+            System.out.println("Warnings (" + warningCount + "):");
+            for (int i = 0; i < validationErrors.size(); i++) {
+               org.enhydra.jawe.base.xpdlvalidator.ValidationError error =
+                  (org.enhydra.jawe.base.xpdlvalidator.ValidationError) validationErrors.get(i);
+               if ("WARNING".equals(error.getType())) {
+                  System.out.println("  " + formatErrorForText(error));
+               }
+            }
+            System.out.println();
+         }
+      } else {
+         System.out.println("No validation errors or warnings found.");
+         System.out.println();
+      }
+
+      System.out.println("Summary: " + errorCount + " errors, " + warningCount + " warnings");
+   }
+
+   private static String formatErrorForText(org.enhydra.jawe.base.xpdlvalidator.ValidationError error) {
+      StringBuilder sb = new StringBuilder();
+      sb.append(error.getType()).append(" [").append(error.getSubType()).append("] ");
+
+      // Get element location
+      if (error.getElement() != null) {
+         String location = getElementLocation(error.getElement());
+         sb.append(location).append(": ");
+      }
+
+      // Get meaningful error description
+      String description = getErrorDescription(error);
+      sb.append(description);
+      return sb.toString();
+   }
+
+   private static String getErrorDescription(org.enhydra.jawe.base.xpdlvalidator.ValidationError error) {
+      String errorId = error.getId();
+      String originalDesc = error.getDescription();
+
+      // Handle common error types with better descriptions
+      if (errorId != null) {
+         switch (errorId) {
+            case "WARNING_UNUSED_VARIABLE":
+               return "Unused variable '" + originalDesc + "'";
+            case "WARNING_NON_EXISTING_VARIABLE_REFERENCE":
+               return "Reference to non-existing variable '" + originalDesc + "'";
+            case "WARNING_ACTUAL_PARAMETER_EXPRESSION_POSSIBLY_INVALID":
+               return "Actual parameter expression may be invalid: '" + originalDesc + "'";
+            case "ERROR_NON_EXISTING_VARIABLE_REFERENCE":
+               return "Reference to non-existing variable '" + originalDesc + "'";
+            case "WARNING_EXPRESSION_POSSIBLY_INVALID":
+               return "Expression possibly invalid: '" + originalDesc + "'";
+            case "ERROR_PERFORMER_NOT_DEFINED":
+               return "No performer defined for activity";
+            case "ERROR_UNSUPPORTED_SCRIPT":
+               return "Unsupported script type: '" + originalDesc + "'";
+            case "ERROR_SCRIPT_NOT_DEFINED":
+               return "Script not defined";
+            default:
+               // For unknown error IDs, try to make a readable description
+               if (errorId.startsWith("WARNING_") || errorId.startsWith("ERROR_")) {
+                  String readableId = errorId.toLowerCase()
+                     .replace("warning_", "")
+                     .replace("error_", "")
+                     .replace("_", " ");
+
+                  if (originalDesc != null && !originalDesc.trim().isEmpty() && !isDescriptionJustElementName(originalDesc, error.getElement())) {
+                     return readableId + ": '" + originalDesc + "'";
+                  } else {
+                     return readableId;
+                  }
+               }
+         }
+      }
+
+      // Fallback to original description if available and meaningful
+      if (originalDesc != null && !originalDesc.trim().isEmpty()) {
+         // Check if description is just repeating the element name/ID
+         if (!isDescriptionJustElementName(originalDesc, error.getElement())) {
+            return originalDesc;
+         }
+         return "Issue with element '" + originalDesc + "'";
+      }
+
+      return "No description available";
+   }
+
+   private static boolean isDescriptionJustElementName(String description, org.enhydra.jxpdl.XMLElement element) {
+      if (description == null || element == null) return false;
+
+      try {
+         if (element instanceof org.enhydra.jxpdl.XMLComplexElement) {
+            org.enhydra.jxpdl.XMLComplexElement ce = (org.enhydra.jxpdl.XMLComplexElement) element;
+            org.enhydra.jxpdl.XMLElement idElement = ce.get("Id");
+            if (idElement != null && description.equals(idElement.toValue())) {
+               return true;
+            }
+            org.enhydra.jxpdl.XMLElement nameElement = ce.get("Name");
+            if (nameElement != null && description.equals(nameElement.toValue())) {
+               return true;
+            }
+         }
+      } catch (Exception e) {
+         // Ignore
+      }
+      return false;
+   }
+
+   private static String getElementLocation(org.enhydra.jxpdl.XMLElement element) {
+      if (element == null) return "Unknown";
+
+      try {
+         java.util.List<String> path = new java.util.ArrayList<String>();
+         org.enhydra.jxpdl.XMLElement current = element;
+
+         // Build path from element up to root
+         while (current != null) {
+            String elementName = getElementName(current);
+            if (elementName != null && !elementName.isEmpty()) {
+               path.add(0, elementName); // Add to beginning
+            }
+            current = current.getParent();
+         }
+
+         // Return formatted path
+         if (path.size() > 0) {
+            return String.join("/", path);
+         } else {
+            return element.getClass().getSimpleName();
+         }
+      } catch (Exception e) {
+         return element.getClass().getSimpleName();
+      }
+   }
+
+   private static String getElementName(org.enhydra.jxpdl.XMLElement element) {
+      if (element == null) return null;
+
+      try {
+         String className = element.getClass().getSimpleName();
+
+         // For complex elements, try to get ID or Name
+         if (element instanceof org.enhydra.jxpdl.XMLComplexElement) {
+            org.enhydra.jxpdl.XMLComplexElement ce = (org.enhydra.jxpdl.XMLComplexElement) element;
+
+            // Try Id first
+            org.enhydra.jxpdl.XMLElement idElement = ce.get("Id");
+            if (idElement != null && !idElement.toValue().isEmpty()) {
+               return className + "(" + idElement.toValue() + ")";
+            }
+
+            // Try Name if no Id
+            org.enhydra.jxpdl.XMLElement nameElement = ce.get("Name");
+            if (nameElement != null && !nameElement.toValue().isEmpty()) {
+               return className + "(" + nameElement.toValue() + ")";
+            }
+         }
+
+         // For collections, show type and count
+         if (element instanceof org.enhydra.jxpdl.XMLCollection) {
+            org.enhydra.jxpdl.XMLCollection coll = (org.enhydra.jxpdl.XMLCollection) element;
+            return className + "[" + coll.size() + "]";
+         }
+
+         return className;
+      } catch (Exception e) {
+         return element.getClass().getSimpleName();
+      }
+   }
+
+   private static void outputJsonFormat(String filename, java.util.List validationErrors, int errorCount, int warningCount) {
+      System.out.println("{");
+      System.out.println("  \"file\": \"" + escapeJson(filename) + "\",");
+      System.out.println("  \"summary\": {");
+      System.out.println("    \"errors\": " + errorCount + ",");
+      System.out.println("    \"warnings\": " + warningCount);
+      System.out.println("  },");
+      System.out.println("  \"problems\": [");
+
+      if (validationErrors != null && validationErrors.size() > 0) {
+         for (int i = 0; i < validationErrors.size(); i++) {
+            org.enhydra.jawe.base.xpdlvalidator.ValidationError error =
+               (org.enhydra.jawe.base.xpdlvalidator.ValidationError) validationErrors.get(i);
+
+            System.out.println("    {");
+            System.out.println("      \"type\": \"" + escapeJson(error.getType()) + "\",");
+            System.out.println("      \"subtype\": \"" + escapeJson(error.getSubType()) + "\",");
+            System.out.println("      \"id\": \"" + escapeJson(error.getId()) + "\",");
+            System.out.println("      \"description\": \"" + escapeJson(getErrorDescription(error)) + "\",");
+            System.out.println("      \"element\": \"" + escapeJson(getElementLocation(error.getElement())) + "\"");
+
+            if (i < validationErrors.size() - 1) {
+               System.out.println("    },");
+            } else {
+               System.out.println("    }");
+            }
+         }
+      }
+
+      System.out.println("  ]");
+      System.out.println("}");
+   }
+
+   private static String escapeJson(String input) {
+      if (input == null) return "";
+      return input.replace("\\", "\\\\")
+                  .replace("\"", "\\\"")
+                  .replace("\n", "\\n")
+                  .replace("\r", "\\r")
+                  .replace("\t", "\\t");
    }
 
 }
