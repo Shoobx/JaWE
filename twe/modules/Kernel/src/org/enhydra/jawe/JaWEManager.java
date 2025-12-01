@@ -141,7 +141,7 @@ public class JaWEManager {
       aboutMsg = " Visit <a href=\"http://www.together.at/prod/workflow/twe\">Together Workflow Editor Homepage</a>"
                  + " for more <br>information about the product."
                  + "<br><br>For support please contact: <a href=\"mailto:jawe@enhydra.org\">jawe@enhydra.org</a>"
-                 + "<br><br>© <a href=\"http://www.together.at\">Together Teamsolutions Co., Ltd</a></p>";
+                 + "<br><br>ï¿½ <a href=\"http://www.together.at\">Together Teamsolutions Co., Ltd</a></p>";
       additionalLicenseText = "<html><p align center>"
                               + "<br>This product includes software developed by the "
                               + "<br>Apache Software Foundation (http://www.apache.org/).</html>";
@@ -542,7 +542,10 @@ public class JaWEManager {
                       + xpdlvClass + "' - using default implementation!";
          loggingManager.error(msg, ex);
       }
-      validationOrSearchResultEditor = new ValidationOrSearchResultEditor();
+      // Only create GUI-based validation editor if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         validationOrSearchResultEditor = new ValidationOrSearchResultEditor();
+      }
 
       try {
          DisplayNameGeneratorSettings ds = (DisplayNameGeneratorSettings) cl.loadClass(dnSettings)
@@ -589,44 +592,50 @@ public class JaWEManager {
          inlinePanelClassName = InlinePanel.class.getName();
       }
 
-      try {
-         PanelSettings ps = (PanelSettings) cl.loadClass(xpdlEditorSettings)
-            .newInstance();
-         ps.setPropertyMgr(propertyMgr);
+      // Only create GUI-based element editor if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         try {
+            PanelSettings ps = (PanelSettings) cl.loadClass(xpdlEditorSettings)
+               .newInstance();
+            ps.setPropertyMgr(propertyMgr);
 
-         Constructor c = Class.forName(xpdleeClass).getConstructor(new Class[] {
-            PanelSettings.class
-         });
-         xpdlElementEditor = (XPDLElementEditor) c.newInstance(new Object[] {
-            ps
-         });
-         loggingManager.info("JaWEManager -> Working with '"
-                             + xpdleeClass + "' implementation of XPDL Element Editor ");
-      } catch (Throwable ex) {
-         xpdlElementEditor = new NewStandardXPDLElementEditor(new NewStandardXPDLEditorSettings());
-         String msg = "JaweManager -> Problems while instantiating XPDL Element Editor class '"
-                      + xpdleeClass + "' - using default implementation!";
-         loggingManager.error(msg, ex);
+            Constructor c = Class.forName(xpdleeClass).getConstructor(new Class[] {
+               PanelSettings.class
+            });
+            xpdlElementEditor = (XPDLElementEditor) c.newInstance(new Object[] {
+               ps
+            });
+            loggingManager.info("JaWEManager -> Working with '"
+                                + xpdleeClass + "' implementation of XPDL Element Editor ");
+         } catch (Throwable ex) {
+            xpdlElementEditor = new NewStandardXPDLElementEditor(new NewStandardXPDLEditorSettings());
+            String msg = "JaweManager -> Problems while instantiating XPDL Element Editor class '"
+                         + xpdleeClass + "' - using default implementation!";
+            loggingManager.error(msg, ex);
+         }
       }
 
-      try {
-         TableEditorSettings ts = (TableEditorSettings) cl.loadClass(teSettings)
-            .newInstance();
-         ts.setPropertyMgr(propertyMgr);
+      // Only create GUI-based table editor if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         try {
+            TableEditorSettings ts = (TableEditorSettings) cl.loadClass(teSettings)
+               .newInstance();
+            ts.setPropertyMgr(propertyMgr);
 
-         Constructor c = Class.forName(teClass).getConstructor(new Class[] {
-            TableEditorSettings.class
-         });
-         tableEditor = (TableEditor) c.newInstance(new Object[] {
-            ts
-         });
-         loggingManager.info("JaWEManager -> Working with '"
-                             + teClass + "' implementation of Table Editor ");
-      } catch (Throwable ex) {
-         tableEditor = new TableEditor(new TableEditorSettings());
-         String msg = "JaweManager -> Problems while instantiating table editor class '"
-                      + teClass + "' - using default implementation!";
-         loggingManager.error(msg, ex);
+            Constructor c = Class.forName(teClass).getConstructor(new Class[] {
+               TableEditorSettings.class
+            });
+            tableEditor = (TableEditor) c.newInstance(new Object[] {
+               ts
+            });
+            loggingManager.info("JaWEManager -> Working with '"
+                                + teClass + "' implementation of Table Editor ");
+         } catch (Throwable ex) {
+            tableEditor = new TableEditor(new TableEditorSettings());
+            String msg = "JaweManager -> Problems while instantiating table editor class '"
+                         + teClass + "' - using default implementation!";
+            loggingManager.error(msg, ex);
+         }
       }
 
       try {
@@ -649,18 +658,21 @@ public class JaWEManager {
          loggingManager.error(msg, ex);
       }
 
-      try {
-         componentManager = (ComponentManager) cl.loadClass(cmClass).newInstance();
-         componentManager.setPropertyMgr(propertyMgr);
-         componentManager.init();
-         loggingManager.info("JaWEManager -> Working with '"
-                             + cmClass + "' implementation of Component Manager");
-      } catch (Throwable ex) {
-         componentManager = new ComponentManager();
-         componentManager.init();
-         String msg = "JaWEManger -> Problems while instantiating Component Manager class '"
-                      + cmClass + "' - using default implementation!";
-         loggingManager.error(msg, ex);
+      // Only create GUI-based component manager if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         try {
+            componentManager = (ComponentManager) cl.loadClass(cmClass).newInstance();
+            componentManager.setPropertyMgr(propertyMgr);
+            componentManager.init();
+            loggingManager.info("JaWEManager -> Working with '"
+                                + cmClass + "' implementation of Component Manager");
+         } catch (Throwable ex) {
+            componentManager = new ComponentManager();
+            componentManager.init();
+            String msg = "JaWEManger -> Problems while instantiating Component Manager class '"
+                         + cmClass + "' - using default implementation!";
+            loggingManager.error(msg, ex);
+         }
       }
 
       getXPDLHandler().getXPDLRepositoryHandler()

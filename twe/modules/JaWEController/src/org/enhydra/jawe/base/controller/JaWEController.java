@@ -395,11 +395,14 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             changed = true;
          }
       }
-      Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
-      while (comps.hasNext()) {
-         JaWEComponent jc = (JaWEComponent) comps.next();
-         if (jc != this) {
-            changed = jc.adjustXPDL(pkg) || changed;
+      // Only iterate through components if component manager exists (not in headless mode)
+      if (JaWEManager.getInstance().getComponentManager() != null) {
+         Iterator comps = JaWEManager.getInstance().getComponentManager().getComponents().iterator();
+         while (comps.hasNext()) {
+            JaWEComponent jc = (JaWEComponent) comps.next();
+            if (jc != this) {
+               changed = jc.adjustXPDL(pkg) || changed;
+            }
          }
       }
 
@@ -824,13 +827,17 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    }
 
    protected Package openPackage(String filename, byte[] xpdlStream) {
-      WaitScreen ws = new WaitScreen(frame);
+      WaitScreen ws = null;
+      // Only create wait screen if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         ws = new WaitScreen(frame);
+      }
       XPDLHandler xpdlh = null;
       try {
          Package pkg = null;
          clearAll();
          XPDLHandler xpdlhandler = JaWEManager.getInstance().getXPDLHandler();
-         if (jaweFrameShown && filename != null && xpdlStream == null) {
+         if (jaweFrameShown && filename != null && xpdlStream == null && ws != null) {
             ws.show(null, "", settings.getLanguageDependentString("OpeningFile"));
          }
          xpdlh = JaWEManager.getInstance().createXPDLHandler(xpdlhandler.getXPDLRepositoryHandler());
@@ -849,7 +856,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
             ex.printStackTrace();
             clearAll();
             xpdlh.closeAllPackages();
-            ws.setVisible(false);
+            if (ws != null) {
+               ws.setVisible(false);
+            }
             message(settings.getLanguageDependentString("ErrorCannotOpenXPDL") + "\n" + ((ex.getMessage() != null) ? "\n" + ex.getMessage() : ""),
                     JOptionPane.INFORMATION_MESSAGE);
             return pkg;
@@ -912,7 +921,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
                if ((mainChanged) && jaweFrameShown) {
                   if (mainChanged) {
-                     ws.setVisible(false);
+                     if (ws != null) {
+                        ws.setVisible(false);
+                     }
                      message(settings.getLanguageDependentString("InformationTogWEHasAutomaticallyAdjustedSomeXPDLParts"), JOptionPane.INFORMATION_MESSAGE);
                   }
                }
@@ -937,7 +948,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
                   xpdlhandler.closePackageVersion(p.getId(), p.getInternalVersion());
                }
             }
-            ws.setVisible(false);
+            if (ws != null) {
+               ws.setVisible(false);
+            }
             message(settings.getLanguageDependentString("ErrorCannotOpenXPDL") + ((msg != null) ? "\n" + msg : ""), JOptionPane.INFORMATION_MESSAGE);
          }
          // xpdlhandler.printDebug();
@@ -946,7 +959,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          defaultMain();
          return pkg;
       } finally {
-         ws.setVisible(false);
+         if (ws != null) {
+            ws.setVisible(false);
+         }
       }
    }
 
@@ -2555,8 +2570,10 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    }
 
    public void adjustActions() {
-      settings.adjustActions();
-      defaultJaWEActions.enableDisableActions();
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         settings.adjustActions();
+         defaultJaWEActions.enableDisableActions();
+      }
    }
 
    protected void updateTitle() {
@@ -2780,7 +2797,12 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
    /* Show a dialog with the given error message. */
    public void message(String message, int type) {
-      JOptionPane.showMessageDialog(getJaWEFrame(), message, getAppTitle(), type);
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         JOptionPane.showMessageDialog(getJaWEFrame(), message, getAppTitle(), type);
+      } else {
+         // In headless mode, just log the message instead of showing a dialog
+         System.err.println(message);
+      }
    }
 
    // ********************************** END OF DIALOGS *****************************

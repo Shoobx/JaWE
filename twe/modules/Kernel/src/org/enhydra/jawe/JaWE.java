@@ -64,6 +64,12 @@ public class JaWE {
       System.out.println("Starting JAWE ....");
       System.out.println("JaWE -> JaWE is being initialized ...");
 
+      // Check if we're in validation mode and set headless mode early
+      Map<String, String> argsMap = getArgumentsMap(args);
+      if (isValidationMode(argsMap)) {
+         System.setProperty("java.awt.headless", "true");
+      }
+
       try {
          setAppUserModelID();
       } catch (Exception e) {
@@ -103,7 +109,6 @@ public class JaWE {
          JaWEManager.configure();
       }
 
-      Map<String, String> argsMap = getArgumentsMap(args);
       if (shouldSaveGraph(argsMap)) {
          try {
             writeGraph(argsMap);
@@ -127,6 +132,12 @@ public class JaWE {
 
       // Starting file name
       String fn = argsMap.get(XPDL_FILEPATH);
+
+      // Don't start GUI if we're in validation mode
+      if (isValidationMode(argsMap)) {
+         System.err.println("Error: Validation mode was requested but validation did not complete properly.");
+         System.exit(1);
+      }
 
       JaWEManager.getInstance().start(fn);
 
@@ -158,6 +169,11 @@ public class JaWE {
          shell32.SetCurrentProcessExplicitAppUserModelID(wAppId);
          // AppUsermodelID_End
       }
+   }
+
+   private static boolean isValidationMode(Map<String, String> argsMap) {
+      String validate = argsMap.get(VALIDATE);
+      return "true".equalsIgnoreCase(validate);
    }
 
    private static Map<String, String> getArgumentsMap(String[] args) throws Exception {
@@ -240,8 +256,7 @@ public class JaWE {
 
    private static boolean shouldValidate(Map<String, String> argsMap) throws Exception {
       String validate = argsMap.get(VALIDATE);
-      String fn = argsMap.get(XPDL_FILEPATH);
-      return "true".equalsIgnoreCase(validate) && fn != null;
+      return "true".equalsIgnoreCase(validate);
    }
 
    private static boolean performValidation(Map<String, String> argsMap) throws Exception {
@@ -249,6 +264,13 @@ public class JaWE {
       String format = argsMap.get(VALIDATION_OUTPUT_FORMAT);
       if (format == null) {
          format = "text";
+      }
+
+      // Check if file is provided
+      if (fn == null) {
+         System.err.println("Error: No XPDL file specified for validation.");
+         System.err.println("Usage: java -jar sbpecore.jar <xpdl_file> validate=true [validation_output_format=text|json|csv] [validation_exit_on_error=true|false]");
+         return true; // Return true to indicate error
       }
 
       // Initialize JaWE without starting the GUI

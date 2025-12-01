@@ -652,6 +652,7 @@ public class ControllerSettings extends JaWEComponentSettings {
    }
 
    public boolean useJaWEFrame() {
-      return true;
+      // Don't create GUI frame in headless mode
+      return !java.awt.GraphicsEnvironment.isHeadless();
    }
 }

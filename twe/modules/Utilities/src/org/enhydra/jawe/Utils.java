@@ -1114,7 +1114,11 @@ public class Utils {
 
       File newFile = new File(JaWEConstants.JAWE_CONF_HOME + "/temp");
 
-      WaitScreen ws = new WaitScreen(null);
+      WaitScreen ws = null;
+      // Only create wait screen if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         ws = new WaitScreen(null);
+      }
       try {
          newFile.createNewFile();
 
@@ -1146,16 +1150,22 @@ public class Utils {
          }
          jc.tryToClosePackage(jc.getMainPackageId(), true, false);
 
-         ws.show(null, "", jc.getSettings().getLanguageDependentString("ReconfiguringKey"));
+         if (ws != null) {
+            ws.show(null, "", jc.getSettings().getLanguageDependentString("ReconfiguringKey"));
+         }
 
          JaWEManager.getInstance().restart(filename);
-         ws.setVisible(false);
+         if (ws != null) {
+            ws.setVisible(false);
+         }
          return true;
       } catch (Throwable e) {
          e.printStackTrace();
          return false;
       } finally {
-         ws.setVisible(false);
+         if (ws != null) {
+            ws.setVisible(false);
+         }
       }
    }
 
