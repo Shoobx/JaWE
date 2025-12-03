@@ -658,21 +658,19 @@ public class JaWEManager {
          loggingManager.error(msg, ex);
       }
 
-      // Only create GUI-based component manager if not in headless mode
-      if (!java.awt.GraphicsEnvironment.isHeadless()) {
-         try {
-            componentManager = (ComponentManager) cl.loadClass(cmClass).newInstance();
-            componentManager.setPropertyMgr(propertyMgr);
-            componentManager.init();
-            loggingManager.info("JaWEManager -> Working with '"
-                                + cmClass + "' implementation of Component Manager");
-         } catch (Throwable ex) {
-            componentManager = new ComponentManager();
-            componentManager.init();
-            String msg = "JaWEManger -> Problems while instantiating Component Manager class '"
-                         + cmClass + "' - using default implementation!";
-            loggingManager.error(msg, ex);
-         }
+      // Always create component manager - it's now headless-aware
+      try {
+         componentManager = (ComponentManager) cl.loadClass(cmClass).newInstance();
+         componentManager.setPropertyMgr(propertyMgr);
+         componentManager.init();
+         loggingManager.info("JaWEManager -> Working with '"
+                             + cmClass + "' implementation of Component Manager");
+      } catch (Throwable ex) {
+         componentManager = new ComponentManager();
+         componentManager.init();
+         String msg = "JaWEManger -> Problems while instantiating Component Manager class '"
+                      + cmClass + "' - using default implementation!";
+         loggingManager.error(msg, ex);
       }
 
       getXPDLHandler().getXPDLRepositoryHandler()

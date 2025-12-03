@@ -112,6 +112,14 @@ public class ComponentManager {
                 String component = ResourceManager
                         .getResourceString(properties, "Component.Add." + mcomps[i]);
                 String settings = ResourceManager.getResourceString(properties, "Settings." + mcomps[i]);
+
+                // Skip GUI-only components in headless mode
+                if (java.awt.GraphicsEnvironment.isHeadless() && isGUIOnlyComponent(component)) {
+                    JaWEManager.getInstance().getLoggingManager().info(
+                            "ComponentManager -> skipping GUI component " + component + " in headless mode");
+                    continue;
+                }
+
                 try {
                     JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(settings).newInstance();
                     set.setPropertyMgr(propertyMgr);
@@ -141,6 +149,14 @@ public class ComponentManager {
                 String component = ResourceManager
                         .getResourceString(properties, "Component.Add." + scomps[i]);
                 String settings = ResourceManager.getResourceString(properties, "Settings." + scomps[i]);
+
+                // Skip GUI-only components in headless mode
+                if (java.awt.GraphicsEnvironment.isHeadless() && isGUIOnlyComponent(component)) {
+                    JaWEManager.getInstance().getLoggingManager().info(
+                            "ComponentManager -> skipping GUI component " + component + " in headless mode");
+                    continue;
+                }
+
                 try {
                     JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(settings).newInstance();
                     set.setPropertyMgr(propertyMgr);
@@ -170,6 +186,14 @@ public class ComponentManager {
                 String component = ResourceManager
                         .getResourceString(properties, "Component.Add." + tcomps[i]);
                 String settings = ResourceManager.getResourceString(properties, "Settings." + tcomps[i]);
+
+                // Skip GUI-only components in headless mode
+                if (java.awt.GraphicsEnvironment.isHeadless() && isGUIOnlyComponent(component)) {
+                    JaWEManager.getInstance().getLoggingManager().info(
+                            "ComponentManager -> skipping GUI component " + component + " in headless mode");
+                    continue;
+                }
+
                 try {
                     JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(settings).newInstance();
                     set.setPropertyMgr(propertyMgr);
@@ -199,6 +223,14 @@ public class ComponentManager {
                 String component = ResourceManager
                         .getResourceString(properties, "Component.Add." + ocomps[i]);
                 String settings = ResourceManager.getResourceString(properties, "Settings." + ocomps[i]);
+
+                // Skip GUI-only components in headless mode
+                if (java.awt.GraphicsEnvironment.isHeadless() && isGUIOnlyComponent(component)) {
+                    JaWEManager.getInstance().getLoggingManager().info(
+                            "ComponentManager -> skipping GUI component " + component + " in headless mode");
+                    continue;
+                }
+
                 try {
                     JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(settings).newInstance();
                     set.setPropertyMgr(propertyMgr);
@@ -222,6 +254,14 @@ public class ComponentManager {
             String component = ResourceManager.getResourceString(properties, "Component.Add."
                     + compToAdd.get(i));
             String settings = ResourceManager.getResourceString(properties, "Settings." + compToAdd.get(i));
+
+            // Skip GUI-only components in headless mode
+            if (java.awt.GraphicsEnvironment.isHeadless() && isGUIOnlyComponent(component)) {
+                JaWEManager.getInstance().getLoggingManager().debug(
+                        "ComponentManager -> skipping GUI component " + component + " in headless mode");
+                continue;
+            }
+
             try {
                 JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(settings).newInstance();
                 set.setPropertyMgr(propertyMgr);
@@ -242,46 +282,61 @@ public class ComponentManager {
         String upperComponent = ResourceManager.getResourceString(properties, "UpperStatus");
         String upperSettings = ResourceManager.getResourceString(properties, "UpperStatus.Settings");
         if (null != upperComponent && !"".equals(upperComponent)) {
-            try {
-                JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(upperSettings).newInstance();
-                set.setPropertyMgr(propertyMgr);
+            // Skip GUI-only components in headless mode
+            if (java.awt.GraphicsEnvironment.isHeadless() && isGUIOnlyComponent(upperComponent)) {
+                JaWEManager.getInstance().getLoggingManager().info(
+                        "ComponentManager -> skipping GUI component " + upperComponent + " in headless mode");
+            } else {
+                try {
+                    JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(upperSettings).newInstance();
+                    set.setPropertyMgr(propertyMgr);
 
-                Constructor c = Class.forName(upperComponent).getConstructor(
-                        new Class[] { JaWEComponentSettings.class });
-                JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                jc.setComponentType(JaWEComponent.UPPER_STATUS_COMPONENT);
-                registerComponents(jc);
-                JaWEManager.getInstance().getLoggingManager().debug(
-                        "ComponentManager -> component " + jc.getName() + " added to JaWE");
-                componentMap.put(jc.getName(), jc);
-            } catch (Throwable thr) {
-                JaWEManager.getInstance().getLoggingManager().error(
-                        "ComponentManager -> error while adding JaWE component " + upperComponent + "!", thr);
+                    Constructor c = Class.forName(upperComponent).getConstructor(
+                            new Class[] { JaWEComponentSettings.class });
+                    JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
+                    jc.setComponentType(JaWEComponent.UPPER_STATUS_COMPONENT);
+                    registerComponents(jc);
+                    JaWEManager.getInstance().getLoggingManager().debug(
+                            "ComponentManager -> component " + jc.getName() + " added to JaWE");
+                    componentMap.put(jc.getName(), jc);
+                } catch (Throwable thr) {
+                    JaWEManager.getInstance().getLoggingManager().error(
+                            "ComponentManager -> error while adding JaWE component " + upperComponent + "!", thr);
+                }
             }
         }
 
         String lowerComponent = ResourceManager.getResourceString(properties, "LowerStatus");
         String lowerSettings = ResourceManager.getResourceString(properties, "LowerStatus.Settings");
         if (null != lowerComponent && !"".equals(lowerComponent)) {
-            try {
-                JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(lowerSettings).newInstance();
-                set.setPropertyMgr(propertyMgr);
+            // Skip GUI-only components in headless mode
+            if (java.awt.GraphicsEnvironment.isHeadless() && isGUIOnlyComponent(lowerComponent)) {
+                JaWEManager.getInstance().getLoggingManager().info(
+                        "ComponentManager -> skipping GUI component " + lowerComponent + " in headless mode");
+            } else {
+                try {
+                    JaWEComponentSettings set = (JaWEComponentSettings) cl.loadClass(lowerSettings).newInstance();
+                    set.setPropertyMgr(propertyMgr);
 
-                Constructor c = Class.forName(lowerComponent).getConstructor(
-                        new Class[] { JaWEComponentSettings.class });
-                JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
-                jc.setComponentType(JaWEComponent.LOWER_STATUS_COMPONENT);
-                registerComponents(jc);
-                JaWEManager.getInstance().getLoggingManager().debug(
-                        "ComponentManager -> component " + jc.getName() + " added to JaWE");
-                componentMap.put(jc.getName(), jc);
-            } catch (Throwable thr) {
-                JaWEManager.getInstance().getLoggingManager().error(
-                        "ComponentManager -> error while adding JaWE component " + lowerComponent + "!", thr);
+                    Constructor c = Class.forName(lowerComponent).getConstructor(
+                            new Class[] { JaWEComponentSettings.class });
+                    JaWEComponent jc = (JaWEComponent) c.newInstance(new Object[] { set });
+                    jc.setComponentType(JaWEComponent.LOWER_STATUS_COMPONENT);
+                    registerComponents(jc);
+                    JaWEManager.getInstance().getLoggingManager().debug(
+                            "ComponentManager -> component " + jc.getName() + " added to JaWE");
+                    componentMap.put(jc.getName(), jc);
+                } catch (Throwable thr) {
+                    JaWEManager.getInstance().getLoggingManager().error(
+                            "ComponentManager -> error while adding JaWE component " + lowerComponent + "!", thr);
+                }
             }
         }
 
-        JaWEManager.getInstance().getJaWEController().getJaWEFrame().rearrangeFrame();
+        // Only rearrange frame if not in headless mode
+        if (!java.awt.GraphicsEnvironment.isHeadless()) {
+            JaWEManager.getInstance().getJaWEController().getJaWEFrame().rearrangeFrame();
+        }
 
     }
 
@@ -295,6 +350,21 @@ public class ComponentManager {
         }
 
         return -1;
+    }
+
+    /**
+     * Determines if a component is GUI-only and should be skipped in headless mode.
+     * @param componentClassName The fully qualified class name of the component
+     * @return true if the component is GUI-only, false otherwise
+     */
+    protected boolean isGUIOnlyComponent(String componentClassName) {
+        if (componentClassName == null) {
+            return false;
+        }
+
+        // SearchNavigator and ProblemsNavigator are now headless-compatible
+        // Keep this method in case we need to filter other components in the future
+        return false;
     }
 
 }

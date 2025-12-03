@@ -59,7 +59,11 @@ public class SearchNavigator implements Observer, TreeSelectionListener, JaWECom
       this.settings.init(this);
       init();
       JaWEManager.getInstance().getJaWEController().addObserver(this);
-      JaWEManager.getInstance().getValidationOrSearchResultEditor().setSearchDisplayEnabled(false);
+      // Only set search display settings if not in headless mode and ValidationOrSearchResultEditor exists
+      if (!java.awt.GraphicsEnvironment.isHeadless() &&
+          JaWEManager.getInstance().getValidationOrSearchResultEditor() != null) {
+         JaWEManager.getInstance().getValidationOrSearchResultEditor().setSearchDisplayEnabled(false);
+      }
    }
 
    public JaWEComponentSettings getSettings() {
@@ -97,6 +101,11 @@ public class SearchNavigator implements Observer, TreeSelectionListener, JaWECom
       }
       updateInProgress = true;
       try {
+         // Skip GUI operations in headless mode
+         if (panel == null) {
+            return;
+         }
+
          int action = info.getAction();
          if (action == XPDLElementChangeInfo.REFERENCES || action == XPDLElementChangeInfo.SEARCH_RESULT) {
             panel.refreshSearchPanel(info.getChangedElement(), info.getChangedSubElements(), action);
@@ -119,21 +128,26 @@ public class SearchNavigator implements Observer, TreeSelectionListener, JaWECom
    }
 
    public void cleanMatches() {
-      panel.reinitialize();
-      settings.adjustActions();
+      if (panel != null) {
+         panel.reinitialize();
+         settings.adjustActions();
+      }
    }
 
    public boolean hasMatches() {
-      return panel.hasMatches();
+      return panel != null ? panel.hasMatches() : false;
    }
 
    protected void init() {
-      panel = new SearchNavigatorPanel(this);
-      panel.configure();
+      // Only create GUI panel if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         panel = new SearchNavigatorPanel(this);
+         panel.configure();
+      }
    }
 
    public void valueChanged(TreeSelectionEvent e) {
-      if (updateInProgress)
+      if (updateInProgress || panel == null)
          return;
       JaWEManager.getInstance().getLoggingManager().info("SearchNavigator -> selection changed ...");
 
@@ -205,7 +219,7 @@ public class SearchNavigator implements Observer, TreeSelectionListener, JaWECom
    }
 
    public JComponent getDisplay() {
-      return panel.getDisplay();
+      return panel != null ? panel.getDisplay() : null;
    }
 
    public String getComponentType() {

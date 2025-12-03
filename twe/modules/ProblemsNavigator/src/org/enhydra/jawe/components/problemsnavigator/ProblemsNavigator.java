@@ -54,9 +54,13 @@ public class ProblemsNavigator implements Observer, JaWEComponent {
 
       init();
       JaWEManager.getInstance().getJaWEController().addObserver(this);
-      JaWEManager.getInstance()
-         .getValidationOrSearchResultEditor()
-         .setValidationDisplayEnabled(false);
+      // Only set validation display settings if not in headless mode and ValidationOrSearchResultEditor exists
+      if (!java.awt.GraphicsEnvironment.isHeadless() &&
+          JaWEManager.getInstance().getValidationOrSearchResultEditor() != null) {
+         JaWEManager.getInstance()
+            .getValidationOrSearchResultEditor()
+            .setValidationDisplayEnabled(false);
+      }
    }
 
    public JaWEComponentSettings getSettings() {
@@ -94,6 +98,11 @@ public class ProblemsNavigator implements Observer, JaWEComponent {
       }
       updateInProgress = true;
       try {
+         // Skip GUI operations in headless mode
+         if (panel == null) {
+            return;
+         }
+
          if (info.getAction() == XPDLElementChangeInfo.VALIDATION_ERRORS) {
             boolean specNotif = false;
             if (info.getNewValue() instanceof Boolean) {
@@ -112,17 +121,22 @@ public class ProblemsNavigator implements Observer, JaWEComponent {
    }
 
    public void cleanMatches() {
-      panel.cleanup();
-      settings.adjustActions();
+      if (panel != null) {
+         panel.cleanup();
+         settings.adjustActions();
+      }
    }
 
    public boolean hasMatches() {
-      return panel.hasProblems();
+      return panel != null ? panel.hasProblems() : false;
    }
 
    protected void init() {
-      panel = new ProblemsNavigatorPanel(this);
-      panel.configure();
+      // Only create GUI panel if not in headless mode
+      if (!java.awt.GraphicsEnvironment.isHeadless()) {
+         panel = new ProblemsNavigatorPanel(this);
+         panel.configure();
+      }
    }
 
    public JaWEComponentView getView() {
@@ -130,7 +144,7 @@ public class ProblemsNavigator implements Observer, JaWEComponent {
    }
 
    public JComponent getDisplay() {
-      return panel.getDisplay();
+      return panel != null ? panel.getDisplay() : null;
    }
 
    public String getComponentType() {

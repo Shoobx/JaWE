@@ -956,7 +956,10 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          // xpdlhandler.printDebug();
          updateTitle();
          adjustActions();
-         defaultMain();
+         // Only set default main panel if not in headless mode
+         if (!java.awt.GraphicsEnvironment.isHeadless()) {
+            defaultMain();
+         }
          return pkg;
       } finally {
          if (ws != null) {
