@@ -61,13 +61,16 @@ public class JaWE {
    private static final String VALIDATION_OUTPUT_FORMAT = "validation_output_format";
 
    public static void main(String[] args) throws Throwable {
-      System.out.println("Starting JAWE ....");
-      System.out.println("JaWE -> JaWE is being initialized ...");
-
       // Check if we're in validation mode and set headless mode early
       Map<String, String> argsMap = getArgumentsMap(args);
-      if (isValidationMode(argsMap)) {
+      boolean isValidationMode = isValidationMode(argsMap);
+
+      if (isValidationMode) {
          System.setProperty("java.awt.headless", "true");
+      } else {
+         // Only show startup messages when not in validation mode
+         System.out.println("Starting JAWE ....");
+         System.out.println("JaWE -> JaWE is being initialized ...");
       }
 
       try {
@@ -77,7 +80,9 @@ public class JaWE {
       }
 
       File cfgf = null;
-      System.out.println("JaWE_CONF_HOME=" + JaWEConstants.JAWE_CONF_HOME);
+      if (!isValidationMode) {
+         System.out.println("JaWE_CONF_HOME=" + JaWEConstants.JAWE_CONF_HOME);
+      }
       if (JaWEConstants.JAWE_CONF_HOME != null) {
          File mainConfig = new File(JaWEConstants.JAWE_CONF_HOME + "/" + "defaultconfig");
          Properties props = new Properties();
@@ -107,6 +112,11 @@ public class JaWE {
          JaWEManager.configure(cfgf);
       } else {
          JaWEManager.configure();
+      }
+
+      // Suppress logging output during validation mode
+      if (isValidationMode) {
+         java.util.logging.Logger.getLogger("").setLevel(java.util.logging.Level.OFF);
       }
 
       if (shouldSaveGraph(argsMap)) {
@@ -238,17 +248,17 @@ public class JaWE {
       graph.refresh();
       if (format.equalsIgnoreCase("jpg")) {
          SaveAsJPG.saveGraphAsJPG(filepath, graph);
-         System.out.println(successMsg);
+         JaWEManager.getInstance().getLoggingManager().info(successMsg);
       } else if (format.equalsIgnoreCase("svg")) {
          SaveAsSVG.saveGraphAsSVG(filepath, graph);
-         System.out.println(successMsg);
+         JaWEManager.getInstance().getLoggingManager().info(successMsg);
       } else if (format.equalsIgnoreCase("pdf")) {
          Class sapdfcls = Class.forName("org.enhydra.jawe.components.graph.actions.jped.SaveAsPDF");
          Method mth = sapdfcls.getMethod("saveGraphAsPDF", String.class, Graph.class, WorkflowProcess.class);
          mth.invoke(null, filepath, graph, wp);
-         System.out.println(successMsg);
+         JaWEManager.getInstance().getLoggingManager().info(successMsg);
       } else {
-         System.out.println("Unknown graph format: " + format);
+         JaWEManager.getInstance().getLoggingManager().error("Unknown graph format: " + format);
          throw new RuntimeException("Unknown graph format " + format);
       }
 

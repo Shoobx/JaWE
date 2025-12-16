@@ -1991,7 +1991,7 @@ public class GraphUtilities {
                   helper.add(gpi);
                }
             } else {
-               System.out.println("Can't find GPI for lane " + l);
+               JaWEManager.getInstance().getLoggingManager().warn("Can't find GPI for lane " + l);
             }
          }
          it = nestedlanes.iterator();
@@ -2001,7 +2001,7 @@ public class GraphUtilities {
             if (gpi != null) {
                helper2.add(gpi);
             } else {
-               System.out.println("Can't find GPI for lane " + l);
+               JaWEManager.getInstance().getLoggingManager().warn("Can't find GPI for lane " + l);
             }
          }
          boolean updated = false;
@@ -2036,14 +2036,14 @@ public class GraphUtilities {
             int currentPos = allGraphParticipants.indexOf(gpar);
             if (realInd != currentPos) {
                int diff = realInd - currentPos;
-               System.out.println("Repositioning participant " + gpar + " for " + diff + ",oi=" + currentPos + ", ni=" + realInd);
+               JaWEManager.getInstance().getLoggingManager().debug("Repositioning participant " + gpar + " for " + diff + ",oi=" + currentPos + ", ni=" + realInd);
                for (int j = 0; j < Math.abs(diff); j++) {
                   updated = gmgr.moveParticipant(gpar, (diff < 0), propertyMap, parentMap) || updated;
                }
                allGraphParticipants.remove(currentPos);
                allGraphParticipants.add(realInd, gpar);
             } else {
-               System.out.println("participant " + gpar + ",oi=" + currentPos + ", ni=" + realInd + ", needs no repositioning");
+               JaWEManager.getInstance().getLoggingManager().debug("participant " + gpar + ",oi=" + currentPos + ", ni=" + realInd + ", needs no repositioning");
 
             }
          }
@@ -2056,7 +2056,7 @@ public class GraphUtilities {
             int currentPos = allGraphParticipants.indexOf(gpar);
             if (realInd != currentPos) {
                int diff = realInd - currentPos;
-               System.out.println("Repositioning nested participant " + gpar + " for " + diff + ",oi=" + currentPos + ", ni=" + realInd);
+               JaWEManager.getInstance().getLoggingManager().debug("Repositioning nested participant " + gpar + " for " + diff + ",oi=" + currentPos + ", ni=" + realInd);
                // for (int j = 0; j < Math.abs(diff); j++) {
                updated = gmgr.moveParticipant(gpar, (diff < 0), propertyMap, parentMap) || updated;
                // }
@@ -3064,7 +3064,7 @@ public class GraphUtilities {
                   for (int j = 0; j < cgis.size(); j++) {
                      Transition tra = XMLUtil.getTransition((XMLElement) cgis.get(i));
                      if (tra != null) {
-                        System.out.println("ADDED TRA FOR CHANGED LABEL POSITION");
+                        JaWEManager.getInstance().getLoggingManager().debug("ADDED TRA FOR CHANGED LABEL POSITION");
                         s.add(tra);
                      }
                   }
@@ -3221,7 +3221,7 @@ public class GraphUtilities {
    }
 
    protected static Lane createLaneForPerformer(Pool p, String perf) {
-      System.out.println("CREATING LANE for perf " + perf);
+      JaWEManager.getInstance().getLoggingManager().debug("CREATING LANE for perf " + perf);
       Lanes ls = p.getLanes();
       Lane l = JaWEManager.getInstance().getXPDLObjectFactory().createXPDLObject(ls, "", false);
       String laneName = "";
