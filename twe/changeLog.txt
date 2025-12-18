@@ -1,5 +1,10 @@
 ###### Unreleased changes ######
 
+2025-12-18 Albertas Agejevas <albertas.agjevas@fmr.com>
+   # Allow validating XPDL from the command line.
+   # Make validation mode headless.
+   # Silence log output in validation mode.
+
 2023-10-03 Albertas Agejevas <albertas.agjevas@fmr.com>
    # Hack the ANT build to produce a startable JAR file.
 
