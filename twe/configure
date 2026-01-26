@@ -268,10 +268,14 @@ echo "# Configured on "`uname -n`" at "`date` >build.properties
 
 rm -f ./project.properties
 
+# Convert app name to uppercase for compatibility with build.xml
+app_upper_name=`echo "$app_DOT_name" | tr '[:lower:]' '[:upper:]'`
+
 (
     echo "#####################"
     echo "app.name=$app_DOT_name"
     echo "app.full.name=$app_DOT_full_DOT_name"
+    echo "upper.project.short.name=$app_upper_name"
     echo "#####################"
 )|sed -e 's|_DOT_|\.|g'>>project.properties 
 

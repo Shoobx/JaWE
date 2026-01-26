@@ -1,4 +1,6 @@
 ###### Unreleased changes ######
+2026-01-26 Albertas Agejevas <albertas.agjevas@fmr.com>
+   # Remove build dependency on Javascript so we can use JDK 17+
 
 2025-12-18 Albertas Agejevas <albertas.agjevas@fmr.com>
    # Allow validating XPDL from the command line.

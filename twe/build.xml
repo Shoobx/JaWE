@@ -20,14 +20,6 @@
 <!-- ======================================================================= -->
 <project name="TWE" default="help" basedir=".">
 
-	<scriptdef language="javascript" name="upper">
-		<attribute name="string" />
-		<attribute name="to" />
-    project.setProperty( attributes.get( "to" ),
-                         attributes.get( "string" ).toUpperCase() );
-	</scriptdef>
-
-
    <!-- ==================================================================== -->
    <!-- PROPERTIES                                                           -->
    <!-- ==================================================================== -->
@@ -47,10 +39,7 @@
    <replace dir="${basedir}" includes="rebranding.properties" token="\" value="/" />
    <property file="${basedir}/rebranding.properties" />
 
-   <!--property name="project.name" value="Together Workflow Editor" /-->
    <property name="project.name" value="${app.full.name}" />
-   <upper string="${app.name}" to="upper.project.short.name" />
-   <!--property name="app.name" value="twe" /-->
 
    <property name="version" value="4.0" />
    <property name="release" value="1" />

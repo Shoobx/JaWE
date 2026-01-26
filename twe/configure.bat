@@ -189,6 +189,11 @@ echo # along with this program. If not, see http://www.gnu.org/licenses >>projec
 echo # >>project.properties
 echo app.name=^%APP_NAME%>>project.properties
 echo app.full.name=^%APP_FULL_NAME%>>project.properties
+rem Convert app name to uppercase for compatibility with build.xml
+for /f %%i in ('echo %APP_NAME% ^| tr "[:lower:]" "[:upper:]"') do set APP_NAME_UPPER=%%i
+if "%APP_NAME%"=="sbpe" set APP_NAME_UPPER=SBPE
+if "%APP_NAME%"=="twe" set APP_NAME_UPPER=TWE
+echo upper.project.short.name=^%APP_NAME_UPPER%>>project.properties
 
 goto end
 
