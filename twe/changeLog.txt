@@ -1,4 +1,7 @@
 ###### Unreleased changes ######
+2026-02-05 Albertas Agejevas <albertas.agjevas@fmr.com>
+   # Add XPDL file post-processing on save to match the style used by update-xpdl.
+
 2026-01-26 Albertas Agejevas <albertas.agjevas@fmr.com>
    # Remove build dependency on Javascript so we can use JDK 17+
 

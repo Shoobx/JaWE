@@ -302,6 +302,9 @@ public class WfXMLConnector {
 
       JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().toXML(document, pkg);
 
+      // Post-process the XPDL document for line ending normalization and Python code handling
+      org.enhydra.jawe.base.controller.XPDLPostProcessor.postProcess(document);
+
       // Use a Transformer for output
       TransformerFactory tFactory = TransformerFactory.newInstance();
       Transformer transformer = tFactory.newTransformer();

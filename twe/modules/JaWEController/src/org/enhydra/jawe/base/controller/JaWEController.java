@@ -1475,6 +1475,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          // Here we get all document elements set
          JaWEManager.getInstance().getXPDLHandler().getXPDLRepositoryHandler().toXML(document, pkg);
 
+         // Post-process the XPDL document for line ending normalization and Python code handling
+         XPDLPostProcessor.postProcess(document);
+
          // Use a Transformer for output
          TransformerFactory tFactory = TransformerFactory.newInstance();
          Transformer transformer = tFactory.newTransformer();
