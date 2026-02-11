@@ -53,8 +53,26 @@ public class FileWatcherService {
     // Debouncing mechanism to handle multiple rapid file change events
     private ScheduledExecutorService debounceExecutor;
     private ScheduledFuture<?> pendingReloadTask;
-    private static final long DEBOUNCE_DELAY_MS = 1000; // Wait 1 second after last change
-    private static final int MAX_STABILITY_CHECKS = 10; // Maximum attempts to verify file stability
+
+    // Configuration constants
+    private static final class Config {
+        // Timing constants
+        static final long DEBOUNCE_DELAY_MS = 1000;           // Wait 1 second after last change
+        static final long STABILITY_CHECK_INTERVAL_MS = 100;  // 100ms between stability checks
+        static final long UI_SETTLE_DELAY_MS = 100;           // Short delay to let UI settle
+        static final long EXECUTOR_SHUTDOWN_TIMEOUT_SEC = 1;   // Executor shutdown timeout
+
+        // File validation constants
+        static final int MAX_STABILITY_CHECKS = 10;            // Maximum attempts to verify file stability
+        static final int VALIDATION_BUFFER_SIZE = 512;        // Buffer size for XPDL validation
+        static final int MIN_VALID_CONTENT_LENGTH = 50;       // Must have substantial content
+
+        // Dialog option indices
+        static final int DIALOG_LOAD_FROM_DISK = 0;
+        static final int DIALOG_SAVE_CHANGES = 1;
+        static final int DIALOG_DO_NOTHING = 2;
+        static final int DIALOG_DEFAULT_OPTION = DIALOG_DO_NOTHING;
+    }
 
     private String currentFilePath;
     private String currentFileName;
@@ -202,7 +220,7 @@ public class FileWatcherService {
         if (debounceExecutor != null && !debounceExecutor.isShutdown()) {
             debounceExecutor.shutdown();
             try {
-                if (!debounceExecutor.awaitTermination(1, TimeUnit.SECONDS)) {
+                if (!debounceExecutor.awaitTermination(Config.EXECUTOR_SHUTDOWN_TIMEOUT_SEC, TimeUnit.SECONDS)) {
                     debounceExecutor.shutdownNow();
                 }
             } catch (InterruptedException e) {
@@ -332,23 +350,23 @@ public class FileWatcherService {
             }
 
             // Perform multiple stability checks over a longer period
-            for (int attempt = 1; attempt <= MAX_STABILITY_CHECKS; attempt++) {
+            for (int attempt = 1; attempt <= Config.MAX_STABILITY_CHECKS; attempt++) {
                 // Take initial measurements
                 long initialSize = file.length();
                 long initialModified = file.lastModified();
 
                 // File must have content (not be empty)
                 if (initialSize <= 0) {
-                    logDebug("File is empty, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath);
-                    if (attempt < MAX_STABILITY_CHECKS) {
-                        Thread.sleep(100); // Wait 100ms and try again
+                    logDebug("File is empty, attempt " + attempt + "/" + Config.MAX_STABILITY_CHECKS + ": " + filePath);
+                    if (attempt < Config.MAX_STABILITY_CHECKS) {
+                        Thread.sleep(Config.STABILITY_CHECK_INTERVAL_MS); // Wait and try again
                         continue;
                     }
                     return false;
                 }
 
                 // Wait and check for changes
-                Thread.sleep(100); // 100ms between checks
+                Thread.sleep(Config.STABILITY_CHECK_INTERVAL_MS);
 
                 // Check if file changed during the wait
                 long finalSize = file.length();
@@ -362,20 +380,20 @@ public class FileWatcherService {
                         logDebug("File stable and valid after " + attempt + " attempts: " + filePath);
                         return true;
                     } else {
-                        logDebug("File stable but invalid XPDL content, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath);
-                        if (attempt < MAX_STABILITY_CHECKS) {
+                        logDebug("File stable but invalid XPDL content, attempt " + attempt + "/" + Config.MAX_STABILITY_CHECKS + ": " + filePath);
+                        if (attempt < Config.MAX_STABILITY_CHECKS) {
                             continue; // Try again
                         }
                         return false;
                     }
                 } else {
-                    logDebug("File changed during check, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath +
+                    logDebug("File changed during check, attempt " + attempt + "/" + Config.MAX_STABILITY_CHECKS + ": " + filePath +
                                " (size: " + initialSize + "->" + finalSize + ", modified: " + initialModified + "->" + finalModified + ")");
                 }
             }
 
             // All attempts failed
-            logWarn("File failed stability check after " + MAX_STABILITY_CHECKS + " attempts: " + filePath);
+            logWarn("File failed stability check after " + Config.MAX_STABILITY_CHECKS + " attempts: " + filePath);
             return false;
 
         } catch (InterruptedException e) {
@@ -393,7 +411,7 @@ public class FileWatcherService {
     private boolean isValidXpdlContent(String filePath) {
         try {
             // Read first few hundred bytes to check if it looks like XML/XPDL
-            byte[] buffer = new byte[512];
+            byte[] buffer = new byte[Config.VALIDATION_BUFFER_SIZE];
             try (java.io.FileInputStream fis = new java.io.FileInputStream(filePath)) {
                 int bytesRead = fis.read(buffer);
                 if (bytesRead <= 0) {
@@ -405,7 +423,7 @@ public class FileWatcherService {
                 // Basic checks for XPDL/XML structure
                 return content.startsWith("<?xml") &&
                        (content.contains("<Package") || content.contains("<xpdl:Package")) &&
-                       content.length() > 50; // Must have substantial content
+                       content.length() > Config.MIN_VALID_CONTENT_LENGTH;
             }
         } catch (Exception e) {
             logDebug("Error validating XPDL content: " + filePath + " - " + e.getMessage());
@@ -446,7 +464,7 @@ public class FileWatcherService {
                             scheduleFileChangeProcessing();
                         }
                     }
-                }, DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS);
+                }, Config.DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS);
 
                 logDebug("Scheduled debounced file change processing");
             } catch (java.util.concurrent.RejectedExecutionException e) {
@@ -611,7 +629,7 @@ public class FileWatcherService {
     private void scheduleFileWatchingRestart() {
         Thread restartThread = new Thread(() -> {
             try {
-                Thread.sleep(100); // Short delay to let UI settle
+                Thread.sleep(Config.UI_SETTLE_DELAY_MS);
                 logInfo("Executing delayed restart");
                 startWatching(currentFilePath);
             } catch (Exception e) {
@@ -698,17 +716,17 @@ public class FileWatcherService {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
-                options[2] // Default to "Do nothing"
+                options[Config.DIALOG_DEFAULT_OPTION]
             );
 
             switch (choice) {
-                case 0: // Load new version from disk
+                case Config.DIALOG_LOAD_FROM_DISK:
                     loadNewVersionFromDisk();
                     break;
-                case 1: // Save my changes
+                case Config.DIALOG_SAVE_CHANGES:
                     saveChanges();
                     break;
-                case 2: // Do nothing
+                case Config.DIALOG_DO_NOTHING:
                 default:
                     // User chose to do nothing, just continue editing
                     break;

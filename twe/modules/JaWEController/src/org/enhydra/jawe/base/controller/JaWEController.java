@@ -196,6 +196,12 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    /** Flag to indicate file watcher should be preserved during reload operations. */
    private boolean preserveFileWatcherDuringReload = false;
 
+   // Configuration constants
+   private static final class Config {
+       /** Duration to disable file watching after save operations to avoid detecting internal changes */
+       static final long SAVE_OPERATION_DISABLE_MS = 2000; // 2 seconds
+   }
+
    /** Instance of {@link JaWEFrame} */
    protected JaWEFrame frame;
 
@@ -1468,7 +1474,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
 
    public void savePackage(String xpdlId, String filename) {
       // Temporarily disable file watching to avoid detecting our own save operation
-      temporarilyDisableFileWatching(2000); // 2 second delay
+      temporarilyDisableFileWatching(Config.SAVE_OPERATION_DISABLE_MS);
 
       XPDLHandler xpdlhandler = JaWEManager.getInstance().getXPDLHandler();
       Package pkg = xpdlhandler.getPackageById(xpdlId);
