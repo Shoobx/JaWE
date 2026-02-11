@@ -62,10 +62,8 @@ public class FileWatcherService {
         static final long UI_SETTLE_DELAY_MS = 100;           // Short delay to let UI settle
         static final long EXECUTOR_SHUTDOWN_TIMEOUT_SEC = 1;   // Executor shutdown timeout
 
-        // File validation constants
-        static final int MAX_STABILITY_CHECKS = 10;            // Maximum attempts to verify file stability
-        static final int VALIDATION_BUFFER_SIZE = 512;        // Buffer size for XPDL validation
-        static final int MIN_VALID_CONTENT_LENGTH = 50;       // Must have substantial content
+        // Reload constants
+        static final int MAX_RELOAD_ATTEMPTS = 3;             // Maximum attempts to reload file
 
         // Dialog option indices
         static final int DIALOG_LOAD_FROM_DISK = 0;
@@ -264,17 +262,15 @@ public class FileWatcherService {
 
         setEnabled(false);
 
-        // Re-enable after the specified delay
-        Thread delayThread = new Thread(() -> {
-            try {
-                Thread.sleep(milliseconds);
-                setEnabled(true);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }, "FileWatcher-ReEnable");
-        delayThread.setDaemon(true);
-        delayThread.start();
+        // Re-enable after the specified delay using existing executor
+        ensureExecutorAvailable();
+        try {
+            debounceExecutor.schedule(() -> setEnabled(true), milliseconds, TimeUnit.MILLISECONDS);
+        } catch (java.util.concurrent.RejectedExecutionException e) {
+            // Executor unavailable, re-enable immediately as fallback
+            logWarn("Cannot schedule re-enable, enabling immediately: " + e.getMessage());
+            setEnabled(true);
+        }
     }
 
     /**
@@ -339,99 +335,6 @@ public class FileWatcherService {
     }
 
     /**
-     * Check if a file is stable (not being written to) by verifying size, timestamp and content validity
-     */
-    private boolean isFileStable(String filePath) {
-        try {
-            File file = new File(filePath);
-            if (!file.exists()) {
-                logDebug("File does not exist: " + filePath);
-                return false;
-            }
-
-            // Perform multiple stability checks over a longer period
-            for (int attempt = 1; attempt <= Config.MAX_STABILITY_CHECKS; attempt++) {
-                // Take initial measurements
-                long initialSize = file.length();
-                long initialModified = file.lastModified();
-
-                // File must have content (not be empty)
-                if (initialSize <= 0) {
-                    logDebug("File is empty, attempt " + attempt + "/" + Config.MAX_STABILITY_CHECKS + ": " + filePath);
-                    if (attempt < Config.MAX_STABILITY_CHECKS) {
-                        Thread.sleep(Config.STABILITY_CHECK_INTERVAL_MS); // Wait and try again
-                        continue;
-                    }
-                    return false;
-                }
-
-                // Wait and check for changes
-                Thread.sleep(Config.STABILITY_CHECK_INTERVAL_MS);
-
-                // Check if file changed during the wait
-                long finalSize = file.length();
-                long finalModified = file.lastModified();
-
-                boolean stable = (initialSize == finalSize && initialModified == finalModified && finalSize > 0);
-
-                if (stable) {
-                    // File appears stable, now validate it's valid XPDL content
-                    if (isValidXpdlContent(filePath)) {
-                        logDebug("File stable and valid after " + attempt + " attempts: " + filePath);
-                        return true;
-                    } else {
-                        logDebug("File stable but invalid XPDL content, attempt " + attempt + "/" + Config.MAX_STABILITY_CHECKS + ": " + filePath);
-                        if (attempt < Config.MAX_STABILITY_CHECKS) {
-                            continue; // Try again
-                        }
-                        return false;
-                    }
-                } else {
-                    logDebug("File changed during check, attempt " + attempt + "/" + Config.MAX_STABILITY_CHECKS + ": " + filePath +
-                               " (size: " + initialSize + "->" + finalSize + ", modified: " + initialModified + "->" + finalModified + ")");
-                }
-            }
-
-            // All attempts failed
-            logWarn("File failed stability check after " + Config.MAX_STABILITY_CHECKS + " attempts: " + filePath);
-            return false;
-
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return false;
-        } catch (Exception e) {
-            logWarn("Error checking file stability: " + filePath, e);
-            return false;
-        }
-    }
-
-    /**
-     * Check if file content appears to be valid XPDL (basic validation)
-     */
-    private boolean isValidXpdlContent(String filePath) {
-        try {
-            // Read first few hundred bytes to check if it looks like XML/XPDL
-            byte[] buffer = new byte[Config.VALIDATION_BUFFER_SIZE];
-            try (java.io.FileInputStream fis = new java.io.FileInputStream(filePath)) {
-                int bytesRead = fis.read(buffer);
-                if (bytesRead <= 0) {
-                    return false;
-                }
-
-                String content = new String(buffer, 0, bytesRead, "UTF-8").trim();
-
-                // Basic checks for XPDL/XML structure
-                return content.startsWith("<?xml") &&
-                       (content.contains("<Package") || content.contains("<xpdl:Package")) &&
-                       content.length() > Config.MIN_VALID_CONTENT_LENGTH;
-            }
-        } catch (Exception e) {
-            logDebug("Error validating XPDL content: " + filePath + " - " + e.getMessage());
-            return false;
-        }
-    }
-
-    /**
      * Schedule file change processing with debouncing to avoid race conditions
      * with external editors that may write files in multiple operations
      */
@@ -455,14 +358,8 @@ public class FileWatcherService {
                 // Schedule new reload task with delay
                 pendingReloadTask = debounceExecutor.schedule(() -> {
                     if (enabled.get() && currentFilePath != null && running.get()) {
-                        // Check file stability before processing (not on EDT)
-                        if (isFileStable(currentFilePath)) {
-                            SwingUtilities.invokeLater(this::handleFileChanged);
-                        } else {
-                            logDebug("File not stable, rescheduling: " + currentFilePath);
-                            // Reschedule for later if file is still being written
-                            scheduleFileChangeProcessing();
-                        }
+                        // Check if we can reload automatically or need to show dialog
+                        checkAndScheduleReload(); // Check for unsaved changes first
                     }
                 }, Config.DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS);
 
@@ -476,10 +373,9 @@ public class FileWatcherService {
     }
 
     /**
-     * Handle file change event on the EDT thread
-     * (File stability is verified before this method is called)
+     * Check for unsaved changes and either auto-reload or show user dialog
      */
-    private void handleFileChanged() {
+    private void checkAndScheduleReload() {
         try {
             // Check if we still have a valid current file
             if (currentFilePath == null || controller.getMainPackage() == null) {
@@ -499,196 +395,128 @@ public class FileWatcherService {
             boolean hasUnsavedChanges = controller.isPackageModified(controller.getMainPackageId());
 
             if (!hasUnsavedChanges) {
-                // No unsaved changes - reload automatically
-                reloadFile();
+                // No unsaved changes - reload automatically with retry
+                reloadWithRetry(1); // attempt 1
             } else {
-                // Has unsaved changes - show dialog
-                showFileChangedDialog();
+                // Has unsaved changes - show dialog on EDT
+                SwingUtilities.invokeLater(this::showFileChangedDialog);
             }
 
         } catch (Exception e) {
-            logError("Error handling file change", e);
+            logError("Error in automatic reload check", e);
         }
     }
 
     /**
-     * Reload the current file automatically
+     * Coordinate reload with retry logic (schedules UI work on EDT)
      */
-    private void reloadFile() {
-        performFileReload(false, true); // automatic reload, show success message
-    }
+    private void reloadWithRetry(int attempt) {
+        logInfo("Attempting to reload file (attempt " + attempt + "): " + currentFilePath);
 
-    /**
-     * Perform file reload with configurable behavior for different scenarios
-     *
-     * @param isUserInitiated true if user explicitly requested reload, false for automatic reload
-     * @param showSuccessMessage true to show success notification to user
-     */
-    private void performFileReload(boolean isUserInitiated, boolean showSuccessMessage) {
-        try {
-            logInfo("Reloading file: " + currentFilePath);
+        // Perform the reload on EDT since it involves UI operations
+        SwingUtilities.invokeLater(() -> {
+            try {
+                executeReloadOnEDT();
 
-            if (!validateReloadPreconditions(isUserInitiated)) {
-                return;
+            } catch (Exception e) {
+                logDebug("Reload attempt " + attempt + " failed: " + e.getMessage());
+
+                if (attempt < Config.MAX_RELOAD_ATTEMPTS) {
+                    // Schedule retry with exponential backoff
+                    long delay = Config.STABILITY_CHECK_INTERVAL_MS * attempt * attempt; // 100, 400, 900ms
+
+                    // Ensure executor is available before scheduling
+                    ensureExecutorAvailable();
+
+                    try {
+                        debounceExecutor.schedule(() ->
+                            reloadWithRetry(attempt + 1),
+                            delay, TimeUnit.MILLISECONDS);
+                    } catch (java.util.concurrent.RejectedExecutionException ex) {
+                        // Executor issues, retry immediately on EDT
+                        SwingUtilities.invokeLater(() ->
+                            reloadWithRetry(attempt + 1));
+                    }
+                } else {
+                    // All attempts failed - show error
+                    showReloadFailedDialog(e);
+                }
             }
-
-            String packageId = prepareForReload();
-            org.enhydra.jxpdl.elements.Package pkg = reloadPackageFromFile();
-            finalizeReload(pkg, showSuccessMessage);
-
-        } catch (Exception e) {
-            handleReloadError(e, isUserInitiated);
-        }
+        });
     }
 
     /**
-     * Validate preconditions for file reload
-     *
-     * @param isUserInitiated true if user explicitly requested reload
-     * @return true if reload can proceed, false if should abort
+     * Execute the actual file reload operations on EDT (closes/opens packages, updates UI)
      */
-    private boolean validateReloadPreconditions(boolean isUserInitiated) {
+    private void executeReloadOnEDT() throws Exception {
         // Temporarily disable file watching to avoid recursive notifications
         setEnabled(false);
 
-        // Validate file path exists and is not empty
-        if (currentFilePath == null || currentFilePath.trim().isEmpty()) {
-            logError("Current file path is null or empty, aborting reload", new IllegalStateException("Null file path"));
-            setEnabled(true);
-            return false;
-        }
-
-        // Validate XPDL content
-        if (!isValidXpdlContent(currentFilePath)) {
-            logWarn("File content invalid, aborting reload: " + currentFilePath);
-            setEnabled(true);
-
-            if (isUserInitiated) {
-                showValidationErrorDialog();
-            }
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Prepare for reload by closing current package
-     *
-     * @return the current package ID that was closed
-     */
-    private String prepareForReload() {
-        String currentPackageId = controller.getMainPackageId();
-
-        if (currentPackageId != null) {
-            logInfo("Closing package " + currentPackageId + " for reload");
-            controller.setPreserveFileWatcherDuringReload(true);
-            try {
-                controller.closePackage(currentPackageId, false);
-            } finally {
-                controller.setPreserveFileWatcherDuringReload(false);
-            }
-        }
-
-        return currentPackageId;
-    }
-
-    /**
-     * Reload the package from file
-     *
-     * @return the reloaded package or null if failed
-     */
-    private org.enhydra.jxpdl.elements.Package reloadPackageFromFile() {
-        logInfo("Opening file: '" + currentFilePath + "' (length=" + currentFilePath.length() + ")");
-        return controller.openPackageFromFile(currentFilePath);
-    }
-
-    /**
-     * Finalize the reload process
-     *
-     * @param pkg the reloaded package (may be null)
-     * @param showSuccessMessage true to show success notification
-     */
-    private void finalizeReload(org.enhydra.jxpdl.elements.Package pkg, boolean showSuccessMessage) {
-        if (pkg != null && currentFilePath != null) {
-            logInfo("Restarting file watching after reload");
-            scheduleFileWatchingRestart();
-
-            if (showSuccessMessage) {
-                showReloadSuccessDialog();
-            }
-        } else {
-            logWarn("Reload returned null package: " + currentFilePath);
-            setEnabled(true);
-        }
-    }
-
-    /**
-     * Schedule file watching restart with a short delay
-     */
-    private void scheduleFileWatchingRestart() {
-        Thread restartThread = new Thread(() -> {
-            try {
-                Thread.sleep(Config.UI_SETTLE_DELAY_MS);
-                logInfo("Executing delayed restart");
-                startWatching(currentFilePath);
-            } catch (Exception e) {
-                logError("Error during delayed restart", e);
-                setEnabled(true);
-            }
-        }, "FileWatcher-Restart");
-        restartThread.setDaemon(true);
-        restartThread.start();
-    }
-
-    /**
-     * Handle reload errors
-     */
-    private void handleReloadError(Exception e, boolean isUserInitiated) {
-        setEnabled(true);
-        logError("Failed to reload file: " + currentFilePath, e);
-
-        if (isUserInitiated) {
-            showReloadErrorDialog(e);
-        }
-    }
-
-    /**
-     * Show validation error dialog to user
-     */
-    private void showValidationErrorDialog() {
-        String message = "Cannot load file from disk. The file appears to be empty or contains invalid XPDL content.";
-        JOptionPane.showMessageDialog(controller.getJaWEFrame(),
-            message,
-            "File Load Error - " + controller.getAppTitle(),
-            JOptionPane.ERROR_MESSAGE);
-    }
-
-    /**
-     * Show reload success dialog to user
-     */
-    private void showReloadSuccessDialog() {
-        String message = "File has been automatically reloaded from disk.";
-        JOptionPane.showMessageDialog(controller.getJaWEFrame(),
-            message,
-            controller.getAppTitle(),
-            JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    /**
-     * Show reload error dialog to user
-     */
-    private void showReloadErrorDialog(Exception e) {
         try {
-            String message = "Failed to load new version from disk. The file may have been corrupted or contains errors.\n\n" +
-                           "Error: " + e.getMessage();
-            JOptionPane.showMessageDialog(controller.getJaWEFrame(),
-                message,
-                "File Load Error - " + controller.getAppTitle(),
-                JOptionPane.ERROR_MESSAGE);
-        } catch (Exception dialogException) {
-            logError("Error showing error dialog", dialogException);
+            logInfo("Reloading file: '" + currentFilePath + "'");
+
+            // Get the current package ID before closing
+            String currentPackageId = controller.getMainPackageId();
+
+            // Preserve file watcher during close/reload cycle
+            if (currentPackageId != null) {
+                logInfo("Closing package " + currentPackageId + " for reload");
+                controller.setPreserveFileWatcherDuringReload(true);
+                try {
+                    controller.closePackage(currentPackageId, false);
+                } finally {
+                    controller.setPreserveFileWatcherDuringReload(false);
+                }
+            }
+
+            // Reload the file - this involves UI operations
+            org.enhydra.jxpdl.elements.Package pkg = controller.openPackageFromFile(currentFilePath);
+
+            if (pkg != null) {
+                // Success - finalize
+                finalizeSuccessfulReload();
+            } else {
+                throw new IllegalStateException("Package loading returned null");
+            }
+
+        } catch (Exception e) {
+            // Re-enable file watching on failure
+            setEnabled(true);
+            throw e; // Rethrow for retry logic
         }
+    }
+
+    /**
+     * Finalize successful reload on EDT
+     */
+    private void finalizeSuccessfulReload() {
+        logInfo("Restarting file watching after successful reload");
+
+        // Ensure executor is available before scheduling restart
+        ensureExecutorAvailable();
+
+        try {
+            // Restart file watching with a short delay
+            debounceExecutor.schedule(() -> startWatching(currentFilePath),
+                                    Config.UI_SETTLE_DELAY_MS, TimeUnit.MILLISECONDS);
+        } catch (java.util.concurrent.RejectedExecutionException e) {
+            // Executor was shut down, restart watching directly
+            logWarn("Executor unavailable during restart, starting watch directly");
+            startWatching(currentFilePath);
+        }
+    }
+
+    /**
+     * Show error dialog when all reload attempts fail
+     */
+    private void showReloadFailedDialog(Exception e) {
+        String message = "Could not reload file from disk after " + Config.MAX_RELOAD_ATTEMPTS + " attempts.\n\n" +
+                       "The file may be corrupted, locked by another program, or contain errors.\n\n" +
+                       "Error: " + e.getMessage();
+        JOptionPane.showMessageDialog(controller.getJaWEFrame(),
+            message,
+            "File Reload Failed - " + controller.getAppTitle(),
+            JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -696,8 +524,6 @@ public class FileWatcherService {
      */
     private void showFileChangedDialog() {
         try {
-            ControllerSettings settings = (ControllerSettings) controller.getSettings();
-
             String message = "The file '" + currentFileName + "' has been modified by another program.\n\n" +
                            "You have unsaved changes in the editor.\n\n" +
                            "What would you like to do?";
@@ -741,7 +567,8 @@ public class FileWatcherService {
      * Load new version from disk, discarding current changes
      */
     private void loadNewVersionFromDisk() {
-        performFileReload(true, false); // user-initiated reload, no success message
+        // User explicitly chose to reload - bypass unsaved changes check
+        reloadWithRetry(1);
     }
 
     /**
