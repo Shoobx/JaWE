@@ -510,101 +510,166 @@ public class FileWatcherService {
         try {
             logInfo("Reloading file: " + currentFilePath);
 
-            // Temporarily disable file watching to avoid recursive notifications
-            setEnabled(false);
-
-            // Final validation before attempting reload
-            if (!isValidXpdlContent(currentFilePath)) {
-                logWarn("File content invalid, aborting reload: " + currentFilePath);
-                setEnabled(true);
-
-                if (isUserInitiated) {
-                    // Show error message to user for manual reload attempts
-                    String message = "Cannot load file from disk. The file appears to be empty or contains invalid XPDL content.";
-                    JOptionPane.showMessageDialog(controller.getJaWEFrame(),
-                        message,
-                        "File Load Error - " + controller.getAppTitle(),
-                        JOptionPane.ERROR_MESSAGE);
-                }
+            if (!validateReloadPreconditions(isUserInitiated)) {
                 return;
             }
 
-            // Get the current package ID before closing
-            String currentPackageId = controller.getMainPackageId();
-
-            // Preserve file watcher during close/reload cycle to maintain proper UI state
-            if (currentPackageId != null) {
-                logInfo("Closing package " + currentPackageId + " for reload");
-                controller.setPreserveFileWatcherDuringReload(true);
-                try {
-                    controller.closePackage(currentPackageId, false);
-                } finally {
-                    controller.setPreserveFileWatcherDuringReload(false);
-                }
-            }
-
-            // Reload the file
-            logInfo("Opening file: '" + currentFilePath + "' (length=" +
-                      (currentFilePath != null ? currentFilePath.length() : "null") + ")");
-
-            if (currentFilePath == null || currentFilePath.trim().isEmpty()) {
-                logError("Current file path is null or empty, aborting reload", new IllegalStateException("Null file path"));
-                setEnabled(true);
-                return;
-            }
-
-            org.enhydra.jxpdl.elements.Package pkg = controller.openPackageFromFile(currentFilePath);
-
-            // Restart file watching for the reloaded file
-            if (pkg != null && currentFilePath != null) {
-                logInfo("Restarting file watching after reload");
-
-                // Use a delayed restart to avoid race conditions
-                Thread restartThread = new Thread(() -> {
-                    try {
-                        Thread.sleep(100); // Short delay to let UI settle
-                        logInfo("Executing delayed restart");
-                        startWatching(currentFilePath);
-                    } catch (Exception e) {
-                        logError("Error during delayed restart", e);
-                        setEnabled(true);
-                    }
-                }, "FileWatcher-Restart");
-                restartThread.setDaemon(true);
-                restartThread.start();
-
-                // Show success notification if requested
-                if (showSuccessMessage) {
-                    String message = "File has been automatically reloaded from disk.";
-                    JOptionPane.showMessageDialog(controller.getJaWEFrame(),
-                        message,
-                        controller.getAppTitle(),
-                        JOptionPane.INFORMATION_MESSAGE);
-                }
-            } else {
-                logWarn("Reload returned null package: " + currentFilePath);
-                // Re-enable file watching even if reload failed
-                setEnabled(true);
-            }
+            String packageId = prepareForReload();
+            org.enhydra.jxpdl.elements.Package pkg = reloadPackageFromFile();
+            finalizeReload(pkg, showSuccessMessage);
 
         } catch (Exception e) {
-            // Re-enable file watching even if reload failed
+            handleReloadError(e, isUserInitiated);
+        }
+    }
+
+    /**
+     * Validate preconditions for file reload
+     *
+     * @param isUserInitiated true if user explicitly requested reload
+     * @return true if reload can proceed, false if should abort
+     */
+    private boolean validateReloadPreconditions(boolean isUserInitiated) {
+        // Temporarily disable file watching to avoid recursive notifications
+        setEnabled(false);
+
+        // Validate file path exists and is not empty
+        if (currentFilePath == null || currentFilePath.trim().isEmpty()) {
+            logError("Current file path is null or empty, aborting reload", new IllegalStateException("Null file path"));
             setEnabled(true);
-            logError("Failed to reload file: " + currentFilePath, e);
+            return false;
+        }
+
+        // Validate XPDL content
+        if (!isValidXpdlContent(currentFilePath)) {
+            logWarn("File content invalid, aborting reload: " + currentFilePath);
+            setEnabled(true);
 
             if (isUserInitiated) {
-                // Show error message to user for manual reload attempts
-                try {
-                    String message = "Failed to load new version from disk. The file may have been corrupted or contains errors.\n\n" +
-                                   "Error: " + e.getMessage();
-                    JOptionPane.showMessageDialog(controller.getJaWEFrame(),
-                        message,
-                        "File Load Error - " + controller.getAppTitle(),
-                        JOptionPane.ERROR_MESSAGE);
-                } catch (Exception dialogException) {
-                    logError("Error showing error dialog", dialogException);
-                }
+                showValidationErrorDialog();
             }
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Prepare for reload by closing current package
+     *
+     * @return the current package ID that was closed
+     */
+    private String prepareForReload() {
+        String currentPackageId = controller.getMainPackageId();
+
+        if (currentPackageId != null) {
+            logInfo("Closing package " + currentPackageId + " for reload");
+            controller.setPreserveFileWatcherDuringReload(true);
+            try {
+                controller.closePackage(currentPackageId, false);
+            } finally {
+                controller.setPreserveFileWatcherDuringReload(false);
+            }
+        }
+
+        return currentPackageId;
+    }
+
+    /**
+     * Reload the package from file
+     *
+     * @return the reloaded package or null if failed
+     */
+    private org.enhydra.jxpdl.elements.Package reloadPackageFromFile() {
+        logInfo("Opening file: '" + currentFilePath + "' (length=" + currentFilePath.length() + ")");
+        return controller.openPackageFromFile(currentFilePath);
+    }
+
+    /**
+     * Finalize the reload process
+     *
+     * @param pkg the reloaded package (may be null)
+     * @param showSuccessMessage true to show success notification
+     */
+    private void finalizeReload(org.enhydra.jxpdl.elements.Package pkg, boolean showSuccessMessage) {
+        if (pkg != null && currentFilePath != null) {
+            logInfo("Restarting file watching after reload");
+            scheduleFileWatchingRestart();
+
+            if (showSuccessMessage) {
+                showReloadSuccessDialog();
+            }
+        } else {
+            logWarn("Reload returned null package: " + currentFilePath);
+            setEnabled(true);
+        }
+    }
+
+    /**
+     * Schedule file watching restart with a short delay
+     */
+    private void scheduleFileWatchingRestart() {
+        Thread restartThread = new Thread(() -> {
+            try {
+                Thread.sleep(100); // Short delay to let UI settle
+                logInfo("Executing delayed restart");
+                startWatching(currentFilePath);
+            } catch (Exception e) {
+                logError("Error during delayed restart", e);
+                setEnabled(true);
+            }
+        }, "FileWatcher-Restart");
+        restartThread.setDaemon(true);
+        restartThread.start();
+    }
+
+    /**
+     * Handle reload errors
+     */
+    private void handleReloadError(Exception e, boolean isUserInitiated) {
+        setEnabled(true);
+        logError("Failed to reload file: " + currentFilePath, e);
+
+        if (isUserInitiated) {
+            showReloadErrorDialog(e);
+        }
+    }
+
+    /**
+     * Show validation error dialog to user
+     */
+    private void showValidationErrorDialog() {
+        String message = "Cannot load file from disk. The file appears to be empty or contains invalid XPDL content.";
+        JOptionPane.showMessageDialog(controller.getJaWEFrame(),
+            message,
+            "File Load Error - " + controller.getAppTitle(),
+            JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Show reload success dialog to user
+     */
+    private void showReloadSuccessDialog() {
+        String message = "File has been automatically reloaded from disk.";
+        JOptionPane.showMessageDialog(controller.getJaWEFrame(),
+            message,
+            controller.getAppTitle(),
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Show reload error dialog to user
+     */
+    private void showReloadErrorDialog(Exception e) {
+        try {
+            String message = "Failed to load new version from disk. The file may have been corrupted or contains errors.\n\n" +
+                           "Error: " + e.getMessage();
+            JOptionPane.showMessageDialog(controller.getJaWEFrame(),
+                message,
+                "File Load Error - " + controller.getAppTitle(),
+                JOptionPane.ERROR_MESSAGE);
+        } catch (Exception dialogException) {
+            logError("Error showing error dialog", dialogException);
         }
     }
 
