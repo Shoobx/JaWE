@@ -791,6 +791,19 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       return xpdlId;
    }
 
+   // Logging utility methods to reduce verbosity
+   private void logInfo(String message) {
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> " + message);
+   }
+
+   private void logWarn(String message) {
+      JaWEManager.getInstance().getLoggingManager().warn("JaWEController -> " + message);
+   }
+
+   private void logWarn(String message, Exception e) {
+      JaWEManager.getInstance().getLoggingManager().warn("JaWEController -> " + message, e);
+   }
+
    /**
     * Get the file watcher service instance
     */
@@ -819,12 +832,10 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
     */
    private void ensureFileWatcherServiceAvailable() {
       if (fileWatcherService == null) {
-         JaWEManager.getInstance().getLoggingManager()
-            .info("JaWEController -> Creating new file watcher service (was null)");
+         logInfo("Creating new file watcher service (was null)");
          fileWatcherService = new FileWatcherService(this);
       } else if (!fileWatcherService.isServiceFunctional()) {
-         JaWEManager.getInstance().getLoggingManager()
-            .info("JaWEController -> Recreating file watcher service (was shut down)");
+         logInfo("Recreating file watcher service (was shut down)");
          fileWatcherService = new FileWatcherService(this);
       }
    }
@@ -1015,8 +1026,7 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
                ensureFileWatcherServiceAvailable();
                fileWatcherService.startWatching(filename);
             } catch (Exception e) {
-               JaWEManager.getInstance().getLoggingManager()
-                  .warn("JaWEController -> Failed to start file watching for: " + filename, e);
+               logWarn("Failed to start file watching for: " + filename, e);
             }
          }
 
@@ -2430,23 +2440,18 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    }
 
    protected void clearAll() {
-      JaWEManager.getInstance().getLoggingManager()
-         .info("JaWEController -> clearAll() called, preserveFileWatcherDuringReload=" + preserveFileWatcherDuringReload +
-               ", called from: " + Thread.currentThread().getStackTrace()[2].toString());
+      logInfo("clearAll() called, preserveFileWatcherDuringReload=" + preserveFileWatcherDuringReload);
 
       // Shutdown file watching service completely (unless we're in a reload operation)
       if (fileWatcherService != null && !preserveFileWatcherDuringReload) {
          try {
-            JaWEManager.getInstance().getLoggingManager()
-               .info("JaWEController -> Shutting down file watcher from clearAll()");
+            logInfo("Shutting down file watcher from clearAll()");
             fileWatcherService.shutdown();
          } catch (Exception e) {
-            JaWEManager.getInstance().getLoggingManager()
-               .warn("JaWEController -> Error shutting down file watcher", e);
+            logWarn("Error shutting down file watcher", e);
          }
       } else if (fileWatcherService != null) {
-         JaWEManager.getInstance().getLoggingManager()
-            .info("JaWEController -> Preserving file watcher during reload operation");
+         logInfo("Preserving file watcher during reload operation");
       }
 
       xpdlInfoList.clear();

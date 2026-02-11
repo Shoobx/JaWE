@@ -65,6 +65,27 @@ public class FileWatcherService {
         ensureExecutorAvailable();
     }
 
+    // Logging utility methods to reduce verbosity
+    private void logInfo(String message) {
+        JaWEManager.getInstance().getLoggingManager().info("FileWatcherService -> " + message);
+    }
+
+    private void logDebug(String message) {
+        JaWEManager.getInstance().getLoggingManager().debug("FileWatcherService -> " + message);
+    }
+
+    private void logWarn(String message) {
+        JaWEManager.getInstance().getLoggingManager().warn("FileWatcherService -> " + message);
+    }
+
+    private void logWarn(String message, Exception e) {
+        JaWEManager.getInstance().getLoggingManager().warn("FileWatcherService -> " + message, e);
+    }
+
+    private void logError(String message, Exception e) {
+        JaWEManager.getInstance().getLoggingManager().error("FileWatcherService -> " + message, e);
+    }
+
     /**
      * Ensure the debounce executor is available and not shutdown
      */
@@ -88,8 +109,7 @@ public class FileWatcherService {
 
         // Check if executor is available - if not, service might be shut down
         if (debounceExecutor == null || debounceExecutor.isShutdown()) {
-            JaWEManager.getInstance().getLoggingManager()
-                .warn("FileWatcherService -> Cannot start watching, service appears to be shut down");
+            logWarn("Cannot start watching, service appears to be shut down");
             return;
         }
 
@@ -99,8 +119,7 @@ public class FileWatcherService {
         try {
             File file = new File(filePath);
             if (!file.exists()) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .warn("FileWatcherService -> Cannot watch non-existent file: " + filePath);
+                logWarn("Cannot watch non-existent file: " + filePath);
                 return;
             }
 
@@ -123,12 +142,10 @@ public class FileWatcherService {
             this.watchThread.setDaemon(true);
             this.watchThread.start();
 
-            JaWEManager.getInstance().getLoggingManager()
-                .info("FileWatcherService -> Started watching file: " + filePath);
+            logInfo("Started watching file: " + filePath);
 
         } catch (IOException e) {
-            JaWEManager.getInstance().getLoggingManager()
-                .error("FileWatcherService -> Failed to start watching file: " + filePath, e);
+            logError("Failed to start watching file: " + filePath, e);
         }
     }
 
@@ -136,9 +153,7 @@ public class FileWatcherService {
      * Stop watching the current file
      */
     public void stopWatching() {
-        JaWEManager.getInstance().getLoggingManager()
-            .info("FileWatcherService -> stopWatching() called from: " +
-                  Thread.currentThread().getStackTrace()[2].toString());
+        logInfo("Stopping file watch");
         running.set(false);
 
         // Cancel any pending debounced reload task
@@ -156,8 +171,7 @@ public class FileWatcherService {
             try {
                 watchService.close();
             } catch (IOException e) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .warn("FileWatcherService -> Error closing watch service", e);
+                logWarn("Error closing watch service", e);
             }
             watchService = null;
         }
@@ -173,17 +187,14 @@ public class FileWatcherService {
         currentFilePath = null;
         currentFileName = null;
 
-        JaWEManager.getInstance().getLoggingManager()
-            .info("FileWatcherService -> Stopped watching file");
+        logInfo("Stopped watching file");
     }
 
     /**
      * Shutdown the file watcher service completely (called when JaWEController is destroyed)
      */
     public void shutdown() {
-        JaWEManager.getInstance().getLoggingManager()
-            .info("FileWatcherService -> shutdown() called from: " +
-                  Thread.currentThread().getStackTrace()[2].toString());
+        logInfo("Shutting down file watcher service");
         // First stop any current watching
         stopWatching();
 
@@ -200,8 +211,7 @@ public class FileWatcherService {
             }
         }
 
-        JaWEManager.getInstance().getLoggingManager()
-            .info("FileWatcherService -> Service shut down");
+        logInfo("Service shut down");
     }
 
     /**
@@ -209,8 +219,7 @@ public class FileWatcherService {
      */
     public void setEnabled(boolean enabled) {
         this.enabled.set(enabled);
-        JaWEManager.getInstance().getLoggingManager()
-            .info("FileWatcherService -> File watching " + (enabled ? "enabled" : "disabled"));
+        logInfo("File watching " + (enabled ? "enabled" : "disabled"));
     }
 
     /**
@@ -258,8 +267,7 @@ public class FileWatcherService {
             try {
                 // Check if watch service is still available
                 if (watchService == null) {
-                    JaWEManager.getInstance().getLoggingManager()
-                        .debug("FileWatcherService -> Watch service is null, exiting watch loop");
+                    logDebug("Watch service is null, exiting watch loop");
                     break;
                 }
 
@@ -304,12 +312,10 @@ public class FileWatcherService {
                 break;
             } catch (java.nio.file.ClosedWatchServiceException e) {
                 // Watch service was closed (probably during shutdown or reload), exit gracefully
-                JaWEManager.getInstance().getLoggingManager()
-                    .debug("FileWatcherService -> Watch service closed, exiting watch loop");
+                logDebug("Watch service closed, exiting watch loop");
                 break;
             } catch (Exception e) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .error("FileWatcherService -> Error in watch loop", e);
+                logError("Error in watch loop", e);
             }
         }
     }
@@ -321,8 +327,7 @@ public class FileWatcherService {
         try {
             File file = new File(filePath);
             if (!file.exists()) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .debug("FileWatcherService -> File does not exist: " + filePath);
+                logDebug("File does not exist: " + filePath);
                 return false;
             }
 
@@ -334,8 +339,7 @@ public class FileWatcherService {
 
                 // File must have content (not be empty)
                 if (initialSize <= 0) {
-                    JaWEManager.getInstance().getLoggingManager()
-                        .debug("FileWatcherService -> File is empty, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath);
+                    logDebug("File is empty, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath);
                     if (attempt < MAX_STABILITY_CHECKS) {
                         Thread.sleep(100); // Wait 100ms and try again
                         continue;
@@ -355,35 +359,30 @@ public class FileWatcherService {
                 if (stable) {
                     // File appears stable, now validate it's valid XPDL content
                     if (isValidXpdlContent(filePath)) {
-                        JaWEManager.getInstance().getLoggingManager()
-                            .debug("FileWatcherService -> File stable and valid after " + attempt + " attempts: " + filePath);
+                        logDebug("File stable and valid after " + attempt + " attempts: " + filePath);
                         return true;
                     } else {
-                        JaWEManager.getInstance().getLoggingManager()
-                            .debug("FileWatcherService -> File stable but invalid XPDL content, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath);
+                        logDebug("File stable but invalid XPDL content, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath);
                         if (attempt < MAX_STABILITY_CHECKS) {
                             continue; // Try again
                         }
                         return false;
                     }
                 } else {
-                    JaWEManager.getInstance().getLoggingManager()
-                        .debug("FileWatcherService -> File changed during check, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath +
+                    logDebug("File changed during check, attempt " + attempt + "/" + MAX_STABILITY_CHECKS + ": " + filePath +
                                " (size: " + initialSize + "->" + finalSize + ", modified: " + initialModified + "->" + finalModified + ")");
                 }
             }
 
             // All attempts failed
-            JaWEManager.getInstance().getLoggingManager()
-                .warn("FileWatcherService -> File failed stability check after " + MAX_STABILITY_CHECKS + " attempts: " + filePath);
+            logWarn("File failed stability check after " + MAX_STABILITY_CHECKS + " attempts: " + filePath);
             return false;
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return false;
         } catch (Exception e) {
-            JaWEManager.getInstance().getLoggingManager()
-                .warn("FileWatcherService -> Error checking file stability: " + filePath, e);
+            logWarn("Error checking file stability: " + filePath, e);
             return false;
         }
     }
@@ -409,8 +408,7 @@ public class FileWatcherService {
                        content.length() > 50; // Must have substantial content
             }
         } catch (Exception e) {
-            JaWEManager.getInstance().getLoggingManager()
-                .debug("FileWatcherService -> Error validating XPDL content: " + filePath + " - " + e.getMessage());
+            logDebug("Error validating XPDL content: " + filePath + " - " + e.getMessage());
             return false;
         }
     }
@@ -423,8 +421,7 @@ public class FileWatcherService {
         synchronized (this) {
             // Check if we're still running
             if (!running.get()) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .debug("FileWatcherService -> Cannot schedule processing, service stopping");
+                logDebug("Cannot schedule processing, service stopping");
                 return;
             }
 
@@ -444,19 +441,16 @@ public class FileWatcherService {
                         if (isFileStable(currentFilePath)) {
                             SwingUtilities.invokeLater(this::handleFileChanged);
                         } else {
-                            JaWEManager.getInstance().getLoggingManager()
-                                .debug("FileWatcherService -> File not stable, rescheduling: " + currentFilePath);
+                            logDebug("File not stable, rescheduling: " + currentFilePath);
                             // Reschedule for later if file is still being written
                             scheduleFileChangeProcessing();
                         }
                     }
                 }, DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS);
 
-                JaWEManager.getInstance().getLoggingManager()
-                    .debug("FileWatcherService -> Scheduled debounced file change processing");
+                logDebug("Scheduled debounced file change processing");
             } catch (java.util.concurrent.RejectedExecutionException e) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .debug("FileWatcherService -> Cannot schedule task, executor issue: " + e.getMessage());
+                logDebug("Cannot schedule task, executor issue: " + e.getMessage());
                 // Try to recreate executor for next time
                 ensureExecutorAvailable();
             }
@@ -495,8 +489,7 @@ public class FileWatcherService {
             }
 
         } catch (Exception e) {
-            JaWEManager.getInstance().getLoggingManager()
-                .error("FileWatcherService -> Error handling file change", e);
+            logError("Error handling file change", e);
         }
     }
 
@@ -515,16 +508,14 @@ public class FileWatcherService {
      */
     private void performFileReload(boolean isUserInitiated, boolean showSuccessMessage) {
         try {
-            JaWEManager.getInstance().getLoggingManager()
-                .info("FileWatcherService -> Reloading file: " + currentFilePath);
+            logInfo("Reloading file: " + currentFilePath);
 
             // Temporarily disable file watching to avoid recursive notifications
             setEnabled(false);
 
             // Final validation before attempting reload
             if (!isValidXpdlContent(currentFilePath)) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .warn("FileWatcherService -> File content invalid, aborting reload: " + currentFilePath);
+                logWarn("File content invalid, aborting reload: " + currentFilePath);
                 setEnabled(true);
 
                 if (isUserInitiated) {
@@ -543,8 +534,7 @@ public class FileWatcherService {
 
             // Preserve file watcher during close/reload cycle to maintain proper UI state
             if (currentPackageId != null) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .info("FileWatcherService -> Closing package " + currentPackageId + " for reload");
+                logInfo("Closing package " + currentPackageId + " for reload");
                 controller.setPreserveFileWatcherDuringReload(true);
                 try {
                     controller.closePackage(currentPackageId, false);
@@ -554,13 +544,11 @@ public class FileWatcherService {
             }
 
             // Reload the file
-            JaWEManager.getInstance().getLoggingManager()
-                .info("FileWatcherService -> Opening file: '" + currentFilePath + "' (length=" +
+            logInfo("Opening file: '" + currentFilePath + "' (length=" +
                       (currentFilePath != null ? currentFilePath.length() : "null") + ")");
 
             if (currentFilePath == null || currentFilePath.trim().isEmpty()) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .error("FileWatcherService -> Current file path is null or empty, aborting reload");
+                logError("Current file path is null or empty, aborting reload", new IllegalStateException("Null file path"));
                 setEnabled(true);
                 return;
             }
@@ -569,19 +557,16 @@ public class FileWatcherService {
 
             // Restart file watching for the reloaded file
             if (pkg != null && currentFilePath != null) {
-                JaWEManager.getInstance().getLoggingManager()
-                    .info("FileWatcherService -> Restarting file watching after reload");
+                logInfo("Restarting file watching after reload");
 
                 // Use a delayed restart to avoid race conditions
                 Thread restartThread = new Thread(() -> {
                     try {
                         Thread.sleep(100); // Short delay to let UI settle
-                        JaWEManager.getInstance().getLoggingManager()
-                            .info("FileWatcherService -> Executing delayed restart");
+                        logInfo("Executing delayed restart");
                         startWatching(currentFilePath);
                     } catch (Exception e) {
-                        JaWEManager.getInstance().getLoggingManager()
-                            .error("FileWatcherService -> Error during delayed restart", e);
+                        logError("Error during delayed restart", e);
                         setEnabled(true);
                     }
                 }, "FileWatcher-Restart");
@@ -597,8 +582,7 @@ public class FileWatcherService {
                         JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
-                JaWEManager.getInstance().getLoggingManager()
-                    .warn("FileWatcherService -> Reload returned null package: " + currentFilePath);
+                logWarn("Reload returned null package: " + currentFilePath);
                 // Re-enable file watching even if reload failed
                 setEnabled(true);
             }
@@ -606,8 +590,7 @@ public class FileWatcherService {
         } catch (Exception e) {
             // Re-enable file watching even if reload failed
             setEnabled(true);
-            JaWEManager.getInstance().getLoggingManager()
-                .error("FileWatcherService -> Failed to reload file: " + currentFilePath, e);
+            logError("Failed to reload file: " + currentFilePath, e);
 
             if (isUserInitiated) {
                 // Show error message to user for manual reload attempts
@@ -619,8 +602,7 @@ public class FileWatcherService {
                         "File Load Error - " + controller.getAppTitle(),
                         JOptionPane.ERROR_MESSAGE);
                 } catch (Exception dialogException) {
-                    JaWEManager.getInstance().getLoggingManager()
-                        .error("FileWatcherService -> Error showing error dialog", dialogException);
+                    logError("Error showing error dialog", dialogException);
                 }
             }
         }
@@ -668,8 +650,7 @@ public class FileWatcherService {
             }
 
         } catch (Exception e) {
-            JaWEManager.getInstance().getLoggingManager()
-                .error("FileWatcherService -> Error showing file changed dialog", e);
+            logError("Error showing file changed dialog", e);
         }
     }
 
@@ -685,8 +666,7 @@ public class FileWatcherService {
      */
     private void saveChanges() {
         try {
-            JaWEManager.getInstance().getLoggingManager()
-                .info("FileWatcherService -> Saving current changes: " + currentFilePath);
+            logInfo("Saving current changes: " + currentFilePath);
 
             // Save the current package (savePackage method now handles file watching disable automatically)
             String mainPackageId = controller.getMainPackageId();
@@ -695,8 +675,7 @@ public class FileWatcherService {
             }
 
         } catch (Exception e) {
-            JaWEManager.getInstance().getLoggingManager()
-                .error("FileWatcherService -> Failed to save changes: " + currentFilePath, e);
+            logError("Failed to save changes: " + currentFilePath, e);
         }
     }
 }
