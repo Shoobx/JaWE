@@ -119,6 +119,9 @@ public class FileWatcherService {
      * Start watching the specified file for changes
      */
     public void startWatching(String filePath) {
+        // Stop any existing watching
+        stopWatching();
+
         if (filePath == null || filePath.trim().isEmpty()) {
             return;
         }
@@ -128,9 +131,6 @@ public class FileWatcherService {
             logWarn("Cannot start watching, service appears to be shut down");
             return;
         }
-
-        // Stop any existing watching
-        stopWatching();
 
         try {
             File file = new File(filePath);
@@ -288,6 +288,7 @@ public class FileWatcherService {
                 WatchKey key = watchService.take(); // This blocks until events are available
 
                 if (!running.get()) {
+                    logDebug("Service stopping, exiting watch loop");
                     break;
                 }
 
@@ -316,7 +317,7 @@ public class FileWatcherService {
                 // Reset the key -- important!
                 boolean valid = key.reset();
                 if (!valid) {
-                    // Directory is no longer accessible
+                    logWarn("Directory is no longer accessible");
                     break;
                 }
 
