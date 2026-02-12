@@ -190,6 +190,18 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    /** Instance of {@link UndoHistoryManager}. */
    protected UndoHistoryManager undoHistoryManager;
 
+   /** Instance of {@link FileWatcherService} for monitoring file changes. */
+   protected FileWatcherService fileWatcherService;
+
+   /** Flag to indicate file watcher should be preserved during reload operations. */
+   private boolean preserveFileWatcherDuringReload = false;
+
+   // Configuration constants
+   private static final class Config {
+       /** Duration to disable file watching after save operations to avoid detecting internal changes */
+       static final long SAVE_OPERATION_DISABLE_MS = 2000; // 2 seconds
+   }
+
    /** Instance of {@link JaWEFrame} */
    protected JaWEFrame frame;
 
@@ -220,6 +232,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       this.settings.init(this);
 
       this.isDesignTimeValidation = this.settings.isDesingTimeValidationEnabled();
+
+      // Initialize file watcher service
+      this.fileWatcherService = new FileWatcherService(this);
 
       // application title
       appTitle = getSettings().getLanguageDependentString("DialogTitle");
@@ -782,6 +797,55 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
       return xpdlId;
    }
 
+   // Logging utility methods to reduce verbosity
+   private void logInfo(String message) {
+      JaWEManager.getInstance().getLoggingManager().info("JaWEController -> " + message);
+   }
+
+   private void logWarn(String message) {
+      JaWEManager.getInstance().getLoggingManager().warn("JaWEController -> " + message);
+   }
+
+   private void logWarn(String message, Exception e) {
+      JaWEManager.getInstance().getLoggingManager().warn("JaWEController -> " + message, e);
+   }
+
+   /**
+    * Get the file watcher service instance
+    */
+   public FileWatcherService getFileWatcherService() {
+      return fileWatcherService;
+   }
+
+   /**
+    * Temporarily disable file watching to prevent detecting internal operations
+    */
+   public void temporarilyDisableFileWatching(long milliseconds) {
+      if (fileWatcherService != null) {
+         fileWatcherService.temporarilyDisable(milliseconds);
+      }
+   }
+
+   /**
+    * Set flag to preserve file watcher during reload operations
+    */
+   public void setPreserveFileWatcherDuringReload(boolean preserve) {
+      this.preserveFileWatcherDuringReload = preserve;
+   }
+
+   /**
+    * Ensure file watcher service is available and functional
+    */
+   private void ensureFileWatcherServiceAvailable() {
+      if (fileWatcherService == null) {
+         logInfo("Creating new file watcher service (was null)");
+         fileWatcherService = new FileWatcherService(this);
+      } else if (!fileWatcherService.isServiceFunctional()) {
+         logInfo("Recreating file watcher service (was shut down)");
+         fileWatcherService = new FileWatcherService(this);
+      }
+   }
+
    // ///////////////////////////// XPDL File Handling /////////////////////////
    public String getPackageFilename(String xpdlId) {
       XPDLHandler xpdlhandler = JaWEManager.getInstance().getXPDLHandler();
@@ -960,6 +1024,18 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
          if (!java.awt.GraphicsEnvironment.isHeadless()) {
             defaultMain();
          }
+
+         // Start file watching if package was opened successfully from file
+         if (pkg != null && filename != null) {
+            try {
+               // Recreate file watcher service if it was shut down by clearAll()
+               ensureFileWatcherServiceAvailable();
+               fileWatcherService.startWatching(filename);
+            } catch (Exception e) {
+               logWarn("Failed to start file watching for: " + filename, e);
+            }
+         }
+
          return pkg;
       } finally {
          if (ws != null) {
@@ -1397,6 +1473,9 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    }
 
    public void savePackage(String xpdlId, String filename) {
+      // Temporarily disable file watching to avoid detecting our own save operation
+      temporarilyDisableFileWatching(Config.SAVE_OPERATION_DISABLE_MS);
+
       XPDLHandler xpdlhandler = JaWEManager.getInstance().getXPDLHandler();
       Package pkg = xpdlhandler.getPackageById(xpdlId);
       String oldFilename = xpdlhandler.getAbsoluteFilePath(pkg);
@@ -2367,6 +2446,20 @@ public class JaWEController extends Observable implements Observer, JaWEComponen
    }
 
    protected void clearAll() {
+      logInfo("clearAll() called, preserveFileWatcherDuringReload=" + preserveFileWatcherDuringReload);
+
+      // Shutdown file watching service completely (unless we're in a reload operation)
+      if (fileWatcherService != null && !preserveFileWatcherDuringReload) {
+         try {
+            logInfo("Shutting down file watcher from clearAll()");
+            fileWatcherService.shutdown();
+         } catch (Exception e) {
+            logWarn("Error shutting down file watcher", e);
+         }
+      } else if (fileWatcherService != null) {
+         logInfo("Preserving file watcher during reload operation");
+      }
+
       xpdlInfoList.clear();
       clearHistory();
       selectionMng.clear();

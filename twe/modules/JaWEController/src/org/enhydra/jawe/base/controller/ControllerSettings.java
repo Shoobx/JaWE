@@ -70,6 +70,7 @@ import org.enhydra.jawe.base.controller.actions.Save;
 import org.enhydra.jawe.base.controller.actions.SaveAs;
 import org.enhydra.jawe.base.controller.actions.StartDesignTimeValidation;
 import org.enhydra.jawe.base.controller.actions.StopDesignTimeValidation;
+import org.enhydra.jawe.base.controller.actions.ToggleFileWatching;
 
 /**
  * @author Miroslav Popov
@@ -220,7 +221,7 @@ public class ControllerSettings extends JaWEComponentSettings {
 
    protected void loadDefaultMenusToolbarsAndActions(JaWEComponent comp) {
       // menu
-      componentSettings.put("FileMenu", "NewPackage Open Reopen Close - Save SaveAs - @RecentFiles - Exit");
+      componentSettings.put("FileMenu", "NewPackage Open Reopen Close - Save SaveAs - @RecentFiles - ToggleFileWatching - Exit");
       componentSettings.put("FileLangName", "file");
       componentSettings.put("SearchMenu", "Search jaweAction_References");
       componentSettings.put("SearchLangName", "search");
@@ -262,6 +263,13 @@ public class ControllerSettings extends JaWEComponentSettings {
       langDepName = "Close";
       ja = new JaWEAction(action, icon, langDepName);
       componentAction.put("Close", ja);
+
+      // ToggleFileWatching
+      action = new ToggleFileWatching(comp);
+      icon = null; // No icon for now
+      langDepName = "ToggleFileWatching";
+      ja = new JaWEAction(action, icon, langDepName);
+      componentAction.put("ToggleFileWatching", ja);
 
       // Exit
       action = new Exit(comp);
