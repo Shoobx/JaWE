@@ -29,6 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
@@ -390,7 +391,15 @@ public class BarFactory {
          label = aname;
       }
 
-      JMenuItem mi = new JMenuItem(label);
+      // Check if this is a toggle action (checkbox menu item)
+      boolean isToggleAction = (a != null && a.getClass().getSimpleName().contains("Toggle"));
+
+      JMenuItem mi;
+      if (isToggleAction) {
+         mi = new JCheckBoxMenuItem(label);
+      } else {
+         mi = new JMenuItem(label);
+      }
       mi.setName(aname);
 
       ImageIcon ai = ja.getIcon();
@@ -411,6 +420,14 @@ public class BarFactory {
             a.addPropertyChangeListener(new ButtonPropertyChangedListener(mi));
          }
          mi.setEnabled(a.isEnabled());
+
+         // Set initial selected state for checkbox menu items
+         if (isToggleAction && mi instanceof JCheckBoxMenuItem) {
+            Boolean selected = (Boolean) a.getValue(Action.SELECTED_KEY);
+            if (selected != null) {
+               ((JCheckBoxMenuItem) mi).setSelected(selected);
+            }
+         }
       } else {
          mi.setEnabled(false);
       }
